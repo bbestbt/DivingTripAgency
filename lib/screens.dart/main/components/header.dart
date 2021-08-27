@@ -12,7 +12,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 150,
+      // height: 150,
       color: Color(0xFFF75BDFF),
       child: SafeArea(
         child: Column(
