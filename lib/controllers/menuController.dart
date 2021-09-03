@@ -7,7 +7,7 @@ class MenuController extends GetxController{
   RxInt _seleectedIndex=0.obs;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int get selectedIndex => _seleectedIndex.value;
-  List<String> get menuItems =>["Liveaboards","Dive resorts","Diving","Course"];
+  List<String> get menuItems =>["Liveaboards","Dive resorts","Diving","Course","Contact Us"];
 
   GlobalKey<ScaffoldState> get scaffoldkey => _scaffoldKey;
 
