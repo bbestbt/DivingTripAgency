@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 final kHintTextStyle = TextStyle(
   color: Colors.white54,
-  fontFamily: 'OpenSans',
+  // fontFamily: 'OpenSans',
 );
 
 final kLabelStyle = TextStyle(
   color: Colors.white,
   fontWeight: FontWeight.bold,
-  fontFamily: 'OpenSans',
+  // fontFamily: 'OpenSans',
     shadows: [
       Shadow( // bottomLeft
           offset: Offset(-1.5, -1.5),
