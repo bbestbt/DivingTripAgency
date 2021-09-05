@@ -1,7 +1,9 @@
+import 'package:diving_trip_agency/screens.dart/login/login.dart';
 import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'constants.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -27,7 +29,8 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Poppins'
       ),
-      home: MainScreen(),
+      //home: LoginScreen(),
+      home: MainScreen(), //Original
     );
   }
 }
