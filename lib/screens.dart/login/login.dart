@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.black,
-              fontFamily: 'OpenSans',
+              //fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
             obscureText: true,
             style: TextStyle(
               color: Colors.black,
-              fontFamily: 'OpenSans',
+             // fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -146,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+           // fontFamily: 'OpenSans',
           ),
         ),
       ),
@@ -302,7 +302,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Sign In',
                         style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'OpenSans',
+                         //fontFamily: 'OpenSans',
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
                           shadows: [
