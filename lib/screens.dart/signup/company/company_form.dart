@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignupCompanyForm extends StatefulWidget {
   @override
@@ -16,6 +19,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String confirmPassword;
   //doc
   //img
+  File _image;
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerLastname = TextEditingController();
@@ -26,7 +30,15 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerPhone = TextEditingController();
   final TextEditingController _controllerConfirm = TextEditingController();
 
-    void addError({String error}) {
+  // Future getImage() async{
+  //   var image = await ImagePicker.pickImage(source: ImageSource.camera);
+
+  //   setState(() {
+  //         _image=image;
+  //       });
+  // }
+
+  void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
         errors.add(error);
@@ -39,10 +51,11 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         errors.remove(error);
       });
   }
+
   @override
   Widget build(BuildContext context) {
     return Form(
-         child: Padding(
+      child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           buildNameFormField(),
@@ -60,16 +73,26 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           buildPasswordFormField(),
           SizedBox(height: 20),
           buildConfirmPasswordFormField(),
+          SizedBox(height: 20),
           //doc
+          //   Center(child:_imgae == null ? Text('No image selected'):Image.file(_image)),
+          SizedBox(height: 20),
           //img
           //   FormError(errors: errors),
           SizedBox(height: 20),
-         FlatButton(onPressed: ()=>{}, color: Color(0xfff75BDFF),child:  Text('Confirm',style: TextStyle(fontSize: 15),),)
+          FlatButton(
+            onPressed: () => {},
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'Confirm',
+              style: TextStyle(fontSize: 15),
+            ),
+          )
         ]),
       ),
     );
   }
-  
+
   TextFormField buildNameFormField() {
     return TextFormField(
       controller: _controllerName,
@@ -126,7 +149,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
   }
 
-
   TextFormField buildAddressFormField() {
     return TextFormField(
       controller: _controllerAddress,
@@ -153,7 +175,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           suffixIcon: Icon(Icons.home)),
     );
   }
-
 
   TextFormField buildConfirmPasswordFormField() {
     return TextFormField(
@@ -328,7 +349,3 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
   }
 }
-
-
-
-
