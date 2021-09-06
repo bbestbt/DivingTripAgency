@@ -1,4 +1,4 @@
-import 'package:diving_trip_agency/screens.dart/signup/levelDropdown.dart';
+import 'package:diving_trip_agency/screens.dart/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 
 class SignupDiverForm extends StatefulWidget {

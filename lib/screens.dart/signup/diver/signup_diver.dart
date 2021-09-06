@@ -1,4 +1,4 @@
-import 'package:diving_trip_agency/screens.dart/signup/diver_form.dart';
+import 'package:diving_trip_agency/screens.dart/signup/diver/diver_form.dart';
 import 'package:flutter/material.dart';
 
 class SignUpDiverScreen extends StatelessWidget {
