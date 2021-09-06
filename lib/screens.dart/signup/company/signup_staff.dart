@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/screens.dart/signup/company/addStaff.dart';
 import 'package:diving_trip_agency/screens.dart/signup/company/staff_form.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,18 @@ class SignupStaff extends StatelessWidget {
               SizedBox(height: 50),
               Container(
                  width: MediaQuery.of(context).size.width/1.5,
-                child: StaffForm()),
+                child: AddMoreStaff(),
+                ),
+                 SizedBox(height: 20),
+          FlatButton(
+            onPressed: () => {},
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'Confirm',
+              style: TextStyle(fontSize: 15),
+            ),
+          )
+
             ],
           ),
         ),

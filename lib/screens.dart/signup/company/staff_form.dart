@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
-// add more staff
+
 class StaffForm extends StatefulWidget {
+  String count;
+  StaffForm(String count){
+    this.count=count;
+  }
   @override
-  _StaffFormState createState() => _StaffFormState();
+  _StaffFormState createState() => _StaffFormState(this.count);
 }
 
 class _StaffFormState extends State<StaffForm> {
   String name;
   String lastname;
   String age;
+  String count;
+  _StaffFormState(String count){
+    this.count=count;
+  }
 
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
@@ -42,19 +50,12 @@ class _StaffFormState extends State<StaffForm> {
           buildAgeFormField(),
           //   FormError(errors: errors),
           SizedBox(height: 20),
-          FlatButton(
-            onPressed: () => {},
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'Confirm',
-              style: TextStyle(fontSize: 15),
-            ),
-          )
+         
         ]),
       ),
     );
   }
-  
+
   TextFormField buildNameFormField() {
     return TextFormField(
       controller: _controllerName,
@@ -111,7 +112,7 @@ class _StaffFormState extends State<StaffForm> {
     );
   }
 
-   TextFormField buildAgeFormField() {
+  TextFormField buildAgeFormField() {
     return TextFormField(
       controller: _controllerAge,
       cursorColor: Color(0xFF6F35A5),
@@ -130,11 +131,11 @@ class _StaffFormState extends State<StaffForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Age",
-          filled: true,
-          fillColor: Color(0xFFFd0efff),
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          ),
+        hintText: "Age",
+        filled: true,
+        fillColor: Color(0xFFFd0efff),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
     );
   }
 }
