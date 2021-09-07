@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 //trip type
 //pic of trip
@@ -18,6 +19,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   String price;
   String totalpeople;
 
+  String triptype = '';
   final List<String> errors = [];
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
@@ -58,13 +60,13 @@ class _CreateTripFormState extends State<CreateTripForm> {
           Row(
             children: [
               Container(
-                width:MediaQuery.of(context).size.width/3.6 ,
-                child: buildFromFormField()),
-                // SizedBox(width: 20),
-                Spacer(),
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildFromFormField()),
+              // SizedBox(width: 20),
+              Spacer(),
               Container(
-                width: MediaQuery.of(context).size.width/3.6 ,
-                child: buildToFormField()),
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildToFormField()),
             ],
           ),
           SizedBox(height: 20),
@@ -73,6 +75,63 @@ class _CreateTripFormState extends State<CreateTripForm> {
           buildPriceFormField(),
           SizedBox(height: 20),
           buildTotalPeopleFormField(),
+          SizedBox(height: 20),
+          //radio
+          Row(
+            children: [
+              Text('Trip Type '),
+              Spacer(),
+              Radio(
+                  value: 'On shore (Hotel)',
+                  groupValue: triptype,
+                  onChanged: (val) {
+                    triptype = val;
+                    setState(() {});
+                  }),
+              Text('On shore (Hotel)'),
+              SizedBox(width: 10,),
+              Radio(
+                  value: 'Off shore (Live on boat)',
+                  groupValue: triptype,
+                  onChanged: (val) {
+                    triptype = val;
+                    setState(() {});
+                  }),
+              Text('Off shore (Live on boat)'),
+            ],
+          ),
+
+          // Row(
+          //   children: [
+          //     Text('Trip Type '),
+          //     Row(
+          //       children: [
+          //         Radio(
+          //             value: 'On shore (Hotel)',
+          //             groupValue: triptype,
+          //             onChanged: (val) {
+          //               triptype = val;
+          //               setState(() {});
+          //             }),
+          //         Text('On shore (Hotel)'),
+          //       ],
+          //     ),
+          //   ],
+          // ),
+
+          // Row(
+          //   children: [
+          //     Radio(
+          //         value: 'Off shore (Live on boat)',
+          //         groupValue: triptype,
+          //         onChanged: (val) {
+          //           triptype = val;
+          //           setState(() {});
+          //         }),
+          //     Text('Off shore (Live on boat)'),
+          //   ],
+          // ),
+
           //   FormError(errors: errors),
           SizedBox(height: 20),
         ]),
