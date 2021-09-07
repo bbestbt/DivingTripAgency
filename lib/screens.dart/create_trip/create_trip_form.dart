@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-//trip type
+//trip type layout mobile not work
 //pic of trip
 //schedule
 class CreateTripForm extends StatefulWidget {
