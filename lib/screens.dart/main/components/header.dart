@@ -19,8 +19,8 @@ class Header extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(kDefaultPadding),
-              constraints: BoxConstraints(maxWidth: kMaxWidth),
+              padding: EdgeInsets.all(20),
+              constraints: BoxConstraints(maxWidth: 1232),
               child: Column(
                 children: [
                   Row(
@@ -37,7 +37,7 @@ class Header extends StatelessWidget {
                       if(Responsive.isDesktop(context)) WebMenu(),
                       Spacer(),
                       SizedBox(
-                        width: kDefaultPadding,
+                        width: 20,
                       ),
                       ElevatedButton(
                           onPressed: () {
@@ -45,8 +45,8 @@ class Header extends StatelessWidget {
                           },
                           style: TextButton.styleFrom(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: kDefaultPadding * 1.5,
-                                  vertical: kDefaultPadding)),
+                                  horizontal: 20 * 1.5,
+                                  vertical: 20)),
                           child: Text("Login",
                               style: TextStyle(
                                 color: Colors.black,
@@ -54,7 +54,7 @@ class Header extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: kDefaultPadding * 2,
+                    height: 40,
                   ),
                   // Text(
                   //   "Welcome",

@@ -39,7 +39,7 @@ class DrawerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+      contentPadding: EdgeInsets.symmetric(horizontal: 20),
       selected: isActive,
       selectedTileColor: Color(0xfffB4CFEC),
       onTap: press,
