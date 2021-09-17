@@ -1,4 +1,6 @@
 import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
+import 'package:diving_trip_agency/screens.dart/signup/company/signup_company.dart';
+import 'package:diving_trip_agency/screens.dart/signup/diver/signup_diver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'constant.dart';
@@ -165,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         SizedBox(height: 20.0),
         Text(
-          'Sign in with',
+          'Sign up as',
           style: kLabelStyle,
         ),
       ],
@@ -198,20 +200,69 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSocialBtnRow() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30.0),
+      padding: EdgeInsets.symmetric(vertical: 20.0),
+      //padding: EdgeInsets.symmetric(vertical: 30.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
+        /*children: <Widget>[
           _buildSocialBtn(
                 () => print('Login with Facebook'),
             AssetImage(
               'assets/images/facebook.jpg',
             ),
+          ),*/
+        children: <Widget>[RaisedButton(
+          elevation: 5.0,
+          onPressed: () {
+            print('Login Button Pressed'); //Determine what to do after clicking
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpDiverScreen()));
+
+          },
+
+          padding: EdgeInsets.all(15.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
           ),
-          _buildSocialBtn(
+          color: Colors.white,
+          child: Text(
+            'User',
+            style: TextStyle(
+              color: Color(0xFF527DAA),
+              letterSpacing: 1.5,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              // fontFamily: 'OpenSans',
+            ),
+          ),
+        ),
+          /*_buildSocialBtn(
                 () => print('Login with Google'),
             AssetImage(
               'assets/images/google.jpg',
+            ),
+          ),*/
+          RaisedButton(
+            elevation: 5.0,
+            onPressed: () {
+              print('Login Button Pressed'); //Determine what to do after clicking
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SingupCompanyScreen()));
+
+            },
+
+            padding: EdgeInsets.all(15.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            color: Colors.white,
+            child: Text(
+              'Company',
+              style: TextStyle(
+                color: Color(0xFF527DAA),
+                letterSpacing: 1.5,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                // fontFamily: 'OpenSans',
+              ),
             ),
           ),
         ],
@@ -262,7 +313,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/S__77250562.jpg"), fit: BoxFit.cover)
+                    image: AssetImage("assets/images/S__77250562.jpg"), fit: BoxFit.cover) //Background
 
                   //color:Colors.white,
                   /*gradient: LinearGradient(
@@ -291,9 +342,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 120.0,
+                  padding: EdgeInsets.only(left:40,top:10,right:40
+                  //padding: EdgeInsets.symmetric(
+                  //  horizontal: 40.0,
+                  //  vertical: 40.0,
+                    //vertical: 120.0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -334,8 +387,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       _buildForgotPasswordBtn(),
                       _buildRememberMeCheckbox(),
                       _buildLoginBtn(),
-                      //_buildSignInWithText(),
-                      //_buildSocialBtnRow(),
+                      _buildSignInWithText(),
+                      _buildSocialBtnRow(),
                       //_buildSignupBtn(),
                     ],
                   ),

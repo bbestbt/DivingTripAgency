@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/screens.dart/signup/company/signup_staff.dart';
 import 'package:flutter/material.dart';
 //add card
 class DiveMasterForm extends StatefulWidget {
@@ -50,13 +51,14 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           //   FormError(errors: errors),
           SizedBox(height: 20),
           FlatButton(
-            onPressed: () => {},
+            onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => SignupStaff()))},
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',
               style: TextStyle(fontSize: 15),
             ),
-          )
+          ),
+           SizedBox(height: 20),
         ]),
       ),
     );

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:diving_trip_agency/screens.dart/signup/company/signup_divemaster.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -120,13 +121,14 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           //   FormError(errors: errors),
           SizedBox(height: 20),
           FlatButton(
-            onPressed: () => {},
+            onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => SignupDiveMaster()))},
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',
               style: TextStyle(fontSize: 15),
             ),
-          )
+          ),
+           SizedBox(height: 20),
         ]),
       ),
     );

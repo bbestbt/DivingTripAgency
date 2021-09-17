@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -139,6 +140,14 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
           //   FormError(errors: errors),
           SizedBox(height: 20),
+          FlatButton(
+            onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'Confirm',
+              style: TextStyle(fontSize: 15),
+            ),
+          ), SizedBox(height: 20),
         ]),
       ),
     );

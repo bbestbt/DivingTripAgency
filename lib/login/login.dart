@@ -172,6 +172,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+
+
   Widget _buildSocialBtn(Function onTap, AssetImage logo) {
     return GestureDetector(
       onTap: onTap,
@@ -281,7 +283,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 //height: double.infinity,
 
-                constraints: BoxConstraints(maxWidth:400,maxHeight:600),
+                constraints: BoxConstraints(maxWidth:400,maxHeight:800),
                 //margin: EdgeInsets.all(80),
                 //height: 600,
                 //width: 661,
@@ -334,9 +336,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       _buildForgotPasswordBtn(),
                       _buildRememberMeCheckbox(),
                       _buildLoginBtn(),
-                      //_buildSignInWithText(),
-                      //_buildSocialBtnRow(),
-                      //_buildSignupBtn(),
+                      _buildSignInWithText(),
+                      _buildSocialBtnRow(),
+                      _buildSignupBtn(),
                     ],
                   ),
                 ),
