@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins'
       ),
       //home: LoginScreen(),
-     home:SingupCompanyScreen()
-   //  home: MainScreen(), //Original
+    // home:CreateTrip()
+     home: MainScreen(), //Original
     );
   }
 }

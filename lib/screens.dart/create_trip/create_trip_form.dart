@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 //trip type layout mobile not work
-//pic of trip
+//pic of trip,boat
 //schedule
 class CreateTripForm extends StatefulWidget {
   @override
@@ -30,6 +30,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
       TextEditingController();
   final TextEditingController _controllerPrice = TextEditingController();
   final TextEditingController _controllerTotalpeople = TextEditingController();
+  String boatname;
+  final TextEditingController _controllerBoatname =
+      TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -71,6 +74,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
           ),
           SizedBox(height: 20),
           buildDiveMasterNameFormField(),
+          SizedBox(height: 20),
+          buildBoatNameFormField(),
           SizedBox(height: 20),
           buildPriceFormField(),
           SizedBox(height: 20),
@@ -195,7 +200,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildPlaceFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerPlace,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => place = newValue,
       onChanged: (value) {
@@ -222,7 +227,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildFromFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerFrom,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => from = newValue,
       onChanged: (value) {
@@ -249,7 +254,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildToFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerTo,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => to = newValue,
       onChanged: (value) {
@@ -276,7 +281,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildDiveMasterNameFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerDivemastername,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => divemastername = newValue,
       onChanged: (value) {
@@ -303,7 +308,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildPriceFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerPrice,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => price = newValue,
       onChanged: (value) {
@@ -330,7 +335,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildTotalPeopleFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerTotalpeople,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => totalpeople = newValue,
       onChanged: (value) {
@@ -354,4 +359,32 @@ class _CreateTripFormState extends State<CreateTripForm> {
       ),
     );
   }
+
+  TextFormField buildBoatNameFormField() {
+    return TextFormField(
+      controller: _controllerBoatname,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => boatname = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter boat name");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter boatr name");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "Boat name",
+        filled: true,
+        fillColor: Color(0xFFFd0efff),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
 }
