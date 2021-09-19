@@ -2,6 +2,11 @@ import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+
 //trip type layout mobile not work
 //pic of trip,boat
 //schedule
@@ -19,6 +24,13 @@ class _CreateTripFormState extends State<CreateTripForm> {
   String divemastername;
   String price;
   String totalpeople;
+
+  File Pictrip;
+  File Boatpic;
+  File Schedule;
+
+
+
 
   String triptype = '';
   final List<String> errors = [];
@@ -48,6 +60,48 @@ class _CreateTripFormState extends State<CreateTripForm> {
         errors.remove(error);
       });
   }
+
+
+  /// Get from gallery
+  _getPictrip() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        Pictrip = File(pickedFile.path);
+      });
+    }
+  }
+
+  _getBoatpic() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        Boatpic = File(pickedFile.path);
+      });
+    }
+  }
+
+  _getSchedule() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        Schedule = File(pickedFile.path);
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +141,39 @@ class _CreateTripFormState extends State<CreateTripForm> {
             children: [
               Text('Trip Type '),
               Spacer(),
+
+
+              ]
+          ),
+          Row(
+              children: [
+
+                Radio(
+                    value: 'On shore (Hotel)',
+                    groupValue: triptype,
+                    onChanged: (val) {
+                      triptype = val;
+                      setState(() {});
+                    }),
+                Text('On shore (Hotel)'),
+              ]
+          ),
+
+
+        Row(
+            children: [
+
+          Radio(
+              value: 'Off shore (Live on boat)',
+              groupValue: triptype,
+              onChanged: (val) {
+                triptype = val;
+                setState(() {});
+              }),
+          Text('Off shore (Live on boat)'),
+          ],
+        ),
+
               Radio(
                   value: 'On shore (Hotel)',
                   groupValue: triptype,
@@ -138,10 +225,61 @@ class _CreateTripFormState extends State<CreateTripForm> {
           //   ],
           // ),
 
+          SizedBox(height: 20),
+          Center(child:Pictrip == null ? Text('Trip image'): kIsWeb ? Image.network(Pictrip.path,fit:BoxFit.cover,) : Image.file(File(Pictrip.path),fit:BoxFit.cover,)),
+          SizedBox(height: 20),
+          //img
+          FlatButton(
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'load image',
+              style: TextStyle(fontSize: 15),
+            ),
+            onPressed: () {_getPictrip();},
+          ),
+
+          SizedBox(height: 20),
+          Center(child:Boatpic == null ? Text('Boat image'): kIsWeb ? Image.network(Boatpic.path,fit:BoxFit.cover,) : Image.file(File(Boatpic.path),fit:BoxFit.cover,)),
+          SizedBox(height: 20),
+          //img
+          FlatButton(
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'load image',
+              style: TextStyle(fontSize: 15),
+            ),
+            onPressed: () {_getBoatpic();},
+          ),
+
+          SizedBox(height: 20),
+          Center(child:Schedule == null ? Text('Schedule image'): kIsWeb ? Image.network(Schedule.path,fit:BoxFit.cover,) : Image.file(File(Schedule.path),fit:BoxFit.cover,)),
+          SizedBox(height: 20),
+          //img
+          FlatButton(
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'load image',
+              style: TextStyle(fontSize: 15),
+            ),
+            onPressed: () {_getSchedule();},
+          ),
+
+
           //   FormError(errors: errors),
           SizedBox(height: 20),
           FlatButton(
+
+            //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
+            onPressed:() =>{Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+            builder: (BuildContext context) => MainScreen(),
+            ),
+            (route) => false,
+            )},
+
             onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
+
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',
