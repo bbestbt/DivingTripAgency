@@ -1,6 +1,7 @@
 import 'package:diving_trip_agency/constants.dart';
 import 'package:diving_trip_agency/controllers/menuController.dart';
 import 'package:diving_trip_agency/screens.dart/main/components/side_menu.dart';
+import 'package:diving_trip_agency/screens.dart/main/components/top_section.dart';
 import 'package:diving_trip_agency/screens.dart/main/components/web_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,7 +17,7 @@ class MainScreen extends StatelessWidget {
       key: _controller.scaffoldkey,
       drawer: SideMenu(),
       body: Column(
-        children: [Header()],
+        children: [Header(),TopSection()],
       ),
     );
   }
