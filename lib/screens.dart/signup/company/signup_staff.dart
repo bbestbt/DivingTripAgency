@@ -1,8 +1,8 @@
+import 'package:diving_trip_agency/screens.dart/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens.dart/signup/company/addStaff.dart';
 import 'package:diving_trip_agency/screens.dart/signup/company/staff_form.dart';
 import 'package:flutter/material.dart';
-import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
-import 'package:diving_trip_agency/screens.dart/create_trip/create_trip_screen.dart';
+
 class SignupStaff extends StatelessWidget {
 
   @override
@@ -29,7 +29,7 @@ class SignupStaff extends StatelessWidget {
               'Confirm',
               style: TextStyle(fontSize: 15),
             ),
-          )
+          ), SizedBox(height: 20),
 
             ],
           ),

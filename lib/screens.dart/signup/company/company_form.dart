@@ -1,8 +1,8 @@
 import 'dart:io';
-
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:diving_trip_agency/screens.dart/signup/company/signup_divemaster.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:diving_trip_agency/screens.dart/signup/company/signup_divemaster.dart';
 
 class SignupCompanyForm extends StatefulWidget {
   @override
@@ -10,32 +10,43 @@ class SignupCompanyForm extends StatefulWidget {
 }
 
 class _SignupCompanyFormState extends State<SignupCompanyForm> {
-  String name = "";
-  String lastname ="";
-  String companyEmail="";
-  String email="";
-  String phoneNumber="";
-  String address="";
-  String password="";
-  String confirmPassword="";
+  String name;
+  // String lastname;
+  String companyEmail;
+  String email;
+  String phoneNumber;
+  String address;
+  String password;
+  String confirmPassword;
+  String address2;
+  String postalCode;
+  String country;
+  String region;
+  String city;
   //doc
-
+  //img
+  File _image;
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
-  final TextEditingController _controllerLastname = TextEditingController();
+  // final TextEditingController _controllerLastname = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerCompanyemail = TextEditingController();
   final TextEditingController _controllerAddress = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
   final TextEditingController _controllerConfirm = TextEditingController();
+  final TextEditingController _controllerAddress2 = TextEditingController();
+  final TextEditingController _controllerPostalcode = TextEditingController();
+  final TextEditingController _controllerCountry = TextEditingController();
+  final TextEditingController _controllerRegion = TextEditingController();
+  final TextEditingController _controllerCity = TextEditingController();
 
-  //img
-  File _image;
+  File imageFile;
+  File docFile;
   //final ImagePicker _picker = ImagePicker();
   // Pick an image
   //PickedFile image = await _picker.getImage(source: ImageSource.gallery);
- // XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+  // XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
   /// Get from gallery
   _getFromGallery() async {
@@ -45,17 +56,25 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       maxHeight: 1800,
     );
     if (pickedFile != null) {
-      File imageFile = File(pickedFile.path);
+      setState(() {
+        imageFile = File(pickedFile.path);
+      });
     }
   }
 
-  // Future getImage() async{
-  //   var image = await ImagePicker.pickImage(source: ImageSource.camera);
+  _getdoc() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        docFile = File(pickedFile.path);
+      });
+    }
+  }
 
-  //   setState(() {
-  //         _image=image;
-  //       });
-  // }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -79,8 +98,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         child: Column(children: [
           buildNameFormField(),
           SizedBox(height: 20),
-          buildLastnameFormField(),
-          SizedBox(height: 20),
+          // buildLastnameFormField(),
+          // SizedBox(height: 20),
           buildCompanyEmailFormField(),
           SizedBox(height: 20),
           buildEmailFormField(),
@@ -89,17 +108,63 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           SizedBox(height: 20),
           buildAddressFormField(),
           SizedBox(height: 20),
+          buildAddress2FormField(),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCountryFormField()),
+              Spacer(),
+              // Spacer(flex: 1,),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCityFormField()),
+            ],
+          ),
+
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildRegionFormField()),
+              Spacer(),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildPostalCodeFormField()),
+            ],
+          ),
+
+          SizedBox(height: 20),
           buildPasswordFormField(),
           SizedBox(height: 20),
           buildConfirmPasswordFormField(),
+          SizedBox(height:20),
+          Center(child:docFile == null ? Text('Verified Document'): kIsWeb ? Image.network(docFile.path,fit:BoxFit.cover,) : Image.file(File(docFile.path),fit:BoxFit.cover,)),
           SizedBox(height: 20),
-          //doc
-          Center(child:_image == null ? Text('No image selected'):Image.file(_image)),
-          SizedBox(height: 20),
+          //img
           FlatButton(
             color: Color(0xfff75BDFF),
             child: Text(
-              'Add Image',
+              'load image',
+              style: TextStyle(fontSize: 15),
+            ),
+            onPressed: () {_getdoc();},
+          ),
+          SizedBox(height: 20),
+          //doc
+          //Center(child:imageFile == null ? Text('No image selected'):Text("You have an image")),
+          //Center(child:imageFile == null ? Text('No image selected'):Image.file(imageFile,fit:BoxFit.cover,)),
+          Center(child:imageFile == null ? Text('Company Image'): kIsWeb ? Image.network(imageFile.path,fit:BoxFit.cover,) : Image.file(File(imageFile.path),fit:BoxFit.cover,)),
+          //Center(child:imageFile == null ? Text('No image selected'):Text(imageFile.path.split('/').last)),
+
+          SizedBox(height: 20),
+          //img
+          FlatButton(
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'load Image',
               style: TextStyle(fontSize: 15),
             ),
             onPressed: () {_getFromGallery();},
@@ -114,7 +179,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
               'Confirm',
               style: TextStyle(fontSize: 15),
             ),
-          )
+          ),
+           SizedBox(height: 20),
         ]),
       ),
     );
@@ -148,33 +214,33 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
   }
 
-  TextFormField buildLastnameFormField() {
-    return TextFormField(
-      controller: _controllerLastname,
-      cursorColor: Color(0xFF6F35A5),
-      keyboardType: TextInputType.name,
-      onSaved: (newValue) => lastname = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter your lastname");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter your lastname");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-          hintText: "Lastname",
-          filled: true,
-          fillColor: Color(0xFFFd0efff),
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          suffixIcon: Icon(Icons.person)),
-    );
-  }
+  // TextFormField buildLastnameFormField() {
+  //   return TextFormField(
+  //     controller: _controllerLastname,
+  //     cursorColor: Color(0xFF6F35A5),
+  //     keyboardType: TextInputType.name,
+  //     onSaved: (newValue) => lastname = newValue,
+  //     onChanged: (value) {
+  //       if (value.isNotEmpty) {
+  //         removeError(error: "Please Enter your lastname");
+  //       }
+  //       return null;
+  //     },
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         addError(error: "Please Enter your lastname");
+  //         return "";
+  //       }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //         hintText: "Lastname",
+  //         filled: true,
+  //         fillColor: Color(0xFFFd0efff),
+  //         floatingLabelBehavior: FloatingLabelBehavior.always,
+  //         suffixIcon: Icon(Icons.person)),
+  //   );
+  // }
 
   TextFormField buildAddressFormField() {
     return TextFormField(
@@ -195,7 +261,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Address",
+          hintText: "Address1",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -372,6 +438,141 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         hintText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.phone),
+      ),
+    );
+  }
+
+  TextFormField buildAddress2FormField() {
+    return TextFormField(
+      controller: _controllerAddress2,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => address2 = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter your address");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter your address");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          hintText: "Address2",
+          filled: true,
+          fillColor: Color(0xFFFd0efff),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.home)),
+    );
+  }
+
+  TextFormField buildCountryFormField() {
+    return TextFormField(
+      controller: _controllerCountry,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => country = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter country");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter country");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "Country",
+        filled: true,
+        fillColor: Color(0xFFFd0efff),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildCityFormField() {
+    return TextFormField(
+      controller: _controllerCity,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => city = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter city");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter city");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "City",
+        filled: true,
+        fillColor: Color(0xFFFd0efff),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildRegionFormField() {
+    return TextFormField(
+      controller: _controllerRegion,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => region = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter region");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter region");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "Region",
+        filled: true,
+        fillColor: Color(0xFFFd0efff),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildPostalCodeFormField() {
+    return TextFormField(
+      controller: _controllerPostalcode,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => postalCode = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter postal code");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter postal code");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "Postal code",
+        filled: true,
+        fillColor: Color(0xFFFd0efff),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
   }

@@ -27,9 +27,9 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Poppins'
       ),
-      //home: LoginScreen(),
+      home: LoginScreen(),
     // home:CreateTrip()
-     home: MainScreen(), //Original
+    // home: MainScreen(), //Original
     );
   }
 }

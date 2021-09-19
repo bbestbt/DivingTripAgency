@@ -1,6 +1,7 @@
+import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens.dart/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
-import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
+//add card
 class SignupDiverForm extends StatefulWidget {
   @override
   _SignupDiverFormState createState() => _SignupDiverFormState();
@@ -59,7 +60,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           buildConfirmPasswordFormField(),
           //   FormError(errors: errors),
           SizedBox(height: 20),
-         FlatButton(onPressed: ()=>{Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))}, color: Color(0xfff75BDFF),child:  Text('Confirm',style: TextStyle(fontSize: 15),),)
+       FlatButton(onPressed: ()=>{Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))}, color: Color(0xfff75BDFF),child:  Text('Confirm',style: TextStyle(fontSize: 15),),)
         ]),
       ),
     );

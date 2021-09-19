@@ -1,9 +1,12 @@
 import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 //trip type layout mobile not work
-//pic of trip
+//pic of trip,boat
 //schedule
 class CreateTripForm extends StatefulWidget {
   @override
@@ -19,6 +22,11 @@ class _CreateTripFormState extends State<CreateTripForm> {
   String divemastername;
   String price;
   String totalpeople;
+  File Pictrip;
+  File Boatpic;
+  File Schedule;
+
+
 
   String triptype = '';
   final List<String> errors = [];
@@ -31,6 +39,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
       TextEditingController();
   final TextEditingController _controllerPrice = TextEditingController();
   final TextEditingController _controllerTotalpeople = TextEditingController();
+  String boatname;
+  final TextEditingController _controllerBoatname =
+      TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -45,6 +56,47 @@ class _CreateTripFormState extends State<CreateTripForm> {
         errors.remove(error);
       });
   }
+
+  /// Get from gallery
+  _getPictrip() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        Pictrip = File(pickedFile.path);
+      });
+    }
+  }
+
+  _getBoatpic() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        Boatpic = File(pickedFile.path);
+      });
+    }
+  }
+
+  _getSchedule() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        Schedule = File(pickedFile.path);
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +125,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
           SizedBox(height: 20),
           buildDiveMasterNameFormField(),
           SizedBox(height: 20),
+          buildBoatNameFormField(),
+          SizedBox(height: 20),
           buildPriceFormField(),
           SizedBox(height: 20),
           buildTotalPeopleFormField(),
@@ -82,73 +136,37 @@ class _CreateTripFormState extends State<CreateTripForm> {
             children: [
               Text('Trip Type '),
               Spacer(),
-              Radio(
-                  value: 'On shore (Hotel)',
-                  groupValue: triptype,
-                  onChanged: (val) {
-                    triptype = val;
-                    setState(() {});
-                  }),
-              Text('On shore (Hotel)'),
-              SizedBox(width: 10,),
-              Radio(
-                  value: 'Off shore (Live on boat)',
-                  groupValue: triptype,
-                  onChanged: (val) {
-                    triptype = val;
-                    setState(() {});
-                  }),
-              Text('Off shore (Live on boat)'),
-            ],
+
+              ]
+          ),
+          Row(
+              children: [
+
+                Radio(
+                    value: 'On shore (Hotel)',
+                    groupValue: triptype,
+                    onChanged: (val) {
+                      triptype = val;
+                      setState(() {});
+                    }),
+                Text('On shore (Hotel)'),
+              ]
           ),
 
 
-          SizedBox(height: 20),
-          //radio
-          Row(
+        Row(
             children: [
 
-              Text('Picture of Trip'),
-              FlatButton(
-                onPressed: () => {},
-                color: Color(0xfff75BDFF),
-                child: Text(
-                  'Add Image',
-                  style: TextStyle(fontSize: 15),
-                ),
-              ),
-              ],
-          ),
-
-          SizedBox(height: 20),
-          //radio
-          Row(
-            children: [
-
-              Text('Schedule'),
-              FlatButton(
-                onPressed: () => {},
-                color: Color(0xfff75BDFF),
-                child: Text(
-                  'Add Image',
-                  style: TextStyle(fontSize: 15),
-                ),
-              ),
-            ],
-          ),
-
-          FlatButton(
-            onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'Confirm',
-              style: TextStyle(fontSize: 15),
-            ),
-          ),
-
-
-
-
+          Radio(
+              value: 'Off shore (Live on boat)',
+              groupValue: triptype,
+              onChanged: (val) {
+                triptype = val;
+                setState(() {});
+              }),
+          Text('Off shore (Live on boat)'),
+          ],
+        ),
           // Row(
           //   children: [
           //     Text('Trip Type '),
@@ -179,9 +197,62 @@ class _CreateTripFormState extends State<CreateTripForm> {
           //     Text('Off shore (Live on boat)'),
           //   ],
           // ),
+          SizedBox(height: 20),
+          Center(child:Pictrip == null ? Text('Trip image'): kIsWeb ? Image.network(Pictrip.path,fit:BoxFit.cover,) : Image.file(File(Pictrip.path),fit:BoxFit.cover,)),
+          SizedBox(height: 20),
+          //img
+          FlatButton(
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'load image',
+              style: TextStyle(fontSize: 15),
+            ),
+            onPressed: () {_getPictrip();},
+          ),
+
+          SizedBox(height: 20),
+          Center(child:Boatpic == null ? Text('Boat image'): kIsWeb ? Image.network(Boatpic.path,fit:BoxFit.cover,) : Image.file(File(Boatpic.path),fit:BoxFit.cover,)),
+          SizedBox(height: 20),
+          //img
+          FlatButton(
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'load image',
+              style: TextStyle(fontSize: 15),
+            ),
+            onPressed: () {_getBoatpic();},
+          ),
+
+          SizedBox(height: 20),
+          Center(child:Schedule == null ? Text('Schedule image'): kIsWeb ? Image.network(Schedule.path,fit:BoxFit.cover,) : Image.file(File(Schedule.path),fit:BoxFit.cover,)),
+          SizedBox(height: 20),
+          //img
+          FlatButton(
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'load image',
+              style: TextStyle(fontSize: 15),
+            ),
+            onPressed: () {_getSchedule();},
+          ),
 
           //   FormError(errors: errors),
           SizedBox(height: 20),
+          FlatButton(
+            //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
+            onPressed:() =>{Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+            builder: (BuildContext context) => MainScreen(),
+            ),
+            (route) => false,
+            )},
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'Confirm',
+              style: TextStyle(fontSize: 15),
+            ),
+          ), SizedBox(height: 20),
         ]),
       ),
     );
@@ -243,7 +314,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildPlaceFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerPlace,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => place = newValue,
       onChanged: (value) {
@@ -270,7 +341,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildFromFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerFrom,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => from = newValue,
       onChanged: (value) {
@@ -297,7 +368,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildToFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerTo,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => to = newValue,
       onChanged: (value) {
@@ -324,7 +395,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildDiveMasterNameFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerDivemastername,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => divemastername = newValue,
       onChanged: (value) {
@@ -351,7 +422,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildPriceFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerPrice,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => price = newValue,
       onChanged: (value) {
@@ -378,7 +449,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   TextFormField buildTotalPeopleFormField() {
     return TextFormField(
-      controller: _controllerDescription,
+      controller: _controllerTotalpeople,
       cursorColor: Color(0xFF6F35A5),
       onSaved: (newValue) => totalpeople = newValue,
       onChanged: (value) {
@@ -402,4 +473,32 @@ class _CreateTripFormState extends State<CreateTripForm> {
       ),
     );
   }
+
+  TextFormField buildBoatNameFormField() {
+    return TextFormField(
+      controller: _controllerBoatname,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => boatname = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter boat name");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter boatr name");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "Boat name",
+        filled: true,
+        fillColor: Color(0xFFFd0efff),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
 }
