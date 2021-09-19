@@ -46,7 +46,6 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       });
   }
 
-
   /// Get from gallery
   _getPicDiver() async {
     PickedFile pickedFile = await ImagePicker().getImage(
@@ -99,32 +98,78 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           //   FormError(errors: errors),
           SizedBox(height: 20),
 
-          Center(child:DiverImage == null ? Text('Diver image'): kIsWeb ? Image.network(DiverImage.path,fit:BoxFit.cover,) : Image.file(File(DiverImage.path),fit:BoxFit.cover,)),
-
-          FlatButton(
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'load image',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {_getPicDiver();},
+          Row(
+            children: [
+              Center(
+                child: DiverImage == null
+                    ? Text('Front image')
+                    : kIsWeb
+                        ? Image.network(
+                            DiverImage.path,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.file(
+                            File(DiverImage.path),
+                            fit: BoxFit.cover,
+                          ),
+              ),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Load image',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPicDiver();
+                },
+              ),
+            ],
           ),
+
           SizedBox(height: 20),
 
-          Center(child:DiveBack == null ? Text('Card'): kIsWeb ? Image.network(DiveBack.path,fit:BoxFit.cover,) : Image.file(File(DiveBack.path),fit:BoxFit.cover,)),
-
-          FlatButton(
+          Row(
+            children: [
+              Center(
+                  child: DiveBack == null
+                      ? Text('Back image')
+                      : kIsWeb
+                          ? Image.network(
+                              DiveBack.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(DiveBack.path),
+                              fit: BoxFit.cover,
+                            )),Spacer(),          FlatButton(
             color: Color(0xfff75BDFF),
             child: Text(
-              'load image',
+              'Load image',
               style: TextStyle(fontSize: 15),
             ),
-            onPressed: () {_getPicCard();},
+            onPressed: () {
+              _getPicCard();
+            },
           ),
+            ],
+          ),
+
+
           SizedBox(height: 20),
 
-
-        FlatButton(onPressed: ()=>{Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))}, color: Color(0xfff75BDFF),child:  Text('Confirm',style: TextStyle(fontSize: 15),),)
+          FlatButton(
+            onPressed: () => {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MainScreen()))
+            },
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'Confirm',
+              style: TextStyle(fontSize: 15),
+            ),
+          ),
+           SizedBox(height: 20),
         ]),
       ),
     );
@@ -186,7 +231,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     );
   }
 
-   TextFormField buildUsernameFormField() {
+  TextFormField buildUsernameFormField() {
     return TextFormField(
       controller: _controllerUsername,
       cursorColor: Color(0xFF6F35A5),
@@ -212,7 +257,6 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           suffixIcon: Icon(Icons.person)),
     );
   }
-
 
   TextFormField buildConfirmPasswordFormField() {
     return TextFormField(

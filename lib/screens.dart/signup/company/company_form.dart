@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:diving_trip_agency/screens.dart/signup/company/signup_divemaster.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
 //check pass
 class SignupCompanyForm extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String name;
   String username;
   String companyEmail;
- // String email;
+  // String email;
   String phoneNumber;
   String address;
   String password;
@@ -74,7 +75,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       });
     }
   }
-
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -140,47 +140,83 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           buildPasswordFormField(),
           SizedBox(height: 20),
           buildConfirmPasswordFormField(),
-          SizedBox(height:20),
-          Center(child:docFile == null ? Text('Verified Document'): kIsWeb ? Image.network(docFile.path,fit:BoxFit.cover,) : Image.file(File(docFile.path),fit:BoxFit.cover,)),
           SizedBox(height: 20),
-          //img
-          FlatButton(
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'load image',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {_getdoc();},
+          Row(
+            children: [
+              Center(
+                  child: docFile == null
+                      ? Text('Verified Document')
+                      : kIsWeb
+                          ? Image.network(
+                              docFile.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(docFile.path),
+                              fit: BoxFit.cover,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Load image',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getdoc();
+                },
+              ),
+            ],
           ),
           SizedBox(height: 20),
-          //doc
+
           //Center(child:imageFile == null ? Text('No image selected'):Text("You have an image")),
           //Center(child:imageFile == null ? Text('No image selected'):Image.file(imageFile,fit:BoxFit.cover,)),
-          Center(child:imageFile == null ? Text('Company Image'): kIsWeb ? Image.network(imageFile.path,fit:BoxFit.cover,) : Image.file(File(imageFile.path),fit:BoxFit.cover,)),
+          Row(
+            children: [
+              Center(
+                  child: imageFile == null
+                      ? Text('Company Image')
+                      : kIsWeb
+                          ? Image.network(
+                              imageFile.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(imageFile.path),
+                              fit: BoxFit.cover,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Load Image',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getFromGallery();
+                },
+              ),
+            ],
+          ),
           //Center(child:imageFile == null ? Text('No image selected'):Text(imageFile.path.split('/').last)),
 
           SizedBox(height: 20),
-          //img
-          FlatButton(
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'load Image',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {_getFromGallery();},
-          ),
-          //img
+
           //   FormError(errors: errors),
           SizedBox(height: 20),
           FlatButton(
-            onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => SignupDiveMaster()))},
+            onPressed: () => {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignupDiveMaster()))
+            },
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',
               style: TextStyle(fontSize: 15),
             ),
           ),
-           SizedBox(height: 20),
+          SizedBox(height: 20),
         ]),
       ),
     );
@@ -219,7 +255,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       controller: _controllerUsername,
       cursorColor: Color(0xFF6F35A5),
       keyboardType: TextInputType.name,
-      onSaved: (newValue) => username= newValue,
+      onSaved: (newValue) => username = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your username");

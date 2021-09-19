@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
 //add card
 class DiveMasterForm extends StatefulWidget {
   @override
@@ -66,32 +67,52 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           SizedBox(height: 20),
           //doc
           //   FormError(errors: errors),
-          Center(child:CardFile == null ? Text('Divemaster Card'): kIsWeb ? Image.network(CardFile.path,fit:BoxFit.cover,) : Image.file(File(CardFile.path),fit:BoxFit.cover,)),
-          SizedBox(height: 20),
-
-          FlatButton(
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'Divemaster Card',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {_getCard();},
+          Row(
+            children: [
+              Center(
+                  child: CardFile == null
+                      ? Text('Divemaster Card')
+                      : kIsWeb
+                          ? Image.network(
+                              CardFile.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(CardFile.path),
+                              fit: BoxFit.cover,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Divemaster Card',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getCard();
+                },
+              ),
+            ],
           ),
+
           SizedBox(height: 20),
           FlatButton(
-            onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => SignupStaff()))},
+            onPressed: () => {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignupStaff()))
+            },
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',
               style: TextStyle(fontSize: 15),
             ),
           ),
-           SizedBox(height: 40),
+          SizedBox(height: 40),
         ]),
       ),
     );
   }
-  
+
   TextFormField buildNameFormField() {
     return TextFormField(
       controller: _controllerName,
@@ -184,7 +205,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     );
   }
 
-  
   TextFormField buildPhoneNumberFormField() {
     return TextFormField(
       controller: _controllerPhone,
@@ -212,5 +232,4 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       ),
     );
   }
-
 }
