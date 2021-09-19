@@ -1,12 +1,12 @@
-import 'package:diving_trip_agency/screens.dart/signup/company/staff_form.dart';
+import 'package:diving_trip_agency/screens.dart/signup/company/divermaster_form.dart';
 import 'package:flutter/material.dart';
 
-class AddMoreStaff extends StatefulWidget {
+class AddmoreDiverMaster extends StatefulWidget {
   @override
-  _AddMoreStaffState createState() => _AddMoreStaffState();
+  _AddmoreDiverMasterState createState() => _AddmoreDiverMasterState();
 }
 
-class _AddMoreStaffState extends State<AddMoreStaff> {
+class _AddmoreDiverMasterState extends State<AddmoreDiverMaster> {
   int count = 1;
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class _AddMoreStaffState extends State<AddMoreStaff> {
             shrinkWrap: true,
             itemCount: count,
             itemBuilder: (BuildContext context, int index) {
-              return StaffForm(count.toString());
+              return DiveMasterForm(count.toString());
             }),
         MaterialButton(
           onPressed: () {

@@ -6,8 +6,12 @@ import 'dart:io';
 
 //add card
 class DiveMasterForm extends StatefulWidget {
+  String count;
+  DiveMasterForm(String count){
+    this.count=count;
+  }
   @override
-  _DiveMasterFormState createState() => _DiveMasterFormState();
+  _DiveMasterFormState createState() => _DiveMasterFormState(this.count);
 }
 
 class _DiveMasterFormState extends State<DiveMasterForm> {
@@ -23,6 +27,8 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   final TextEditingController _controllerLastname = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
+
+  _DiveMasterFormState(String count);
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -96,18 +102,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           ),
 
           SizedBox(height: 20),
-          FlatButton(
-            onPressed: () => {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignupStaff()))
-            },
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'Confirm',
-              style: TextStyle(fontSize: 15),
-            ),
-          ),
-          SizedBox(height: 40),
+    
         ]),
       ),
     );
