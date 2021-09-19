@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-//add card
+//add birthdate
 class SignupDiverForm extends StatefulWidget {
   @override
   _SignupDiverFormState createState() => _SignupDiverFormState();
@@ -31,6 +31,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   final TextEditingController _controllerConfirm = TextEditingController();
   File DiverImage;
   File DiveBack;
+  DateTime _dateTime;
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -92,6 +93,31 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           SizedBox(height: 20),
           buildPhoneNumberFormField(),
           SizedBox(height: 20),
+          Row(
+            children: [
+              Text('Birthday'),
+              Spacer(),
+              Text(_dateTime == null ? '' : _dateTime.toString()),
+              Spacer(),
+              RaisedButton(
+                  color: Color(0xfff75BDFF),
+                  child: Text('Pick a date'),
+                  onPressed: () {
+                    showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now())
+                        .then((date) => {
+                              setState(() {
+                                _dateTime = date;
+                              })
+                            });
+                  }),
+            ],
+          ),
+
+          SizedBox(height: 20),
           buildPasswordFormField(),
           SizedBox(height: 20),
           buildConfirmPasswordFormField(),
@@ -142,19 +168,20 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                           : Image.file(
                               File(DiveBack.path),
                               fit: BoxFit.cover,
-                            )),Spacer(),          FlatButton(
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'Load image',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {
-              _getPicCard();
-            },
-          ),
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Load image',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPicCard();
+                },
+              ),
             ],
           ),
-
 
           SizedBox(height: 20),
 
@@ -169,7 +196,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
               style: TextStyle(fontSize: 15),
             ),
           ),
-           SizedBox(height: 20),
+          SizedBox(height: 20),
         ]),
       ),
     );
