@@ -29,6 +29,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   final TextEditingController _controllerPhone = TextEditingController();
   final TextEditingController _controllerConfirm = TextEditingController();
   File DiverImage;
+  File DiveBack;
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -55,6 +56,20 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     if (pickedFile != null) {
       setState(() {
         DiverImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  /// Get from gallery
+  _getPicCard() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        DiveBack = File(pickedFile.path);
       });
     }
   }
@@ -92,6 +107,20 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
             onPressed: () {_getPicDiver();},
           ),
           SizedBox(height: 20),
+
+          Center(child:DiveBack == null ? Text('Card'): kIsWeb ? Image.network(DiveBack.path,fit:BoxFit.cover,) : Image.file(File(DiveBack.path),fit:BoxFit.cover,)),
+
+          FlatButton(
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'load image',
+              style: TextStyle(fontSize: 15),
+            ),
+            onPressed: () {_getPicCard();},
+          ),
+          SizedBox(height: 20),
+
+
           FlatButton(onPressed: ()=>{Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))}, color: Color(0xfff75BDFF),child:  Text('Confirm',style: TextStyle(fontSize: 15),),)
         ]),
       ),
