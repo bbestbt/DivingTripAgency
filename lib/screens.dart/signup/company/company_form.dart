@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart' show kIsWeb;
-
 import 'package:diving_trip_agency/screens.dart/signup/company/signup_divemaster.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +13,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String name;
   // String lastname;
   String companyEmail;
-  String email;
+ // String email;
   String phoneNumber;
   String address;
   String password;
@@ -32,7 +30,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerName = TextEditingController();
   // final TextEditingController _controllerLastname = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-  final TextEditingController _controllerEmail = TextEditingController();
+  //final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerCompanyemail = TextEditingController();
   final TextEditingController _controllerAddress = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
@@ -42,7 +40,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
-
 
   File imageFile;
   File docFile;
@@ -79,15 +76,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   }
 
 
-  // Future getImage() async{
-  //   var image = await ImagePicker.pickImage(source: ImageSource.camera);
-
-  //   setState(() {
-  //         _image=image;
-  //       });
-  // }
-
-
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -114,8 +102,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           // SizedBox(height: 20),
           buildCompanyEmailFormField(),
           SizedBox(height: 20),
-          buildEmailFormField(),
-          SizedBox(height: 20),
+          // buildEmailFormField(),
+          // SizedBox(height: 20),
           buildPhoneNumberFormField(),
           SizedBox(height: 20),
           buildAddressFormField(),
@@ -152,7 +140,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           buildPasswordFormField(),
           SizedBox(height: 20),
           buildConfirmPasswordFormField(),
-
           SizedBox(height:20),
           Center(child:docFile == null ? Text('Verified Document'): kIsWeb ? Image.network(docFile.path,fit:BoxFit.cover,) : Image.file(File(docFile.path),fit:BoxFit.cover,)),
           SizedBox(height: 20),
@@ -183,13 +170,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
             onPressed: () {_getFromGallery();},
           ),
           //img
-
-          SizedBox(height: 20),
-          //doc
-          //   Center(child:_imgae == null ? Text('No image selected'):Image.file(_image)),
-          SizedBox(height: 20),
-          //img
-
           //   FormError(errors: errors),
           SizedBox(height: 20),
           FlatButton(
@@ -362,41 +342,41 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
   }
 
-  TextFormField buildEmailFormField() {
-    return TextFormField(
-      controller: _controllerEmail,
-      keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter your email");
-        } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            .hasMatch(value)) {
-          removeError(error: "Please Enter Valid Email");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter your email");
-          return "";
-        } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
-            .hasMatch(value)) {
-          addError(error: "Please Enter Valid Email");
-          return "";
-        }
+  // TextFormField buildEmailFormField() {
+  //   return TextFormField(
+  //     controller: _controllerEmail,
+  //     keyboardType: TextInputType.emailAddress,
+  //     onSaved: (newValue) => email = newValue,
+  //     onChanged: (value) {
+  //       if (value.isNotEmpty) {
+  //         removeError(error: "Please Enter your email");
+  //       } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+  //           .hasMatch(value)) {
+  //         removeError(error: "Please Enter Valid Email");
+  //       }
+  //       return null;
+  //     },
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         addError(error: "Please Enter your email");
+  //         return "";
+  //       } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
+  //           .hasMatch(value)) {
+  //         addError(error: "Please Enter Valid Email");
+  //         return "";
+  //       }
 
-        return null;
-      },
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Color(0xFFFd0efff),
-        hintText: "Email",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: Icon(Icons.mail),
-      ),
-    );
-  }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //       filled: true,
+  //       fillColor: Color(0xFFFd0efff),
+  //       hintText: "Email",
+  //       floatingLabelBehavior: FloatingLabelBehavior.always,
+  //       suffixIcon: Icon(Icons.mail),
+  //     ),
+  //   );
+  // }
 
   TextFormField buildCompanyEmailFormField() {
     return TextFormField(

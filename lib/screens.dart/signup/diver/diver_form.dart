@@ -1,11 +1,9 @@
 import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens.dart/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
-
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
 
 //add card
 class SignupDiverForm extends StatefulWidget {
@@ -30,10 +28,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
   final TextEditingController _controllerConfirm = TextEditingController();
-
   File DiverImage;
   File DiveBack;
-
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -48,7 +44,6 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         errors.remove(error);
       });
   }
-
 
 
   /// Get from gallery
@@ -101,7 +96,6 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           //   FormError(errors: errors),
           SizedBox(height: 20),
 
-
           Center(child:DiverImage == null ? Text('Diver image'): kIsWeb ? Image.network(DiverImage.path,fit:BoxFit.cover,) : Image.file(File(DiverImage.path),fit:BoxFit.cover,)),
 
           FlatButton(
@@ -127,9 +121,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           SizedBox(height: 20),
 
 
-          FlatButton(onPressed: ()=>{Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))}, color: Color(0xfff75BDFF),child:  Text('Confirm',style: TextStyle(fontSize: 15),),)
-
-       FlatButton(onPressed: ()=>{Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))}, color: Color(0xfff75BDFF),child:  Text('Confirm',style: TextStyle(fontSize: 15),),)
+        FlatButton(onPressed: ()=>{Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))}, color: Color(0xfff75BDFF),child:  Text('Confirm',style: TextStyle(fontSize: 15),),)
         ]),
       ),
     );

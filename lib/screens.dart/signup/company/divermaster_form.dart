@@ -1,10 +1,8 @@
 import 'package:diving_trip_agency/screens.dart/signup/company/signup_staff.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
 //add card
 class DiveMasterForm extends StatefulWidget {
   @override
@@ -16,9 +14,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   String lastname;
   String email;
   String phoneNumber;
-
   File CardFile;
-
   //doc
 
   final List<String> errors = [];
@@ -41,7 +37,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       });
   }
 
-
   _getCard() async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
@@ -54,7 +49,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +66,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           SizedBox(height: 20),
           //doc
           //   FormError(errors: errors),
-
           Center(child:CardFile == null ? Text('Divemaster Card'): kIsWeb ? Image.network(CardFile.path,fit:BoxFit.cover,) : Image.file(File(CardFile.path),fit:BoxFit.cover,)),
           SizedBox(height: 20),
 
@@ -84,7 +77,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
             ),
             onPressed: () {_getCard();},
           ),
-
           SizedBox(height: 20),
           FlatButton(
             onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => SignupStaff()))},
@@ -94,11 +86,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               style: TextStyle(fontSize: 15),
             ),
           ),
-
            SizedBox(height: 40),
-
-           SizedBox(height: 20),
-
         ]),
       ),
     );
