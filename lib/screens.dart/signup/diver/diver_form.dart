@@ -13,6 +13,7 @@ class SignupDiverForm extends StatefulWidget {
 
 class _SignupDiverFormState extends State<SignupDiverForm> {
   // final _formKey = GlobalKey<FormState>();
+  String username;
   String name;
   String lastname;
   // String level;
@@ -23,7 +24,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerLastname = TextEditingController();
-  //final TextEditingController _controllerLevel = TextEditingController();
+  final TextEditingController _controllerUsername = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
@@ -80,6 +81,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          buildUsernameFormField(),
+          SizedBox(height: 20),
           buildNameFormField(),
           SizedBox(height: 20),
           buildLastnameFormField(),
@@ -182,6 +185,34 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           suffixIcon: Icon(Icons.person)),
     );
   }
+
+   TextFormField buildUsernameFormField() {
+    return TextFormField(
+      controller: _controllerUsername,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => username = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter your username");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter your username");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          hintText: "Username",
+          filled: true,
+          fillColor: Color(0xFFFd0efff),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.person)),
+    );
+  }
+
 
   TextFormField buildConfirmPasswordFormField() {
     return TextFormField(

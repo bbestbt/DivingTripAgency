@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:diving_trip_agency/screens.dart/signup/company/signup_divemaster.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
+//check pass
 class SignupCompanyForm extends StatefulWidget {
   @override
   _SignupCompanyFormState createState() => _SignupCompanyFormState();
@@ -11,7 +11,7 @@ class SignupCompanyForm extends StatefulWidget {
 
 class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String name;
-  // String lastname;
+  String username;
   String companyEmail;
  // String email;
   String phoneNumber;
@@ -28,7 +28,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   File _image;
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
-  // final TextEditingController _controllerLastname = TextEditingController();
+  final TextEditingController _controllerUsername = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   //final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerCompanyemail = TextEditingController();
@@ -96,10 +96,10 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          buildUsernameFormField(),
+          SizedBox(height: 20),
           buildNameFormField(),
           SizedBox(height: 20),
-          // buildLastnameFormField(),
-          // SizedBox(height: 20),
           buildCompanyEmailFormField(),
           SizedBox(height: 20),
           // buildEmailFormField(),
@@ -214,33 +214,33 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
   }
 
-  // TextFormField buildLastnameFormField() {
-  //   return TextFormField(
-  //     controller: _controllerLastname,
-  //     cursorColor: Color(0xFF6F35A5),
-  //     keyboardType: TextInputType.name,
-  //     onSaved: (newValue) => lastname = newValue,
-  //     onChanged: (value) {
-  //       if (value.isNotEmpty) {
-  //         removeError(error: "Please Enter your lastname");
-  //       }
-  //       return null;
-  //     },
-  //     validator: (value) {
-  //       if (value.isEmpty) {
-  //         addError(error: "Please Enter your lastname");
-  //         return "";
-  //       }
-  //       return null;
-  //     },
-  //     decoration: InputDecoration(
-  //         hintText: "Lastname",
-  //         filled: true,
-  //         fillColor: Color(0xFFFd0efff),
-  //         floatingLabelBehavior: FloatingLabelBehavior.always,
-  //         suffixIcon: Icon(Icons.person)),
-  //   );
-  // }
+  TextFormField buildUsernameFormField() {
+    return TextFormField(
+      controller: _controllerUsername,
+      cursorColor: Color(0xFF6F35A5),
+      keyboardType: TextInputType.name,
+      onSaved: (newValue) => username= newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter your username");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter your username");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          hintText: "Username",
+          filled: true,
+          fillColor: Color(0xFFFd0efff),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.person)),
+    );
+  }
 
   TextFormField buildAddressFormField() {
     return TextFormField(
