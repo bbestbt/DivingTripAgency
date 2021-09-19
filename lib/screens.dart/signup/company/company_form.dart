@@ -1,5 +1,7 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'package:diving_trip_agency/screens.dart/signup/company/signup_divemaster.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -41,6 +43,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
 
+
   File imageFile;
   File docFile;
   //final ImagePicker _picker = ImagePicker();
@@ -74,6 +77,15 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       });
     }
   }
+
+
+  // Future getImage() async{
+  //   var image = await ImagePicker.pickImage(source: ImageSource.camera);
+
+  //   setState(() {
+  //         _image=image;
+  //       });
+  // }
 
 
   void addError({String error}) {
@@ -140,6 +152,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           buildPasswordFormField(),
           SizedBox(height: 20),
           buildConfirmPasswordFormField(),
+
           SizedBox(height:20),
           Center(child:docFile == null ? Text('Verified Document'): kIsWeb ? Image.network(docFile.path,fit:BoxFit.cover,) : Image.file(File(docFile.path),fit:BoxFit.cover,)),
           SizedBox(height: 20),
@@ -170,6 +183,13 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
             onPressed: () {_getFromGallery();},
           ),
           //img
+
+          SizedBox(height: 20),
+          //doc
+          //   Center(child:_imgae == null ? Text('No image selected'):Image.file(_image)),
+          SizedBox(height: 20),
+          //img
+
           //   FormError(errors: errors),
           SizedBox(height: 20),
           FlatButton(
