@@ -526,7 +526,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter boatr name");
+          addError(error: "Please Enter boat name");
           return "";
         }
         return null;

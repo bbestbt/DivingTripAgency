@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:diving_trip_agency/screens.dart/main/components/people.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -8,7 +9,9 @@ class TopSection extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
-        constraints: BoxConstraints(maxHeight: 300, minHeight: 200),
+
+        constraints: BoxConstraints(maxHeight: 400, minHeight: 100),
+
         width: double.infinity,
         decoration: BoxDecoration(
             //  color: Color(0xfffdcfffb)
@@ -73,7 +76,9 @@ class _GlassContentState extends State<GlassContent> {
           color: Colors.white.withOpacity(0),
           //  color: Colors.pink,
           constraints: BoxConstraints(
-              maxWidth: 400, maxHeight: widget.size.height * 0.2),
+
+              maxWidth: 400, maxHeight: widget.size.height * 0.25),
+
           child: Column(
             children: [
               buildSearchFormField(),
@@ -94,14 +99,21 @@ class _GlassContentState extends State<GlassContent> {
                     child: Text(getTo()),
                   ),
                   SizedBox(width: 10,),
-                  // Spacer(),
-                  Text('people'),
+
+                  Spacer(),
+                  // Text('People'),
+                  Icon(Icons.people),
+                  SizedBox(width: 10,),
+                  peopleDropdown()
+
                 ],
               ),
               SizedBox(
                 height: 20,
               ),
-              RaisedButton(child: Text('Select'), onPressed: () {})
+
+              RaisedButton(child: Text('Confirm'), onPressed: () {})
+
             ],
           ),
         ),

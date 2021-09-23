@@ -6,8 +6,19 @@ import 'package:diving_trip_agency/screens.dart/main/components/web_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
+// import 'package:carousel_slider/carousel_slider.dart';
+import 'package:diving_trip_agency/screens.dart/main/CarouselTest.dart';
+import 'CarouselTest.dart';
 import 'components/header.dart';
+
+final List<String> imgList = [
+  'assets/images/S__83271685.jpg',
+  'assets/images/S__77250562.jpg',
+  'assets/images/S__83271682.jpg',
+  'assets/images/S__83271684.jpg',
+  'assets/images/S__83271687.jpg',
+  'assets/images/S__83271688.jpg',
+];
 
 class MainScreen extends StatelessWidget {
   final MenuController _controller = Get.put(MenuController());
@@ -16,14 +27,22 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       key: _controller.scaffoldkey,
       drawer: SideMenu(),
-      body: Column(
-        children: [Header(),TopSection()],
+
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Header(),
+            TopSection(),
+            SizedBox(height: 20,),
+            Text('Recommended Trip'),
+            CarouselWithDotsPage(imgList: imgList),
+          ],
+        ),
+
       ),
     );
   }
 }
-
-
 
 class DrawerItem extends StatelessWidget {
   final String title;

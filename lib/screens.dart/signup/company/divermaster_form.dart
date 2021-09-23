@@ -20,6 +20,8 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   String email;
   String phoneNumber;
   File CardFile;
+
+  File CardFileBack;
   //doc
 
   final List<String> errors = [];
@@ -57,6 +59,22 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     }
   }
 
+
+  _getCardBack() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        CardFileBack = File(pickedFile.path);
+      });
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -77,7 +95,9 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
             children: [
               Center(
                   child: CardFile == null
-                      ? Text('Divemaster Card')
+
+                      ? Text('Divemaster Card (Front)')
+
                       : kIsWeb
                           ? Image.network(
                               CardFile.path,
@@ -91,7 +111,9 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               FlatButton(
                 color: Color(0xfff75BDFF),
                 child: Text(
-                  'Divemaster Card',
+
+                  'Divemaster Card (Front)',
+
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
@@ -100,10 +122,40 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               ),
             ],
           ),
+          SizedBox(height: 20),
+
+          Row(
+            children: [
+              Center(
+                  child: CardFileBack == null
+                      ? Text('Divemaster Card (Back)')
+                      : kIsWeb
+                      ? Image.network(
+                    CardFileBack.path,
+                    fit: BoxFit.cover,
+                  )
+                      : Image.file(
+                    File(CardFileBack.path),
+                    fit: BoxFit.cover,
+                  )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Divemaster Card (Back)',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getCardBack();
+                },
+              ),
+            ],
+          ),
 
           SizedBox(height: 20),
-    
-        ]),
+
+          ]),
+
       ),
     );
   }
