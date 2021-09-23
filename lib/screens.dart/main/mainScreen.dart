@@ -11,7 +11,6 @@ import 'package:diving_trip_agency/screens.dart/main/CarouselTest.dart';
 import 'CarouselTest.dart';
 import 'components/header.dart';
 
-
 final List<String> imgList = [
   'assets/images/S__83271685.jpg',
   'assets/images/S__77250562.jpg',
@@ -20,8 +19,6 @@ final List<String> imgList = [
   'assets/images/S__83271687.jpg',
   'assets/images/S__83271688.jpg',
 ];
-
-
 
 class MainScreen extends StatelessWidget {
   final MenuController _controller = Get.put(MenuController());
@@ -32,19 +29,18 @@ class MainScreen extends StatelessWidget {
       drawer: SideMenu(),
       body: SingleChildScrollView(
         child: Column(
-          children: [Header(),TopSection(),
-           CarouselWithDotsPage(imgList: imgList),
-
-
-
-            ],
+          children: [
+            Header(),
+            TopSection(),
+            SizedBox(height: 20,),
+            Text('Recommended Trip'),
+            CarouselWithDotsPage(imgList: imgList),
+          ],
         ),
       ),
     );
   }
 }
-
-
 
 class DrawerItem extends StatelessWidget {
   final String title;

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:diving_trip_agency/screens.dart/main/components/people.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -95,14 +96,17 @@ class _GlassContentState extends State<GlassContent> {
                     child: Text(getTo()),
                   ),
                   SizedBox(width: 10,),
-                  // Spacer(),
-                  Text('people'),
+                  Spacer(),
+                  // Text('People'),
+                  Icon(Icons.people),
+                  SizedBox(width: 10,),
+                  peopleDropdown()
                 ],
               ),
               SizedBox(
                 height: 20,
               ),
-              RaisedButton(child: Text('Select'), onPressed: () {})
+              RaisedButton(child: Text('Confirm'), onPressed: () {})
             ],
           ),
         ),
