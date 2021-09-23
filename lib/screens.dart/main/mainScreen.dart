@@ -6,7 +6,7 @@ import 'package:diving_trip_agency/screens.dart/main/components/web_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:diving_trip_agency/screens.dart/main/CarouselTest.dart';
 import 'CarouselTest.dart';
 import 'components/header.dart';
@@ -30,13 +30,15 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       key: _controller.scaffoldkey,
       drawer: SideMenu(),
-      body: Column(
-        children: [Header(),TopSection(),
-         CarouselWithDotsPage(imgList: imgList),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [Header(),TopSection(),
+           CarouselWithDotsPage(imgList: imgList),
 
 
 
-          ],
+            ],
+        ),
       ),
     );
   }
