@@ -1,11 +1,9 @@
 import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
 
 //trip type layout mobile not work
 //pic of trip,boat
@@ -24,13 +22,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
   String divemastername;
   String price;
   String totalpeople;
-
   File Pictrip;
   File Boatpic;
   File Schedule;
-
-
-
 
   String triptype = '';
   final List<String> errors = [];
@@ -44,8 +38,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   final TextEditingController _controllerPrice = TextEditingController();
   final TextEditingController _controllerTotalpeople = TextEditingController();
   String boatname;
-  final TextEditingController _controllerBoatname =
-      TextEditingController();
+  final TextEditingController _controllerBoatname = TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -60,7 +53,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
         errors.remove(error);
       });
   }
-
 
   /// Get from gallery
   _getPictrip() async {
@@ -102,7 +94,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -137,52 +128,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
           buildTotalPeopleFormField(),
           SizedBox(height: 20),
           //radio
+          Row(children: [
+            Text('Trip Type '),
+            Spacer(),
+          ]),
+          Row(children: [
+            Radio(
+                value: 'On shore (Hotel)',
+                groupValue: triptype,
+                onChanged: (val) {
+                  triptype = val;
+                  setState(() {});
+                }),
+            Text('On shore (Hotel)'),
+          ]),
+
           Row(
             children: [
-              Text('Trip Type '),
-              Spacer(),
-
-
-              ]
-          ),
-          Row(
-              children: [
-
-                Radio(
-                    value: 'On shore (Hotel)',
-                    groupValue: triptype,
-                    onChanged: (val) {
-                      triptype = val;
-                      setState(() {});
-                    }),
-                Text('On shore (Hotel)'),
-              ]
-          ),
-
-
-        Row(
-            children: [
-
-          Radio(
-              value: 'Off shore (Live on boat)',
-              groupValue: triptype,
-              onChanged: (val) {
-                triptype = val;
-                setState(() {});
-              }),
-          Text('Off shore (Live on boat)'),
-          ],
-        ),
-
-              Radio(
-                  value: 'On shore (Hotel)',
-                  groupValue: triptype,
-                  onChanged: (val) {
-                    triptype = val;
-                    setState(() {});
-                  }),
-              Text('On shore (Hotel)'),
-              SizedBox(width: 10,),
               Radio(
                   value: 'Off shore (Live on boat)',
                   groupValue: triptype,
@@ -193,7 +155,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
               Text('Off shore (Live on boat)'),
             ],
           ),
-
           // Row(
           //   children: [
           //     Text('Trip Type '),
@@ -224,68 +185,113 @@ class _CreateTripFormState extends State<CreateTripForm> {
           //     Text('Off shore (Live on boat)'),
           //   ],
           // ),
-
           SizedBox(height: 20),
-          Center(child:Pictrip == null ? Text('Trip image'): kIsWeb ? Image.network(Pictrip.path,fit:BoxFit.cover,) : Image.file(File(Pictrip.path),fit:BoxFit.cover,)),
-          SizedBox(height: 20),
-          //img
-          FlatButton(
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'load image',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {_getPictrip();},
+          Row(
+            children: [
+              Center(
+                  child: Pictrip == null
+                      ? Text('Trip image')
+                      : kIsWeb
+                          ? Image.network(
+                              Pictrip.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(Pictrip.path),
+                              fit: BoxFit.cover,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Load image',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPictrip();
+                },
+              ),
+            ],
           ),
 
           SizedBox(height: 20),
-          Center(child:Boatpic == null ? Text('Boat image'): kIsWeb ? Image.network(Boatpic.path,fit:BoxFit.cover,) : Image.file(File(Boatpic.path),fit:BoxFit.cover,)),
-          SizedBox(height: 20),
-          //img
-          FlatButton(
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'load image',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {_getBoatpic();},
+          Row(
+            children: [
+              Center(
+                  child: Boatpic == null
+                      ? Text('Boat image')
+                      : kIsWeb
+                          ? Image.network(
+                              Boatpic.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(Boatpic.path),
+                              fit: BoxFit.cover,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Load image',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getBoatpic();
+                },
+              ),
+            ],
           ),
 
           SizedBox(height: 20),
-          Center(child:Schedule == null ? Text('Schedule image'): kIsWeb ? Image.network(Schedule.path,fit:BoxFit.cover,) : Image.file(File(Schedule.path),fit:BoxFit.cover,)),
-          SizedBox(height: 20),
-          //img
-          FlatButton(
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'load image',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {_getSchedule();},
+          Row(
+            children: [
+              Center(
+                  child: Schedule == null
+                      ? Text('Schedule image')
+                      : kIsWeb
+                          ? Image.network(
+                              Schedule.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(Schedule.path),
+                              fit: BoxFit.cover,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Load image',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getSchedule();
+                },
+              ),
+            ],
           ),
-
 
           //   FormError(errors: errors),
           SizedBox(height: 20),
           FlatButton(
-
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
-            onPressed:() =>{Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-            builder: (BuildContext context) => MainScreen(),
-            ),
-            (route) => false,
-            )},
-
-            onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
-
+            onPressed: () => {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => MainScreen(),
+                ),
+                (route) => false,
+              )
+            },
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',
               style: TextStyle(fontSize: 15),
             ),
-          ), SizedBox(height: 20),
+          ),
+          SizedBox(height: 20),
         ]),
       ),
     );
@@ -520,7 +526,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter boatr name");
+          addError(error: "Please Enter boat name");
           return "";
         }
         return null;
@@ -533,5 +539,4 @@ class _CreateTripFormState extends State<CreateTripForm> {
       ),
     );
   }
-
 }
