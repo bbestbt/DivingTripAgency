@@ -20,6 +20,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   String email;
   String phoneNumber;
   File CardFile;
+
   File CardFileBack;
   //doc
 
@@ -58,6 +59,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     }
   }
 
+
   _getCardBack() async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
@@ -70,6 +72,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       });
     }
   }
+
 
 
   @override
@@ -92,7 +95,9 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
             children: [
               Center(
                   child: CardFile == null
+
                       ? Text('Divemaster Card (Front)')
+
                       : kIsWeb
                           ? Image.network(
                               CardFile.path,
@@ -106,7 +111,9 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               FlatButton(
                 color: Color(0xfff75BDFF),
                 child: Text(
+
                   'Divemaster Card (Front)',
+
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
@@ -116,6 +123,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
             ],
           ),
           SizedBox(height: 20),
+
           Row(
             children: [
               Center(
@@ -147,6 +155,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           SizedBox(height: 20),
 
           ]),
+
       ),
     );
   }

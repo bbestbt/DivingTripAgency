@@ -27,6 +27,7 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       key: _controller.scaffoldkey,
       drawer: SideMenu(),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -37,6 +38,7 @@ class MainScreen extends StatelessWidget {
             CarouselWithDotsPage(imgList: imgList),
           ],
         ),
+
       ),
     );
   }

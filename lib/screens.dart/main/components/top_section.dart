@@ -9,7 +9,9 @@ class TopSection extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
+
         constraints: BoxConstraints(maxHeight: 400, minHeight: 100),
+
         width: double.infinity,
         decoration: BoxDecoration(
             //  color: Color(0xfffdcfffb)
@@ -23,7 +25,6 @@ class TopSection extends StatelessWidget {
               // Text('a'),
               SizedBox(height: 50),
               GlassContent(size: size),
-
             ],
           ),
         ),
@@ -75,7 +76,9 @@ class _GlassContentState extends State<GlassContent> {
           color: Colors.white.withOpacity(0),
           //  color: Colors.pink,
           constraints: BoxConstraints(
+
               maxWidth: 400, maxHeight: widget.size.height * 0.25),
+
           child: Column(
             children: [
               buildSearchFormField(),
@@ -96,17 +99,21 @@ class _GlassContentState extends State<GlassContent> {
                     child: Text(getTo()),
                   ),
                   SizedBox(width: 10,),
+
                   Spacer(),
                   // Text('People'),
                   Icon(Icons.people),
                   SizedBox(width: 10,),
                   peopleDropdown()
+
                 ],
               ),
               SizedBox(
                 height: 20,
               ),
+
               RaisedButton(child: Text('Confirm'), onPressed: () {})
+
             ],
           ),
         ),

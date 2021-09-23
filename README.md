@@ -1,4 +1,4 @@
-# diving_trip_agency
+# Diving trip agency
 
 A new Flutter project.
 
