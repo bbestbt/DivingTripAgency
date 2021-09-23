@@ -12,7 +12,7 @@ class StaffForm extends StatefulWidget {
 class _StaffFormState extends State<StaffForm> {
   String name;
   String lastname;
-  String age;
+  String position;
   String count;
   _StaffFormState(String count){
     this.count=count;
@@ -21,7 +21,7 @@ class _StaffFormState extends State<StaffForm> {
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerLastname = TextEditingController();
-  final TextEditingController _controllerAge = TextEditingController();
+  final TextEditingController _controllerPosition = TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -47,7 +47,7 @@ class _StaffFormState extends State<StaffForm> {
           SizedBox(height: 20),
           buildLastnameFormField(),
           SizedBox(height: 20),
-          buildAgeFormField(),
+          buildPositionFormField(),
           //   FormError(errors: errors),
           SizedBox(height: 20),
          
@@ -112,26 +112,26 @@ class _StaffFormState extends State<StaffForm> {
     );
   }
 
-  TextFormField buildAgeFormField() {
+  TextFormField buildPositionFormField() {
     return TextFormField(
-      controller: _controllerAge,
+      controller: _controllerPosition,
       cursorColor: Color(0xFF6F35A5),
-      onSaved: (newValue) => age = newValue,
+      onSaved: (newValue) => position = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter staff age");
+          removeError(error: "Please Enter staff position");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter staff age");
+          addError(error: "Please Enter staff position");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        hintText: "Age",
+        hintText: "Position",
         filled: true,
         fillColor: Color(0xFFFd0efff),
         floatingLabelBehavior: FloatingLabelBehavior.always,

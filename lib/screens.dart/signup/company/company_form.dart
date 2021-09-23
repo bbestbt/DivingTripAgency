@@ -4,6 +4,7 @@ import 'package:diving_trip_agency/screens.dart/signup/company/signup_divemaster
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+//check pass
 class SignupCompanyForm extends StatefulWidget {
   @override
   _SignupCompanyFormState createState() => _SignupCompanyFormState();
@@ -11,9 +12,9 @@ class SignupCompanyForm extends StatefulWidget {
 
 class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String name;
-  // String lastname;
+  String username;
   String companyEmail;
-  String email;
+  // String email;
   String phoneNumber;
   String address;
   String password;
@@ -28,9 +29,9 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   File _image;
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
-  // final TextEditingController _controllerLastname = TextEditingController();
+  final TextEditingController _controllerUsername = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-  final TextEditingController _controllerEmail = TextEditingController();
+  //final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerCompanyemail = TextEditingController();
   final TextEditingController _controllerAddress = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
@@ -75,7 +76,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     }
   }
 
-
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -96,14 +96,14 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          buildUsernameFormField(),
+          SizedBox(height: 20),
           buildNameFormField(),
           SizedBox(height: 20),
-          // buildLastnameFormField(),
-          // SizedBox(height: 20),
           buildCompanyEmailFormField(),
           SizedBox(height: 20),
-          buildEmailFormField(),
-          SizedBox(height: 20),
+          // buildEmailFormField(),
+          // SizedBox(height: 20),
           buildPhoneNumberFormField(),
           SizedBox(height: 20),
           buildAddressFormField(),
@@ -140,47 +140,83 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           buildPasswordFormField(),
           SizedBox(height: 20),
           buildConfirmPasswordFormField(),
-          SizedBox(height:20),
-          Center(child:docFile == null ? Text('Verified Document'): kIsWeb ? Image.network(docFile.path,fit:BoxFit.cover,) : Image.file(File(docFile.path),fit:BoxFit.cover,)),
           SizedBox(height: 20),
-          //img
-          FlatButton(
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'load image',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {_getdoc();},
+          Row(
+            children: [
+              Center(
+                  child: docFile == null
+                      ? Text('Verified Document')
+                      : kIsWeb
+                          ? Image.network(
+                              docFile.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(docFile.path),
+                              fit: BoxFit.cover,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Load image',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getdoc();
+                },
+              ),
+            ],
           ),
           SizedBox(height: 20),
-          //doc
+
           //Center(child:imageFile == null ? Text('No image selected'):Text("You have an image")),
           //Center(child:imageFile == null ? Text('No image selected'):Image.file(imageFile,fit:BoxFit.cover,)),
-          Center(child:imageFile == null ? Text('Company Image'): kIsWeb ? Image.network(imageFile.path,fit:BoxFit.cover,) : Image.file(File(imageFile.path),fit:BoxFit.cover,)),
+          Row(
+            children: [
+              Center(
+                  child: imageFile == null
+                      ? Text('Company Image')
+                      : kIsWeb
+                          ? Image.network(
+                              imageFile.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(imageFile.path),
+                              fit: BoxFit.cover,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Load Image',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getFromGallery();
+                },
+              ),
+            ],
+          ),
           //Center(child:imageFile == null ? Text('No image selected'):Text(imageFile.path.split('/').last)),
 
           SizedBox(height: 20),
-          //img
-          FlatButton(
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'load Image',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {_getFromGallery();},
-          ),
-          //img
+
           //   FormError(errors: errors),
           SizedBox(height: 20),
           FlatButton(
-            onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => SignupDiveMaster()))},
+            onPressed: () => {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignupDiveMaster()))
+            },
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',
               style: TextStyle(fontSize: 15),
             ),
           ),
-           SizedBox(height: 20),
+          SizedBox(height: 20),
         ]),
       ),
     );
@@ -214,33 +250,33 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
   }
 
-  // TextFormField buildLastnameFormField() {
-  //   return TextFormField(
-  //     controller: _controllerLastname,
-  //     cursorColor: Color(0xFF6F35A5),
-  //     keyboardType: TextInputType.name,
-  //     onSaved: (newValue) => lastname = newValue,
-  //     onChanged: (value) {
-  //       if (value.isNotEmpty) {
-  //         removeError(error: "Please Enter your lastname");
-  //       }
-  //       return null;
-  //     },
-  //     validator: (value) {
-  //       if (value.isEmpty) {
-  //         addError(error: "Please Enter your lastname");
-  //         return "";
-  //       }
-  //       return null;
-  //     },
-  //     decoration: InputDecoration(
-  //         hintText: "Lastname",
-  //         filled: true,
-  //         fillColor: Color(0xFFFd0efff),
-  //         floatingLabelBehavior: FloatingLabelBehavior.always,
-  //         suffixIcon: Icon(Icons.person)),
-  //   );
-  // }
+  TextFormField buildUsernameFormField() {
+    return TextFormField(
+      controller: _controllerUsername,
+      cursorColor: Color(0xFF6F35A5),
+      keyboardType: TextInputType.name,
+      onSaved: (newValue) => username = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter your username");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter your username");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          hintText: "Username",
+          filled: true,
+          fillColor: Color(0xFFFd0efff),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.person)),
+    );
+  }
 
   TextFormField buildAddressFormField() {
     return TextFormField(
@@ -342,41 +378,41 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
   }
 
-  TextFormField buildEmailFormField() {
-    return TextFormField(
-      controller: _controllerEmail,
-      keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter your email");
-        } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            .hasMatch(value)) {
-          removeError(error: "Please Enter Valid Email");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter your email");
-          return "";
-        } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
-            .hasMatch(value)) {
-          addError(error: "Please Enter Valid Email");
-          return "";
-        }
+  // TextFormField buildEmailFormField() {
+  //   return TextFormField(
+  //     controller: _controllerEmail,
+  //     keyboardType: TextInputType.emailAddress,
+  //     onSaved: (newValue) => email = newValue,
+  //     onChanged: (value) {
+  //       if (value.isNotEmpty) {
+  //         removeError(error: "Please Enter your email");
+  //       } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+  //           .hasMatch(value)) {
+  //         removeError(error: "Please Enter Valid Email");
+  //       }
+  //       return null;
+  //     },
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         addError(error: "Please Enter your email");
+  //         return "";
+  //       } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
+  //           .hasMatch(value)) {
+  //         addError(error: "Please Enter Valid Email");
+  //         return "";
+  //       }
 
-        return null;
-      },
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Color(0xFFFd0efff),
-        hintText: "Email",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: Icon(Icons.mail),
-      ),
-    );
-  }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //       filled: true,
+  //       fillColor: Color(0xFFFd0efff),
+  //       hintText: "Email",
+  //       floatingLabelBehavior: FloatingLabelBehavior.always,
+  //       suffixIcon: Icon(Icons.mail),
+  //     ),
+  //   );
+  // }
 
   TextFormField buildCompanyEmailFormField() {
     return TextFormField(

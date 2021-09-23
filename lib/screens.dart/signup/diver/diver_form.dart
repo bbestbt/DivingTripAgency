@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-//add card
+//add birthdate
 class SignupDiverForm extends StatefulWidget {
   @override
   _SignupDiverFormState createState() => _SignupDiverFormState();
@@ -13,6 +13,7 @@ class SignupDiverForm extends StatefulWidget {
 
 class _SignupDiverFormState extends State<SignupDiverForm> {
   // final _formKey = GlobalKey<FormState>();
+  String username;
   String name;
   String lastname;
   // String level;
@@ -23,12 +24,14 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerLastname = TextEditingController();
-  //final TextEditingController _controllerLevel = TextEditingController();
+  final TextEditingController _controllerUsername = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
   final TextEditingController _controllerConfirm = TextEditingController();
   File DiverImage;
+  File DiveBack;
+  DateTime _dateTime;
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -44,7 +47,6 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       });
   }
 
-
   /// Get from gallery
   _getPicDiver() async {
     PickedFile pickedFile = await ImagePicker().getImage(
@@ -59,12 +61,28 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     }
   }
 
+  /// Get from gallery
+  _getPicCard() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        DiveBack = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          buildUsernameFormField(),
+          SizedBox(height: 20),
           buildNameFormField(),
           SizedBox(height: 20),
           buildLastnameFormField(),
@@ -75,24 +93,110 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           SizedBox(height: 20),
           buildPhoneNumberFormField(),
           SizedBox(height: 20),
+          Row(
+            children: [
+              Text('Birthday'),
+              Spacer(),
+              Text(_dateTime == null ? '' : _dateTime.toString()),
+              Spacer(),
+              RaisedButton(
+                  color: Color(0xfff75BDFF),
+                  child: Text('Pick a date'),
+                  onPressed: () {
+                    showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now())
+                        .then((date) => {
+                              setState(() {
+                                _dateTime = date;
+                              })
+                            });
+                  }),
+            ],
+          ),
+
+          SizedBox(height: 20),
           buildPasswordFormField(),
           SizedBox(height: 20),
           buildConfirmPasswordFormField(),
           //   FormError(errors: errors),
           SizedBox(height: 20),
 
-          Center(child:DiverImage == null ? Text('Diver image'): kIsWeb ? Image.network(DiverImage.path,fit:BoxFit.cover,) : Image.file(File(DiverImage.path),fit:BoxFit.cover,)),
+          Row(
+            children: [
+              Center(
+                child: DiverImage == null
+                    ? Text('Front image')
+                    : kIsWeb
+                        ? Image.network(
+                            DiverImage.path,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.file(
+                            File(DiverImage.path),
+                            fit: BoxFit.cover,
+                          ),
+              ),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Load image',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPicDiver();
+                },
+              ),
+            ],
+          ),
+
+          SizedBox(height: 20),
+
+          Row(
+            children: [
+              Center(
+                  child: DiveBack == null
+                      ? Text('Back image')
+                      : kIsWeb
+                          ? Image.network(
+                              DiveBack.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(DiveBack.path),
+                              fit: BoxFit.cover,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Load image',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPicCard();
+                },
+              ),
+            ],
+          ),
+
+          SizedBox(height: 20),
 
           FlatButton(
+            onPressed: () => {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MainScreen()))
+            },
             color: Color(0xfff75BDFF),
             child: Text(
-              'load image',
+              'Confirm',
               style: TextStyle(fontSize: 15),
             ),
-            onPressed: () {_getPicDiver();},
           ),
           SizedBox(height: 20),
-          FlatButton(onPressed: ()=>{Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))}, color: Color(0xfff75BDFF),child:  Text('Confirm',style: TextStyle(fontSize: 15),),)
         ]),
       ),
     );
@@ -147,6 +251,33 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       },
       decoration: InputDecoration(
           hintText: "Lastname",
+          filled: true,
+          fillColor: Color(0xFFFd0efff),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.person)),
+    );
+  }
+
+  TextFormField buildUsernameFormField() {
+    return TextFormField(
+      controller: _controllerUsername,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => username = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter your username");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter your username");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          hintText: "Username",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,

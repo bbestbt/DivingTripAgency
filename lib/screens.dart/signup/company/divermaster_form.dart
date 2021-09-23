@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
 //add card
 class DiveMasterForm extends StatefulWidget {
+  String count;
+  DiveMasterForm(String count){
+    this.count=count;
+  }
   @override
-  _DiveMasterFormState createState() => _DiveMasterFormState();
+  _DiveMasterFormState createState() => _DiveMasterFormState(this.count);
 }
 
 class _DiveMasterFormState extends State<DiveMasterForm> {
@@ -15,6 +20,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   String email;
   String phoneNumber;
   File CardFile;
+  File CardFileBack;
   //doc
 
   final List<String> errors = [];
@@ -22,6 +28,8 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   final TextEditingController _controllerLastname = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
+
+  _DiveMasterFormState(String count);
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -50,6 +58,20 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     }
   }
 
+  _getCardBack() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        CardFileBack = File(pickedFile.path);
+      });
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -66,32 +88,69 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           SizedBox(height: 20),
           //doc
           //   FormError(errors: errors),
-          Center(child:CardFile == null ? Text('Divemaster Card'): kIsWeb ? Image.network(CardFile.path,fit:BoxFit.cover,) : Image.file(File(CardFile.path),fit:BoxFit.cover,)),
+          Row(
+            children: [
+              Center(
+                  child: CardFile == null
+                      ? Text('Divemaster Card (Front)')
+                      : kIsWeb
+                          ? Image.network(
+                              CardFile.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(CardFile.path),
+                              fit: BoxFit.cover,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Divemaster Card (Front)',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getCard();
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Center(
+                  child: CardFileBack == null
+                      ? Text('Divemaster Card (Back)')
+                      : kIsWeb
+                      ? Image.network(
+                    CardFileBack.path,
+                    fit: BoxFit.cover,
+                  )
+                      : Image.file(
+                    File(CardFileBack.path),
+                    fit: BoxFit.cover,
+                  )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'Divemaster Card (Back)',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getCardBack();
+                },
+              ),
+            ],
+          ),
+
           SizedBox(height: 20),
 
-          FlatButton(
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'Divemaster Card',
-              style: TextStyle(fontSize: 15),
-            ),
-            onPressed: () {_getCard();},
-          ),
-          SizedBox(height: 20),
-          FlatButton(
-            onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => SignupStaff()))},
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'Confirm',
-              style: TextStyle(fontSize: 15),
-            ),
-          ),
-           SizedBox(height: 40),
-        ]),
+          ]),
       ),
     );
   }
-  
+
   TextFormField buildNameFormField() {
     return TextFormField(
       controller: _controllerName,
@@ -184,7 +243,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     );
   }
 
-  
   TextFormField buildPhoneNumberFormField() {
     return TextFormField(
       controller: _controllerPhone,
@@ -212,5 +270,4 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       ),
     );
   }
-
 }
