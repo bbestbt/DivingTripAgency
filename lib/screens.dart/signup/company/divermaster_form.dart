@@ -7,8 +7,8 @@ import 'dart:io';
 //add card
 class DiveMasterForm extends StatefulWidget {
   String count;
-  DiveMasterForm(String count){
-    this.count=count;
+  DiveMasterForm(String count) {
+    this.count = count;
   }
   @override
   _DiveMasterFormState createState() => _DiveMasterFormState(this.count);
@@ -59,7 +59,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     }
   }
 
-
   _getCardBack() async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
@@ -72,8 +71,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       });
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +92,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
             children: [
               Center(
                   child: CardFile == null
-
-                      ? Text('Divemaster Card (Front)')
-
+                      ? Column(
+                        children: [
+                          Text('Divemaster Card'),
+                          Text('(Front)')
+                        ],
+                      )
                       : kIsWeb
                           ? Image.network(
                               CardFile.path,
@@ -111,9 +111,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               FlatButton(
                 color: Color(0xfff75BDFF),
                 child: Text(
-
-                  'Divemaster Card (Front)',
-
+                  'Upload',
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
@@ -128,21 +126,26 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
             children: [
               Center(
                   child: CardFileBack == null
-                      ? Text('Divemaster Card (Back)')
+                      ? Column(
+                        children: [
+                          Text('Divemaster Card '),
+                           Text('(Back)')
+                        ],
+                      )
                       : kIsWeb
-                      ? Image.network(
-                    CardFileBack.path,
-                    fit: BoxFit.cover,
-                  )
-                      : Image.file(
-                    File(CardFileBack.path),
-                    fit: BoxFit.cover,
-                  )),
+                          ? Image.network(
+                              CardFileBack.path,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              File(CardFileBack.path),
+                              fit: BoxFit.cover,
+                            )),
               Spacer(),
               FlatButton(
                 color: Color(0xfff75BDFF),
                 child: Text(
-                  'Divemaster Card (Back)',
+                  'Upload',
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
@@ -153,9 +156,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           ),
 
           SizedBox(height: 20),
-
-          ]),
-
+        ]),
       ),
     );
   }

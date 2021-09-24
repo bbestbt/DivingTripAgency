@@ -145,7 +145,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
             children: [
               Center(
                   child: docFile == null
-                      ? Text('Verified Document')
+                      ? Column(
+                        children: [
+                          Text('Verified'),
+                          Text('Document')
+                        ],
+                      )
                       : kIsWeb
                           ? Image.network(
                               docFile.path,
@@ -159,7 +164,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
               FlatButton(
                 color: Color(0xfff75BDFF),
                 child: Text(
-                  'Load image',
+                  'Upload',
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
@@ -190,7 +195,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
               FlatButton(
                 color: Color(0xfff75BDFF),
                 child: Text(
-                  'Load Image',
+                  'Upload',
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
