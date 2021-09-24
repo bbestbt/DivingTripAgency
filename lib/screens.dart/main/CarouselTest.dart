@@ -22,8 +22,7 @@ class _CarouselWithDotsPageState extends State<CarouselWithDotsPage> {
         borderRadius: BorderRadius.all(
           Radius.circular(5.0),
         ),
-
-            child: Stack(
+        child: Stack(
           children: [
             !kIsWeb ?
               Image.asset(item,
@@ -36,13 +35,12 @@ class _CarouselWithDotsPageState extends State<CarouselWithDotsPage> {
               width: 1000,
               //height: 100,
               )
-
-
             ,
-            Positioned(
+
+            /*Positioned(
               bottom: 0.0,
-              left: 20.0,
-              right: 20.0,
+              left: 10.0,
+              right: 10.0,
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -53,7 +51,7 @@ class _CarouselWithDotsPageState extends State<CarouselWithDotsPage> {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                   ),
-                ),
+                ),*/
                /* padding: EdgeInsets.symmetric(
                   horizontal: 2,
                   vertical: 2,
@@ -66,8 +64,8 @@ class _CarouselWithDotsPageState extends State<CarouselWithDotsPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),*/
-              ),
-            ),
+             // ),
+          //  ),
           ],
         ),
       ),
@@ -77,7 +75,7 @@ class _CarouselWithDotsPageState extends State<CarouselWithDotsPage> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(5), //Inset from the top
           /*child: Text(
             "Carousel With Image, Text & Dots",
             style: TextStyle(
@@ -93,34 +91,13 @@ class _CarouselWithDotsPageState extends State<CarouselWithDotsPage> {
               autoPlay: true,
               enlargeCenterPage: true,
               aspectRatio: 5.0,
+              viewportFraction:0.3,
               onPageChanged: (index, reason) {
                 setState(() {
                   _current = index;
                 });
               }),
         ),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: widget.imgList.map((url) {
-            int index = widget.imgList.indexOf(url);
-            return Container(
-              width: 5,
-              height: 1,
-              margin: EdgeInsets.symmetric(
-                vertical: 0,
-                horizontal: 0,
-              ),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _current == index
-                    ? Color.fromRGBO(0, 0, 0, 0.9)
-                    : Color.fromRGBO(0, 0, 0, 0.4),
-              ),
-            );
-          }).toList(),
-
-        )
       ],
     );
   }
