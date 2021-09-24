@@ -204,7 +204,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
               FlatButton(
                 color: Color(0xfff75BDFF),
                 child: Text(
-                  'Load image',
+                  'Upload',
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
@@ -233,7 +233,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
               FlatButton(
                 color: Color(0xfff75BDFF),
                 child: Text(
-                  'Load image',
+                  'Upload',
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
@@ -262,7 +262,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
               FlatButton(
                 color: Color(0xfff75BDFF),
                 child: Text(
-                  'Load image',
+                  'Upload',
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
