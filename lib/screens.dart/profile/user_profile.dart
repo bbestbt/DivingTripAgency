@@ -13,8 +13,13 @@ class _UserProfileState extends State<UserProfile> {
       child: Column(
         children: [
           Header(),
-          SizedBox(height: 50,),
-          Icon(Icons.image,size: 100,),
+          SizedBox(
+            height: 50,
+          ),
+          Icon(
+            Icons.image,
+            size: 100,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -26,17 +31,17 @@ class _UserProfileState extends State<UserProfile> {
                   Text('Level : 1')
                 ],
               ),
-               Column(
-            children: [
-              Text('E-mail : abc@gmail.com'),
-              Text('Phone number : 03848484848832'),
-              Text('Birthday : 10/12/1999'),
-              Text('Trip history'),
-            ],
-          )
+              Column(
+                children: [
+                  Text('E-mail : abc@gmail.com'),
+                  Text('Phone number : 03848484848832'),
+                  Text('Birthday : 10/12/1999'),
+                  Text('Trip history'),
+                ],
+              )
             ],
           ),
-         
+           RaisedButton(child:Text('Edit',textAlign: TextAlign.right,),onPressed: (){})
         ],
       ),
     );
