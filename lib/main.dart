@@ -1,4 +1,5 @@
 import 'package:diving_trip_agency/screens.dart/create_trip/create_trip_screen.dart';
+import 'package:diving_trip_agency/screens.dart/detail/detail_screen.dart';
 import 'package:diving_trip_agency/screens.dart/login/login.dart';
 import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens.dart/profile/profile_screen.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins'
       ),
      // home: LoginScreen(),
-    //home:ProfileScreen()
+   // home:DetailScreen()
      home: MainScreen(), //Original
     );
   }
