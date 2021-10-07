@@ -1,4 +1,4 @@
-import 'package:diving_trip_agency/screens.dart/signup/company/divermaster_form.dart';
+import 'package:diving_trip_agency/screens/signup/company/divermaster_form.dart';
 import 'package:flutter/material.dart';
 
 class AddmoreDiverMaster extends StatefulWidget {

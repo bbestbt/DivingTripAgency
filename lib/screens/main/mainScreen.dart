@@ -1,13 +1,13 @@
 import 'package:diving_trip_agency/constants.dart';
 import 'package:diving_trip_agency/controllers/menuController.dart';
-import 'package:diving_trip_agency/screens.dart/main/components/side_menu.dart';
-import 'package:diving_trip_agency/screens.dart/main/components/top_section.dart';
-import 'package:diving_trip_agency/screens.dart/main/components/web_menu.dart';
+import 'package:diving_trip_agency/screens/main/components/side_menu.dart';
+import 'package:diving_trip_agency/screens/main/components/top_section.dart';
+import 'package:diving_trip_agency/screens/main/components/web_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 // import 'package:carousel_slider/carousel_slider.dart';
-import 'package:diving_trip_agency/screens.dart/main/CarouselTest.dart';
+import 'package:diving_trip_agency/screens/main/CarouselTest.dart';
 import 'CarouselTest.dart';
 import 'components/header.dart';
 

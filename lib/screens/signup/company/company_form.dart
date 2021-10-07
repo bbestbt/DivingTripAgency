@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:diving_trip_agency/screens.dart/signup/company/signup_divemaster.dart';
+import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

@@ -1,4 +1,4 @@
-import 'package:diving_trip_agency/screens.dart/main/components/header.dart';
+import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:flutter/material.dart';
 
 class UserProfile extends StatefulWidget {

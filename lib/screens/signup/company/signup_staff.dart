@@ -1,9 +1,9 @@
-import 'package:diving_trip_agency/screens.dart/signup/company/addDiverMaster.dart';
-import 'package:diving_trip_agency/screens.dart/signup/company/divermaster_form.dart';
-import 'package:diving_trip_agency/screens.dart/signup/company/signup_staff.dart';
+import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
+import 'package:diving_trip_agency/screens/signup/company/addStaff.dart';
+import 'package:diving_trip_agency/screens/signup/company/staff_form.dart';
 import 'package:flutter/material.dart';
 
-class SignupDiveMaster extends StatelessWidget {
+class SignupStaff extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,18 +14,19 @@ class SignupDiveMaster extends StatelessWidget {
             children: [
               SizedBox(height: 50),
               Text(
-                "Dive Master ",
+                "Staff ",
                 style: TextStyle(fontSize: 20),
               ),
               SizedBox(height: 50),
               Container(
-                  width: MediaQuery.of(context).size.width / 1.5,
-                  child: AddmoreDiverMaster()),
+                width: MediaQuery.of(context).size.width / 1.5,
+                child: AddMoreStaff(),
+              ),
               SizedBox(height: 20),
               FlatButton(
                 onPressed: () => {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignupStaff()))
+                      MaterialPageRoute(builder: (context) => CreateTrip()))
                 },
                 color: Color(0xfff75BDFF),
                 child: Text(

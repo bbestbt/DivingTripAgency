@@ -1,4 +1,4 @@
-import 'package:diving_trip_agency/screens.dart/signup/company/company_form.dart';
+import 'package:diving_trip_agency/screens/signup/company/company_form.dart';
 import 'package:flutter/material.dart';
 
 class SingupCompanyScreen extends StatelessWidget {

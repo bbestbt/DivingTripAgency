@@ -1,4 +1,4 @@
-import 'package:diving_trip_agency/screens.dart/signup/company/staff_form.dart';
+import 'package:diving_trip_agency/screens/signup/company/staff_form.dart';
 import 'package:flutter/material.dart';
 
 class AddMoreStaff extends StatefulWidget {

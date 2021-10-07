@@ -1,4 +1,5 @@
-import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
+//import 'package:diving_trip_agency/screens/main/mainScreen.dart';
+import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'constant.dart';

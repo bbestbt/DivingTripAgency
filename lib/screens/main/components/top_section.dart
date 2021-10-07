@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:diving_trip_agency/screens.dart/main/components/people.dart';
+import 'package:diving_trip_agency/screens/main/components/people.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

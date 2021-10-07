@@ -1,6 +1,6 @@
-import 'package:diving_trip_agency/screens.dart/main/mainScreen.dart';
-import 'package:diving_trip_agency/screens.dart/signup/company/signup_company.dart';
-import 'package:diving_trip_agency/screens.dart/signup/diver/signup_diver.dart';
+import 'package:diving_trip_agency/screens/main/mainScreen.dart';
+import 'package:diving_trip_agency/screens/signup/company/signup_company.dart';
+import 'package:diving_trip_agency/screens/signup/diver/signup_diver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'constant.dart';

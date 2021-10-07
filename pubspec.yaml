@@ -34,6 +34,8 @@ dependencies:
   get: ^3.26.0
   grpc: ^3.0.2
   intl: ^0.16.1
+  protobuf: ^2.0.0
+  crypto: ^3.0.0
 
 dev_dependencies:
   flutter_test:

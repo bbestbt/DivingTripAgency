@@ -1,4 +1,4 @@
-import 'package:diving_trip_agency/screens.dart/signup/company/signup_staff.dart';
+import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
