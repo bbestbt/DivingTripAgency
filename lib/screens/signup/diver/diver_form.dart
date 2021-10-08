@@ -1,10 +1,11 @@
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:grpc/grpc.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-// import 'package:grpc/grpc.dart';
+//import 'package:nautilus/proto/dart/account.pbgrpc.dart';
 //add birthdate
 class SignupDiverForm extends StatefulWidget {
   @override
@@ -32,6 +33,11 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   File DiverImage;
   File DiveBack;
   DateTime _dateTime;
+  final channel = ClientChannel('139.59.101.136',
+      port: 50051,
+      options:
+          const ChannelOptions(credentials: ChannelCredentials.insecure()));
+ //final stub= AccountClient(channel);
 
   void addError({String error}) {
     if (!errors.contains(error))
