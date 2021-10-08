@@ -1,9 +1,10 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
-import 'dart:io';
+import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -32,15 +33,9 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
   final TextEditingController _controllerConfirm = TextEditingController();
-  File DiverImage;
-  File DiveBack;
+  io.File DiverImage;
+  io.File DiveBack;
   DateTime _dateTime;
-  // final channel = ClientChannel('139.59.101.136',
-  //     port: 50051,
-  //     options:
-  //         const ChannelOptions(credentials: ChannelCredentials.insecure()));
-
-  // final stub = AccountClient(channel);
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -56,6 +51,23 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       });
   }
 
+  void sendRequest() {
+    final channel = ClientChannel('139.59.101.136',
+        port: 50051,
+        options:
+            const ChannelOptions(credentials: ChannelCredentials.insecure()));
+
+    final stub = AccountClient(channel);
+    var accountRequest = AccountRequest();
+    try {
+      var response = stub.create(accountRequest);
+      print('response: ${response}');
+      print("Fuck you numchok");
+    } catch (e) {
+      print(e);
+    }
+  }
+
   /// Get from gallery
   _getPicDiver() async {
     PickedFile pickedFile = await ImagePicker().getImage(
@@ -65,7 +77,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     );
     if (pickedFile != null) {
       setState(() {
-        DiverImage = File(pickedFile.path);
+        DiverImage = io.File(pickedFile.path);
       });
     }
   }
@@ -79,7 +91,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     );
     if (pickedFile != null) {
       setState(() {
-        DiveBack = File(pickedFile.path);
+        DiveBack = io.File(pickedFile.path);
       });
     }
   }
@@ -144,7 +156,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                             fit: BoxFit.cover,
                           )
                         : Image.file(
-                            File(DiverImage.path),
+                            io.File(DiverImage.path),
                             fit: BoxFit.cover,
                           ),
               ),
@@ -175,7 +187,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                               fit: BoxFit.cover,
                             )
                           : Image.file(
-                              File(DiveBack.path),
+                              io.File(DiveBack.path),
                               fit: BoxFit.cover,
                             )),
               Spacer(),
@@ -196,8 +208,9 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
 
           FlatButton(
             onPressed: () => {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MainScreen()))
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => MainScreen()))
+              sendRequest()
             },
             color: Color(0xfff75BDFF),
             child: Text(
