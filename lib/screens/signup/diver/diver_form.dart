@@ -4,6 +4,7 @@ import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
 import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -52,10 +53,12 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   }
 
   void sendRequest() {
-    final channel = ClientChannel('139.59.101.136',
-        port: 50051,
-        options:
-            const ChannelOptions(credentials: ChannelCredentials.insecure()));
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
 
     final stub = AccountClient(channel);
     var accountRequest = AccountRequest();
