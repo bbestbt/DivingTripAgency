@@ -62,7 +62,6 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     try {
       var response = stub.create(accountRequest);
       print('response: ${response}');
-      print("Fuck you numchok");
     } catch (e) {
       print(e);
     }
