@@ -1,8 +1,11 @@
-import 'dart:io';
+import 'dart:io' as io;
 import 'package:diving_trip_agency/form_error.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:flutter/material.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:image_picker/image_picker.dart';
 
 //check pass
@@ -28,7 +31,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String city;
   //doc
   //img
-  File _image;
+  io.File _image;
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerUsername = TextEditingController();
@@ -45,8 +48,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerCity = TextEditingController();
   
 
-  File imageFile;
-  File docFile;
+  io.File imageFile;
+  io.File docFile;
   //final ImagePicker _picker = ImagePicker();
   // Pick an image
   //PickedFile image = await _picker.getImage(source: ImageSource.gallery);
@@ -61,7 +64,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
     if (pickedFile != null) {
       setState(() {
-        imageFile = File(pickedFile.path);
+        imageFile = io.File(pickedFile.path);
       });
     }
   }
@@ -74,7 +77,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
     if (pickedFile != null) {
       setState(() {
-        docFile = File(pickedFile.path);
+        docFile = io.File(pickedFile.path);
       });
     }
   }
@@ -91,6 +94,36 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       setState(() {
         errors.remove(error);
       });
+  }
+
+  void sendRequest() {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+
+    final stub = AccountClient(channel);
+    var account = Account();
+    account.username=_controllerUsername.text;
+    account.email=_controllerCompanyemail.text;
+    account.password=_controllerPassword.text;
+    var agency = Agency();
+    agency.name=_controllerName.text;
+    agency.phone=_controllerPhone.text;
+   // agency.address= _controllerAddress.text;
+    agency.account = account;
+
+    var accountRequest = AccountRequest();
+    accountRequest.agency=agency;
+
+    try {
+      var response = stub.create(accountRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -158,7 +191,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                               fit: BoxFit.cover,
                             )
                           : Image.file(
-                              File(docFile.path),
+                              io.File(docFile.path),
                               fit: BoxFit.cover,
                             )),
               Spacer(),
@@ -189,7 +222,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                               fit: BoxFit.cover,
                             )
                           : Image.file(
-                              File(imageFile.path),
+                             io.File(imageFile.path),
                               fit: BoxFit.cover,
                             )),
               Spacer(),

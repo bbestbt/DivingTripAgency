@@ -60,7 +60,25 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         grpcWebTransportSecure: false);
 
     final stub = AccountClient(channel);
+    // var accountRequest = AccountRequest();
+    // var diver =Diver();
+    // var account =Account();
+    // diver.account=account;
+    var account = Account();
+    account.username=_controllerUsername.text;
+    account.email=_controllerEmail.text;
+    account.password=_controllerPassword.text;
+    var diver = Diver();
+    diver.firstName=_controllerName.text;
+    diver.lastName=_controllerLastname.text;
+    diver.phone=_controllerPhone.text;
+    diver.account = account;
+  //  diver.birthDate= 
+    // diver.level=
+
     var accountRequest = AccountRequest();
+    accountRequest.diver=diver;
+
     try {
       var response = stub.create(accountRequest);
       print('response: ${response}');
@@ -205,14 +223,16 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           SizedBox(height: 20),
           FlatButton(
             onPressed: () => {
-               if (_formKey.currentState.validate()) {
-                 //_formKey.currentState.save()
-                   Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MainScreen()))
-
-               }
-            
-              //   sendRequest()
+              if (_formKey.currentState.validate())
+                {
+                  //_formKey.currentState.save()
+                  //  print(_controllerUsername.text),
+               //   print( _dateTime.toString()),
+                  
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MainScreen()))
+                  //   sendRequest()
+                }
             },
             color: Color(0xfff75BDFF),
             child: Text(
