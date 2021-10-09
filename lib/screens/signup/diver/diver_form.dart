@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
@@ -75,7 +76,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     diver.account = account;
     //  diver.birthDate=
 
-   diver.level=LevelType.MASTER;
+    diver.level = LevelType.MASTER;
 
     var accountRequest = AccountRequest();
     accountRequest.diver = diver;
@@ -152,6 +153,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                             lastDate: DateTime.now())
                         .then((date) => {
                               setState(() {
+                                var timeStamp =
+                                    print(Timestamp.fromDateTime(date));
                                 _dateTime = date;
                               })
                             });
