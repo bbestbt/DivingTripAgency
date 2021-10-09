@@ -21,7 +21,7 @@ class FormError extends StatelessWidget {
     return Row(
       children: [
         Text(
-          "**",
+          "**",style: TextStyle(color: Colors.red),
         ),
         SizedBox(
           width: 10,

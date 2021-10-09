@@ -46,7 +46,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
-  
 
   io.File imageFile;
   io.File docFile;
@@ -106,17 +105,24 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
 
     final stub = AccountClient(channel);
     var account = Account();
-    account.username=_controllerUsername.text;
-    account.email=_controllerCompanyemail.text;
-    account.password=_controllerPassword.text;
+    account.username = _controllerUsername.text;
+    account.email = _controllerCompanyemail.text;
+    account.password = _controllerPassword.text;
+    var address = Address();
+    address.addressLine1 = _controllerAddress.text;
+    address.addressLine2 = _controllerAddress2.text;
+    address.city = _controllerCity.text;
+    address.postcode = _controllerPostalcode.text;
+    address.region = _controllerRegion.text;
+    address.country = _controllerCountry.text;
     var agency = Agency();
-    agency.name=_controllerName.text;
-    agency.phone=_controllerPhone.text;
-   // agency.address= _controllerAddress.text;
+    agency.name = _controllerName.text;
+    agency.phone = _controllerPhone.text;
+    agency.address = address;
     agency.account = account;
 
     var accountRequest = AccountRequest();
-    accountRequest.agency=agency;
+    accountRequest.agency = agency;
 
     try {
       var response = stub.create(accountRequest);
@@ -222,7 +228,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                               fit: BoxFit.cover,
                             )
                           : Image.file(
-                             io.File(imageFile.path),
+                              io.File(imageFile.path),
                               fit: BoxFit.cover,
                             )),
               Spacer(),
@@ -245,11 +251,14 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           SizedBox(height: 20),
           FlatButton(
             onPressed: () => {
-               if (_formKey.currentState.validate()) {
-                  Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignupDiveMaster()))
-               }
-             
+              if (_formKey.currentState.validate())
+                {
+                  sendRequest(),
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SignupDiveMaster())),
+                }
             },
             color: Color(0xfff75BDFF),
             child: Text(
