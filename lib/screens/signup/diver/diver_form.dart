@@ -75,7 +75,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     diver.account = account;
     //  diver.birthDate=
 
-   // diver.level=LevelType.MASTER;
+   diver.level=LevelType.MASTER;
 
     var accountRequest = AccountRequest();
     accountRequest.diver = diver;

@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:flutter/material.dart';
 
 class LevelDropdown extends StatefulWidget {
@@ -25,13 +26,16 @@ class LevelDropdown extends StatefulWidget {
 
 class _LevelDropdownState extends State<LevelDropdown> {
   List<DropdownMenuItem<String>> listDrop = [];
-  List<String> drop = ['1', '2', '3', '4', '5'];
+  List<LevelType> drop = [LevelType.MASTER,LevelType.OPEN_WATER,LevelType.RESCUE,LevelType.INSTRUCTOR,LevelType.ADVANCED_OPEN_WATER];
   String selected = null;
-
+  
   void loadData() {
+    drop.forEach((element) {
+      print(element);
+    });
     listDrop = [];
     listDrop = drop
-        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .map((val) => DropdownMenuItem<String>(child: Text(val.toString()), value: val.value.toString()))
         .toList();
   }
   // List<Level> _levels = Level.getLevels();
@@ -69,6 +73,7 @@ class _LevelDropdownState extends State<LevelDropdown> {
           iconSize: 40,
           onChanged: (value) {
         selected = value;
+        // print(value);
         setState(() {});
           },
         ),
