@@ -74,6 +74,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   }
 
   void sendRequest() {
+    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -97,9 +98,13 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     diver.account = account;
     diver.birthDate = Timestamp.fromDateTime(_dateTime);
 
-    var levelSelected = selected;
-    // diver.level=
-    // diver.level =
+    var levelTypeSelected;
+    LevelType.values.forEach((levelType) {
+      if (levelType.toString() == selected) {
+        levelTypeSelected = levelType;
+      }
+    });
+    diver.level = levelTypeSelected;
 
     var accountRequest = AccountRequest();
     accountRequest.diver = diver;
@@ -275,8 +280,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                   //  print(_controllerUsername.text),
                   //   print( _dateTime.toString()),
                   sendRequest(),
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainScreen()))
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => MainScreen()))
                 }
             },
             color: Color(0xfff75BDFF),

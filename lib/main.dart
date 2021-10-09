@@ -1,4 +1,3 @@
-
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/signup/diver/signup_diver.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +17,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Diving Trip Agency',
       theme: ThemeData(
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: TextButton.styleFrom(backgroundColor: Color(0xFFF52B2Bf)),
-        ),
-        fontFamily: 'Poppins'
-      ),
-     // home: LoginScreen(),
-    //home:SignUpDiverScreen()
-     home: MainScreen(), //Original
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: TextButton.styleFrom(backgroundColor: Color(0xFFF52B2Bf)),
+          ),
+          fontFamily: 'Poppins'),
+      // home: LoginScreen(),
+      //home:SignUpDiverScreen()
+      home: MainScreen(), //Original
     );
   }
 }
