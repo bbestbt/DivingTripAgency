@@ -37,6 +37,27 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   io.File DiverImage;
   io.File DiveBack;
   DateTime _dateTime;
+  String selected = null;
+
+  List<DropdownMenuItem<String>> listDrop = [];
+  List<LevelType> drop = [
+    LevelType.MASTER,
+    LevelType.OPEN_WATER,
+    LevelType.RESCUE,
+    LevelType.INSTRUCTOR,
+    LevelType.ADVANCED_OPEN_WATER
+  ];
+
+  void loadData() {
+    drop.forEach((element) {
+      print(element);
+    });
+    listDrop = [];
+    listDrop = drop
+        .map((val) => DropdownMenuItem<String>(
+            child: Text(val.toString()), value: val.value.toString()))
+        .toList();
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -74,11 +95,11 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     diver.lastName = _controllerLastname.text;
     diver.phone = _controllerPhone.text;
     diver.account = account;
-    diver.birthDate=Timestamp.fromDateTime(_dateTime);
-    
-    // var levelDrop = LevelDropdown();
+    diver.birthDate = Timestamp.fromDateTime(_dateTime);
 
-    // diver.level = 
+    var levelSelected = selected;
+    // diver.level=
+    // diver.level =
 
     var accountRequest = AccountRequest();
     accountRequest.diver = diver;
@@ -121,6 +142,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
 
   @override
   Widget build(BuildContext context) {
+    loadData();
     return Form(
       key: _formKey,
       child: Padding(
@@ -132,7 +154,25 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           SizedBox(height: 20),
           buildLastnameFormField(),
           SizedBox(height: 20),
-          LevelDropdown(),
+          // LevelDropdown(),
+          Container(
+            color: Color(0xFFFd0efff),
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: selected,
+                items: listDrop,
+                hint: Text('  Select level'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    selected = value;
+                    print(value);
+                  });
+                },
+              ),
+            ),
+          ),
           SizedBox(height: 20),
           buildEmailFormField(),
           SizedBox(height: 20),
@@ -142,7 +182,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
             children: [
               Text('Birthday'),
               Spacer(),
-            //  Text(_dateTime == null ? '' : _dateTime.toString()),
+              //  Text(_dateTime == null ? '' : _dateTime.toString()),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff75BDFF),
