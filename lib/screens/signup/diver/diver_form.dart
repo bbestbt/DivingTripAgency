@@ -74,9 +74,11 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     diver.lastName = _controllerLastname.text;
     diver.phone = _controllerPhone.text;
     diver.account = account;
-    //  diver.birthDate=
+    diver.birthDate=Timestamp.fromDateTime(_dateTime);
+    
+    // var levelDrop = LevelDropdown();
 
-    diver.level = LevelType.MASTER;
+    // diver.level = 
 
     var accountRequest = AccountRequest();
     accountRequest.diver = diver;
@@ -140,7 +142,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
             children: [
               Text('Birthday'),
               Spacer(),
-              Text(_dateTime == null ? '' : _dateTime.toString()),
+            //  Text(_dateTime == null ? '' : _dateTime.toString()),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff75BDFF),
@@ -232,7 +234,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                   //_formKey.currentState.save()
                   //  print(_controllerUsername.text),
                   //   print( _dateTime.toString()),
-                  //   sendRequest()
+                  sendRequest(),
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => MainScreen()))
                 }
