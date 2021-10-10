@@ -1,7 +1,11 @@
-import 'dart:io';
+import 'dart:io' as io;
+import 'package:diving_trip_agency/form_error.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:flutter/material.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:image_picker/image_picker.dart';
 
 //check pass
@@ -11,6 +15,7 @@ class SignupCompanyForm extends StatefulWidget {
 }
 
 class _SignupCompanyFormState extends State<SignupCompanyForm> {
+  final _formKey = GlobalKey<FormState>();
   String name;
   String username;
   String companyEmail;
@@ -26,7 +31,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String city;
   //doc
   //img
-  File _image;
+  io.File _image;
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerUsername = TextEditingController();
@@ -42,8 +47,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
 
-  File imageFile;
-  File docFile;
+  io.File imageFile;
+  io.File docFile;
   //final ImagePicker _picker = ImagePicker();
   // Pick an image
   //PickedFile image = await _picker.getImage(source: ImageSource.gallery);
@@ -58,7 +63,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
     if (pickedFile != null) {
       setState(() {
-        imageFile = File(pickedFile.path);
+        imageFile = io.File(pickedFile.path);
       });
     }
   }
@@ -71,7 +76,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
     if (pickedFile != null) {
       setState(() {
-        docFile = File(pickedFile.path);
+        docFile = io.File(pickedFile.path);
       });
     }
   }
@@ -90,9 +95,47 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       });
   }
 
+  void sendRequest() {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+
+    final stub = AccountClient(channel);
+    var account = Account();
+    account.username = _controllerUsername.text;
+    account.email = _controllerCompanyemail.text;
+    account.password = _controllerPassword.text;
+    var address = Address();
+    address.addressLine1 = _controllerAddress.text;
+    address.addressLine2 = _controllerAddress2.text;
+    address.city = _controllerCity.text;
+    address.postcode = _controllerPostalcode.text;
+    address.region = _controllerRegion.text;
+    address.country = _controllerCountry.text;
+    var agency = Agency();
+    agency.name = _controllerName.text;
+    agency.phone = _controllerPhone.text;
+    agency.address = address;
+    agency.account = account;
+
+    var accountRequest = AccountRequest();
+    accountRequest.agency = agency;
+
+    try {
+      var response = stub.create(accountRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
@@ -146,18 +189,15 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
               Center(
                   child: docFile == null
                       ? Column(
-                        children: [
-                          Text('Verified'),
-                          Text('Document')
-                        ],
-                      )
+                          children: [Text('Verified'), Text('Document')],
+                        )
                       : kIsWeb
                           ? Image.network(
                               docFile.path,
                               fit: BoxFit.cover,
                             )
                           : Image.file(
-                              File(docFile.path),
+                              io.File(docFile.path),
                               fit: BoxFit.cover,
                             )),
               Spacer(),
@@ -188,7 +228,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                               fit: BoxFit.cover,
                             )
                           : Image.file(
-                              File(imageFile.path),
+                              io.File(imageFile.path),
                               fit: BoxFit.cover,
                             )),
               Spacer(),
@@ -207,13 +247,18 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           //Center(child:imageFile == null ? Text('No image selected'):Text(imageFile.path.split('/').last)),
 
           SizedBox(height: 20),
-
-          //   FormError(errors: errors),
+          FormError(errors: errors),
           SizedBox(height: 20),
           FlatButton(
             onPressed: () => {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignupDiveMaster()))
+              if (_formKey.currentState.validate())
+                {
+                  sendRequest(),
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SignupDiveMaster())),
+                }
             },
             color: Color(0xfff75BDFF),
             child: Text(
@@ -235,13 +280,13 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your name");
+          removeError(error: "Please enter name");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your name");
+          addError(error: "Please enter name");
           return "";
         }
         return null;
@@ -263,13 +308,13 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       onSaved: (newValue) => username = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your username");
+          removeError(error: "Please enter username");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your username");
+          addError(error: "Please enter username");
           return "";
         }
         return null;
@@ -290,13 +335,13 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       onSaved: (newValue) => address = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your address");
+          removeError(error: "Please enter address");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your address");
+          addError(error: "Please enter address");
           return "";
         }
         return null;
@@ -347,20 +392,20 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your password");
+          removeError(error: "Please enter password");
         } else if (value.length >= 6) {
           removeError(error: "Password is too short");
         } else if (RegExp(
                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
             .hasMatch(value)) {
-          removeError(error: "Please Enter Valid Password");
+          removeError(error: "Please enter valid password");
         }
         password = value;
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your password");
+          addError(error: "Please enter password");
           return "";
         } else if (value.length < 6) {
           addError(error: "Password is too short");
@@ -368,7 +413,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         } else if (!(RegExp(
                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'))
             .hasMatch(value)) {
-          addError(error: "Please Enter Valid Password");
+          addError(error: "Please enter valid password");
           return "";
         }
         return null;
@@ -426,20 +471,20 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       onSaved: (newValue) => companyEmail = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter company email");
+          removeError(error: "Please enter email");
         } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(value)) {
-          removeError(error: "Please Enter Valid Email");
+          removeError(error: "Please enter valid Email");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter company email");
+          addError(error: "Please enter email");
           return "";
         } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
             .hasMatch(value)) {
-          addError(error: "Please Enter Valid Email");
+          addError(error: "Please enter valid Email");
           return "";
         }
 
@@ -462,13 +507,13 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       onSaved: (newValue) => phoneNumber = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your phone number");
+          removeError(error: "Please enter phone");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your phone number");
+          addError(error: "Please enter phone");
           return "";
         }
         return null;
@@ -490,13 +535,13 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       onSaved: (newValue) => address2 = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your address");
+          removeError(error: "Please enter address");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your address");
+          addError(error: "Please enter address");
           return "";
         }
         return null;
@@ -517,13 +562,13 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       onSaved: (newValue) => country = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter country");
+          removeError(error: "Please enter country");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter country");
+          addError(error: "Please enter country");
           return "";
         }
         return null;
@@ -544,13 +589,13 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       onSaved: (newValue) => city = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter city");
+          removeError(error: "Please enter city");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter city");
+          addError(error: "Please enter city");
           return "";
         }
         return null;
@@ -571,13 +616,13 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       onSaved: (newValue) => region = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter region");
+          removeError(error: "Please enter region");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter region");
+          addError(error: "Please enter region");
           return "";
         }
         return null;
@@ -598,13 +643,13 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       onSaved: (newValue) => postalCode = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter postal code");
+          removeError(error: "Please enter postal code");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter postal code");
+          addError(error: "Please enter postal code");
           return "";
         }
         return null;

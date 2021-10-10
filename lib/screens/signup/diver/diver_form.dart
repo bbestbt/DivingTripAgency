@@ -1,4 +1,6 @@
+import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
@@ -9,15 +11,13 @@ import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-//import 'package:nautilus/proto/dart/account.pbgrpc.dart';
-//add birthdate
 class SignupDiverForm extends StatefulWidget {
   @override
   _SignupDiverFormState createState() => _SignupDiverFormState();
 }
 
 class _SignupDiverFormState extends State<SignupDiverForm> {
-  // final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   String username;
   String name;
   String lastname;
@@ -37,6 +37,27 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   io.File DiverImage;
   io.File DiveBack;
   DateTime _dateTime;
+  String selected = null;
+
+  List<DropdownMenuItem<String>> listDrop = [];
+  List<LevelType> drop = [
+    LevelType.MASTER,
+    LevelType.OPEN_WATER,
+    LevelType.RESCUE,
+    LevelType.INSTRUCTOR,
+    LevelType.ADVANCED_OPEN_WATER
+  ];
+
+  void loadData() {
+    drop.forEach((element) {
+      print(element);
+    });
+    listDrop = [];
+    listDrop = drop
+        .map((val) => DropdownMenuItem<String>(
+            child: Text(val.toString()), value: val.value.toString()))
+        .toList();
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -53,6 +74,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   }
 
   void sendRequest() {
+    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -61,7 +83,32 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         grpcWebTransportSecure: false);
 
     final stub = AccountClient(channel);
+    // var accountRequest = AccountRequest();
+    // var diver =Diver();
+    // var account =Account();
+    // diver.account=account;
+    var account = Account();
+    account.username = _controllerUsername.text;
+    account.email = _controllerEmail.text;
+    account.password = _controllerPassword.text;
+    var diver = Diver();
+    diver.firstName = _controllerName.text;
+    diver.lastName = _controllerLastname.text;
+    diver.phone = _controllerPhone.text;
+    diver.account = account;
+    diver.birthDate = Timestamp.fromDateTime(_dateTime);
+
+    var levelTypeSelected;
+    LevelType.values.forEach((levelType) {
+      if (levelType.toString() == selected) {
+        levelTypeSelected = levelType;
+      }
+    });
+    diver.level = levelTypeSelected;
+
     var accountRequest = AccountRequest();
+    accountRequest.diver = diver;
+
     try {
       var response = stub.create(accountRequest);
       print('response: ${response}');
@@ -100,7 +147,9 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
 
   @override
   Widget build(BuildContext context) {
+    loadData();
     return Form(
+      key: _formKey,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
@@ -110,7 +159,25 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           SizedBox(height: 20),
           buildLastnameFormField(),
           SizedBox(height: 20),
-          LevelDropdown(),
+          // LevelDropdown(),
+          Container(
+            color: Color(0xFFFd0efff),
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: selected,
+                items: listDrop,
+                hint: Text('  Select level'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    selected = value;
+                    print(value);
+                  });
+                },
+              ),
+            ),
+          ),
           SizedBox(height: 20),
           buildEmailFormField(),
           SizedBox(height: 20),
@@ -120,7 +187,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
             children: [
               Text('Birthday'),
               Spacer(),
-              Text(_dateTime == null ? '' : _dateTime.toString()),
+              //  Text(_dateTime == null ? '' : _dateTime.toString()),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff75BDFF),
@@ -133,20 +200,19 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                             lastDate: DateTime.now())
                         .then((date) => {
                               setState(() {
+                                var timeStamp =
+                                    print(Timestamp.fromDateTime(date));
                                 _dateTime = date;
                               })
                             });
                   }),
             ],
           ),
-
           SizedBox(height: 20),
           buildPasswordFormField(),
           SizedBox(height: 20),
           buildConfirmPasswordFormField(),
-          //   FormError(errors: errors),
           SizedBox(height: 20),
-
           Row(
             children: [
               Center(
@@ -175,9 +241,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
               ),
             ],
           ),
-
           SizedBox(height: 20),
-
           Row(
             children: [
               Center(
@@ -205,14 +269,20 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
               ),
             ],
           ),
-
           SizedBox(height: 20),
-
+          FormError(errors: errors),
+          SizedBox(height: 20),
           FlatButton(
             onPressed: () => {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => MainScreen()))
-              sendRequest()
+              if (_formKey.currentState.validate())
+                {
+                  //_formKey.currentState.save()
+                  //  print(_controllerUsername.text),
+                  //   print( _dateTime.toString()),
+                  sendRequest(),
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => MainScreen()))
+                }
             },
             color: Color(0xfff75BDFF),
             child: Text(
@@ -234,13 +304,13 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your name");
+          removeError(error: "Please enter name");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your name");
+          addError(error: "Please enter name");
           return "";
         }
         return null;
@@ -262,13 +332,13 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       onSaved: (newValue) => lastname = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your lastname");
+          removeError(error: "Please enter lastname");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your lastname");
+          addError(error: "Please enter lastname");
           return "";
         }
         return null;
@@ -289,13 +359,13 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       onSaved: (newValue) => username = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your username");
+          removeError(error: "Please enter username");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your username");
+          addError(error: "Please enter username");
           return "";
         }
         return null;
@@ -346,28 +416,28 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your password");
-        } else if (value.length >= 6) {
+          removeError(error: "Please enter password");
+        } else if (value.length >= 8) {
           removeError(error: "Password is too short");
         } else if (RegExp(
                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
             .hasMatch(value)) {
-          removeError(error: "Please Enter Valid Password");
+          removeError(error: "Please enter valid Password");
         }
         password = value;
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your password");
+          addError(error: "Please enter password");
           return "";
-        } else if (value.length < 6) {
+        } else if (value.length < 8) {
           addError(error: "Password is too short");
           return "";
         } else if (!(RegExp(
                 r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'))
             .hasMatch(value)) {
-          addError(error: "Please Enter Valid Password");
+          addError(error: "Please enter valid Password");
           return "";
         }
         return null;
@@ -389,20 +459,20 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       onSaved: (newValue) => email = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your email");
+          removeError(error: "Please enter email");
         } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(value)) {
-          removeError(error: "Please Enter Valid Email");
+          removeError(error: "Please enter valid Email");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your email");
+          addError(error: "Please enter email");
           return "";
         } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
             .hasMatch(value)) {
-          addError(error: "Please Enter Valid Email");
+          addError(error: "Please enter valid Email");
           return "";
         }
 
@@ -425,13 +495,13 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       onSaved: (newValue) => phoneNumber = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter your phone number");
+          removeError(error: "Please enter phone");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter your phone number");
+          addError(error: "Please enter phone");
           return "";
         }
         return null;
