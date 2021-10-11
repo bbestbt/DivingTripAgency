@@ -186,7 +186,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Name",
+        //  hintText: "Name",
           labelText: "First Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
@@ -215,7 +215,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Lastname",
+      //    hintText: "Lastname",
           labelText: "Last Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
@@ -253,7 +253,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xFFFd0efff),
-        hintText: "Email",
+      //  hintText: "Email",
         labelText: "Email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
@@ -282,7 +282,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xFFFd0efff),
-        hintText: "Phone number",
+   //     hintText: "Phone number",
         labelText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.phone),

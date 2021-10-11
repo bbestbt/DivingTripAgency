@@ -25,22 +25,23 @@ class _UserProfileState extends State<UserProfile> {
             children: [
               Column(
                 children: [
-                  Text('Username : bbbb'),
-                  Text('Name : abc'),
-                  Text('Lastname : efg'),
-                  Text('Level : 1')
+                  Text('Username : bbbb',style: TextStyle(fontSize: 18),),
+                  Text('Name : abc',style: TextStyle(fontSize: 18),),
+                  Text('Lastname : efg',style: TextStyle(fontSize: 18),),
+                  Text('Level : 1',style: TextStyle(fontSize: 18),)
                 ],
               ),
               Column(
                 children: [
-                  Text('E-mail : abc@gmail.com'),
-                  Text('Phone number : 03848484848832'),
-                  Text('Birthday : 10/12/1999'),
-                  Text('Trip history'),
+                  Text('E-mail : abc@gmail.com',style: TextStyle(fontSize: 18),),
+                  Text('Phone number : 03848484848832',style: TextStyle(fontSize: 18),),
+                  Text('Birthday : 10/12/1999',style: TextStyle(fontSize: 18),),
+                  Text('Trip history',style: TextStyle(fontSize: 18),),
                 ],
               )
             ],
           ),
+          SizedBox(height: 30,),
            RaisedButton(child:Text('Edit',textAlign: TextAlign.right,),onPressed: (){})
         ],
       ),

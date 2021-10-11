@@ -297,7 +297,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Name",
+       //   hintText: "Name",
           labelText: "First Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
@@ -326,7 +326,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Username",
+   //       hintText: "Username",
           labelText: "Username",
           filled: true,
           fillColor: Color(0xFFFd0efff),
@@ -354,7 +354,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Address1",
+      //    hintText: "Address1",
           labelText: "Address 1",
           filled: true,
           fillColor: Color(0xFFFd0efff),
@@ -386,7 +386,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xFFFd0efff),
-        hintText: "Confirm password",
+      //  hintText: "Confirm password",
         labelText: "Confirm Password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: IconButton(
@@ -434,7 +434,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-        hintText: "Password",
+     //   hintText: "Password",
         labelText: "Password",
         filled: true,
         fillColor: Color(0xFFFd0efff),
@@ -515,7 +515,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xFFFd0efff),
-        hintText: "Company email",
+     //   hintText: "Company email",
         labelText: "Company email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
@@ -544,7 +544,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xFFFd0efff),
-        hintText: "Phone number",
+      //  hintText: "Phone number",
         labelText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.phone),
@@ -571,7 +571,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Address2",
+       //   hintText: "Address2",
           labelText: "Address 2",
           filled: true,
           fillColor: Color(0xFFFd0efff),
@@ -599,7 +599,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-        hintText: "Country",
+     //   hintText: "Country",
         labelText: "Country",
         filled: true,
         fillColor: Color(0xFFFd0efff),
@@ -627,7 +627,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-        hintText: "City",
+     //   hintText: "City",
         labelText: "City",
         filled: true,
         fillColor: Color(0xFFFd0efff),
@@ -655,7 +655,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-        hintText: "Region",
+    //    hintText: "Region",
         labelText: "Region",
         filled: true,
         fillColor: Color(0xFFFd0efff),
@@ -683,7 +683,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-        hintText: "Postal code",
+     //   hintText: "Postal code",
         labelText: "Postal code",
         filled: true,
         fillColor: Color(0xFFFd0efff),
