@@ -9,9 +9,7 @@ class TopSection extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
-
         constraints: BoxConstraints(maxHeight: 400, minHeight: 100),
-
         width: double.infinity,
         decoration: BoxDecoration(
             //  color: Color(0xfffdcfffb)
@@ -76,7 +74,6 @@ class _GlassContentState extends State<GlassContent> {
           color: Colors.white.withOpacity(0),
           //  color: Colors.pink,
           constraints: BoxConstraints(
-
               maxWidth: 400, maxHeight: widget.size.height * 0.25),
 
           child: Column(
@@ -91,29 +88,34 @@ class _GlassContentState extends State<GlassContent> {
                     onPressed: () => pickDateRange(context),
                     child: Text(getFrom()),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Icon(Icons.arrow_forward, color: Colors.black),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   RaisedButton(
                     onPressed: () => pickDateRange(context),
                     child: Text(getTo()),
                   ),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
 
                   Spacer(),
                   // Text('People'),
                   Icon(Icons.people),
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   peopleDropdown()
-
                 ],
               ),
               SizedBox(
                 height: 20,
               ),
-
               RaisedButton(child: Text('Confirm'), onPressed: () {})
-
             ],
           ),
         ),
@@ -149,7 +151,7 @@ class _GlassContentState extends State<GlassContent> {
     );
   }
 
-    TextFormField buildPeopleFormField() {
+  TextFormField buildPeopleFormField() {
     return TextFormField(
       controller: _controllerSearch,
       onSaved: (newValue) => search = newValue,
