@@ -15,6 +15,7 @@ class DiveMasterForm extends StatefulWidget {
 }
 
 class _DiveMasterFormState extends State<DiveMasterForm> {
+  bool _isObscure = true;
   String name;
   String lastname;
   String email;
@@ -89,23 +90,25 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           //doc
           //   FormError(errors: errors),
           Row(
-            children: [
+            children: [Text("Divemaster  Card (Front)"),
               Center(
                   child: CardFile == null
                       ? Column(
                         children: [
-                          Text('Divemaster Card'),
-                          Text('(Front)')
+                          Text(''),
+                          Text(''),
                         ],
                       )
                       : kIsWeb
                           ? Image.network(
                               CardFile.path,
                               fit: BoxFit.cover,
+                              width:300,
                             )
                           : Image.file(
                               File(CardFile.path),
                               fit: BoxFit.cover,
+                              width:300,
                             )),
               Spacer(),
               FlatButton(
@@ -123,23 +126,25 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           SizedBox(height: 20),
 
           Row(
-            children: [
+            children: [Text("Divemaster  Card (Back)"),
               Center(
                   child: CardFileBack == null
                       ? Column(
                         children: [
-                          Text('Divemaster Card '),
-                           Text('(Back)')
+                          //Text('Divemaster Card '),
+                          // Text('(Back)')
                         ],
                       )
                       : kIsWeb
                           ? Image.network(
                               CardFileBack.path,
                               fit: BoxFit.cover,
+                              width: 300,
                             )
                           : Image.file(
                               File(CardFileBack.path),
                               fit: BoxFit.cover,
+                              width: 300,
                             )),
               Spacer(),
               FlatButton(
@@ -182,6 +187,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       },
       decoration: InputDecoration(
           hintText: "Name",
+          labelText: "First Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -210,6 +216,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       },
       decoration: InputDecoration(
           hintText: "Lastname",
+          labelText: "Last Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -247,6 +254,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
         filled: true,
         fillColor: Color(0xFFFd0efff),
         hintText: "Email",
+        labelText: "Email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
       ),
@@ -275,6 +283,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
         filled: true,
         fillColor: Color(0xFFFd0efff),
         hintText: "Phone number",
+        labelText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.phone),
       ),

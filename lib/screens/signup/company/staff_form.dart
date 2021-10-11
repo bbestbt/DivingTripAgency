@@ -50,7 +50,7 @@ class _StaffFormState extends State<StaffForm> {
           buildPositionFormField(),
           //   FormError(errors: errors),
           SizedBox(height: 20),
-         
+
         ]),
       ),
     );
@@ -77,6 +77,7 @@ class _StaffFormState extends State<StaffForm> {
       },
       decoration: InputDecoration(
           hintText: "Name",
+          labelText: "First Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -105,6 +106,7 @@ class _StaffFormState extends State<StaffForm> {
       },
       decoration: InputDecoration(
           hintText: "Lastname",
+          labelText: "Last Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -132,6 +134,7 @@ class _StaffFormState extends State<StaffForm> {
       },
       decoration: InputDecoration(
         hintText: "Position",
+        labelText: "Position",
         filled: true,
         fillColor: Color(0xFFFd0efff),
         floatingLabelBehavior: FloatingLabelBehavior.always,

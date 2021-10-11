@@ -8,11 +8,16 @@ import 'constant.dart';
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
+
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
-
+  bool _isObscure = true;
+  var dummyusername = 'Numchok';
+  var dummypassword = 'Numchok';
+  final usrcontroller = TextEditingController();
+  final psscontroller = TextEditingController();
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            controller: usrcontroller,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.black,
@@ -62,7 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            obscureText: true,
+            controller: psscontroller,
+            obscureText: _isObscure,
             style: TextStyle(
               color: Colors.black,
              // fontFamily: 'OpenSans',
@@ -74,6 +81,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.lock,
                 color: Colors.black,
               ),
+              suffixIcon: IconButton(
+              icon: Icon(
+              _isObscure ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+              setState(() {
+              _isObscure = !_isObscure;
+              });
+              }),
               hintText: 'Enter your Password',
               hintStyle: kHintTextStyle,
             ),
@@ -124,6 +139,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+
+
   Widget _buildLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -131,10 +148,11 @@ class _LoginScreenState extends State<LoginScreen> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () {
-        print('Login Button Pressed'); //Determine what to do after clicking
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
-
-      },
+        //print('Login Button Pressed'); //Determine what to do after clicking
+          usrcontroller.text == dummyusername && psscontroller.text == dummypassword ?
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen())):
+            showDialog(context:context,builder:(context){return AlertDialog(content:Text("Incorrect Username or Password"));});
+          },
 
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -336,7 +354,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 //margin: EdgeInsets.all(80),
                 //height: 600,
                 //width: 661,
-                
+
                 decoration: BoxDecoration(
                   color:Colors.greenAccent.withOpacity(0.5)
                 ),
@@ -401,4 +419,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}
+} 

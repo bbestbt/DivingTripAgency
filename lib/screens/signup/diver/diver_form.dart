@@ -17,6 +17,7 @@ class SignupDiverForm extends StatefulWidget {
 }
 
 class _SignupDiverFormState extends State<SignupDiverForm> {
+  bool _isObscure = true;
   final _formKey = GlobalKey<FormState>();
   String username;
   String name;
@@ -38,6 +39,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   io.File DiveBack;
   DateTime _dateTime;
   String selected = null;
+  String DivFimagename = null;
 
   List<DropdownMenuItem<String>> listDrop = [];
   List<LevelType> drop = [
@@ -128,6 +130,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       setState(() {
         DiverImage = io.File(pickedFile.path);
       });
+      print(pickedFile.path.split('/').last);
     }
   }
 
@@ -214,20 +217,28 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           buildConfirmPasswordFormField(),
           SizedBox(height: 20),
           Row(
-            children: [
+            children: [Text('Front Image'),
               Center(
                 child: DiverImage == null
-                    ? Text('Front image')
+                    ? Text('')
                     : kIsWeb
                         ? Image.network(
                             DiverImage.path,
                             fit: BoxFit.cover,
+                            width:300,
                           )
                         : Image.file(
                             io.File(DiverImage.path),
                             fit: BoxFit.cover,
+                            width:300,
                           ),
               ),
+             /* Spacer(),
+              DiverImage == null
+                  ? Text('')
+                  :
+                  print(DiverImage.path)
+              ,*/
               Spacer(),
               FlatButton(
                 color: Color(0xfff75BDFF),
@@ -243,18 +254,20 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           ),
           SizedBox(height: 20),
           Row(
-            children: [
+            children: [Text('Back image'),
               Center(
                   child: DiveBack == null
-                      ? Text('Back image')
+                      ? Text('')
                       : kIsWeb
                           ? Image.network(
                               DiveBack.path,
                               fit: BoxFit.cover,
+                              width:300,
                             )
                           : Image.file(
                               io.File(DiveBack.path),
                               fit: BoxFit.cover,
+                              width:300,
                             )),
               Spacer(),
               FlatButton(
@@ -317,6 +330,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       },
       decoration: InputDecoration(
           hintText: "Name",
+          labelText: "First Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -345,6 +359,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       },
       decoration: InputDecoration(
           hintText: "Lastname",
+          labelText: "Last Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -372,6 +387,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       },
       decoration: InputDecoration(
           hintText: "Username",
+          labelText: "Username",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -382,7 +398,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   TextFormField buildConfirmPasswordFormField() {
     return TextFormField(
       controller: _controllerConfirm,
-      obscureText: true,
+      obscureText: _isObscure,
       onSaved: (newValue) => confirmPassword = newValue,
       onChanged: (value) {
         if (password == confirmPassword) {
@@ -402,17 +418,26 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xFFFd0efff),
+        labelText: "Confirm password",
         hintText: "Confirm password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: Icon(Icons.lock),
-      ),
+        suffixIcon: IconButton(
+            icon: Icon(
+                _isObscure ? Icons.visibility : Icons.visibility_off),
+            onPressed: () {
+              setState(() {
+                _isObscure = !_isObscure;
+              });
+            })),
+
     );
   }
 
   TextFormField buildPasswordFormField() {
+
     return TextFormField(
       controller: _controllerPassword,
-      obscureText: true,
+      obscureText: _isObscure,
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -443,12 +468,21 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         return null;
       },
       decoration: InputDecoration(
+          labelText: "Password",
         hintText: "Password",
         filled: true,
         fillColor: Color(0xFFFd0efff),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: Icon(Icons.lock),
-      ),
+        suffixIcon: IconButton(
+            icon: Icon(
+                _isObscure ? Icons.visibility : Icons.visibility_off),
+            onPressed: () {
+              setState(() {
+                _isObscure = !_isObscure;
+              });
+            })),
+
+
     );
   }
 
@@ -481,6 +515,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xFFFd0efff),
+        labelText: "Email",
         hintText: "Email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
@@ -509,6 +544,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xFFFd0efff),
+        labelText: "Phone number",
         hintText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.phone),

@@ -15,6 +15,7 @@ class SignupCompanyForm extends StatefulWidget {
 }
 
 class _SignupCompanyFormState extends State<SignupCompanyForm> {
+  bool _isObscure = true;
   final _formKey = GlobalKey<FormState>();
   String name;
   String username;
@@ -185,20 +186,22 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           buildConfirmPasswordFormField(),
           SizedBox(height: 20),
           Row(
-            children: [
+            children: [Text('Verified Document'),
               Center(
                   child: docFile == null
                       ? Column(
-                          children: [Text('Verified'), Text('Document')],
+                          children: [Text('')],
                         )
                       : kIsWeb
                           ? Image.network(
                               docFile.path,
                               fit: BoxFit.cover,
+                              width: 300,
                             )
                           : Image.file(
                               io.File(docFile.path),
                               fit: BoxFit.cover,
+                              width: 300,
                             )),
               Spacer(),
               FlatButton(
@@ -218,18 +221,20 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           //Center(child:imageFile == null ? Text('No image selected'):Text("You have an image")),
           //Center(child:imageFile == null ? Text('No image selected'):Image.file(imageFile,fit:BoxFit.cover,)),
           Row(
-            children: [
+            children: [Text('Company Image'),
               Center(
                   child: imageFile == null
-                      ? Text('Company Image')
+                      ? Text('')
                       : kIsWeb
                           ? Image.network(
                               imageFile.path,
                               fit: BoxFit.cover,
+                              width: 300,
                             )
                           : Image.file(
                               io.File(imageFile.path),
                               fit: BoxFit.cover,
+                              width: 300,
                             )),
               Spacer(),
               FlatButton(
@@ -293,6 +298,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       },
       decoration: InputDecoration(
           hintText: "Name",
+          labelText: "First Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -321,6 +327,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       },
       decoration: InputDecoration(
           hintText: "Username",
+          labelText: "Username",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -348,6 +355,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       },
       decoration: InputDecoration(
           hintText: "Address1",
+          labelText: "Address 1",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -358,7 +366,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildConfirmPasswordFormField() {
     return TextFormField(
       controller: _controllerConfirm,
-      obscureText: true,
+      obscureText: _isObscure,
       onSaved: (newValue) => confirmPassword = newValue,
       onChanged: (value) {
         if (password == confirmPassword) {
@@ -379,16 +387,23 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         filled: true,
         fillColor: Color(0xFFFd0efff),
         hintText: "Confirm password",
+        labelText: "Confirm Password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: Icon(Icons.lock),
-      ),
+        suffixIcon: IconButton(
+            icon: Icon(
+                _isObscure ? Icons.visibility : Icons.visibility_off),
+            onPressed: () {
+              setState(() {
+                _isObscure = !_isObscure;
+              });
+            })),
     );
   }
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
       controller: _controllerPassword,
-      obscureText: true,
+      obscureText: _isObscure,
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -420,11 +435,18 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       },
       decoration: InputDecoration(
         hintText: "Password",
+        labelText: "Password",
         filled: true,
         fillColor: Color(0xFFFd0efff),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: Icon(Icons.lock),
-      ),
+        suffixIcon: IconButton(
+            icon: Icon(
+                _isObscure ? Icons.visibility : Icons.visibility_off),
+            onPressed: () {
+              setState(() {
+                _isObscure = !_isObscure;
+              });
+            })),
     );
   }
 
@@ -494,6 +516,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         filled: true,
         fillColor: Color(0xFFFd0efff),
         hintText: "Company email",
+        labelText: "Company email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
       ),
@@ -522,6 +545,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         filled: true,
         fillColor: Color(0xFFFd0efff),
         hintText: "Phone number",
+        labelText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.phone),
       ),
@@ -548,6 +572,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       },
       decoration: InputDecoration(
           hintText: "Address2",
+          labelText: "Address 2",
           filled: true,
           fillColor: Color(0xFFFd0efff),
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -575,6 +600,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       },
       decoration: InputDecoration(
         hintText: "Country",
+        labelText: "Country",
         filled: true,
         fillColor: Color(0xFFFd0efff),
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -602,6 +628,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       },
       decoration: InputDecoration(
         hintText: "City",
+        labelText: "City",
         filled: true,
         fillColor: Color(0xFFFd0efff),
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -629,6 +656,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       },
       decoration: InputDecoration(
         hintText: "Region",
+        labelText: "Region",
         filled: true,
         fillColor: Color(0xFFFd0efff),
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -656,6 +684,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       },
       decoration: InputDecoration(
         hintText: "Postal code",
+        labelText: "Postal code",
         filled: true,
         fillColor: Color(0xFFFd0efff),
         floatingLabelBehavior: FloatingLabelBehavior.always,
