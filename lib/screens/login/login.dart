@@ -1,5 +1,6 @@
-//import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
+import 'package:diving_trip_agency/screens/signup/company/signup_company.dart';
+import 'package:diving_trip_agency/screens/signup/diver/signup_diver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'constant.dart';
@@ -7,11 +8,16 @@ import 'constant.dart';
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
+
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
-
+  bool _isObscure = true;
+  var dummyusername = 'Numchok';
+  var dummypassword = 'Numchok';
+  final usrcontroller = TextEditingController();
+  final psscontroller = TextEditingController();
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,10 +32,11 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
+            controller: usrcontroller,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.black,
-              fontFamily: 'OpenSans',
+              //fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -61,10 +68,11 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextField(
-            obscureText: true,
+            controller: psscontroller,
+            obscureText: _isObscure,
             style: TextStyle(
               color: Colors.black,
-              fontFamily: 'OpenSans',
+             // fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -73,6 +81,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.lock,
                 color: Colors.black,
               ),
+              suffixIcon: IconButton(
+              icon: Icon(
+              _isObscure ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+              setState(() {
+              _isObscure = !_isObscure;
+              });
+              }),
               hintText: 'Enter your Password',
               hintStyle: kHintTextStyle,
             ),
@@ -123,6 +139,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+
+
   Widget _buildLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -130,10 +148,11 @@ class _LoginScreenState extends State<LoginScreen> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () {
-        print('Login Button Pressed'); //Determine what to do after clicking
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
-
-      },
+        //print('Login Button Pressed'); //Determine what to do after clicking
+          usrcontroller.text == dummyusername && psscontroller.text == dummypassword ?
+            Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen())):
+            showDialog(context:context,builder:(context){return AlertDialog(content:Text("Incorrect Username or Password"));});
+          },
 
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -147,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+           // fontFamily: 'OpenSans',
           ),
         ),
       ),
@@ -166,14 +185,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         SizedBox(height: 20.0),
         Text(
-          'Sign in with',
+          'Sign up as',
           style: kLabelStyle,
         ),
       ],
     );
   }
-
-
 
   Widget _buildSocialBtn(Function onTap, AssetImage logo) {
     return GestureDetector(
@@ -201,20 +218,69 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSocialBtnRow() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30.0),
+      padding: EdgeInsets.symmetric(vertical: 20.0),
+      //padding: EdgeInsets.symmetric(vertical: 30.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
+        /*children: <Widget>[
           _buildSocialBtn(
                 () => print('Login with Facebook'),
             AssetImage(
               'assets/images/facebook.jpg',
             ),
+          ),*/
+        children: <Widget>[RaisedButton(
+          elevation: 5.0,
+          onPressed: () {
+            print('Login Button Pressed'); //Determine what to do after clicking
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpDiverScreen()));
+
+          },
+
+          padding: EdgeInsets.all(15.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
           ),
-          _buildSocialBtn(
+          color: Colors.white,
+          child: Text(
+            'User',
+            style: TextStyle(
+              color: Color(0xFF527DAA),
+              letterSpacing: 1.5,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              // fontFamily: 'OpenSans',
+            ),
+          ),
+        ),
+          /*_buildSocialBtn(
                 () => print('Login with Google'),
             AssetImage(
               'assets/images/google.jpg',
+            ),
+          ),*/
+          RaisedButton(
+            elevation: 5.0,
+            onPressed: () {
+              print('Login Button Pressed'); //Determine what to do after clicking
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SingupCompanyScreen()));
+
+            },
+
+            padding: EdgeInsets.all(15.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            color: Colors.white,
+            child: Text(
+              'Company',
+              style: TextStyle(
+                color: Color(0xFF527DAA),
+                letterSpacing: 1.5,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                // fontFamily: 'OpenSans',
+              ),
             ),
           ),
         ],
@@ -265,7 +331,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/S__77250562.jpg"), fit: BoxFit.cover)
+                    image: AssetImage("assets/images/S__77250562.jpg"), fit: BoxFit.cover) //Background
 
                   //color:Colors.white,
                   /*gradient: LinearGradient(
@@ -284,7 +350,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 //height: double.infinity,
 
-                constraints: BoxConstraints(maxWidth:400,maxHeight:800),
+                constraints: BoxConstraints(maxWidth:400,maxHeight:600),
                 //margin: EdgeInsets.all(80),
                 //height: 600,
                 //width: 661,
@@ -294,9 +360,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
-                    vertical: 120.0,
+                  padding: EdgeInsets.only(left:40,top:10,right:40
+                  //padding: EdgeInsets.symmetric(
+                  //  horizontal: 40.0,
+                  //  vertical: 40.0,
+                    //vertical: 120.0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -305,7 +373,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Sign In',
                         style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'OpenSans',
+                         //fontFamily: 'OpenSans',
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
                           shadows: [
@@ -339,7 +407,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       _buildLoginBtn(),
                       _buildSignInWithText(),
                       _buildSocialBtnRow(),
-                      _buildSignupBtn(),
+                      //_buildSignupBtn(),
                     ],
                   ),
                 ),

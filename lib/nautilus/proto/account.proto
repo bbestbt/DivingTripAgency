@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package account;
+
+import "model.proto";
+
+import "google/protobuf/empty.proto";
+
+option go_package = "./pb";
+
+service Account {
+    // Create is used to create agency and diver account.
+    rpc Create (AccountRequest) returns (google.protobuf.Empty) {}
+
+    // Login is used to authenticate the user.
+    // The client supplies the server with credentials and the server
+    // creates a session and sends back a token.
+    rpc Login (LoginRequest) returns (LoginResponse) {}
+}
+
+// AccountRequest
+message AccountRequest {
+    // type defines type of account
+    oneof type {
+        model.Agency agency = 1;
+        model.Diver diver = 5;
+    }
+}
+
+// LoginRequest
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+// LoginResponse
+message LoginResponse {
+    string token = 1;
+}
