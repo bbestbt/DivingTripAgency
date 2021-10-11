@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/screens/detail/package_screen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/signup/diver/signup_diver.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
           ),
           fontFamily: 'Poppins'),
       // home: LoginScreen(),
-      //home:SignUpDiverScreen()
+   //   home:PackageScreen(),
       home: MainScreen(), //Original
     );
   }
