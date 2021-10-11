@@ -329,7 +329,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Name",
+    //      hintText: "Name",
           labelText: "First Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
@@ -358,7 +358,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Lastname",
+       //   hintText: "Lastname",
           labelText: "Last Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
@@ -386,7 +386,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Username",
+     //     hintText: "Username",
           labelText: "Username",
           filled: true,
           fillColor: Color(0xFFFd0efff),
@@ -419,7 +419,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         filled: true,
         fillColor: Color(0xFFFd0efff),
         labelText: "Confirm password",
-        hintText: "Confirm password",
+     //   hintText: "Confirm password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: IconButton(
             icon: Icon(
@@ -469,7 +469,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       },
       decoration: InputDecoration(
           labelText: "Password",
-        hintText: "Password",
+      //  hintText: "Password",
         filled: true,
         fillColor: Color(0xFFFd0efff),
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -516,7 +516,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         filled: true,
         fillColor: Color(0xFFFd0efff),
         labelText: "Email",
-        hintText: "Email",
+      //  hintText: "Email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
       ),
@@ -545,7 +545,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         filled: true,
         fillColor: Color(0xFFFd0efff),
         labelText: "Phone number",
-        hintText: "Phone number",
+        // hintText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.phone),
       ),

@@ -76,7 +76,7 @@ class _StaffFormState extends State<StaffForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Name",
+    //      hintText: "Name",
           labelText: "First Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
@@ -105,7 +105,7 @@ class _StaffFormState extends State<StaffForm> {
         return null;
       },
       decoration: InputDecoration(
-          hintText: "Lastname",
+      //    hintText: "Lastname",
           labelText: "Last Name",
           filled: true,
           fillColor: Color(0xFFFd0efff),
@@ -133,7 +133,7 @@ class _StaffFormState extends State<StaffForm> {
         return null;
       },
       decoration: InputDecoration(
-        hintText: "Position",
+     //   hintText: "Position",
         labelText: "Position",
         filled: true,
         fillColor: Color(0xFFFd0efff),
