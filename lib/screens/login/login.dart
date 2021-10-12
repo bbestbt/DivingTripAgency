@@ -263,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
             elevation: 5.0,
             onPressed: () {
               print('Login Button Pressed'); //Determine what to do after clicking
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SingupCompanyScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SignupCompanyScreen()));
 
             },
 

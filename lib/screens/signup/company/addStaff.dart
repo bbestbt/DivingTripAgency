@@ -34,6 +34,7 @@ class _AddMoreStaffState extends State<AddMoreStaff> {
             size: 20,
           ),
         ),
+         SizedBox(height: 30),
       ])),
     );
   }

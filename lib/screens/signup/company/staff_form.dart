@@ -43,6 +43,7 @@ class _StaffFormState extends State<StaffForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          SizedBox(height: 20),
           buildNameFormField(),
           SizedBox(height: 20),
           buildLastnameFormField(),
@@ -79,7 +80,7 @@ class _StaffFormState extends State<StaffForm> {
     //      hintText: "Name",
           labelText: "First Name",
           filled: true,
-          fillColor: Color(0xFFFd0efff),
+          fillColor: Colors.white,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.person)),
     );
@@ -108,7 +109,7 @@ class _StaffFormState extends State<StaffForm> {
       //    hintText: "Lastname",
           labelText: "Last Name",
           filled: true,
-          fillColor: Color(0xFFFd0efff),
+          fillColor: Colors.white,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.person)),
     );
@@ -136,7 +137,7 @@ class _StaffFormState extends State<StaffForm> {
      //   hintText: "Position",
         labelText: "Position",
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
