@@ -195,7 +195,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
               //  Text(_dateTime == null ? '' : _dateTime.toString()),
               Spacer(),
               RaisedButton(
-                  color: Color(0xfff75BDFF),
+                  color: Color(0xfff8dd9cc),
                   child: Text('Pick a date'),
                   onPressed: () {
                     showDatePicker(
@@ -244,7 +244,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
               ,*/
               Spacer(),
               FlatButton(
-                color: Color(0xfff75BDFF),
+                color: Color(0xfffa2c8ff),
                 child: Text(
                   'Upload',
                   style: TextStyle(fontSize: 15),
@@ -275,7 +275,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                             )),
               Spacer(),
               FlatButton(
-                color: Color(0xfff75BDFF),
+                color: Color(0xfffa2c8ff),
                 child: Text(
                   'Upload',
                   style: TextStyle(fontSize: 15),

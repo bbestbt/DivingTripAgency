@@ -91,7 +91,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           //doc
           //   FormError(errors: errors),
           Row(
-            children: [Text("Divemaster  Card (Front)"),
+            children: [Column(
+              children: [
+                Text("Divemaster Card"),
+                Text('(Front)')
+              ],
+            ),
               Center(
                   child: CardFile == null
                       ? Column(
@@ -113,7 +118,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                             )),
               Spacer(),
               FlatButton(
-                color: Color(0xfff75BDFF),
+                color: Color(0xfffa2c8ff),
                 child: Text(
                   'Upload',
                   style: TextStyle(fontSize: 15),
@@ -127,7 +132,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           SizedBox(height: 20),
 
           Row(
-            children: [Text("Divemaster  Card (Back)"),
+            children: [Column(
+              children: [
+                Text("Divemaster Card"),
+                Text("(Back)")
+              ],
+            ),
               Center(
                   child: CardFileBack == null
                       ? Column(
@@ -149,7 +159,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                             )),
               Spacer(),
               FlatButton(
-                color: Color(0xfff75BDFF),
+                color: Color(0xfffa2c8ff),
                 child: Text(
                   'Upload',
                   style: TextStyle(fontSize: 15),

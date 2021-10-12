@@ -140,7 +140,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-           SizedBox(height: 20),
+          SizedBox(height: 20),
           buildUsernameFormField(),
           SizedBox(height: 20),
           buildNameFormField(),
@@ -187,7 +187,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           buildConfirmPasswordFormField(),
           SizedBox(height: 20),
           Row(
-            children: [Text('Verified Document'),
+            children: [
+              Text('Verified Doc'),
               Center(
                   child: docFile == null
                       ? Column(
@@ -206,7 +207,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                             )),
               Spacer(),
               FlatButton(
-                color: Color(0xfff75BDFF),
+                color: Color(0xfffa2c8ff),
                 child: Text(
                   'Upload',
                   style: TextStyle(fontSize: 15),
@@ -222,7 +223,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           //Center(child:imageFile == null ? Text('No image selected'):Text("You have an image")),
           //Center(child:imageFile == null ? Text('No image selected'):Image.file(imageFile,fit:BoxFit.cover,)),
           Row(
-            children: [Text('Company Image'),
+            children: [
+              Text('Company Image'),
               Center(
                   child: imageFile == null
                       ? Text('')
@@ -239,7 +241,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                             )),
               Spacer(),
               FlatButton(
-                color: Color(0xfff75BDFF),
+                color: Color(0xfffa2c8ff),
                 child: Text(
                   'Upload',
                   style: TextStyle(fontSize: 15),
@@ -259,12 +261,10 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-                  sendRequest(),
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SignupDiveMaster())),
-                }
+               sendRequest(),
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignupDiveMaster())),
+               }
             },
             color: Color(0xfff75BDFF),
             child: Text(
@@ -298,7 +298,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-       //   hintText: "Name",
+          //   hintText: "Name",
           labelText: "First Name",
           filled: true,
           fillColor: Colors.white,
@@ -327,7 +327,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-   //       hintText: "Username",
+          //       hintText: "Username",
           labelText: "Username",
           filled: true,
           fillColor: Colors.white,
@@ -355,7 +355,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-      //    hintText: "Address1",
+          //    hintText: "Address1",
           labelText: "Address 1",
           filled: true,
           fillColor: Colors.white,
@@ -385,19 +385,18 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-      //  hintText: "Confirm password",
-        labelText: "Confirm Password",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: IconButton(
-            icon: Icon(
-                _isObscure ? Icons.visibility : Icons.visibility_off),
-            onPressed: () {
-              setState(() {
-                _isObscure = !_isObscure;
-              });
-            })),
+          filled: true,
+          fillColor: Colors.white,
+          //  hintText: "Confirm password",
+          labelText: "Confirm Password",
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: IconButton(
+              icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  _isObscure = !_isObscure;
+                });
+              })),
     );
   }
 
@@ -435,19 +434,18 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-     //   hintText: "Password",
-        labelText: "Password",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: IconButton(
-            icon: Icon(
-                _isObscure ? Icons.visibility : Icons.visibility_off),
-            onPressed: () {
-              setState(() {
-                _isObscure = !_isObscure;
-              });
-            })),
+          //   hintText: "Password",
+          labelText: "Password",
+          filled: true,
+          fillColor: Colors.white,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: IconButton(
+              icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  _isObscure = !_isObscure;
+                });
+              })),
     );
   }
 
@@ -516,7 +514,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-     //   hintText: "Company email",
+        //   hintText: "Company email",
         labelText: "Company email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
@@ -545,7 +543,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-      //  hintText: "Phone number",
+        //  hintText: "Phone number",
         labelText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.phone),
@@ -572,7 +570,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-       //   hintText: "Address2",
+          //   hintText: "Address2",
           labelText: "Address 2",
           filled: true,
           fillColor: Colors.white,
@@ -600,7 +598,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-     //   hintText: "Country",
+        //   hintText: "Country",
         labelText: "Country",
         filled: true,
         fillColor: Colors.white,
@@ -628,7 +626,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-     //   hintText: "City",
+        //   hintText: "City",
         labelText: "City",
         filled: true,
         fillColor: Colors.white,
@@ -656,7 +654,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-    //    hintText: "Region",
+        //    hintText: "Region",
         labelText: "Region",
         filled: true,
         fillColor: Colors.white,
@@ -684,7 +682,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
         return null;
       },
       decoration: InputDecoration(
-     //   hintText: "Postal code",
+        //   hintText: "Postal code",
         labelText: "Postal code",
         filled: true,
         fillColor: Colors.white,

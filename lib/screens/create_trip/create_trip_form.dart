@@ -100,6 +100,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          SizedBox(height: 20),
           buildTripNameFormField(),
           SizedBox(height: 20),
           buildDescriptionFormField(),
@@ -202,7 +203,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
                             )),
               Spacer(),
               FlatButton(
-                color: Color(0xfff75BDFF),
+                color: Color(0xfffa2c8ff),
                 child: Text(
                   'Upload',
                   style: TextStyle(fontSize: 15),
@@ -231,7 +232,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
                             )),
               Spacer(),
               FlatButton(
-                color: Color(0xfff75BDFF),
+                color: Color(0xfffa2c8ff),
                 child: Text(
                   'Upload',
                   style: TextStyle(fontSize: 15),
@@ -260,7 +261,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
                             )),
               Spacer(),
               FlatButton(
-                color: Color(0xfff75BDFF),
+                color: Color(0xfffa2c8ff),
                 child: Text(
                   'Upload',
                   style: TextStyle(fontSize: 15),
@@ -318,7 +319,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
       decoration: InputDecoration(
         labelText: "Trip name",
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        //fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -345,7 +347,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       decoration: InputDecoration(
         labelText: "Description",
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -372,7 +374,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       decoration: InputDecoration(
         labelText: "Place",
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -399,7 +401,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       decoration: InputDecoration(
         labelText: "From",
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -426,7 +428,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       decoration: InputDecoration(
         labelText: "To",
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -453,7 +455,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       decoration: InputDecoration(
         labelText: "Dive master name",
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -480,7 +482,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       decoration: InputDecoration(
         labelText: "Price",
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -507,7 +509,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       decoration: InputDecoration(
         labelText: "Total people",
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -534,7 +536,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       decoration: InputDecoration(
         labelText: "Boat name",
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
