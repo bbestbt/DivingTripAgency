@@ -9,7 +9,6 @@ class ListViewTripDetail extends StatefulWidget {
 class _ListViewTripDetailState extends State<ListViewTripDetail> {
   var nameList = ['Phuket12', 'Samui22', 'Krabi33'];
   var descList = ['description', 'description', 'description'];
-  var placeList = ['Phuket', 'Samui', 'Krabi'];
   var imgList = [
     'assets/images/S__77242370.jpg',
     'assets/images/S__83271684.jpg',
@@ -20,6 +19,7 @@ class _ListViewTripDetailState extends State<ListViewTripDetail> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width * 0.6;
     return Container(
+      width: MediaQuery.of(context).size.width / 1.5,
       child: ListView.builder(
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
@@ -42,19 +42,23 @@ class _ListViewTripDetailState extends State<ListViewTripDetail> {
                         children: [
                           Text(nameList[index],
                               style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.bold))
+                                  fontSize: 25, fontWeight: FontWeight.bold)),
+                          Text(
+                            descList[index],
+                            style: TextStyle(fontSize: 15),
+                          ),
                         ],
                       )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: width,
-                    child: Text(
-                      descList[index],
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  )
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // Container(
+                  //   width: width,
+                  //   child: Text(
+                  //     descList[index],
+                  //     style: TextStyle(fontSize: 15),
+                  //   ),
+                  // )
                 ]),
               ),
             );
