@@ -156,6 +156,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          SizedBox(height: 20),
           buildUsernameFormField(),
           SizedBox(height: 20),
           buildNameFormField(),
@@ -164,7 +165,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           SizedBox(height: 20),
           // LevelDropdown(),
           Container(
-            color: Color(0xFFFd0efff),
+            color: Colors.white,
+            //color: Color(0xFFFd0efff),
             child: Center(
               child: DropdownButton(
                 isExpanded: true,
@@ -217,7 +219,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           buildConfirmPasswordFormField(),
           SizedBox(height: 20),
           Row(
-            children: [Text('Front Image'),
+            children: [
+              Text('Front Image'),
               Center(
                 child: DiverImage == null
                     ? Text('')
@@ -225,15 +228,15 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                         ? Image.network(
                             DiverImage.path,
                             fit: BoxFit.cover,
-                            width:300,
+                            width: 300,
                           )
                         : Image.file(
                             io.File(DiverImage.path),
                             fit: BoxFit.cover,
-                            width:300,
+                            width: 300,
                           ),
               ),
-             /* Spacer(),
+              /* Spacer(),
               DiverImage == null
                   ? Text('')
                   :
@@ -254,7 +257,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           ),
           SizedBox(height: 20),
           Row(
-            children: [Text('Back image'),
+            children: [
+              Text('Back image'),
               Center(
                   child: DiveBack == null
                       ? Text('')
@@ -262,12 +266,12 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                           ? Image.network(
                               DiveBack.path,
                               fit: BoxFit.cover,
-                              width:300,
+                              width: 300,
                             )
                           : Image.file(
                               io.File(DiveBack.path),
                               fit: BoxFit.cover,
-                              width:300,
+                              width: 300,
                             )),
               Spacer(),
               FlatButton(
@@ -329,10 +333,11 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         return null;
       },
       decoration: InputDecoration(
-    //      hintText: "Name",
+          //      hintText: "Name",
           labelText: "First Name",
           filled: true,
-          fillColor: Color(0xFFFd0efff),
+         // fillColor: Color(0xFFFd0efff),,
+          fillColor: Colors.white,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.person)),
     );
@@ -358,10 +363,10 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         return null;
       },
       decoration: InputDecoration(
-       //   hintText: "Lastname",
+          //   hintText: "Lastname",
           labelText: "Last Name",
           filled: true,
-          fillColor: Color(0xFFFd0efff),
+          fillColor: Colors.white,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.person)),
     );
@@ -386,10 +391,10 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         return null;
       },
       decoration: InputDecoration(
-     //     hintText: "Username",
+          //     hintText: "Username",
           labelText: "Username",
           filled: true,
-          fillColor: Color(0xFFFd0efff),
+          fillColor: Colors.white,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.person)),
     );
@@ -416,25 +421,22 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
         return null;
       },
       decoration: InputDecoration(
-        filled: true,
-        fillColor: Color(0xFFFd0efff),
-        labelText: "Confirm password",
-     //   hintText: "Confirm password",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: IconButton(
-            icon: Icon(
-                _isObscure ? Icons.visibility : Icons.visibility_off),
-            onPressed: () {
-              setState(() {
-                _isObscure = !_isObscure;
-              });
-            })),
-
+          filled: true,
+          fillColor: Colors.white,
+          labelText: "Confirm password",
+          //   hintText: "Confirm password",
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: IconButton(
+              icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  _isObscure = !_isObscure;
+                });
+              })),
     );
   }
 
   TextFormField buildPasswordFormField() {
-
     return TextFormField(
       controller: _controllerPassword,
       obscureText: _isObscure,
@@ -469,20 +471,17 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       },
       decoration: InputDecoration(
           labelText: "Password",
-      //  hintText: "Password",
-        filled: true,
-        fillColor: Color(0xFFFd0efff),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: IconButton(
-            icon: Icon(
-                _isObscure ? Icons.visibility : Icons.visibility_off),
-            onPressed: () {
-              setState(() {
-                _isObscure = !_isObscure;
-              });
-            })),
-
-
+          //  hintText: "Password",
+          filled: true,
+          fillColor: Colors.white,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: IconButton(
+              icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  _isObscure = !_isObscure;
+                });
+              })),
     );
   }
 
@@ -514,9 +513,9 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       },
       decoration: InputDecoration(
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         labelText: "Email",
-      //  hintText: "Email",
+        //  hintText: "Email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
       ),
@@ -543,7 +542,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       },
       decoration: InputDecoration(
         filled: true,
-        fillColor: Color(0xFFFd0efff),
+        fillColor: Colors.white,
         labelText: "Phone number",
         // hintText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,
