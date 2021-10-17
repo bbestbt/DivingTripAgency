@@ -12,7 +12,8 @@ class PackageScreen extends StatelessWidget {
     return Scaffold(
       key: _controller.scaffoldkey,
       drawer: SideMenu(),
-      body: Column(
+      body: SingleChildScrollView(child:
+        Column(
         children: [
           Header(),
           SizedBox(height: 20),
@@ -23,6 +24,7 @@ class PackageScreen extends StatelessWidget {
           ListViewTripDetail(),
         ],
       ),
+      )
     );
   }
 }
