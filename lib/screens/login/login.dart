@@ -1,14 +1,16 @@
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_company.dart';
 import 'package:diving_trip_agency/screens/signup/diver/signup_diver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
 import 'constant.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
-
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -18,6 +20,32 @@ class _LoginScreenState extends State<LoginScreen> {
   var dummypassword = 'Numchok';
   final usrcontroller = TextEditingController();
   final psscontroller = TextEditingController();
+
+  void sendLogin() {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+
+    final stub = AccountClient(channel);
+    var account = Account();
+    account.email = usrcontroller.text;
+    account.password = psscontroller.text;
+
+    var loginRequest = LoginRequest();
+    loginRequest.email = account.email;
+    loginRequest.password = account.password;
+
+    try {
+      var response = stub.login(loginRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
             obscureText: _isObscure,
             style: TextStyle(
               color: Colors.black,
-             // fontFamily: 'OpenSans',
+              // fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -82,13 +110,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.black,
               ),
               suffixIcon: IconButton(
-              icon: Icon(
-              _isObscure ? Icons.visibility : Icons.visibility_off),
-              onPressed: () {
-              setState(() {
-              _isObscure = !_isObscure;
-              });
-              }),
+                  icon: Icon(
+                      _isObscure ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      _isObscure = !_isObscure;
+                    });
+                  }),
               hintText: 'Enter your Password',
               hintStyle: kHintTextStyle,
             ),
@@ -139,21 +167,27 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
-
   Widget _buildLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: () {
-        //print('Login Button Pressed'); //Determine what to do after clicking
-          usrcontroller.text == dummyusername && psscontroller.text == dummypassword ?
-            Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen())):
-            showDialog(context:context,builder:(context){return AlertDialog(content:Text("Incorrect Username or Password"));});
-          },
-
+        onPressed: () => {
+          sendLogin(),
+          //print('Login Button Pressed'); //Determine what to do after clicking
+          // usrcontroller.text == dummyusername &&
+          //         psscontroller.text == dummypassword
+          //     ? 
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => MainScreen()))
+              // : showDialog(
+              //     context: context,
+              //     builder: (context) {
+              //       return AlertDialog(
+              //           content: Text("Incorrect Username or Password"));
+              //     })
+        },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
@@ -166,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
-           // fontFamily: 'OpenSans',
+            // fontFamily: 'OpenSans',
           ),
         ),
       ),
@@ -229,30 +263,31 @@ class _LoginScreenState extends State<LoginScreen> {
               'assets/images/facebook.jpg',
             ),
           ),*/
-        children: <Widget>[RaisedButton(
-          elevation: 5.0,
-          onPressed: () {
-            print('Login Button Pressed'); //Determine what to do after clicking
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpDiverScreen()));
-
-          },
-
-          padding: EdgeInsets.all(15.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          color: Colors.white,
-          child: Text(
-            'User',
-            style: TextStyle(
-              color: Color(0xFF527DAA),
-              letterSpacing: 1.5,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-              // fontFamily: 'OpenSans',
+        children: <Widget>[
+          RaisedButton(
+            elevation: 5.0,
+            onPressed: () {
+              print(
+                  'Login Button Pressed'); //Determine what to do after clicking
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignUpDiverScreen()));
+            },
+            padding: EdgeInsets.all(15.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            color: Colors.white,
+            child: Text(
+              'User',
+              style: TextStyle(
+                color: Color(0xFF527DAA),
+                letterSpacing: 1.5,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                // fontFamily: 'OpenSans',
+              ),
             ),
           ),
-        ),
           /*_buildSocialBtn(
                 () => print('Login with Google'),
             AssetImage(
@@ -262,11 +297,13 @@ class _LoginScreenState extends State<LoginScreen> {
           RaisedButton(
             elevation: 5.0,
             onPressed: () {
-              print('Login Button Pressed'); //Determine what to do after clicking
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SignupCompanyScreen()));
-
+              print(
+                  'Login Button Pressed'); //Determine what to do after clicking
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SignupCompanyScreen()));
             },
-
             padding: EdgeInsets.all(15.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
@@ -330,11 +367,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/S__77250562.jpg"), fit: BoxFit.cover) //Background
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/S__77250562.jpg"),
+                        fit: BoxFit.cover) //Background
 
-                  //color:Colors.white,
-                  /*gradient: LinearGradient(
+                    //color:Colors.white,
+                    /*gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
@@ -345,27 +383,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                     stops: [0.1, 0.4, 0.7, 0.9],*/
 
-                ),
+                    ),
               ),
               Container(
                 //height: double.infinity,
 
-                constraints: BoxConstraints(maxWidth:400,maxHeight:600),
+                constraints: BoxConstraints(maxWidth: 400, maxHeight: 600),
                 //margin: EdgeInsets.all(80),
                 //height: 600,
                 //width: 661,
 
-                decoration: BoxDecoration(
-                  color:Colors.greenAccent.withOpacity(0.5)
-                ),
+                decoration:
+                    BoxDecoration(color: Colors.greenAccent.withOpacity(0.5)),
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.only(left:40,top:10,right:40
-                  //padding: EdgeInsets.symmetric(
-                  //  horizontal: 40.0,
-                  //  vertical: 40.0,
-                    //vertical: 120.0,
-                  ),
+                  padding: EdgeInsets.only(left: 40, top: 10, right: 40
+                      //padding: EdgeInsets.symmetric(
+                      //  horizontal: 40.0,
+                      //  vertical: 40.0,
+                      //vertical: 120.0,
+                      ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -373,26 +410,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Sign In',
                         style: TextStyle(
                           color: Colors.white,
-                         //fontFamily: 'OpenSans',
+                          //fontFamily: 'OpenSans',
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
                           shadows: [
-                            Shadow( // bottomLeft
+                            Shadow(
+                                // bottomLeft
                                 offset: Offset(-1.5, -1.5),
-                                color: Colors.black
-                            ),
-                            Shadow( // bottomRight
+                                color: Colors.black),
+                            Shadow(
+                                // bottomRight
                                 offset: Offset(1.5, -1.5),
-                                color: Colors.black
-                            ),
-                            Shadow( // topRight
+                                color: Colors.black),
+                            Shadow(
+                                // topRight
                                 offset: Offset(1.5, 1.5),
-                                color: Colors.black
-                            ),
-                            Shadow( // topLeft
+                                color: Colors.black),
+                            Shadow(
+                                // topLeft
                                 offset: Offset(-1.5, 1.5),
-                                color: Colors.black
-                            ),
+                                color: Colors.black),
                           ],
                         ),
                       ),
@@ -412,11 +449,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               )
-
             ],
           ),
         ),
       ),
     );
   }
-} 
+}

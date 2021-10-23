@@ -1,4 +1,6 @@
 import 'package:diving_trip_agency/controllers/menuController.dart';
+import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
+import 'package:diving_trip_agency/screens/aboutus/aboutus_screem.dart';
 import 'package:flutter/material.dart';
 import 'package:diving_trip_agency/constants.dart';
 import 'package:get/get.dart';
@@ -19,6 +21,7 @@ class WebMenu extends StatelessWidget {
           press: () {_controller.setMenuIndex(index);
             if(_controller.selectedIndex == 0) {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));}
             if(_controller.selectedIndex == 2) {Navigator.push(context, MaterialPageRoute(builder: (context) => PackageScreen()));}
+            if(_controller.selectedIndex == 3) {Navigator.push(context, MaterialPageRoute(builder: (context) => AboutusScreen()));}
             }
         ),
       ),
