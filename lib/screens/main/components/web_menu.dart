@@ -1,6 +1,6 @@
 import 'package:diving_trip_agency/controllers/menuController.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
-import 'package:diving_trip_agency/screens/aboutus/aboutus_screem.dart';
+import 'package:diving_trip_agency/screens/aboutus/aboutus_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:diving_trip_agency/constants.dart';
 import 'package:get/get.dart';
