@@ -1,3 +1,5 @@
+import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
+import 'package:diving_trip_agency/screens/aboutus/aboutus_screem.dart';
 import 'package:diving_trip_agency/screens/detail/package_screen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_company.dart';
@@ -27,8 +29,8 @@ class MyApp extends StatelessWidget {
           ),
           fontFamily: 'Poppins'),
       // home: LoginScreen(),
-    home:PackageScreen(),
-     //home: MainScreen(), //Original
+  //  home:AboutusScreen(),
+     home: MainScreen(), //Original
     );
   }
 }
