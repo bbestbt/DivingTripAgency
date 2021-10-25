@@ -1,5 +1,5 @@
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
-import 'package:diving_trip_agency/screens/aboutus/aboutus_screem.dart';
+import 'package:diving_trip_agency/screens/aboutus/aboutus_screen.dart';
 import 'package:diving_trip_agency/screens/detail/package_screen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_company.dart';
