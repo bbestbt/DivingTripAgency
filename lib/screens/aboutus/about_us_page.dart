@@ -69,10 +69,10 @@ class _InfoCardState extends State<InfoCard> {
             color: Colors.white, borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
-            Container(
-                width: 200,
-                height: 200,
-                child: Image.asset(AboutDatas[widget.index].image)),
+            // Container(
+            //     width: 200,
+            //     height: 200,
+            //     child: Image.asset(AboutDatas[widget.index].image)),
             Expanded(
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
