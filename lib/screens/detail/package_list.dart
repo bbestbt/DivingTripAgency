@@ -16,7 +16,9 @@ class _ListViewTripDetailState extends State<ListViewTripDetail> {
     'assets/images/S__83271684.jpg',
     'assets/images/S__83271687.jpg'
   ];
-
+  //var revList =["Charlotte","Peter","Ollie"];
+  //var revstarlist = [5,4,5];
+  //var revcomment =["Nice!", "Awesome!"]
   @override
   Widget build(BuildContext context) {
     //double width = MediaQuery.of(context).size.width * 0.9;
@@ -28,22 +30,80 @@ class _ListViewTripDetailState extends State<ListViewTripDetail> {
           itemCount: imgList.length,
           itemBuilder: (context, index) {
             return Card(
-              child: Column(
-                mainAxisSize:MainAxisSize.min,
-                children:<Widget>[
-                  Container(child:Image.asset(imgList[index])),
-                  Container(child:Text(nameList[index])),
-                  Container(child:
+                child: Column(
+                    mainAxisSize:MainAxisSize.min,
+                    children:<Widget>[
+                      Container(child:Image.asset(imgList[index])),
+                      Container(child:Text(nameList[index])),
+                      Container(child:
                       Container(
                           padding: EdgeInsets.all(10),
                           child:Text(
                             descList[index],
                             style: TextStyle(fontSize: 15),
-                            textAlign: TextAlign.justify,)))
+                            textAlign: TextAlign.justify,))),
+                      Container(child:
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            child:Text(
+                              "Review",
+                              style: TextStyle(fontSize: 15),
+                              textAlign: TextAlign.justify,)
+                                  )
+                              ),
 
-                    ]
-              )
-            );
+                      Container(child:
+                                  Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children:[
+                                Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color:Colors.blueAccent)
+                                    ),
+                                    padding: EdgeInsets.all(10),
+                                    child:Column(children:[
+                                      Text(
+                                          "Katie says:",
+                                          style: TextStyle(fontSize: 15),
+                                          textAlign: TextAlign.left),
+                                      Text(
+                                          "Awesome!",
+                                          style: TextStyle(fontSize: 10),
+                                          textAlign: TextAlign.left),
+                                          ] //children
+                                        ) //column
+                                      )//Review respondent Container
+                                    ]//children
+                              ) //column
+                          ), //container
+                      Container(child:
+                      Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children:[
+                        TextFormField(
+                        decoration: const InputDecoration(
+                        icon: Icon(Icons.person),
+                          hintText: 'Enter review here.',
+                          labelText: 'Review',
+                        ),
+
+                          // This optional block of code can be used to run
+                          // code when the user saves the form.
+                        ),
+                        TextButton(
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                          ),
+                          onPressed: () { },
+                          child: Text('Submit'),
+                        )
+
+
+
+                      ]))
+
+                    ]));
 
           });
 
