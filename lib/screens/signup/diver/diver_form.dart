@@ -75,7 +75,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       });
   }
 
-  void sendRequest() {
+  void sendDiver() {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -296,7 +296,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                   //_formKey.currentState.save()
                   //  print(_controllerUsername.text),
                   //   print( _dateTime.toString()),
-                  sendRequest(),
+                  sendDiver(),
                   // Navigator.push(context,
                   //     MaterialPageRoute(builder: (context) => MainScreen()))
                 }

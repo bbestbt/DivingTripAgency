@@ -16,7 +16,9 @@ class _ListViewTripDetailState extends State<ListViewTripDetail> {
     'assets/images/S__83271684.jpg',
     'assets/images/S__83271687.jpg'
   ];
-
+  //var revList =["Charlotte","Peter","Ollie"];
+  //var revstarlist = [5,4,5];
+  //var revcomment =["Nice!", "Awesome!"]
   @override
   Widget build(BuildContext context) {
     //double width = MediaQuery.of(context).size.width * 0.9;
@@ -28,94 +30,80 @@ class _ListViewTripDetailState extends State<ListViewTripDetail> {
           itemCount: imgList.length,
           itemBuilder: (context, index) {
             return Card(
-              child: Column(
-                mainAxisSize:MainAxisSize.min,
-                children:<Widget>[
-                  Container(child:Image.asset(imgList[index])),
-                  Container(child:Text(nameList[index])),
-                  Container(child:
+                child: Column(
+                    mainAxisSize:MainAxisSize.min,
+                    children:<Widget>[
+                      Container(child:Image.asset(imgList[index])),
+                      Container(child:Text(nameList[index])),
+                      Container(child:
                       Container(
                           padding: EdgeInsets.all(10),
                           child:Text(
                             descList[index],
                             style: TextStyle(fontSize: 15),
                             textAlign: TextAlign.justify,))),
-                  Container(child:
+                      Container(child:
                           Container(
-                          padding: EdgeInsets.all(10),
-                          child:Text(
-                          "Review",
-                          style: TextStyle(fontSize: 15),
-                          textAlign: TextAlign.justify,))),
+                            padding: EdgeInsets.all(10),
+                            child:Text(
+                              "Review",
+                              style: TextStyle(fontSize: 15),
+                              textAlign: TextAlign.justify,)
+                                  )
+                              ),
 
-                  Container(child:
-                          Column(
+                      Container(child:
+                                  Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children:[
-                                  Container(
+                                Container(
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                    border: Border.all(color:Colors.blueAccent)
+                                        border: Border.all(color:Colors.blueAccent)
                                     ),
-                                     padding: EdgeInsets.all(10),
-                                      child:Column(children:[
-                                              Text(
-                                              "Katie says:",
-                                              style: TextStyle(fontSize: 15),
-                                              textAlign: TextAlign.left),
-                                              Text(
-                                              "Awesome!",
-                                              style: TextStyle(fontSize: 10),
-                                              textAlign: TextAlign.left),
-                                              ]
-                                        )
-                                  ),
-                                Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                border: Border.all(color:Colors.blueAccent)
-                                ),
-                                padding: EdgeInsets.all(10),
-                                child:Column(children:[
-                                Text(
-                                "Josh says:",
-                                style: TextStyle(fontSize: 15),
-                                textAlign: TextAlign.left),
-                                Text(
-                                "Great!",
-                                style: TextStyle(fontSize: 10),
-                                textAlign: TextAlign.left),
+                                    padding: EdgeInsets.all(10),
+                                    child:Column(children:[
+                                      Text(
+                                          "Katie says:",
+                                          style: TextStyle(fontSize: 15),
+                                          textAlign: TextAlign.left),
+                                      Text(
+                                          "Awesome!",
+                                          style: TextStyle(fontSize: 10),
+                                          textAlign: TextAlign.left),
+                                          ] //children
+                                        ) //column
+                                      )//Review respondent Container
+                                    ]//children
+                              ) //column
+                          ), //container
+                      Container(child:
+                      Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children:[
+                        TextFormField(
+                        decoration: const InputDecoration(
+                        icon: Icon(Icons.person),
+                          hintText: 'Enter review here.',
+                          labelText: 'Review',
+                        ),
+
+                          // This optional block of code can be used to run
+                          // code when the user saves the form.
+                        ),
+                        TextButton(
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                          ),
+                          onPressed: () { },
+                          child: Text('Submit'),
+                        )
 
 
-                              ]
-                              ),
-                              ),
-                                Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(color:Colors.blueAccent)
-                                  ),
-                                  padding: EdgeInsets.all(10),
-                                  child:Column(children:[
-                                    Text(
-                                        "Mike says:",
-                                        style: TextStyle(fontSize: 15),
-                                        textAlign: TextAlign.left),
-                                    Text(
-                                        "We have done our 14 nights for the Sandbox Program traveling with 11 years old son. The hotel facilities are amazing , gardens, the room , lobby , gym , pool and kid’s club are well kept and most importantly the attentive and professional service of the staffs . The swab centre are just 5 mins away and that’s a plus. There’s plenty of restaurants in the hotel and the breakfast selection ( ala carte) with daily special is to look forward everyday . We have decided to extent our stay for another 7 nights. We believed every hotels has its charms but the service that we get from JW Marriot has exceed our expection. They has set the Best Standard in this Hospitality Service industry . Thank you .",
-                                        style: TextStyle(fontSize: 10),
-                                        textAlign: TextAlign.left),
 
+                      ]))
 
-                                  ]
-                                  ),
-                                )
-
-
-                    ]
-              )
-            )
-                              ]));
+                    ]));
 
           });
 

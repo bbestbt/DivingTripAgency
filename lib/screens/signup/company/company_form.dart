@@ -30,14 +30,11 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String country;
   String region;
   String city;
-  //doc
-  //img
   io.File _image;
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerUsername = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-  //final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerCompanyemail = TextEditingController();
   final TextEditingController _controllerAddress = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
@@ -96,7 +93,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       });
   }
 
-  void sendRequest() {
+  void sendCompany() {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -261,7 +258,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-               sendRequest(),
+               sendCompany(),
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SignupDiveMaster())),
                }

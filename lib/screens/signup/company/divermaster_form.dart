@@ -1,10 +1,13 @@
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-//add card
+//ask numchok name of img
+//email phn?
 class DiveMasterForm extends StatefulWidget {
   String count;
   DiveMasterForm(String count) {
@@ -23,8 +26,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   File CardFile;
 
   File CardFileBack;
-  //doc
-
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerLastname = TextEditingController();
@@ -73,6 +74,32 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     }
   }
 
+  // void addDiverMaster() {
+  //   final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+  //       host: '139.59.101.136',
+  //       grpcPort: 50051,
+  //       grpcTransportSecure: false,
+  //       grpcWebPort: 8080,
+  //       grpcWebTransportSecure: false);
+
+  //   final stub = AgencyServiceClient(channel);
+  //   var diveMaster = DiveMaster();
+  //   diveMaster.firstName = _controllerName.text;
+  //   diveMaster.lastName = _controllerLastname.text;
+
+  //   var diveMasterRequest = AddDiveMasterRequest();
+  //   //
+  //   diveMasterRequest.diveMaster=diveMaster;
+
+  //   try {
+  //     //
+  //     var response = stub.addDiveMaster(diveMasterRequest);
+  //     print('response: ${response}');
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -91,30 +118,28 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           //doc
           //   FormError(errors: errors),
           Row(
-            children: [Column(
-              children: [
-                Text("Divemaster Card"),
-                Text('(Front)')
-              ],
-            ),
+            children: [
+              Column(
+                children: [Text("Divemaster Card"), Text('(Front)')],
+              ),
               Center(
                   child: CardFile == null
                       ? Column(
-                        children: [
-                          Text(''),
-                          Text(''),
-                        ],
-                      )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
                           ? Image.network(
                               CardFile.path,
                               fit: BoxFit.cover,
-                              width:300,
+                              width: 300,
                             )
                           : Image.file(
                               File(CardFile.path),
                               fit: BoxFit.cover,
-                              width:300,
+                              width: 300,
                             )),
               Spacer(),
               FlatButton(
@@ -132,20 +157,18 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           SizedBox(height: 20),
 
           Row(
-            children: [Column(
-              children: [
-                Text("Divemaster Card"),
-                Text("(Back)")
-              ],
-            ),
+            children: [
+              Column(
+                children: [Text("Divemaster Card"), Text("(Back)")],
+              ),
               Center(
                   child: CardFileBack == null
                       ? Column(
-                        children: [
-                          //Text('Divemaster Card '),
-                          // Text('(Back)')
-                        ],
-                      )
+                          children: [
+                            //Text('Divemaster Card '),
+                            // Text('(Back)')
+                          ],
+                        )
                       : kIsWeb
                           ? Image.network(
                               CardFileBack.path,
@@ -197,7 +220,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
         return null;
       },
       decoration: InputDecoration(
-        //  hintText: "Name",
+          //  hintText: "Name",
           labelText: "First Name",
           filled: true,
           fillColor: Colors.white,
@@ -226,7 +249,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
         return null;
       },
       decoration: InputDecoration(
-      //    hintText: "Lastname",
+          //    hintText: "Lastname",
           labelText: "Last Name",
           filled: true,
           fillColor: Colors.white,
@@ -264,7 +287,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-      //  hintText: "Email",
+        //  hintText: "Email",
         labelText: "Email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
@@ -293,7 +316,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-   //     hintText: "Phone number",
+        //     hintText: "Phone number",
         labelText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.phone),
