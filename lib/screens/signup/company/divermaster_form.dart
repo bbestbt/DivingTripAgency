@@ -74,31 +74,31 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     }
   }
 
-  // void addDiverMaster() {
-  //   final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-  //       host: '139.59.101.136',
-  //       grpcPort: 50051,
-  //       grpcTransportSecure: false,
-  //       grpcWebPort: 8080,
-  //       grpcWebTransportSecure: false);
+  void addDiverMaster() {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
 
-  //   final stub = AgencyServiceClient(channel);
-  //   var diveMaster = DiveMaster();
-  //   diveMaster.firstName = _controllerName.text;
-  //   diveMaster.lastName = _controllerLastname.text;
+    final stub = AgencyServiceClient(channel);
+    var diveMaster = DiveMaster();
+    diveMaster.firstName = _controllerName.text;
+    diveMaster.lastName = _controllerLastname.text;
 
-  //   var diveMasterRequest = AddDiveMasterRequest();
-  //   //
-  //   diveMasterRequest.diveMaster=diveMaster;
+    var diveMasterRequest = AddDiveMasterRequest();
+    //
+    diveMasterRequest.diveMaster=diveMaster;
 
-  //   try {
-  //     //
-  //     var response = stub.addDiveMaster(diveMasterRequest);
-  //     print('response: ${response}');
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
+    try {
+      //
+      var response = stub.addDiveMaster(diveMasterRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

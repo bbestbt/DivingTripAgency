@@ -261,7 +261,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                sendCompany(),
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SignupDiveMaster())),
-               }
+              }
             },
             color: Color(0xfff75BDFF),
             child: Text(
