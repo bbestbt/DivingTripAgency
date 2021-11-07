@@ -2,6 +2,7 @@ import 'package:diving_trip_agency/controllers/menuController.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/aboutus/aboutus_screen.dart';
 import 'package:diving_trip_agency/screens/Booking/divingshop_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:diving_trip_agency/constants.dart';
 import 'package:get/get.dart';
@@ -26,6 +27,7 @@ class WebMenu extends StatelessWidget {
             if(_controller.selectedIndex == 3) {Navigator.push(context, MaterialPageRoute(builder: (context) => AboutusScreen()));}
             if(_controller.selectedIndex == 4) {Navigator.push(context, MaterialPageRoute(builder: (context) => DivingshopScreen()));}
           }
+
         ),
       ),
     ));
