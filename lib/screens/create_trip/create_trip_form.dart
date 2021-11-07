@@ -1,4 +1,5 @@
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
+import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:io';
@@ -281,7 +282,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => MainScreen(),
+                  builder: (BuildContext context) => MainCompanyScreen(),
                 ),
                 (route) => false,
               )
