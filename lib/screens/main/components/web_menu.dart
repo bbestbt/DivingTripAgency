@@ -23,9 +23,9 @@ class WebMenu extends StatelessWidget {
           isActive: index==_controller.selectedIndex,
           press: () {_controller.setMenuIndex(index);
             if(_controller.selectedIndex == 0) {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));}
-            if(_controller.selectedIndex == 2) {Navigator.push(context, MaterialPageRoute(builder: (context) => PackageScreen()));}
-            if(_controller.selectedIndex == 3) {Navigator.push(context, MaterialPageRoute(builder: (context) => AboutusScreen()));}
-            if(_controller.selectedIndex == 4) {Navigator.push(context, MaterialPageRoute(builder: (context) => DivingshopScreen()));}
+            if(_controller.selectedIndex == 3) {Navigator.push(context, MaterialPageRoute(builder: (context) => PackageScreen()));}
+            if(_controller.selectedIndex == 4) {Navigator.push(context, MaterialPageRoute(builder: (context) => AboutusScreen()));}
+            if(_controller.selectedIndex == 5) {Navigator.push(context, MaterialPageRoute(builder: (context) => DivingshopScreen()));}
           }
 
         ),

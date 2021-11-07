@@ -24,7 +24,6 @@ class WebMenuCompany extends StatelessWidget {
           press: () {_controller.setMenuIndex(index);
             if(_controller.selectedIndex == 1) {Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTrip()));}
             if(_controller.selectedIndex == 2) {Navigator.push(context, MaterialPageRoute(builder: (context) => HotelScreen()));}
-            // if(_controller.selectedIndex == 3) {Navigator.push(context, MaterialPageRoute(builder: (context) => AboutusScreen()));}
             }
         ),
       ),
