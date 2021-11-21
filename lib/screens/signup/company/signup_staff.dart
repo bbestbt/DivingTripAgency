@@ -1,4 +1,5 @@
 import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
+import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/signup/company/addStaff.dart';
 import 'package:diving_trip_agency/screens/signup/company/staff_form.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class SignupStaff extends StatelessWidget {
                   FlatButton(
                     onPressed: () => {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => CreateTrip()))
+                          MaterialPageRoute(builder: (context) => MainCompanyScreen()))
                     },
                     color: Color(0xfff75BDFF),
                     child: Text(

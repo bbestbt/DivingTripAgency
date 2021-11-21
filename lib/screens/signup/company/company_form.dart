@@ -1,4 +1,6 @@
 import 'dart:io' as io;
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as syspaths;
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
@@ -58,11 +60,27 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
+
     );
     if (pickedFile != null) {
+     // print(pickedFile.path);
+     // print(path.basename(pickedFile.path));
       setState(() {
         imageFile = io.File(pickedFile.path);
+
       });
+      if (!kIsWeb) {
+        print(imageFile.path);
+        final appDir = await syspaths.getApplicationDocumentsDirectory();
+        print(appDir);
+
+        final fileName = path.basename(imageFile.path);
+        final savedImage = await imageFile.copy('${appDir.path}/$fileName');
+        print(fileName); //name of pic is here
+      }else{
+        final WebFileName = path.basename(imageFile.path);
+        print(WebFileName);
+      }
     }
   }
 
@@ -76,6 +94,18 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       setState(() {
         docFile = io.File(pickedFile.path);
       });
+      if (!kIsWeb) {
+        print(docFile.path);
+        final appDir = await syspaths.getApplicationDocumentsDirectory();
+        print(appDir);
+
+        final DocfileName = path.basename(docFile.path);
+        final DocsavedImage = await docFile.copy('${appDir.path}/$DocfileName');
+        print(DocfileName);
+      }else{
+        final WebDocName = path.basename(docFile.path);
+        print(WebDocName);
+      }
     }
   }
 
@@ -200,7 +230,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                           : Image.file(
                               io.File(docFile.path),
                               fit: BoxFit.cover,
-                              width: 300,
+                              width: 30,
                             )),
               Spacer(),
               FlatButton(
@@ -234,7 +264,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                           : Image.file(
                               io.File(imageFile.path),
                               fit: BoxFit.cover,
-                              width: 300,
+                              width: 10,
                             )),
               Spacer(),
               FlatButton(
@@ -261,7 +291,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                sendCompany(),
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SignupDiveMaster())),
-               }
+              }
             },
             color: Color(0xfff75BDFF),
             child: Text(

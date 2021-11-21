@@ -297,8 +297,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                   //  print(_controllerUsername.text),
                   //   print( _dateTime.toString()),
                   sendDiver(),
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => MainScreen()))
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MainScreen()))
                 }
             },
             color: Color(0xfff75BDFF),
