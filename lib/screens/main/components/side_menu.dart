@@ -15,7 +15,7 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-          color: Color(0xfff82CAFA),
+          color: Color(0xfffb9deed),
           child: Obx(
             () => ListView(
               children: [

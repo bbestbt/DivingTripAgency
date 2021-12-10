@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CenterSection extends StatelessWidget {
+class CenterCompanySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -11,7 +11,7 @@ class CenterSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Welcome to diving trip agency',
+            Text('Welcome agency',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
@@ -19,7 +19,7 @@ class CenterSection extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Text(
-                'Explore with us',
+                'Plan with us',
                 style: TextStyle(fontSize: 16),
               ),
             ),
@@ -34,7 +34,7 @@ class CenterSection extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Text(
                   'Our package',
-                  style: TextStyle(color: Colors.lightBlue, fontSize: 12),
+                  style: TextStyle(color: Colors.green, fontSize: 12),
                 ),
               ),
             )
@@ -49,8 +49,8 @@ class CenterSection extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-            Color(0xfffb9deed),
-            Color(0xfffefefef),
+             Color(0xfffcfecd0),
+            Color(0xfffffc5ca),
           ])),
     ));
   }

@@ -21,14 +21,8 @@ class Header extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-            // Color(0xfffa2e1db),
-            //  Color(0xfffabdee6)
-            Color(0xfff78c5dc),
-            Color(0xfff97dee7),
-            Color(0xfffb7ecea),
-            Color(0xfffd8f4ef),
-            //   Color(0xffff0fdfa),
-            Color(0xfffc5f7eb),
+            Color(0xfffb9deed),
+            Color(0xfffefefef),
           ])),
       child: SafeArea(
         child: Column(
@@ -48,9 +42,13 @@ class Header extends StatelessWidget {
                             }),
                       // SvgPicture.asset("assets/icons/logo.svg"),
                       FlatButton(
-                        onPressed:() {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
-                          }, child: Text('DivingTripAgency')),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MainScreen()));
+                          },
+                          child: Text('DivingTripAgency')),
                       Spacer(),
                       if (Responsive.isDesktop(context)) WebMenu(),
                       Spacer(),

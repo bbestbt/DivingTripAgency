@@ -16,11 +16,9 @@ class HotelScreen extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                  Color(0xfff78c5dc),
-                  Color(0xfff97dee7),
-                  Color(0xfffb7ecea),
-                  Color(0xfffd8f4ef),
-                  Color(0xfffc5f7eb),
+                  Color(0xfff69b7eb),
+                  Color(0xfffb3dbd3),
+                   Color(0xffff4d6db),
                 ])),
             child: SingleChildScrollView(
               child: Column(

@@ -1,4 +1,5 @@
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
+import 'package:diving_trip_agency/screens/main/components/center_comp.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class MainCompanyScreen extends StatelessWidget {
         child: Column(
           children: [
             HeaderCompany(),
+            CenterCompanySection(),
             SizedBox(
               height: 20,
             ),

@@ -12,7 +12,7 @@ class CompanyHamburger extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-          color: Color(0xfff96dfd8),
+          color: Color(0xfffcfecd0),
           child: Obx(
             () => ListView(
               children: [

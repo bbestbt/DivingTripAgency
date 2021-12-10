@@ -51,10 +51,10 @@ class _WebMenuCompanyItemState extends State<WebMenuCompanyItem> {
   bool _isHover=false;
   Color _borderColor(){
     if(widget.isActive){
-      return Color(0xFFF3c89d0);
+      return Color(0xFFFfb6f92);
     }
     else if(!widget.isActive & _isHover){
-      return Color(0xFFF3c89d0).withOpacity(0.4);
+      return Color(0xFFFfb6f92).withOpacity(0.4);
     }
     return Colors.transparent;
 
@@ -83,7 +83,7 @@ class _WebMenuCompanyItemState extends State<WebMenuCompanyItem> {
         ),
         child: Text(widget.text,
             style: TextStyle(
-                color: Color(0xfff3944BC),
+                color: Color(0xFFFb94543),
                 fontWeight: widget.isActive ? FontWeight.w600 : FontWeight.normal)),
       ),
     );
