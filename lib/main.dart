@@ -1,9 +1,7 @@
-
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -22,8 +20,8 @@ class MyApp extends StatelessWidget {
             style: TextButton.styleFrom(backgroundColor: Color(0xFFF52B2Bf)),
           ),
           fontFamily: 'Poppins'),
-      home: MainCompanyScreen(),
- //  home: MainScreen(), //Original
+      //  home: MainCompanyScreen(),
+      home: MainScreen(), //Original
     );
   }
 }
