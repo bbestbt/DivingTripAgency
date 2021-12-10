@@ -31,10 +31,10 @@ class CenterSection extends StatelessWidget {
               onPressed: () {},
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Text(
                   'Our package',
-                  style: TextStyle(color: Colors.lightBlue),
+                  style: TextStyle(color: Colors.lightBlue,fontSize: 12 ),
                 ),
               ),
             )
