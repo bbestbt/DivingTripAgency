@@ -1,4 +1,6 @@
+import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
+import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -113,94 +115,6 @@ class _InfoCardState extends State<InfoCard> {
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-// class liveaboardT extends StatelessWidget {
-//   const liveaboardT({
-//     Key key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: EdgeInsets.all(40),
-//       constraints: BoxConstraints(maxWidth: 1110),
-//       decoration: BoxDecoration(
-//           color: Colors.white, borderRadius: BorderRadius.circular(20)),
-//       child: Row(
-//         children: [
-//           Padding(
-//             padding: EdgeInsets.symmetric(horizontal: 20),
-//             child: SizedBox(
-//               height: 80,
-//               child: VerticalDivider(),
-//             ),
-//           ),
-//           Expanded(
-//               child: Column(
-//             children: [
-//               Text(
-//                 "LIVEABORD",
-//                 style: TextStyle(
-//                     fontSize: 42,
-//                     fontWeight: FontWeight.bold,
-//                     color: Colors.black),
-//               ),
-//             ],
-//           ))
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-class SectionTitle extends StatelessWidget {
-  const SectionTitle({
-    Key key,
-    this.title,
-    this.color,
-  }) : super(key: key);
-
-  final String title;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 20),
-      constraints: BoxConstraints(maxWidth: 1110),
-      height: 100,
-      child: Row(
-        children: [
-          Container(
-            margin: EdgeInsets.only(right: 20),
-            padding: EdgeInsets.only(bottom: 72),
-            width: 8,
-            height: 100,
-            color: Color(0xfff7ec4cf),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: color,
-              ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                title,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline2
-                    .copyWith(fontWeight: FontWeight.bold, color: Colors.black),
-              )
-            ],
-          )
-        ],
       ),
     );
   }
