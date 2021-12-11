@@ -60,7 +60,7 @@ class _StaffFormState extends State<StaffForm> {
   TextFormField buildNameFormField() {
     return TextFormField(
       controller: _controllerName,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
@@ -89,7 +89,7 @@ class _StaffFormState extends State<StaffForm> {
   TextFormField buildLastnameFormField() {
     return TextFormField(
       controller: _controllerLastname,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => lastname = newValue,
       onChanged: (value) {
@@ -118,7 +118,7 @@ class _StaffFormState extends State<StaffForm> {
   TextFormField buildPositionFormField() {
     return TextFormField(
       controller: _controllerPosition,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => position = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {

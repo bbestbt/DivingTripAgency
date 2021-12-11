@@ -1,4 +1,7 @@
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:flutter/material.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
 
 class addHotel extends StatefulWidget {
   @override
@@ -7,22 +10,64 @@ class addHotel extends StatefulWidget {
 
 class _addHotelState extends State<addHotel> {
   String hotel_name;
-  String star;
+  String highlight;
   String amenity;
   String max_capa;
-  String description;
+  String hotel_description;
   String price;
   String selected = null;
+  String phone;
+  String room_description;
 
   final List<String> errors = [];
   final TextEditingController _controllerHotelname = TextEditingController();
-  final TextEditingController _controllerDescription = TextEditingController();
-  final TextEditingController _controllerStar = TextEditingController();
+  final TextEditingController _controllerHoteldescription =
+      TextEditingController();
+  final TextEditingController _controllerHighlight = TextEditingController();
   final TextEditingController _controllerAmenity = TextEditingController();
   final TextEditingController _controllerMax = TextEditingController();
   final TextEditingController _controllerPrice = TextEditingController();
+  final TextEditingController _controllerPhone = TextEditingController();
+  final TextEditingController _controllerRoomdescription =
+      TextEditingController();
 
-//hotel img, room img
+  List<DropdownMenuItem<String>> listRoom = [];
+  List<Room_RoomType> roomtype = [
+    Room_RoomType.SINGLE,
+    Room_RoomType.DOUBLE,
+    Room_RoomType.TRIPLE,
+    Room_RoomType.QUAD,
+    Room_RoomType.QUEEN,
+    Room_RoomType.KING,
+    Room_RoomType.TWIN,
+    Room_RoomType.HOLLYWOOD_TWIN_ROOM,
+    Room_RoomType.DOUBLE_DOUBLE,
+    Room_RoomType.STUDIO,
+    Room_RoomType.EXECUTEIVE_SUITE,
+    Room_RoomType.MINI_SUITE,
+    Room_RoomType.PRESIDENTAL_SUITE,
+    Room_RoomType.APARTMENT,
+    Room_RoomType.CONNECTING_ROOMS,
+    Room_RoomType.MURPHY_ROOM,
+    Room_RoomType.DISABLED_ROOM,
+    Room_RoomType.CABANA,
+    Room_RoomType.ADJOINING_ROOMS,
+    Room_RoomType.ADJACENT_ROOMS,
+    Room_RoomType.VILLA,
+    Room_RoomType.FLOORED_ROOM,
+    Room_RoomType.SMOKING_NON_SMOKING,
+  ];
+
+  void loadData() {
+    roomtype.forEach((element) {
+      print(element);
+    });
+    listRoom = [];
+    listRoom = roomtype
+        .map((val) => DropdownMenuItem<String>(
+            child: Text(val.toString()), value: val.value.toString()))
+        .toList();
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -38,8 +83,52 @@ class _addHotelState extends State<addHotel> {
       });
   }
 
+  void sendHotel() {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+
+    final stub = AgencyServiceClient(channel);
+    var hotel = Hotel();
+    hotel.hotelName = _controllerHotelname.text;
+    hotel.hotelDescription = _controllerHoteldescription.text;
+    hotel.phone = _controllerPhone.text;
+   
+    //img -> wait ns
+    //highlight??
+    //star drop
+    var room = Room();
+    //img ns
+    //amen(list)
+    room.price = double.parse(_controllerPrice.text);
+    room.maxCapacity = int.parse(_controllerMax.text);
+    room.description = _controllerRoomdescription.text;
+
+    var RoomTypeSelected;
+    Room_RoomType.values.forEach((roomType) {
+      if (roomType.toString() == selected) {
+        RoomTypeSelected = roomType;
+      }
+    });
+    room.roomType = RoomTypeSelected;
+    var hotelRequest = AddHotelRequest();
+    hotelRequest.hotel = hotel;
+
+    try {
+      var response = stub.addHotel(hotelRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    loadData();
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -47,13 +136,40 @@ class _addHotelState extends State<addHotel> {
           SizedBox(height: 20),
           buildHotelNameFormField(),
           SizedBox(height: 20),
-          buildDescriptionFormField(),
+          buildHotelDescriptionFormField(),
+          SizedBox(height: 20),
+          buildPhoneFormField(),
           SizedBox(height: 20),
           Text('Hotel Image'),
           SizedBox(height: 20),
-          Text('dorpdown'),
+
+          Text('dropdown star'),
           SizedBox(height: 20),
-          buildStarFormField(),
+          buildHighlightFormField(),
+          SizedBox(height: 20),
+          Container(
+            color: Colors.white,
+            //color: Color(0xFFFd0efff),
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: selected,
+                items: listRoom,
+                hint: Text('  Select room type'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    selected = value;
+                    print(value);
+                  });
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          // Text('room dorpdown'),
+          // SizedBox(height: 20),
+          buildRoomDescriptionFormField(),
           SizedBox(height: 20),
           buildAmenityFormField(),
           SizedBox(height: 20),
@@ -80,7 +196,7 @@ class _addHotelState extends State<addHotel> {
   TextFormField buildHotelNameFormField() {
     return TextFormField(
       controller: _controllerHotelname,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => hotel_name = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -105,26 +221,53 @@ class _addHotelState extends State<addHotel> {
     );
   }
 
-  TextFormField buildDescriptionFormField() {
+  TextFormField buildHotelDescriptionFormField() {
     return TextFormField(
-      controller: _controllerDescription,
-      cursorColor: Color(0xFF6F35A5),
-      onSaved: (newValue) => description = newValue,
+      controller: _controllerHoteldescription,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => hotel_description = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please enter Description");
+          removeError(error: "Please enter hotel description");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please enter Description");
+          addError(error: "Please enter hotel description");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Description",
+        labelText: "Hotel description",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildRoomDescriptionFormField() {
+    return TextFormField(
+      controller: _controllerRoomdescription,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => room_description = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter room description");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter room description");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Room description",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -135,7 +278,7 @@ class _addHotelState extends State<addHotel> {
   TextFormField buildPriceFormField() {
     return TextFormField(
       controller: _controllerPrice,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => price = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -162,7 +305,7 @@ class _addHotelState extends State<addHotel> {
   TextFormField buildAmenityFormField() {
     return TextFormField(
       controller: _controllerAmenity,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => amenity = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -189,7 +332,7 @@ class _addHotelState extends State<addHotel> {
   TextFormField buildMaxCapacityFormField() {
     return TextFormField(
       controller: _controllerMax,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -213,26 +356,53 @@ class _addHotelState extends State<addHotel> {
     );
   }
 
-  TextFormField buildStarFormField() {
+  TextFormField buildHighlightFormField() {
     return TextFormField(
-      controller: _controllerStar,
-      cursorColor: Color(0xFF6F35A5),
-      onSaved: (newValue) => star = newValue,
+      controller: _controllerHighlight,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => highlight = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please enter star");
+          removeError(error: "Please enter highlight");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please enter star");
+          addError(error: "Please enter highlight");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Star",
+        labelText: "Highlight",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildPhoneFormField() {
+    return TextFormField(
+      controller: _controllerPhone,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => phone = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter phone");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter phone");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Phone",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,

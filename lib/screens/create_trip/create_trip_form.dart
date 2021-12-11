@@ -302,7 +302,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   TextFormField buildTripNameFormField() {
     return TextFormField(
       controller: _controllerTripname,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => tripname = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -330,7 +330,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   TextFormField buildDescriptionFormField() {
     return TextFormField(
       controller: _controllerDescription,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => description = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -357,7 +357,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   TextFormField buildPlaceFormField() {
     return TextFormField(
       controller: _controllerPlace,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => place = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -384,7 +384,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   TextFormField buildFromFormField() {
     return TextFormField(
       controller: _controllerFrom,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => from = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -411,7 +411,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   TextFormField buildToFormField() {
     return TextFormField(
       controller: _controllerTo,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => to = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -438,7 +438,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   TextFormField buildDiveMasterNameFormField() {
     return TextFormField(
       controller: _controllerDivemastername,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => divemastername = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -465,7 +465,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   TextFormField buildPriceFormField() {
     return TextFormField(
       controller: _controllerPrice,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => price = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -492,7 +492,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   TextFormField buildTotalPeopleFormField() {
     return TextFormField(
       controller: _controllerTotalpeople,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => totalpeople = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -519,7 +519,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   TextFormField buildBoatNameFormField() {
     return TextFormField(
       controller: _controllerBoatname,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => boatname = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {

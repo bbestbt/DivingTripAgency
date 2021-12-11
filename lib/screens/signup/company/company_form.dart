@@ -278,7 +278,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildNameFormField() {
     return TextFormField(
       controller: _controllerName,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
@@ -307,7 +307,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildUsernameFormField() {
     return TextFormField(
       controller: _controllerUsername,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => username = newValue,
       onChanged: (value) {
@@ -336,7 +336,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildAddressFormField() {
     return TextFormField(
       controller: _controllerAddress,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => address = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -551,7 +551,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildAddress2FormField() {
     return TextFormField(
       controller: _controllerAddress2,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => address2 = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -579,7 +579,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildCountryFormField() {
     return TextFormField(
       controller: _controllerCountry,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => country = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -607,7 +607,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildCityFormField() {
     return TextFormField(
       controller: _controllerCity,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => city = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -635,7 +635,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildRegionFormField() {
     return TextFormField(
       controller: _controllerRegion,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => region = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -663,7 +663,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildPostalCodeFormField() {
     return TextFormField(
       controller: _controllerPostalcode,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => postalCode = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
