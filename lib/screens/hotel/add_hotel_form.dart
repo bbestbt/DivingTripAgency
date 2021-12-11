@@ -1,6 +1,7 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/hotel/addRoom.dart';
+import 'package:diving_trip_agency/screens/hotel/highlight.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -24,11 +25,9 @@ class _addHotelState extends State<addHotel> {
   final TextEditingController _controllerHotelname = TextEditingController();
   final TextEditingController _controllerHoteldescription =
       TextEditingController();
-  final TextEditingController _controllerHighlight = TextEditingController();
+
 
   final TextEditingController _controllerPhone = TextEditingController();
-
-  
 
   void loadData() {
     listStar = [];
@@ -68,7 +67,7 @@ class _addHotelState extends State<addHotel> {
     hotel.star = int.parse(starSelected);
     //img -> wait ns
     //highlight??
-    
+
     //  var room = Room();
     // //img ns
     // //amen(list)
@@ -132,16 +131,22 @@ class _addHotelState extends State<addHotel> {
             ),
           ),
           SizedBox(height: 20),
-          buildHighlightFormField(),
-          SizedBox(height: 20),
-          Container(
+            Container(
                     width: MediaQuery.of(context).size.width / 1.5,
                      decoration: BoxDecoration(
-                          color: Color(0xfffffc6bf),
+                          color: Color(0xfffd4f0f0),
                           borderRadius: BorderRadius.circular(10)),
-                    child: AddMoreRoom(),
+                    child: AddMoreHighlight(),
                    
                   ), SizedBox(height: 30),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xffffee1e8),
+                borderRadius: BorderRadius.circular(10)),
+            child: AddMoreRoom(),
+          ),
+          SizedBox(height: 30),
           FlatButton(
             onPressed: () => {},
             color: Color(0xfff75BDFF),
@@ -211,32 +216,7 @@ class _addHotelState extends State<addHotel> {
     );
   }
 
-  TextFormField buildHighlightFormField() {
-    return TextFormField(
-      controller: _controllerHighlight,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => highlight = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter highlight");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter highlight");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Highlight",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
+  
 
   TextFormField buildPhoneFormField() {
     return TextFormField(

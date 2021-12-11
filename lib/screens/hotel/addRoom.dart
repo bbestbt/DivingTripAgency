@@ -15,7 +15,8 @@ class _AddMoreRoomState extends State<AddMoreRoom> {
           child: Column(children: [
         ListView.separated(
             separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
+                const Divider(thickness: 5, indent: 20,
+            endIndent: 20,),
             shrinkWrap: true,
             itemCount: count,
             itemBuilder: (BuildContext context, int index) {

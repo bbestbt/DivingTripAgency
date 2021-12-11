@@ -88,7 +88,7 @@ class _RoomFormState extends State<RoomForm> {
         child: Column(children: [
           SizedBox(height: 20),
           Container(
-            color: Color(0xfffffc6bf),
+            color: Color(0xffffee1e8),
             child: Center(
               child: DropdownButton(
                 isExpanded: true,
@@ -144,7 +144,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Room description",
         filled: true,
-        fillColor: Color(0xfffffc6bf),
+        fillColor: Color(0xffffee1e8),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -171,7 +171,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Price",
         filled: true,
-        fillColor: Color(0xfffffc6bf),
+        fillColor: Color(0xffffee1e8),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -198,7 +198,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Max capacity",
         filled: true,
-        fillColor: Color(0xfffffc6bf),
+        fillColor: Color(0xffffee1e8),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -225,7 +225,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Amenity",
         filled: true,
-        fillColor: Color(0xfffffc6bf),
+        fillColor: Color(0xffffee1e8),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
