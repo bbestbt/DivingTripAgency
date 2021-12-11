@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 
@@ -18,6 +19,9 @@ class _addHotelState extends State<addHotel> {
   String selected = null;
   String phone;
   String room_description;
+  List<DropdownMenuItem<String>> listStar = [];
+  List<String> star = ['1', '2', '3', '4', '5'];
+  String starSelected = null;
 
   final List<String> errors = [];
   final TextEditingController _controllerHotelname = TextEditingController();
@@ -59,13 +63,18 @@ class _addHotelState extends State<addHotel> {
   ];
 
   void loadData() {
-    roomtype.forEach((element) {
-      print(element);
-    });
+    // roomtype.forEach((element) {
+    //   print(element);
+    // });
     listRoom = [];
     listRoom = roomtype
         .map((val) => DropdownMenuItem<String>(
             child: Text(val.toString()), value: val.value.toString()))
+        .toList();
+
+    listStar = [];
+    listStar = star
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
         .toList();
   }
 
@@ -97,10 +106,9 @@ class _addHotelState extends State<addHotel> {
     hotel.hotelName = _controllerHotelname.text;
     hotel.hotelDescription = _controllerHoteldescription.text;
     hotel.phone = _controllerPhone.text;
-   
+    hotel.star=int.parse(starSelected);
     //img -> wait ns
     //highlight??
-    //star drop
     var room = Room();
     //img ns
     //amen(list)
@@ -142,8 +150,27 @@ class _addHotelState extends State<addHotel> {
           SizedBox(height: 20),
           Text('Hotel Image'),
           SizedBox(height: 20),
-
-          Text('dropdown star'),
+          // LevelDropdown(),
+          // Text('dropdown star'),
+          Container(
+            color: Colors.white,
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: starSelected,
+                items: listStar,
+                hint: Text('  Select star'),
+                iconSize: 40,
+                onChanged: (value) {
+                  starSelected = value;
+                  setState(() {
+                    starSelected = value;
+                    print(value);
+                  });
+                },
+              ),
+            ),
+          ),
           SizedBox(height: 20),
           buildHighlightFormField(),
           SizedBox(height: 20),
