@@ -66,9 +66,8 @@ class _addHotelState extends State<addHotel> {
     hotel.phone = _controllerPhone.text;
     hotel.star = int.parse(starSelected);
     //img -> wait ns
-    //highlight??
 
-    //  var room = Room();
+   //  var room = Room();
     // //img ns
     // //amen(list)
 
@@ -131,14 +130,14 @@ class _addHotelState extends State<addHotel> {
             ),
           ),
           SizedBox(height: 20),
-            Container(
-                    width: MediaQuery.of(context).size.width / 1.5,
-                     decoration: BoxDecoration(
-                          color: Color(0xfffd4f0f0),
-                          borderRadius: BorderRadius.circular(10)),
-                    child: AddMoreHighlight(),
+            // Container(
+            //         width: MediaQuery.of(context).size.width / 1.5,
+            //          decoration: BoxDecoration(
+            //               color: Color(0xfffd4f0f0),
+            //               borderRadius: BorderRadius.circular(10)),
+            //         child: AddMoreHighlight(),
                    
-                  ), SizedBox(height: 30),
+            //       ), SizedBox(height: 30),
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
