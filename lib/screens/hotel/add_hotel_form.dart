@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+
 class addHotel extends StatefulWidget {
   @override
   _addHotelState createState() => _addHotelState();
@@ -45,8 +46,6 @@ class _addHotelState extends State<addHotel> {
       });
     }
   }
-
-
 
   void loadData() {
     listStar = [];
@@ -90,6 +89,7 @@ class _addHotelState extends State<addHotel> {
     //highlight??
 
     //  var room = Room();
+
     // //img ns
     // //amen(list)
 
@@ -182,6 +182,7 @@ class _addHotelState extends State<addHotel> {
               ),
             ],
           ),
+
           SizedBox(height: 20),
           Container(
             color: Colors.white,
@@ -203,14 +204,16 @@ class _addHotelState extends State<addHotel> {
             ),
           ),
           SizedBox(height: 20),
-            Container(
-                    width: MediaQuery.of(context).size.width / 1.5,
-                     decoration: BoxDecoration(
-                          color: Color(0xfffd4f0f0),
-                          borderRadius: BorderRadius.circular(10)),
-                    child: AddMoreHighlight(),
+
+            // Container(
+            //         width: MediaQuery.of(context).size.width / 1.5,
+            //          decoration: BoxDecoration(
+            //               color: Color(0xfffd4f0f0),
+            //               borderRadius: BorderRadius.circular(10)),
+            //         child: AddMoreHighlight(),
                    
-                  ), SizedBox(height: 30),
+            //       ), SizedBox(height: 30),
+
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(

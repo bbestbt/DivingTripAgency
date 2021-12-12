@@ -1,8 +1,10 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:flutter/material.dart';
+
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+
 
 class RoomForm extends StatefulWidget {
   String count;
@@ -21,6 +23,7 @@ class _RoomFormState extends State<RoomForm> {
   String amenity;
   String selected = null;
   File roomimg;
+  String room_type;
   _RoomFormState(String count) {
     this.count = count;
   }
@@ -30,6 +33,7 @@ class _RoomFormState extends State<RoomForm> {
   final TextEditingController _controllerMax = TextEditingController();
   final TextEditingController _controllerPrice = TextEditingController();
   final TextEditingController _controllerAmenity = TextEditingController();
+  final TextEditingController _controllerRoomyype = TextEditingController();
 
   List<DropdownMenuItem<String>> listRoom = [];
   List<Room_RoomType> roomtype = [
@@ -98,31 +102,31 @@ class _RoomFormState extends State<RoomForm> {
 
   @override
   Widget build(BuildContext context) {
-    loadData();
+    //loadData();
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           SizedBox(height: 20),
-          Container(
-            color: Color(0xffffee1e8),
-            child: Center(
-              child: DropdownButton(
-                isExpanded: true,
-                value: selected,
-                items: listRoom,
-                hint: Text('  Select room type'),
-                iconSize: 40,
-                onChanged: (value) {
-                  setState(() {
-                    selected = value;
-                    print(value);
-                  });
-                },
-              ),
-            ),
-          ),
-
+          // Container(
+          //   color: Color(0xffffee1e8),
+          //   child: Center(
+          //     child: DropdownButton(
+          //       isExpanded: true,
+          //       value: selected,
+          //       items: listRoom,
+          //       hint: Text('  Select room type'),
+          //       iconSize: 40,
+          //       onChanged: (value) {
+          //         setState(() {
+          //           selected = value;
+          //           print(value);
+          //         });
+          //       },
+          //     ),
+          //   ),
+          // ),
+          buildRoomTypeFormField(),
           SizedBox(height: 20),
           buildRoomDescriptionFormField(),
           SizedBox(height: 20),
@@ -181,6 +185,7 @@ class _RoomFormState extends State<RoomForm> {
               ),
             ],
           ),
+          Text('Room Image'),
           SizedBox(height: 20),
           buildPriceFormField(),
           //   FormError(errors: errors),
@@ -291,6 +296,34 @@ class _RoomFormState extends State<RoomForm> {
       },
       decoration: InputDecoration(
         labelText: "Amenity",
+        filled: true,
+        fillColor: Color(0xffffee1e8),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  
+  TextFormField buildRoomTypeFormField() {
+    return TextFormField(
+      controller: _controllerRoomyype,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => room_type = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter room type");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter room type");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Room type",
         filled: true,
         fillColor: Color(0xffffee1e8),
         floatingLabelBehavior: FloatingLabelBehavior.always,
