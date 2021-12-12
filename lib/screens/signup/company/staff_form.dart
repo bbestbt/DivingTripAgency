@@ -1,4 +1,6 @@
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:flutter/material.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
 
 class StaffForm extends StatefulWidget {
   String count;
@@ -36,6 +38,32 @@ class _StaffFormState extends State<StaffForm> {
         errors.remove(error);
       });
   }
+
+  void addStaff() {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+
+    final stub = AgencyServiceClient(channel);
+    var staff = Staff();
+    staff.firstName = _controllerName.text;
+    staff.lastName = _controllerLastname.text;
+    staff.position = _controllerPosition.text;
+
+    var staffRequest = AddStaffRequest();
+    staffRequest.staff=staff;
+
+    try {
+      var response = stub.addStaff(staffRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

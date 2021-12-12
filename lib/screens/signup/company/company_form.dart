@@ -257,12 +257,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           SizedBox(height: 20),
           FlatButton(
             onPressed: () => {
-              if (_formKey.currentState.validate())
-                {
-               sendCompany(),
+              // if (_formKey.currentState.validate())
+              //   {
+              //  sendCompany(),
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SignupDiveMaster())),
-              }
+             // }
             },
             color: Color(0xfff75BDFF),
             child: Text(

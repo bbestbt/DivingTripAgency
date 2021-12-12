@@ -1,4 +1,5 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pbenum.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -6,8 +7,6 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-//ask numchok name of img
-//email phn?
 class DiveMasterForm extends StatefulWidget {
   String count;
   DiveMasterForm(String count) {
@@ -24,6 +23,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   String email;
   String phoneNumber;
   File CardFile;
+  String levelSelected = null;
 
   File CardFileBack;
   final List<String> errors = [];
@@ -33,6 +33,26 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   final TextEditingController _controllerPhone = TextEditingController();
 
   _DiveMasterFormState(String count);
+
+  List<DropdownMenuItem<String>> listLevel = [];
+  List<LevelType> level = [
+    LevelType.MASTER,
+    LevelType.OPEN_WATER,
+    LevelType.RESCUE,
+    LevelType.INSTRUCTOR,
+    LevelType.ADVANCED_OPEN_WATER
+  ];
+
+  void loadData() {
+    level.forEach((element) {
+      print(element);
+    });
+    listLevel = [];
+    listLevel = level
+        .map((val) => DropdownMenuItem<String>(
+            child: Text(val.toString()), value: val.value.toString()))
+        .toList();
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -87,12 +107,18 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     diveMaster.firstName = _controllerName.text;
     diveMaster.lastName = _controllerLastname.text;
 
+    var levelTypeSelected;
+    LevelType.values.forEach((levelType) {
+      if (levelType.toString() == levelSelected) {
+        levelTypeSelected = levelType;
+      }
+    });
+    diveMaster.level = levelTypeSelected;
+
     var diveMasterRequest = AddDiveMasterRequest();
-    //
     diveMasterRequest.diveMaster=diveMaster;
 
     try {
-      //
       var response = stub.addDiveMaster(diveMasterRequest);
       print('response: ${response}');
     } catch (e) {
@@ -102,6 +128,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
 
   @override
   Widget build(BuildContext context) {
+    loadData();
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -111,9 +138,28 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           SizedBox(height: 20),
           buildLastnameFormField(),
           SizedBox(height: 20),
-          buildEmailFormField(),
-          SizedBox(height: 20),
-          buildPhoneNumberFormField(),
+           Container(
+            color: Colors.white,
+            //color: Color(0xFFFd0efff),
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: levelSelected,
+                items: listLevel,
+                hint: Text('  Select level'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    levelSelected = value;
+                    print(value);
+                  });
+                },
+              ),
+            ),
+          ),
+          // buildEmailFormField(),
+          // SizedBox(height: 20),
+          // buildPhoneNumberFormField(),
           SizedBox(height: 20),
           //doc
           //   FormError(errors: errors),

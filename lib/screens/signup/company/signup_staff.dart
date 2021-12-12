@@ -12,20 +12,15 @@ class SignupStaff extends StatelessWidget {
         width: double.infinity,
         child: SingleChildScrollView(
           child: Container(
-             height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                  // Color(0xfffa2e1db),
-                  //  Color(0xfffabdee6)
-                  Color(0xfff78c5dc),
-                  Color(0xfff97dee7),
-                  Color(0xfffb7ecea),
-                  Color(0xfffd8f4ef),
-                  //   Color(0xffff0fdfa),
+                  Color(0xffff598a8),
+                  Color(0xffff6edb2),
                   Color(0xfffc5f7eb),
                 ])),
             child: SingleChildScrollView(
@@ -39,18 +34,19 @@ class SignupStaff extends StatelessWidget {
                   SizedBox(height: 50),
                   Container(
                     width: MediaQuery.of(context).size.width / 1.5,
-                     decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10)),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
                     child: AddMoreStaff(),
-                   
-                  ), SizedBox(height: 30),
-                 
+                  ),
+                  SizedBox(height: 30),
                   SizedBox(height: 20),
                   FlatButton(
                     onPressed: () => {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MainCompanyScreen()))
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MainCompanyScreen()))
                     },
                     color: Color(0xfff75BDFF),
                     child: Text(

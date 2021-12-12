@@ -17,12 +17,8 @@ class SignupCompanyScreen extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                  // Color(0xfffa2e1db),
-                  //  Color(0xfffabdee6)
                   Color(0xffff598a8),
                   Color(0xffff6edb2),
-                  
-                  //   Color(0xffff0fdfa),
                   Color(0xfffc5f7eb),
                 ])),
                 
