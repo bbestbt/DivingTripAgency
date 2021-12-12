@@ -29,8 +29,10 @@ class liveaboard extends StatelessWidget {
                       runSpacing: 40,
                       children: List.generate(
                         LiveAboardDatas.length,
-                        (index) => InfoCard(
-                          index: index,
+                        (index) => Center(
+                          child: InfoCard(
+                            index: index,
+                          ),
                         ),
                       ))),
               SizedBox(
@@ -80,12 +82,7 @@ class _InfoCardState extends State<InfoCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Row(
-                          children: [
-                            Text('Trip name : '),
-                            Text(LiveAboardDatas[widget.index].name),
-                          ],
-                        ),
+                        Text('Trip name : '+LiveAboardDatas[widget.index].name),
                         SizedBox(
                           height: 10,
                         ),
@@ -93,12 +90,7 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          children: [
-                            Text('Price :'),
-                            Text(LiveAboardDatas[widget.index].price),
-                          ],
-                        ),
+                        Text('Price : '+LiveAboardDatas[widget.index].price),
                         SizedBox(
                           height: 20,
                         ),

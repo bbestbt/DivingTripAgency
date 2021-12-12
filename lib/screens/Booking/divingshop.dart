@@ -24,31 +24,33 @@ class _DivingShopState extends State<DivingShop> {
           shrinkWrap: true,
           itemCount: imgList.length,
           itemBuilder: (context, index) {
-            return Card(
-                child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[Flexible(flex:1,child:
-                      Container(child: Image.asset(imgList[index]))),
+            return Center(
+              child: Card(
+                  child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[Flexible(flex:1,child:
+                        Container(child: Image.asset(imgList[index]))),
 
-                      Flexible(flex:2,child:
-                            Column(mainAxisSize: MainAxisSize.min,children:[
-                              Container(child: Text("TestBooking")),
-                              Container(child: Column(children:[
-                                Text("Location: Phuket"),
-                                Text("Full Board"),
-                                Text("5 Star Hotel")
-                              ]))
-                            ]
-                              )
+                        Flexible(flex:2,child:
+                              Column(mainAxisSize: MainAxisSize.min,children:[
+                                Container(child: Text("TestBooking")),
+                                Container(child: Column(children:[
+                                  Text("Location: Phuket"),
+                                  Text("Full Board"),
+                                  Text("5 Star Hotel")
+                                ]))
+                              ]
+                                )
 
 
 
-                            ),
-                      Flexible(flex:1,child:
-                      Container(child: Text("Stars"))),
+                              ),
+                        Flexible(flex:1,child:
+                        Container(child: Text("Stars"))),
 
-                    ]
-                )
+                      ]
+                  )
+              ),
             );
           }
     );
