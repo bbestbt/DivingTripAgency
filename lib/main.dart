@@ -1,15 +1,7 @@
-import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
-import 'package:diving_trip_agency/screens/aboutus/aboutus_screen.dart';
-import 'package:diving_trip_agency/screens/detail/package_screen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
-import 'package:diving_trip_agency/screens/signup/company/signup_company.dart';
-import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
-import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
-import 'package:diving_trip_agency/screens/signup/diver/signup_diver.dart';
+import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'constants.dart';
-import 'screens/profile/profile_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,9 +20,8 @@ class MyApp extends StatelessWidget {
             style: TextButton.styleFrom(backgroundColor: Color(0xFFF52B2Bf)),
           ),
           fontFamily: 'Poppins'),
-      // home: LoginScreen(),
-  //  home:AboutusScreen(),
-     home: MainScreen(), //Original
+       home: MainCompanyScreen(),
+     // home: MainScreen(), //Original
     );
   }
 }

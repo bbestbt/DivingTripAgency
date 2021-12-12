@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MenuController extends GetxController{
+class MenuCompany extends GetxController{
   RxInt _seleectedIndex=0.obs;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int get selectedIndex => _seleectedIndex.value;
-  List<String> get menuItems =>["main","Liveaboards","Dive resorts","Trip Details","About Us","Book a trip now"];
+  List<String> get menuItems =>["main","Create trip","Add hotel","Edit profile"];
 
   GlobalKey<ScaffoldState> get scaffoldkey => _scaffoldKey;
 
