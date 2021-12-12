@@ -135,7 +135,7 @@ class _addHotelState extends State<addHotel> {
           Row(
             children: [
               Column(
-                children: [Text("Image")],
+                children: [Text("Hotel image")],
               ),
               Center(
                   child: hotelimg == null

@@ -134,11 +134,10 @@ class _RoomFormState extends State<RoomForm> {
           SizedBox(height: 20),
           buildAmenityFormField(),
           SizedBox(height: 20),
-          //Text('Room Image'),
           Row(
             children: [
               Column(
-                children: [Text("Image")],
+                children: [Text("Room image")],
               ),
               Center(
                   child: roomimg == null
@@ -185,7 +184,6 @@ class _RoomFormState extends State<RoomForm> {
               ),
             ],
           ),
-          Text('Room Image'),
           SizedBox(height: 20),
           buildPriceFormField(),
           //   FormError(errors: errors),
