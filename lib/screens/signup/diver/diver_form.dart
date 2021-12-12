@@ -316,7 +316,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   TextFormField buildNameFormField() {
     return TextFormField(
       controller: _controllerName,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
@@ -346,7 +346,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   TextFormField buildLastnameFormField() {
     return TextFormField(
       controller: _controllerLastname,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => lastname = newValue,
       onChanged: (value) {
@@ -375,7 +375,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   TextFormField buildUsernameFormField() {
     return TextFormField(
       controller: _controllerUsername,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => username = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {

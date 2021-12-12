@@ -1,6 +1,4 @@
 import 'dart:io' as io;
-import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart' as syspaths;
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
@@ -60,27 +58,11 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
-
     );
     if (pickedFile != null) {
-     // print(pickedFile.path);
-     // print(path.basename(pickedFile.path));
       setState(() {
         imageFile = io.File(pickedFile.path);
-
       });
-      if (!kIsWeb) {
-        print(imageFile.path);
-        final appDir = await syspaths.getApplicationDocumentsDirectory();
-        print(appDir);
-
-        final fileName = path.basename(imageFile.path);
-        final savedImage = await imageFile.copy('${appDir.path}/$fileName');
-        print(fileName); //name of pic is here
-      }else{
-        final WebFileName = path.basename(imageFile.path);
-        print(WebFileName);
-      }
     }
   }
 
@@ -94,18 +76,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       setState(() {
         docFile = io.File(pickedFile.path);
       });
-      if (!kIsWeb) {
-        print(docFile.path);
-        final appDir = await syspaths.getApplicationDocumentsDirectory();
-        print(appDir);
-
-        final DocfileName = path.basename(docFile.path);
-        final DocsavedImage = await docFile.copy('${appDir.path}/$DocfileName');
-        print(DocfileName);
-      }else{
-        final WebDocName = path.basename(docFile.path);
-        print(WebDocName);
-      }
     }
   }
 
@@ -148,6 +118,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     agency.phone = _controllerPhone.text;
     agency.address = address;
     agency.account = account;
+    //agency.documents.add(imageFile);
 
     var accountRequest = AccountRequest();
     accountRequest.agency = agency;
@@ -230,7 +201,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                           : Image.file(
                               io.File(docFile.path),
                               fit: BoxFit.cover,
-                              width: 30,
+                              width: 300,
                             )),
               Spacer(),
               FlatButton(
@@ -264,7 +235,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                           : Image.file(
                               io.File(imageFile.path),
                               fit: BoxFit.cover,
-                              width: 10,
+                              width: 300,
                             )),
               Spacer(),
               FlatButton(
@@ -308,7 +279,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildNameFormField() {
     return TextFormField(
       controller: _controllerName,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
@@ -337,7 +308,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildUsernameFormField() {
     return TextFormField(
       controller: _controllerUsername,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => username = newValue,
       onChanged: (value) {
@@ -366,7 +337,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildAddressFormField() {
     return TextFormField(
       controller: _controllerAddress,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => address = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -581,7 +552,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildAddress2FormField() {
     return TextFormField(
       controller: _controllerAddress2,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => address2 = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -609,7 +580,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildCountryFormField() {
     return TextFormField(
       controller: _controllerCountry,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => country = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -637,7 +608,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildCityFormField() {
     return TextFormField(
       controller: _controllerCity,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => city = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -665,7 +636,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildRegionFormField() {
     return TextFormField(
       controller: _controllerRegion,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => region = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -693,7 +664,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildPostalCodeFormField() {
     return TextFormField(
       controller: _controllerPostalcode,
-      cursorColor: Color(0xFF6F35A5),
+      cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => postalCode = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {

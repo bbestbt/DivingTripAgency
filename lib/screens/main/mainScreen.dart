@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/constants.dart';
 import 'package:diving_trip_agency/controllers/menuController.dart';
+import 'package:diving_trip_agency/screens/main/components/center.dart';
 import 'package:diving_trip_agency/screens/main/components/side_menu.dart';
 import 'package:diving_trip_agency/screens/main/components/top_section.dart';
 import 'package:diving_trip_agency/screens/main/components/web_menu.dart';
@@ -32,7 +33,8 @@ class MainScreen extends StatelessWidget {
         child: Column(
           children: [
             Header(),
-            TopSection(),
+            // TopSection(),
+            CenterSection(),
             SizedBox(height: 20,),
             Text('Recommended Trip'),
             CarouselWithDotsPage(imgList: imgList),

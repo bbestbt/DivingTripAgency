@@ -4,6 +4,8 @@ import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/aboutus/aboutus_screen.dart';
 import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens/hotel/add_hotel_screen.dart';
+import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
+
 import 'package:flutter/material.dart';
 import 'package:diving_trip_agency/constants.dart';
 import 'package:get/get.dart';
@@ -22,6 +24,7 @@ class WebMenuCompany extends StatelessWidget {
           text: _controller.menuItems[index],
           isActive: index==_controller.selectedIndex,
           press: () {_controller.setMenuIndex(index);
+            if(_controller.selectedIndex == 0) {Navigator.push(context, MaterialPageRoute(builder: (context) => MainCompanyScreen()));}
             if(_controller.selectedIndex == 1) {Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTrip()));}
             if(_controller.selectedIndex == 2) {Navigator.push(context, MaterialPageRoute(builder: (context) => HotelScreen()));}
             }
@@ -51,10 +54,10 @@ class _WebMenuCompanyItemState extends State<WebMenuCompanyItem> {
   bool _isHover=false;
   Color _borderColor(){
     if(widget.isActive){
-      return Color(0xFFF3c89d0);
+      return Color(0xFFFfb6f92);
     }
     else if(!widget.isActive & _isHover){
-      return Color(0xFFF3c89d0).withOpacity(0.4);
+      return Color(0xFFFfb6f92).withOpacity(0.4);
     }
     return Colors.transparent;
 
@@ -83,7 +86,7 @@ class _WebMenuCompanyItemState extends State<WebMenuCompanyItem> {
         ),
         child: Text(widget.text,
             style: TextStyle(
-                color: Color(0xfff3944BC),
+                color: Color(0xFFFb94543),
                 fontWeight: widget.isActive ? FontWeight.w600 : FontWeight.normal)),
       ),
     );
