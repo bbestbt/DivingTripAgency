@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pbenum.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
@@ -161,8 +162,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           // SizedBox(height: 20),
           // buildPhoneNumberFormField(),
           SizedBox(height: 20),
-          //doc
-          //   FormError(errors: errors),
+          FormError(errors: errors),
           Row(
             children: [
               Column(
