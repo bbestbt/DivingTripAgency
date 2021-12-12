@@ -1,6 +1,11 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:flutter/material.dart';
 
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+
 class RoomForm extends StatefulWidget {
   String count;
   RoomForm(String count) {
@@ -17,6 +22,7 @@ class _RoomFormState extends State<RoomForm> {
   String price;
   String amenity;
   String selected = null;
+  File roomimg;
   String room_type;
   _RoomFormState(String count) {
     this.count = count;
@@ -81,6 +87,19 @@ class _RoomFormState extends State<RoomForm> {
       });
   }
 
+  _getroomimg() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        roomimg = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //loadData();
@@ -115,6 +134,57 @@ class _RoomFormState extends State<RoomForm> {
           SizedBox(height: 20),
           buildAmenityFormField(),
           SizedBox(height: 20),
+          //Text('Room Image'),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: roomimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    roomimg.path,
+                    fit: BoxFit.cover,
+                    width: 300,
+                  )
+                      : Image.file(
+                    File(roomimg.path),
+                    fit: BoxFit.cover,
+                    width: 50,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          // Color(0xfffaea4e3),
+                          // Color(0xfffd3ffe8),
+                          Color(0xfffcfecd0),
+                          Color(0xfffffc5ca),
+                        ])),
+                    child: Container(
+                        constraints: const BoxConstraints(minWidth:88.0,minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getroomimg();
+                },
+              ),
+            ],
+          ),
           Text('Room Image'),
           SizedBox(height: 20),
           buildPriceFormField(),

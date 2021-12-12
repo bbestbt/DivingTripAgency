@@ -118,6 +118,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     agency.phone = _controllerPhone.text;
     agency.address = address;
     agency.account = account;
+    //agency.documents.add(imageFile);
 
     var accountRequest = AccountRequest();
     accountRequest.agency = agency;

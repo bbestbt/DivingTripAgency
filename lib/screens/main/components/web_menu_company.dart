@@ -4,6 +4,8 @@ import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/aboutus/aboutus_screen.dart';
 import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens/hotel/add_hotel_screen.dart';
+import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
+
 import 'package:flutter/material.dart';
 import 'package:diving_trip_agency/constants.dart';
 import 'package:get/get.dart';
@@ -22,6 +24,7 @@ class WebMenuCompany extends StatelessWidget {
           text: _controller.menuItems[index],
           isActive: index==_controller.selectedIndex,
           press: () {_controller.setMenuIndex(index);
+            if(_controller.selectedIndex == 0) {Navigator.push(context, MaterialPageRoute(builder: (context) => MainCompanyScreen()));}
             if(_controller.selectedIndex == 1) {Navigator.push(context, MaterialPageRoute(builder: (context) => CreateTrip()));}
             if(_controller.selectedIndex == 2) {Navigator.push(context, MaterialPageRoute(builder: (context) => HotelScreen()));}
             }
