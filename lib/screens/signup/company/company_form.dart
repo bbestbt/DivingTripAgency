@@ -7,6 +7,7 @@ import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
 
 //check pass
 class SignupCompanyForm extends StatefulWidget {
@@ -22,7 +23,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String companyEmail;
   // String email;
   String phoneNumber;
-  String address;
+  String address1;
   String password;
   String confirmPassword;
   String address2;
@@ -259,10 +260,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-               sendCompany(),
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignupDiveMaster())),
-             }
+                  sendCompany(),
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SignupDiveMaster())),
+                }
             },
             color: Color(0xfff75BDFF),
             child: Text(
@@ -338,7 +341,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     return TextFormField(
       controller: _controllerAddress,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => address = newValue,
+      onSaved: (newValue) => address1 = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please enter address");
@@ -524,6 +527,9 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     return TextFormField(
       controller: _controllerPhone,
       keyboardType: TextInputType.phone,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       onSaved: (newValue) => phoneNumber = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -664,6 +670,10 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildPostalCodeFormField() {
     return TextFormField(
       controller: _controllerPostalcode,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => postalCode = newValue,
       onChanged: (value) {

@@ -10,6 +10,7 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/services.dart';
 
 class SignupDiverForm extends StatefulWidget {
   @override
@@ -336,7 +337,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           //      hintText: "Name",
           labelText: "First Name",
           filled: true,
-         // fillColor: Color(0xFFFd0efff),,
+          // fillColor: Color(0xFFFd0efff),,
           fillColor: Colors.white,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.person)),
@@ -526,6 +527,9 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     return TextFormField(
       controller: _controllerPhone,
       keyboardType: TextInputType.phone,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       onSaved: (newValue) => phoneNumber = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
