@@ -35,43 +35,6 @@ class _RoomFormState extends State<RoomForm> {
   final TextEditingController _controllerAmenity = TextEditingController();
   final TextEditingController _controllerRoomyype = TextEditingController();
 
-  List<DropdownMenuItem<String>> listRoom = [];
-  List<Room_RoomType> roomtype = [
-    Room_RoomType.SINGLE,
-    Room_RoomType.DOUBLE,
-    Room_RoomType.TRIPLE,
-    Room_RoomType.QUAD,
-    Room_RoomType.QUEEN,
-    Room_RoomType.KING,
-    Room_RoomType.TWIN,
-    Room_RoomType.HOLLYWOOD_TWIN_ROOM,
-    Room_RoomType.DOUBLE_DOUBLE,
-    Room_RoomType.STUDIO,
-    Room_RoomType.EXECUTEIVE_SUITE,
-    Room_RoomType.MINI_SUITE,
-    Room_RoomType.PRESIDENTAL_SUITE,
-    Room_RoomType.APARTMENT,
-    Room_RoomType.CONNECTING_ROOMS,
-    Room_RoomType.MURPHY_ROOM,
-    Room_RoomType.DISABLED_ROOM,
-    Room_RoomType.CABANA,
-    Room_RoomType.ADJOINING_ROOMS,
-    Room_RoomType.ADJACENT_ROOMS,
-    Room_RoomType.VILLA,
-    Room_RoomType.FLOORED_ROOM,
-    Room_RoomType.SMOKING_NON_SMOKING,
-  ];
-
-  void loadData() {
-    // roomtype.forEach((element) {
-    //   print(element);
-    // });
-    listRoom = [];
-    listRoom = roomtype
-        .map((val) => DropdownMenuItem<String>(
-            child: Text(val.toString()), value: val.value.toString()))
-        .toList();
-  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -102,7 +65,6 @@ class _RoomFormState extends State<RoomForm> {
 
   @override
   Widget build(BuildContext context) {
-    //loadData();
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),

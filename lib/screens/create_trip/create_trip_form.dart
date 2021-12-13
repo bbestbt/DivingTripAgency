@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/screens/create_trip/trip_template.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:flutter/material.dart';
@@ -6,41 +7,29 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-//trip type layout mobile not work
-//pic of trip,boat
-//schedule
 class CreateTripForm extends StatefulWidget {
   @override
   _CreateTripFormState createState() => _CreateTripFormState();
 }
 
 class _CreateTripFormState extends State<CreateTripForm> {
-  String tripname;
-  String description;
-  String place;
+  // String place;
   String from;
   String to;
   String divemastername;
   String price;
   String totalpeople;
-  File Pictrip;
-  File Boatpic;
-  File Schedule;
 
-  String triptype = '';
   final List<String> errors = [];
-  final TextEditingController _controllerTripname = TextEditingController();
-  final TextEditingController _controllerDescription = TextEditingController();
-  final TextEditingController _controllerPlace = TextEditingController();
+
+  //final TextEditingController _controllerPlace = TextEditingController();
   final TextEditingController _controllerFrom = TextEditingController();
   final TextEditingController _controllerTo = TextEditingController();
   final TextEditingController _controllerDivemastername =
       TextEditingController();
   final TextEditingController _controllerPrice = TextEditingController();
   final TextEditingController _controllerTotalpeople = TextEditingController();
-  String boatname;
-  final TextEditingController _controllerBoatname = TextEditingController();
-
+  
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -55,46 +44,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
       });
   }
 
-  /// Get from gallery
-  _getPictrip() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        Pictrip = File(pickedFile.path);
-      });
-    }
-  }
-
-  _getBoatpic() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        Boatpic = File(pickedFile.path);
-      });
-    }
-  }
-
-  _getSchedule() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        Schedule = File(pickedFile.path);
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -102,12 +51,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           SizedBox(height: 20),
-          buildTripNameFormField(),
-          SizedBox(height: 20),
-          buildDescriptionFormField(),
-          SizedBox(height: 20),
-          buildPlaceFormField(),
-          SizedBox(height: 20),
+          // buildPlaceFormField(),
+          // SizedBox(height: 20),
           Row(
             children: [
               Container(
@@ -123,159 +68,19 @@ class _CreateTripFormState extends State<CreateTripForm> {
           SizedBox(height: 20),
           buildDiveMasterNameFormField(),
           SizedBox(height: 20),
-          buildBoatNameFormField(),
-          SizedBox(height: 20),
           buildPriceFormField(),
           SizedBox(height: 20),
           buildTotalPeopleFormField(),
           SizedBox(height: 20),
-          //radio
-          Row(children: [
-            Text('Trip Type '),
-            Spacer(),
-          ]),
-          Row(children: [
-            Radio(
-                value: 'On shore (Hotel)',
-                groupValue: triptype,
-                onChanged: (val) {
-                  triptype = val;
-                  setState(() {});
-                }),
-            Text('On shore (Hotel)'),
-          ]),
-
-          Row(
-            children: [
-              Radio(
-                  value: 'Off shore (Live on boat)',
-                  groupValue: triptype,
-                  onChanged: (val) {
-                    triptype = val;
-                    setState(() {});
-                  }),
-              Text('Off shore (Live on boat)'),
-            ],
-          ),
-          // Row(
-          //   children: [
-          //     Text('Trip Type '),
-          //     Row(
-          //       children: [
-          //         Radio(
-          //             value: 'On shore (Hotel)',
-          //             groupValue: triptype,
-          //             onChanged: (val) {
-          //               triptype = val;
-          //               setState(() {});
-          //             }),
-          //         Text('On shore (Hotel)'),
-          //       ],
-          //     ),
-          //   ],
-          // ),
-
-          // Row(
-          //   children: [
-          //     Radio(
-          //         value: 'Off shore (Live on boat)',
-          //         groupValue: triptype,
-          //         onChanged: (val) {
-          //           triptype = val;
-          //           setState(() {});
-          //         }),
-          //     Text('Off shore (Live on boat)'),
-          //   ],
-          // ),
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Center(
-                  child: Pictrip == null
-                      ? Text('Trip image')
-                      : kIsWeb
-                          ? Image.network(
-                              Pictrip.path,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.file(
-                              File(Pictrip.path),
-                              fit: BoxFit.cover,
-                            )),
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getPictrip();
-                },
-              ),
-            ],
-          ),
-
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Center(
-                  child: Boatpic == null
-                      ? Text('Boat image')
-                      : kIsWeb
-                          ? Image.network(
-                              Boatpic.path,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.file(
-                              File(Boatpic.path),
-                              fit: BoxFit.cover,
-                            )),
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getBoatpic();
-                },
-              ),
-            ],
-          ),
-
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Center(
-                  child: Schedule == null
-                      ? Text('Schedule image')
-                      : kIsWeb
-                          ? Image.network(
-                              Schedule.path,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.file(
-                              File(Schedule.path),
-                              fit: BoxFit.cover,
-                            )),
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getSchedule();
-                },
-              ),
-            ],
-          ),
-
+           Container(
+                  width: MediaQuery.of(context).size.width / 1.5,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Triptemplate()),
+        
+         SizedBox(height: 20),
           //   FormError(errors: errors),
-          SizedBox(height: 20),
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () => {
@@ -299,87 +104,32 @@ class _CreateTripFormState extends State<CreateTripForm> {
     );
   }
 
-  TextFormField buildTripNameFormField() {
-    return TextFormField(
-      controller: _controllerTripname,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => tripname = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter trip name");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter trip name");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Trip name",
-        filled: true,
-        //fillColor: Color(0xFFFd0efff),
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
-  TextFormField buildDescriptionFormField() {
-    return TextFormField(
-      controller: _controllerDescription,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => description = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter Description");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter Description");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Description",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
-  TextFormField buildPlaceFormField() {
-    return TextFormField(
-      controller: _controllerPlace,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => place = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter place");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter place");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Place",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
+  // TextFormField buildPlaceFormField() {
+  //   return TextFormField(
+  //     controller: _controllerPlace,
+  //     cursorColor: Color(0xFFf5579c6),
+  //     onSaved: (newValue) => place = newValue,
+  //     onChanged: (value) {
+  //       if (value.isNotEmpty) {
+  //         removeError(error: "Please Enter place");
+  //       }
+  //       return null;
+  //     },
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         addError(error: "Please Enter place");
+  //         return "";
+  //       }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //       labelText: "Place",
+  //       filled: true,
+  //       fillColor: Colors.white,
+  //       floatingLabelBehavior: FloatingLabelBehavior.always,
+  //     ),
+  //   );
+  // }
 
   TextFormField buildFromFormField() {
     return TextFormField(
@@ -516,30 +266,5 @@ class _CreateTripFormState extends State<CreateTripForm> {
     );
   }
 
-  TextFormField buildBoatNameFormField() {
-    return TextFormField(
-      controller: _controllerBoatname,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => boatname = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter boat name");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter boat name");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Boat name",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
+  
 }
