@@ -1,4 +1,5 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/screens/hotel/amenity.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:flutter/services.dart';
@@ -9,14 +10,16 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class RoomForm extends StatefulWidget {
   String count;
   List<RoomType> pinkValue;
+  List<Amenity> blueValue;
 
-  RoomForm(String count, List<RoomType> pinkValue) {
+  RoomForm(String count, List<RoomType> pinkValue, List<Amenity> blueValue) {
     this.count = count;
     this.pinkValue=pinkValue;
+    this.blueValue=blueValue;
   
   }
   @override
-  _RoomFormState createState() => _RoomFormState(this.count,this.pinkValue);
+  _RoomFormState createState() => _RoomFormState(this.count,this.pinkValue, this.blueValue);
 }
 
 class _RoomFormState extends State<RoomForm> {
@@ -31,10 +34,12 @@ class _RoomFormState extends State<RoomForm> {
   String room_name;
   String quantity;
   List<RoomType> pinkValue;
+  List<Amenity> blueValue;
 
-  _RoomFormState(String count,List<RoomType> pinkValue) {
+  _RoomFormState(String count,List<RoomType> pinkValue, List<Amenity> blueValue) {
     this.count = count;
     this.pinkValue=pinkValue;
+    this.blueValue=blueValue;
   }
   final List<String> errors = [];
   final TextEditingController _controllerRoomdescription =
@@ -118,13 +123,20 @@ class _RoomFormState extends State<RoomForm> {
           // ),
           buildRoomNameFormField(),
           SizedBox(height: 20),
-          buildRoomTypeFormField(),
-          SizedBox(height: 20),
+          // buildRoomTypeFormField(),
+          // SizedBox(height: 20),
           buildRoomDescriptionFormField(),
           SizedBox(height: 20),
           buildMaxCapacityFormField(),
           SizedBox(height: 20),
-          buildAmenityFormField(),
+          // buildAmenityFormField(),
+           Container(
+                  width: MediaQuery.of(context).size.width / 1.5,
+                   decoration: BoxDecoration(
+                        color: Color(0xfffd4f0f0),
+                        borderRadius: BorderRadius.circular(10)),
+                  child: AddMoreAmenity(this.blueValue),
+                ), 
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
@@ -196,6 +208,12 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_description = newValue,
       onChanged: (value) {
+        print('room des start');
+        print(count);
+        print('room des end');
+        pinkValue[int.parse(count)-1].description=value;
+        print(value);
+        print("===");
         if (value.isNotEmpty) {
           removeError(error: "Please enter room description");
         }
@@ -227,6 +245,12 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => price = newValue,
       onChanged: (value) {
+        print('room price start');
+        print(count);
+        print('room price end');
+        pinkValue[int.parse(count)-1].price=double.parse(value);
+        print(value);
+        print("===");
         if (value.isNotEmpty) {
           removeError(error: "Please enter price");
         }
@@ -258,6 +282,13 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
+        print('room max start');
+        print(count);
+        print('room max end');
+        pinkValue[int.parse(count)-1].maxGuest=int.parse(value);
+        print(value);
+        print("===");
+        
         if (value.isNotEmpty) {
           removeError(error: "Please enter max capacity");
         }
@@ -279,39 +310,76 @@ class _RoomFormState extends State<RoomForm> {
     );
   }
 
-  TextFormField buildAmenityFormField() {
-    return TextFormField(
-      controller: _controllerAmenity,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => amenity = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter amenity");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter amenity");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Amenity",
-        filled: true,
-        fillColor: Color(0xffffee1e8),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
+  // TextFormField buildAmenityFormField() {
+  //   return TextFormField(
+  //     controller: _controllerAmenity,
+  //     cursorColor: Color(0xFFf5579c6),
+  //     onSaved: (newValue) => amenity = newValue,
+  //     onChanged: (value) {
+  //       if (value.isNotEmpty) {
+  //         removeError(error: "Please enter amenity");
+  //       }
+  //       return null;
+  //     },
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         addError(error: "Please enter amenity");
+  //         return "";
+  //       }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //       labelText: "Amenity",
+  //       filled: true,
+  //       fillColor: Color(0xffffee1e8),
+  //       floatingLabelBehavior: FloatingLabelBehavior.always,
+  //     ),
+  //   );
+  // }
 
-  TextFormField buildRoomTypeFormField() {
+  // TextFormField buildRoomTypeFormField() {
+  //   return TextFormField(
+  //     controller: _controllerRoomtype,
+  //     cursorColor: Color(0xFFf5579c6),
+  //     onSaved: (newValue) => room_type = newValue,
+  //     onChanged: (value) {
+  //       if (value.isNotEmpty) {
+  //         removeError(error: "Please enter room type");
+  //       }
+  //       return null;
+  //     },
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         addError(error: "Please enter room type");
+  //         return "";
+  //       }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //       labelText: "Room type",
+  //       filled: true,
+  //       fillColor: Color(0xffffee1e8),
+  //       floatingLabelBehavior: FloatingLabelBehavior.always,
+  //     ),
+  //   );
+  // }
+
+  TextFormField buildRoomNameFormField() {
     return TextFormField(
-      controller: _controllerRoomtype,
+      controller: _controllerRoomname,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => room_type = newValue,
+      onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
+        print('room name start');
+        print(count);
+        print('room name end');
+        pinkValue[int.parse(count)-1].name=value;
+        print(value);
+        print("===");
+        // pinkValue.add(value);
+        // print('room form');
+        // print(pinkValue);
+        // print('mon');
         if (value.isNotEmpty) {
           removeError(error: "Please enter room type");
         }
@@ -333,41 +401,6 @@ class _RoomFormState extends State<RoomForm> {
     );
   }
 
-  TextFormField buildRoomNameFormField() {
-    return TextFormField(
-      controller: _controllerRoomname,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => room_name = newValue,
-      onChanged: (value) {
-        print('mon');
-        print(count);
-        print('monny');
-        pinkValue[int.parse(count)-1].name=value;
-        // pinkValue.add(value);
-        // print('room form');
-        // print(pinkValue);
-        // print('mon');
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter room name");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter room name");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Room name",
-        filled: true,
-        fillColor: Color(0xffffee1e8),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
   TextFormField buildRoomQuantityFormField() {
     return TextFormField(
       controller: _controllerQuantity,
@@ -378,6 +411,12 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
+        print('room quantity start');
+        print(count);
+        print('room quantity end');
+        pinkValue[int.parse(count)-1].quantity=int.parse(value);
+        print(value);
+        print("===");
         if (value.isNotEmpty) {
           removeError(error: "Please enter room quantity");
         }

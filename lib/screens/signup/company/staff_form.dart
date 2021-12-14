@@ -4,11 +4,13 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 
 class StaffForm extends StatefulWidget {
   String count;
-  StaffForm(String count){
+  List<Staff> staffValue;
+  StaffForm(String count,  List<Staff> staffValue){
     this.count=count;
+    this.staffValue=staffValue;
   }
   @override
-  _StaffFormState createState() => _StaffFormState(this.count);
+  _StaffFormState createState() => _StaffFormState(this.count,this.staffValue);
 }
 
 class _StaffFormState extends State<StaffForm> {
@@ -16,8 +18,10 @@ class _StaffFormState extends State<StaffForm> {
   String lastname;
   String position;
   String count;
-  _StaffFormState(String count){
+   List<Staff> staffValue;
+  _StaffFormState(String count,  List<Staff> staffValue){
     this.count=count;
+    this.staffValue=staffValue;
   }
 
   final List<String> errors = [];
@@ -37,31 +41,6 @@ class _StaffFormState extends State<StaffForm> {
       setState(() {
         errors.remove(error);
       });
-  }
-
-  void addStaff() {
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-
-    final stub = AgencyServiceClient(channel);
-    var staff = Staff();
-    staff.firstName = _controllerName.text;
-    staff.lastName = _controllerLastname.text;
-    staff.position = _controllerPosition.text;
-
-    var staffRequest = AddStaffRequest();
-    staffRequest.staff=staff;
-
-    try {
-      var response = stub.addStaff(staffRequest);
-      print('response: ${response}');
-    } catch (e) {
-      print(e);
-    }
   }
 
 

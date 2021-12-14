@@ -101,13 +101,13 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     diver.account = account;
     diver.birthDate = Timestamp.fromDateTime(_dateTime);
 
-    // var levelTypeSelected;
-    // LevelType.values.forEach((levelType) {
-    //   if (levelType.toString() == selected) {
-    //     levelTypeSelected = levelType;
-    //   }
-    // });
-    // diver.level = levelTypeSelected;
+    var levelTypeSelected;
+    LevelType.values.forEach((levelType) {
+      if (levelType.toString() == selected) {
+        levelTypeSelected = levelType;
+      }
+    });
+    diver.level = levelTypeSelected;
 
     var accountRequest = AccountRequest();
     accountRequest.diver = diver;

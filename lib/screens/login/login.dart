@@ -1,6 +1,7 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
+import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_company.dart';
 import 'package:diving_trip_agency/screens/signup/diver/signup_diver.dart';
 import 'package:flutter/material.dart';
@@ -183,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
           //         psscontroller.text == dummypassword
           //     ? 
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MainScreen()))
+                  MaterialPageRoute(builder: (context) => MainCompanyScreen()))
               // : showDialog(
               //     context: context,
               //     builder: (context) {

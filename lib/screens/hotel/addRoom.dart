@@ -4,19 +4,23 @@ import 'package:flutter/material.dart';
 
 class AddMoreRoom extends StatefulWidget {
   List<RoomType> pinkValue=[];
-  AddMoreRoom(List<RoomType> pinkValue) {
+    List<Amenity> blueValue=[];
+  AddMoreRoom(List<RoomType> pinkValue,  List<Amenity> blueValue) {
     this.pinkValue = pinkValue;
+    this.blueValue=blueValue;
   }
   @override
-  _AddMoreRoomState createState() => _AddMoreRoomState(this.pinkValue);
+  _AddMoreRoomState createState() => _AddMoreRoomState(this.pinkValue,this.blueValue);
 }
 
 class _AddMoreRoomState extends State<AddMoreRoom> {
   int count = 1;
+  List<Amenity> blueValue=[];
   List<RoomType> pinkValue=[]; 
-    _AddMoreRoomState(List<RoomType> pinkValue) {
+    _AddMoreRoomState(List<RoomType> pinkValue,  List<Amenity> blueValue) {
 
     this.pinkValue=pinkValue;
+    this.blueValue=blueValue;
   }
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class _AddMoreRoomState extends State<AddMoreRoom> {
             shrinkWrap: true,
             itemCount: count,
             itemBuilder: (BuildContext context, int index) {
-              return RoomForm(count.toString(),this.pinkValue);
+              return RoomForm(count.toString(),this.pinkValue,this.blueValue);
             }),
         MaterialButton(
           onPressed: () {
