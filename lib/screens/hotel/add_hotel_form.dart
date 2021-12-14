@@ -1,17 +1,14 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
-import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/screens/hotel/addRoom.dart';
 import 'package:diving_trip_agency/screens/hotel/highlight.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
-//import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart'
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
-
+import 'package:flutter/services.dart';
 
 class addHotel extends StatefulWidget {
   @override
@@ -24,7 +21,7 @@ class _addHotelState extends State<addHotel> {
   String hotel_description;
   String phone;
   File hotelimg;
-
+  List<RoomType> pinkValue=[new RoomType()];
   List<DropdownMenuItem<String>> listStar = [];
   List<String> star = ['1', '2', '3', '4', '5'];
   String starSelected = null;
@@ -33,7 +30,6 @@ class _addHotelState extends State<addHotel> {
   final TextEditingController _controllerHotelname = TextEditingController();
   final TextEditingController _controllerHoteldescription =
       TextEditingController();
-
 
   final TextEditingController _controllerPhone = TextEditingController();
 
@@ -71,8 +67,6 @@ class _addHotelState extends State<addHotel> {
       });
   }
 
-
-
   void sendHotel() {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -88,32 +82,17 @@ class _addHotelState extends State<addHotel> {
     hotel.hotelDescription = _controllerHoteldescription.text;
     hotel.phone = _controllerPhone.text;
     hotel.star = int.parse(starSelected);
+  
+    //hotel.images = hotelimg // error, file conflict
+    //link api img, room
+    
+    for(int i=0;i<pinkValue.length;i++){
+      var room=RoomType();
+      room.name=pinkValue[i].name;
+      hotel.roomTypes.add(room);
 
+    }
 
-
-
-    //hotel.images.add(hotelimg); // error, file conflict
-
-    //img -> wait ns
-    //highlight??
-
-    //  var room = Room();
-
-    // //img ns
-    // //amen(list)
-
-    // room.price = double.parse(_controllerPrice.text);
-    // room.maxCapacity = int.parse(_controllerMax.text);
-    // room.description = _controllerRoomdescription.text;
-    // room.images = roomimg // error, file conflict
-
-    // var RoomTypeSelected;
-    // Room_RoomType.values.forEach((roomType) {
-    //   if (roomType.toString() == selected) {
-    //     RoomTypeSelected = roomType;
-    //   }
-    // });
-    // room.roomType = RoomTypeSelected;
 
     var hotelRequest = AddHotelRequest();
     hotelRequest.hotel = hotel;
@@ -149,42 +128,44 @@ class _addHotelState extends State<addHotel> {
               Center(
                   child: hotelimg == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    hotelimg.path,
-                    fit: BoxFit.cover,
-                    width: 300,
-                  )
-                      : Image.file(
-                    File(hotelimg.path),
-                    fit: BoxFit.cover,
-                    width: 50,
-                  )),
+                          ? Image.network(
+                              hotelimg.path,
+                              fit: BoxFit.cover,
+                              width: 300,
+                            )
+                          : Image.file(
+                              File(hotelimg.path),
+                              fit: BoxFit.cover,
+                              width: 50,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
-                child: Ink(decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
+                child: Ink(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
                           // Color(0xfffaea4e3),
                           // Color(0xfffd3ffe8),
                           Color(0xfffcfecd0),
                           Color(0xfffffc5ca),
                         ])),
-                child: Container(
-                    constraints: const BoxConstraints(minWidth:88.0,minHeight: 36.0),
-                    alignment: Alignment.center,
-                    child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ))),
+                    child: Container(
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
                 onPressed: () {
                   _gethotelimg();
                 },
@@ -214,28 +195,40 @@ class _addHotelState extends State<addHotel> {
           ),
           SizedBox(height: 20),
 
-            // Container(
-            //         width: MediaQuery.of(context).size.width / 1.5,
-            //          decoration: BoxDecoration(
-            //               color: Color(0xfffd4f0f0),
-            //               borderRadius: BorderRadius.circular(10)),
-            //         child: AddMoreHighlight(),
-                   
-            //       ), SizedBox(height: 30),
+          // Container(
+          //         width: MediaQuery.of(context).size.width / 1.5,
+          //          decoration: BoxDecoration(
+          //               color: Color(0xfffd4f0f0),
+          //               borderRadius: BorderRadius.circular(10)),
+          //         child: AddMoreHighlight(),
+
+          //       ), SizedBox(height: 30),
 
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreRoom(),
+            child: AddMoreRoom(this.pinkValue),
           ),
           SizedBox(height: 30),
           FlatButton(
-            onPressed: () => {},
+            onPressed: () => {
+              sendHotel(),
+            },
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',
+              style: TextStyle(fontSize: 15),
+            ),
+          ),
+          FlatButton(
+            onPressed: () => {
+              print(pinkValue)
+            },
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'check',
               style: TextStyle(fontSize: 15),
             ),
           ),
@@ -300,11 +293,13 @@ class _addHotelState extends State<addHotel> {
     );
   }
 
-  
-
   TextFormField buildPhoneFormField() {
     return TextFormField(
       controller: _controllerPhone,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => phone = newValue,
       onChanged: (value) {

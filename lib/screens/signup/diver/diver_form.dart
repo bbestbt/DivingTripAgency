@@ -2,6 +2,7 @@ import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pbenum.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/services.dart';
 
 class SignupDiverForm extends StatefulWidget {
   @override
@@ -40,6 +42,10 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   DateTime _dateTime;
   String selected = null;
   String DivFimagename = null;
+  Map<String, int> levelTypeMap = {};
+
+  PickedFile divfront;
+  PickedFile card;
 
   List<DropdownMenuItem<String>> listDrop = [];
   List<LevelType> drop = [
@@ -50,15 +56,25 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     LevelType.ADVANCED_OPEN_WATER
   ];
 
-  void loadData() {
+  void loadData() async {
     drop.forEach((element) {
-      print(element);
+     // print(element);
     });
-    listDrop = [];
+    //listDrop = [];
     listDrop = drop
         .map((val) => DropdownMenuItem<String>(
             child: Text(val.toString()), value: val.value.toString()))
         .toList();
+
+    String value;
+
+    for (var i = 0; i < LevelType.values.length; i++) {
+      value = LevelType.valueOf(i).toString();
+      levelTypeMap[value] = i;
+    }
+
+    print("LevelType-----------------");
+    print(levelTypeMap);
   }
 
   void addError({String error}) {
@@ -75,7 +91,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       });
   }
 
-  void sendDiver() {
+  void sendDiver()async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -100,13 +116,25 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     diver.account = account;
     diver.birthDate = Timestamp.fromDateTime(_dateTime);
 
-    var levelTypeSelected;
+    var f = File();
+    f.filename = 'Image.jpg';
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    List<int> b = await divfront.readAsBytes();
+    f.file = b;
+    diver.documents.add(f);
+
+    var f2 = File();
+    f2.filename = 'Image.jpg';
+    List<int> a = await card.readAsBytes();
+    f2.file = a;
+    diver.documents.add(f2);
+
     LevelType.values.forEach((levelType) {
-      if (levelType.toString() == selected) {
-        levelTypeSelected = levelType;
+      if (levelTypeMap[levelType.toString()] == int.parse(selected)) {
+        diver.level = levelType;
       }
     });
-    diver.level = levelTypeSelected;
 
     var accountRequest = AccountRequest();
     accountRequest.diver = diver;
@@ -129,6 +157,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     if (pickedFile != null) {
       setState(() {
         DiverImage = io.File(pickedFile.path);
+        divfront = pickedFile;
       });
       print(pickedFile.path.split('/').last);
     }
@@ -144,6 +173,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     if (pickedFile != null) {
       setState(() {
         DiveBack = io.File(pickedFile.path);
+        card = pickedFile;
       });
     }
   }
@@ -336,7 +366,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           //      hintText: "Name",
           labelText: "First Name",
           filled: true,
-         // fillColor: Color(0xFFFd0efff),,
+          // fillColor: Color(0xFFFd0efff),,
           fillColor: Colors.white,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.person)),
@@ -526,6 +556,9 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     return TextFormField(
       controller: _controllerPhone,
       keyboardType: TextInputType.phone,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       onSaved: (newValue) => phoneNumber = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {

@@ -7,7 +7,7 @@ import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:flutter/services.dart';
 import '../../../nautilus/proto/dart/model.pb.dart';
 
 //check pass
@@ -24,7 +24,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String companyEmail;
   // String email;
   String phoneNumber;
-  String address;
+  String address1;
   String password;
   String confirmPassword;
   String address2;
@@ -46,10 +46,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
-
+  
   io.File imageFile;
   io.File docFile;
   var bytes;
+  PickedFile Img;
+  PickedFile doc;
   //final ImagePicker _picker = ImagePicker();
   // Pick an image
   //PickedFile image = await _picker.getImage(source: ImageSource.gallery);
@@ -65,7 +67,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     if (pickedFile != null) {
       setState(() {
         imageFile = io.File(pickedFile.path);
-        //bytes = imageFile.readAsBytes();
+        Img = pickedFile;
+         //bytes = imageFile.readAsBytes();
       });
     }
   }
@@ -79,6 +82,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     if (pickedFile != null) {
       setState(() {
         docFile = io.File(pickedFile.path);
+        doc = pickedFile;
       });
     }
   }
@@ -97,7 +101,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       });
   }
 
-  void sendCompany()async {
+  void sendCompany() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -122,16 +126,25 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     agency.phone = _controllerPhone.text;
     agency.address = address;
     agency.account = account;
-
+    //agency.documents.add(imageFile);
 
     //final pngByteData = await imageFile.toByteData(format: ImageByteFormat.png);
+    
+    //ns file
     var f = File();
-
     f.filename = 'Image.jpg';
-    var t = await imageFile.readAsBytes();
-    f.file = new List<int>.from(t);
-
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    List<int> b = await doc.readAsBytes();
+    f.file = b;
     agency.documents.add(f);
+
+    var f2 = File();
+    f2.filename = 'Image.jpg';
+    List<int> a = await Img.readAsBytes();
+    f2.file = a;
+    agency.documents.add(f2);
+
 
     var accountRequest = AccountRequest();
     accountRequest.agency = agency;
@@ -272,10 +285,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-               sendCompany(),
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignupDiveMaster())),
-             }
+                  sendCompany(),
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SignupDiveMaster())),
+                }
             },
             color: Color(0xfff75BDFF),
             child: Text(
@@ -351,7 +366,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     return TextFormField(
       controller: _controllerAddress,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => address = newValue,
+      onSaved: (newValue) => address1 = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please enter address");
@@ -537,6 +552,9 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     return TextFormField(
       controller: _controllerPhone,
       keyboardType: TextInputType.phone,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       onSaved: (newValue) => phoneNumber = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
@@ -677,6 +695,10 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   TextFormField buildPostalCodeFormField() {
     return TextFormField(
       controller: _controllerPostalcode,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => postalCode = newValue,
       onChanged: (value) {
