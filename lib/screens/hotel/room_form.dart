@@ -10,9 +10,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class RoomForm extends StatefulWidget {
   int pinkcount;
   List<RoomType> pinkValue;
-  List<Amenity> blueValue;
+  List<List<Amenity>> blueValue;
 
-  RoomForm(int pinkcount, List<RoomType> pinkValue, List<Amenity> blueValue) {
+  RoomForm(int pinkcount, List<RoomType> pinkValue,List<List<Amenity>> blueValue) {
     this.pinkcount = pinkcount;
     this.pinkValue=pinkValue;
     this.blueValue=blueValue;
@@ -34,9 +34,9 @@ class _RoomFormState extends State<RoomForm> {
   String room_name;
   String quantity;
   List<RoomType> pinkValue;
-  List<Amenity> blueValue;
+  List<List<Amenity>> blueValue;
 
-  _RoomFormState(int pinkcount,List<RoomType> pinkValue, List<Amenity> blueValue) {
+  _RoomFormState(int pinkcount,List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
     this.pinkcount = pinkcount;
     this.pinkValue=pinkValue;
     this.blueValue=blueValue;

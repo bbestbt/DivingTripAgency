@@ -21,8 +21,8 @@ class _addHotelState extends State<addHotel> {
   String hotel_description;
   String phone;
   File hotelimg;
-  List<RoomType> pinkValue=[new RoomType()];
-  List<Amenity> blueValue=[new Amenity()];
+  List<RoomType> pinkValue = [new RoomType()];
+  List<List<Amenity>> blueValue = [[new Amenity()]];
   List<DropdownMenuItem<String>> listStar = [];
   List<String> star = ['1', '2', '3', '4', '5'];
   String starSelected = null;
@@ -67,6 +67,7 @@ class _addHotelState extends State<addHotel> {
         errors.remove(error);
       });
   }
+
   // var authResponse = await AccountClient().login(request)
   void sendHotel() async {
     print("before try catch");
@@ -77,42 +78,43 @@ class _addHotelState extends State<addHotel> {
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
 
-    final stub = AgencyServiceClient(channel,
-    // options: CallOptions(metadata:{'Authorization':  '${bearerToken}'} )
+    final stub = AgencyServiceClient(
+      channel,
+      // options: CallOptions(metadata:{'Authorization':  '${bearerToken}'} )
     );
     var hotel = Hotel();
     hotel.hotelName = _controllerHotelname.text;
     hotel.hotelDescription = _controllerHoteldescription.text;
     hotel.phone = _controllerPhone.text;
     hotel.star = int.parse(starSelected);
-  
+
     //hotel.images = hotelimg // error, file conflict
     //link api img, room
-    var room=RoomType();
-    var amenity= Amenity();
-    for(int i=0;i<pinkValue.length;i++){
+    var room = RoomType();
+    var amenity = Amenity();
+    for (int i = 0; i < pinkValue.length; i++) {
       // var room=RoomType();
-      room.name=pinkValue[i].name;
-      room.description=pinkValue[i].description;
-      room.maxGuest=pinkValue[i].maxGuest;
-      room.price=pinkValue[i].price;
-      room.quantity=pinkValue[i].quantity;
+      room.name = pinkValue[i].name;
+      room.description = pinkValue[i].description;
+      room.maxGuest = pinkValue[i].maxGuest;
+      room.price = pinkValue[i].price;
+      room.quantity = pinkValue[i].quantity;
       hotel.roomTypes.add(room);
+      for (int j = 0; j < blueValue.length; j++) {
+        amenity.name = blueValue[i][j].name;
+        amenity.description = blueValue[i][j].description;
+        room.amenities.add(amenity);
+      }
     }
-
-      for(int j=0;j<blueValue.length;j++){
-      amenity.name=blueValue[j].name;
-      amenity.description=blueValue[j].description;
-      room.amenities.add(amenity);
-    }
-  //   var authResponse = await client.postAuthenticate(Authenticate()..provider='credentials'
-  // ..email=email..password=password);
-  //   const bearerToken = authResponse.bearerToken;
+    //   var authResponse = await client.postAuthenticate(Authenticate()..provider='credentials'
+    // ..email=email..password=password);
+    //   const bearerToken = authResponse.bearerToken;
     var hotelRequest = AddHotelRequest();
     hotelRequest.hotel = hotel;
     try {
-      var response = stub.addHotel(hotelRequest,
-      // options: CallOptions(metadata:{'Authorization':  '${bearerToken}'} )
+      var response = stub.addHotel(
+        hotelRequest,
+        // options: CallOptions(metadata:{'Authorization':  '${bearerToken}'} )
       );
       print('response: ${response}');
     } catch (e) {
@@ -224,7 +226,7 @@ class _addHotelState extends State<addHotel> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreRoom(this.pinkValue,this.blueValue),
+            child: AddMoreRoom(this.pinkValue, this.blueValue),
           ),
           SizedBox(height: 30),
           FlatButton(

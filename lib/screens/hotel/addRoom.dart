@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 class AddMoreRoom extends StatefulWidget {
   List<RoomType> pinkValue=[];
-    List<Amenity> blueValue=[];
-  AddMoreRoom(List<RoomType> pinkValue,  List<Amenity> blueValue) {
+   List<List<Amenity>> blueValue;
+  AddMoreRoom(List<RoomType> pinkValue,   List<List<Amenity>> blueValue) {
     this.pinkValue = pinkValue;
     this.blueValue=blueValue;
   }
@@ -15,9 +15,9 @@ class AddMoreRoom extends StatefulWidget {
 
 class _AddMoreRoomState extends State<AddMoreRoom> {
   int pinkcount = 1;
-  List<Amenity> blueValue=[];
+ List<List<Amenity>> blueValue;
   List<RoomType> pinkValue=[]; 
-    _AddMoreRoomState(List<RoomType> pinkValue,  List<Amenity> blueValue) {
+    _AddMoreRoomState(List<RoomType> pinkValue,  List<List<Amenity>> blueValue) {
 
     this.pinkValue=pinkValue;
     this.blueValue=blueValue;
@@ -41,6 +41,7 @@ class _AddMoreRoomState extends State<AddMoreRoom> {
             setState(() {
               pinkcount += 1;
               pinkValue.add(new RoomType());
+              blueValue.add([new Amenity()]);
             });
           },
           color: Color(0xfffff968a),

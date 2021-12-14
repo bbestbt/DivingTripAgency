@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class amenityForm extends StatefulWidget {
   int bluecount;
   int pinkcount;
-  List<Amenity> blueValue;
-  amenityForm(int blue,int pinkcount, List<Amenity> blueValue){
+  List<List<Amenity>> blueValue;
+
+  amenityForm(int blue,int pinkcount, List<List<Amenity>> blueValue){
     this.bluecount=blue;
     this.pinkcount=pinkcount;
     this.blueValue=blueValue;
@@ -19,8 +20,8 @@ class _amenityFormState extends State<amenityForm> {
   String amenity_descption;
   int bluecount;
   int pinkcount;
-  List<Amenity> blueValue;
-  _amenityFormState(int bluecount, int pinkcount,List<Amenity> blueValue){
+  List<List<Amenity>> blueValue;
+  _amenityFormState(int bluecount, int pinkcount, List<List<Amenity>> blueValue){
     this.bluecount=bluecount;
     this.pinkcount=pinkcount;
     this.blueValue=blueValue;
@@ -71,7 +72,7 @@ class _amenityFormState extends State<amenityForm> {
         print(bluecount);
         print(pinkcount);
         print(' amnity name end');
-        blueValue[bluecount-1].name=value;
+        blueValue[pinkcount-1][bluecount-1].name=value;
         print(value);
         print("===");
         if (value.isNotEmpty) {
@@ -101,11 +102,11 @@ class _amenityFormState extends State<amenityForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => amenity_descption = newValue,
       onChanged: (value) {
-         print(' amenity desc start');
+        print(' amenity desc start');
         print(bluecount);
         print(pinkcount);
         print(' amnity desc end');
-        blueValue[bluecount-1].description=value;
+        blueValue[pinkcount-1][bluecount-1].description=value;
         print(value);
         print("===");
         if (value.isNotEmpty) {
@@ -133,9 +134,9 @@ class _amenityFormState extends State<amenityForm> {
 
 
 class AddMoreAmenity extends StatefulWidget {
-   List<Amenity> blueValue = [];
+    List<List<Amenity>> blueValue;
    int pinkcount;
-     AddMoreAmenity( int pinkcount,List<Amenity> blueValue) {
+     AddMoreAmenity( int pinkcount, List<List<Amenity>> blueValue) {
        this.pinkcount=pinkcount;
     this.blueValue = blueValue;
   }
@@ -146,8 +147,8 @@ class AddMoreAmenity extends StatefulWidget {
 class _AddMoreAmenityState extends State<AddMoreAmenity> {
   int bluecount = 1;
   int pinkcount;
-   List<Amenity> blueValue = [];
-    _AddMoreAmenityState(int pinkcount,List<Amenity> blueValue) {
+    List<List<Amenity>> blueValue;
+    _AddMoreAmenityState(int pinkcount, List<List<Amenity>> blueValue) {
       this.pinkcount=pinkcount;
     this.blueValue=blueValue;
   }
@@ -168,7 +169,7 @@ class _AddMoreAmenityState extends State<AddMoreAmenity> {
           onPressed: () {
             setState(() {
               bluecount += 1;
-               blueValue.add(new Amenity());
+               blueValue[pinkcount-1].add(new Amenity());
             });
           },
           color: Color(0xfff8fcaca),
