@@ -1,10 +1,10 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:flutter/material.dart';
-import 'package:grpc/grpc_or_grpcweb.dart';
-import 'package:flutter/services.dart';
+
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+
 
 class RoomForm extends StatefulWidget {
   String count;
@@ -24,8 +24,6 @@ class _RoomFormState extends State<RoomForm> {
   String selected = null;
   File roomimg;
   String room_type;
-  String room_name;
-  String quantity;
   _RoomFormState(String count) {
     this.count = count;
   }
@@ -35,9 +33,8 @@ class _RoomFormState extends State<RoomForm> {
   final TextEditingController _controllerMax = TextEditingController();
   final TextEditingController _controllerPrice = TextEditingController();
   final TextEditingController _controllerAmenity = TextEditingController();
-  final TextEditingController _controllerRoomtype = TextEditingController();
-  final TextEditingController _controllerRoomname = TextEditingController();
-  final TextEditingController _controllerQuantity = TextEditingController();
+  final TextEditingController _controllerRoomyype = TextEditingController();
+
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -66,27 +63,6 @@ class _RoomFormState extends State<RoomForm> {
     }
   }
 
-//   void sendRoom() {
-//     print("before try catch");
-//     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-//         host: '139.59.101.136',
-//         grpcPort: 50051,
-//         grpcTransportSecure: false,
-//         grpcWebPort: 8080,
-//         grpcWebTransportSecure: false);
-
-//     final stub = AgencyServiceClient(channel);
-//     var room = RoomType();
-//     room.name = _controllerRoomname.text;
-//     room.description = _controllerRoomdescription.text;
-//     room.maxGuest = int.parse(_controllerMax.text);
-//     room.price = double.parse(_controllerPrice.text);
-//     room.quantity = int.parse(_controllerQuantity.text);
-// //img, amen (iter)
-
-//     // room.images = roomimg // error, file conflict
-//   }
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -112,8 +88,6 @@ class _RoomFormState extends State<RoomForm> {
           //     ),
           //   ),
           // ),
-          buildRoomNameFormField(),
-          SizedBox(height: 20),
           buildRoomTypeFormField(),
           SizedBox(height: 20),
           buildRoomDescriptionFormField(),
@@ -121,10 +95,6 @@ class _RoomFormState extends State<RoomForm> {
           buildMaxCapacityFormField(),
           SizedBox(height: 20),
           buildAmenityFormField(),
-          SizedBox(height: 20),
-          buildRoomQuantityFormField(),
-          SizedBox(height: 20),
-          buildPriceFormField(),
           SizedBox(height: 20),
           Row(
             children: [
@@ -134,39 +104,37 @@ class _RoomFormState extends State<RoomForm> {
               Center(
                   child: roomimg == null
                       ? Column(
-                          children: [
-                            Text(''),
-                            Text(''),
-                          ],
-                        )
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
                       : kIsWeb
-                          ? Image.network(
-                              roomimg.path,
-                              fit: BoxFit.cover,
-                              width: 300,
-                            )
-                          : Image.file(
-                              File(roomimg.path),
-                              fit: BoxFit.cover,
-                              width: 50,
-                            )),
+                      ? Image.network(
+                    roomimg.path,
+                    fit: BoxFit.cover,
+                    width: 300,
+                  )
+                      : Image.file(
+                    File(roomimg.path),
+                    fit: BoxFit.cover,
+                    width: 50,
+                  )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
-                child: Ink(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
+                child: Ink(decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
                           // Color(0xfffaea4e3),
                           // Color(0xfffd3ffe8),
                           Color(0xfffcfecd0),
                           Color(0xfffffc5ca),
                         ])),
                     child: Container(
-                        constraints: const BoxConstraints(
-                            minWidth: 88.0, minHeight: 36.0),
+                        constraints: const BoxConstraints(minWidth:88.0,minHeight: 36.0),
                         alignment: Alignment.center,
                         child: Text(
                           'Upload',
@@ -178,7 +146,8 @@ class _RoomFormState extends State<RoomForm> {
               ),
             ],
           ),
-
+          SizedBox(height: 20),
+          buildPriceFormField(),
           //   FormError(errors: errors),
           SizedBox(height: 20),
         ]),
@@ -216,10 +185,6 @@ class _RoomFormState extends State<RoomForm> {
   TextFormField buildPriceFormField() {
     return TextFormField(
       controller: _controllerPrice,
-      keyboardType: TextInputType.number,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => price = newValue,
       onChanged: (value) {
@@ -247,10 +212,6 @@ class _RoomFormState extends State<RoomForm> {
   TextFormField buildMaxCapacityFormField() {
     return TextFormField(
       controller: _controllerMax,
-      keyboardType: TextInputType.number,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
@@ -302,9 +263,10 @@ class _RoomFormState extends State<RoomForm> {
     );
   }
 
+  
   TextFormField buildRoomTypeFormField() {
     return TextFormField(
-      controller: _controllerRoomtype,
+      controller: _controllerRoomyype,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_type = newValue,
       onChanged: (value) {
@@ -322,64 +284,6 @@ class _RoomFormState extends State<RoomForm> {
       },
       decoration: InputDecoration(
         labelText: "Room type",
-        filled: true,
-        fillColor: Color(0xffffee1e8),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
-  TextFormField buildRoomNameFormField() {
-    return TextFormField(
-      controller: _controllerRoomname,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => room_name = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter room name");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter room name");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Room name",
-        filled: true,
-        fillColor: Color(0xffffee1e8),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
-  TextFormField buildRoomQuantityFormField() {
-    return TextFormField(
-      controller: _controllerQuantity,
-      keyboardType: TextInputType.number,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => quantity = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter room quantity");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter room quantity");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Room quantity",
         filled: true,
         fillColor: Color(0xffffee1e8),
         floatingLabelBehavior: FloatingLabelBehavior.always,
