@@ -14,7 +14,7 @@ class AddMoreRoom extends StatefulWidget {
 }
 
 class _AddMoreRoomState extends State<AddMoreRoom> {
-  int count = 1;
+  int pinkcount = 1;
   List<Amenity> blueValue=[];
   List<RoomType> pinkValue=[]; 
     _AddMoreRoomState(List<RoomType> pinkValue,  List<Amenity> blueValue) {
@@ -32,14 +32,14 @@ class _AddMoreRoomState extends State<AddMoreRoom> {
                 const Divider(thickness: 5, indent: 20,
             endIndent: 20,),
             shrinkWrap: true,
-            itemCount: count,
+            itemCount: pinkcount,
             itemBuilder: (BuildContext context, int index) {
-              return RoomForm(count.toString(),this.pinkValue,this.blueValue);
+              return RoomForm(pinkcount,this.pinkValue,this.blueValue);
             }),
         MaterialButton(
           onPressed: () {
             setState(() {
-              count += 1;
+              pinkcount += 1;
               pinkValue.add(new RoomType());
             });
           },

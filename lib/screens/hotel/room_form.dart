@@ -8,22 +8,22 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class RoomForm extends StatefulWidget {
-  String count;
+  int pinkcount;
   List<RoomType> pinkValue;
   List<Amenity> blueValue;
 
-  RoomForm(String count, List<RoomType> pinkValue, List<Amenity> blueValue) {
-    this.count = count;
+  RoomForm(int pinkcount, List<RoomType> pinkValue, List<Amenity> blueValue) {
+    this.pinkcount = pinkcount;
     this.pinkValue=pinkValue;
     this.blueValue=blueValue;
   
   }
   @override
-  _RoomFormState createState() => _RoomFormState(this.count,this.pinkValue, this.blueValue);
+  _RoomFormState createState() => _RoomFormState(this.pinkcount,this.pinkValue, this.blueValue);
 }
 
 class _RoomFormState extends State<RoomForm> {
-  String count;
+  int pinkcount;
   String room_description;
   String max_capa;
   String price;
@@ -36,8 +36,8 @@ class _RoomFormState extends State<RoomForm> {
   List<RoomType> pinkValue;
   List<Amenity> blueValue;
 
-  _RoomFormState(String count,List<RoomType> pinkValue, List<Amenity> blueValue) {
-    this.count = count;
+  _RoomFormState(int pinkcount,List<RoomType> pinkValue, List<Amenity> blueValue) {
+    this.pinkcount = pinkcount;
     this.pinkValue=pinkValue;
     this.blueValue=blueValue;
   }
@@ -135,7 +135,7 @@ class _RoomFormState extends State<RoomForm> {
                    decoration: BoxDecoration(
                         color: Color(0xfffd4f0f0),
                         borderRadius: BorderRadius.circular(10)),
-                  child: AddMoreAmenity(this.blueValue),
+                  child: AddMoreAmenity(this.pinkcount,this.blueValue),
                 ), 
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
@@ -209,9 +209,9 @@ class _RoomFormState extends State<RoomForm> {
       onSaved: (newValue) => room_description = newValue,
       onChanged: (value) {
         print('room des start');
-        print(count);
+        print(pinkcount);
         print('room des end');
-        pinkValue[int.parse(count)-1].description=value;
+        pinkValue[pinkcount-1].description=value;
         print(value);
         print("===");
         if (value.isNotEmpty) {
@@ -246,9 +246,9 @@ class _RoomFormState extends State<RoomForm> {
       onSaved: (newValue) => price = newValue,
       onChanged: (value) {
         print('room price start');
-        print(count);
+        print(pinkcount);
         print('room price end');
-        pinkValue[int.parse(count)-1].price=double.parse(value);
+        pinkValue[pinkcount-1].price=double.parse(value);
         print(value);
         print("===");
         if (value.isNotEmpty) {
@@ -283,9 +283,9 @@ class _RoomFormState extends State<RoomForm> {
       onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
         print('room max start');
-        print(count);
+        print(pinkcount);
         print('room max end');
-        pinkValue[int.parse(count)-1].maxGuest=int.parse(value);
+        pinkValue[pinkcount-1].maxGuest=int.parse(value);
         print(value);
         print("===");
         
@@ -371,9 +371,9 @@ class _RoomFormState extends State<RoomForm> {
       onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
         print('room name start');
-        print(count);
+        print(pinkcount);
         print('room name end');
-        pinkValue[int.parse(count)-1].name=value;
+        pinkValue[pinkcount-1].name=value;
         print(value);
         print("===");
         // pinkValue.add(value);
@@ -412,9 +412,9 @@ class _RoomFormState extends State<RoomForm> {
       onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
         print('room quantity start');
-        print(count);
+        print(pinkcount);
         print('room quantity end');
-        pinkValue[int.parse(count)-1].quantity=int.parse(value);
+        pinkValue[pinkcount-1].quantity=int.parse(value);
         print(value);
         print("===");
         if (value.isNotEmpty) {
