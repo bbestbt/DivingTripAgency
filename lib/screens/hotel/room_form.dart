@@ -8,11 +8,15 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class RoomForm extends StatefulWidget {
   String count;
-  RoomForm(String count) {
+  List<RoomType> pinkValue;
+
+  RoomForm(String count, List<RoomType> pinkValue) {
     this.count = count;
+    this.pinkValue=pinkValue;
+  
   }
   @override
-  _RoomFormState createState() => _RoomFormState(this.count);
+  _RoomFormState createState() => _RoomFormState(this.count,this.pinkValue);
 }
 
 class _RoomFormState extends State<RoomForm> {
@@ -26,8 +30,11 @@ class _RoomFormState extends State<RoomForm> {
   String room_type;
   String room_name;
   String quantity;
-  _RoomFormState(String count) {
+  List<RoomType> pinkValue;
+
+  _RoomFormState(String count,List<RoomType> pinkValue) {
     this.count = count;
+    this.pinkValue=pinkValue;
   }
   final List<String> errors = [];
   final TextEditingController _controllerRoomdescription =
@@ -65,6 +72,8 @@ class _RoomFormState extends State<RoomForm> {
       });
     }
   }
+  
+
 
 //   void sendRoom() {
 //     print("before try catch");
@@ -76,12 +85,7 @@ class _RoomFormState extends State<RoomForm> {
 //         grpcWebTransportSecure: false);
 
 //     final stub = AgencyServiceClient(channel);
-//     var room = RoomType();
-//     room.name = _controllerRoomname.text;
-//     room.description = _controllerRoomdescription.text;
-//     room.maxGuest = int.parse(_controllerMax.text);
-//     room.price = double.parse(_controllerPrice.text);
-//     room.quantity = int.parse(_controllerQuantity.text);
+//    
 // //img, amen (iter)
 
 //     // room.images = roomimg // error, file conflict
@@ -335,6 +339,14 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
+        print('mon');
+        print(count);
+        print('monny');
+        pinkValue[int.parse(count)-1].name=value;
+        // pinkValue.add(value);
+        // print('room form');
+        // print(pinkValue);
+        // print('mon');
         if (value.isNotEmpty) {
           removeError(error: "Please enter room name");
         }

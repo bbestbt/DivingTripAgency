@@ -21,7 +21,7 @@ class _addHotelState extends State<addHotel> {
   String hotel_description;
   String phone;
   File hotelimg;
-
+  List<RoomType> pinkValue=[new RoomType()];
   List<DropdownMenuItem<String>> listStar = [];
   List<String> star = ['1', '2', '3', '4', '5'];
   String starSelected = null;
@@ -82,8 +82,17 @@ class _addHotelState extends State<addHotel> {
     hotel.hotelDescription = _controllerHoteldescription.text;
     hotel.phone = _controllerPhone.text;
     hotel.star = int.parse(starSelected);
+  
     //hotel.images = hotelimg // error, file conflict
     //link api img, room
+    
+    for(int i=0;i<pinkValue.length;i++){
+      var room=RoomType();
+      room.name=pinkValue[i].name;
+      hotel.roomTypes.add(room);
+
+    }
+
 
     var hotelRequest = AddHotelRequest();
     hotelRequest.hotel = hotel;
@@ -200,14 +209,26 @@ class _addHotelState extends State<addHotel> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreRoom(),
+            child: AddMoreRoom(this.pinkValue),
           ),
           SizedBox(height: 30),
           FlatButton(
-            onPressed: () => {},
+            onPressed: () => {
+              sendHotel(),
+            },
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',
+              style: TextStyle(fontSize: 15),
+            ),
+          ),
+          FlatButton(
+            onPressed: () => {
+              print(pinkValue)
+            },
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'check',
               style: TextStyle(fontSize: 15),
             ),
           ),

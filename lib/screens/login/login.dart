@@ -41,6 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       var response = stub.login(loginRequest);
       print('response: ${response}');
+      response.then((p0) => {
+        print(p0.token)
+      });
     } catch (e) {
       print(e);
     }
