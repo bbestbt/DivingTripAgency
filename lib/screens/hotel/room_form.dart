@@ -1,11 +1,16 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/hotel/amenity.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
+import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 
 class RoomForm extends StatefulWidget {
 
@@ -30,12 +35,14 @@ class _RoomFormState extends State<RoomForm> {
   String price;
   String amenity;
   String selected = null;
-  File roomimg;
+  io.File roomimg;
   String room_type;
   String room_name;
   String quantity;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
+
+  XFile rroom;
 
   _RoomFormState(int pinkcount,List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
     this.pinkcount = pinkcount;
@@ -67,14 +74,22 @@ class _RoomFormState extends State<RoomForm> {
   }
 
   _getroomimg() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+      rroom = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
+      var f2 = File();
+      f2.filename = rroom.name;
+      //f2.filename = 'image.jpg';
+      List<int> a = await rroom.readAsBytes();
+      f2.file = a;
+
+      this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
+
+    if (rroom != null) {
       setState(() {
-        roomimg = File(pickedFile.path);
+        roomimg = io.File(rroom.path);
        // rroom = pickedFile;
       });
     }
@@ -164,7 +179,7 @@ class _RoomFormState extends State<RoomForm> {
                               width: 300,
                             )
                           : Image.file(
-                              File(roomimg.path),
+                              io.File(roomimg.path),
                               fit: BoxFit.cover,
                               width: 50,
                             )),

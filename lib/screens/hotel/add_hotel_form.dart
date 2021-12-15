@@ -26,8 +26,9 @@ class _addHotelState extends State<addHotel> {
   String phone;
   io.File hotelimg;
 
-  PickedFile hhotel;
-  PickedFile rroom;
+  XFile hhotel;
+  XFile rroom;
+
 
   List<RoomType> pinkValue = [new RoomType()];
   List<List<Amenity>> blueValue = [[new Amenity()]];
@@ -72,10 +73,12 @@ class _addHotelState extends State<addHotel> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
+        final box = Hive.box('userInfo');
+        String token = box.get('token');
 
     final stub = AgencyServiceClient(
       channel,
-      // options: CallOptions(metadata:{'Authorization':  '${bearerToken}'} )
+      options: CallOptions(metadata:{'Authorization':  '$token'} )
     );
     var hotel = Hotel();
     hotel.hotelName = _controllerHotelname.text;
@@ -84,45 +87,48 @@ class _addHotelState extends State<addHotel> {
     hotel.star = int.parse(starSelected);
 
     var f = File();
-    f.filename = 'Image.jpg';
+    f.filename = hhotel.name;
     //var t = await imageFile.readAsBytes();
     //f.file = new List<int>.from(t);
     List<int> b = await hhotel.readAsBytes();
     f.file = b;
     hotel.images.add(f);
 
-    var f2 = File();
-    f2.filename = 'Image.jpg';
-    List<int> a = await rroom.readAsBytes();
-    f2.file = a;
+    //var f2 = File();
+    //f2.filename = rroom.name;
+    //f2.filename = 'image.jpg';
+    //List<int> a = await rroom.readAsBytes();
+    //f2.file = a;
     //hotel.images.add(f2);
 
-    var room = RoomType();
-    var amenity = Amenity();
+    //var room = RoomType();
+    //var amenity = Amenity();
     for (int i = 0; i < pinkValue.length; i++) {
-      // var room=RoomType();
+      var room=RoomType();
+      for (int j = 0; j < blueValue[i].length; j++) {
+        var amenity = Amenity();
+        amenity.name = blueValue[i][j].name;
+        amenity.description = blueValue[i][j].description;
+        room.amenities.add(amenity);
+      }
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
       room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
-      room.roomImages.add(f2);
-      hotel.roomTypes.add(room);
-      for (int j = 0; j < blueValue.length; j++) {
-        amenity.name = blueValue[i][j].name;
-        amenity.description = blueValue[i][j].description;
-        room.amenities.add(amenity);
+      //room.roomImages.add(f2);
+      //pinkValue[i].roomImages.add(value);
+      for(int j = 0; j < pinkValue[i].roomImages.length; j++){
+        room.roomImages.add(pinkValue[i].roomImages[j]);
       }
+      hotel.roomTypes.add(room);
     }
 
     var hotelRequest = AddHotelRequest();
     hotelRequest.hotel = hotel;
 
     try {
-      final box = Hive.box('userInfo');
-
       var response = await stub.addHotel(hotelRequest);
-      String token = box.get('token');
       print(token);
       print(response);
 
@@ -140,15 +146,15 @@ class _addHotelState extends State<addHotel> {
   }
  // get hotel image
   _gethotelimg() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+      hhotel = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
+    if (hhotel != null) {
       setState(() {
-        hotelimg = io.File(pickedFile.path);
-        hhotel = pickedFile;
+        hotelimg = io.File(hhotel.path);
+        //hhotel = XFile;
       });
     }
   }
