@@ -81,7 +81,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.from = Timestamp.fromDateTime(from);
     trip.to = Timestamp.fromDateTime(to);
     trip.maxCapacity = int.parse(_controllerTotalpeople.text);
-    trip.pricePerPserson = int.parse(_controllerPrice.text);
+    trip.price= double.parse(_controllerPrice.text);
     // trip.diveMasters=_controllerDivemastername.text; iter
 
     var tripRequest = AddTripRequest();

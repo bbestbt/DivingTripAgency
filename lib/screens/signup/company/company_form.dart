@@ -50,8 +50,10 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   io.File imageFile;
   io.File docFile;
   var bytes;
+
   PickedFile Img;
   PickedFile doc;
+
   //final ImagePicker _picker = ImagePicker();
   // Pick an image
   //PickedFile image = await _picker.getImage(source: ImageSource.gallery);
@@ -67,7 +69,9 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     if (pickedFile != null) {
       setState(() {
         imageFile = io.File(pickedFile.path);
+
         Img = pickedFile;
+
          //bytes = imageFile.readAsBytes();
       });
     }
@@ -131,6 +135,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     //final pngByteData = await imageFile.toByteData(format: ImageByteFormat.png);
     
     //ns file
+
     var f = File();
     f.filename = 'Image.jpg';
     //var t = await imageFile.readAsBytes();
@@ -144,6 +149,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     List<int> a = await Img.readAsBytes();
     f2.file = a;
     agency.documents.add(f2);
+
 
 
     var accountRequest = AccountRequest();

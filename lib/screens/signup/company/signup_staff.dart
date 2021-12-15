@@ -1,10 +1,46 @@
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/signup/company/addStaff.dart';
 import 'package:diving_trip_agency/screens/signup/company/staff_form.dart';
 import 'package:flutter/material.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
 
-class SignupStaff extends StatelessWidget {
+class SignupStaff extends StatefulWidget {
+  @override
+  State<SignupStaff> createState() => _SignupStaffState();
+}
+
+class _SignupStaffState extends State<SignupStaff> {
+  List<Staff> staffValue=[new Staff()];
+   void addStaff() {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+
+    final stub = AgencyServiceClient(channel);
+    var staff = Staff();
+    for(int i=0;i<staffValue.length;i++){
+      staff.firstName=staffValue[i].firstName;
+      staff.lastName=staffValue[i].lastName;
+      staff.position=staffValue[i].position;
+    }
+
+    var staffRequest = AddStaffRequest();
+    staffRequest.staff=staff;
+
+    try {
+      var response = stub.addStaff(staffRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +73,7 @@ class SignupStaff extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10)),
-                    child: AddMoreStaff(),
+                    child: AddMoreStaff(this.staffValue),
                   ),
                   SizedBox(height: 30),
                   SizedBox(height: 20),
