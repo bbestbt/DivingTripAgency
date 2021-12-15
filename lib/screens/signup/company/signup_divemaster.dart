@@ -1,9 +1,44 @@
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/signup/company/addDiverMaster.dart';
 import 'package:diving_trip_agency/screens/signup/company/divermaster_form.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
 import 'package:flutter/material.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
 
-class SignupDiveMaster extends StatelessWidget {
+class SignupDiveMaster extends StatefulWidget {
+  @override
+  State<SignupDiveMaster> createState() => _SignupDiveMasterState();
+}
+
+class _SignupDiveMasterState extends State<SignupDiveMaster> {
+  List<DiveMaster> divemasterValue=[new DiveMaster()];
+   void addDivemaster() {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+
+    final stub = AgencyServiceClient(channel);
+    var divemaster = DiveMaster();
+    for(int i=0;i<divemasterValue.length;i++){
+      divemaster.firstName=divemasterValue[i].firstName;
+      divemaster.lastName=divemasterValue[i].lastName;
+      //level,img
+    }
+
+    var divemasterRequest = AddDiveMasterRequest();
+    divemasterRequest.diveMaster=divemaster;
+
+    try {
+      var response = stub.addDiveMaster(divemasterRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +71,7 @@ class SignupDiveMaster extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10)),
-                      child: AddmoreDiverMaster()),
+                      child: AddmoreDiverMaster(this.divemasterValue)),
                   SizedBox(height: 20),
                   FlatButton(
                     onPressed: () => {
