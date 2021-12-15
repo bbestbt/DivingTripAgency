@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
+import '../../../nautilus/proto/dart/model.pb.dart';
 
 //check pass
 class SignupCompanyForm extends StatefulWidget {
@@ -45,9 +46,10 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
-
+  
   io.File imageFile;
   io.File docFile;
+  var bytes;
   //final ImagePicker _picker = ImagePicker();
   // Pick an image
   //PickedFile image = await _picker.getImage(source: ImageSource.gallery);
@@ -63,6 +65,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     if (pickedFile != null) {
       setState(() {
         imageFile = io.File(pickedFile.path);
+         //bytes = imageFile.readAsBytes();
       });
     }
   }
@@ -94,7 +97,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       });
   }
 
-  void sendCompany() {
+  void sendCompany() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -120,6 +123,17 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     agency.address = address;
     agency.account = account;
     //agency.documents.add(imageFile);
+
+    //final pngByteData = await imageFile.toByteData(format: ImageByteFormat.png);
+    
+    //ns file
+    // var f = File();
+
+    // f.filename = 'Image.jpg';
+    // var t = await imageFile.readAsBytes();
+    // f.file = new List<int>.from(t);
+
+    // agency.documents.add(f);
 
     var accountRequest = AccountRequest();
     accountRequest.agency = agency;
