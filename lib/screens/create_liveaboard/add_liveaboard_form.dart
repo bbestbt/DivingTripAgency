@@ -1,12 +1,15 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/hotel/addRoom.dart';
+
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+
 import 'package:diving_trip_agency/screens/hotel/highlight.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
+
 import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -26,6 +29,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
   String liveaboard_description;
   String length;
   String width;
+
   io.File liveaboardimg;
 
   PickedFile lvb;
@@ -76,6 +80,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
     liveaboard.width = int.parse(_controllerWidth.text);
     liveaboard.length = int.parse(_controllerLength.text);
 
+
     var f = File();
     f.filename = 'Image.jpg';
     //var t = await imageFile.readAsBytes();
@@ -97,7 +102,9 @@ class _addLiveaboardState extends State<addLiveaboard> {
       room.maxGuest = pinkValue[i].maxGuest;
       room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
+
       room.roomImages.add(f2);
+
       liveaboard.roomTypes.add(room);
       for (int j = 0; j < blueValue.length; j++) {
         amenity.name = blueValue[i][j].name;
@@ -118,6 +125,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
     }
   }
 
+
   // get hotel image
   _getliveaboard() async {
     PickedFile pickedFile = await ImagePicker().getImage(
@@ -132,6 +140,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -148,6 +157,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
           SizedBox(height: 20),
           buildWidthFormField(),
           SizedBox(height: 20),
+
           //Text('Hotel Image'),
           Row(
             children: [
@@ -203,6 +213,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
             ],
           ),
           SizedBox(height: 20),
+
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
