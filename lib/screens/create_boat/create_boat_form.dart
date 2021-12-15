@@ -19,14 +19,10 @@ class CreateBoatForm extends StatefulWidget {
 
 class _CreateBoatFormState extends State<CreateBoatForm> {
   String boatname;
-  String description;
-
+  //img
   final List<String> errors = [];
 
   final TextEditingController _controllerName = TextEditingController();
-  final TextEditingController _controllerDescription = TextEditingController();
-
-
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -42,6 +38,29 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       });
   }
 
+  void AddBoat() {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+
+    final stub = AgencyServiceClient(channel);
+    var boat = DivingBoat();
+    boat.boatModel=_controllerName.text;
+
+    var boatRequest = AddDivingBoatRequest();
+    boatRequest.divingBoat = boat;
+
+    try {
+      var response = stub.addDivingBoat(boatRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +70,6 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
         child: Column(children: [
           SizedBox(height: 20),
           buildBoatNameFormField(),
-          SizedBox(height: 20),
-          buildBoatDescriptionFormField(),
           SizedBox(height: 20),
           //   FormError(errors: errors),
           FlatButton(
@@ -78,7 +95,6 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     );
   }
 
-  
   TextFormField buildBoatNameFormField() {
     return TextFormField(
       controller: _controllerName,
@@ -86,52 +102,23 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       onSaved: (newValue) => boatname = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter boat name");
+          removeError(error: "Please Enter boat model");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter boat name");
+          addError(error: "Please Enter boat model");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Boat name",
+        labelText: "Boat model",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
   }
-
-   TextFormField buildBoatDescriptionFormField() {
-    return TextFormField(
-      controller: _controllerDescription,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => description= newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter boat description");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter boat description");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Boat description",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
- 
 }

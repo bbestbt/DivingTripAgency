@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pbenum.dart';
 import 'package:diving_trip_agency/screens/signup/company/addDiverMaster.dart';
 import 'package:diving_trip_agency/screens/signup/company/divermaster_form.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
@@ -26,9 +27,9 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
     for(int i=0;i<divemasterValue.length;i++){
       divemaster.firstName=divemasterValue[i].firstName;
       divemaster.lastName=divemasterValue[i].lastName;
+      divemaster.level=divemasterValue[i].level;
       //level,img
     }
-
     var divemasterRequest = AddDiveMasterRequest();
     divemasterRequest.diveMaster=divemaster;
 
@@ -75,6 +76,7 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
                   SizedBox(height: 20),
                   FlatButton(
                     onPressed: () => {
+                      addDivemaster(),
                       Navigator.push(
                           context,
                           MaterialPageRoute(

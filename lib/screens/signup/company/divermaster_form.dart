@@ -11,12 +11,13 @@ import 'dart:io';
 class DiveMasterForm extends StatefulWidget {
   String count;
   List<DiveMaster> divemasterValue;
-  DiveMasterForm(String count,List<DiveMaster> divemasterValue) {
-    this.divemasterValue=divemasterValue;
+  DiveMasterForm(String count, List<DiveMaster> divemasterValue) {
+    this.divemasterValue = divemasterValue;
     this.count = count;
   }
   @override
-  _DiveMasterFormState createState() => _DiveMasterFormState(this.count,this.divemasterValue);
+  _DiveMasterFormState createState() =>
+      _DiveMasterFormState(this.count, this.divemasterValue);
 }
 
 class _DiveMasterFormState extends State<DiveMasterForm> {
@@ -30,15 +31,16 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   List<DiveMaster> divemasterValue;
   String count;
   File CardFileBack;
+  Map<String, int> levelTypeMap = {};
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerLastname = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
 
-  _DiveMasterFormState(String count,this.divemasterValue){
-    this.count=count;
-    this.divemasterValue=divemasterValue;
+  _DiveMasterFormState(String count, this.divemasterValue) {
+    this.count = count;
+    this.divemasterValue = divemasterValue;
   }
 
   List<DropdownMenuItem<String>> listLevel = [];
@@ -50,15 +52,25 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     LevelType.ADVANCED_OPEN_WATER
   ];
 
-  void loadData() {
+  void loadData() async {
     level.forEach((element) {
-      print(element);
+      //print(element);
     });
-    listLevel = [];
+    // listLevel = [];
     listLevel = level
         .map((val) => DropdownMenuItem<String>(
             child: Text(val.toString()), value: val.value.toString()))
         .toList();
+
+    String value;
+
+    for (var i = 0; i < LevelType.values.length; i++) {
+      value = LevelType.valueOf(i).toString();
+      levelTypeMap[value] = i;
+    }
+
+    print("LevelType-----------------");
+    print(levelTypeMap);
   }
 
   void addError({String error}) {
@@ -113,7 +125,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           SizedBox(height: 20),
           buildLastnameFormField(),
           SizedBox(height: 20),
-           Container(
+          Container(
             color: Colors.white,
             //color: Color(0xFFFd0efff),
             child: Center(
