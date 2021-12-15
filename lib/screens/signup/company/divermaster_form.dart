@@ -10,11 +10,13 @@ import 'dart:io';
 
 class DiveMasterForm extends StatefulWidget {
   String count;
-  DiveMasterForm(String count) {
+  List<DiveMaster> divemasterValue;
+  DiveMasterForm(String count,List<DiveMaster> divemasterValue) {
+    this.divemasterValue=divemasterValue;
     this.count = count;
   }
   @override
-  _DiveMasterFormState createState() => _DiveMasterFormState(this.count);
+  _DiveMasterFormState createState() => _DiveMasterFormState(this.count,this.divemasterValue);
 }
 
 class _DiveMasterFormState extends State<DiveMasterForm> {
@@ -25,7 +27,8 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   String phoneNumber;
   File CardFile;
   String levelSelected = null;
-
+  List<DiveMaster> divemasterValue;
+  String count;
   File CardFileBack;
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
@@ -33,7 +36,10 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
 
-  _DiveMasterFormState(String count);
+  _DiveMasterFormState(String count,this.divemasterValue){
+    this.count=count;
+    this.divemasterValue=divemasterValue;
+  }
 
   List<DropdownMenuItem<String>> listLevel = [];
   List<LevelType> level = [
@@ -92,38 +98,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       setState(() {
         CardFileBack = File(pickedFile.path);
       });
-    }
-  }
-
-  void addDiverMaster() {
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-
-    final stub = AgencyServiceClient(channel);
-    var diveMaster = DiveMaster();
-    diveMaster.firstName = _controllerName.text;
-    diveMaster.lastName = _controllerLastname.text;
-
-    var levelTypeSelected;
-    LevelType.values.forEach((levelType) {
-      if (levelType.toString() == levelSelected) {
-        levelTypeSelected = levelType;
-      }
-    });
-    diveMaster.level = levelTypeSelected;
-
-    var diveMasterRequest = AddDiveMasterRequest();
-    diveMasterRequest.diveMaster=diveMaster;
-
-    try {
-      var response = stub.addDiveMaster(diveMasterRequest);
-      print('response: ${response}');
-    } catch (e) {
-      print(e);
     }
   }
 
