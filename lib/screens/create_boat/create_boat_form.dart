@@ -5,6 +5,7 @@ import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -21,10 +22,9 @@ class CreateBoatForm extends StatefulWidget {
 
 class _CreateBoatFormState extends State<CreateBoatForm> {
   String boatname;
-  //img
   File boat;
   final List<String> errors = [];
-
+ // List<File> boatImg = new List<File>();
   final TextEditingController _controllerName = TextEditingController();
 
   void addError({String error}) {
@@ -41,7 +41,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       });
   }
 
-  void AddBoat() {
+  void AddBoat() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -49,13 +49,16 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
+        final box = Hive.box('userInfo');
+        String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel);
+    final stub = AgencyServiceClient(channel,   options: CallOptions(metadata:{'Authorization':  '$token'}));
     var boat = DivingBoat();
     boat.boatModel=_controllerName.text;
 
     var boatRequest = AddDivingBoatRequest();
     boatRequest.divingBoat = boat;
+    boatRequest.agencyId= boatRequest.agencyId+4;
 
     try {
       var response = stub.addDivingBoat(boatRequest);
@@ -90,26 +93,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
           buildBoatNameFormField(),
           SizedBox(height: 20),
           //   FormError(errors: errors),
-          FlatButton(
-            //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
-            onPressed: () => {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
-            },
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'Confirm',
-              style: TextStyle(fontSize: 15),
-            ),
-          ),
-          SizedBox(height: 20),
-          SizedBox(height: 20),
-          Row(
+            Row(
             children: [
               Text('Boat Image'),
               Center(
@@ -146,6 +130,27 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
               ),
             ],
           ),
+           SizedBox(height: 20),
+          FlatButton(
+            //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
+            onPressed: () => {
+              AddBoat(),
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => MainCompanyScreen(),
+                ),
+                (route) => false,
+              )
+            },
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'Confirm',
+              style: TextStyle(fontSize: 15),
+            ),
+          ),
+          SizedBox(height: 20),
+        
         ]),
       ),
     );
