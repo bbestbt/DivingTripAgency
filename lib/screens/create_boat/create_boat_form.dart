@@ -11,6 +11,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:intl/intl.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:flutter/services.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class CreateBoatForm extends StatefulWidget {
   @override
@@ -20,6 +22,7 @@ class CreateBoatForm extends StatefulWidget {
 class _CreateBoatFormState extends State<CreateBoatForm> {
   String boatname;
   //img
+  File boat;
   final List<String> errors = [];
 
   final TextEditingController _controllerName = TextEditingController();
@@ -62,6 +65,21 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     }
   }
 
+  /// Get from gallery
+  _getPicBoat() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        boat = File(pickedFile.path);
+        //card = pickedFile;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -90,6 +108,44 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
             ),
           ),
           SizedBox(height: 20),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Text('Boat Image'),
+              Center(
+                child: boat == null
+                    ? Text('')
+                    : kIsWeb
+                    ? Image.network(
+                  boat.path,
+                  fit: BoxFit.cover,
+                  width: 300,
+                )
+                    : Image.file(
+                  File(boat.path),
+                  fit: BoxFit.cover,
+                  width: 300,
+                ),
+              ),
+              /* Spacer(),
+              DiverImage == null
+                  ? Text('')
+                  :
+                  print(DiverImage.path)
+              ,*/
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPicBoat();
+                },
+              ),
+            ],
+          ),
         ]),
       ),
     );
@@ -113,6 +169,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
         }
         return null;
       },
+
       decoration: InputDecoration(
         labelText: "Boat model",
         filled: true,
