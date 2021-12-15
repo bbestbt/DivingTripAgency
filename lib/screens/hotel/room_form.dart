@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class RoomForm extends StatefulWidget {
+
   int pinkcount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
@@ -370,6 +371,7 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
+
         print('room name start');
         print(pinkcount);
         print('room name end');

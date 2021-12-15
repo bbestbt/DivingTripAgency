@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class AddMoreRoom extends StatefulWidget {
   List<RoomType> pinkValue=[];
+
    List<List<Amenity>> blueValue;
   AddMoreRoom(List<RoomType> pinkValue,   List<List<Amenity>> blueValue) {
     this.pinkValue = pinkValue;
@@ -21,6 +22,7 @@ class _AddMoreRoomState extends State<AddMoreRoom> {
 
     this.pinkValue=pinkValue;
     this.blueValue=blueValue;
+
   }
   @override
   Widget build(BuildContext context) {
@@ -34,14 +36,18 @@ class _AddMoreRoomState extends State<AddMoreRoom> {
             shrinkWrap: true,
             itemCount: pinkcount,
             itemBuilder: (BuildContext context, int index) {
+
               return RoomForm(pinkcount,this.pinkValue,this.blueValue);
+
             }),
         MaterialButton(
           onPressed: () {
             setState(() {
+
               pinkcount += 1;
               pinkValue.add(new RoomType());
               blueValue.add([new Amenity()]);
+
             });
           },
           color: Color(0xfffff968a),
