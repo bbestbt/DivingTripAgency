@@ -32,8 +32,8 @@ class _addLiveaboardState extends State<addLiveaboard> {
 
   io.File liveaboardimg;
 
-  PickedFile lvb;
-  PickedFile rroom;
+  XFile lvb;
+  XFile rroom;
 
   List<RoomType> pinkValue = [new RoomType()];
   List<List<Amenity>> blueValue = [
@@ -70,9 +70,11 @@ class _addLiveaboardState extends State<addLiveaboard> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
+          final box = Hive.box('userInfo');
+        String token = box.get('token');
 
     final stub = AgencyServiceClient(
-      channel,
+      channel,  options: CallOptions(metadata:{'Authorization':  '$token'} )
     );
     var liveaboard = Liveaboard();
     liveaboard.name = _controllerLiveaboardname.text;
@@ -82,61 +84,66 @@ class _addLiveaboardState extends State<addLiveaboard> {
 
 
     var f = File();
-    f.filename = 'Image.jpg';
+    f.filename = lvb.name;
     //var t = await imageFile.readAsBytes();
     //f.file = new List<int>.from(t);
     List<int> b = await lvb.readAsBytes();
     f.file = b;
     liveaboard.images.add(f);
 
-    var f2 = File();
-    f2.filename = 'Image.jpg';
-    List<int> a = await rroom.readAsBytes();
-    f2.file = a;
-
-    var room = RoomType();
-    var amenity = Amenity();
-    for (int i = 0; i < pinkValue.length; i++) {
+  for (int i = 0; i < pinkValue.length; i++) {
+      var room=RoomType();
+      for (int j = 0; j < blueValue[i].length; j++) {
+        var amenity = Amenity();
+        amenity.name = blueValue[i][j].name;
+        amenity.description = blueValue[i][j].description;
+        room.amenities.add(amenity);
+      }
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
       room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
-
-      room.roomImages.add(f2);
-
-      liveaboard.roomTypes.add(room);
-      for (int j = 0; j < blueValue.length; j++) {
-        amenity.name = blueValue[i][j].name;
-        amenity.description = blueValue[i][j].description;
-        room.amenities.add(amenity);
+      //room.roomImages.add(f2);
+      //pinkValue[i].roomImages.add(value);
+      for(int j = 0; j < pinkValue[i].roomImages.length; j++){
+        room.roomImages.add(pinkValue[i].roomImages[j]);
       }
+      liveaboard.roomTypes.add(room);
     }
 
     var liveaboardRequest = AddLiveaboardRequest();
     liveaboardRequest.liveaboard = liveaboard;
     try {
-      var response = stub.addLiveaboard(
-        liveaboardRequest,
-      );
+       var response = await stub.addLiveaboard(liveaboardRequest);
+      print(token);
+      print(response);
       print('response: ${response}');
+     } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
     } catch (e) {
-      print(e);
+      // Handle all other exceptions
+      print('Exception: $e');
     }
   }
 
 
   // get hotel image
   _getliveaboard() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+     lvb = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
+    if (lvb != null) {
       setState(() {
-        liveaboardimg = io.File(pickedFile.path);
-        lvb = pickedFile;
+        liveaboardimg = io.File(lvb.path);
+        
       });
     }
   }
