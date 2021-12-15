@@ -239,18 +239,18 @@ class _addHotelState extends State<addHotel> {
               style: TextStyle(fontSize: 15),
             ),
           ),
-          FlatButton(
-            onPressed: () => {
-              // print(pinkValue),
-              //  print('------------'),
-              print(blueValue),
-            },
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'check',
-              style: TextStyle(fontSize: 15),
-            ),
-          ),
+          // FlatButton(
+          //   onPressed: () => {
+          //     // print(pinkValue),
+          //     //  print('------------'),
+          //     print(blueValue),
+          //   },
+          //   color: Color(0xfff75BDFF),
+          //   child: Text(
+          //     'check',
+          //     style: TextStyle(fontSize: 15),
+          //   ),
+          // ),
           SizedBox(height: 20),
         ]),
       ),
