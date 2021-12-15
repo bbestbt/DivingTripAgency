@@ -7,6 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'constant.dart';
+import 'package:hive/hive.dart';
+
+//import 'dart:typed_data';
+//import 'package:hive/hive.dart';
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,12 +21,12 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _rememberMe = false;
   bool _isObscure = true;
-  var dummyusername = 'Numchok';
-  var dummypassword = 'Numchok';
+  //var dummyusername = 'Numchok';
+  //var dummypassword = 'Numchok';
   final usrcontroller = TextEditingController();
   final psscontroller = TextEditingController();
 
-  void sendLogin() {
+  void sendLogin()async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -38,16 +43,46 @@ class _LoginScreenState extends State<LoginScreen> {
     loginRequest.email = account.email;
     loginRequest.password = account.password;
 
+    //try {
+    //var response = stub.login(loginRequest);
+    //print('response: ${response}');
+    //response.then((p0) => {
+    //send token to other files
+    //print(p0.token)
+    //});
+    //} catch (e) {
+
+    //print(e);
+    //}
+    //}
     try {
-      var response = stub.login(loginRequest);
-      print('response: ${response}');
-      response.then((p0) => {
-        print(p0.token)
-      });
+      //var response = await stub.login(loginRequest);
+      //var response = Hive.stub.login(loginRequest);
+      //print('Response received: ${response}');
+
+      await Hive.openBox('userInfo');
+
+      final box = Hive.box('userInfo');
+
+      var response = await stub.login(loginRequest);
+
+      box.put('token', response.token);
+      String token = box.get('token');
+      print(token);
+
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
     } catch (e) {
-      print(e);
+      // Handle all other exceptions
+      print('Exception: $e');
     }
   }
+
 
   Widget _buildEmailTF() {
     return Column(
