@@ -1,15 +1,22 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/hotel/addRoom.dart';
+
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+
 import 'package:diving_trip_agency/screens/hotel/highlight.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
-import 'dart:io';
+
+import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 
 //img
 class addLiveaboard extends StatefulWidget {
@@ -22,6 +29,11 @@ class _addLiveaboardState extends State<addLiveaboard> {
   String liveaboard_description;
   String length;
   String width;
+
+  io.File liveaboardimg;
+
+  PickedFile lvb;
+  PickedFile rroom;
 
   List<RoomType> pinkValue = [new RoomType()];
   List<List<Amenity>> blueValue = [
@@ -68,6 +80,20 @@ class _addLiveaboardState extends State<addLiveaboard> {
     liveaboard.width = int.parse(_controllerWidth.text);
     liveaboard.length = int.parse(_controllerLength.text);
 
+
+    var f = File();
+    f.filename = 'Image.jpg';
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    List<int> b = await lvb.readAsBytes();
+    f.file = b;
+    liveaboard.images.add(f);
+
+    var f2 = File();
+    f2.filename = 'Image.jpg';
+    List<int> a = await rroom.readAsBytes();
+    f2.file = a;
+
     var room = RoomType();
     var amenity = Amenity();
     for (int i = 0; i < pinkValue.length; i++) {
@@ -76,6 +102,9 @@ class _addLiveaboardState extends State<addLiveaboard> {
       room.maxGuest = pinkValue[i].maxGuest;
       room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
+
+      room.roomImages.add(f2);
+
       liveaboard.roomTypes.add(room);
       for (int j = 0; j < blueValue.length; j++) {
         amenity.name = blueValue[i][j].name;
@@ -96,6 +125,23 @@ class _addLiveaboardState extends State<addLiveaboard> {
     }
   }
 
+
+  // get hotel image
+  _getliveaboard() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        liveaboardimg = io.File(pickedFile.path);
+        lvb = pickedFile;
+      });
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -111,6 +157,63 @@ class _addLiveaboardState extends State<addLiveaboard> {
           SizedBox(height: 20),
           buildWidthFormField(),
           SizedBox(height: 20),
+
+          //Text('Hotel Image'),
+          Row(
+            children: [
+              Column(
+                children: [Text("Liveaboard image")],
+              ),
+              Center(
+                  child: liveaboardimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    liveaboardimg.path,
+                    fit: BoxFit.cover,
+                    width: 300,
+                  )
+                      : Image.file(
+                    io.File(liveaboardimg.path),
+                    fit: BoxFit.cover,
+                    width: 50,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              // Color(0xfffaea4e3),
+                              // Color(0xfffd3ffe8),
+                              Color(0xfffcfecd0),
+                              Color(0xfffffc5ca),
+                            ])),
+                    child: Container(
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+
+                  _getliveaboard();
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
