@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
 import 'package:diving_trip_agency/screens/create_boat/create_boat_screen.dart';
+import 'package:diving_trip_agency/screens/create_liveaboard/add_liveabord_screen.dart';
 import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens/hotel/add_hotel_screen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
@@ -48,8 +49,14 @@ class CompanyHamburger extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => CreateBoat()));
                             }
+                            if (_controller.selectedIndex == 4) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CreateLiveaboardScreen()));
+                            }
                           },
-                          
                         ))
               ],
             ),
