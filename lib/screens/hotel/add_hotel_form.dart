@@ -1,14 +1,18 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/hotel/addRoom.dart';
 import 'package:diving_trip_agency/screens/hotel/highlight.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
-import 'dart:io';
+import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker/image_picker.dart';
 
 class addHotel extends StatefulWidget {
   @override
@@ -20,7 +24,10 @@ class _addHotelState extends State<addHotel> {
   String highlight;
   String hotel_description;
   String phone;
-  File hotelimg;
+  io.File hotelimg;
+
+  PickedFile hhotel;
+  PickedFile rroom;
 
   List<RoomType> pinkValue = [new RoomType()];
   List<List<Amenity>> blueValue = [[new Amenity()]];
@@ -34,19 +41,6 @@ class _addHotelState extends State<addHotel> {
       TextEditingController();
 
   final TextEditingController _controllerPhone = TextEditingController();
-
-  _gethotelimg() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        hotelimg = File(pickedFile.path);
-      });
-    }
-  }
 
   void loadData() {
     listStar = [];
@@ -89,9 +83,20 @@ class _addHotelState extends State<addHotel> {
     hotel.phone = _controllerPhone.text;
     hotel.star = int.parse(starSelected);
 
+    var f = File();
+    f.filename = 'Image.jpg';
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    List<int> b = await hhotel.readAsBytes();
+    f.file = b;
+    hotel.images.add(f);
 
-    //hotel.images = hotelimg // error, file conflict
-    //link api img, room
+    var f2 = File();
+    f2.filename = 'Image.jpg';
+    List<int> a = await rroom.readAsBytes();
+    f2.file = a;
+    //hotel.images.add(f2);
+
     var room = RoomType();
     var amenity = Amenity();
     for (int i = 0; i < pinkValue.length; i++) {
@@ -101,6 +106,7 @@ class _addHotelState extends State<addHotel> {
       room.maxGuest = pinkValue[i].maxGuest;
       room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
+      room.roomImages.add(f2);
       hotel.roomTypes.add(room);
       for (int j = 0; j < blueValue.length; j++) {
         amenity.name = blueValue[i][j].name;
@@ -108,22 +114,63 @@ class _addHotelState extends State<addHotel> {
         room.amenities.add(amenity);
       }
     }
+
+    var hotelRequest = AddHotelRequest();
+    hotelRequest.hotel = hotel;
+
+    try {
+      final box = Hive.box('userInfo');
+
+      var response = await stub.addHotel(hotelRequest);
+      String token = box.get('token');
+      print(token);
+      print(response);
+
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+    } catch (e) {
+      // Handle all other exceptions
+      print('Exception: $e');
+    }
+  }
+ // get hotel image
+  _gethotelimg() async {
+    PickedFile pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        hotelimg = io.File(pickedFile.path);
+        hhotel = pickedFile;
+      });
+    }
+  }
+
+  //hotel.images = hotelimg // error, file conflict
+    //link api img, room
     //   var authResponse = await client.postAuthenticate(Authenticate()..provider='credentials'
     // ..email=email..password=password);
     //   const bearerToken = authResponse.bearerToken;
 
-    var hotelRequest = AddHotelRequest();
-    hotelRequest.hotel = hotel;
-    try {
-      var response = stub.addHotel(
-        hotelRequest,
+    //var hotelRequest = AddHotelRequest();
+    //hotelRequest.hotel = hotel;
+    //try {
+      //var response = stub.addHotel(
+       // hotelRequest,
         // options: CallOptions(metadata:{'Authorization':  '${bearerToken}'} )
-      );
-      print('response: ${response}');
-    } catch (e) {
-      print(e);
-    }
-  }
+     // );
+    //  print('response: ${response}');
+  //  } catch (e) {
+  //    print(e);
+ //   }
+ // }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +207,7 @@ class _addHotelState extends State<addHotel> {
                               width: 300,
                             )
                           : Image.file(
-                              File(hotelimg.path),
+                              io.File(hotelimg.path),
                               fit: BoxFit.cover,
                               width: 50,
                             )),
@@ -187,6 +234,7 @@ class _addHotelState extends State<addHotel> {
                           style: TextStyle(fontSize: 15),
                         ))),
                 onPressed: () {
+
                   _gethotelimg();
                 },
               ),

@@ -26,6 +26,8 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
     for(int i=0;i<divemasterValue.length;i++){
       divemaster.firstName=divemasterValue[i].firstName;
       divemaster.lastName=divemasterValue[i].lastName;
+      divemaster.frontImage=divemasterValue[i].frontImage;
+      divemaster.backImage=divemasterValue[i].backImage;
       //level,img
     }
 

@@ -75,6 +75,7 @@ class _RoomFormState extends State<RoomForm> {
     if (pickedFile != null) {
       setState(() {
         roomimg = File(pickedFile.path);
+       // rroom = pickedFile;
       });
     }
   }
