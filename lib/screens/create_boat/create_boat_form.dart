@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'dart:io' as io;
+
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:intl/intl.dart';
@@ -23,8 +24,10 @@ class CreateBoatForm extends StatefulWidget {
 
 class _CreateBoatFormState extends State<CreateBoatForm> {
   String boatname;
+
   io.File boatimg;
   XFile bboat;
+
   final List<String> errors = [];
  // List<File> boatImg = new List<File>();
   final TextEditingController _controllerName = TextEditingController();

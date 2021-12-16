@@ -81,6 +81,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
         final box = Hive.box('userInfo');
+
         String token = box.get('token');
 
     final stub = AgencyServiceClient(channel,options: CallOptions(metadata:{'Authorization':  '$token'}));
@@ -95,6 +96,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     tripRequest.trip = trip;
     tripRequest.tripTemplate=triptemplate;
     //tripRequest.tripTemplate.images.add(value);
+
 
     //try {
       //var response = stub.addTrip(tripRequest);
