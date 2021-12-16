@@ -2,10 +2,12 @@ import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/create_trip/trip_template.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
-import 'dart:io';
+import 'package:hive/hive.dart';
+import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:intl/intl.dart';
@@ -21,10 +23,10 @@ class CreateBoatForm extends StatefulWidget {
 
 class _CreateBoatFormState extends State<CreateBoatForm> {
   String boatname;
-  //img
-  File boat;
+  io.File boatimg;
+  XFile bboat;
   final List<String> errors = [];
-
+ // List<File> boatImg = new List<File>();
   final TextEditingController _controllerName = TextEditingController();
 
   void addError({String error}) {
@@ -41,7 +43,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       });
   }
 
-  void AddBoat() {
+  void AddBoat() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -49,32 +51,62 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
+        final box = Hive.box('userInfo');
+        String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel);
+    final stub = AgencyServiceClient(channel,   options: CallOptions(metadata:{'Authorization':  '$token'}));
     var boat = DivingBoat();
     boat.boatModel=_controllerName.text;
+    //boat.boatImages.add();
 
     var boatRequest = AddDivingBoatRequest();
     boatRequest.divingBoat = boat;
+    boatRequest.agencyId= boatRequest.agencyId+4;
 
-    try {
-      var response = stub.addDivingBoat(boatRequest);
-      print('response: ${response}');
-    } catch (e) {
-      print(e);
-    }
+    var f = File();
+    f.filename = bboat.name;
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    List<int> b = await bboat.readAsBytes();
+    f.file = b;
+    boat.boatImages.add(f);
+
+   // try {
+    //  var response = stub.addDivingBoat(boatRequest);
+    //  print('response: ${response}');
+   // } catch (e) {
+    //  print(e);
+    //}
+ // }
+
+  try {
+  var response = await stub.addDivingBoat(boatRequest);
+  print(token);
+  print(response);
+
+  } on GrpcError catch (e) {
+  // Handle exception of type GrpcError
+  print('codeName: ${e.codeName}');
+  print('details: ${e.details}');
+  print('message: ${e.message}');
+  print('rawResponse: ${e.rawResponse}');
+  print('trailers: ${e.trailers}');
+  } catch (e) {
+  // Handle all other exceptions
+  print('Exception: $e');
   }
+}
 
   /// Get from gallery
   _getPicBoat() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+      bboat = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
+    if (bboat != null) {
       setState(() {
-        boat = File(pickedFile.path);
+        boatimg = io.File(bboat.path);
         //card = pickedFile;
       });
     }
@@ -90,39 +122,20 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
           buildBoatNameFormField(),
           SizedBox(height: 20),
           //   FormError(errors: errors),
-          FlatButton(
-            //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
-            onPressed: () => {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
-            },
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'Confirm',
-              style: TextStyle(fontSize: 15),
-            ),
-          ),
-          SizedBox(height: 20),
-          SizedBox(height: 20),
-          Row(
+            Row(
             children: [
               Text('Boat Image'),
               Center(
-                child: boat == null
+                child: boatimg == null
                     ? Text('')
                     : kIsWeb
                     ? Image.network(
-                  boat.path,
+                  boatimg.path,
                   fit: BoxFit.cover,
                   width: 300,
                 )
                     : Image.file(
-                  File(boat.path),
+                  io.File(boatimg.path),
                   fit: BoxFit.cover,
                   width: 300,
                 ),
@@ -146,6 +159,27 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
               ),
             ],
           ),
+           SizedBox(height: 20),
+          FlatButton(
+            //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
+            onPressed: () => {
+              AddBoat(),
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => MainCompanyScreen(),
+                ),
+                (route) => false,
+              )
+            },
+            color: Color(0xfff75BDFF),
+            child: Text(
+              'Confirm',
+              style: TextStyle(fontSize: 15),
+            ),
+          ),
+          SizedBox(height: 20),
+        
         ]),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -13,6 +14,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 import 'package:flutter/services.dart';
 
 class CreateTripForm extends StatefulWidget {
+  
   @override
   _CreateTripFormState createState() => _CreateTripFormState();
 }
@@ -22,8 +24,11 @@ class _CreateTripFormState extends State<CreateTripForm> {
   String divemastername;
   String price;
   String totalpeople;
-
+  
   final List<String> errors = [];
+
+  TripTemplate triptemplate = new TripTemplate();
+ 
 
   //final TextEditingController _controllerPlace = TextEditingController();
   final TextEditingController _controllerFrom = TextEditingController();
@@ -67,7 +72,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       });
   }
 
-  void AddTrip() {
+  void AddTrip() async{
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -75,8 +80,10 @@ class _CreateTripFormState extends State<CreateTripForm> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
+        final box = Hive.box('userInfo');
+        String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel);
+    final stub = AgencyServiceClient(channel,options: CallOptions(metadata:{'Authorization':  '$token'}));
     var trip = Trip();
     trip.from = Timestamp.fromDateTime(from);
     trip.to = Timestamp.fromDateTime(to);
@@ -86,14 +93,35 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
     var tripRequest = AddTripRequest();
     tripRequest.trip = trip;
+    tripRequest.tripTemplate=triptemplate;
+    //tripRequest.tripTemplate.images.add(value);
 
+    //try {
+      //var response = stub.addTrip(tripRequest);
+      //print('response: ${response}');
+    //} catch (e) {
+      //print(e);
+    //}
+  //}
+    print(tripRequest);
     try {
-      var response = stub.addTrip(tripRequest);
-      print('response: ${response}');
+      var response = await stub.addTrip(tripRequest);
+      print(token);
+      print(response);
+
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
     } catch (e) {
-      print(e);
+      // Handle all other exceptions
+      print('Exception: $e');
     }
   }
+
 
   Future pickDateRange(BuildContext context) async {
     final initialDateRange = DateTimeRange(
@@ -205,7 +233,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
               width: MediaQuery.of(context).size.width / 1.5,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Triptemplate()),
+              child: Triptemplate(this.triptemplate)),
 
           SizedBox(height: 20),
           //   FormError(errors: errors),
@@ -228,6 +256,20 @@ class _CreateTripFormState extends State<CreateTripForm> {
             ),
           ),
           SizedBox(height: 20),
+          //  FlatButton(
+          //   onPressed: () => {
+          //     // print(pinkValue),
+          //     //  print('------------'),
+          //     print(triptemplate.name),
+          //       print(triptemplate.description),
+
+          //   },
+          //   color: Color(0xfff75BDFF),
+          //   child: Text(
+          //     'check',
+          //     style: TextStyle(fontSize: 15),
+          //   ),
+          // ),
         ]),
       ),
     );

@@ -1,24 +1,40 @@
 import 'package:diving_trip_agency/form_error.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:io';
+import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class Triptemplate extends StatefulWidget {
+  TripTemplate triptemplate;
+   Triptemplate(TripTemplate triptemplate){
+    this.triptemplate=triptemplate;
+  }
   @override
-  _TriptemplateState createState() => _TriptemplateState();
+  _TriptemplateState createState() => _TriptemplateState(this.triptemplate);
 }
 
 class _TriptemplateState extends State<Triptemplate> {
   String tripname;
   String description;
-  File Pictrip;
-  File Boatpic;
-  File Schedule;
+  io.File Pictrip;
+  io.File Boatpic;
+  io.File Schedule;
+
+  XFile pt;
+  XFile bt;
+  XFile sc;
+
   final List<String> errors = [];
   String triptype = '';
   String boatname;
+  TripTemplate triptemplate;
+   _TriptemplateState(TripTemplate triptemplate){
+     this.triptemplate=triptemplate;
+   
+  }
 
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
@@ -26,40 +42,66 @@ class _TriptemplateState extends State<Triptemplate> {
 
   /// Get from gallery
   _getPictrip() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+      pt = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
+
+    var f = File();
+    f.filename = pt.name;
+    //f2.filename = 'image.jpg';
+    List<int> a = await pt.readAsBytes();
+    f.file = a;
+
+    this.triptemplate.images.add(f);
+
+    if (pt != null) {
       setState(() {
-        Pictrip = File(pickedFile.path);
+        Pictrip = io.File(pt.path);
       });
     }
   }
 
   _getBoatpic() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+      bt = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
+
+    var f2 = File();
+    f2.filename = bt.name;
+    //f2.filename = 'image.jpg';
+    List<int> b = await bt.readAsBytes();
+    f2.file = b;
+
+    this.triptemplate.images.add(f2);
+
+    if (bt != null) {
       setState(() {
-        Boatpic = File(pickedFile.path);
+        Boatpic = io.File(bt.path);
       });
     }
   }
 
   _getSchedule() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+      sc = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
+
+    var f3 = File();
+    f3.filename = sc.name;
+    //f2.filename = 'image.jpg';
+    List<int> c = await sc.readAsBytes();
+    f3.file = c;
+
+    this.triptemplate.images.add(f3);
+    if (sc != null) {
       setState(() {
-        Schedule = File(pickedFile.path);
+        Schedule = io.File(sc.path);
       });
     }
   }
@@ -91,8 +133,8 @@ class _TriptemplateState extends State<Triptemplate> {
             SizedBox(height: 20),
             buildDescriptionFormField(),
             SizedBox(height: 20),
-            buildBoatNameFormField(),
-            SizedBox(height: 20),
+            // buildBoatNameFormField(),
+            // SizedBox(height: 20),
             //radio
             Row(children: [
               Text('Trip Type '),
@@ -134,7 +176,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 fit: BoxFit.cover,
                               )
                             : Image.file(
-                                File(Pictrip.path),
+                                io.File(Pictrip.path),
                                 fit: BoxFit.cover,
                               )),
                 Spacer(),
@@ -163,7 +205,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 fit: BoxFit.cover,
                               )
                             : Image.file(
-                                File(Boatpic.path),
+                                io.File(Boatpic.path),
                                 fit: BoxFit.cover,
                               )),
                 Spacer(),
@@ -192,7 +234,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 fit: BoxFit.cover,
                               )
                             : Image.file(
-                                File(Schedule.path),
+                                io.File(Schedule.path),
                                 fit: BoxFit.cover,
                               )),
                 Spacer(),
@@ -224,6 +266,8 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => description = newValue,
       onChanged: (value) {
+        triptemplate.description=value;
+        print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter Description");
         }
@@ -251,6 +295,11 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => tripname = newValue,
       onChanged: (value) {
+        print(triptemplate);
+         print(triptemplate.name);
+
+        triptemplate.name=value;
+          print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter trip name");
         }
