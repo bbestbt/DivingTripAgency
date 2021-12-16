@@ -1,8 +1,11 @@
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
+
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:io';
+import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -18,9 +21,14 @@ class Triptemplate extends StatefulWidget {
 class _TriptemplateState extends State<Triptemplate> {
   String tripname;
   String description;
-  File Pictrip;
-  File Boatpic;
-  File Schedule;
+  io.File Pictrip;
+  io.File Boatpic;
+  io.File Schedule;
+
+  XFile pt;
+  XFile bt;
+  XFile sc;
+
   final List<String> errors = [];
   String triptype = '';
   String boatname;
@@ -36,40 +44,66 @@ class _TriptemplateState extends State<Triptemplate> {
 
   /// Get from gallery
   _getPictrip() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+      pt = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
+
+    var f = File();
+    f.filename = pt.name;
+    //f2.filename = 'image.jpg';
+    List<int> a = await pt.readAsBytes();
+    f.file = a;
+
+    this.triptemplate.images.add(f);
+
+    if (pt != null) {
       setState(() {
-        Pictrip = File(pickedFile.path);
+        Pictrip = io.File(pt.path);
       });
     }
   }
 
   _getBoatpic() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+      bt = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
+
+    var f2 = File();
+    f2.filename = bt.name;
+    //f2.filename = 'image.jpg';
+    List<int> b = await bt.readAsBytes();
+    f2.file = b;
+
+    this.triptemplate.images.add(f2);
+
+    if (bt != null) {
       setState(() {
-        Boatpic = File(pickedFile.path);
+        Boatpic = io.File(bt.path);
       });
     }
   }
 
   _getSchedule() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+      sc = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
+
+    var f3 = File();
+    f3.filename = sc.name;
+    //f2.filename = 'image.jpg';
+    List<int> c = await sc.readAsBytes();
+    f3.file = c;
+
+    this.triptemplate.images.add(f3);
+    if (sc != null) {
       setState(() {
-        Schedule = File(pickedFile.path);
+        Schedule = io.File(sc.path);
       });
     }
   }
@@ -144,7 +178,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 fit: BoxFit.cover,
                               )
                             : Image.file(
-                                File(Pictrip.path),
+                                io.File(Pictrip.path),
                                 fit: BoxFit.cover,
                               )),
                 Spacer(),
@@ -173,7 +207,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 fit: BoxFit.cover,
                               )
                             : Image.file(
-                                File(Boatpic.path),
+                                io.File(Boatpic.path),
                                 fit: BoxFit.cover,
                               )),
                 Spacer(),
@@ -202,7 +236,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 fit: BoxFit.cover,
                               )
                             : Image.file(
-                                File(Schedule.path),
+                                io.File(Schedule.path),
                                 fit: BoxFit.cover,
                               )),
                 Spacer(),

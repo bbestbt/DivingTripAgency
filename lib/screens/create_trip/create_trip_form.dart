@@ -80,7 +80,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
-         final box = Hive.box('userInfo');
+        final box = Hive.box('userInfo');
+
         String token = box.get('token');
 
     final stub = AgencyServiceClient(channel,options: CallOptions(metadata:{'Authorization':  '$token'}));
@@ -94,14 +95,35 @@ class _CreateTripFormState extends State<CreateTripForm> {
     var tripRequest = AddTripRequest();
     tripRequest.trip = trip;
     tripRequest.tripTemplate=triptemplate;
+    //tripRequest.tripTemplate.images.add(value);
 
+
+    //try {
+      //var response = stub.addTrip(tripRequest);
+      //print('response: ${response}');
+    //} catch (e) {
+      //print(e);
+    //}
+  //}
+    print(tripRequest);
     try {
-      var response = stub.addTrip(tripRequest);
-      print('response: ${response}');
+      var response = await stub.addTrip(tripRequest);
+      print(token);
+      print(response);
+
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
     } catch (e) {
-      print(e);
+      // Handle all other exceptions
+      print('Exception: $e');
     }
   }
+
 
   Future pickDateRange(BuildContext context) async {
     final initialDateRange = DateTimeRange(
