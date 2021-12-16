@@ -11,8 +11,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
-   Triptemplate(TripTemplate triptemplate){
-    this.triptemplate=triptemplate;
+  Triptemplate(TripTemplate triptemplate) {
+    this.triptemplate = triptemplate;
   }
   @override
   _TriptemplateState createState() => _TriptemplateState(this.triptemplate);
@@ -28,14 +28,38 @@ class _TriptemplateState extends State<Triptemplate> {
   XFile pt;
   XFile bt;
   XFile sc;
+  String selected = null;
+
+  Map<String, int> tripTypeMap = {};
+
+  List<DropdownMenuItem<String>> listTrip = [];
+  List<TripType> trip = [TripType.ONSHORE, TripType.OFFSHORE];
+
+  void loadData() async {
+    trip.forEach((element) {
+      // print(element);
+    });
+    //listDrop = [];
+    listTrip = trip
+        .map((val) => DropdownMenuItem<String>(
+            child: Text(val.toString()), value: val.value.toString()))
+        .toList();
+
+    String value;
+
+    for (var i = 0; i < TripType.values.length; i++) {
+      value = TripType.valueOf(i).toString();
+      tripTypeMap[value] = i;
+    }
+    print(tripTypeMap);
+  }
 
   final List<String> errors = [];
   String triptype = '';
   String boatname;
   TripTemplate triptemplate;
-   _TriptemplateState(TripTemplate triptemplate){
-     this.triptemplate=triptemplate;
-   
+  _TriptemplateState(TripTemplate triptemplate) {
+    this.triptemplate = triptemplate;
   }
 
   final TextEditingController _controllerTripname = TextEditingController();
@@ -44,7 +68,7 @@ class _TriptemplateState extends State<Triptemplate> {
 
   /// Get from gallery
   _getPictrip() async {
-      pt = await ImagePicker().pickImage(
+    pt = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
@@ -66,7 +90,7 @@ class _TriptemplateState extends State<Triptemplate> {
   }
 
   _getBoatpic() async {
-      bt = await ImagePicker().pickImage(
+    bt = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
@@ -88,7 +112,7 @@ class _TriptemplateState extends State<Triptemplate> {
   }
 
   _getSchedule() async {
-      sc = await ImagePicker().pickImage(
+    sc = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
@@ -124,6 +148,7 @@ class _TriptemplateState extends State<Triptemplate> {
 
   @override
   Widget build(BuildContext context) {
+    loadData();
     return Container(
       color: Color(0xfffd4f0f0),
       child: Form(
@@ -138,34 +163,64 @@ class _TriptemplateState extends State<Triptemplate> {
             // buildBoatNameFormField(),
             // SizedBox(height: 20),
             //radio
-            Row(children: [
-              Text('Trip Type '),
-              Spacer(),
-            ]),
-            Row(children: [
-              Radio(
-                  value: 'On shore (Hotel)',
-                  groupValue: triptype,
-                  onChanged: (val) {
-                    triptype = val;
-                    setState(() {});
-                  }),
-              Text('On shore (Hotel)'),
-            ]),
+            // Row(children: [
+            //   Text('Trip Type '),
+            //   Spacer(),
+            // ]),
+            // Row(children: [
+            //   Radio(
+            //       value: 'On shore (Hotel)',
+            //       groupValue: triptype,
+            //       onChanged: (val) {
+            //         // triptype = val;
+            //         setState(() {
+            //            triptype = val;
+            //             print(val);
 
-            Row(
-              children: [
-                Radio(
-                    value: 'Off shore (Live on boat)',
-                    groupValue: triptype,
-                    onChanged: (val) {
-                      triptype = val;
-                      setState(() {});
-                    }),
-                Text('Off shore (Live on boat)'),
-              ],
+            //         });
+            //       }),
+            //   Text('On shore (Hotel)'),
+            // ]),
+
+            // Row(
+            //   children: [
+            //     Radio(
+            //         value: 'Off shore (Live on boat)',
+            //         groupValue: triptype,
+            //         onChanged: (val) {
+            //           // triptype = val;
+            //           setState(() {
+            //              triptype = val;
+            //               print(val);
+            //           });
+            //         }),
+            //     Text('Off shore (Live on boat)'),
+            //   ],
+            // ),
+            Container(
+              color: Color(0xfffd4f0f0),
+              child: Center(
+                child: DropdownButton(
+                  isExpanded: true,
+                  value: selected,
+                  items: listTrip,
+                  hint: Text('  Select trip type'),
+                  iconSize: 40,
+                  onChanged: (value) {
+                    setState(() {
+                      selected = value;
+                      TripType.values.forEach((tripType) {
+                        if (tripTypeMap[tripType.toString()] ==
+                            int.parse(selected)) {
+                          triptemplate.tripType = tripType;
+                        }
+                      });
+                      print(value);
+                    });
+                  },
+                ),
+              ),
             ),
-
             SizedBox(height: 20),
             Row(
               children: [
@@ -268,7 +323,7 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => description = newValue,
       onChanged: (value) {
-        triptemplate.description=value;
+        triptemplate.description = value;
         print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter Description");
@@ -285,7 +340,7 @@ class _TriptemplateState extends State<Triptemplate> {
       decoration: InputDecoration(
         labelText: "Description",
         filled: true,
-        fillColor:  Color(0xfffd4f0f0),
+        fillColor: Color(0xfffd4f0f0),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -298,10 +353,10 @@ class _TriptemplateState extends State<Triptemplate> {
       onSaved: (newValue) => tripname = newValue,
       onChanged: (value) {
         print(triptemplate);
-         print(triptemplate.name);
+        print(triptemplate.name);
 
-        triptemplate.name=value;
-          print(value);
+        triptemplate.name = value;
+        print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter trip name");
         }
