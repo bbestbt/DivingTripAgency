@@ -28,24 +28,29 @@ class WebMenuCompany extends StatelessWidget {
                 press: () {
                   _controller.setMenuIndex(index);
                   if (_controller.selectedIndex == 0) {
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => MainCompanyScreen()));
                   }
-                  if (_controller.selectedIndex == 1) {
+                  if (_controller.selectedIndex == 1 ) {
+
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => CreateTrip()));
                   }
                   if (_controller.selectedIndex == 2) {
+
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => HotelScreen()));
                   }
                   if (_controller.selectedIndex == 3) {
+
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => CreateBoat()));
                   }
                   if (_controller.selectedIndex == 4) {
+
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -63,6 +68,7 @@ class WebMenuCompanyItem extends StatefulWidget {
     @required this.isActive,
     @required this.text,
     @required this.press,
+
   }) : super(key: key);
 
   final bool isActive;
