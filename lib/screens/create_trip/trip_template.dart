@@ -148,7 +148,9 @@ class _TriptemplateState extends State<Triptemplate> {
 
   @override
   Widget build(BuildContext context) {
+
     double screenwidth = MediaQuery.of(context).size.width;
+
     loadData();
     return Container(
       color: Color(0xfffd4f0f0),
