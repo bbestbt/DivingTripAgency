@@ -148,6 +148,9 @@ class _TriptemplateState extends State<Triptemplate> {
 
   @override
   Widget build(BuildContext context) {
+
+    double screenwidth = MediaQuery.of(context).size.width;
+
     loadData();
     return Container(
       color: Color(0xfffd4f0f0),
@@ -231,10 +234,12 @@ class _TriptemplateState extends State<Triptemplate> {
                             ? Image.network(
                                 Pictrip.path,
                                 fit: BoxFit.cover,
+                                width: screenwidth*0.2,
                               )
                             : Image.file(
                                 io.File(Pictrip.path),
                                 fit: BoxFit.cover,
+                                width: screenwidth*0.05,
                               )),
                 Spacer(),
                 FlatButton(
@@ -260,10 +265,12 @@ class _TriptemplateState extends State<Triptemplate> {
                             ? Image.network(
                                 Boatpic.path,
                                 fit: BoxFit.cover,
+                                width: screenwidth*0.2,
                               )
                             : Image.file(
                                 io.File(Boatpic.path),
                                 fit: BoxFit.cover,
+                                width: screenwidth*0.05,
                               )),
                 Spacer(),
                 FlatButton(
@@ -289,10 +296,12 @@ class _TriptemplateState extends State<Triptemplate> {
                             ? Image.network(
                                 Schedule.path,
                                 fit: BoxFit.cover,
+                                width: screenwidth*0.2,
                               )
                             : Image.file(
                                 io.File(Schedule.path),
                                 fit: BoxFit.cover,
+                                width: screenwidth*0.05,
                               )),
                 Spacer(),
                 FlatButton(

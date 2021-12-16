@@ -64,7 +64,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
 
     var boatRequest = AddDivingBoatRequest();
     boatRequest.divingBoat = boat;
-    boatRequest.agencyId= boatRequest.agencyId+4;
+  //  boatRequest.agencyId= boatRequest.agencyId+4;
 
     var f = File();
     f.filename = bboat.name;
@@ -117,6 +117,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
 
   @override
   Widget build(BuildContext context) {
+    double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -127,7 +128,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
           //   FormError(errors: errors),
             Row(
             children: [
-              Text('Boat Image'),
+              Text('Image'),
               Center(
                 child: boatimg == null
                     ? Text('')
@@ -135,12 +136,12 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                     ? Image.network(
                   boatimg.path,
                   fit: BoxFit.cover,
-                  width: 300,
+                  width: screenwidth*0.2,
                 )
                     : Image.file(
                   io.File(boatimg.path),
                   fit: BoxFit.cover,
-                  width: 300,
+                  width: screenwidth*0.05,
                 ),
               ),
               /* Spacer(),

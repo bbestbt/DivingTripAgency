@@ -30,55 +30,56 @@ class _addHotelState extends State<addHotel> {
   XFile rroom;
 
 
-  List<RoomType> pinkValue = [new RoomType()];
-  List<List<Amenity>> blueValue = [[new Amenity()]];
-  List<DropdownMenuItem<String>> listStar = [];
-  List<String> star = ['1', '2', '3', '4', '5'];
-  String starSelected = null;
 
-  final List<String> errors = [];
-  final TextEditingController _controllerHotelname = TextEditingController();
-  final TextEditingController _controllerHoteldescription =
-      TextEditingController();
+          List<RoomType> pinkValue = [new RoomType()];
+    List<List<Amenity>> blueValue = [[new Amenity()]];
+    List<DropdownMenuItem<String>> listStar = [];
+    List<String> star = ['1', '2', '3', '4', '5'];
+    String starSelected = null;
 
-  final TextEditingController _controllerPhone = TextEditingController();
+    final List<String> errors = [];
+    final TextEditingController _controllerHotelname = TextEditingController();
+    final TextEditingController _controllerHoteldescription =
+    TextEditingController();
 
-  void loadData() {
+    final TextEditingController _controllerPhone = TextEditingController();
+
+    void loadData() {
     listStar = [];
     listStar = star
         .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
         .toList();
-  }
+    }
 
-  void addError({String error}) {
+    void addError({String error}) {
     if (!errors.contains(error))
-      setState(() {
-        errors.add(error);
-      });
-  }
+    setState(() {
+    errors.add(error);
+    });
+    }
 
-  void removeError({String error}) {
+    void removeError({String error}) {
     if (errors.contains(error))
-      setState(() {
-        errors.remove(error);
-      });
-  }
+    setState(() {
+    errors.remove(error);
+    });
+    }
 
-  // var authResponse = await AccountClient().login(request)
-  void sendHotel() async {
+    // var authResponse = await AccountClient().login(request)
+    void sendHotel() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-        final box = Hive.box('userInfo');
-        String token = box.get('token');
+    host: '139.59.101.136',
+    grpcPort: 50051,
+    grpcTransportSecure: false,
+    grpcWebPort: 8080,
+    grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
 
     final stub = AgencyServiceClient(
-      channel,
-      options: CallOptions(metadata:{'Authorization':  '$token'} )
+    channel,
+    options: CallOptions(metadata:{'Authorization':  '$token'} )
     );
     var hotel = Hotel();
     hotel.hotelName = _controllerHotelname.text;
@@ -104,51 +105,51 @@ class _addHotelState extends State<addHotel> {
     //var room = RoomType();
     //var amenity = Amenity();
     for (int i = 0; i < pinkValue.length; i++) {
-      var room=RoomType();
-      for (int j = 0; j < blueValue[i].length; j++) {
-        var amenity = Amenity();
-        amenity.name = blueValue[i][j].name;
-        amenity.description = blueValue[i][j].description;
-        room.amenities.add(amenity);
-      }
-      room.name = pinkValue[i].name;
-      room.description = pinkValue[i].description;
-      room.maxGuest = pinkValue[i].maxGuest;
-      room.price = pinkValue[i].price;
-      room.quantity = pinkValue[i].quantity;
-      //room.roomImages.add(f2);
-      //pinkValue[i].roomImages.add(value);
-      for(int j = 0; j < pinkValue[i].roomImages.length; j++){
-        room.roomImages.add(pinkValue[i].roomImages[j]);
-      }
-      hotel.roomTypes.add(room);
+    var room=RoomType();
+    for (int j = 0; j < blueValue[i].length; j++) {
+    var amenity = Amenity();
+    amenity.name = blueValue[i][j].name;
+    amenity.description = blueValue[i][j].description;
+    room.amenities.add(amenity);
+    }
+    room.name = pinkValue[i].name;
+    room.description = pinkValue[i].description;
+    room.maxGuest = pinkValue[i].maxGuest;
+    room.price = pinkValue[i].price;
+    room.quantity = pinkValue[i].quantity;
+    //room.roomImages.add(f2);
+    //pinkValue[i].roomImages.add(value);
+    for(int j = 0; j < pinkValue[i].roomImages.length; j++){
+    room.roomImages.add(pinkValue[i].roomImages[j]);
+    }
+    hotel.roomTypes.add(room);
     }
 
     var hotelRequest = AddHotelRequest();
     hotelRequest.hotel = hotel;
 
     try {
-      var response = await stub.addHotel(hotelRequest);
-      print(token);
-      print(response);
+    var response = await stub.addHotel(hotelRequest);
+    print(token);
+    print(response);
 
     } on GrpcError catch (e) {
-      // Handle exception of type GrpcError
-      print('codeName: ${e.codeName}');
-      print('details: ${e.details}');
-      print('message: ${e.message}');
-      print('rawResponse: ${e.rawResponse}');
-      print('trailers: ${e.trailers}');
+    // Handle exception of type GrpcError
+    print('codeName: ${e.codeName}');
+    print('details: ${e.details}');
+    print('message: ${e.message}');
+    print('rawResponse: ${e.rawResponse}');
+    print('trailers: ${e.trailers}');
     } catch (e) {
-      // Handle all other exceptions
-      print('Exception: $e');
+    // Handle all other exceptions
+    print('Exception: $e');
     }
-  }
- // get hotel image
-  _gethotelimg() async {
-      hhotel = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 1800,
+    }
+    // get hotel image
+    _gethotelimg() async {
+    hhotel = await ImagePicker().pickImage(
+    source: ImageSource.gallery,
+    maxWidth: 1800,
       maxHeight: 1800,
     );
     if (hhotel != null) {
@@ -181,6 +182,7 @@ class _addHotelState extends State<addHotel> {
   @override
   Widget build(BuildContext context) {
     loadData();
+    double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -196,7 +198,7 @@ class _addHotelState extends State<addHotel> {
           Row(
             children: [
               Column(
-                children: [Text("Hotel image")],
+                children: [Text("image")],
               ),
               Center(
                   child: hotelimg == null
@@ -210,12 +212,12 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg.path,
                               fit: BoxFit.cover,
-                              width: 300,
+                              width: screenwidth*0.2,
                             )
                           : Image.file(
                               io.File(hotelimg.path),
                               fit: BoxFit.cover,
-                              width: 50,
+                              width: screenwidth*0.05,
                             )),
               Spacer(),
               FlatButton(

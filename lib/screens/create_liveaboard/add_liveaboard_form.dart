@@ -151,6 +151,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
 
   @override
   Widget build(BuildContext context) {
+    double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -169,7 +170,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
           Row(
             children: [
               Column(
-                children: [Text("Liveaboard image")],
+                children: [Text("Image")],
               ),
               Center(
                   child: liveaboardimg == null
@@ -183,12 +184,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                       ? Image.network(
                     liveaboardimg.path,
                     fit: BoxFit.cover,
-                    width: 300,
+                    width: screenwidth*0.2,
                   )
                       : Image.file(
                     io.File(liveaboardimg.path),
                     fit: BoxFit.cover,
-                    width: 50,
+                    width: screenwidth*0.5,
                   )),
               Spacer(),
               FlatButton(

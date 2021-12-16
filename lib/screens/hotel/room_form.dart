@@ -115,6 +115,7 @@ class _RoomFormState extends State<RoomForm> {
 
   @override
   Widget build(BuildContext context) {
+    double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -162,7 +163,7 @@ class _RoomFormState extends State<RoomForm> {
           Row(
             children: [
               Column(
-                children: [Text("Room image")],
+                children: [Text("Image")],
               ),
               Center(
                   child: roomimg == null
@@ -176,12 +177,12 @@ class _RoomFormState extends State<RoomForm> {
                           ? Image.network(
                               roomimg.path,
                               fit: BoxFit.cover,
-                              width: 300,
+                              width: screenwidth*0.2,
                             )
                           : Image.file(
                               io.File(roomimg.path),
                               fit: BoxFit.cover,
-                              width: 50,
+                              width: screenwidth*0.05,
                             )),
               Spacer(),
               FlatButton(

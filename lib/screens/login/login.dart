@@ -10,6 +10,7 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'constant.dart';
 import 'package:hive/hive.dart';
 
+
 //import 'dart:typed_data';
 //import 'package:hive/hive.dart';
 
@@ -222,12 +223,15 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 5.0,
         onPressed: () => {
           sendLogin(),
-          //print('Login Button Pressed'); //Determine what to do after clicking
+          print('Login Button Pressed'), //Determine what to do after clicking
           // usrcontroller.text == dummyusername &&
           //         psscontroller.text == dummypassword
-          //     ? 
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MainCompanyScreen()))
+          //     ?
+          //showError(),
+          checkAuthen(),
+
+          //Navigator.push(context,
+                  //MaterialPageRoute(builder: (context) => MainCompanyScreen()))
               // : showDialog(
               //     context: context,
               //     builder: (context) {
@@ -502,4 +506,55 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+  showError() async {
+    await Future.delayed(Duration(microseconds: 1));
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Incorrect password or username, please try again."),
+            actions: <Widget>[
+              FlatButton(
+                //child: Text("OK"),
+              ),
+            ],
+          );
+        });
+  }
+  Future<Null> checkAuthen() async{
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+
+    final stub = AccountClient(channel);
+    var account = Account();
+    account.email = usrcontroller.text;
+    account.password = psscontroller.text;
+
+    var loginRequest = LoginRequest();
+    loginRequest.email = account.email;
+    loginRequest.password = account.password;
+    try {
+      await Hive.openBox('userInfo');
+      final box = Hive.box('userInfo');
+      var response = await stub.login(loginRequest);
+      box.put('token', response.token);
+      String token = box.get('token');
+      print("Valid Username!");
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MainCompanyScreen()));
+    } on GrpcError catch (e) {
+      showError();
+    } catch (e) {
+      // Handle all other exceptions
+      print('Exception: $e');
+    }
+  }
 }
+
+
+
+
