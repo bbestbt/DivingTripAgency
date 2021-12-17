@@ -329,7 +329,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             color: Colors.white,
             child: Text(
-              'User',
+              'Diver',
               style: TextStyle(
                 color: Color(0xFF527DAA),
                 letterSpacing: 1.5,

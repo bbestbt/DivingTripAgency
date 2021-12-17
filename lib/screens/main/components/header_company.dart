@@ -69,11 +69,13 @@ class HeaderCompany extends StatelessWidget {
                                     builder: (context) => LoginScreen()));
                           },
                           style: TextButton.styleFrom(
-                            backgroundColor: Color(0xfffff8fab),
+                              backgroundColor: Color(0xfffff8fab),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20 * 1.5, vertical: 20)),
-                          child:   (checkLogin()) ? FlatButton(child: Text("Log out")) : FlatButton(child: Text("Log in"))),
-                    //  (checkLogin()) ? FlatButton(child: Text("Log out")) : FlatButton(child: Text("Log in"))
+                          child: (checkLogin())
+                              ? Text("Log out",style: TextStyle(color:Colors.black),)
+                              : Text("Log in",style: TextStyle(color:Colors.black),)),
+                      //  (checkLogin()) ? FlatButton(child: Text("Log out")) : FlatButton(child: Text("Log in"))
                     ],
                   ),
                   SizedBox(
@@ -88,7 +90,7 @@ class HeaderCompany extends StatelessWidget {
     );
   }
 
-  bool checkLogin()  {
+  bool checkLogin() {
     try {
       var box = Hive.box('userInfo');
       Hive.openBox('userInfo');
@@ -97,10 +99,9 @@ class HeaderCompany extends StatelessWidget {
       if (login == true) {
         print(login);
         return true;
-
-      } else{
+      } else {
+        print(login);
         return false;
-
       }
     } on GrpcError catch (e) {
     } catch (e) {
