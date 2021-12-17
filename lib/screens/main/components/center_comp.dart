@@ -16,13 +16,14 @@ class CenterCompanySection extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                     color: Colors.black)),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Text(
-                'Plan with us',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(vertical: 20),
+            //   child: Text(
+            //     'Plan with us',
+            //     style: TextStyle(fontSize: 16),
+            //   ),
+            // ),
+            SizedBox(height:20),
             MaterialButton(
               color: Colors.white,
               shape: RoundedRectangleBorder(
@@ -33,7 +34,7 @@ class CenterCompanySection extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Text(
-                  'Our package',
+                  'All Detail',
                   style: TextStyle(color: Colors.green, fontSize: 12),
                 ),
               ),
