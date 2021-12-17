@@ -538,16 +538,19 @@ class _LoginScreenState extends State<LoginScreen> {
     var loginRequest = LoginRequest();
     loginRequest.email = account.email;
     loginRequest.password = account.password;
+    var box;
     try {
       await Hive.openBox('userInfo');
-      final box = Hive.box('userInfo');
+      box = Hive.box('userInfo');
       var response = await stub.login(loginRequest);
       box.put('token', response.token);
+      box.put('login',true);
       String token = box.get('token');
       print("Valid Username!");
       Navigator.push(context, MaterialPageRoute(builder: (context) => MainCompanyScreen()));
     } on GrpcError catch (e) {
       showError();
+       box.put('login',false);
     } catch (e) {
       // Handle all other exceptions
       print('Exception: $e');
