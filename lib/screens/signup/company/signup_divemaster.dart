@@ -41,16 +41,14 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
       divemaster.frontImage = divemasterValue[i].frontImage;
       divemaster.backImage = divemasterValue[i].backImage;
       divemaster.level = divemasterValue[i].level;
-    }
-
-    var divemasterRequest = AddDiveMasterRequest();
-    divemasterRequest.diveMaster = divemaster;
-
-    try {
-      var response = stub.addDiveMaster(divemasterRequest);
-      print('response: ${response}');
-    } catch (e) {
-      print(e);
+      var divemasterRequest = AddDiveMasterRequest();
+      divemasterRequest.diveMaster = divemaster;
+      try {
+        var response = await stub.addDiveMaster(divemasterRequest);
+        print('response: ${response}');
+      } catch (e) {
+        print(e);
+      }
     }
   }
 

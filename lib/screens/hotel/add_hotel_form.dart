@@ -62,12 +62,6 @@ class _addHotelState extends State<addHotel> {
     listStar = star
         .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
         .toList();
-    String value;
-
-    for (var i = 0; i < star.length; i++) {
-      value = star[i].toString();
-      //print(value);
-    }
   }
 
   void addError({String error}) {
@@ -84,7 +78,6 @@ class _addHotelState extends State<addHotel> {
       });
   }
 
-  // var authResponse = await AccountClient().login(request)
   void sendHotel() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -104,14 +97,6 @@ class _addHotelState extends State<addHotel> {
     hotel.phone = _controllerPhone.text;
     hotel.star = int.parse(starSelected);
 
-    //   star.forEach((value) {
-    //     print(value);
-    //   if (value.toString() == starSelected) {
-    //     print(starSelected);
-    //     hotel.star = int.parse(starSelected);
-    //     print('end');
-    //   }
-    // });
 
     var address = Address();
     address.addressLine1 = _controllerAddress.text;
@@ -194,25 +179,6 @@ class _addHotelState extends State<addHotel> {
       });
     }
   }
-
-  //hotel.images = hotelimg // error, file conflict
-  //link api img, room
-  //   var authResponse = await client.postAuthenticate(Authenticate()..provider='credentials'
-  // ..email=email..password=password);
-  //   const bearerToken = authResponse.bearerToken;
-
-  //var hotelRequest = AddHotelRequest();
-  //hotelRequest.hotel = hotel;
-  //try {
-  //var response = stub.addHotel(
-  // hotelRequest,
-  // options: CallOptions(metadata:{'Authorization':  '${bearerToken}'} )
-  // );
-  //  print('response: ${response}');
-  //  } catch (e) {
-  //    print(e);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -36,20 +36,19 @@ class _SignupStaffState extends State<SignupStaff> {
     var staff = Staff();
     for (int i = 0; i < staffValue.length; i++) {
       staff.firstName = staffValue[i].firstName;
-     // print(staffValue[i].firstName);
+      // print(staffValue[i].firstName);
       staff.lastName = staffValue[i].lastName;
       staff.position = staffValue[i].position;
       staff.gender = staffValue[i].gender;
-    }
+      var staffRequest = AddStaffRequest();
+      staffRequest.staff = staff;
 
-    var staffRequest = AddStaffRequest();
-    staffRequest.staff = staff;
-
-    try {
-      var response = stub.addStaff(staffRequest);
-      print('response: ${response}');
-    } catch (e) {
-      print(e);
+      try {
+        var response = await stub.addStaff(staffRequest);
+        print('response: ${response}');
+      } catch (e) {
+        print(e);
+      }
     }
   }
 
@@ -98,10 +97,7 @@ class _SignupStaffState extends State<SignupStaff> {
               ),
               SizedBox(height: 30),
               FlatButton(
-                onPressed: () => {
-                  print(staffValue),
-                  print(staffValue.length)
-                },
+                onPressed: () => {print(staffValue), print(staffValue.length)},
                 color: Color(0xfff75BDFF),
                 child: Text(
                   'check',
