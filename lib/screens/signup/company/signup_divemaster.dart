@@ -99,6 +99,17 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
               SizedBox(
                 height: 30,
               ),
+              FlatButton(
+                onPressed: () => {
+                  print(divemasterValue),
+                  print(divemasterValue.length),
+                },
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'check',
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
             ],
           ),
         ),

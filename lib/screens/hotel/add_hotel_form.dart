@@ -102,16 +102,16 @@ class _addHotelState extends State<addHotel> {
     hotel.hotelName = _controllerHotelname.text;
     hotel.hotelDescription = _controllerHoteldescription.text;
     hotel.phone = _controllerPhone.text;
- //  hotel.star = int.parse(starSelected);
+    hotel.star = int.parse(starSelected);
 
-      star.forEach((value) {
-        print(value);
-      if (value.toString() == starSelected) {
-        print(starSelected);
-        hotel.star = int.parse(starSelected);
-        print('end');
-      }
-    });
+    //   star.forEach((value) {
+    //     print(value);
+    //   if (value.toString() == starSelected) {
+    //     print(starSelected);
+    //     hotel.star = int.parse(starSelected);
+    //     print('end');
+    //   }
+    // });
 
     var address = Address();
     address.addressLine1 = _controllerAddress.text;
