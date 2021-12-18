@@ -57,7 +57,7 @@ class _TriptemplateState extends State<Triptemplate> {
       value = TripType.valueOf(i).toString();
       tripTypeMap[value] = i;
     }
-    print(tripTypeMap);
+    // print(tripTypeMap);
   }
 
   final List<String> errors = [];
@@ -229,7 +229,6 @@ class _TriptemplateState extends State<Triptemplate> {
             //     ),
             //   ),
             // ),
-            SizedBox(height: 20),
 
             DropdownButton(
               hint: Text('Trip type'),
@@ -237,6 +236,9 @@ class _TriptemplateState extends State<Triptemplate> {
               isExpanded: true,
               items: listTrip,
               onChanged: (trip_type) {
+                // print('*');
+                // print(trip_type);
+                // print('*');
                 // if (trip_type ==0 ) {
                 //   triptypee = liveaboard;
                 // } else if (trip_type == 1) {
@@ -245,24 +247,28 @@ class _TriptemplateState extends State<Triptemplate> {
                 // else {
                 //   triptypee = [];
                 // }
-               if (tripTypeMap[trip_type.toString()] == 0) {
-                    triptypee = liveaboard;
-                  } else if (tripTypeMap[trip_type.toString()] == 1) {
-                    triptypee = hotel;
-                  }
+                if (trip_type == '0') {
+                  triptypee = liveaboard;
+                } else if (trip_type == '1') {
+                  triptypee = hotel;
+                } else {
+                  // print('x');
+                  // print(trip_type);
+                  // print(trip_type.runtimeType);
+                  triptypee = [];
+                }
                 setState(() {
-                  print(triptypee);
-                  print('--');
-                  print(triptype);
+                  // print(triptypee);
+                  // print('--');
                   selectedTriptype = trip_type;
                   selectedsleep = null;
                 });
               },
             ),
-
+            SizedBox(height: 20),
             DropdownButton<String>(
               value: selectedsleep,
-              hint: Text('sleep'),
+              // hint: Text('Sleep'),
               isExpanded: true,
               items: triptypee.map((String value) {
                 return DropdownMenuItem<String>(
@@ -276,7 +282,7 @@ class _TriptemplateState extends State<Triptemplate> {
                 });
               },
             ),
-
+            SizedBox(height: 20),
             Row(
               children: [
                 Center(
