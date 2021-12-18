@@ -26,6 +26,12 @@ class _addHotelState extends State<addHotel> {
   String hotel_description;
   String phone;
   io.File hotelimg;
+  String address1;
+  String address2;
+  String postalCode;
+  String country;
+  String region;
+  String city;
 
   XFile hhotel;
   XFile rroom;
@@ -36,7 +42,7 @@ class _addHotelState extends State<addHotel> {
   ];
   List<DropdownMenuItem<String>> listStar = [];
   List<String> star = ['1', '2', '3', '4', '5'];
-  String starSelected = null;
+  String starSelected;
 
   final List<String> errors = [];
   final TextEditingController _controllerHotelname = TextEditingController();
@@ -44,6 +50,12 @@ class _addHotelState extends State<addHotel> {
       TextEditingController();
 
   final TextEditingController _controllerPhone = TextEditingController();
+  final TextEditingController _controllerAddress = TextEditingController();
+  final TextEditingController _controllerAddress2 = TextEditingController();
+  final TextEditingController _controllerPostalcode = TextEditingController();
+  final TextEditingController _controllerCountry = TextEditingController();
+  final TextEditingController _controllerRegion = TextEditingController();
+  final TextEditingController _controllerCity = TextEditingController();
 
   void loadData() {
     listStar = [];
@@ -66,7 +78,6 @@ class _addHotelState extends State<addHotel> {
       });
   }
 
-  // var authResponse = await AccountClient().login(request)
   void sendHotel() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -85,6 +96,16 @@ class _addHotelState extends State<addHotel> {
     hotel.hotelDescription = _controllerHoteldescription.text;
     hotel.phone = _controllerPhone.text;
     hotel.star = int.parse(starSelected);
+
+
+    var address = Address();
+    address.addressLine1 = _controllerAddress.text;
+    address.addressLine2 = _controllerAddress2.text;
+    address.city = _controllerCity.text;
+    address.postcode = _controllerPostalcode.text;
+    address.region = _controllerRegion.text;
+    address.country = _controllerCountry.text;
+    hotel.address = address;
 
     var f = File();
     f.filename = hhotel.name;
@@ -105,12 +126,12 @@ class _addHotelState extends State<addHotel> {
     //var amenity = Amenity();
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
-      for (int j = 0; j < blueValue[i].length; j++) {
-        var amenity = Amenity();
-        amenity.name = blueValue[i][j].name;
-        amenity.description = blueValue[i][j].description;
-        room.amenities.add(amenity);
-      }
+      // for (int j = 0; j < blueValue[i].length; j++) {
+      //   var amenity = Amenity();
+      //   amenity.name = blueValue[i][j].name;
+      //   amenity.description = blueValue[i][j].description;
+      //   room.amenities.add(amenity);
+      // }
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
@@ -159,25 +180,6 @@ class _addHotelState extends State<addHotel> {
     }
   }
 
-  //hotel.images = hotelimg // error, file conflict
-  //link api img, room
-  //   var authResponse = await client.postAuthenticate(Authenticate()..provider='credentials'
-  // ..email=email..password=password);
-  //   const bearerToken = authResponse.bearerToken;
-
-  //var hotelRequest = AddHotelRequest();
-  //hotelRequest.hotel = hotel;
-  //try {
-  //var response = stub.addHotel(
-  // hotelRequest,
-  // options: CallOptions(metadata:{'Authorization':  '${bearerToken}'} )
-  // );
-  //  print('response: ${response}');
-  //  } catch (e) {
-  //    print(e);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     loadData();
@@ -192,6 +194,36 @@ class _addHotelState extends State<addHotel> {
           buildHotelDescriptionFormField(),
           SizedBox(height: 20),
           buildPhoneFormField(),
+          SizedBox(height: 20),
+          buildAddressFormField(),
+          SizedBox(height: 20),
+          buildAddress2FormField(),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCountryFormField()),
+              Spacer(),
+              // Spacer(flex: 1,),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCityFormField()),
+            ],
+          ),
+
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildRegionFormField()),
+              Spacer(),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildPostalCodeFormField()),
+            ],
+          ),
           SizedBox(height: 20),
           //Text('Hotel Image'),
           Row(
@@ -258,7 +290,6 @@ class _addHotelState extends State<addHotel> {
                 hint: Text('  Select star'),
                 iconSize: 40,
                 onChanged: (value) {
-                  starSelected = value;
                   setState(() {
                     starSelected = value;
                     print(value);
@@ -402,6 +433,178 @@ class _addHotelState extends State<addHotel> {
       },
       decoration: InputDecoration(
         labelText: "Phone",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildAddressFormField() {
+    return TextFormField(
+      controller: _controllerAddress,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => address1 = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter address");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter address");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          //    hintText: "Address1",
+          labelText: "Address 1",
+          filled: true,
+          fillColor: Colors.white,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.home)),
+    );
+  }
+
+  TextFormField buildAddress2FormField() {
+    return TextFormField(
+      controller: _controllerAddress2,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => address2 = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter address");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter address");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          //   hintText: "Address2",
+          labelText: "Address 2",
+          filled: true,
+          fillColor: Colors.white,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.home)),
+    );
+  }
+
+  TextFormField buildCountryFormField() {
+    return TextFormField(
+      controller: _controllerCountry,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => country = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter country");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter country");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Country",
+        labelText: "Country",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildCityFormField() {
+    return TextFormField(
+      controller: _controllerCity,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => city = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter city");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter city");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "City",
+        labelText: "City",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildRegionFormField() {
+    return TextFormField(
+      controller: _controllerRegion,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => region = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter region");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter region");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //    hintText: "Region",
+        labelText: "Region",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildPostalCodeFormField() {
+    return TextFormField(
+      controller: _controllerPostalcode,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => postalCode = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter postal code");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter postal code");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Postal code",
+        labelText: "Postal code",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,

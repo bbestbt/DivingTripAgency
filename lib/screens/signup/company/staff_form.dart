@@ -1,27 +1,32 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pbenum.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 
 class StaffForm extends StatefulWidget {
-  String count;
+  int count;
   List<Staff> staffValue;
-  StaffForm(String count,  List<Staff> staffValue){
-    this.count=count;
-    this.staffValue=staffValue;
+  StaffForm(int count, List<Staff> staffValue) {
+    this.count = count;
+    this.staffValue = staffValue;
   }
   @override
-  _StaffFormState createState() => _StaffFormState(this.count,this.staffValue);
+  _StaffFormState createState() => _StaffFormState(this.count, this.staffValue);
 }
 
 class _StaffFormState extends State<StaffForm> {
   String name;
   String lastname;
   String position;
-  String count;
-   List<Staff> staffValue;
-  _StaffFormState(String count,  List<Staff> staffValue){
-    this.count=count;
-    this.staffValue=staffValue;
+  int count;
+  List<Staff> staffValue;
+  String levelSelected = null;
+  Map<String, int> genderTypeMap = {};
+  List<DropdownMenuItem<String>> listGender = [];
+  List<GenderType> gender = [GenderType.MALE, GenderType.FEMALE];
+  _StaffFormState(int count, List<Staff> staffValue) {
+    this.count = count;
+    this.staffValue = staffValue;
   }
 
   final List<String> errors = [];
@@ -43,9 +48,29 @@ class _StaffFormState extends State<StaffForm> {
       });
   }
 
+  void loadData() async {
+    gender.forEach((element) {
+      // print(element);
+    });
+    //listDrop = [];
+    listGender = gender
+        .map((val) => DropdownMenuItem<String>(
+            child: Text(val.toString()), value: val.value.toString()))
+        .toList();
+
+    String value;
+
+    for (var i = 0; i < GenderType.values.length; i++) {
+      value = GenderType.valueOf(i).toString();
+      genderTypeMap[value] = i;
+    }
+
+    print(genderTypeMap);
+  }
 
   @override
   Widget build(BuildContext context) {
+    loadData();
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -56,9 +81,35 @@ class _StaffFormState extends State<StaffForm> {
           buildLastnameFormField(),
           SizedBox(height: 20),
           buildPositionFormField(),
-          //   FormError(errors: errors),
           SizedBox(height: 20),
 
+          Container(
+            color: Colors.white,
+            //color: Color(0xFFFd0efff),
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: levelSelected,
+                items: listGender,
+                hint: Text('  Select gender'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    levelSelected = value;
+                    GenderType.values.forEach((genderType) {
+                      if (genderTypeMap[genderType.toString()] ==
+                          int.parse(levelSelected)) {
+                        staffValue[count - 1].gender = genderType;
+                      }
+                    });
+                    print(value);
+                  });
+                },
+              ),
+            ),
+          ),
+          //   FormError(errors: errors),
+          SizedBox(height: 20),
         ]),
       ),
     );
@@ -71,6 +122,11 @@ class _StaffFormState extends State<StaffForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
+        print('name  start');
+        print(count);
+        print('name end');
+        staffValue[count - 1].firstName = value;
+        print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your name");
         }
@@ -84,7 +140,7 @@ class _StaffFormState extends State<StaffForm> {
         return null;
       },
       decoration: InputDecoration(
-    //      hintText: "Name",
+          //      hintText: "Name",
           labelText: "First Name",
           filled: true,
           fillColor: Colors.white,
@@ -100,6 +156,11 @@ class _StaffFormState extends State<StaffForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => lastname = newValue,
       onChanged: (value) {
+        print('lname  start');
+        print(count);
+        print('lname  end');
+        staffValue[count - 1].lastName = value;
+        print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your lastname");
         }
@@ -113,7 +174,7 @@ class _StaffFormState extends State<StaffForm> {
         return null;
       },
       decoration: InputDecoration(
-      //    hintText: "Lastname",
+          //    hintText: "Lastname",
           labelText: "Last Name",
           filled: true,
           fillColor: Colors.white,
@@ -128,6 +189,11 @@ class _StaffFormState extends State<StaffForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => position = newValue,
       onChanged: (value) {
+        print('pos  start');
+        print(count);
+        print('pos  end');
+        staffValue[count - 1].position = value;
+        print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter staff position");
         }
@@ -141,7 +207,7 @@ class _StaffFormState extends State<StaffForm> {
         return null;
       },
       decoration: InputDecoration(
-     //   hintText: "Position",
+        //   hintText: "Position",
         labelText: "Position",
         filled: true,
         fillColor: Colors.white,

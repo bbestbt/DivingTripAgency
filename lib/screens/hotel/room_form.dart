@@ -13,19 +13,19 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
 class RoomForm extends StatefulWidget {
-
   int pinkcount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
 
-  RoomForm(int pinkcount, List<RoomType> pinkValue,List<List<Amenity>> blueValue) {
+  RoomForm(
+      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
     this.pinkcount = pinkcount;
-    this.pinkValue=pinkValue;
-    this.blueValue=blueValue;
-  
+    this.pinkValue = pinkValue;
+    this.blueValue = blueValue;
   }
   @override
-  _RoomFormState createState() => _RoomFormState(this.pinkcount,this.pinkValue, this.blueValue);
+  _RoomFormState createState() =>
+      _RoomFormState(this.pinkcount, this.pinkValue, this.blueValue);
 }
 
 class _RoomFormState extends State<RoomForm> {
@@ -44,10 +44,11 @@ class _RoomFormState extends State<RoomForm> {
 
   XFile rroom;
 
-  _RoomFormState(int pinkcount,List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
+  _RoomFormState(
+      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
     this.pinkcount = pinkcount;
-    this.pinkValue=pinkValue;
-    this.blueValue=blueValue;
+    this.pinkValue = pinkValue;
+    this.blueValue = blueValue;
   }
   final List<String> errors = [];
   final TextEditingController _controllerRoomdescription =
@@ -74,28 +75,26 @@ class _RoomFormState extends State<RoomForm> {
   }
 
   _getroomimg() async {
-      rroom = await ImagePicker().pickImage(
+    rroom = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-      var f2 = File();
-      f2.filename = rroom.name;
-      //f2.filename = 'image.jpg';
-      List<int> a = await rroom.readAsBytes();
-      f2.file = a;
+    var f2 = File();
+    f2.filename = rroom.name;
+    //f2.filename = 'image.jpg';
+    List<int> a = await rroom.readAsBytes();
+    f2.file = a;
 
-      this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
+    this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
 
     if (rroom != null) {
       setState(() {
         roomimg = io.File(rroom.path);
-       // rroom = pickedFile;
+        // rroom = pickedFile;
       });
     }
   }
-  
-
 
 //   void sendRoom() {
 //     print("before try catch");
@@ -107,7 +106,7 @@ class _RoomFormState extends State<RoomForm> {
 //         grpcWebTransportSecure: false);
 
 //     final stub = AgencyServiceClient(channel);
-//    
+//
 // //img, amen (iter)
 
 //     // room.images = roomimg // error, file conflict
@@ -154,7 +153,7 @@ class _RoomFormState extends State<RoomForm> {
           //               color: Color(0xfffd4f0f0),
           //               borderRadius: BorderRadius.circular(10)),
           //         child: AddMoreAmenity(this.pinkcount,this.blueValue),
-          //       ), 
+          //       ),
           // SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
@@ -177,12 +176,12 @@ class _RoomFormState extends State<RoomForm> {
                           ? Image.network(
                               roomimg.path,
                               fit: BoxFit.cover,
-                              width: screenwidth*0.2,
+                              width: screenwidth * 0.2,
                             )
                           : Image.file(
                               io.File(roomimg.path),
                               fit: BoxFit.cover,
-                              width: screenwidth*0.05,
+                              width: screenwidth * 0.05,
                             )),
               Spacer(),
               FlatButton(
@@ -226,12 +225,12 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_description = newValue,
       onChanged: (value) {
-        print('room des start');
-        print(pinkcount);
-        print('room des end');
-        pinkValue[pinkcount-1].description=value;
-        print(value);
-        print("===");
+        // print('room des start');
+        // print(pinkcount);
+        // print('room des end');
+        pinkValue[pinkcount - 1].description = value;
+        // print(value);
+        // print("===");
         if (value.isNotEmpty) {
           removeError(error: "Please enter room description");
         }
@@ -263,12 +262,12 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => price = newValue,
       onChanged: (value) {
-        print('room price start');
-        print(pinkcount);
-        print('room price end');
-        pinkValue[pinkcount-1].price=double.parse(value);
-        print(value);
-        print("===");
+        // print('room price start');
+        // print(pinkcount);
+        // print('room price end');
+        pinkValue[pinkcount - 1].price = double.parse(value);
+        // print(value);
+        // print("===");
         if (value.isNotEmpty) {
           removeError(error: "Please enter price");
         }
@@ -300,13 +299,13 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
-        print('room max start');
-        print(pinkcount);
-        print('room max end');
-        pinkValue[pinkcount-1].maxGuest=int.parse(value);
-        print(value);
-        print("===");
-        
+        // print('room max start');
+        // print(pinkcount);
+        // print('room max end');
+        pinkValue[pinkcount - 1].maxGuest = int.parse(value);
+        // print(value);
+        // print("===");
+
         if (value.isNotEmpty) {
           removeError(error: "Please enter max capacity");
         }
@@ -388,13 +387,12 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
-
-        print('room name start');
-        print(pinkcount);
-        print('room name end');
-        pinkValue[pinkcount-1].name=value;
-        print(value);
-        print("===");
+        // print('room name start');
+        // print(pinkcount);
+        // print('room name end');
+        pinkValue[pinkcount - 1].name = value;
+        // print(value);
+        // print("===");
         // pinkValue.add(value);
         // print('room form');
         // print(pinkValue);
@@ -430,12 +428,12 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
-        print('room quantity start');
-        print(pinkcount);
-        print('room quantity end');
-        pinkValue[pinkcount-1].quantity=int.parse(value);
-        print(value);
-        print("===");
+        // print('room quantity start');
+        // print(pinkcount);
+        // print('room quantity end');
+        pinkValue[pinkcount - 1].quantity = int.parse(value);
+        // print(value);
+        // print("===");
         if (value.isNotEmpty) {
           removeError(error: "Please enter room quantity");
         }
