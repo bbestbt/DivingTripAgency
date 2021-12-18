@@ -1,10 +1,13 @@
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -35,8 +38,8 @@ class _TriptemplateState extends State<Triptemplate> {
   List<DropdownMenuItem<String>> listTrip = [];
   List<TripType> trip = [TripType.ONSHORE, TripType.OFFSHORE];
 
-  List<String> hotel = ['hotel1', 'hotel2', 'hotel3'];
-  List<String> liveaboard = ['liveaboard1', 'liveaboard2', 'liveaboard3'];
+  List<String> hotel = [];
+  List<String> liveaboard = [];
   List<String> triptypee = [];
   String selectedTriptype;
   String selectedsleep;
@@ -45,6 +48,7 @@ class _TriptemplateState extends State<Triptemplate> {
     trip.forEach((element) {
       // print(element);
     });
+
     listTrip = [];
     listTrip = trip
         .map((val) => DropdownMenuItem<String>(
@@ -152,10 +156,45 @@ class _TriptemplateState extends State<Triptemplate> {
       });
   }
 
+  getData() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var hotelrequest = ListHotelsRequest();
+    var liveaboardrequest = ListLiveaboardsRequest();
+
+    try {
+      // var response = await stub.listBoats(boatrequest);
+      // print(token);
+      // print(response);
+
+      await for (var feature in stub.listHotels(hotelrequest)) {
+      //  print(feature.hotel.name);
+        hotel.add(feature.hotel.name);
+      }
+      await for (var feature in stub.listLiveaboards(liveaboardrequest)) {
+        //print(feature.liveaboard.name);
+        liveaboard.add(feature.liveaboard.name);
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
     loadData();
+        getData();
     return Container(
       color: Color(0xfffd4f0f0),
       child: Form(
@@ -262,6 +301,12 @@ class _TriptemplateState extends State<Triptemplate> {
                   // print('--');
                   selectedTriptype = trip_type;
                   selectedsleep = null;
+                  TripType.values.forEach((tripType) {
+                    if (tripTypeMap[tripType.toString()] ==
+                        int.parse(selectedTriptype)) {
+                      triptemplate.tripType = tripType;
+                    }
+                  });
                 });
               },
             ),
@@ -378,6 +423,7 @@ class _TriptemplateState extends State<Triptemplate> {
             // FormError(errors: errors),
 
             SizedBox(height: 20),
+              FlatButton(onPressed: getData, child: Text('check')),
           ]),
         ),
       ),
