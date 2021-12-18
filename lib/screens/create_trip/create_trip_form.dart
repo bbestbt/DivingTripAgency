@@ -26,6 +26,12 @@ class _CreateTripFormState extends State<CreateTripForm> {
   String totalpeople;
   
   final List<String> errors = [];
+  List<DropdownMenuItem<String>> listDivemaster = [];
+  List<String> divemaster = ['boss', 'mon', 'numchok'];
+  String divemasterSelected;
+  List<DropdownMenuItem<String>> listBoat = [];
+  List<String> boat = ['b1', 'b2'];
+  String boatSelected;
 
   TripTemplate triptemplate = new TripTemplate();
  
@@ -42,21 +48,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
   DateTime from;
   DateTime to;
 
-  String getFrom() {
-    if (dateRange == null) {
-      return 'From';
-    } else {
-      return DateFormat('MM/dd/yyyy').format(dateRange.start);
-    }
-  }
-
-  String getTo() {
-    if (dateRange == null) {
-      return 'To';
-    } else {
-      return DateFormat('MM/dd/yyyy').format(dateRange.end);
-    }
-  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -71,6 +62,20 @@ class _CreateTripFormState extends State<CreateTripForm> {
         errors.remove(error);
       });
   }
+
+    void loadData() {
+    listBoat = [];
+    listBoat = boat
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+
+    listDivemaster = [];
+    listDivemaster = divemaster
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+    
+  }
+
 
   void AddTrip() async{
     print("before try catch");
@@ -90,7 +95,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.to = Timestamp.fromDateTime(to);
     trip.maxCapacity = int.parse(_controllerTotalpeople.text);
     trip.price= double.parse(_controllerPrice.text);
-    // trip.diveMasters=_controllerDivemastername.text; iter
 
     var tripRequest = AddTripRequest();
     tripRequest.trip = trip;
@@ -125,54 +129,14 @@ class _CreateTripFormState extends State<CreateTripForm> {
   }
 
 
-  Future pickDateRange(BuildContext context) async {
-    final initialDateRange = DateTimeRange(
-        start: DateTime.now(),
-        end: DateTime.now().add(Duration(hours: 24 * 3)));
-    final newDateRange = await showDateRangePicker(
-        context: context,
-        firstDate: DateTime(DateTime.now().year - 5),
-        lastDate: DateTime(DateTime.now().year + 5));
-    initialDateRange:
-    dateRange ?? initialDateRange;
-    if (newDateRange == null) return;
-    setState(() => dateRange = newDateRange);
-  }
-
   @override
   Widget build(BuildContext context) {
+    loadData();
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           SizedBox(height: 20),
-          // buildPlaceFormField(),
-          // SizedBox(height: 20),
-          // Row(
-          //   children: [
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 3.6,
-          //         child: buildFromFormField()),
-          //     // SizedBox(width: 20),
-          //     Spacer(),
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 3.6,
-          //         child: buildToFormField()),
-          //   ],
-          // ),
-          // Row(
-          //   children: [
-          //     RaisedButton(
-          //       onPressed: () => pickDateRange(context),
-          //       child: Text(getFrom()),
-          //     ),
-          //     Spacer(),
-          //     RaisedButton(
-          //       onPressed: () => pickDateRange(context),
-          //       child: Text(getTo()),
-          //     ),
-          //   ],
-          // ),
           Row(
             children: [
               Text('From'),
@@ -225,7 +189,45 @@ class _CreateTripFormState extends State<CreateTripForm> {
             ],
           ),
           SizedBox(height: 20),
-          buildDiveMasterNameFormField(),
+          // buildDiveMasterNameFormField(),
+         
+          Container(
+            color: Colors.white,
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: divemasterSelected,
+                items: listDivemaster,
+                hint: Text('  Select dive master'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    divemasterSelected = value;
+                    print(value);
+                  });
+                },
+              ),
+            ),
+          ),
+           SizedBox(height: 20),
+            Container(
+            color: Colors.white,
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: boatSelected,
+                items: listBoat,
+                hint: Text('  Select boat'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    boatSelected = value;
+                    print(value);
+                  });
+                },
+              ),
+            ),
+          ),
           SizedBox(height: 20),
           buildPriceFormField(),
           SizedBox(height: 20),

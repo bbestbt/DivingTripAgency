@@ -35,11 +35,17 @@ class _TriptemplateState extends State<Triptemplate> {
   List<DropdownMenuItem<String>> listTrip = [];
   List<TripType> trip = [TripType.ONSHORE, TripType.OFFSHORE];
 
+  List<String> hotel = ['hotel1', 'hotel2', 'hotel3'];
+  List<String> liveaboard = ['liveaboard1', 'liveaboard2', 'liveaboard3'];
+  List<String> triptypee = [];
+  String selectedTriptype;
+  String selectedsleep;
+
   void loadData() async {
     trip.forEach((element) {
       // print(element);
     });
-    //listDrop = [];
+    listTrip = [];
     listTrip = trip
         .map((val) => DropdownMenuItem<String>(
             child: Text(val.toString()), value: val.value.toString()))
@@ -148,9 +154,7 @@ class _TriptemplateState extends State<Triptemplate> {
 
   @override
   Widget build(BuildContext context) {
-
     double screenwidth = MediaQuery.of(context).size.width;
-
     loadData();
     return Container(
       color: Color(0xfffd4f0f0),
@@ -200,31 +204,79 @@ class _TriptemplateState extends State<Triptemplate> {
             //     Text('Off shore (Live on boat)'),
             //   ],
             // ),
-            Container(
-              color: Color(0xfffd4f0f0),
-              child: Center(
-                child: DropdownButton(
-                  isExpanded: true,
-                  value: selected,
-                  items: listTrip,
-                  hint: Text('  Select trip type'),
-                  iconSize: 40,
-                  onChanged: (value) {
-                    setState(() {
-                      selected = value;
-                      TripType.values.forEach((tripType) {
-                        if (tripTypeMap[tripType.toString()] ==
-                            int.parse(selected)) {
-                          triptemplate.tripType = tripType;
-                        }
-                      });
-                      print(value);
-                    });
-                  },
-                ),
-              ),
-            ),
+
+            // Container(
+            //   color: Color(0xfffd4f0f0),
+            //   child: Center(
+            //     child: DropdownButton(
+            //       isExpanded: true,
+            //       value: selected,
+            //       items: listTrip,
+            //       hint: Text('  Select trip type'),
+            //       iconSize: 40,
+            //       onChanged: (value) {
+            //         setState(() {
+            //           selected = value;
+            //           TripType.values.forEach((tripType) {
+            //             if (tripTypeMap[tripType.toString()] ==
+            //                 int.parse(selected)) {
+            //               triptemplate.tripType = tripType;
+            //             }
+            //           });
+            //           print(value);
+            //         });
+            //       },
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: 20),
+
+            DropdownButton(
+              hint: Text('Trip type'),
+              value: selectedTriptype,
+              isExpanded: true,
+              items: listTrip,
+              onChanged: (trip_type) {
+                // if (trip_type ==0 ) {
+                //   triptypee = liveaboard;
+                // } else if (trip_type == 1) {
+                //   triptypee = hotel;
+                // }
+                // else {
+                //   triptypee = [];
+                // }
+               if (tripTypeMap[trip_type.toString()] == 0) {
+                    triptypee = liveaboard;
+                  } else if (tripTypeMap[trip_type.toString()] == 1) {
+                    triptypee = hotel;
+                  }
+                setState(() {
+                  print(triptypee);
+                  print('--');
+                  print(triptype);
+                  selectedTriptype = trip_type;
+                  selectedsleep = null;
+                });
+              },
+            ),
+
+            DropdownButton<String>(
+              value: selectedsleep,
+              hint: Text('sleep'),
+              isExpanded: true,
+              items: triptypee.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (sleep) {
+                setState(() {
+                  selectedsleep = sleep;
+                });
+              },
+            ),
+
             Row(
               children: [
                 Center(
@@ -234,12 +286,12 @@ class _TriptemplateState extends State<Triptemplate> {
                             ? Image.network(
                                 Pictrip.path,
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.2,
+                                width: screenwidth * 0.2,
                               )
                             : Image.file(
                                 io.File(Pictrip.path),
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.05,
+                                width: screenwidth * 0.05,
                               )),
                 Spacer(),
                 FlatButton(
@@ -265,12 +317,12 @@ class _TriptemplateState extends State<Triptemplate> {
                             ? Image.network(
                                 Boatpic.path,
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.2,
+                                width: screenwidth * 0.2,
                               )
                             : Image.file(
                                 io.File(Boatpic.path),
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.05,
+                                width: screenwidth * 0.05,
                               )),
                 Spacer(),
                 FlatButton(
@@ -296,12 +348,12 @@ class _TriptemplateState extends State<Triptemplate> {
                             ? Image.network(
                                 Schedule.path,
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.2,
+                                width: screenwidth * 0.2,
                               )
                             : Image.file(
                                 io.File(Schedule.path),
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.05,
+                                width: screenwidth * 0.05,
                               )),
                 Spacer(),
                 FlatButton(
