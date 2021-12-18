@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 
 class StaffForm extends StatefulWidget {
-  String count;
+  int count;
   List<Staff> staffValue;
-  StaffForm(String count,  List<Staff> staffValue){
+  StaffForm(int count,  List<Staff> staffValue){
     this.count=count;
     this.staffValue=staffValue;
   }
@@ -17,9 +17,9 @@ class _StaffFormState extends State<StaffForm> {
   String name;
   String lastname;
   String position;
-  String count;
+  int count;
    List<Staff> staffValue;
-  _StaffFormState(String count,  List<Staff> staffValue){
+  _StaffFormState(int count,  List<Staff> staffValue){
     this.count=count;
     this.staffValue=staffValue;
   }
@@ -71,6 +71,7 @@ class _StaffFormState extends State<StaffForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
+          staffValue[count-1].firstName=value;
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your name");
         }
@@ -100,6 +101,7 @@ class _StaffFormState extends State<StaffForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => lastname = newValue,
       onChanged: (value) {
+          staffValue[count-1].lastName=value;
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your lastname");
         }
@@ -128,6 +130,7 @@ class _StaffFormState extends State<StaffForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => position = newValue,
       onChanged: (value) {
+          staffValue[count-1].position=value;
         if (value.isNotEmpty) {
           removeError(error: "Please Enter staff position");
         }

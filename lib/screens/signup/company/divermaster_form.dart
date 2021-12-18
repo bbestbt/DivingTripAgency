@@ -9,9 +9,9 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class DiveMasterForm extends StatefulWidget {
-  String count;
+  int count;
   List<DiveMaster> divemasterValue;
-  DiveMasterForm(String count, List<DiveMaster> divemasterValue) {
+  DiveMasterForm(int count, List<DiveMaster> divemasterValue) {
     this.divemasterValue = divemasterValue;
     this.count = count;
   }
@@ -29,7 +29,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   File CardFile;
   String levelSelected = null;
   List<DiveMaster> divemasterValue;
-  String count;
+  int count;
   File CardFileBack;
   Map<String, int> levelTypeMap = {};
   final List<String> errors = [];
@@ -38,7 +38,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
 
-  _DiveMasterFormState(String count, this.divemasterValue) {
+  _DiveMasterFormState(int count, this.divemasterValue) {
     this.count = count;
     this.divemasterValue = divemasterValue;
   }
@@ -239,6 +239,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
+        divemasterValue[count-1].firstName=value;
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your name");
         }
@@ -268,6 +269,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => lastname = newValue,
       onChanged: (value) {
+        divemasterValue[count-1].lastName=value;
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your lastname");
         }
