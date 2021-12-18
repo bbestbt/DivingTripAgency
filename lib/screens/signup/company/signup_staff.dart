@@ -38,6 +38,7 @@ class _SignupStaffState extends State<SignupStaff> {
       staff.firstName = staffValue[i].firstName;
       staff.lastName = staffValue[i].lastName;
       staff.position = staffValue[i].position;
+      staff.gender=staffValue[i].gender;
     }
 
     var staffRequest = AddStaffRequest();
