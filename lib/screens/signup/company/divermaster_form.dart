@@ -69,7 +69,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       levelTypeMap[value] = i;
     }
 
-    print("LevelType-----------------");
+    //  print("LevelType-----------------");
     //  print(levelTypeMap);
   }
 
@@ -136,14 +136,16 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                 hint: Text('  Select level'),
                 iconSize: 40,
                 onChanged: (value) {
+                 
+               //   divemasterValue[count - 1].level = value;
                   setState(() {
                     levelSelected = value;
-                    LevelType.values.forEach((levelType) {
-                      if (levelTypeMap[levelType.toString()] ==
-                          int.parse(levelSelected)) {
-                        divemasterValue[count - 1].level = value;
-                      }
-                    });
+                     LevelType.values.forEach((levelType) {
+                    if (levelTypeMap[levelType.toString()] ==
+                        int.parse(levelSelected)) {
+                      divemasterValue[count - 1].level = levelType;
+                    }
+                  });
                     print('------');
                     print(value);
                   });
