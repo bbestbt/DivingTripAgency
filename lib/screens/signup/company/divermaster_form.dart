@@ -70,7 +70,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     }
 
     print("LevelType-----------------");
-    print(levelTypeMap);
+    //  print(levelTypeMap);
   }
 
   void addError({String error}) {
@@ -138,6 +138,13 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                 onChanged: (value) {
                   setState(() {
                     levelSelected = value;
+                    LevelType.values.forEach((levelType) {
+                      if (levelTypeMap[levelType.toString()] ==
+                          int.parse(levelSelected)) {
+                        divemasterValue[count - 1].level = value;
+                      }
+                    });
+                    print('------');
                     print(value);
                   });
                 },
@@ -239,7 +246,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
-        divemasterValue[count-1].firstName=value;
+        divemasterValue[count - 1].firstName = value;
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your name");
         }
@@ -269,7 +276,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => lastname = newValue,
       onChanged: (value) {
-        divemasterValue[count-1].lastName=value;
+        divemasterValue[count - 1].lastName = value;
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your lastname");
         }
