@@ -30,58 +30,56 @@ class _addHotelState extends State<addHotel> {
   XFile hhotel;
   XFile rroom;
 
+  List<RoomType> pinkValue = [new RoomType()];
+  List<List<Amenity>> blueValue = [
+    [new Amenity()]
+  ];
+  List<DropdownMenuItem<String>> listStar = [];
+  List<String> star = ['1', '2', '3', '4', '5'];
+  String starSelected = null;
 
+  final List<String> errors = [];
+  final TextEditingController _controllerHotelname = TextEditingController();
+  final TextEditingController _controllerHoteldescription =
+      TextEditingController();
 
-          List<RoomType> pinkValue = [new RoomType()];
-    List<List<Amenity>> blueValue = [[new Amenity()]];
-    List<DropdownMenuItem<String>> listStar = [];
-    List<String> star = ['1', '2', '3', '4', '5'];
-    String starSelected = null;
+  final TextEditingController _controllerPhone = TextEditingController();
 
-    final List<String> errors = [];
-    final TextEditingController _controllerHotelname = TextEditingController();
-    final TextEditingController _controllerHoteldescription =
-    TextEditingController();
-
-    final TextEditingController _controllerPhone = TextEditingController();
-
-    void loadData() {
+  void loadData() {
     listStar = [];
     listStar = star
         .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
         .toList();
-    }
+  }
 
-    void addError({String error}) {
+  void addError({String error}) {
     if (!errors.contains(error))
-    setState(() {
-    errors.add(error);
-    });
-    }
+      setState(() {
+        errors.add(error);
+      });
+  }
 
-    void removeError({String error}) {
+  void removeError({String error}) {
     if (errors.contains(error))
-    setState(() {
-    errors.remove(error);
-    });
-    }
+      setState(() {
+        errors.remove(error);
+      });
+  }
 
-    // var authResponse = await AccountClient().login(request)
-    void sendHotel() async {
+  // var authResponse = await AccountClient().login(request)
+  void sendHotel() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-    host: '139.59.101.136',
-    grpcPort: 50051,
-    grpcTransportSecure: false,
-    grpcWebPort: 8080,
-    grpcWebTransportSecure: false);
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
     final box = Hive.box('userInfo');
     String token = box.get('token');
 
-    final stub = AgencyServiceClient(
-    channel,
-    options: CallOptions(metadata:{'Authorization':  '$token'} )
-    );
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
     var hotel = Hotel();
     hotel.hotelName = _controllerHotelname.text;
     hotel.hotelDescription = _controllerHoteldescription.text;
@@ -106,51 +104,51 @@ class _addHotelState extends State<addHotel> {
     //var room = RoomType();
     //var amenity = Amenity();
     for (int i = 0; i < pinkValue.length; i++) {
-    var room=RoomType();
-    for (int j = 0; j < blueValue[i].length; j++) {
-    var amenity = Amenity();
-    amenity.name = blueValue[i][j].name;
-    amenity.description = blueValue[i][j].description;
-    room.amenities.add(amenity);
-    }
-    room.name = pinkValue[i].name;
-    room.description = pinkValue[i].description;
-    room.maxGuest = pinkValue[i].maxGuest;
-    room.price = pinkValue[i].price;
-    room.quantity = pinkValue[i].quantity;
-    //room.roomImages.add(f2);
-    //pinkValue[i].roomImages.add(value);
-    for(int j = 0; j < pinkValue[i].roomImages.length; j++){
-    room.roomImages.add(pinkValue[i].roomImages[j]);
-    }
-    hotel.roomTypes.add(room);
+      var room = RoomType();
+      for (int j = 0; j < blueValue[i].length; j++) {
+        var amenity = Amenity();
+        amenity.name = blueValue[i][j].name;
+        amenity.description = blueValue[i][j].description;
+        room.amenities.add(amenity);
+      }
+      room.name = pinkValue[i].name;
+      room.description = pinkValue[i].description;
+      room.maxGuest = pinkValue[i].maxGuest;
+      room.price = pinkValue[i].price;
+      room.quantity = pinkValue[i].quantity;
+      //room.roomImages.add(f2);
+      //pinkValue[i].roomImages.add(value);
+      for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
+        room.roomImages.add(pinkValue[i].roomImages[j]);
+      }
+      hotel.roomTypes.add(room);
     }
 
     var hotelRequest = AddHotelRequest();
     hotelRequest.hotel = hotel;
 
     try {
-    var response = await stub.addHotel(hotelRequest);
-    print(token);
-    print(response);
-
+      var response = await stub.addHotel(hotelRequest);
+      print(token);
+      print(response);
     } on GrpcError catch (e) {
-    // Handle exception of type GrpcError
-    print('codeName: ${e.codeName}');
-    print('details: ${e.details}');
-    print('message: ${e.message}');
-    print('rawResponse: ${e.rawResponse}');
-    print('trailers: ${e.trailers}');
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
     } catch (e) {
-    // Handle all other exceptions
-    print('Exception: $e');
+      // Handle all other exceptions
+      print('Exception: $e');
     }
-    }
-    // get hotel image
-    _gethotelimg() async {
+  }
+
+  // get hotel image
+  _gethotelimg() async {
     hhotel = await ImagePicker().pickImage(
-    source: ImageSource.gallery,
-    maxWidth: 1800,
+      source: ImageSource.gallery,
+      maxWidth: 1800,
       maxHeight: 1800,
     );
     if (hhotel != null) {
@@ -162,23 +160,23 @@ class _addHotelState extends State<addHotel> {
   }
 
   //hotel.images = hotelimg // error, file conflict
-    //link api img, room
-    //   var authResponse = await client.postAuthenticate(Authenticate()..provider='credentials'
-    // ..email=email..password=password);
-    //   const bearerToken = authResponse.bearerToken;
+  //link api img, room
+  //   var authResponse = await client.postAuthenticate(Authenticate()..provider='credentials'
+  // ..email=email..password=password);
+  //   const bearerToken = authResponse.bearerToken;
 
-    //var hotelRequest = AddHotelRequest();
-    //hotelRequest.hotel = hotel;
-    //try {
-      //var response = stub.addHotel(
-       // hotelRequest,
-        // options: CallOptions(metadata:{'Authorization':  '${bearerToken}'} )
-     // );
-    //  print('response: ${response}');
+  //var hotelRequest = AddHotelRequest();
+  //hotelRequest.hotel = hotel;
+  //try {
+  //var response = stub.addHotel(
+  // hotelRequest,
+  // options: CallOptions(metadata:{'Authorization':  '${bearerToken}'} )
+  // );
+  //  print('response: ${response}');
   //  } catch (e) {
   //    print(e);
- //   }
- // }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -213,12 +211,12 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg.path,
                               fit: BoxFit.cover,
-                              width: screenwidth*0.2,
+                              width: screenwidth * 0.2,
                             )
                           : Image.file(
                               io.File(hotelimg.path),
                               fit: BoxFit.cover,
-                              width: screenwidth*0.05,
+                              width: screenwidth * 0.05,
                             )),
               Spacer(),
               FlatButton(
@@ -243,7 +241,6 @@ class _addHotelState extends State<addHotel> {
                           style: TextStyle(fontSize: 15),
                         ))),
                 onPressed: () {
-
                   _gethotelimg();
                 },
               ),
@@ -286,15 +283,13 @@ class _addHotelState extends State<addHotel> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-
             child: AddMoreRoom(this.pinkValue, this.blueValue),
-
           ),
           SizedBox(height: 30),
           FlatButton(
             onPressed: () => {
               sendHotel(),
-                Navigator.pushAndRemoveUntil(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
                   builder: (BuildContext context) => MainCompanyScreen(),

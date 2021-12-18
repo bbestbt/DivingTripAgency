@@ -6,6 +6,7 @@ import 'package:diving_trip_agency/screens/signup/company/divermaster_form.dart'
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 
 class SignupDiveMaster extends StatefulWidget {
   @override
@@ -21,8 +22,10 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
+          final box = Hive.box('userInfo');
+        String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel);
+    final stub = AgencyServiceClient(channel,options: CallOptions(metadata:{'Authorization':  '$token'}));
     var divemaster = DiveMaster();
     for(int i=0;i<divemasterValue.length;i++){
       divemaster.firstName=divemasterValue[i].firstName;

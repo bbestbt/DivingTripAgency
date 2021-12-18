@@ -148,14 +148,14 @@ class _RoomFormState extends State<RoomForm> {
           buildMaxCapacityFormField(),
           SizedBox(height: 20),
           // buildAmenityFormField(),
-           Container(
-                  width: MediaQuery.of(context).size.width / 1.5,
-                   decoration: BoxDecoration(
-                        color: Color(0xfffd4f0f0),
-                        borderRadius: BorderRadius.circular(10)),
-                  child: AddMoreAmenity(this.pinkcount,this.blueValue),
-                ), 
-          SizedBox(height: 20),
+          //  Container(
+          //         width: MediaQuery.of(context).size.width / 1.5,
+          //          decoration: BoxDecoration(
+          //               color: Color(0xfffd4f0f0),
+          //               borderRadius: BorderRadius.circular(10)),
+          //         child: AddMoreAmenity(this.pinkcount,this.blueValue),
+          //       ), 
+          // SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
           buildPriceFormField(),

@@ -6,6 +6,7 @@ import 'package:diving_trip_agency/screens/signup/company/addStaff.dart';
 import 'package:diving_trip_agency/screens/signup/company/staff_form.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 
 class SignupStaff extends StatefulWidget {
   @override
@@ -21,8 +22,10 @@ class _SignupStaffState extends State<SignupStaff> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
+          final box = Hive.box('userInfo');
+        String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel);
+    final stub = AgencyServiceClient(channel,options: CallOptions(metadata:{'Authorization':  '$token'}));
     var staff = Staff();
     for(int i=0;i<staffValue.length;i++){
       staff.firstName=staffValue[i].firstName;
