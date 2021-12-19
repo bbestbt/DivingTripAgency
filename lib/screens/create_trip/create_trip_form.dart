@@ -30,7 +30,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   String divemasterSelected;
   List<DropdownMenuItem<String>> listBoat = [];
   List<String> boat = [];
-  String boatSelected;
+  String boatSelected ;
 
   TripTemplate triptemplate = new TripTemplate();
 
@@ -59,12 +59,18 @@ class _CreateTripFormState extends State<CreateTripForm> {
         errors.remove(error);
       });
   }
+  @override
+  void initState()  {
+    // TODO: implement initState
+    super.initState();
+    loadData();
+  }
 
   void loadData() async {
     //   boat.forEach((element) {
     //   print(element);
     // });
-
+    await getData();
     listBoat = [];
     listBoat = boat
         .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
@@ -74,7 +80,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
     listDivemaster = divemaster
         .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
         .toList();
-    
+    // print(listBoat);
+    // print(boat);
+
   }
 
   void AddTrip() async {
@@ -141,7 +149,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var boatrequest = ListBoatsRequest();
-    var divemasterrequest=ListDiveMastersRequest();
+    var divemasterrequest = ListDiveMastersRequest();
 
     try {
       // var response = await stub.listBoats(boatrequest);
@@ -149,15 +157,15 @@ class _CreateTripFormState extends State<CreateTripForm> {
       // print(response);
 
       await for (var feature in stub.listBoats(boatrequest)) {
-     //   print(feature.boat.name);
+        //   print(feature.boat.name);
         boat.add(feature.boat.name);
-        // print(boat);
-
       }
-       await for (var feature in stub.listDiveMasters(divemasterrequest)) {
-      //  print(feature.diveMaster.firstName);
+      // print(boat);
+      // print(boat.runtimeType);
+      await for (var feature in stub.listDiveMasters(divemasterrequest)) {
+        //  print(feature.diveMaster.firstName);
         divemaster.add(feature.diveMaster.firstName);
-      //  print(divemaster);
+        //  print(divemaster);
 
       }
     } catch (e) {
@@ -167,8 +175,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   @override
   Widget build(BuildContext context) {
-    loadData();
-        // getData();
+  //loadData();
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -227,7 +234,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
           ),
           SizedBox(height: 20),
           // buildDiveMasterNameFormField(),
-
           Container(
             color: Colors.white,
             child: Center(
@@ -254,6 +260,13 @@ class _CreateTripFormState extends State<CreateTripForm> {
                 isExpanded: true,
                 value: boatSelected,
                 items: listBoat,
+                //     boat.map((String value) {
+                //   return DropdownMenuItem<String>(
+                //     value: value,
+                //     child: Text(value),
+                //   );
+                // }).toList(),
+
                 hint: Text('  Select boat'),
                 iconSize: 40,
                 onChanged: (value) {
@@ -297,7 +310,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
             ),
           ),
           SizedBox(height: 20),
-           FlatButton(onPressed: getData, child: Text('check')),
+          // FlatButton(onPressed: getData, child: Text('check')),
           //  FlatButton(
           //   onPressed: () => {
           //     // print(pinkValue),

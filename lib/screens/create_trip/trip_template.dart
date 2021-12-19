@@ -194,7 +194,7 @@ class _TriptemplateState extends State<Triptemplate> {
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
     loadData();
-        getData();
+       // getData();
     return Container(
       color: Color(0xfffd4f0f0),
       child: Form(
