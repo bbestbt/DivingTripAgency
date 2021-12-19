@@ -96,14 +96,14 @@ class _SignupStaffState extends State<SignupStaff> {
                 ),
               ),
               SizedBox(height: 30),
-              // FlatButton(
-              //   onPressed: () => {print(staffValue), print(staffValue.length)},
-              //   color: Color(0xfff75BDFF),
-              //   child: Text(
-              //     'check',
-              //     style: TextStyle(fontSize: 15),
-              //   ),
-              // ),
+              FlatButton(
+                onPressed: () => {print(staffValue), print(staffValue.length)},
+                color: Color(0xfff75BDFF),
+                child: Text(
+                  'check',
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
             ],
           ),
         ),

@@ -40,7 +40,8 @@ class HeaderCompany extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      if (!Responsive.isDesktop(context))
+                      //if (!Responsive.isDesktop(context))
+                      if (!Responsive.isDesktop(context) || MediaQuery.of(context).size.width <1232)
                         IconButton(
                             icon: Icon(Icons.menu),
                             onPressed: () {
@@ -55,7 +56,8 @@ class HeaderCompany extends StatelessWidget {
                           },
                           child: Text('DivingTripAgency')),
                       Spacer(),
-                      if (Responsive.isDesktop(context)) WebMenuCompany(),
+                     // if (Responsive.isDesktop(context)) WebMenuCompany(),
+                      if (Responsive.isDesktop(context) && MediaQuery.of(context).size.width >1232) WebMenuCompany(),
                       Spacer(),
                       SizedBox(
                         width: 20,

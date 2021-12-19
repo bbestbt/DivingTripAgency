@@ -90,8 +90,8 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   _getCard() async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+      maxWidth: 5000,
+      maxHeight: 5000,
     );
     if (pickedFile != null) {
       setState(() {
@@ -103,8 +103,8 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   _getCardBack() async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+      maxWidth: 5000,
+      maxHeight: 5000,
     );
     if (pickedFile != null) {
       setState(() {
@@ -116,6 +116,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   @override
   Widget build(BuildContext context) {
     loadData();
+    double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -161,7 +162,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           Row(
             children: [
               Column(
-                children: [Text("Divemaster Card"), Text('(Front)')],
+                children: [Text("Divemaster"),Text('Card'), Text('(Front)')],
               ),
               Center(
                   child: CardFile == null
@@ -175,19 +176,23 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                           ? Image.network(
                               CardFile.path,
                               fit: BoxFit.cover,
-                              width: 300,
+                              width: screenwidth*0.2,
                             )
                           : Image.file(
                               File(CardFile.path),
                               fit: BoxFit.cover,
-                              width: 300,
+                              width: screenwidth*0.05,
                             )),
               Spacer(),
               FlatButton(
                 color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
+                child: Container(
+                  constraints: const BoxConstraints(
+                      minWidth: 20.0, minHeight: 10.0),
+                  child: Text(
+                    'Upload',
+                    style: TextStyle(fontSize: 15),
+                  ),
                 ),
                 onPressed: () {
                   _getCard();
@@ -200,7 +205,8 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           Row(
             children: [
               Column(
-                children: [Text("Divemaster Card"), Text("(Back)")],
+                children: [Text("Divemaster"), Text('Card'),
+                  Text("(Back)")],
               ),
               Center(
                   child: CardFileBack == null
@@ -214,19 +220,23 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                           ? Image.network(
                               CardFileBack.path,
                               fit: BoxFit.cover,
-                              width: 300,
+                              width: screenwidth*0.2,
                             )
                           : Image.file(
                               File(CardFileBack.path),
                               fit: BoxFit.cover,
-                              width: 300,
+                              width: screenwidth*0.05,
                             )),
               Spacer(),
               FlatButton(
                 color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
+                child: Container(
+                  constraints: const BoxConstraints(
+                      minWidth: 20.0, minHeight: 10.0),
+                  child: Text(
+                    'Upload',
+                    style: TextStyle(fontSize: 15),
+                  ),
                 ),
                 onPressed: () {
                   _getCardBack();

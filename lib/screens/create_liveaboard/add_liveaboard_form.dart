@@ -138,8 +138,8 @@ class _addLiveaboardState extends State<addLiveaboard> {
   _getliveaboard() async {
      lvb = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+      maxWidth: 5000,
+      maxHeight: 5000,
     );
     if (lvb != null) {
       setState(() {
@@ -190,23 +190,14 @@ class _addLiveaboardState extends State<addLiveaboard> {
                       : Image.file(
                     io.File(liveaboardimg.path),
                     fit: BoxFit.cover,
-                    width: screenwidth*0.5,
+                    width: screenwidth*0.05,
                   )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              // Color(0xfffaea4e3),
-                              // Color(0xfffd3ffe8),
-                              Color(0xfffcfecd0),
-                              Color(0xfffffc5ca),
-                            ])),
                     child: Container(
+                        color:Color(0xfffa2c8ff),
                         constraints: const BoxConstraints(
                             minWidth: 88.0, minHeight: 36.0),
                         alignment: Alignment.center,
@@ -234,12 +225,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
           FlatButton(
             onPressed: () => {
               sendLiveaboard(),
-                Navigator.pushAndRemoveUntil(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
                   builder: (BuildContext context) => MainCompanyScreen(),
                 ),
-                (route) => false,
+                    (route) => false,
               )
             },
             color: Color(0xfff75BDFF),
