@@ -1,4 +1,3 @@
-
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/create_trip/trip_template.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
@@ -30,7 +29,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   List<String> divemaster = [];
   String divemasterSelected;
 
-   Map<String, dynamic> divemasterMap = {};
+  Map<String, dynamic> divemasterMap = {};
   TripTemplate triptemplate = new TripTemplate();
 
   //final TextEditingController _controllerPlace = TextEditingController();
@@ -44,6 +43,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   DateTimeRange dateRange;
   DateTime from;
   DateTime to;
+  DateTime last;
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -72,7 +72,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
     // });
     await getData();
     setState(() {
-     
       listDivemaster = [];
       listDivemaster = divemaster
           .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
@@ -100,6 +99,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     var trip = Trip();
     trip.from = Timestamp.fromDateTime(from);
     trip.to = Timestamp.fromDateTime(to);
+    trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxCapacity = int.parse(_controllerTotalpeople.text);
     trip.price = double.parse(_controllerPrice.text);
     trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
@@ -147,7 +147,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-  
+
     var divemasterrequest = ListDiveMastersRequest();
 
     try {
@@ -155,11 +155,10 @@ class _CreateTripFormState extends State<CreateTripForm> {
       // print(token);
       // print(response);
 
-    
       await for (var feature in stub.listDiveMasters(divemasterrequest)) {
         //  print(feature.diveMaster.firstName);
         divemaster.add(feature.diveMaster.firstName);
-        divemasterMap[feature.diveMaster.firstName]=feature.diveMaster.id;
+        divemasterMap[feature.diveMaster.firstName] = feature.diveMaster.id;
         //  print(divemaster);
 
       }
@@ -228,6 +227,32 @@ class _CreateTripFormState extends State<CreateTripForm> {
             ],
           ),
           SizedBox(height: 20),
+          Row(
+            children: [
+              Text('Last reservation date'),
+              Spacer(),
+              // Text(to == null ? '' : to.toString()),
+              Spacer(),
+              RaisedButton(
+                  color: Color(0xfff8dd9cc),
+                  child: Text('Pick a date'),
+                  onPressed: () {
+                    showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: from.subtract(Duration(days:1 )))
+                        .then((date) => {
+                              setState(() {
+                                var timeStamp =
+                                    print(Timestamp.fromDateTime(date));
+                                last = date;
+                              })
+                            });
+                  }),
+            ],
+          ),
+          SizedBox(height: 20),
           // buildDiveMasterNameFormField(),
           Container(
             color: Colors.white,
@@ -248,7 +273,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
             ),
           ),
           SizedBox(height: 20),
-        
+
           buildPriceFormField(),
           SizedBox(height: 20),
           buildTotalPeopleFormField(),
