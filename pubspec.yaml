@@ -39,6 +39,7 @@ dependencies:
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   multi_image_picker: ^4.7.14
+  postgres: ^2.1.1
 
 dev_dependencies:
   hive_generator: ^1.1.0

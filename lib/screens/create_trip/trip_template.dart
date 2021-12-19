@@ -1,10 +1,15 @@
+
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -31,27 +36,54 @@ class _TriptemplateState extends State<Triptemplate> {
   String selected = null;
 
   Map<String, int> tripTypeMap = {};
+  Map<String, dynamic> hotelTypeMap = {};
+  Map<String, dynamic> liveaboardTypeMap = {};
+    List<DropdownMenuItem<String>> listBoat = [];
+  List<String> boat = [];
+  String boatSelected;
+   Map<String, dynamic> boatMap = {};
 
   List<DropdownMenuItem<String>> listTrip = [];
   List<TripType> trip = [TripType.ONSHORE, TripType.OFFSHORE];
+
+  List<String> hotel = [];
+  List<String> liveaboard = [];
+  List<String> triptypee = [];
+  String selectedTriptype;
+  String selectedsleep;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
+  }
 
   void loadData() async {
     trip.forEach((element) {
       // print(element);
     });
-    //listDrop = [];
-    listTrip = trip
-        .map((val) => DropdownMenuItem<String>(
-            child: Text(val.toString()), value: val.value.toString()))
-        .toList();
+    await getData();
+    setState(() {
+       listBoat = [];
+      listBoat = boat
+          .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+          .toList();
 
-    String value;
+      listTrip = [];
+      listTrip = trip
+          .map((val) => DropdownMenuItem<String>(
+              child: Text(val.toString()), value: val.value.toString()))
+          .toList();
+      String value;
 
-    for (var i = 0; i < TripType.values.length; i++) {
-      value = TripType.valueOf(i).toString();
-      tripTypeMap[value] = i;
-    }
-    print(tripTypeMap);
+      for (var i = 0; i < TripType.values.length; i++) {
+        value = TripType.valueOf(i).toString();
+        tripTypeMap[value] = i;
+      }
+    });
+
+    // print(tripTypeMap);
   }
 
   final List<String> errors = [];
@@ -146,12 +178,58 @@ class _TriptemplateState extends State<Triptemplate> {
       });
   }
 
+  getData() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var hotelrequest = ListHotelsRequest();
+    var liveaboardrequest = ListLiveaboardsRequest();
+      var boatrequest = ListBoatsRequest();
+
+    try {
+      // var response = await stub.listBoats(boatrequest);
+      // print(token);
+      // print(response);
+
+        await for (var feature in stub.listBoats(boatrequest)) {
+        //   print(feature.boat.name);
+        boat.add(feature.boat.name);
+        boatMap[feature.boat.name]=feature.boat.id;
+        
+      }
+      // print(boat);
+      // print(boat.runtimeType);
+
+      await for (var feature in stub.listHotels(hotelrequest)) {
+        //  print(feature.hotel.name);
+        hotel.add(feature.hotel.name);
+        hotelTypeMap[feature.hotel.name] = feature.hotel.id;
+      }
+      await for (var feature in stub.listLiveaboards(liveaboardrequest)) {
+        //print(feature.liveaboard.name);
+        liveaboard.add(feature.liveaboard.name);
+        liveaboardTypeMap[feature.liveaboard.name] =
+            feature.liveaboard.id;
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
     double screenwidth = MediaQuery.of(context).size.width;
-
-    loadData();
+    //loadData();
+    // getData();
     return Container(
       color: Color(0xfffd4f0f0),
       child: Form(
@@ -163,6 +241,33 @@ class _TriptemplateState extends State<Triptemplate> {
             SizedBox(height: 20),
             buildDescriptionFormField(),
             SizedBox(height: 20),
+              Container(
+            color: Colors.white,
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: boatSelected,
+                items: listBoat,
+                //     boat.map((String value) {
+                //   return DropdownMenuItem<String>(
+                //     value: value,
+                //     child: Text(value),
+                //   );
+                // }).toList(),
+
+                hint: Text('  Select boat'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    boatSelected = value;
+                    print(value);
+                    triptemplate.divingBoatId=boatMap[boatSelected];
+                  });
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
             // buildBoatNameFormField(),
             // SizedBox(height: 20),
             //radio
@@ -200,29 +305,94 @@ class _TriptemplateState extends State<Triptemplate> {
             //     Text('Off shore (Live on boat)'),
             //   ],
             // ),
-            Container(
-              color: Color(0xfffd4f0f0),
-              child: Center(
-                child: DropdownButton(
-                  isExpanded: true,
-                  value: selected,
-                  items: listTrip,
-                  hint: Text('  Select trip type'),
-                  iconSize: 40,
-                  onChanged: (value) {
-                    setState(() {
-                      selected = value;
-                      TripType.values.forEach((tripType) {
-                        if (tripTypeMap[tripType.toString()] ==
-                            int.parse(selected)) {
-                          triptemplate.tripType = tripType;
-                        }
-                      });
-                      print(value);
-                    });
-                  },
-                ),
-              ),
+
+            // Container(
+            //   color: Color(0xfffd4f0f0),
+            //   child: Center(
+            //     child: DropdownButton(
+            //       isExpanded: true,
+            //       value: selected,
+            //       items: listTrip,
+            //       hint: Text('  Select trip type'),
+            //       iconSize: 40,
+            //       onChanged: (value) {
+            //         setState(() {
+            //           selected = value;
+            //           TripType.values.forEach((tripType) {
+            //             if (tripTypeMap[tripType.toString()] ==
+            //                 int.parse(selected)) {
+            //               triptemplate.tripType = tripType;
+            //             }
+            //           });
+            //           print(value);
+            //         });
+            //       },
+            //     ),
+            //   ),
+            // ),
+
+            DropdownButton(
+              hint: Text('Trip type'),
+              value: selectedTriptype,
+              isExpanded: true,
+              items: listTrip,
+              onChanged: (trip_type) {
+                // print('*');
+                // print(trip_type);
+                // print('*');
+                // if (trip_type ==0 ) {
+                //   triptypee = liveaboard;
+                // } else if (trip_type == 1) {
+                //   triptypee = hotel;
+                // }
+                // else {
+                //   triptypee = [];
+                // }
+                if (trip_type == '0') {
+                  triptypee = hotel;
+                } else if (trip_type == '1') {
+                  triptypee = liveaboard;
+                } else {
+                  // print('x');
+                  // print(trip_type);
+                  // print(trip_type.runtimeType);
+                  triptypee = [];
+                }
+                setState(() {
+                  // print(triptypee);
+                  // print('--');
+                  selectedTriptype = trip_type;
+                  selectedsleep = null;
+                  TripType.values.forEach((tripType) {
+                    if (tripTypeMap[tripType.toString()] ==
+                        int.parse(selectedTriptype)) {
+                      triptemplate.tripType = tripType;
+                    }
+                  });
+                });
+              },
+            ),
+            SizedBox(height: 20),
+            DropdownButton<String>(
+              value: selectedsleep,
+              // hint: Text('Sleep'),
+              isExpanded: true,
+              items: triptypee.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (sleep) {
+                setState(() {
+                  selectedsleep = sleep;
+                  if (triptypee == liveaboard) {
+                    triptemplate.liveaboardId = liveaboardTypeMap[selectedsleep];
+                  } else if (triptypee == hotel) {
+                    triptemplate.hotelId = hotelTypeMap[selectedsleep];
+                  }
+                });
+              },
             ),
             SizedBox(height: 20),
             Row(
@@ -234,12 +404,12 @@ class _TriptemplateState extends State<Triptemplate> {
                             ? Image.network(
                                 Pictrip.path,
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.2,
+                                width: screenwidth * 0.2,
                               )
                             : Image.file(
                                 io.File(Pictrip.path),
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.05,
+                                width: screenwidth * 0.05,
                               )),
                 Spacer(),
                 FlatButton(
@@ -265,12 +435,12 @@ class _TriptemplateState extends State<Triptemplate> {
                             ? Image.network(
                                 Boatpic.path,
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.2,
+                                width: screenwidth * 0.2,
                               )
                             : Image.file(
                                 io.File(Boatpic.path),
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.05,
+                                width: screenwidth * 0.05,
                               )),
                 Spacer(),
                 FlatButton(
@@ -296,12 +466,12 @@ class _TriptemplateState extends State<Triptemplate> {
                             ? Image.network(
                                 Schedule.path,
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.2,
+                                width: screenwidth * 0.2,
                               )
                             : Image.file(
                                 io.File(Schedule.path),
                                 fit: BoxFit.cover,
-                                width: screenwidth*0.05,
+                                width: screenwidth * 0.05,
                               )),
                 Spacer(),
                 FlatButton(
@@ -320,6 +490,7 @@ class _TriptemplateState extends State<Triptemplate> {
             // FormError(errors: errors),
 
             SizedBox(height: 20),
+            //  FlatButton(onPressed: getData, child: Text('check')),
           ]),
         ),
       ),
