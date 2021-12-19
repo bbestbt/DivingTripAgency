@@ -64,8 +64,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   _getFromGallery() async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+      maxWidth: 5000,
+      maxHeight: 5000,
     );
     if (pickedFile != null) {
       setState(() {
@@ -166,6 +166,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
 
   @override
   Widget build(BuildContext context) {
+    double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       key: _formKey,
       child: Padding(
@@ -219,7 +220,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           SizedBox(height: 20),
           Row(
             children: [
-              Text('Verified Doc'),
+            Column(
+                children: [
+                  Text('Verified'),
+                  Text('Document'),
+                ],
+              ),
               Center(
                   child: docFile == null
                       ? Column(
@@ -229,12 +235,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                           ? Image.network(
                               docFile.path,
                               fit: BoxFit.cover,
-                              width: 300,
+                        width: screenwidth*0.2,
                             )
                           : Image.file(
                               io.File(docFile.path),
                               fit: BoxFit.cover,
-                              width: 300,
+                          width: screenwidth*0.05,
                             )),
               Spacer(),
               FlatButton(
@@ -255,7 +261,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           //Center(child:imageFile == null ? Text('No image selected'):Image.file(imageFile,fit:BoxFit.cover,)),
           Row(
             children: [
-              Text('Company Image'),
+                Column(
+                children: [
+                  Text('Company'),
+                  Text('Image'),
+                ],
+              ),
               Center(
                   child: imageFile == null
                       ? Text('')
@@ -263,12 +274,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                           ? Image.network(
                               imageFile.path,
                               fit: BoxFit.cover,
-                              width: 300,
+                            width: screenwidth*0.2,
                             )
                           : Image.file(
                               io.File(imageFile.path),
                               fit: BoxFit.cover,
-                              width: 300,
+                             width: screenwidth*0.05,
                             )),
               Spacer(),
               FlatButton(

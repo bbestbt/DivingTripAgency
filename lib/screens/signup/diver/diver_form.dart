@@ -151,8 +151,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   _getPicDiver() async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+      maxWidth: 5000,
+      maxHeight: 5000,
     );
     if (pickedFile != null) {
       setState(() {
@@ -167,8 +167,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   _getPicCard() async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+      maxWidth: 5000,
+      maxHeight: 5000,
     );
     if (pickedFile != null) {
       setState(() {
@@ -181,6 +181,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   @override
   Widget build(BuildContext context) {
     loadData();
+     double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       key: _formKey,
       child: Padding(
@@ -258,12 +259,12 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                         ? Image.network(
                             DiverImage.path,
                             fit: BoxFit.cover,
-                            width: 300,
+                            width: screenwidth*0.2,
                           )
                         : Image.file(
                             io.File(DiverImage.path),
                             fit: BoxFit.cover,
-                            width: 300,
+                           width: screenwidth*0.05,
                           ),
               ),
               /* Spacer(),
@@ -296,12 +297,12 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                           ? Image.network(
                               DiveBack.path,
                               fit: BoxFit.cover,
-                              width: 300,
+                              width: screenwidth*0.2,
                             )
                           : Image.file(
                               io.File(DiveBack.path),
                               fit: BoxFit.cover,
-                              width: 300,
+                              width: screenwidth*0.05,
                             )),
               Spacer(),
               FlatButton(

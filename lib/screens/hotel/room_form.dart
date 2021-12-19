@@ -77,8 +77,8 @@ class _RoomFormState extends State<RoomForm> {
   _getroomimg() async {
     rroom = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+      maxWidth: 5000,
+      maxHeight: 5000,
     );
     var f2 = File();
     f2.filename = rroom.name;
@@ -187,19 +187,11 @@ class _RoomFormState extends State<RoomForm> {
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                          // Color(0xfffaea4e3),
-                          // Color(0xfffd3ffe8),
-                          Color(0xfffcfecd0),
-                          Color(0xfffffc5ca),
-                        ])),
+                   
                     child: Container(
+                       color:Color(0xfffa2c8ff),
                         constraints: const BoxConstraints(
-                            minWidth: 88.0, minHeight: 36.0),
+                            minWidth: 70.0, minHeight: 36.0),
                         alignment: Alignment.center,
                         child: Text(
                           'Upload',
