@@ -242,7 +242,7 @@ class _TriptemplateState extends State<Triptemplate> {
             buildDescriptionFormField(),
             SizedBox(height: 20),
               Container(
-            color: Colors.white,
+            // color: Colors.white,
             child: Center(
               child: DropdownButton(
                 isExpanded: true,
