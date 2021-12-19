@@ -8,9 +8,12 @@ import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 
 class HeaderCompany extends StatelessWidget {
   final MenuCompany _controller = Get.put(MenuCompany());
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,45 +36,47 @@ class HeaderCompany extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(20),
               constraints: BoxConstraints(maxWidth: 1232),
+              //constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width*0.65),
               child: Column(
                 children: [
                   Row(
                     children: [
-                      if (!Responsive.isDesktop(context))
+                      if (!Responsive.isDesktop(context) || MediaQuery.of(context).size.width <1232)
                         IconButton(
                             icon: Icon(Icons.menu),
                             onPressed: () {
                               _controller.openOrCloseDrawer();
                             }),
                       FlatButton(
-                        onPressed: () {
+                          onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => MainCompanyScreen()));
                           },
-                        child: Text('DivingTripAgency')),
+                          child: Text('DivingTripAgency')),
                       Spacer(),
-                      if (Responsive.isDesktop(context)) WebMenuCompany(),
+                      if (Responsive.isDesktop(context) && MediaQuery.of(context).size.width >1232) WebMenuCompany(),
                       Spacer(),
                       SizedBox(
                         width: 20,
                       ),
                       ElevatedButton(
                           onPressed: () {
+                            //checkLogin();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => LoginScreen()));
                           },
                           style: TextButton.styleFrom(
-                            backgroundColor: Color(0xfffff8fab),
+                              backgroundColor: Color(0xfffff8fab),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20 * 1.5, vertical: 20)),
-                          child: Text("Login",
-                              style: TextStyle(
-                                color: Colors.black,
-                              ))),
+                          child: (checkLogin())
+                              ? Text("Log out",style: TextStyle(color:Colors.black),)
+                              : Text("Log in",style: TextStyle(color:Colors.black),)),
+                      //  (checkLogin()) ? FlatButton(child: Text("Log out")) : FlatButton(child: Text("Log in"))
                     ],
                   ),
                   SizedBox(
@@ -84,5 +89,24 @@ class HeaderCompany extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool checkLogin() {
+    try {
+      var box = Hive.box('userInfo');
+      Hive.openBox('userInfo');
+      String token = box.get('token');
+      bool login = box.get('login');
+      if (login == true) {
+        print(login);
+        return true;
+      } else {
+        print(login);
+        return false;
+      }
+    } on GrpcError catch (e) {
+    } catch (e) {
+      print('Exception: $e');
+    }
   }
 }

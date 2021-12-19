@@ -14,7 +14,6 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 import 'package:flutter/services.dart';
 
 class CreateTripForm extends StatefulWidget {
-  
   @override
   _CreateTripFormState createState() => _CreateTripFormState();
 }
@@ -24,11 +23,17 @@ class _CreateTripFormState extends State<CreateTripForm> {
   String divemastername;
   String price;
   String totalpeople;
-  
+  int diverselected=0;
+
   final List<String> errors = [];
+  List<DropdownMenuItem<String>> listDivemaster = [];
+  List<String> divemaster = ['Gim'];
+  String divemasterSelected;
+  List<DropdownMenuItem<String>> listBoat = [];
+  List<String> boat = [];
+  String boatSelected;
 
   TripTemplate triptemplate = new TripTemplate();
- 
 
   //final TextEditingController _controllerPlace = TextEditingController();
   final TextEditingController _controllerFrom = TextEditingController();
@@ -41,22 +46,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
   DateTimeRange dateRange;
   DateTime from;
   DateTime to;
-
-  String getFrom() {
-    if (dateRange == null) {
-      return 'From';
-    } else {
-      return DateFormat('MM/dd/yyyy').format(dateRange.start);
-    }
-  }
-
-  String getTo() {
-    if (dateRange == null) {
-      return 'To';
-    } else {
-      return DateFormat('MM/dd/yyyy').format(dateRange.end);
-    }
-  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -72,7 +61,29 @@ class _CreateTripFormState extends State<CreateTripForm> {
       });
   }
 
-  void AddTrip() async{
+  void loadData() async {
+    //   boat.forEach((element) {
+    //   print(element);
+    // });
+   // getData();
+
+    listBoat = [];
+    //print("listboat (before):");
+    //print(listBoat);
+    listBoat = boat
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+    //print("listboat (after):");
+    //print(listBoat);
+
+    listDivemaster = [];
+    listDivemaster = divemaster
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+    
+  }
+
+  void AddTrip() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -80,37 +91,35 @@ class _CreateTripFormState extends State<CreateTripForm> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
-        final box = Hive.box('userInfo');
+    final box = Hive.box('userInfo');
 
-        String token = box.get('token');
+    String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel,options: CallOptions(metadata:{'Authorization':  '$token'}));
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
     var trip = Trip();
     trip.from = Timestamp.fromDateTime(from);
     trip.to = Timestamp.fromDateTime(to);
     trip.maxCapacity = int.parse(_controllerTotalpeople.text);
-    trip.price= double.parse(_controllerPrice.text);
-    // trip.diveMasters=_controllerDivemastername.text; iter
+    trip.price = double.parse(_controllerPrice.text);
 
     var tripRequest = AddTripRequest();
     tripRequest.trip = trip;
-    tripRequest.tripTemplate=triptemplate;
+    tripRequest.tripTemplate = triptemplate;
     //tripRequest.tripTemplate.images.add(value);
 
-
     //try {
-      //var response = stub.addTrip(tripRequest);
-      //print('response: ${response}');
+    //var response = stub.addTrip(tripRequest);
+    //print('response: ${response}');
     //} catch (e) {
-      //print(e);
+    //print(e);
     //}
-  //}
+    //}
     print(tripRequest);
     try {
       var response = await stub.addTrip(tripRequest);
       print(token);
       print(response);
-
     } on GrpcError catch (e) {
       // Handle exception of type GrpcError
       print('codeName: ${e.codeName}');
@@ -124,60 +133,63 @@ class _CreateTripFormState extends State<CreateTripForm> {
     }
   }
 
+  getData() async {
+    //print("before try catch");
+    //print("Boat before getdata");
+    //print(boat);
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
 
-  Future pickDateRange(BuildContext context) async {
-    final initialDateRange = DateTimeRange(
-        start: DateTime.now(),
-        end: DateTime.now().add(Duration(hours: 24 * 3)));
-    final newDateRange = await showDateRangePicker(
-        context: context,
-        firstDate: DateTime(DateTime.now().year - 5),
-        lastDate: DateTime(DateTime.now().year + 5));
-    initialDateRange:
-    dateRange ?? initialDateRange;
-    if (newDateRange == null) return;
-    setState(() => dateRange = newDateRange);
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var boatrequest = ListBoatsRequest();
+    var divemasterrequest=ListDiveMastersRequest();
+    //var i=0;
+    try {
+      // var response = await stub.listBoats(boatrequest);
+      // print(token);
+      // print(response);
+
+      await for (var feature in stub.listBoats(boatrequest)) {
+     //   print(feature.boat.name);
+        //print(i);
+        boat.add(feature.boat.name);
+
+       // print("Boat: ");
+        //print(boat);
+       // i++;
+      }
+       await for (var feature in stub.listDiveMasters(divemasterrequest)) {
+      //  print(feature.diveMaster.firstName);
+        divemaster.add(feature.diveMaster.firstName);
+      //  print(divemaster);
+
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    loadData();
+        // getData();
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           SizedBox(height: 20),
-          // buildPlaceFormField(),
-          // SizedBox(height: 20),
-          // Row(
-          //   children: [
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 3.6,
-          //         child: buildFromFormField()),
-          //     // SizedBox(width: 20),
-          //     Spacer(),
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 3.6,
-          //         child: buildToFormField()),
-          //   ],
-          // ),
-          // Row(
-          //   children: [
-          //     RaisedButton(
-          //       onPressed: () => pickDateRange(context),
-          //       child: Text(getFrom()),
-          //     ),
-          //     Spacer(),
-          //     RaisedButton(
-          //       onPressed: () => pickDateRange(context),
-          //       child: Text(getTo()),
-          //     ),
-          //   ],
-          // ),
           Row(
             children: [
               Text('From'),
               Spacer(),
-             //  Text(from == null ? '' : from.toString()),
+              //  Text(from == null ? '' : from.toString()),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
@@ -198,8 +210,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
                   }),
             ],
           ),
-           SizedBox(height: 20),
-        Row(
+          SizedBox(height: 20),
+          Row(
             children: [
               Text('To'),
               Spacer(),
@@ -225,7 +237,50 @@ class _CreateTripFormState extends State<CreateTripForm> {
             ],
           ),
           SizedBox(height: 20),
-          buildDiveMasterNameFormField(),
+          // buildDiveMasterNameFormField(),
+
+          Container(
+            color: Colors.white,
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: divemasterSelected,
+                items: listDivemaster,
+                hint: Text('  Select dive master'),
+                iconSize: 40,
+                onChanged: (value) {
+                  this.getData();
+                  setState(() {
+                    divemasterSelected = value;
+                    print(value);
+                    //
+                    diverselected=1;
+                  });
+                  print("Got Data");
+
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          Container(
+            color: Colors.white,
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: boatSelected,
+                items: listBoat,
+                hint: Text('  Select boat'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    boatSelected = value;
+                    print(value);
+                  });
+                },
+              ),
+            ),
+          ),
           SizedBox(height: 20),
           buildPriceFormField(),
           SizedBox(height: 20),
@@ -258,6 +313,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
             ),
           ),
           SizedBox(height: 20),
+           FlatButton(onPressed: getData, child: Text('check')),
           //  FlatButton(
           //   onPressed: () => {
           //     // print(pinkValue),
@@ -388,10 +444,10 @@ class _CreateTripFormState extends State<CreateTripForm> {
   TextFormField buildPriceFormField() {
     return TextFormField(
       controller: _controllerPrice,
-       keyboardType: TextInputType.number,
-    inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => price = newValue,
       onChanged: (value) {
@@ -420,9 +476,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
     return TextFormField(
       controller: _controllerTotalpeople,
       keyboardType: TextInputType.number,
-    inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => totalpeople = newValue,
       onChanged: (value) {

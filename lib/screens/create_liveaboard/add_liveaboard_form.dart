@@ -6,6 +6,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 
 import 'package:diving_trip_agency/screens/hotel/highlight.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
+import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -137,8 +138,8 @@ class _addLiveaboardState extends State<addLiveaboard> {
   _getliveaboard() async {
      lvb = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+      maxWidth: 5000,
+      maxHeight: 5000,
     );
     if (lvb != null) {
       setState(() {
@@ -189,7 +190,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                       : Image.file(
                     io.File(liveaboardimg.path),
                     fit: BoxFit.cover,
-                    width: screenwidth*0.5,
+                    width: screenwidth*0.1,
                   )),
               Spacer(),
               FlatButton(
@@ -233,6 +234,13 @@ class _addLiveaboardState extends State<addLiveaboard> {
           FlatButton(
             onPressed: () => {
               sendLiveaboard(),
+                Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => MainCompanyScreen(),
+                ),
+                (route) => false,
+              )
             },
             color: Color(0xfff75BDFF),
             child: Text(

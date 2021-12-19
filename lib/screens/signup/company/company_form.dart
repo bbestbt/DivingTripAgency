@@ -2,6 +2,7 @@ import 'dart:io' as io;
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:flutter/material.dart';
@@ -63,8 +64,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   _getFromGallery() async {
     PickedFile pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+      maxWidth: 5000,
+      maxHeight: 5000,
     );
     if (pickedFile != null) {
       setState(() {
@@ -295,7 +296,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SignupDiveMaster())),
+                          builder: (context) => MainCompanyScreen())),
                 }
             },
             color: Color(0xfff75BDFF),

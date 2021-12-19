@@ -3,6 +3,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/hotel/addRoom.dart';
 import 'package:diving_trip_agency/screens/hotel/highlight.dart';
+import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -25,67 +26,86 @@ class _addHotelState extends State<addHotel> {
   String hotel_description;
   String phone;
   io.File hotelimg;
+  String address1;
+  String address2;
+  String postalCode;
+  String country;
+  String region;
+  String city;
 
   XFile hhotel;
   XFile rroom;
 
+  List<RoomType> pinkValue = [new RoomType()];
+  List<List<Amenity>> blueValue = [
+    [new Amenity()]
+  ];
+  List<DropdownMenuItem<String>> listStar = [];
+  List<String> star = ['1', '2', '3', '4', '5'];
+  String starSelected;
 
+  final List<String> errors = [];
+  final TextEditingController _controllerHotelname = TextEditingController();
+  final TextEditingController _controllerHoteldescription =
+      TextEditingController();
 
-          List<RoomType> pinkValue = [new RoomType()];
-    List<List<Amenity>> blueValue = [[new Amenity()]];
-    List<DropdownMenuItem<String>> listStar = [];
-    List<String> star = ['1', '2', '3', '4', '5'];
-    String starSelected = null;
+  final TextEditingController _controllerPhone = TextEditingController();
+  final TextEditingController _controllerAddress = TextEditingController();
+  final TextEditingController _controllerAddress2 = TextEditingController();
+  final TextEditingController _controllerPostalcode = TextEditingController();
+  final TextEditingController _controllerCountry = TextEditingController();
+  final TextEditingController _controllerRegion = TextEditingController();
+  final TextEditingController _controllerCity = TextEditingController();
 
-    final List<String> errors = [];
-    final TextEditingController _controllerHotelname = TextEditingController();
-    final TextEditingController _controllerHoteldescription =
-    TextEditingController();
-
-    final TextEditingController _controllerPhone = TextEditingController();
-
-    void loadData() {
+  void loadData() {
     listStar = [];
     listStar = star
         .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
         .toList();
-    }
+  }
 
-    void addError({String error}) {
+  void addError({String error}) {
     if (!errors.contains(error))
-    setState(() {
-    errors.add(error);
-    });
-    }
+      setState(() {
+        errors.add(error);
+      });
+  }
 
-    void removeError({String error}) {
+  void removeError({String error}) {
     if (errors.contains(error))
-    setState(() {
-    errors.remove(error);
-    });
-    }
+      setState(() {
+        errors.remove(error);
+      });
+  }
 
-    // var authResponse = await AccountClient().login(request)
-    void sendHotel() async {
+  void sendHotel() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-    host: '139.59.101.136',
-    grpcPort: 50051,
-    grpcTransportSecure: false,
-    grpcWebPort: 8080,
-    grpcWebTransportSecure: false);
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
     final box = Hive.box('userInfo');
     String token = box.get('token');
 
-    final stub = AgencyServiceClient(
-    channel,
-    options: CallOptions(metadata:{'Authorization':  '$token'} )
-    );
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
     var hotel = Hotel();
     hotel.hotelName = _controllerHotelname.text;
     hotel.hotelDescription = _controllerHoteldescription.text;
     hotel.phone = _controllerPhone.text;
     hotel.star = int.parse(starSelected);
+
+
+    var address = Address();
+    address.addressLine1 = _controllerAddress.text;
+    address.addressLine2 = _controllerAddress2.text;
+    address.city = _controllerCity.text;
+    address.postcode = _controllerPostalcode.text;
+    address.region = _controllerRegion.text;
+    address.country = _controllerCountry.text;
+    hotel.address = address;
 
     var f = File();
     f.filename = hhotel.name;
@@ -105,51 +125,51 @@ class _addHotelState extends State<addHotel> {
     //var room = RoomType();
     //var amenity = Amenity();
     for (int i = 0; i < pinkValue.length; i++) {
-    var room=RoomType();
-    for (int j = 0; j < blueValue[i].length; j++) {
-    var amenity = Amenity();
-    amenity.name = blueValue[i][j].name;
-    amenity.description = blueValue[i][j].description;
-    room.amenities.add(amenity);
-    }
-    room.name = pinkValue[i].name;
-    room.description = pinkValue[i].description;
-    room.maxGuest = pinkValue[i].maxGuest;
-    room.price = pinkValue[i].price;
-    room.quantity = pinkValue[i].quantity;
-    //room.roomImages.add(f2);
-    //pinkValue[i].roomImages.add(value);
-    for(int j = 0; j < pinkValue[i].roomImages.length; j++){
-    room.roomImages.add(pinkValue[i].roomImages[j]);
-    }
-    hotel.roomTypes.add(room);
+      var room = RoomType();
+      // for (int j = 0; j < blueValue[i].length; j++) {
+      //   var amenity = Amenity();
+      //   amenity.name = blueValue[i][j].name;
+      //   amenity.description = blueValue[i][j].description;
+      //   room.amenities.add(amenity);
+      // }
+      room.name = pinkValue[i].name;
+      room.description = pinkValue[i].description;
+      room.maxGuest = pinkValue[i].maxGuest;
+      room.price = pinkValue[i].price;
+      room.quantity = pinkValue[i].quantity;
+      //room.roomImages.add(f2);
+      //pinkValue[i].roomImages.add(value);
+      for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
+        room.roomImages.add(pinkValue[i].roomImages[j]);
+      }
+      hotel.roomTypes.add(room);
     }
 
     var hotelRequest = AddHotelRequest();
     hotelRequest.hotel = hotel;
 
     try {
-    var response = await stub.addHotel(hotelRequest);
-    print(token);
-    print(response);
-
+      var response = await stub.addHotel(hotelRequest);
+      print(token);
+      print(response);
     } on GrpcError catch (e) {
-    // Handle exception of type GrpcError
-    print('codeName: ${e.codeName}');
-    print('details: ${e.details}');
-    print('message: ${e.message}');
-    print('rawResponse: ${e.rawResponse}');
-    print('trailers: ${e.trailers}');
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
     } catch (e) {
-    // Handle all other exceptions
-    print('Exception: $e');
+      // Handle all other exceptions
+      print('Exception: $e');
     }
-    }
-    // get hotel image
-    _gethotelimg() async {
+  }
+
+  // get hotel image
+  _gethotelimg() async {
     hhotel = await ImagePicker().pickImage(
-    source: ImageSource.gallery,
-    maxWidth: 1800,
+      source: ImageSource.gallery,
+      maxWidth: 1800,
       maxHeight: 1800,
     );
     if (hhotel != null) {
@@ -159,25 +179,6 @@ class _addHotelState extends State<addHotel> {
       });
     }
   }
-
-  //hotel.images = hotelimg // error, file conflict
-    //link api img, room
-    //   var authResponse = await client.postAuthenticate(Authenticate()..provider='credentials'
-    // ..email=email..password=password);
-    //   const bearerToken = authResponse.bearerToken;
-
-    //var hotelRequest = AddHotelRequest();
-    //hotelRequest.hotel = hotel;
-    //try {
-      //var response = stub.addHotel(
-       // hotelRequest,
-        // options: CallOptions(metadata:{'Authorization':  '${bearerToken}'} )
-     // );
-    //  print('response: ${response}');
-  //  } catch (e) {
-  //    print(e);
- //   }
- // }
 
   @override
   Widget build(BuildContext context) {
@@ -193,6 +194,36 @@ class _addHotelState extends State<addHotel> {
           buildHotelDescriptionFormField(),
           SizedBox(height: 20),
           buildPhoneFormField(),
+          SizedBox(height: 20),
+          buildAddressFormField(),
+          SizedBox(height: 20),
+          buildAddress2FormField(),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCountryFormField()),
+              Spacer(),
+              // Spacer(flex: 1,),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCityFormField()),
+            ],
+          ),
+
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildRegionFormField()),
+              Spacer(),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildPostalCodeFormField()),
+            ],
+          ),
           SizedBox(height: 20),
           //Text('Hotel Image'),
           Row(
@@ -212,12 +243,12 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg.path,
                               fit: BoxFit.cover,
-                              width: screenwidth*0.2,
+                              width: screenwidth * 0.2,
                             )
                           : Image.file(
                               io.File(hotelimg.path),
                               fit: BoxFit.cover,
-                              width: screenwidth*0.05,
+                              width: screenwidth * 0.05,
                             )),
               Spacer(),
               FlatButton(
@@ -242,7 +273,6 @@ class _addHotelState extends State<addHotel> {
                           style: TextStyle(fontSize: 15),
                         ))),
                 onPressed: () {
-
                   _gethotelimg();
                 },
               ),
@@ -260,7 +290,6 @@ class _addHotelState extends State<addHotel> {
                 hint: Text('  Select star'),
                 iconSize: 40,
                 onChanged: (value) {
-                  starSelected = value;
                   setState(() {
                     starSelected = value;
                     print(value);
@@ -285,14 +314,19 @@ class _addHotelState extends State<addHotel> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-
             child: AddMoreRoom(this.pinkValue, this.blueValue),
-
           ),
           SizedBox(height: 30),
           FlatButton(
             onPressed: () => {
               sendHotel(),
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => MainCompanyScreen(),
+                ),
+                (route) => false,
+              )
             },
             color: Color(0xfff75BDFF),
             child: Text(
@@ -399,6 +433,178 @@ class _addHotelState extends State<addHotel> {
       },
       decoration: InputDecoration(
         labelText: "Phone",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildAddressFormField() {
+    return TextFormField(
+      controller: _controllerAddress,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => address1 = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter address");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter address");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          //    hintText: "Address1",
+          labelText: "Address 1",
+          filled: true,
+          fillColor: Colors.white,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.home)),
+    );
+  }
+
+  TextFormField buildAddress2FormField() {
+    return TextFormField(
+      controller: _controllerAddress2,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => address2 = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter address");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter address");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          //   hintText: "Address2",
+          labelText: "Address 2",
+          filled: true,
+          fillColor: Colors.white,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.home)),
+    );
+  }
+
+  TextFormField buildCountryFormField() {
+    return TextFormField(
+      controller: _controllerCountry,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => country = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter country");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter country");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Country",
+        labelText: "Country",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildCityFormField() {
+    return TextFormField(
+      controller: _controllerCity,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => city = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter city");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter city");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "City",
+        labelText: "City",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildRegionFormField() {
+    return TextFormField(
+      controller: _controllerRegion,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => region = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter region");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter region");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //    hintText: "Region",
+        labelText: "Region",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildPostalCodeFormField() {
+    return TextFormField(
+      controller: _controllerPostalcode,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => postalCode = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter postal code");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter postal code");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Postal code",
+        labelText: "Postal code",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,

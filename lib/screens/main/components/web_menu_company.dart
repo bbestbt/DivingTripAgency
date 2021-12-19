@@ -7,6 +7,8 @@ import 'package:diving_trip_agency/screens/create_liveaboard/add_liveabord_scree
 import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens/hotel/add_hotel_screen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
+import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
+import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
 
 import 'package:flutter/material.dart';
 import 'package:diving_trip_agency/constants.dart';
@@ -44,17 +46,28 @@ class WebMenuCompany extends StatelessWidget {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => HotelScreen()));
                   }
+                 
                   if (_controller.selectedIndex == 3) {
-
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CreateBoat()));
-                  }
-                  if (_controller.selectedIndex == 4) {
 
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => CreateLiveaboardScreen()));
+                  }
+                   if (_controller.selectedIndex == 4) {
+
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => CreateBoat()));
+                  }
+                   if (_controller.selectedIndex == 5) {
+
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignupDiveMaster()));
+                  }
+                   if (_controller.selectedIndex == 6) {
+
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignupStaff()));
                   }
                 }),
           ),

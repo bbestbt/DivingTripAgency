@@ -13,7 +13,7 @@ class AddMoreStaff extends StatefulWidget {
 
 class _AddMoreStaffState extends State<AddMoreStaff> {
   int count = 1;
-  List<Staff> staffValue;
+  List<Staff> staffValue=[];
     _AddMoreStaffState(List<Staff> staffValue) {
       this.staffValue=staffValue;
   }
@@ -28,7 +28,7 @@ class _AddMoreStaffState extends State<AddMoreStaff> {
             shrinkWrap: true,
             itemCount: count,
             itemBuilder: (BuildContext context, int index) {
-              return StaffForm(count.toString(),this.staffValue);
+              return StaffForm(count,this.staffValue);
             }),
         MaterialButton(
           onPressed: () {
