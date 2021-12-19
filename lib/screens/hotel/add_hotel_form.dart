@@ -169,8 +169,8 @@ class _addHotelState extends State<addHotel> {
   _gethotelimg() async {
     hhotel = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxWidth: 1800,
-      maxHeight: 1800,
+      maxWidth: 5000,
+      maxHeight: 5000,
     );
     if (hhotel != null) {
       setState(() {
@@ -254,17 +254,8 @@ class _addHotelState extends State<addHotel> {
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                          // Color(0xfffaea4e3),
-                          // Color(0xfffd3ffe8),
-                          Color(0xfffcfecd0),
-                          Color(0xfffffc5ca),
-                        ])),
                     child: Container(
+                        color:Color(0xfffa2c8ff),
                         constraints: const BoxConstraints(
                             minWidth: 88.0, minHeight: 36.0),
                         alignment: Alignment.center,

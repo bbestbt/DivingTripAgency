@@ -242,7 +242,7 @@ class _TriptemplateState extends State<Triptemplate> {
             buildDescriptionFormField(),
             SizedBox(height: 20),
               Container(
-            // color: Colors.white,
+            color: Colors.white,
             child: Center(
               child: DropdownButton(
                 isExpanded: true,
@@ -461,7 +461,7 @@ class _TriptemplateState extends State<Triptemplate> {
               children: [
                 Center(
                     child: Schedule == null
-                        ? Text('Schedule image')
+                        ? Text('Schedule')
                         : kIsWeb
                             ? Image.network(
                                 Schedule.path,
