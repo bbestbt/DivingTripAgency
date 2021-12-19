@@ -1,3 +1,4 @@
+
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/create_trip/trip_template.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
@@ -28,10 +29,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
   List<DropdownMenuItem<String>> listDivemaster = [];
   List<String> divemaster = [];
   String divemasterSelected;
-  List<DropdownMenuItem<String>> listBoat = [];
-  List<String> boat = [];
-  String boatSelected ;
 
+   Map<String, dynamic> divemasterMap = {};
   TripTemplate triptemplate = new TripTemplate();
 
   //final TextEditingController _controllerPlace = TextEditingController();
@@ -59,8 +58,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
         errors.remove(error);
       });
   }
+
   @override
-  void initState()  {
+  void initState() {
     // TODO: implement initState
     super.initState();
     loadData();
@@ -71,18 +71,16 @@ class _CreateTripFormState extends State<CreateTripForm> {
     //   print(element);
     // });
     await getData();
-    listBoat = [];
-    listBoat = boat
-        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
-        .toList();
+    setState(() {
+     
+      listDivemaster = [];
+      listDivemaster = divemaster
+          .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+          .toList();
+    });
 
-    listDivemaster = [];
-    listDivemaster = divemaster
-        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
-        .toList();
     // print(listBoat);
     // print(boat);
-
   }
 
   void AddTrip() async {
@@ -104,6 +102,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.to = Timestamp.fromDateTime(to);
     trip.maxCapacity = int.parse(_controllerTotalpeople.text);
     trip.price = double.parse(_controllerPrice.text);
+    trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
 
     var tripRequest = AddTripRequest();
     tripRequest.trip = trip;
@@ -148,7 +147,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var boatrequest = ListBoatsRequest();
+  
     var divemasterrequest = ListDiveMastersRequest();
 
     try {
@@ -156,15 +155,11 @@ class _CreateTripFormState extends State<CreateTripForm> {
       // print(token);
       // print(response);
 
-      await for (var feature in stub.listBoats(boatrequest)) {
-        //   print(feature.boat.name);
-        boat.add(feature.boat.name);
-      }
-      // print(boat);
-      // print(boat.runtimeType);
+    
       await for (var feature in stub.listDiveMasters(divemasterrequest)) {
         //  print(feature.diveMaster.firstName);
         divemaster.add(feature.diveMaster.firstName);
+        divemasterMap[feature.diveMaster.firstName]=feature.diveMaster.id;
         //  print(divemaster);
 
       }
@@ -175,7 +170,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   @override
   Widget build(BuildContext context) {
-  //loadData();
+    //loadData();
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -253,32 +248,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
             ),
           ),
           SizedBox(height: 20),
-          Container(
-            color: Colors.white,
-            child: Center(
-              child: DropdownButton(
-                isExpanded: true,
-                value: boatSelected,
-                items: listBoat,
-                //     boat.map((String value) {
-                //   return DropdownMenuItem<String>(
-                //     value: value,
-                //     child: Text(value),
-                //   );
-                // }).toList(),
-
-                hint: Text('  Select boat'),
-                iconSize: 40,
-                onChanged: (value) {
-                  setState(() {
-                    boatSelected = value;
-                    print(value);
-                  });
-                },
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
+        
           buildPriceFormField(),
           SizedBox(height: 20),
           buildTotalPeopleFormField(),
