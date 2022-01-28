@@ -220,7 +220,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           SizedBox(height: 20),
           Row(
             children: [
-            Column(
+              Column(
                 children: [
                   Text('Verified'),
                   Text('Document'),
@@ -235,12 +235,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                           ? Image.network(
                               docFile.path,
                               fit: BoxFit.cover,
-                        width: screenwidth*0.2,
+                              width: screenwidth*0.2,
                             )
                           : Image.file(
                               io.File(docFile.path),
                               fit: BoxFit.cover,
-                          width: screenwidth*0.05,
+                              width: screenwidth*0.05,
                             )),
               Spacer(),
               FlatButton(
@@ -261,7 +261,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           //Center(child:imageFile == null ? Text('No image selected'):Image.file(imageFile,fit:BoxFit.cover,)),
           Row(
             children: [
-                Column(
+              Column(
                 children: [
                   Text('Company'),
                   Text('Image'),
@@ -274,12 +274,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                           ? Image.network(
                               imageFile.path,
                               fit: BoxFit.cover,
-                            width: screenwidth*0.2,
+                              width: screenwidth*0.2,
                             )
                           : Image.file(
                               io.File(imageFile.path),
                               fit: BoxFit.cover,
-                             width: screenwidth*0.05,
+                              width: screenwidth*0.05,
                             )),
               Spacer(),
               FlatButton(

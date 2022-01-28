@@ -116,7 +116,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   @override
   Widget build(BuildContext context) {
     loadData();
-     double screenwidth = MediaQuery.of(context).size.width;
+    double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -162,7 +162,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           Row(
             children: [
               Column(
-               children: [Text("Divemaster"),Text('Card'), Text('(Front)')],
+                children: [Text("Divemaster"),Text('Card'), Text('(Front)')],
               ),
               Center(
                   child: CardFile == null
@@ -176,12 +176,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                           ? Image.network(
                               CardFile.path,
                               fit: BoxFit.cover,
-                            width: screenwidth*0.2,
+                              width: screenwidth*0.2,
                             )
                           : Image.file(
                               File(CardFile.path),
                               fit: BoxFit.cover,
-                            width: screenwidth*0.05,
+                              width: screenwidth*0.05,
                             )),
               Spacer(),
               FlatButton(
@@ -205,7 +205,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           Row(
             children: [
               Column(
-              children: [Text("Divemaster"), Text('Card'),
+                children: [Text("Divemaster"), Text('Card'),
                   Text("(Back)")],
               ),
               Center(
@@ -220,12 +220,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                           ? Image.network(
                               CardFileBack.path,
                               fit: BoxFit.cover,
-                             width: screenwidth*0.2,
+                              width: screenwidth*0.2,
                             )
                           : Image.file(
                               File(CardFileBack.path),
                               fit: BoxFit.cover,
-                               width: screenwidth*0.05,
+                              width: screenwidth*0.05,
                             )),
               Spacer(),
               FlatButton(

@@ -187,9 +187,8 @@ class _RoomFormState extends State<RoomForm> {
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
-                   
                     child: Container(
-                       color:Color(0xfffa2c8ff),
+                        color:Color(0xfffa2c8ff),
                         constraints: const BoxConstraints(
                             minWidth: 70.0, minHeight: 36.0),
                         alignment: Alignment.center,

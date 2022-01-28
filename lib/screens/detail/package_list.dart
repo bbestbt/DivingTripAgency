@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ListViewTripDetail extends StatefulWidget {
   @override
@@ -16,9 +17,14 @@ class _ListViewTripDetailState extends State<ListViewTripDetail> {
     'assets/images/S__83271684.jpg',
     'assets/images/S__83271687.jpg'
   ];
-  //var revList =["Charlotte","Peter","Ollie"];
-  //var revstarlist = [5,4,5];
-  //var revcomment =["Nice!", "Awesome!"]
+  //first is which trip, second is name, third is comment, fourth is rating
+  var commentlist = [[1,"Charlotte","So memorable!",4.75],
+                    [1,"Anna","I love it! the water is nice. people are friendly. Food is also yummy!",5],
+                    [2,"Peter","Good place for hanging out",4],
+                    [3,"Bert","Hey not bad",3.75]
+
+  ];
+
   @override
   Widget build(BuildContext context) {
     //double width = MediaQuery.of(context).size.width * 0.9;
@@ -33,15 +39,39 @@ class _ListViewTripDetailState extends State<ListViewTripDetail> {
                 child: Column(
                     mainAxisSize:MainAxisSize.min,
                     children:<Widget>[
-                      Container(child:Image.asset(imgList[index])),
-                      Container(child:Text(nameList[index])),
-                      Container(child:
                       Container(
-                          padding: EdgeInsets.all(10),
-                          child:Text(
-                            descList[index],
-                            style: TextStyle(fontSize: 15),
-                            textAlign: TextAlign.justify,))),
+                        decoration: BoxDecoration(
+                          border: Border.all(color:Colors.blueAccent),
+                          color: Colors.teal[50],
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10)
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                            children:[
+                              Container(child:Image.asset(imgList[index])),
+                              Container(child:Text(nameList[index])),
+                              Container(child:
+                              Container(
+                                  padding: EdgeInsets.all(10),
+                                  child:Text(
+                                    descList[index],
+                                    style: TextStyle(fontSize: 15),
+                                    textAlign: TextAlign.justify,)))
+                            ]
+                        )
+                      ),
                       Container(child:
                           Container(
                             padding: EdgeInsets.all(10),
@@ -59,49 +89,217 @@ class _ListViewTripDetailState extends State<ListViewTripDetail> {
                                 Container(
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                        border: Border.all(color:Colors.blueAccent)
+                                        border: Border.all(color:Colors.blueAccent),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10),
+                                          bottomLeft: Radius.circular(10),
+                                          bottomRight: Radius.circular(10)
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 5,
+                                          blurRadius: 7,
+                                          offset: Offset(0, 3), // changes position of shadow
+                                        ),
+                                      ],
                                     ),
                                     padding: EdgeInsets.all(10),
-                                    child:Column(children:[
-                                      Text(
-                                          "Katie says:",
-                                          style: TextStyle(fontSize: 15),
-                                          textAlign: TextAlign.left),
-                                      Text(
-                                          "Awesome!",
-                                          style: TextStyle(fontSize: 10),
-                                          textAlign: TextAlign.left),
-                                          ] //children
-                                        ) //column
-                                      )//Review respondent Container
+                                    child:Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children:[
+                                          Expanded(
+                                            flex:2,
+                                            child:
+                                            Align(
+                                                alignment:Alignment.centerLeft,
+                                                child:
+                                            Column(
+                                              children:[
+                                                  /*  ListView.builder(
+                                                    itemCount: 2,
+                                                    itemBuilder: (context,index) {
+                                                      return
+                                                        Container(
+                                                            child: Text(
+                                                              "Katie says:",
+                                                              style: TextStyle(
+                                                                  fontSize: 20,
+                                                                  fontWeight: FontWeight
+                                                                      .bold,
+                                                                  color: Colors
+                                                                      .indigo),
+
+                                                            )
+                                                        );
+
+                                                      }
+                                                    ),*/
+
+
+                                                    Container(
+                                                      child: Text(
+                                                          "Katie says:",
+                                                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color:Colors.indigo),
+
+                                                          )
+                                                    ),
+                                                      Container(
+                                                          child:  Text(
+                                                              "Awesome!",
+                                                              style: TextStyle(fontSize: 20),
+                                                              ),
+                                                      )
+                                               ] //children
+                                              )
+                                            )
+                                            ),
+                                      Align(
+                                          alignment:Alignment.centerRight,
+                                          child:
+                                          RatingBarIndicator(
+                                              rating: 4.75,
+                                              itemBuilder: (context, index) => Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                              ),
+                                              itemCount: 5,
+                                              itemSize: 40.0,
+
+                                              )
+                                      ),
+                                          ]
+                                        ),
+                                      ),
+                                SizedBox(height:10),
+                                Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color:Colors.blueAccent),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10)
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(0, 3), // changes position of shadow
+                                        ),
+                                     ],
+                                    ),
+
+                                    padding: EdgeInsets.all(10),
+                                    child:Column(
+                                          children:[
+                                          Align(
+                                              alignment:Alignment.centerLeft,
+                                              child:Container(
+                                                  child: Text(
+                                                      "Albert says:",
+                                                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color:Colors.indigo),
+
+
+                                                      textAlign: TextAlign.left)
+                                              )
+                                          )
+                                          ,
+                                          Align(
+                                              alignment:Alignment.centerLeft,
+                                              child:Container(
+                                                child:  Text(
+                                                    "Can't wait to come back!",
+                                                    style: TextStyle(fontSize: 20),
+                                                    textAlign: TextAlign.left),
+                                              )
+                                          )
+                                    ] //children
+                                    ) //column
+                                ),
+
+
+                                //Review respondent Container
                                     ]//children
                               ) //column
                           ), //container
-                      Container(child:
-                      Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children:[
-                        TextFormField(
-                        decoration: const InputDecoration(
-                        icon: Icon(Icons.person),
-                          hintText: 'Enter review here.',
-                          labelText: 'Review',
-                        ),
+                      SizedBox(height:10),
+                      Container(
+                          decoration:BoxDecoration(
 
-                          // This optional block of code can be used to run
-                          // code when the user saves the form.
-                        ),
-                        TextButton(
-                          style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                          ),
-                          onPressed: () { },
-                          child: Text('Submit'),
-                        )
+                              gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end: Alignment.bottomLeft,
+                                colors: [
+                                  Colors.white,
+                                  Colors.cyan[100],
 
+                                ],
+                              ),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10)
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                            ),
+                          child:
+                              Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children:[
+                                      Row(
+                                        children:[
+                                          Expanded(
+                                            child:TextFormField(
 
-
-                      ]))
+                                              decoration: const InputDecoration(
+                                                icon: Icon(Icons.person),
+                                                hintText: 'Enter review here.',
+                                                labelText: 'Review',
+                                              ),
+                                              // This optional block of code can be used to run
+                                              // code when the user saves the form.
+                                            ),
+                                          ),
+                                          TextButton(
+                                            style: ButtonStyle(
+                                              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                                            ),
+                                            onPressed: () { },
+                                            child: Text('Submit'),
+                                          )
+                                        ]
+                                      ),
+                                SizedBox(height:10),
+                                          RatingBar.builder(
+                                          initialRating: 3,
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: true,
+                                          itemCount: 5,
+                                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                                          itemBuilder: (context, _) => Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          ),
+                                          onRatingUpdate: (rating) {
+                                          print(rating);
+                                          },
+                                          )
+                              ]))
 
                     ]));
 

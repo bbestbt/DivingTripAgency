@@ -94,12 +94,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
 
   for (int i = 0; i < pinkValue.length; i++) {
       var room=RoomType();
-      // for (int j = 0; j < blueValue[i].length; j++) {
-      //   var amenity = Amenity();
-      //   amenity.name = blueValue[i][j].name;
-      //   amenity.description = blueValue[i][j].description;
-      //   room.amenities.add(amenity);
-      // }
+      for (int j = 0; j < blueValue[i].length; j++) {
+        var amenity = Amenity();
+        amenity.name = blueValue[i][j].name;
+        amenity.description = blueValue[i][j].description;
+        room.amenities.add(amenity);
+      }
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
@@ -196,16 +196,6 @@ class _addLiveaboardState extends State<addLiveaboard> {
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
-                    // decoration: BoxDecoration(
-                    //     gradient: LinearGradient(
-                    //         begin: Alignment.topLeft,
-                    //         end: Alignment.bottomRight,
-                    //         colors: [
-                    //           // Color(0xfffaea4e3),
-                    //           // Color(0xfffd3ffe8),
-                    //           Color(0xfffcfecd0),
-                    //           Color(0xfffffc5ca),
-                    //         ])),
                     child: Container(
                         color:Color(0xfffa2c8ff),
                         constraints: const BoxConstraints(
@@ -235,12 +225,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
           FlatButton(
             onPressed: () => {
               sendLiveaboard(),
-                Navigator.pushAndRemoveUntil(
+              Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
                   builder: (BuildContext context) => MainCompanyScreen(),
                 ),
-                (route) => false,
+                    (route) => false,
               )
             },
             color: Color(0xfff75BDFF),

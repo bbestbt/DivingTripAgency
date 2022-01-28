@@ -4,7 +4,7 @@ import 'package:diving_trip_agency/screens/aboutus/aboutus_screen.dart';
 import 'package:diving_trip_agency/screens/Booking/divingshop_screen.dart';
 import 'package:diving_trip_agency/screens/diveresort/dive_resort_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_screen.dart';
-
+import 'package:diving_trip_agency/screens/weatherforecast/forecast_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:diving_trip_agency/constants.dart';
 import 'package:get/get.dart';
@@ -50,9 +50,15 @@ class WebMenu extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => AboutusScreen()));
+                            builder: (context) => WForecastScreen()));
                   }
                   if (_controller.selectedIndex == 5) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AboutusScreen()));
+                  }
+                  if (_controller.selectedIndex == 6) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(

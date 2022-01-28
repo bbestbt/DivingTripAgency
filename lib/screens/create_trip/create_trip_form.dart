@@ -229,7 +229,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
           SizedBox(height: 20),
           Row(
             children: [
-                Column(
+              Column(
                 children: [
                   Text('Last reservation'),
                   Text('date'),
@@ -240,11 +240,12 @@ class _CreateTripFormState extends State<CreateTripForm> {
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
-                   child: Container(
+                  child: Container(
                       constraints: const BoxConstraints(
                           minWidth: 70.0, minHeight: 36.0),
                       alignment: Alignment.center,
                       child: Center(child: Text('Pick a date'))),
+
                   onPressed: () {
                     showDatePicker(
                             context: context,
