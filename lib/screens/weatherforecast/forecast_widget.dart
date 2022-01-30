@@ -1,6 +1,7 @@
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:weather/weather.dart';
+import 'package:weather_icons/weather_icons.dart';
 
 enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 class WForecast extends StatefulWidget {
@@ -10,7 +11,7 @@ class WForecast extends StatefulWidget {
 
 class _WForecastState extends State<WForecast> {
   @override
-  String cityname = "Phuket";
+  String cityname = "";
   String key = "cc27393688bcc7bbe2999c2e9366c65d";
   String dropdownValue = 'Bangkok';
 
@@ -79,6 +80,8 @@ class _WForecastState extends State<WForecast> {
 
 
   Widget contentFinishedDownload() {
+    String Weathercode = "wi-day-snow";
+    //if _data[index].weatherDescription
     return Center(
       child: ListView.separated(
         itemCount: _data.length,
@@ -86,15 +89,27 @@ class _WForecastState extends State<WForecast> {
           return //ListTile(
             //title: //Text(_data[index].toString()),
             //Text("Hello Boy!!!"),
-          Column(
-            children: [
-              Icon(Icons.cloud, size:80),
-              Text(_data[index].areaName,  style:TextStyle(fontSize:80, fontWeight:FontWeight.w100)),
-              Text("1."+_data[index].weatherDescription,style:TextStyle(fontSize:60, fontWeight:FontWeight.w100)),
-              Text("2"+_data[index].date.toString(), style:TextStyle(fontSize:60, fontWeight:FontWeight.w100)),
-              Text(_data[index].temperature.toString(),  style:TextStyle(fontSize:60, fontWeight:FontWeight.w100))
-            ]
-          );
+            Container(
+              decoration: BoxDecoration(
+                //color: Colors.grey,
+                image : DecorationImage(image: AssetImage('assets/images/preview16.jpeg'),fit: BoxFit.cover
+                 ),
+                border:Border.all(color:Colors.indigo,width:1)
+
+              ),
+              child:
+                Column(
+                      children: [
+                        //Icon(WeatherIcons.fromString(Weathercode),size:80,color:Colors.blue),
+                        Image(image:NetworkImage('http://openweathermap.org/img/w/'+_data[index].weatherIcon+'.png')),
+                        Text(_data[index].areaName,  style:TextStyle(fontSize:80, fontWeight:FontWeight.w100)),
+                        Text(_data[index].weatherDescription,style:TextStyle(fontSize:60, fontWeight:FontWeight.w100)),
+                        Text(_data[index].date.toString(), style:TextStyle(fontSize:60, fontWeight:FontWeight.w100)),
+                        Text(_data[index].temperature.toString(),  style:TextStyle(fontSize:60, fontWeight:FontWeight.w100)),
+                        Text("Humidity: "+_data[index].humidity.toString())
+                ]
+              )
+            );
         },
         separatorBuilder: (context, index) {
           return Divider();
@@ -137,6 +152,32 @@ class _WForecastState extends State<WForecast> {
       ? contentDownloading()
       : contentNotDownloaded();
 
+  Widget _CityDropdown(){
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String newValue) {
+        setState(() {
+          dropdownValue = newValue;
+        },
+        );
+        _saveCity(dropdownValue);
+      },
+      items: <String>['Bangkok', 'Phuket', 'Ko Samui', 'Chiang Mai']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
 
   Widget _buttons() {
     return Row(
@@ -179,28 +220,7 @@ class _WForecastState extends State<WForecast> {
           Column(
             children: [//<Widget>[
               _CityInputs(),
-              DropdownButton<String>(
-                value: dropdownValue,
-                icon: const Icon(Icons.arrow_downward),
-                elevation: 16,
-                style: const TextStyle(color: Colors.deepPurple),
-                underline: Container(
-                  height: 2,
-                  color: Colors.deepPurpleAccent,
-                ),
-                onChanged: (String newValue) {
-                  setState(() {
-                    dropdownValue = newValue;
-                  });
-                },
-                items: <String>['Bangkok', 'Phuket', 'Samui', 'Chiang Mai']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+              _CityDropdown(),
               _buttons(),
             Text(
               'Output:',
