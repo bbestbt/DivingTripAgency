@@ -1,7 +1,8 @@
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:weather/weather.dart';
-import 'package:weather_icons/weather_icons.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 class WForecast extends StatefulWidget {
@@ -13,7 +14,7 @@ class _WForecastState extends State<WForecast> {
   @override
   String cityname = "";
   String key = "cc27393688bcc7bbe2999c2e9366c65d";
-  String dropdownValue = 'Bangkok';
+  String dropdownValue = 'Bangkok'; //Default value for the dropdown
 
   WeatherFactory ws;
   List<Weather> _data = [];
@@ -49,10 +50,12 @@ class _WForecastState extends State<WForecast> {
               child: TextField(
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), hintText: 'Enter City'),
-                  keyboardType: TextInputType.number,
+
+                  keyboardType: TextInputType.text,
                   onChanged: _saveCity,
                   onSubmitted: _saveCity)),
         ),
+        Icon(Icons.search_outlined)
       ],
     );
   }
@@ -92,8 +95,10 @@ class _WForecastState extends State<WForecast> {
             Container(
               decoration: BoxDecoration(
                 //color: Colors.grey,
-                image : DecorationImage(image: AssetImage('assets/images/preview16.jpeg'),fit: BoxFit.cover
-                 ),
+                image : DecorationImage(image: AssetImage('assets/images/'+_data[index].weatherIcon+'.jpg'),fit: BoxFit.cover
+                  //image : DecorationImage(image: AssetImage('assets/images/03d.jpg'),fit: BoxFit.cover
+
+                  ),
                 border:Border.all(color:Colors.indigo,width:1)
 
               ),
@@ -102,11 +107,63 @@ class _WForecastState extends State<WForecast> {
                       children: [
                         //Icon(WeatherIcons.fromString(Weathercode),size:80,color:Colors.blue),
                         Image(image:NetworkImage('http://openweathermap.org/img/w/'+_data[index].weatherIcon+'.png')),
-                        Text(_data[index].areaName,  style:TextStyle(fontSize:80, fontWeight:FontWeight.w100)),
-                        Text(_data[index].weatherDescription,style:TextStyle(fontSize:60, fontWeight:FontWeight.w100)),
-                        Text(_data[index].date.toString(), style:TextStyle(fontSize:60, fontWeight:FontWeight.w100)),
-                        Text(_data[index].temperature.toString(),  style:TextStyle(fontSize:60, fontWeight:FontWeight.w100)),
-                        Text("Humidity: "+_data[index].humidity.toString())
+                        //Text(_data[index].weatherIcon,  style:TextStyle(fontSize:80, fontWeight:FontWeight.w100)),
+                        Stack(
+                          children: [
+                              Text(_data[index].areaName,  style:TextStyle(fontSize:80, fontWeight:FontWeight.w100,foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 6
+                              ..color = Colors.black)),
+                            Text(_data[index].areaName,  style:TextStyle(fontSize:80, fontWeight:FontWeight.w100, color:Colors.white))
+                          ]
+                        ),
+                        Stack(
+                            children: [
+                              Text(_data[index].weatherDescription,  style:TextStyle(fontSize:60, fontWeight:FontWeight.w100,foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 6
+                                ..color = Colors.black)),
+                              Text(_data[index].weatherDescription,  style:TextStyle(fontSize:60, fontWeight:FontWeight.w100, color:Colors.white))
+                            ]
+                        ),
+                        Stack(
+                            children: [
+                              Text(DateFormat.yMMMMd().format(_data[index].date).toString(),  style:TextStyle(fontSize:60, fontWeight:FontWeight.w100,foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 6
+                                ..color = Colors.black)),
+                              Text(DateFormat.yMMMMd().format(_data[index].date).toString(),  style:TextStyle(fontSize:60, fontWeight:FontWeight.w100, color:Colors.white))
+                            ]
+                        ),
+                        Stack(
+                            children: [
+                              Text(DateFormat.jm().format(_data[index].date).toString(),  style:TextStyle(fontSize:60, fontWeight:FontWeight.w100,foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 6
+                                ..color = Colors.black)),
+                              Text(DateFormat.jm().format(_data[index].date).toString(),  style:TextStyle(fontSize:60, fontWeight:FontWeight.w100, color:Colors.white))
+                            ]
+                        ),
+                        Stack(
+                            children: [
+                              Text(_data[index].temperature.toString(),  style:TextStyle(fontSize:60, fontWeight:FontWeight.w100,foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 6
+                                ..color = Colors.black)),
+                              Text(_data[index].temperature.toString(),  style:TextStyle(fontSize:60, fontWeight:FontWeight.w100, color:Colors.white))
+                            ]
+                        ),
+                        Stack(
+                            children: [
+                              Text("Humidity: "+_data[index].humidity.toString(),  style:TextStyle(fontSize:30, fontWeight:FontWeight.w100,foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 6
+                                ..color = Colors.black)),
+                              Text("Humidity: "+_data[index].humidity.toString(),  style:TextStyle(fontSize:30, fontWeight:FontWeight.w100, color:Colors.white))
+                            ]
+                        ),
+
+
                 ]
               )
             );
