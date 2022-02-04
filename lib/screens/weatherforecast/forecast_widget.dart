@@ -2,7 +2,10 @@ import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:flutter/material.dart';
 import 'package:weather/weather.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/date_symbol_data_local.dart';
+import 'dart:convert';
+
 
 enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 class WForecast extends StatefulWidget {
@@ -16,9 +19,12 @@ class _WForecastState extends State<WForecast> {
   String key = "cc27393688bcc7bbe2999c2e9366c65d";
   String dropdownValue = 'Bangkok'; //Default value for the dropdown
 
+
   WeatherFactory ws;
   List<Weather> _data = [];
   AppState _state = AppState.NOT_DOWNLOADED;
+
+  double latc, lonc;
 
 
   @override
@@ -26,6 +32,7 @@ class _WForecastState extends State<WForecast> {
     super.initState();
     ws = new WeatherFactory(key);
   }
+
 
   void queryForecast() async {
     /// Removes keyboard
@@ -35,7 +42,9 @@ class _WForecastState extends State<WForecast> {
     });
 
     List<Weather> forecasts = await ws.fiveDayForecastByCityName(cityname);
+
     setState(() {
+
       _data = forecasts;
       _state = AppState.FINISHED_DOWNLOADING;
     });
@@ -66,15 +75,30 @@ class _WForecastState extends State<WForecast> {
 
   void queryWeather() async {
     /// Removes keyboard
-    FocusScope.of(context).requestFocus(FocusNode());
+    ///
 
+    FocusScope.of(context).requestFocus(FocusNode());
+    var url = "http://api.openweathermap.org/geo/1.0/direct?q="+cityname+
+        "&limit=1&appid="+key;
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200){
+      var jsonbody = json.decode(response.body);
+      print(jsonbody);
+     // var parsedData =
+      List loclist = jsonbody;
+      print(loclist[0]['lat']);
+      print(loclist[0]['lon']);
+     // print(json.decode(response.body));
+    }
     setState(() {
       _state = AppState.DOWNLOADING;
     });
 
     Weather weather = await ws.currentWeatherByCityName(cityname);
+
     setState(() {
       _data = [weather];
+
       _state = AppState.FINISHED_DOWNLOADING;
     });
   }
@@ -107,7 +131,7 @@ class _WForecastState extends State<WForecast> {
                       children: [
                         //Icon(WeatherIcons.fromString(Weathercode),size:80,color:Colors.blue),
                         Image(image:NetworkImage('http://openweathermap.org/img/w/'+_data[index].weatherIcon+'.png')),
-                        //Text(_data[index].weatherIcon,  style:TextStyle(fontSize:80, fontWeight:FontWeight.w100)),
+                        //Text(_loc[index].toString(),  style:TextStyle(fontSize:80, fontWeight:FontWeight.w100)),
                         Stack(
                           children: [
                               Text(_data[index].areaName,  style:TextStyle(fontSize:80, fontWeight:FontWeight.w100,foreground: Paint()
