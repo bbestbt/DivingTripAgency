@@ -27,10 +27,12 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
 
   io.File boatimg;
   XFile bboat;
+  String boat_capacity;
 
   final List<String> errors = [];
  // List<File> boatImg = new List<File>();
   final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerCapacity = TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -125,6 +127,8 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
           SizedBox(height: 20),
           buildBoatNameFormField(),
           SizedBox(height: 20),
+          buildBoatCapacityFormField(),
+          SizedBox(height: 20),
           //   FormError(errors: errors),
             Row(
             children: [
@@ -216,4 +220,33 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       ),
     );
   }
+
+  TextFormField buildBoatCapacityFormField() {
+    return TextFormField(
+      controller: _controllerCapacity,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => boat_capacity = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter boat capacty");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter boat capacty");
+          return "";
+        }
+        return null;
+      },
+
+      decoration: InputDecoration(
+        labelText: "Boat capacity",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
 }
