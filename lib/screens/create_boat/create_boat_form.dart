@@ -28,11 +28,17 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   io.File boatimg;
   XFile bboat;
   String boat_capacity;
+  String bathroom;
+  String roomtype;
+  String service;
 
   final List<String> errors = [];
- // List<File> boatImg = new List<File>();
+  // List<File> boatImg = new List<File>();
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerCapacity = TextEditingController();
+  final TextEditingController _controllerBathroom = TextEditingController();
+  final TextEditingController _controllerRoomtype = TextEditingController();
+  final TextEditingController _controllerService = TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -56,17 +62,18 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
-        final box = Hive.box('userInfo');
-        String token = box.get('token');
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel,   options: CallOptions(metadata:{'Authorization':  '$token'}));
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
     var boat = DivingBoat();
-    boat.boatModel=_controllerName.text;
+    boat.boatModel = _controllerName.text;
     //boat.boatImages.add();
 
     var boatRequest = AddDivingBoatRequest();
     boatRequest.divingBoat = boat;
-  //  boatRequest.agencyId= boatRequest.agencyId+4;
+    //  boatRequest.agencyId= boatRequest.agencyId+4;
 
     var f = File();
     f.filename = bboat.name;
@@ -76,35 +83,34 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     f.file = b;
     boat.boatImages.add(f);
 
-   // try {
+    // try {
     //  var response = stub.addDivingBoat(boatRequest);
     //  print('response: ${response}');
-   // } catch (e) {
+    // } catch (e) {
     //  print(e);
     //}
- // }
+    // }
 
-  try {
-  var response = await stub.addDivingBoat(boatRequest);
-  print(token);
-  print(response);
-
-  } on GrpcError catch (e) {
-  // Handle exception of type GrpcError
-  print('codeName: ${e.codeName}');
-  print('details: ${e.details}');
-  print('message: ${e.message}');
-  print('rawResponse: ${e.rawResponse}');
-  print('trailers: ${e.trailers}');
-  } catch (e) {
-  // Handle all other exceptions
-  print('Exception: $e');
+    try {
+      var response = await stub.addDivingBoat(boatRequest);
+      print(token);
+      print(response);
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+    } catch (e) {
+      // Handle all other exceptions
+      print('Exception: $e');
+    }
   }
-}
 
   /// Get from gallery
   _getPicBoat() async {
-      bboat = await ImagePicker().pickImage(
+    bboat = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
       maxHeight: 5000,
@@ -129,24 +135,31 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
           SizedBox(height: 20),
           buildBoatCapacityFormField(),
           SizedBox(height: 20),
+          buildRoomtypeFormField(),
+          SizedBox(height: 20),
+          buildBathroomFormField(),
+          SizedBox(height: 20),
+          buildServiceFormField(),
+          SizedBox(height: 20),
+
           //   FormError(errors: errors),
-            Row(
+          Row(
             children: [
               Text('Image'),
               Center(
                 child: boatimg == null
                     ? Text('')
                     : kIsWeb
-                    ? Image.network(
-                  boatimg.path,
-                  fit: BoxFit.cover,
-                  width: screenwidth*0.2,
-                )
-                    : Image.file(
-                  io.File(boatimg.path),
-                  fit: BoxFit.cover,
-                  width: screenwidth*0.05,
-                ),
+                        ? Image.network(
+                            boatimg.path,
+                            fit: BoxFit.cover,
+                            width: screenwidth * 0.2,
+                          )
+                        : Image.file(
+                            io.File(boatimg.path),
+                            fit: BoxFit.cover,
+                            width: screenwidth * 0.05,
+                          ),
               ),
               /* Spacer(),
               DiverImage == null
@@ -167,7 +180,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
               ),
             ],
           ),
-           SizedBox(height: 20),
+          SizedBox(height: 20),
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () => {
@@ -187,7 +200,6 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
             ),
           ),
           SizedBox(height: 20),
-        
         ]),
       ),
     );
@@ -211,7 +223,6 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
         }
         return null;
       },
-
       decoration: InputDecoration(
         labelText: "Boat model",
         filled: true,
@@ -239,7 +250,6 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
         }
         return null;
       },
-
       decoration: InputDecoration(
         labelText: "Boat capacity",
         filled: true,
@@ -249,4 +259,84 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     );
   }
 
+  TextFormField buildBathroomFormField() {
+    return TextFormField(
+      controller: _controllerBathroom,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => bathroom = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter number of bathroom");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter number of bathroom");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Number of bathroom",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildRoomtypeFormField() {
+    return TextFormField(
+      controller: _controllerRoomtype,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => roomtype = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter room type");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter room type");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Room type",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildServiceFormField() {
+    return TextFormField(
+      controller: _controllerService,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => service = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter service");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter service");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Service",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
 }
