@@ -33,7 +33,7 @@ dependencies:
   flutter_svg: ^0.21.0
   get: ^3.26.0
   grpc: ^3.0.2
-  intl: ^0.16.1
+  intl: ^0.17.0
   protobuf: ^2.0.0
   crypto: ^3.0.0
   hive: ^2.0.4
@@ -42,8 +42,9 @@ dependencies:
   postgres: ^2.1.1
   flutter_rating_bar: ^4.0.0
   weather: ^2.0.0
-  google_maps_flutter: ^2.1.0
   http: ^0.13.1
+  flutter_map: ^0.14.0
+  latlng: any
 
 dev_dependencies:
   hive_generator: ^1.1.0
