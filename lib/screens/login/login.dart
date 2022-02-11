@@ -10,10 +10,8 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'constant.dart';
 import 'package:hive/hive.dart';
 
-
 //import 'dart:typed_data';
 //import 'package:hive/hive.dart';
-
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -28,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final usrcontroller = TextEditingController();
   final psscontroller = TextEditingController();
 
-  void sendLogin()async {
+  void sendLogin() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -58,7 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
     //}
     //}
     try {
-
       //var response = await stub.login(loginRequest);
       //var response = Hive.stub.login(loginRequest);
       //print('Response received: ${response}');
@@ -72,7 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
       box.put('token', response.token);
       String token = box.get('token');
       print(token);
-
     } on GrpcError catch (e) {
       // Handle exception of type GrpcError
       print('codeName: ${e.codeName}');
@@ -83,25 +79,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
       var response = stub.login(loginRequest);
       print('response: ${response}');
-      response.then((p0) => {
-        print(p0.token)
-      });
-
+      response.then((p0) => {print(p0.token)});
     } catch (e) {
       // Handle all other exceptions
       print('Exception: $e');
     }
   }
 
-
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          'Email',
-          style: kLabelStyle,
-        ),
+        Text('Email', style: TextStyle(color: Colors.black)
+            // kLabelStyle,
+            ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -134,10 +125,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          'Password',
-          style: kLabelStyle,
-        ),
+        Text('Password', style: TextStyle(color: Colors.black)
+            //kLabelStyle,
+            ),
         SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
@@ -180,10 +170,9 @@ class _LoginScreenState extends State<LoginScreen> {
       child: FlatButton(
         onPressed: () => print('Forgot Password Button Pressed'),
         padding: EdgeInsets.only(right: 0.0),
-        child: Text(
-          'Forgot Password?',
-          style: kLabelStyle,
-        ),
+        child: Text('Forgot Password?', style: TextStyle(color: Colors.black)
+            //kLabelStyle,
+            ),
       ),
     );
   }
@@ -198,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Checkbox(
               value: _rememberMe,
               checkColor: Colors.green,
-              activeColor: Colors.white,
+              activeColor: Colors.black,
               onChanged: (value) {
                 setState(() {
                   _rememberMe = value;
@@ -206,10 +195,9 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
           ),
-          Text(
-            'Remember me',
-            style: kLabelStyle,
-          ),
+          Text('Remember me', style: TextStyle(color: Colors.black)
+              //kLabelStyle,
+              ),
         ],
       ),
     );
@@ -231,13 +219,13 @@ class _LoginScreenState extends State<LoginScreen> {
           checkAuthen(),
 
           //Navigator.push(context,
-                  //MaterialPageRoute(builder: (context) => MainCompanyScreen()))
-              // : showDialog(
-              //     context: context,
-              //     builder: (context) {
-              //       return AlertDialog(
-              //           content: Text("Incorrect Username or Password"));
-              //     })
+          //MaterialPageRoute(builder: (context) => MainCompanyScreen()))
+          // : showDialog(
+          //     context: context,
+          //     builder: (context) {
+          //       return AlertDialog(
+          //           content: Text("Incorrect Username or Password"));
+          //     })
         },
         padding: EdgeInsets.all(15.0),
         shape: RoundedRectangleBorder(
@@ -264,15 +252,17 @@ class _LoginScreenState extends State<LoginScreen> {
         Text(
           '- OR -',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontWeight: FontWeight.w400,
           ),
         ),
         SizedBox(height: 20.0),
-        Text(
-          'Sign up as',
-          style: kLabelStyle,
-        ),
+        Text('Sign up as',
+            style: TextStyle(
+              color: Colors.black,
+            )
+            //  kLabelStyle,
+            ),
       ],
     );
   }
@@ -418,9 +408,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/S__77250562.jpg"),
-                        fit: BoxFit.cover) //Background
+                    //color: Color(0xfffdcfffb)
+                    gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                      // Color(0xfff7AD7F0),
+                      Color(0xfff92DFF3),
+                      Color(0xfffB7E9F7),
+                      Color(0xfffDBF3FA),
+                      Color(0xfffF5FCFF),
+                    ])
+                    // decoration: BoxDecoration(
+                    //     image: DecorationImage(
+                    //         image: AssetImage("assets/images/S__77250562.jpg"),
+                    //         fit: BoxFit.cover) //Background
 
                     //color:Colors.white,
                     /*gradient: LinearGradient(
@@ -444,8 +446,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 //height: 600,
                 //width: 661,
 
-                decoration:
-                    BoxDecoration(color: Colors.greenAccent.withOpacity(0.5)),
+                decoration: BoxDecoration(color: Color(0xfff7AD7F0)
+                    // Colors.greenAccent.withOpacity(0.5)
+                    ),
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.only(left: 40, top: 10, right: 40
@@ -457,31 +460,33 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      SizedBox(height: 20),
                       Text(
                         'Sign In',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFF527DAA),
+                          // color: Colors.white,
                           //fontFamily: 'OpenSans',
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                                // bottomLeft
-                                offset: Offset(-1.5, -1.5),
-                                color: Colors.black),
-                            Shadow(
-                                // bottomRight
-                                offset: Offset(1.5, -1.5),
-                                color: Colors.black),
-                            Shadow(
-                                // topRight
-                                offset: Offset(1.5, 1.5),
-                                color: Colors.black),
-                            Shadow(
-                                // topLeft
-                                offset: Offset(-1.5, 1.5),
-                                color: Colors.black),
-                          ],
+                          // shadows: [
+                          //   Shadow(
+                          //       // bottomLeft
+                          //       offset: Offset(-1.5, -1.5),
+                          //       color: Colors.black),
+                          //   Shadow(
+                          //       // bottomRight
+                          //       offset: Offset(1.5, -1.5),
+                          //       color: Colors.black),
+                          //   Shadow(
+                          //       // topRight
+                          //       offset: Offset(1.5, 1.5),
+                          //       color: Colors.black),
+                          //   Shadow(
+                          //       // topLeft
+                          //       offset: Offset(-1.5, 1.5),
+                          //       color: Colors.black),
+                          //    ],
                         ),
                       ),
                       SizedBox(height: 30.0),
@@ -506,6 +511,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   showError() async {
     await Future.delayed(Duration(microseconds: 1));
     showDialog(
@@ -516,13 +522,14 @@ class _LoginScreenState extends State<LoginScreen> {
             content: Text("Incorrect password or username, please try again."),
             actions: <Widget>[
               FlatButton(
-                //child: Text("OK"),
-              ),
+                  //child: Text("OK"),
+                  ),
             ],
           );
         });
   }
-  Future<Null> checkAuthen() async{
+
+  Future<Null> checkAuthen() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -544,20 +551,17 @@ class _LoginScreenState extends State<LoginScreen> {
       box = Hive.box('userInfo');
       var response = await stub.login(loginRequest);
       box.put('token', response.token);
-      box.put('login',true);
+      box.put('login', true);
       String token = box.get('token');
       print("Valid Username!");
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MainCompanyScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MainCompanyScreen()));
     } on GrpcError catch (e) {
       showError();
-       box.put('login',false);
+      box.put('login', false);
     } catch (e) {
       // Handle all other exceptions
       print('Exception: $e');
     }
   }
 }
-
-
-
-
