@@ -33,6 +33,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
   String staff_room;
   String diver_room;
   String total_capacity;
+  String address1;
+  String address2;
+  String postalCode;
+  String country;
+  String region;
+  String city;
 
   io.File liveaboardimg;
 
@@ -55,6 +61,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
   final TextEditingController _controllerDiverroom = TextEditingController();
   final TextEditingController _controllerTotalcapacity =
       TextEditingController();
+  final TextEditingController _controllerAddress = TextEditingController();
+  final TextEditingController _controllerAddress2 = TextEditingController();
+  final TextEditingController _controllerPostalcode = TextEditingController();
+  final TextEditingController _controllerCountry = TextEditingController();
+  final TextEditingController _controllerRegion = TextEditingController();
+  final TextEditingController _controllerCity = TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -91,6 +103,15 @@ class _addLiveaboardState extends State<addLiveaboard> {
     liveaboard.totalCapacity = int.parse(_controllerTotalcapacity.text);
     liveaboard.staffRooms = int.parse(_controllerStaffroom.text);
     liveaboard.diverRooms = int.parse(_controllerDiverroom.text);
+
+    var address = Address();
+    address.addressLine1 = _controllerAddress.text;
+    address.addressLine2 = _controllerAddress2.text;
+    address.city = _controllerCity.text;
+    address.postcode = _controllerPostalcode.text;
+    address.region = _controllerRegion.text;
+    address.country = _controllerCountry.text;
+    liveaboard.address = address;
     
     var f = File();
     f.filename = lvb.name;
@@ -170,6 +191,36 @@ class _addLiveaboardState extends State<addLiveaboard> {
           buildLengthFormField(),
           SizedBox(height: 20),
           buildWidthFormField(),
+          SizedBox(height: 20),
+           buildAddressFormField(),
+          SizedBox(height: 20),
+          buildAddress2FormField(),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCountryFormField()),
+              Spacer(),
+              // Spacer(flex: 1,),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCityFormField()),
+            ],
+          ),
+
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildRegionFormField()),
+              Spacer(),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildPostalCodeFormField()),
+            ],
+          ),
           SizedBox(height: 20),
           buildTotalCapacityFormField(),
           SizedBox(height: 20),
@@ -452,6 +503,179 @@ class _addLiveaboardState extends State<addLiveaboard> {
       },
       decoration: InputDecoration(
         labelText: "Total capacity",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  
+  TextFormField buildAddressFormField() {
+    return TextFormField(
+      controller: _controllerAddress,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => address1 = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter address");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter address");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          //    hintText: "Address1",
+          labelText: "Address 1",
+          filled: true,
+          fillColor: Colors.white,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.home)),
+    );
+  }
+
+  TextFormField buildAddress2FormField() {
+    return TextFormField(
+      controller: _controllerAddress2,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => address2 = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter address");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter address");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          //   hintText: "Address2",
+          labelText: "Address 2",
+          filled: true,
+          fillColor: Colors.white,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.home)),
+    );
+  }
+
+  TextFormField buildCountryFormField() {
+    return TextFormField(
+      controller: _controllerCountry,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => country = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter country");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter country");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Country",
+        labelText: "Country",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildCityFormField() {
+    return TextFormField(
+      controller: _controllerCity,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => city = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter city");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter city");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "City",
+        labelText: "City",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildRegionFormField() {
+    return TextFormField(
+      controller: _controllerRegion,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => region = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter region");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter region");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //    hintText: "Region",
+        labelText: "Region",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildPostalCodeFormField() {
+    return TextFormField(
+      controller: _controllerPostalcode,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => postalCode = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter postal code");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter postal code");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Postal code",
+        labelText: "Postal code",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
