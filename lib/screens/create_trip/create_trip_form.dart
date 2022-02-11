@@ -213,8 +213,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
                   onPressed: () {
                     showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime.now(),
+                            initialDate: from,
+                            firstDate:from,
                             lastDate: DateTime(2023))
                         .then((date) => {
                               setState(() {
