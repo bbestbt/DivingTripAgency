@@ -183,11 +183,11 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Row(
         children: <Widget>[
           Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
+            data: ThemeData(unselectedWidgetColor: Colors.black),
             child: Checkbox(
               value: _rememberMe,
               checkColor: Colors.green,
-              activeColor: Colors.black,
+              activeColor: Colors.white,
               onChanged: (value) {
                 setState(() {
                   _rememberMe = value;
