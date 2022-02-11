@@ -33,8 +33,8 @@ class MainScreen extends StatelessWidget {
         child: Column(
           children: [
             Header(),
-            // TopSection(),
-            CenterSection(),
+            TopSection(),
+           // CenterSection(),
             SizedBox(height: 20,),
             Text('Recommended Trip'),
             CarouselWithDotsPage(imgList: imgList),
