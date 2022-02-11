@@ -30,6 +30,9 @@ class _addLiveaboardState extends State<addLiveaboard> {
   String liveaboard_description;
   String length;
   String width;
+  String staff_room;
+  String diver_room;
+  String total_capacity;
 
   io.File liveaboardimg;
 
@@ -48,6 +51,10 @@ class _addLiveaboardState extends State<addLiveaboard> {
       TextEditingController();
   final TextEditingController _controllerLength = TextEditingController();
   final TextEditingController _controllerWidth = TextEditingController();
+  final TextEditingController _controllerStaffroom = TextEditingController();
+  final TextEditingController _controllerDiverroom = TextEditingController();
+  final TextEditingController _controllerTotalcapacity =
+      TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -71,19 +78,20 @@ class _addLiveaboardState extends State<addLiveaboard> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
-          final box = Hive.box('userInfo');
-        String token = box.get('token');
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
 
-    final stub = AgencyServiceClient(
-      channel,  options: CallOptions(metadata:{'Authorization':  '$token'} )
-    );
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
     var liveaboard = Liveaboard();
     liveaboard.name = _controllerLiveaboardname.text;
     liveaboard.description = _controllerLiveaboarddescription.text;
     liveaboard.width = int.parse(_controllerWidth.text);
     liveaboard.length = int.parse(_controllerLength.text);
-
-
+    liveaboard.totalCapacity = int.parse(_controllerTotalcapacity.text);
+    liveaboard.staffRooms = int.parse(_controllerStaffroom.text);
+    liveaboard.diverRooms = int.parse(_controllerDiverroom.text);
+    
     var f = File();
     f.filename = lvb.name;
     //var t = await imageFile.readAsBytes();
@@ -92,14 +100,14 @@ class _addLiveaboardState extends State<addLiveaboard> {
     f.file = b;
     liveaboard.images.add(f);
 
-  for (int i = 0; i < pinkValue.length; i++) {
-      var room=RoomType();
-      for (int j = 0; j < blueValue[i].length; j++) {
-        var amenity = Amenity();
-        amenity.name = blueValue[i][j].name;
-        amenity.description = blueValue[i][j].description;
-        room.amenities.add(amenity);
-      }
+    for (int i = 0; i < pinkValue.length; i++) {
+      var room = RoomType();
+      // for (int j = 0; j < blueValue[i].length; j++) {
+      //   var amenity = Amenity();
+      //   amenity.name = blueValue[i][j].name;
+      //   amenity.description = blueValue[i][j].description;
+      //   room.amenities.add(amenity);
+      // }
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
@@ -107,7 +115,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
       room.quantity = pinkValue[i].quantity;
       //room.roomImages.add(f2);
       //pinkValue[i].roomImages.add(value);
-      for(int j = 0; j < pinkValue[i].roomImages.length; j++){
+      for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
         room.roomImages.add(pinkValue[i].roomImages[j]);
       }
       liveaboard.roomTypes.add(room);
@@ -116,11 +124,11 @@ class _addLiveaboardState extends State<addLiveaboard> {
     var liveaboardRequest = AddLiveaboardRequest();
     liveaboardRequest.liveaboard = liveaboard;
     try {
-       var response = await stub.addLiveaboard(liveaboardRequest);
+      var response = await stub.addLiveaboard(liveaboardRequest);
       print(token);
       print(response);
       print('response: ${response}');
-     } on GrpcError catch (e) {
+    } on GrpcError catch (e) {
       // Handle exception of type GrpcError
       print('codeName: ${e.codeName}');
       print('details: ${e.details}');
@@ -133,10 +141,9 @@ class _addLiveaboardState extends State<addLiveaboard> {
     }
   }
 
-
   // get hotel image
   _getliveaboard() async {
-     lvb = await ImagePicker().pickImage(
+    lvb = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
       maxHeight: 5000,
@@ -144,11 +151,9 @@ class _addLiveaboardState extends State<addLiveaboard> {
     if (lvb != null) {
       setState(() {
         liveaboardimg = io.File(lvb.path);
-        
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -166,6 +171,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
           SizedBox(height: 20),
           buildWidthFormField(),
           SizedBox(height: 20),
+          buildTotalCapacityFormField(),
+          SizedBox(height: 20),
+          buildDiverRoomFormField(),
+          SizedBox(height: 20),
+          buildStaffRoomFormField(),
+          SizedBox(height: 20),
 
           //Text('Hotel Image'),
           Row(
@@ -176,28 +187,28 @@ class _addLiveaboardState extends State<addLiveaboard> {
               Center(
                   child: liveaboardimg == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    liveaboardimg.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth*0.2,
-                  )
-                      : Image.file(
-                    io.File(liveaboardimg.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth*0.05,
-                  )),
+                          ? Image.network(
+                              liveaboardimg.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(liveaboardimg.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
                     child: Container(
-                        color:Color(0xfffa2c8ff),
+                        color: Color(0xfffa2c8ff),
                         constraints: const BoxConstraints(
                             minWidth: 88.0, minHeight: 36.0),
                         alignment: Alignment.center,
@@ -206,7 +217,6 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           style: TextStyle(fontSize: 15),
                         ))),
                 onPressed: () {
-
                   _getliveaboard();
                 },
               ),
@@ -230,7 +240,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 MaterialPageRoute(
                   builder: (BuildContext context) => MainCompanyScreen(),
                 ),
-                    (route) => false,
+                (route) => false,
               )
             },
             color: Color(0xfff75BDFF),
@@ -361,6 +371,87 @@ class _addLiveaboardState extends State<addLiveaboard> {
       },
       decoration: InputDecoration(
         labelText: "Width",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildStaffRoomFormField() {
+    return TextFormField(
+      controller: _controllerStaffroom,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => staff_room = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter number of staff room");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter number of staff room");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Number of staff room",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildDiverRoomFormField() {
+    return TextFormField(
+      controller: _controllerDiverroom,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => diver_room = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter number of diver room");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter number of diver room");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Number of diver room",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildTotalCapacityFormField() {
+    return TextFormField(
+      controller: _controllerTotalcapacity,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => total_capacity = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter total capacity");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter total capacity");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Total capacity",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,

@@ -389,7 +389,7 @@ class _TriptemplateState extends State<Triptemplate> {
                   if (triptypee == liveaboard) {
                     triptemplate.liveaboardId = liveaboardTypeMap[selectedsleep];
                   } else if (triptypee == hotel) {
-                    triptemplate.hotelId = hotelTypeMap[selectedsleep];
+                    triptemplate.hotelAndBoatId= hotelTypeMap[selectedsleep];
                   }
                 });
               },

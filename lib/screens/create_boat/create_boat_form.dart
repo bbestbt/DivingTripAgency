@@ -28,17 +28,31 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   io.File boatimg;
   XFile bboat;
   String boat_capacity;
-  String bathroom;
-  String roomtype;
-  String service;
+  String description;
+  String diver_capacity;
+  String staff_capacity;
+  String address1;
+  String address2;
+  String postalCode;
+  String country;
+  String region;
+  String city;
 
   final List<String> errors = [];
   // List<File> boatImg = new List<File>();
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerCapacity = TextEditingController();
-  final TextEditingController _controllerBathroom = TextEditingController();
-  final TextEditingController _controllerRoomtype = TextEditingController();
-  final TextEditingController _controllerService = TextEditingController();
+  final TextEditingController _controllerDescription = TextEditingController();
+  final TextEditingController _controllerDivercapacity =
+      TextEditingController();
+  final TextEditingController _controllerStaffcapacity =
+      TextEditingController();
+  final TextEditingController _controllerAddress = TextEditingController();
+  final TextEditingController _controllerAddress2 = TextEditingController();
+  final TextEditingController _controllerPostalcode = TextEditingController();
+  final TextEditingController _controllerCountry = TextEditingController();
+  final TextEditingController _controllerRegion = TextEditingController();
+  final TextEditingController _controllerCity = TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -68,7 +82,20 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var boat = DivingBoat();
-    boat.boatModel = _controllerName.text;
+    boat.name = _controllerName.text;
+    boat.description = _controllerDescription.text;
+    boat.totalCapacity = int.parse(_controllerCapacity.text);
+    boat.diverCapacity = int.parse(_controllerDivercapacity.text);
+    boat.staffCapacity = int.parse(_controllerStaffcapacity.text);
+
+    var address = Address();
+    address.addressLine1 = _controllerAddress.text;
+    address.addressLine2 = _controllerAddress2.text;
+    address.city = _controllerCity.text;
+    address.postcode = _controllerPostalcode.text;
+    address.region = _controllerRegion.text;
+    address.country = _controllerCountry.text;
+    boat.address = address;
     //boat.boatImages.add();
 
     var boatRequest = AddDivingBoatRequest();
@@ -133,13 +160,43 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
           SizedBox(height: 20),
           buildBoatNameFormField(),
           SizedBox(height: 20),
+          buildDescriptionFormField(),
+          SizedBox(height: 20),
           buildBoatCapacityFormField(),
           SizedBox(height: 20),
-          buildRoomtypeFormField(),
+          buildDiverCapacityFormField(),
           SizedBox(height: 20),
-          buildBathroomFormField(),
+          buildStaffCapacityFormField(),
           SizedBox(height: 20),
-          buildServiceFormField(),
+          buildAddressFormField(),
+          SizedBox(height: 20),
+          buildAddress2FormField(),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCountryFormField()),
+              Spacer(),
+              // Spacer(flex: 1,),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCityFormField()),
+            ],
+          ),
+
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildRegionFormField()),
+              Spacer(),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildPostalCodeFormField()),
+            ],
+          ),
           SizedBox(height: 20),
 
           //   FormError(errors: errors),
@@ -212,19 +269,19 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       onSaved: (newValue) => boatname = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter boat model");
+          removeError(error: "Please Enter boat name");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter boat model");
+          addError(error: "Please Enter boat name");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Boat model",
+        labelText: "Boat name",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -259,26 +316,26 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     );
   }
 
-  TextFormField buildBathroomFormField() {
+  TextFormField buildDescriptionFormField() {
     return TextFormField(
-      controller: _controllerBathroom,
+      controller: _controllerDescription,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => bathroom = newValue,
+      onSaved: (newValue) => description = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter number of bathroom");
+          removeError(error: "Please Enter description");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter number of bathroom");
+          addError(error: "Please Enter description");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Number of bathroom",
+        labelText: "Description",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -286,26 +343,26 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     );
   }
 
-  TextFormField buildRoomtypeFormField() {
+  TextFormField buildDiverCapacityFormField() {
     return TextFormField(
-      controller: _controllerRoomtype,
+      controller: _controllerDivercapacity,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => roomtype = newValue,
+      onSaved: (newValue) => diver_capacity = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter room type");
+          removeError(error: "Please Enter diver capacity");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter room type");
+          addError(error: "Please Enter diver capacity");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Room type",
+        labelText: "Diver capacity",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -313,26 +370,198 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     );
   }
 
-  TextFormField buildServiceFormField() {
+  TextFormField buildStaffCapacityFormField() {
     return TextFormField(
-      controller: _controllerService,
+      controller: _controllerStaffcapacity,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => service = newValue,
+      onSaved: (newValue) => staff_capacity = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter service");
+          removeError(error: "Please Enter staff capacity");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter service");
+          addError(error: "Please Enter staff capacity");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Service",
+        labelText: "Staff capacity",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildAddressFormField() {
+    return TextFormField(
+      controller: _controllerAddress,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => address1 = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter address");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter address");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          //    hintText: "Address1",
+          labelText: "Address 1",
+          filled: true,
+          fillColor: Colors.white,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.home)),
+    );
+  }
+
+  TextFormField buildAddress2FormField() {
+    return TextFormField(
+      controller: _controllerAddress2,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => address2 = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter address");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter address");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          //   hintText: "Address2",
+          labelText: "Address 2",
+          filled: true,
+          fillColor: Colors.white,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.home)),
+    );
+  }
+
+  TextFormField buildCountryFormField() {
+    return TextFormField(
+      controller: _controllerCountry,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => country = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter country");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter country");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Country",
+        labelText: "Country",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildCityFormField() {
+    return TextFormField(
+      controller: _controllerCity,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => city = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter city");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter city");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "City",
+        labelText: "City",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildRegionFormField() {
+    return TextFormField(
+      controller: _controllerRegion,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => region = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter region");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter region");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //    hintText: "Region",
+        labelText: "Region",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildPostalCodeFormField() {
+    return TextFormField(
+      controller: _controllerPostalcode,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => postalCode = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter postal code");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter postal code");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Postal code",
+        labelText: "Postal code",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
