@@ -8,10 +8,15 @@ class DivingShop extends StatefulWidget {
 }
 
 class _DivingShopState extends State<DivingShop> {
-  var imgList = [
+  /*var imgList = [
     'assets/images/S__77242370.jpg',
     'assets/images/S__83271684.jpg',
     'assets/images/S__83271687.jpg'
+  ];*/
+  var destList = [
+    ['assets/images/S__77242370.jpg',"Phuket","Full Board",5],
+    ['assets/images/S__83271684.jpg',"Ko Samui","Full Board", 5],
+    ['assets/images/S__83271687.jpg',"Krabi","Full Board",5] //image, name, type and rating
   ];
 
   @override
@@ -22,22 +27,23 @@ class _DivingShopState extends State<DivingShop> {
           physics: const NeverScrollableScrollPhysics(),
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
-          itemCount: imgList.length,
+         // itemCount: imgList.length,
+         itemCount: destList.length,
           itemBuilder: (context, index) {
             return Center(
               child: Card(
                   child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[Flexible(flex:1,child:
-                        Container(child: Image.asset(imgList[index]))),
-
+                        //Container(child: Image.asset(imgList[index]))),
+                      Container(child: Image.asset(destList[index][0]))),
                         Flexible(flex:2,child:
                               Column(mainAxisSize: MainAxisSize.min,children:[
                                 Container(child: Text("TestBooking")),
                                 Container(child: Column(children:[
-                                  Text("Location: Phuket"),
-                                  Text("Full Board"),
-                                  Text("5 Star Hotel")
+                                  Text("Location: "+destList[index][1]),
+                                  Text(destList[index][2]),
+                                  Text(destList[index][3].toString()+" Star Hotel")
                                 ]))
                               ]
                                 )

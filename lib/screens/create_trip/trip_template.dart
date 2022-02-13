@@ -16,8 +16,12 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
+  HotelAndBoatId hotelandboatID= new HotelAndBoatId();
   Triptemplate(TripTemplate triptemplate) {
     this.triptemplate = triptemplate;
+    print(hotelandboatID);
+    this.triptemplate.hotelAndBoatId=hotelandboatID;
+
   }
   @override
   _TriptemplateState createState() => _TriptemplateState(this.triptemplate);
@@ -90,10 +94,11 @@ class _TriptemplateState extends State<Triptemplate> {
   String triptype = '';
   String boatname;
   TripTemplate triptemplate;
+  HotelAndBoatId hotelandboatID=new HotelAndBoatId();
   _TriptemplateState(TripTemplate triptemplate) {
     this.triptemplate = triptemplate;
+    this.triptemplate.hotelAndBoatId=hotelandboatID;
   }
-
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
   final TextEditingController _controllerBoatname = TextEditingController();
@@ -193,7 +198,7 @@ class _TriptemplateState extends State<Triptemplate> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var hotelrequest = ListHotelsRequest();
     var liveaboardrequest = ListLiveaboardsRequest();
-      var boatrequest = ListBoatsRequest();
+    var boatrequest = ListBoatsRequest();
 
     try {
       // var response = await stub.listBoats(boatrequest);
@@ -261,7 +266,9 @@ class _TriptemplateState extends State<Triptemplate> {
                   setState(() {
                     boatSelected = value;
                     print(value);
-                    triptemplate.divingBoatId=boatMap[boatSelected];
+                     hotelandboatID.boatId=boatMap[boatSelected];
+                      // triptemplate.hotelAndBoatId=hotelandboatID;
+                 //   triptemplate.divingBoatId=boatMap[boatSelected];
                   });
                 },
               ),
@@ -389,7 +396,9 @@ class _TriptemplateState extends State<Triptemplate> {
                   if (triptypee == liveaboard) {
                     triptemplate.liveaboardId = liveaboardTypeMap[selectedsleep];
                   } else if (triptypee == hotel) {
-                    triptemplate.hotelAndBoatId= hotelTypeMap[selectedsleep];
+                    hotelandboatID.hotelId=hotelTypeMap[selectedsleep];
+                     //  triptemplate.hotelAndBoatId=hotelandboatID;
+                 //   triptemplate.hotelAndBoatId.hotelId= hotelTypeMap[selectedsleep];
                   }
                 });
               },
