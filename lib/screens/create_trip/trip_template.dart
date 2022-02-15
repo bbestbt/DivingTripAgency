@@ -21,8 +21,7 @@ class Triptemplate extends StatefulWidget {
   Triptemplate(TripTemplate triptemplate) {
     this.triptemplate = triptemplate;
     this.triptemplate.hotelAndBoatId = hotelandboatID;
-    this.triptemplate.address=addressform;
-
+    this.triptemplate.address = addressform;
   }
   @override
   _TriptemplateState createState() => _TriptemplateState(this.triptemplate);
@@ -107,7 +106,7 @@ class _TriptemplateState extends State<Triptemplate> {
   _TriptemplateState(TripTemplate triptemplate) {
     this.triptemplate = triptemplate;
     this.triptemplate.hotelAndBoatId = hotelandboatID;
-    this.addressform=addressform;
+    this.addressform = addressform;
   }
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
@@ -310,7 +309,7 @@ class _TriptemplateState extends State<Triptemplate> {
                     setState(() {
                       boatSelected = value;
                       print(value);
-                    //  hotelandboatID.boatId = boatMap[boatSelected];
+                      //  hotelandboatID.boatId = boatMap[boatSelected];
 
                       triptemplate.hotelAndBoatId.boatId =
                           boatMap[boatSelected];
@@ -572,7 +571,7 @@ class _TriptemplateState extends State<Triptemplate> {
       onSaved: (newValue) => description = newValue,
       onChanged: (value) {
         triptemplate.description = value;
-        print(value);
+        // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter Description");
         }
@@ -659,9 +658,9 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => address1 = newValue,
       onChanged: (value) {
-      //  addressform.addressLine1 = value;
-     //   print(addressform.addressLine1);
-          triptemplate.address.addressLine1=value;
+        //  addressform.addressLine1 = value;
+        //   print(addressform.addressLine1);
+        triptemplate.address.addressLine1 = value;
         if (value.isNotEmpty) {
           removeError(error: "Please enter address");
         }
@@ -678,7 +677,7 @@ class _TriptemplateState extends State<Triptemplate> {
           //    hintText: "Address1",
           labelText: "Address 1",
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Color(0xfffd4f0f0),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.home)),
     );
@@ -691,8 +690,8 @@ class _TriptemplateState extends State<Triptemplate> {
       onSaved: (newValue) => address2 = newValue,
       onChanged: (value) {
         // addressform.addressLine2 = value;
-        triptemplate.address.addressLine2=value;
-        print('ad2');
+        triptemplate.address.addressLine2 = value;
+
         if (value.isNotEmpty) {
           removeError(error: "Please enter address");
         }
@@ -709,7 +708,7 @@ class _TriptemplateState extends State<Triptemplate> {
           //   hintText: "Address2",
           labelText: "Address 2",
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Color(0xfffd4f0f0),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.home)),
     );
@@ -721,8 +720,8 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => country = newValue,
       onChanged: (value) {
-               triptemplate.address.country=value;
-       // addressform.country = value;
+        triptemplate.address.country = value;
+        // addressform.country = value;
         if (value.isNotEmpty) {
           removeError(error: "Please enter country");
         }
@@ -739,7 +738,7 @@ class _TriptemplateState extends State<Triptemplate> {
         //   hintText: "Country",
         labelText: "Country",
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Color(0xfffd4f0f0),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -752,7 +751,7 @@ class _TriptemplateState extends State<Triptemplate> {
       onSaved: (newValue) => city = newValue,
       onChanged: (value) {
         // addressform.city = value;
-                triptemplate.address.city=value;
+        triptemplate.address.city = value;
         if (value.isNotEmpty) {
           removeError(error: "Please enter city");
         }
@@ -769,7 +768,7 @@ class _TriptemplateState extends State<Triptemplate> {
         //   hintText: "City",
         labelText: "City",
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Color(0xfffd4f0f0),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -781,8 +780,8 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => region = newValue,
       onChanged: (value) {
-                triptemplate.address.region=value;
-    //  addressform.region = value;
+        triptemplate.address.region = value;
+        //  addressform.region = value;
         if (value.isNotEmpty) {
           removeError(error: "Please enter region");
         }
@@ -799,7 +798,7 @@ class _TriptemplateState extends State<Triptemplate> {
         //    hintText: "Region",
         labelText: "Region",
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Color(0xfffd4f0f0),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -815,8 +814,8 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => postalCode = newValue,
       onChanged: (value) {
-                triptemplate.address.postcode=value;
-     //  addressform.postcode = value;
+        triptemplate.address.postcode = value;
+        //  addressform.postcode = value;
         if (value.isNotEmpty) {
           removeError(error: "Please enter postal code");
         }
@@ -833,7 +832,7 @@ class _TriptemplateState extends State<Triptemplate> {
         //   hintText: "Postal code",
         labelText: "Postal code",
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Color(0xfffd4f0f0),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
