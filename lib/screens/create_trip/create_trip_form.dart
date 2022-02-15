@@ -65,7 +65,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
-   // loadData();
+   loadData();
   }
 
   void loadData() async {
@@ -104,7 +104,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxCapacity = int.parse(_controllerTotalpeople.text);
     trip.price = double.parse(_controllerPrice.text);
-    //trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
+    trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
 
     var tripRequest = AddTripRequest();
     tripRequest.trip = trip;
@@ -150,23 +150,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-   // var divemasterrequest = ListDiveMastersRequest();
+   var divemasterrequest = ListDiveMastersRequest();
 
-    // try {
-    //   // var response = await stub.listBoats(boatrequest);
-    //   // print(token);
-    //   // print(response);
+    try {
+      // var response = await stub.listBoats(boatrequest);
+      // print(token);
+      // print(response);
 
-    //   await for (var feature in stub.listDiveMasters(divemasterrequest)) {
-    //     //  print(feature.diveMaster.firstName);
-    //     divemaster.add(feature.diveMaster.firstName);
-    //     divemasterMap[feature.diveMaster.firstName] = feature.diveMaster.id;
-    //     //  print(divemaster);
+      await for (var feature in stub.listDiveMasters(divemasterrequest)) {
+        //  print(feature.diveMaster.firstName);
+        divemaster.add(feature.diveMaster.firstName);
+        divemasterMap[feature.diveMaster.firstName] = feature.diveMaster.id;
+        //  print(divemaster);
 
-    //   }
-    // } catch (e) {
-    //   print('ERROR: $e');
-    // }
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
   }
 
   @override
@@ -266,24 +266,24 @@ class _CreateTripFormState extends State<CreateTripForm> {
           ),
           SizedBox(height: 20),
           // buildDiveMasterNameFormField(),
-          // Container(
-          //   color: Colors.white,
-          //   child: Center(
-          //     child: DropdownButton(
-          //       isExpanded: true,
-          //       value: divemasterSelected,
-          //       items: listDivemaster,
-          //       hint: Text('  Select dive master'),
-          //       iconSize: 40,
-          //       onChanged: (value) {
-          //         setState(() {
-          //           divemasterSelected = value;
-          //           print(value);
-          //         });
-          //       },
-          //     ),
-          //   ),
-          // ),
+          Container(
+            color: Colors.white,
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: divemasterSelected,
+                items: listDivemaster,
+                hint: Text('  Select dive master'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    divemasterSelected = value;
+                    print(value);
+                  });
+                },
+              ),
+            ),
+          ),
           SizedBox(height: 20),
 
           buildPriceFormField(),
