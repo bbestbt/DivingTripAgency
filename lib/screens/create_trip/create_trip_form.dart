@@ -1,4 +1,5 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_trip/trip_template.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
@@ -31,6 +32,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   Map<String, dynamic> divemasterMap = {};
   TripTemplate triptemplate = new TripTemplate();
+  Address addressform = new Address();
 
   //final TextEditingController _controllerPlace = TextEditingController();
   final TextEditingController _controllerFrom = TextEditingController();
@@ -63,7 +65,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadData();
+   // loadData();
   }
 
   void loadData() async {
@@ -102,7 +104,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxCapacity = int.parse(_controllerTotalpeople.text);
     trip.price = double.parse(_controllerPrice.text);
-    trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
+    //trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
 
     var tripRequest = AddTripRequest();
     tripRequest.trip = trip;
@@ -119,8 +121,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
     print(tripRequest);
     try {
       var response = await stub.addTrip(tripRequest);
-      print(token);
-      print(response);
+      // print(token);
+      // print(response);
     } on GrpcError catch (e) {
       // Handle exception of type GrpcError
       print('codeName: ${e.codeName}');
@@ -148,23 +150,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    var divemasterrequest = ListDiveMastersRequest();
+   // var divemasterrequest = ListDiveMastersRequest();
 
-    try {
-      // var response = await stub.listBoats(boatrequest);
-      // print(token);
-      // print(response);
+    // try {
+    //   // var response = await stub.listBoats(boatrequest);
+    //   // print(token);
+    //   // print(response);
 
-      await for (var feature in stub.listDiveMasters(divemasterrequest)) {
-        //  print(feature.diveMaster.firstName);
-        divemaster.add(feature.diveMaster.firstName);
-        divemasterMap[feature.diveMaster.firstName] = feature.diveMaster.id;
-        //  print(divemaster);
+    //   await for (var feature in stub.listDiveMasters(divemasterrequest)) {
+    //     //  print(feature.diveMaster.firstName);
+    //     divemaster.add(feature.diveMaster.firstName);
+    //     divemasterMap[feature.diveMaster.firstName] = feature.diveMaster.id;
+    //     //  print(divemaster);
 
-      }
-    } catch (e) {
-      print('ERROR: $e');
-    }
+    //   }
+    // } catch (e) {
+    //   print('ERROR: $e');
+    // }
   }
 
   @override
@@ -264,24 +266,24 @@ class _CreateTripFormState extends State<CreateTripForm> {
           ),
           SizedBox(height: 20),
           // buildDiveMasterNameFormField(),
-          Container(
-            color: Colors.white,
-            child: Center(
-              child: DropdownButton(
-                isExpanded: true,
-                value: divemasterSelected,
-                items: listDivemaster,
-                hint: Text('  Select dive master'),
-                iconSize: 40,
-                onChanged: (value) {
-                  setState(() {
-                    divemasterSelected = value;
-                    print(value);
-                  });
-                },
-              ),
-            ),
-          ),
+          // Container(
+          //   color: Colors.white,
+          //   child: Center(
+          //     child: DropdownButton(
+          //       isExpanded: true,
+          //       value: divemasterSelected,
+          //       items: listDivemaster,
+          //       hint: Text('  Select dive master'),
+          //       iconSize: 40,
+          //       onChanged: (value) {
+          //         setState(() {
+          //           divemasterSelected = value;
+          //           print(value);
+          //         });
+          //       },
+          //     ),
+          //   ),
+          // ),
           SizedBox(height: 20),
 
           buildPriceFormField(),
