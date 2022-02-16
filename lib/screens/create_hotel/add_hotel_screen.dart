@@ -1,5 +1,4 @@
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
-import 'package:diving_trip_agency/screens/create_liveaboard/add_liveaboard_form.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_form.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
@@ -7,7 +6,8 @@ import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
-class CreateLiveaboardScreen extends StatelessWidget {
+
+class HotelScreen extends StatelessWidget {
   final MenuCompany _controller = Get.put(MenuCompany());
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class CreateLiveaboardScreen extends StatelessWidget {
               HeaderCompany(),
               SizedBox(height: 50),
                 SectionTitle(
-                  title: "Create Liveaboard",
+                  title: "Create Hotel",
                   color: Color(0xFFFF78a2cc),
                 ),
                  SizedBox(
@@ -35,7 +35,7 @@ class CreateLiveaboardScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10)),
-                  child: addLiveaboard()),
+                  child: addHotel()),
               SizedBox(
                 height: 30,
               )

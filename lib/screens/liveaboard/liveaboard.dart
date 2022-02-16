@@ -1,50 +1,155 @@
+import 'dart:html';
+
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 
-class liveaboard extends StatelessWidget {
+class liveaboard extends StatefulWidget {
+  @override
+  _liveabroad createState() => _liveabroad();
+}
+
+class _liveabroad extends State<liveaboard> {
+//class liveaboard extends StatelessWidget {
+  DateTime _dateTime;
   @override
   Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.transparency,
-      child: SingleChildScrollView(
-        child: Container(
-          //   margin: EdgeInsetsDirectional.only(top:120),
-          width: double.infinity,
-          // height: 600,
-          decoration: BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
-          child: Column(
-            children: [
-              SectionTitle(
-                title: "Liveaboard",
-                color: Color(0xFFFF78a2cc),
-              ),
-              SizedBox(height: 40),
-              SizedBox(
-                  width: 1110,
-                  child: Wrap(
-                      spacing: 20,
-                      runSpacing: 40,
-                      children: List.generate(
-                        LiveAboardDatas.length,
-                        (index) => Center(
-                          child: InfoCard(
-                            index: index,
+    return
+      Row(
+            children:[
+                    Expanded(
+                    flex:3,
+                    child:
+                    Column(
+
+                      children:[
+
+                           Container(
+                             margin: EdgeInsets.all(10.0),
+                             padding:EdgeInsets.all(10.0),
+                              height:1800,
+                             width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.red[50],
+
+
+                              ),
+                              child:
+                                  Column(
+                                    children:[
+
+                                      Text("SEARCH"),
+                                      TextField(
+                                          decoration: InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              fillColor:Colors.white,
+                                              hintText: 'Date'
+                                          )
+                                      ),
+
+                                      TextField(
+                                          decoration: InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              fillColor:Colors.white,
+                                              hintText: 'Location'
+                                          )
+                                      ),
+                             ButtonTheme(
+                               minWidth:60,
+                               height:36,
+                               child:RaisedButton(
+                                   color: Color(0xfff8dd9cc),
+                                   child: Text('Pick a date'),
+                                   onPressed: () {
+                                     showDatePicker(
+                                         context: context,
+                                         initialDate: DateTime.now(),
+                                         firstDate: DateTime(1900),
+                                         lastDate: DateTime.now())
+                                         .then((date) => {
+                                       setState(() {
+                                         var timeStamp =
+                                         print(Timestamp.fromDateTime(date));
+                                         _dateTime = date;
+                                         print(_dateTime);
+
+                                       })
+                                     });
+                                   }),
+                             ),
+                                      ElevatedButton(
+                                        onPressed:(){
+
+                                        },
+                                        child:Text("SEARCH")
+                                      )
+       ]
+                                  ),
+
+
+
+                          ),
+
+
+
+                      ]
+                    )
+
+                    ),
+            Expanded(
+              flex:7,
+              child:
+
+
+
+
+
+                      Material(
+                        type: MaterialType.transparency,
+                        child: SingleChildScrollView(
+                          child: Container(
+                            //   margin: EdgeInsetsDirectional.only(top:120),
+                            width: double.infinity,
+                            // height: 600,
+                            decoration: BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
+                            child: Column(
+                              children: [
+                                SectionTitle(
+                                  title: "Liveaboard",
+                                  color: Color(0xFFFF78a2cc),
+                                ),
+                                SizedBox(height: 40),
+                                SizedBox(
+                                    width: 1110,
+                                    child: Wrap(
+                                        spacing: 20,
+                                        runSpacing: 40,
+                                        children: List.generate(
+                                          LiveAboardDatas.length,
+                                          (index) => Center(
+                                            child: InfoCard(
+                                              index: index,
+                                            ),
+                                          ),
+                                        ))),
+                                SizedBox(
+                                  height: 100,
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ))),
-              SizedBox(
-                height: 100,
-              )
-            ],
-          ),
-        ),
-      ),
+                          )
+                    )
+        ]
+
     );
   }
 }
+
 
 class InfoCard extends StatefulWidget {
   const InfoCard({

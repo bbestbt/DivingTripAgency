@@ -1,39 +1,30 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
-
-
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_hotel/addRoom.dart';
-
-
-import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
-
 import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker/image_picker.dart';
 
-//img
-class addLiveaboard extends StatefulWidget {
+class addHotel extends StatefulWidget {
   @override
-  _addLiveaboardState createState() => _addLiveaboardState();
+  _addHotelState createState() => _addHotelState();
 }
 
-class _addLiveaboardState extends State<addLiveaboard> {
-  String liveaboard_name;
-  String liveaboard_description;
-  String length;
-  String width;
-  String staff_room;
-  String diver_room;
-  String total_capacity;
+class _addHotelState extends State<addHotel> {
+  String hotel_name;
+  String highlight;
+  String hotel_description;
+  String phone;
+  io.File hotelimg;
   String address1;
   String address2;
   String postalCode;
@@ -41,33 +32,36 @@ class _addLiveaboardState extends State<addLiveaboard> {
   String region;
   String city;
 
-  io.File liveaboardimg;
-
-  XFile lvb;
+  XFile hhotel;
   XFile rroom;
 
   List<RoomType> pinkValue = [new RoomType()];
   List<List<Amenity>> blueValue = [
     [new Amenity()]
   ];
+  List<DropdownMenuItem<String>> listStar = [];
+  List<String> star = ['1', '2', '3', '4', '5'];
+  String starSelected;
 
   final List<String> errors = [];
-  final TextEditingController _controllerLiveaboardname =
+  final TextEditingController _controllerHotelname = TextEditingController();
+  final TextEditingController _controllerHoteldescription =
       TextEditingController();
-  final TextEditingController _controllerLiveaboarddescription =
-      TextEditingController();
-  final TextEditingController _controllerLength = TextEditingController();
-  final TextEditingController _controllerWidth = TextEditingController();
-  final TextEditingController _controllerStaffroom = TextEditingController();
-  final TextEditingController _controllerDiverroom = TextEditingController();
-  final TextEditingController _controllerTotalcapacity =
-      TextEditingController();
+
+  final TextEditingController _controllerPhone = TextEditingController();
   final TextEditingController _controllerAddress = TextEditingController();
   final TextEditingController _controllerAddress2 = TextEditingController();
   final TextEditingController _controllerPostalcode = TextEditingController();
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
+
+  void loadData() {
+    listStar = [];
+    listStar = star
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -83,7 +77,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
       });
   }
 
-  void sendLiveaboard() async {
+  void sendHotel() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -96,14 +90,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var liveaboard = Liveaboard();
-    liveaboard.name = _controllerLiveaboardname.text;
-    liveaboard.description = _controllerLiveaboarddescription.text;
-    liveaboard.width = int.parse(_controllerWidth.text);
-    liveaboard.length = int.parse(_controllerLength.text);
-    liveaboard.totalCapacity = int.parse(_controllerTotalcapacity.text);
-    liveaboard.staffRooms = int.parse(_controllerStaffroom.text);
-    liveaboard.diverRooms = int.parse(_controllerDiverroom.text);
+    var hotel = Hotel();
+    hotel.hotelName = _controllerHotelname.text;
+    hotel.hotelDescription = _controllerHoteldescription.text;
+    hotel.phone = _controllerPhone.text;
+    hotel.star = int.parse(starSelected);
+
 
     var address = Address();
     address.addressLine1 = _controllerAddress.text;
@@ -112,16 +104,25 @@ class _addLiveaboardState extends State<addLiveaboard> {
     address.postcode = _controllerPostalcode.text;
     address.region = _controllerRegion.text;
     address.country = _controllerCountry.text;
-    liveaboard.address = address;
-    
+    hotel.address = address;
+
     var f = File();
-    f.filename = lvb.name;
+    f.filename = hhotel.name;
     //var t = await imageFile.readAsBytes();
     //f.file = new List<int>.from(t);
-    List<int> b = await lvb.readAsBytes();
+    List<int> b = await hhotel.readAsBytes();
     f.file = b;
-    liveaboard.images.add(f);
+    hotel.images.add(f);
 
+    //var f2 = File();
+    //f2.filename = rroom.name;
+    //f2.filename = 'image.jpg';
+    //List<int> a = await rroom.readAsBytes();
+    //f2.file = a;
+    //hotel.images.add(f2);
+
+    //var room = RoomType();
+    //var amenity = Amenity();
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
       // for (int j = 0; j < blueValue[i].length; j++) {
@@ -140,16 +141,16 @@ class _addLiveaboardState extends State<addLiveaboard> {
       for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
         room.roomImages.add(pinkValue[i].roomImages[j]);
       }
-      liveaboard.roomTypes.add(room);
+      hotel.roomTypes.add(room);
     }
 
-    var liveaboardRequest = AddLiveaboardRequest();
-    liveaboardRequest.liveaboard = liveaboard;
+    var hotelRequest = AddHotelRequest();
+    hotelRequest.hotel = hotel;
+
     try {
-      var response = await stub.addLiveaboard(liveaboardRequest);
+      var response = await stub.addHotel(hotelRequest);
       print(token);
       print(response);
-      print('response: ${response}');
     } on GrpcError catch (e) {
       // Handle exception of type GrpcError
       print('codeName: ${e.codeName}');
@@ -164,21 +165,23 @@ class _addLiveaboardState extends State<addLiveaboard> {
   }
 
   // get hotel image
-  _getliveaboard() async {
-    lvb = await ImagePicker().pickImage(
+  _gethotelimg() async {
+    hhotel = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
       maxHeight: 5000,
     );
-    if (lvb != null) {
+    if (hhotel != null) {
       setState(() {
-        liveaboardimg = io.File(lvb.path);
+        hotelimg = io.File(hhotel.path);
+        //hhotel = XFile;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    loadData();
     double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       child: Padding(
@@ -189,11 +192,9 @@ class _addLiveaboardState extends State<addLiveaboard> {
           SizedBox(height: 20),
           buildHotelDescriptionFormField(),
           SizedBox(height: 20),
-          buildLengthFormField(),
+          buildPhoneFormField(),
           SizedBox(height: 20),
-          buildWidthFormField(),
-          SizedBox(height: 20),
-           buildAddressFormField(),
+          buildAddressFormField(),
           SizedBox(height: 20),
           buildAddress2FormField(),
           SizedBox(height: 20),
@@ -223,21 +224,14 @@ class _addLiveaboardState extends State<addLiveaboard> {
             ],
           ),
           SizedBox(height: 20),
-          buildTotalCapacityFormField(),
-          SizedBox(height: 20),
-          buildDiverRoomFormField(),
-          SizedBox(height: 20),
-          buildStaffRoomFormField(),
-          SizedBox(height: 20),
-
           //Text('Hotel Image'),
           Row(
             children: [
               Column(
-                children: [Text("Image")],
+                children: [Text("image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: hotelimg == null
                       ? Column(
                           children: [
                             Text(''),
@@ -246,12 +240,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg.path,
+                              hotelimg.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
                           : Image.file(
-                              io.File(liveaboardimg.path),
+                              io.File(hotelimg.path),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.05,
                             )),
@@ -260,7 +254,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
                     child: Container(
-                        color: Color(0xfffa2c8ff),
+                        color:Color(0xfffa2c8ff),
                         constraints: const BoxConstraints(
                             minWidth: 88.0, minHeight: 36.0),
                         alignment: Alignment.center,
@@ -269,12 +263,41 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           style: TextStyle(fontSize: 15),
                         ))),
                 onPressed: () {
-                  _getliveaboard();
+                  _gethotelimg();
                 },
               ),
             ],
           ),
+
           SizedBox(height: 20),
+          Container(
+            color: Colors.white,
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: starSelected,
+                items: listStar,
+                hint: Text('  Select star'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    starSelected = value;
+                    print(value);
+                  });
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+
+          // Container(
+          //         width: MediaQuery.of(context).size.width / 1.5,
+          //          decoration: BoxDecoration(
+          //               color: Color(0xfffd4f0f0),
+          //               borderRadius: BorderRadius.circular(10)),
+          //         child: AddMoreHighlight(),
+
+          //       ), SizedBox(height: 30),
 
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
@@ -286,7 +309,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
           SizedBox(height: 30),
           FlatButton(
             onPressed: () => {
-              sendLiveaboard(),
+              sendHotel(),
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -323,24 +346,24 @@ class _addLiveaboardState extends State<addLiveaboard> {
 
   TextFormField buildHotelNameFormField() {
     return TextFormField(
-      controller: _controllerLiveaboardname,
+      controller: _controllerHotelname,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => liveaboard_name = newValue,
+      onSaved: (newValue) => hotel_name = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please enter liveaboard name");
+          removeError(error: "Please enter hotel name");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please enter liveaboard name");
+          addError(error: "Please enter hotel name");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Liveaboard name",
+        labelText: "Hotel name",
         filled: true,
         //fillColor: Color(0xFFFd0efff),
         fillColor: Colors.white,
@@ -351,24 +374,24 @@ class _addLiveaboardState extends State<addLiveaboard> {
 
   TextFormField buildHotelDescriptionFormField() {
     return TextFormField(
-      controller: _controllerLiveaboarddescription,
+      controller: _controllerHoteldescription,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => liveaboard_description = newValue,
+      onSaved: (newValue) => hotel_description = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please enter liveaboard description");
+          removeError(error: "Please enter hotel description");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please enter liveaboard description");
+          addError(error: "Please enter hotel description");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Liveaboard description",
+        labelText: "Hotel description",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -376,26 +399,30 @@ class _addLiveaboardState extends State<addLiveaboard> {
     );
   }
 
-  TextFormField buildLengthFormField() {
+  TextFormField buildPhoneFormField() {
     return TextFormField(
-      controller: _controllerLength,
+      controller: _controllerPhone,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => length = newValue,
+      onSaved: (newValue) => phone = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please enter length");
+          removeError(error: "Please enter phone");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please enter length");
+          addError(error: "Please enter phone");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Length",
+        labelText: "Phone",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -403,115 +430,6 @@ class _addLiveaboardState extends State<addLiveaboard> {
     );
   }
 
-  TextFormField buildWidthFormField() {
-    return TextFormField(
-      controller: _controllerWidth,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => liveaboard_description = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter width");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter width");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Width",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
-  TextFormField buildStaffRoomFormField() {
-    return TextFormField(
-      controller: _controllerStaffroom,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => staff_room = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter number of staff room");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter number of staff room");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Number of staff room",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
-  TextFormField buildDiverRoomFormField() {
-    return TextFormField(
-      controller: _controllerDiverroom,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => diver_room = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter number of diver room");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter number of diver room");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Number of diver room",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
-  TextFormField buildTotalCapacityFormField() {
-    return TextFormField(
-      controller: _controllerTotalcapacity,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => total_capacity = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter total capacity");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter total capacity");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Total capacity",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
-  
   TextFormField buildAddressFormField() {
     return TextFormField(
       controller: _controllerAddress,

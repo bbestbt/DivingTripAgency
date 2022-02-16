@@ -1,4 +1,3 @@
-
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
@@ -8,6 +7,7 @@ import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'dart:io' as io;
@@ -16,12 +16,12 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
-  HotelAndBoatId hotelandboatID= new HotelAndBoatId();
+  HotelAndBoatId hotelandboatID = new HotelAndBoatId();
+  Address addressform = new Address();
   Triptemplate(TripTemplate triptemplate) {
     this.triptemplate = triptemplate;
-    print(hotelandboatID);
-    this.triptemplate.hotelAndBoatId=hotelandboatID;
-
+    this.triptemplate.hotelAndBoatId = hotelandboatID;
+    this.triptemplate.address = addressform;
   }
   @override
   _TriptemplateState createState() => _TriptemplateState(this.triptemplate);
@@ -42,10 +42,10 @@ class _TriptemplateState extends State<Triptemplate> {
   Map<String, int> tripTypeMap = {};
   Map<String, dynamic> hotelTypeMap = {};
   Map<String, dynamic> liveaboardTypeMap = {};
-    List<DropdownMenuItem<String>> listBoat = [];
+  List<DropdownMenuItem<String>> listBoat = [];
   List<String> boat = [];
   String boatSelected;
-   Map<String, dynamic> boatMap = {};
+  Map<String, dynamic> boatMap = {};
 
   List<DropdownMenuItem<String>> listTrip = [];
   List<TripType> trip = [TripType.ONSHORE, TripType.OFFSHORE];
@@ -55,6 +55,13 @@ class _TriptemplateState extends State<Triptemplate> {
   List<String> triptypee = [];
   String selectedTriptype;
   String selectedsleep;
+
+  String address1;
+  String address2;
+  String postalCode;
+  String country;
+  String region;
+  String city;
 
   @override
   void initState() {
@@ -69,7 +76,7 @@ class _TriptemplateState extends State<Triptemplate> {
     });
     await getData();
     setState(() {
-       listBoat = [];
+      listBoat = [];
       listBoat = boat
           .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
           .toList();
@@ -94,14 +101,22 @@ class _TriptemplateState extends State<Triptemplate> {
   String triptype = '';
   String boatname;
   TripTemplate triptemplate;
-  HotelAndBoatId hotelandboatID=new HotelAndBoatId();
+  HotelAndBoatId hotelandboatID = new HotelAndBoatId();
+  Address addressform = new Address();
   _TriptemplateState(TripTemplate triptemplate) {
     this.triptemplate = triptemplate;
-    this.triptemplate.hotelAndBoatId=hotelandboatID;
+    this.triptemplate.hotelAndBoatId = hotelandboatID;
+    this.addressform = addressform;
   }
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
   final TextEditingController _controllerBoatname = TextEditingController();
+  final TextEditingController _controllerAddress = TextEditingController();
+  final TextEditingController _controllerAddress2 = TextEditingController();
+  final TextEditingController _controllerPostalcode = TextEditingController();
+  final TextEditingController _controllerCountry = TextEditingController();
+  final TextEditingController _controllerRegion = TextEditingController();
+  final TextEditingController _controllerCity = TextEditingController();
 
   /// Get from gallery
   _getPictrip() async {
@@ -205,11 +220,10 @@ class _TriptemplateState extends State<Triptemplate> {
       // print(token);
       // print(response);
 
-        await for (var feature in stub.listBoats(boatrequest)) {
+      await for (var feature in stub.listBoats(boatrequest)) {
         //   print(feature.boat.name);
         boat.add(feature.boat.name);
-        boatMap[feature.boat.name]=feature.boat.id;
-        
+        boatMap[feature.boat.name] = feature.boat.id;
       }
       // print(boat);
       // print(boat.runtimeType);
@@ -222,8 +236,7 @@ class _TriptemplateState extends State<Triptemplate> {
       await for (var feature in stub.listLiveaboards(liveaboardrequest)) {
         //print(feature.liveaboard.name);
         liveaboard.add(feature.liveaboard.name);
-        liveaboardTypeMap[feature.liveaboard.name] =
-            feature.liveaboard.id;
+        liveaboardTypeMap[feature.liveaboard.name] = feature.liveaboard.id;
       }
     } catch (e) {
       print('ERROR: $e');
@@ -246,35 +259,69 @@ class _TriptemplateState extends State<Triptemplate> {
             SizedBox(height: 20),
             buildDescriptionFormField(),
             SizedBox(height: 20),
-              Container(
-            //color: Colors.white,
-            child: Center(
-              child: DropdownButton(
-                isExpanded: true,
-                value: boatSelected,
-                items: listBoat,
-                //     boat.map((String value) {
-                //   return DropdownMenuItem<String>(
-                //     value: value,
-                //     child: Text(value),
-                //   );
-                // }).toList(),
+            buildAddressFormField(),
+            SizedBox(height: 20),
+            buildAddress2FormField(),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Container(
+                    width: MediaQuery.of(context).size.width / 3.6,
+                    child: buildCountryFormField()),
+                Spacer(),
+                // Spacer(flex: 1,),
+                Container(
+                    width: MediaQuery.of(context).size.width / 3.6,
+                    child: buildCityFormField()),
+              ],
+            ),
 
-                hint: Text('  Select boat'),
-                iconSize: 40,
-                onChanged: (value) {
-                  setState(() {
-                    boatSelected = value;
-                    print(value);
-                     hotelandboatID.boatId=boatMap[boatSelected];
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Container(
+                    width: MediaQuery.of(context).size.width / 3.6,
+                    child: buildRegionFormField()),
+                Spacer(),
+                Container(
+                    width: MediaQuery.of(context).size.width / 3.6,
+                    child: buildPostalCodeFormField()),
+              ],
+            ),
+            SizedBox(height: 20),
+            Container(
+              //color: Colors.white,
+              child: Center(
+                child: DropdownButton(
+                  isExpanded: true,
+                  value: boatSelected,
+                  items: listBoat,
+                  //     boat.map((String value) {
+                  //   return DropdownMenuItem<String>(
+                  //     value: value,
+                  //     child: Text(value),
+                  //   );
+                  // }).toList(),
+
+                  hint: Text('  Select boat'),
+                  iconSize: 40,
+                  onChanged: (value) {
+                    setState(() {
+                      boatSelected = value;
+                      print(value);
+                      //  hotelandboatID.boatId = boatMap[boatSelected];
+
+                      triptemplate.hotelAndBoatId.boatId =
+                          boatMap[boatSelected];
+
                       // triptemplate.hotelAndBoatId=hotelandboatID;
-                 //   triptemplate.divingBoatId=boatMap[boatSelected];
-                  });
-                },
+                      //   triptemplate.divingBoatId=boatMap[boatSelected];
+                    });
+                  },
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 20),
+            SizedBox(height: 20),
             // buildBoatNameFormField(),
             // SizedBox(height: 20),
             //radio
@@ -394,11 +441,22 @@ class _TriptemplateState extends State<Triptemplate> {
                 setState(() {
                   selectedsleep = sleep;
                   if (triptypee == liveaboard) {
-                    triptemplate.liveaboardId = liveaboardTypeMap[selectedsleep];
+                    // print('liveabaord');
+                    // print(liveaboardTypeMap[selectedsleep]);
+                    triptemplate.liveaboardId =
+                        liveaboardTypeMap[selectedsleep];
+                    // print('keep');
+                    // print( triptemplate.liveaboardId);
                   } else if (triptypee == hotel) {
-                    hotelandboatID.hotelId=hotelTypeMap[selectedsleep];
-                     //  triptemplate.hotelAndBoatId=hotelandboatID;
-                 //   triptemplate.hotelAndBoatId.hotelId= hotelTypeMap[selectedsleep];
+                    // print('hotel');
+                    // print(hotelTypeMap[selectedsleep]);
+
+                    triptemplate.hotelAndBoatId.hotelId =
+                        hotelTypeMap[selectedsleep];
+
+                    // hotelandboatID.hotelId = hotelTypeMap[selectedsleep];
+                    //  triptemplate.hotelAndBoatId=hotelandboatID;
+                    //   triptemplate.hotelAndBoatId.hotelId= hotelTypeMap[selectedsleep];
                   }
                 });
               },
@@ -513,7 +571,7 @@ class _TriptemplateState extends State<Triptemplate> {
       onSaved: (newValue) => description = newValue,
       onChanged: (value) {
         triptemplate.description = value;
-        print(value);
+        // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter Description");
         }
@@ -541,11 +599,11 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => tripname = newValue,
       onChanged: (value) {
-        print(triptemplate);
-        print(triptemplate.name);
+        // print(triptemplate);
+        // print(triptemplate.name);
 
         triptemplate.name = value;
-        print(value);
+        // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter trip name");
         }
@@ -567,26 +625,212 @@ class _TriptemplateState extends State<Triptemplate> {
     );
   }
 
-  TextFormField buildBoatNameFormField() {
+  // TextFormField buildBoatNameFormField() {
+  //   return TextFormField(
+  //     controller: _controllerBoatname,
+  //     cursorColor: Color(0xFFf5579c6),
+  //     onSaved: (newValue) => boatname = newValue,
+  //     onChanged: (value) {
+  //       if (value.isNotEmpty) {
+  //         removeError(error: "Please Enter boat name");
+  //       }
+  //       return null;
+  //     },
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         addError(error: "Please Enter boat name");
+  //         return "";
+  //       }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //       labelText: "Boat name",
+  //       filled: true,
+  //       fillColor: Color(0xfffd4f0f0),
+  //       floatingLabelBehavior: FloatingLabelBehavior.always,
+  //     ),
+  //   );
+  // }
+
+  TextFormField buildAddressFormField() {
     return TextFormField(
-      controller: _controllerBoatname,
+      controller: _controllerAddress,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => boatname = newValue,
+      onSaved: (newValue) => address1 = newValue,
       onChanged: (value) {
+        //  addressform.addressLine1 = value;
+        //   print(addressform.addressLine1);
+        triptemplate.address.addressLine1 = value;
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter boat name");
+          removeError(error: "Please enter address");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter boat name");
+          addError(error: "Please enter address");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Boat name",
+          //    hintText: "Address1",
+          labelText: "Address 1",
+          filled: true,
+          fillColor: Color(0xfffd4f0f0),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.home)),
+    );
+  }
+
+  TextFormField buildAddress2FormField() {
+    return TextFormField(
+      controller: _controllerAddress2,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => address2 = newValue,
+      onChanged: (value) {
+        // addressform.addressLine2 = value;
+        triptemplate.address.addressLine2 = value;
+
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter address");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter address");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          //   hintText: "Address2",
+          labelText: "Address 2",
+          filled: true,
+          fillColor: Color(0xfffd4f0f0),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.home)),
+    );
+  }
+
+  TextFormField buildCountryFormField() {
+    return TextFormField(
+      controller: _controllerCountry,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => country = newValue,
+      onChanged: (value) {
+        triptemplate.address.country = value;
+        // addressform.country = value;
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter country");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter country");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Country",
+        labelText: "Country",
+        filled: true,
+        fillColor: Color(0xfffd4f0f0),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildCityFormField() {
+    return TextFormField(
+      controller: _controllerCity,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => city = newValue,
+      onChanged: (value) {
+        // addressform.city = value;
+        triptemplate.address.city = value;
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter city");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter city");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "City",
+        labelText: "City",
+        filled: true,
+        fillColor: Color(0xfffd4f0f0),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildRegionFormField() {
+    return TextFormField(
+      controller: _controllerRegion,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => region = newValue,
+      onChanged: (value) {
+        triptemplate.address.region = value;
+        //  addressform.region = value;
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter region");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter region");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //    hintText: "Region",
+        labelText: "Region",
+        filled: true,
+        fillColor: Color(0xfffd4f0f0),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildPostalCodeFormField() {
+    return TextFormField(
+      controller: _controllerPostalcode,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => postalCode = newValue,
+      onChanged: (value) {
+        triptemplate.address.postcode = value;
+        //  addressform.postcode = value;
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter postal code");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter postal code");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Postal code",
+        labelText: "Postal code",
         filled: true,
         fillColor: Color(0xfffd4f0f0),
         floatingLabelBehavior: FloatingLabelBehavior.always,
