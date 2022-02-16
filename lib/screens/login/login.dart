@@ -1,5 +1,7 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_company.dart';
@@ -7,6 +9,8 @@ import 'package:diving_trip_agency/screens/signup/diver/signup_diver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
+import '../main/mainScreen.dart';
+import '../main/main_screen_company.dart';
 import 'constant.dart';
 import 'package:hive/hive.dart';
 
@@ -545,6 +549,8 @@ class _LoginScreenState extends State<LoginScreen> {
     var loginRequest = LoginRequest();
     loginRequest.email = account.email;
     loginRequest.password = account.password;
+
+
     var box;
     try {
       await Hive.openBox('userInfo');
@@ -554,8 +560,27 @@ class _LoginScreenState extends State<LoginScreen> {
       box.put('login', true);
       String token = box.get('token');
       print("Valid Username!");
-      Navigator.push(context,
+
+      final pf = AccountClient(channel,
+          options: CallOptions(metadata: {'Authorization': '$token'}));
+      var profile = await pf.getProfile(new Empty());
+      print(profile);
+
+      if (profile.hasAdmin()){
+        Navigator.push(context,
           MaterialPageRoute(builder: (context) => MainCompanyScreen()));
+      }
+
+      if (profile.hasDiver()){
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => MainScreen()));
+      }
+
+      if (profile.hasAgency()){
+        Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MainCompanyScreen()));
+      }
+
     } on GrpcError catch (e) {
       showError();
       box.put('login', false);
