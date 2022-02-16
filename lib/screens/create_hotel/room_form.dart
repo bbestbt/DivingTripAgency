@@ -1,5 +1,4 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
-import 'package:diving_trip_agency/screens/hotel/amenity.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';

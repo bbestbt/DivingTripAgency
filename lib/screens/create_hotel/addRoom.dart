@@ -1,5 +1,5 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
-import 'package:diving_trip_agency/screens/hotel/room_form.dart';
+import 'package:diving_trip_agency/screens/create_hotel/room_form.dart';
 import 'package:flutter/material.dart';
 
 class AddMoreRoom extends StatefulWidget {

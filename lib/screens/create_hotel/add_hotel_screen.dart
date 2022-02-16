@@ -1,5 +1,5 @@
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
-import 'package:diving_trip_agency/screens/hotel/add_hotel_form.dart';
+import 'package:diving_trip_agency/screens/create_hotel/add_hotel_form.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
