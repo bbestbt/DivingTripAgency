@@ -1,8 +1,7 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
-import 'package:diving_trip_agency/screens/hotel/addRoom.dart';
-import 'package:diving_trip_agency/screens/hotel/highlight.dart';
+import 'package:diving_trip_agency/screens/create_hotel/addRoom.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
