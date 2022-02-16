@@ -40,30 +40,30 @@ class WebMenu extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => DiveResortScreen()));
                   }
+                  // if (_controller.selectedIndex == 3) {
+                  //   Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => PackageScreen()));
+                  // }
                   if (_controller.selectedIndex == 3) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PackageScreen()));
-                  }
-                  if (_controller.selectedIndex == 4) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => WForecastScreen()));
                   }
-                  if (_controller.selectedIndex == 5) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AboutusScreen()));
-                  }
-                  if (_controller.selectedIndex == 6) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DivingshopScreen()));
-                  }
+                  // if (_controller.selectedIndex == 5) {
+                  //   Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => AboutusScreen()));
+                  // }
+                  // if (_controller.selectedIndex == 6) {
+                  //   Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => DivingshopScreen()));
+                  // }
                 }),
           ),
         ));
