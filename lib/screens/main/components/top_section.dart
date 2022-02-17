@@ -66,61 +66,64 @@ class _GlassContentState extends State<GlassContent> {
   String search;
   final TextEditingController _controllerSearch = TextEditingController();
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          color: Colors.white.withOpacity(0),
-          //  color: Colors.pink,
-          constraints: BoxConstraints(
-              maxWidth: 400, maxHeight: widget.size.height * 0.25),
+    return            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  color: Colors.white.withOpacity(0),
+                  //  color: Colors.pink,
+                  constraints: BoxConstraints(
+                      maxWidth: 400, maxHeight: widget.size.height * 0.25),
 
-          child: Column(
-            children: [
-              buildSearchFormField(),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  RaisedButton(
-                    onPressed: () => pickDateRange(context),
-                    child: Text(getFrom()),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(Icons.arrow_forward, color: Colors.black),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  RaisedButton(
-                    onPressed: () => pickDateRange(context),
-                    child: Text(getTo()),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
+                  child: Column(
+                    children: [
+                      buildSearchFormField(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          RaisedButton(
+                            onPressed: () => pickDateRange(context),
+                            child: Text(getFrom()),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Icon(Icons.arrow_forward, color: Colors.black),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          RaisedButton(
+                            onPressed: () => pickDateRange(context),
+                            child: Text(getTo()),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
 
-                  Spacer(),
-                  // Text('People'),
-                  Icon(Icons.people),
-                  SizedBox(
-                    width: 10,
+                          Spacer(),
+                          // Text('People'),
+                          Icon(Icons.people),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          peopleDropdown()
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      RaisedButton(child: Text('Confirm'), onPressed: () {})
+                    ],
                   ),
-                  peopleDropdown()
-                ],
+                ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              RaisedButton(child: Text('Confirm'), onPressed: () {})
-            ],
-          ),
-        ),
-      ),
-    );
+            );
+
+
+
   }
 
   Future pickDateRange(BuildContext context) async {

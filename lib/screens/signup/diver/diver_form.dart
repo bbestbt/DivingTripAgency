@@ -240,8 +240,10 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                                     print(Timestamp.fromDateTime(date));
                                 _dateTime = date;
                               })
+
                             });
                   }),
+
             ],
           ),
           SizedBox(height: 20),
