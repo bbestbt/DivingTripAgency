@@ -2,6 +2,7 @@ import 'dart:html';
 
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
+import 'package:diving_trip_agency/screens/liveaboard/liveaboard_details.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -182,7 +183,14 @@ class _InfoCardState extends State<InfoCard> {
                         Align(
                           alignment: Alignment.centerRight,
                           child: RaisedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          LiveaboardDetailScreen()));
+                              
+                            },
                             color: Colors.amber,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),

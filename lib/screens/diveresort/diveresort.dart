@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
+import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
@@ -79,13 +80,12 @@ class _InfoCardState extends State<InfoCard> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var listonshorerequest = SearchOnshoreTripsRequest();
-   
 
     try {
       await for (var feature in stub.searchOnshoreTrips(listonshorerequest)) {
         //  print(feature.hotel.name);
-       // hotel.add((feature.trip.price).toString());
-       // hotelTypeMap[feature.hotel.name] = feature.hotel.id;
+        // hotel.add((feature.trip.price).toString());
+        // hotelTypeMap[feature.hotel.name] = feature.hotel.id;
       }
     } catch (e) {
       print('ERROR: $e');
@@ -123,7 +123,7 @@ class _InfoCardState extends State<InfoCard> {
                         Row(
                           children: [
                             Text('City'),
-                            SizedBox(width:20),
+                            SizedBox(width: 20),
                             Text('Country'),
                           ],
                         ),
@@ -144,15 +144,22 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         Align(
-                          alignment: Alignment.centerRight,
-                          child: Text('Price : ' + LiveAboardDatas[widget.index].price)),
+                            alignment: Alignment.centerRight,
+                            child: Text('Price : ' +
+                                LiveAboardDatas[widget.index].price)),
                         SizedBox(
                           height: 20,
                         ),
                         Align(
                           alignment: Alignment.centerRight,
                           child: RaisedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DiveResortDetailScreen()));
+                            },
                             color: Colors.amber,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
