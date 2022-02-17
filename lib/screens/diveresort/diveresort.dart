@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 
+
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 
 class DiveResort extends StatelessWidget {
@@ -159,6 +160,7 @@ class _InfoCardState extends State<InfoCard> {
                       children: [
                         Text('Hotel name : ' +
                             LiveAboardDatas[widget.index].name),
+
                         SizedBox(
                           height: 10,
                         ),
@@ -181,6 +183,7 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
+
                         Text('Phone'),
                         SizedBox(
                           height: 10,
