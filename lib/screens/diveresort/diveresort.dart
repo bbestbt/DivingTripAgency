@@ -1,8 +1,11 @@
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 
 class DiveResort extends StatelessWidget {
   @override
@@ -59,6 +62,36 @@ class InfoCard extends StatefulWidget {
 }
 
 class _InfoCardState extends State<InfoCard> {
+  Map<String, dynamic> hotelTypeMap = {};
+  List<String> hotel = [];
+
+  getData() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listonshorerequest = SearchOnshoreTripsRequest();
+   
+
+    try {
+      await for (var feature in stub.searchOnshoreTrips(listonshorerequest)) {
+        //  print(feature.hotel.name);
+       // hotel.add((feature.trip.price).toString());
+       // hotelTypeMap[feature.hotel.name] = feature.hotel.id;
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -82,24 +115,49 @@ class _InfoCardState extends State<InfoCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Trip name : '+LiveAboardDatas[widget.index].name),
+                        Text('Hotel name : ' +
+                            LiveAboardDatas[widget.index].name),
                         SizedBox(
                           height: 10,
                         ),
-                        Text(LiveAboardDatas[widget.index].description),
+                        Row(
+                          children: [
+                            Text('City'),
+                            SizedBox(width:20),
+                            Text('Country'),
+                          ],
+                        ),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Price : '+LiveAboardDatas[widget.index].price),
+                        Text('Star'),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        // Text(LiveAboardDatas[widget.index].description),
+                        Text('Room type'),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Phone'),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text('Price : ' + LiveAboardDatas[widget.index].price)),
                         SizedBox(
                           height: 20,
                         ),
-                        RaisedButton(
-                          onPressed: () {},
-                          color: Colors.amber,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Text("Book"),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: RaisedButton(
+                            onPressed: () {},
+                            color: Colors.amber,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text("View package"),
+                          ),
                         )
                       ],
                     ),
