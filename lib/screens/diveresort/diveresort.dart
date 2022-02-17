@@ -8,45 +8,88 @@ import 'package:get/get.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 
+
+import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
+
 class DiveResort extends StatelessWidget {
+  DateTime _dateTime;
   @override
   Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.transparency,
-      child: SingleChildScrollView(
-        child: Container(
-          //   margin: EdgeInsetsDirectional.only(top:120),
-          width: double.infinity,
-          // height: 600,
-          decoration: BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
-          child: Column(
-            children: [
-              SectionTitle(
-                title: "Dive Resorts",
-                color: Color(0xFFFF78a2cc),
+    return Row(children: [
+      Expanded(
+          flex: 3,
+          child: Column(children: [
+            Container(
+              margin: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10.0),
+              height: 1800,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.red[50],
               ),
-              SizedBox(height: 40),
-              SizedBox(
-                  width: 1110,
-                  child: Wrap(
-                      spacing: 20,
-                      runSpacing: 40,
-                      children: List.generate(
-                        LiveAboardDatas.length,
-                        (index) => Center(
-                          child: InfoCard(
-                            index: index,
-                          ),
-                        ),
-                      ))),
-              SizedBox(
-                height: 100,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+              child: Column(children: [
+                Text("SEARCH"),
+                TextField(
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        fillColor: Colors.white,
+                        hintText: 'Date')),
+                TextField(
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        fillColor: Colors.white,
+                        hintText: 'Location')),
+                TextField(
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        fillColor: Colors.white,
+                        hintText: 'Number of customer')),
+                SizedBox(height: 20),
+
+                ElevatedButton(onPressed: () {}, child: Text("SEARCH"))
+              ]),
+            ),
+          ])),
+      Expanded(
+          flex: 7,
+          child: Material(
+            type: MaterialType.transparency,
+            child: SingleChildScrollView(
+              child: Container(
+                //   margin: EdgeInsetsDirectional.only(top:120),
+                width: double.infinity,
+                // height: 600,
+                decoration:
+                BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
+                child: Column(
+                  children: [
+                    SectionTitle(
+                      title: "Dive Resort",
+                      color: Color(0xFFFF78a2cc),
+                    ),
+                    SizedBox(height: 40),
+                    SizedBox(
+                        width: 1110,
+                        child: Wrap(
+                            spacing: 20,
+                            runSpacing: 40,
+                            children: List.generate(
+                              LiveAboardDatas.length,
+                                  (index) => Center(
+                                child: InfoCard(
+                                  index: index,
+                                ),
+                              ),
+                            ))),
+                    SizedBox(
+                      height: 100,
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ))
+    ]);
   }
 }
 
@@ -117,6 +160,7 @@ class _InfoCardState extends State<InfoCard> {
                       children: [
                         Text('Hotel name : ' +
                             LiveAboardDatas[widget.index].name),
+
                         SizedBox(
                           height: 10,
                         ),
@@ -139,6 +183,7 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
+
                         Text('Phone'),
                         SizedBox(
                           height: 10,

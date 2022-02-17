@@ -149,6 +149,7 @@ class _InfoCardState extends State<InfoCard> {
                       children: [
                         Text('Liveaboard name : ' +
                             LiveAboardDatas[widget.index].name),
+
                         SizedBox(
                           height: 10,
                         ),
@@ -162,11 +163,13 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
+
                         // Text(LiveAboardDatas[widget.index].description),
                         // SizedBox(
                         //   height: 10,
                         // ),
                         Text('Total capacity'),
+
                         SizedBox(
                           height: 10,
                         ),
@@ -174,6 +177,7 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
+
                         Align(
                           alignment: Alignment.centerRight,
                           child: Text('Price : ' + LiveAboardDatas[widget.index].price)),
@@ -197,7 +201,8 @@ class _InfoCardState extends State<InfoCard> {
                             child: Text("View boat"),
                           ),
                         )
-                      ],
+
+              ],
                     ),
                   )),
             )
