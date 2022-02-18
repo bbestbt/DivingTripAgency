@@ -153,7 +153,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
-    return Form(
+    return Container(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [

@@ -250,316 +250,312 @@ class _TriptemplateState extends State<Triptemplate> {
     // getData();
     return Container(
       color: Color(0xfffd4f0f0),
-      child: Form(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(children: [
-            SizedBox(height: 20),
-            buildTripNameFormField(),
-            SizedBox(height: 20),
-            buildDescriptionFormField(),
-            SizedBox(height: 20),
-            buildAddressFormField(),
-            SizedBox(height: 20),
-            buildAddress2FormField(),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Container(
-                    width: MediaQuery.of(context).size.width / 3.6,
-                    child: buildCountryFormField()),
-                Spacer(),
-                // Spacer(flex: 1,),
-                Container(
-                    width: MediaQuery.of(context).size.width / 3.6,
-                    child: buildCityFormField()),
-              ],
-            ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(children: [
+          SizedBox(height: 20),
+          buildTripNameFormField(),
+          SizedBox(height: 20),
+          buildDescriptionFormField(),
+          SizedBox(height: 20),
+          buildAddressFormField(),
+          SizedBox(height: 20),
+          buildAddress2FormField(),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCountryFormField()),
+              Spacer(),
+              // Spacer(flex: 1,),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildCityFormField()),
+            ],
+          ),
 
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Container(
-                    width: MediaQuery.of(context).size.width / 3.6,
-                    child: buildRegionFormField()),
-                Spacer(),
-                Container(
-                    width: MediaQuery.of(context).size.width / 3.6,
-                    child: buildPostalCodeFormField()),
-              ],
-            ),
-            SizedBox(height: 20),
-            Container(
-              //color: Colors.white,
-              child: Center(
-                child: DropdownButton(
-                  isExpanded: true,
-                  value: boatSelected,
-                  items: listBoat,
-                  //     boat.map((String value) {
-                  //   return DropdownMenuItem<String>(
-                  //     value: value,
-                  //     child: Text(value),
-                  //   );
-                  // }).toList(),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildRegionFormField()),
+              Spacer(),
+              Container(
+                  width: MediaQuery.of(context).size.width / 3.6,
+                  child: buildPostalCodeFormField()),
+            ],
+          ),
+          SizedBox(height: 20),
+          Container(
+            //color: Colors.white,
+            child: Center(
+              child: DropdownButton(
+                isExpanded: true,
+                value: boatSelected,
+                items: listBoat,
+                //     boat.map((String value) {
+                //   return DropdownMenuItem<String>(
+                //     value: value,
+                //     child: Text(value),
+                //   );
+                // }).toList(),
 
-                  hint: Text('  Select boat'),
-                  iconSize: 40,
-                  onChanged: (value) {
-                    setState(() {
-                      boatSelected = value;
-                      print(value);
-                      //  hotelandboatID.boatId = boatMap[boatSelected];
+                hint: Text('  Select boat'),
+                iconSize: 40,
+                onChanged: (value) {
+                  setState(() {
+                    boatSelected = value;
+                    print(value);
+                    //  hotelandboatID.boatId = boatMap[boatSelected];
 
-                      triptemplate.hotelAndBoatId.boatId =
-                          boatMap[boatSelected];
+                    triptemplate.hotelAndBoatId.boatId = boatMap[boatSelected];
 
-                      // triptemplate.hotelAndBoatId=hotelandboatID;
-                      //   triptemplate.divingBoatId=boatMap[boatSelected];
-                    });
-                  },
-                ),
+                    // triptemplate.hotelAndBoatId=hotelandboatID;
+                    //   triptemplate.divingBoatId=boatMap[boatSelected];
+                  });
+                },
               ),
             ),
-            SizedBox(height: 20),
-            // buildBoatNameFormField(),
-            // SizedBox(height: 20),
-            //radio
-            // Row(children: [
-            //   Text('Trip Type '),
-            //   Spacer(),
-            // ]),
-            // Row(children: [
-            //   Radio(
-            //       value: 'On shore (Hotel)',
-            //       groupValue: triptype,
-            //       onChanged: (val) {
-            //         // triptype = val;
-            //         setState(() {
-            //            triptype = val;
-            //             print(val);
+          ),
+          SizedBox(height: 20),
+          // buildBoatNameFormField(),
+          // SizedBox(height: 20),
+          //radio
+          // Row(children: [
+          //   Text('Trip Type '),
+          //   Spacer(),
+          // ]),
+          // Row(children: [
+          //   Radio(
+          //       value: 'On shore (Hotel)',
+          //       groupValue: triptype,
+          //       onChanged: (val) {
+          //         // triptype = val;
+          //         setState(() {
+          //            triptype = val;
+          //             print(val);
 
-            //         });
-            //       }),
-            //   Text('On shore (Hotel)'),
-            // ]),
+          //         });
+          //       }),
+          //   Text('On shore (Hotel)'),
+          // ]),
 
-            // Row(
-            //   children: [
-            //     Radio(
-            //         value: 'Off shore (Live on boat)',
-            //         groupValue: triptype,
-            //         onChanged: (val) {
-            //           // triptype = val;
-            //           setState(() {
-            //              triptype = val;
-            //               print(val);
-            //           });
-            //         }),
-            //     Text('Off shore (Live on boat)'),
-            //   ],
-            // ),
+          // Row(
+          //   children: [
+          //     Radio(
+          //         value: 'Off shore (Live on boat)',
+          //         groupValue: triptype,
+          //         onChanged: (val) {
+          //           // triptype = val;
+          //           setState(() {
+          //              triptype = val;
+          //               print(val);
+          //           });
+          //         }),
+          //     Text('Off shore (Live on boat)'),
+          //   ],
+          // ),
 
-            // Container(
-            //   color: Color(0xfffd4f0f0),
-            //   child: Center(
-            //     child: DropdownButton(
-            //       isExpanded: true,
-            //       value: selected,
-            //       items: listTrip,
-            //       hint: Text('  Select trip type'),
-            //       iconSize: 40,
-            //       onChanged: (value) {
-            //         setState(() {
-            //           selected = value;
-            //           TripType.values.forEach((tripType) {
-            //             if (tripTypeMap[tripType.toString()] ==
-            //                 int.parse(selected)) {
-            //               triptemplate.tripType = tripType;
-            //             }
-            //           });
-            //           print(value);
-            //         });
-            //       },
-            //     ),
-            //   ),
-            // ),
+          // Container(
+          //   color: Color(0xfffd4f0f0),
+          //   child: Center(
+          //     child: DropdownButton(
+          //       isExpanded: true,
+          //       value: selected,
+          //       items: listTrip,
+          //       hint: Text('  Select trip type'),
+          //       iconSize: 40,
+          //       onChanged: (value) {
+          //         setState(() {
+          //           selected = value;
+          //           TripType.values.forEach((tripType) {
+          //             if (tripTypeMap[tripType.toString()] ==
+          //                 int.parse(selected)) {
+          //               triptemplate.tripType = tripType;
+          //             }
+          //           });
+          //           print(value);
+          //         });
+          //       },
+          //     ),
+          //   ),
+          // ),
 
-            DropdownButton(
-              hint: Text('Trip type'),
-              value: selectedTriptype,
-              isExpanded: true,
-              items: listTrip,
-              onChanged: (trip_type) {
-                // print('*');
+          DropdownButton(
+            hint: Text('Trip type'),
+            value: selectedTriptype,
+            isExpanded: true,
+            items: listTrip,
+            onChanged: (trip_type) {
+              // print('*');
+              // print(trip_type);
+              // print('*');
+              // if (trip_type ==0 ) {
+              //   triptypee = liveaboard;
+              // } else if (trip_type == 1) {
+              //   triptypee = hotel;
+              // }
+              // else {
+              //   triptypee = [];
+              // }
+              if (trip_type == '0') {
+                triptypee = hotel;
+              } else if (trip_type == '1') {
+                triptypee = liveaboard;
+              } else {
+                // print('x');
                 // print(trip_type);
-                // print('*');
-                // if (trip_type ==0 ) {
-                //   triptypee = liveaboard;
-                // } else if (trip_type == 1) {
-                //   triptypee = hotel;
-                // }
-                // else {
-                //   triptypee = [];
-                // }
-                if (trip_type == '0') {
-                  triptypee = hotel;
-                } else if (trip_type == '1') {
-                  triptypee = liveaboard;
-                } else {
-                  // print('x');
-                  // print(trip_type);
-                  // print(trip_type.runtimeType);
-                  triptypee = [];
-                }
-                setState(() {
-                  // print(triptypee);
-                  // print('--');
-                  selectedTriptype = trip_type;
-                  selectedsleep = null;
-                  TripType.values.forEach((tripType) {
-                    if (tripTypeMap[tripType.toString()] ==
-                        int.parse(selectedTriptype)) {
-                      triptemplate.tripType = tripType;
-                    }
-                  });
-                });
-              },
-            ),
-            SizedBox(height: 20),
-            DropdownButton<String>(
-              value: selectedsleep,
-              // hint: Text('Sleep'),
-              isExpanded: true,
-              items: triptypee.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (sleep) {
-                setState(() {
-                  selectedsleep = sleep;
-                  if (triptypee == liveaboard) {
-                    // print('liveabaord');
-                    // print(liveaboardTypeMap[selectedsleep]);
-                    triptemplate.liveaboardId =
-                        liveaboardTypeMap[selectedsleep];
-                    // print('keep');
-                    // print( triptemplate.liveaboardId);
-                  } else if (triptypee == hotel) {
-                    // print('hotel');
-                    // print(hotelTypeMap[selectedsleep]);
-
-                    triptemplate.hotelAndBoatId.hotelId =
-                        hotelTypeMap[selectedsleep];
-
-                    // hotelandboatID.hotelId = hotelTypeMap[selectedsleep];
-                    //  triptemplate.hotelAndBoatId=hotelandboatID;
-                    //   triptemplate.hotelAndBoatId.hotelId= hotelTypeMap[selectedsleep];
+                // print(trip_type.runtimeType);
+                triptypee = [];
+              }
+              setState(() {
+                // print(triptypee);
+                // print('--');
+                selectedTriptype = trip_type;
+                selectedsleep = null;
+                TripType.values.forEach((tripType) {
+                  if (tripTypeMap[tripType.toString()] ==
+                      int.parse(selectedTriptype)) {
+                    triptemplate.tripType = tripType;
                   }
                 });
-              },
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Center(
-                    child: Pictrip == null
-                        ? Text('Trip image')
-                        : kIsWeb
-                            ? Image.network(
-                                Pictrip.path,
-                                fit: BoxFit.cover,
-                                width: screenwidth * 0.2,
-                              )
-                            : Image.file(
-                                io.File(Pictrip.path),
-                                fit: BoxFit.cover,
-                                width: screenwidth * 0.05,
-                              )),
-                Spacer(),
-                FlatButton(
-                  color: Color(0xfffa2c8ff),
-                  child: Text(
-                    'Upload',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onPressed: () {
-                    _getPictrip();
-                  },
+              });
+            },
+          ),
+          SizedBox(height: 20),
+          DropdownButton<String>(
+            value: selectedsleep,
+            // hint: Text('Sleep'),
+            isExpanded: true,
+            items: triptypee.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (sleep) {
+              setState(() {
+                selectedsleep = sleep;
+                if (triptypee == liveaboard) {
+                  // print('liveabaord');
+                  // print(liveaboardTypeMap[selectedsleep]);
+                  triptemplate.liveaboardId = liveaboardTypeMap[selectedsleep];
+                  // print('keep');
+                  // print( triptemplate.liveaboardId);
+                } else if (triptypee == hotel) {
+                  // print('hotel');
+                  // print(hotelTypeMap[selectedsleep]);
+
+                  triptemplate.hotelAndBoatId.hotelId =
+                      hotelTypeMap[selectedsleep];
+
+                  // hotelandboatID.hotelId = hotelTypeMap[selectedsleep];
+                  //  triptemplate.hotelAndBoatId=hotelandboatID;
+                  //   triptemplate.hotelAndBoatId.hotelId= hotelTypeMap[selectedsleep];
+                }
+              });
+            },
+          ),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Center(
+                  child: Pictrip == null
+                      ? Text('Trip image')
+                      : kIsWeb
+                          ? Image.network(
+                              Pictrip.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(Pictrip.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
                 ),
-              ],
-            ),
+                onPressed: () {
+                  _getPictrip();
+                },
+              ),
+            ],
+          ),
 
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Center(
-                    child: Boatpic == null
-                        ? Text('Boat image')
-                        : kIsWeb
-                            ? Image.network(
-                                Boatpic.path,
-                                fit: BoxFit.cover,
-                                width: screenwidth * 0.2,
-                              )
-                            : Image.file(
-                                io.File(Boatpic.path),
-                                fit: BoxFit.cover,
-                                width: screenwidth * 0.05,
-                              )),
-                Spacer(),
-                FlatButton(
-                  color: Color(0xfffa2c8ff),
-                  child: Text(
-                    'Upload',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onPressed: () {
-                    _getBoatpic();
-                  },
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Center(
+                  child: Boatpic == null
+                      ? Text('Boat image')
+                      : kIsWeb
+                          ? Image.network(
+                              Boatpic.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(Boatpic.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
                 ),
-              ],
-            ),
+                onPressed: () {
+                  _getBoatpic();
+                },
+              ),
+            ],
+          ),
 
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Center(
-                    child: Schedule == null
-                        ? Text('Schedule')
-                        : kIsWeb
-                            ? Image.network(
-                                Schedule.path,
-                                fit: BoxFit.cover,
-                                width: screenwidth * 0.2,
-                              )
-                            : Image.file(
-                                io.File(Schedule.path),
-                                fit: BoxFit.cover,
-                                width: screenwidth * 0.05,
-                              )),
-                Spacer(),
-                FlatButton(
-                  color: Color(0xfffa2c8ff),
-                  child: Text(
-                    'Upload',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onPressed: () {
-                    _getSchedule();
-                  },
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Center(
+                  child: Schedule == null
+                      ? Text('Schedule')
+                      : kIsWeb
+                          ? Image.network(
+                              Schedule.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(Schedule.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
                 ),
-              ],
-            ),
+                onPressed: () {
+                  _getSchedule();
+                },
+              ),
+            ],
+          ),
 
-            // FormError(errors: errors),
+          // FormError(errors: errors),
 
-            SizedBox(height: 20),
-            //  FlatButton(onPressed: getData, child: Text('check')),
-          ]),
-        ),
+          SizedBox(height: 20),
+          //  FlatButton(onPressed: getData, child: Text('check')),
+        ]),
       ),
     );
   }
