@@ -2,6 +2,7 @@ import 'package:diving_trip_agency/controllers/menuController.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/aboutus/aboutus_screen.dart';
 import 'package:diving_trip_agency/screens/Booking/divingshop_screen.dart';
+import 'package:diving_trip_agency/screens/detail/trip_detail_screen.dart';
 import 'package:diving_trip_agency/screens/diveresort/dive_resort_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_screen.dart';
 import 'package:diving_trip_agency/screens/weatherforecast/forecast_screen.dart';
@@ -28,25 +29,31 @@ class WebMenu extends StatelessWidget {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => MainScreen()));
                   }
-                  if (_controller.selectedIndex == 1) {
+                    if (_controller.selectedIndex == 1) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => LiveaboardScreen()));
+                            builder: (context) => TripDetailScreen()));
                   }
-                  if (_controller.selectedIndex == 2) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DiveResortScreen()));
-                  }
+                  // if (_controller.selectedIndex == 1) {
+                  //   Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => LiveaboardScreen()));
+                  // }
+                  // if (_controller.selectedIndex == 2) {
+                  //   Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => DiveResortScreen()));
+                  // }
                   // if (_controller.selectedIndex == 3) {
                   //   Navigator.push(
                   //       context,
                   //       MaterialPageRoute(
                   //           builder: (context) => PackageScreen()));
                   // }
-                  if (_controller.selectedIndex == 3) {
+                  if (_controller.selectedIndex == 2) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(

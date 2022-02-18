@@ -2,6 +2,7 @@ import 'package:diving_trip_agency/controllers/menuController.dart';
 import 'package:diving_trip_agency/screens/Booking/divingshop_screen.dart';
 import 'package:diving_trip_agency/screens/aboutus/aboutus_screen.dart';
 import 'package:diving_trip_agency/screens/detail/package_screen.dart';
+import 'package:diving_trip_agency/screens/detail/trip_detail_screen.dart';
 import 'package:diving_trip_agency/screens/diveresort/dive_resort_screen.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
@@ -41,27 +42,34 @@ class SideMenu extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => MainScreen()));
                             }
-                            if (_controller.selectedIndex == 1) {
+                                   if (_controller.selectedIndex == 1) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          LiveaboardScreen()));
+                                          TripDetailScreen()));
                             }
-                            if (_controller.selectedIndex == 2) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DiveResortScreen()));
-                            }
+                            // if (_controller.selectedIndex == 1) {
+                            //   Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: (context) =>
+                            //               LiveaboardScreen()));
+                            // }
+                            // if (_controller.selectedIndex == 2) {
+                            //   Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: (context) =>
+                            //               DiveResortScreen()));
+                            // }
                             // if (_controller.selectedIndex == 3) {
                             //   Navigator.push(
                             //       context,
                             //       MaterialPageRoute(
                             //           builder: (context) => PackageScreen()));
                             // }
-                            if (_controller.selectedIndex == 3) {
+                            if (_controller.selectedIndex == 2) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
