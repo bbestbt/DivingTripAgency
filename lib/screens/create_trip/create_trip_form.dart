@@ -172,7 +172,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   @override
   Widget build(BuildContext context) {
     //loadData();
-    return Form(
+    return Container(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
