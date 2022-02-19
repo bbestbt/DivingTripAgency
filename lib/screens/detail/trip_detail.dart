@@ -10,8 +10,15 @@ import 'package:hive/hive.dart';
 
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 
-class TripDetail extends StatelessWidget {
+
+class TripDetail extends StatefulWidget {
+  _TripDetailState createState() => _TripDetailState();
+}
+class _TripDetailState extends State<TripDetail> {
   DateTime _dateTime;
+  bool value = false;
+
+
   @override
   Widget build(BuildContext context) {
     return Row(children: [
@@ -44,9 +51,344 @@ class TripDetail extends StatelessWidget {
                         fillColor: Colors.white,
                         hintText: 'Number of customer')),
                 SizedBox(height: 20),
-                ElevatedButton(onPressed: () {}, child: Text("SEARCH"))
+
+                ElevatedButton(onPressed: () {}, child: Text("SEARCH")),
+                SizedBox(height: 20),
+                Container(
+                    child:Column(
+                        children:[
+                          Text("Price (per person/trip)"),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '\$0 - \$1,000',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '\$1,001 - \$2,000',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '\$2,001 - \$3,000',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),///Row
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '\$3,000+',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                'Only special deals',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          //Trip Duration
+                          Text("Trip Duration"),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                               //SizedBox
+                              /** Checkbox Widget **/
+
+                              SizedBox(width: 10),
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '6 nights',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '7 nights',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '8 nights',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),///Row
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '9 nights',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '10 Nights',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          Text("Diving Intensity"),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '>30 Diving',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '25-30 Diving',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '20-25 Dives',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '15-20 Dives',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              SizedBox(width: 10), //SizedBox
+                              /** Checkbox Widget **/
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '10-15 Dives',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
+
+
+                        ]
+                    )
+                )
               ]),
             ),
+
+
+
+
           ])),
       Expanded(
           flex: 7,
