@@ -10,6 +10,7 @@ import 'package:hive/hive.dart';
 
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 
+
 class TripDetail extends StatefulWidget {
   _TripDetailState createState() => _TripDetailState();
 }
@@ -50,6 +51,7 @@ class _TripDetailState extends State<TripDetail> {
                         fillColor: Colors.white,
                         hintText: 'Number of customer')),
                 SizedBox(height: 20),
+
                 ElevatedButton(onPressed: () {}, child: Text("SEARCH")),
                 SizedBox(height: 20),
                 Container(
@@ -383,6 +385,7 @@ class _TripDetailState extends State<TripDetail> {
                 )
               ]),
             ),
+
 
 
 
