@@ -9,7 +9,9 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
-
+// This list holds the data for the list view
+List<LiveAboardData> _foundtrip = [];
+List costchecklist = [];
 
 class TripDetail extends StatefulWidget {
   _TripDetailState createState() => _TripDetailState();
@@ -17,7 +19,17 @@ class TripDetail extends StatefulWidget {
 class _TripDetailState extends State<TripDetail> {
   DateTime _dateTime;
   bool value = false;
+  String dropdownValue = 'Onshore';
 
+
+
+  @override
+  initState() {
+    // at the beginning, all users are shown
+    _foundtrip = LiveAboardDatas;
+    super.initState();
+    costchecklist = [false,false,false,false,false];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +51,61 @@ class _TripDetailState extends State<TripDetail> {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         fillColor: Colors.white,
-                        hintText: 'Date')),
+                        hintText: 'From')),
+                SizedBox(height: 20),
+                TextField(
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        fillColor: Colors.white,
+                        hintText: 'To')),
+                SizedBox(height: 20),
+                TextField(
+                    onChanged: (value) => _runFilter(value),
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        fillColor: Colors.white,
+                        hintText: 'Trip Name (Test)')),
+                SizedBox(height: 20),
                 TextField(
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         fillColor: Colors.white,
                         hintText: 'Location')),
+                SizedBox(height: 20),
                 TextField(
                     decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         fillColor: Colors.white,
                         hintText: 'Number of customer')),
                 SizedBox(height: 20),
-
+                Container(
+                  width: double.infinity,
+                  child:
+                    DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      iconSize: 30,
+                      isExpanded: true,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
+                      ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                      items: <String>['Onshore', 'Offshore']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                ),
                 ElevatedButton(onPressed: () {}, child: Text("SEARCH")),
                 SizedBox(height: 20),
                 Container(
@@ -67,10 +121,11 @@ class _TripDetailState extends State<TripDetail> {
                               SizedBox(width: 10), //SizedBox
                               /** Checkbox Widget **/
                               Checkbox(
-                                value: this.value,
+                                value: costchecklist[0] ,
                                 onChanged: (bool value) {
                                   setState(() {
-                                    this.value = value;
+                                    costchecklist[0] = value;
+
                                   });
                                 },
                               ),//Checkbox
@@ -88,12 +143,12 @@ class _TripDetailState extends State<TripDetail> {
                               SizedBox(width: 10), //SizedBox
                               /** Checkbox Widget **/
                               Checkbox(
-                                value: this.value,
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    this.value = value;
-                                  });
-                                },
+                                  value: costchecklist[1] ,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      costchecklist[1] = value;
+                                    });
+                                  },
                               ),//Checkbox
                               Text(
                                 '\$1,001 - \$2,000',
@@ -112,8 +167,12 @@ class _TripDetailState extends State<TripDetail> {
                                 value: this.value,
                                 onChanged: (bool value) {
                                   setState(() {
-                                    this.value = value;
-                                  });
+
+                                    costchecklist[0] = value;
+                                    this.value = costchecklist[0];
+                                  }
+                                  );
+                                  print(costchecklist);
                                 },
                               ),//Checkbox
                               Text(
@@ -133,7 +192,8 @@ class _TripDetailState extends State<TripDetail> {
                                 value: this.value,
                                 onChanged: (bool value) {
                                   setState(() {
-                                    this.value = value;
+                                    costchecklist[1] = value;
+                                    this.value = costchecklist[1];
                                   });
                                 },
                               ),//Checkbox
@@ -165,6 +225,29 @@ class _TripDetailState extends State<TripDetail> {
                           ),
                           //Trip Duration
                           Text("Trip Duration"),
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ), //SizedBox
+
+                              //SizedBox
+                              /** Checkbox Widget **/
+
+                              SizedBox(width: 10),
+                              Checkbox(
+                                value: this.value,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.value = value;
+                                  });
+                                },
+                              ),//Checkbox
+                              Text(
+                                '1 day',
+                              ), //Text
+                            ], //<Widget>[]
+                          ),
                           Row(
                             children: <Widget>[
                               SizedBox(
@@ -413,14 +496,17 @@ class _TripDetailState extends State<TripDetail> {
                         child: Wrap(
                             spacing: 20,
                             runSpacing: 40,
-                            children: List.generate(
-                              LiveAboardDatas.length,
+                            children:
+                              List.generate(
+                              _foundtrip.length,
                               (index) => Center(
                                 child: InfoCard(
                                   index: index,
                                 ),
                               ),
-                            ))),
+                           ))
+                          ),
+
                     SizedBox(
                       height: 100,
                     )
@@ -431,15 +517,35 @@ class _TripDetailState extends State<TripDetail> {
           ))
     ]);
   }
+
+  void _runFilter(String enteredKeyword) {
+    var results = [];
+    if (enteredKeyword.isEmpty) {
+      // if the search field is empty or only contains white-space, we'll display all users
+      results = LiveAboardDatas;
+    } else {
+      results = LiveAboardDatas
+          .where((trip) =>
+          trip.getname().toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
+      // we use the toLowerCase() method to make it case-insensitive
+    }
+    setState(() {
+      _foundtrip = results;
+
+    });
+
+    //print(_foundtrip[0].name);
+  }
+
 }
 
 class InfoCard extends StatefulWidget {
-  const InfoCard({
+  InfoCard({
     Key key,
     this.index,
   }) : super(key: key);
-
-  final int index;
+  int index;
 
   @override
   State<InfoCard> createState() => _InfoCardState();
@@ -448,6 +554,7 @@ class InfoCard extends StatefulWidget {
 class _InfoCardState extends State<InfoCard> {
   Map<String, dynamic> hotelTypeMap = {};
   List<String> hotel = [];
+
 
   getData() async {
     print("before try catch");
@@ -489,7 +596,8 @@ class _InfoCardState extends State<InfoCard> {
             Container(
                 width: 300,
                 height: 300,
-                child: Image.asset(LiveAboardDatas[widget.index].image)),
+                child: Image.asset(_foundtrip[widget.index].image)),
+               // child: Image.asset(LiveAboardDatas[widget.index].image)),
             Expanded(
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
@@ -499,7 +607,9 @@ class _InfoCardState extends State<InfoCard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Trip name : ' +
-                            LiveAboardDatas[widget.index].name),
+
+                            _foundtrip[widget.index].name),
+                            //LiveAboardDatas[widget.index].name),
 
                         SizedBox(
                           height: 10,
