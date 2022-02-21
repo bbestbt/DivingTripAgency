@@ -1,6 +1,5 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
-import 'package:diving_trip_agency/screens/detail/Price.dart';
 import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
@@ -84,39 +83,39 @@ class _TripDetailState extends State<TripDetail> {
                         fillColor: Colors.white,
                         hintText: 'Number of customer')),
                 SizedBox(height: 20),
-                // Container(
-                //   width: double.infinity,
-                //   child:
-                //     DropdownButton<String>(
-                //       value: dropdownValue,
-                //       icon: const Icon(Icons.arrow_downward),
-                //       elevation: 16,
-                //       iconSize: 30,
-                //       isExpanded: true,
-                //       style: const TextStyle(color: Colors.deepPurple),
-                //       underline: Container(
-                //         height: 2,
-                //         color: Colors.deepPurpleAccent,
-                //       ),
-                //       onChanged: (String newValue) {
-                //         setState(() {
-                //           dropdownValue = newValue;
-                //         });
-                //       },
-                //       items: <String>['Onshore', 'Offshore']
-                //           .map<DropdownMenuItem<String>>((String value) {
-                //         return DropdownMenuItem<String>(
-                //           value: value,
-                //           child: Text(value),
-                //         );
-                //       }).toList(),
-                //     ),
-                // ),
-                TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        fillColor: Colors.white,
-                        hintText: 'Onshore or offshore')),
+                Container(
+                  width: double.infinity,
+                  child:
+                    DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: const Icon(Icons.arrow_downward),
+                      elevation: 16,
+                      iconSize: 30,
+                      isExpanded: true,
+                      style: const TextStyle(color: Colors.deepPurple),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
+                      ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                      items: <String>['Onshore', 'Offshore']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                ),
+                // TextField(
+                //     decoration: InputDecoration(
+                //         border: OutlineInputBorder(),
+                //         fillColor: Colors.white,
+                //         hintText: 'Onshore or offshore')),
                 //ElevatedButton(onPressed: () {}, child: Text("SEARCH")),
                 SizedBox(height: 20),
                 Container(
