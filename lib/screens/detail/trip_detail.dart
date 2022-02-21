@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
+import 'package:diving_trip_agency/screens/detail/Price.dart';
 import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
@@ -13,6 +14,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 // This list holds the data for the list view
 List<LiveAboardData> _foundtrip = [];
 List costchecklist = [];
+List durationchecklist = [];
 
 class TripDetail extends StatefulWidget {
   _TripDetailState createState() => _TripDetailState();
@@ -28,7 +30,8 @@ class _TripDetailState extends State<TripDetail> {
     // at the beginning, all users are shown
     _foundtrip = LiveAboardDatas;
     super.initState();
-    costchecklist = [false, false, false, false, false, false];
+    costchecklist = [false, false, false, false, false];
+    durationchecklist = [false, false, false, false, false,false];
   }
 
   @override
@@ -170,11 +173,16 @@ class _TripDetailState extends State<TripDetail> {
                       SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
-                        value: this.value,
+                        // value: this.value,
+                        // onChanged: (bool value) {
+                        //   setState(() {
+                        //     costchecklist[2] = value;
+                        //     this.value = costchecklist[0];
+                        //  });
+                         value: costchecklist[2],
                         onChanged: (bool value) {
                           setState(() {
-                            costchecklist[0] = value;
-                            this.value = costchecklist[0];
+                            costchecklist[2] = value;
                           });
                           print(costchecklist);
                         },
@@ -195,11 +203,16 @@ class _TripDetailState extends State<TripDetail> {
                       SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
-                        value: this.value,
+                        // value: this.value,
+                        // onChanged: (bool value) {
+                        //   setState(() {
+                        //     costchecklist[3] = value;
+                        //     this.value = costchecklist[1];
+                        //   });
+                         value: costchecklist[3],
                         onChanged: (bool value) {
                           setState(() {
-                            costchecklist[1] = value;
-                            this.value = costchecklist[1];
+                            costchecklist[3] = value;
                           });
                         },
                       ), //Checkbox
@@ -217,10 +230,10 @@ class _TripDetailState extends State<TripDetail> {
                       SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
-                        value: this.value,
+                         value: costchecklist[4],
                         onChanged: (bool value) {
                           setState(() {
-                            this.value = value;
+                            costchecklist[4] = value;
                           });
                         },
                       ), //Checkbox
@@ -243,10 +256,10 @@ class _TripDetailState extends State<TripDetail> {
 
                       SizedBox(width: 10),
                       Checkbox(
-                        value: this.value,
+                        value: durationchecklist[0],
                         onChanged: (bool value) {
                           setState(() {
-                            this.value = value;
+                            durationchecklist[0] = value;
                           });
                         },
                       ), //Checkbox
@@ -266,10 +279,10 @@ class _TripDetailState extends State<TripDetail> {
 
                       SizedBox(width: 10),
                       Checkbox(
-                        value: this.value,
+                        value: durationchecklist[1],
                         onChanged: (bool value) {
                           setState(() {
-                            this.value = value;
+                            durationchecklist[1] = value;
                           });
                         },
                       ), //Checkbox
@@ -287,10 +300,10 @@ class _TripDetailState extends State<TripDetail> {
                       SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
-                        value: this.value,
+                       value: durationchecklist[2],
                         onChanged: (bool value) {
                           setState(() {
-                            this.value = value;
+                            durationchecklist[2] = value;
                           });
                         },
                       ), //Checkbox
@@ -308,10 +321,10 @@ class _TripDetailState extends State<TripDetail> {
                       SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
-                        value: this.value,
+                        value: durationchecklist[3],
                         onChanged: (bool value) {
                           setState(() {
-                            this.value = value;
+                            durationchecklist[3] = value;
                           });
                         },
                       ), //Checkbox
@@ -331,10 +344,10 @@ class _TripDetailState extends State<TripDetail> {
                       SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
-                        value: this.value,
+                        value: durationchecklist[4],
                         onChanged: (bool value) {
                           setState(() {
-                            this.value = value;
+                            durationchecklist[4] = value;
                           });
                         },
                       ), //Checkbox
@@ -352,10 +365,10 @@ class _TripDetailState extends State<TripDetail> {
                       SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
-                        value: this.value,
+                       value: durationchecklist[5],
                         onChanged: (bool value) {
                           setState(() {
-                            this.value = value;
+                            durationchecklist[5] = value;
                           });
                         },
                       ), //Checkbox
@@ -364,6 +377,8 @@ class _TripDetailState extends State<TripDetail> {
                       ), //Text
                     ], //<Widget>[]
                   ),
+
+             
                   // Text("Diving Intensity"),
                   // Row(
                   //   children: <Widget>[
@@ -551,31 +566,31 @@ class _InfoCardState extends State<InfoCard> {
   Map<String, dynamic> hotelTypeMap = {};
   List<String> hotel = [];
 
-  getData() async {
-    print("before try catch");
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-    final box = Hive.box('userInfo');
-    String token = box.get('token');
+  // getData() async {
+  //   print("before try catch");
+  //   final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+  //       host: '139.59.101.136',
+  //       grpcPort: 50051,
+  //       grpcTransportSecure: false,
+  //       grpcWebPort: 8080,
+  //       grpcWebTransportSecure: false);
+  //   final box = Hive.box('userInfo');
+  //   String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
-    var listonshorerequest = SearchOnshoreTripsRequest();
+  //   final stub = AgencyServiceClient(channel,
+  //       options: CallOptions(metadata: {'Authorization': '$token'}));
+  //   var listonshorerequest = SearchOnshoreTripsRequest();
 
-    try {
-      await for (var feature in stub.searchOnshoreTrips(listonshorerequest)) {
-        //  print(feature.hotel.name);
-        // hotel.add((feature.trip.price).toString());
-        // hotelTypeMap[feature.hotel.name] = feature.hotel.id;
-      }
-    } catch (e) {
-      print('ERROR: $e');
-    }
-  }
+  //   try {
+  //     await for (var feature in stub.searchOnshoreTrips(listonshorerequest)) {
+  //       //  print(feature.hotel.name);
+  //       // hotel.add((feature.trip.price).toString());
+  //       // hotelTypeMap[feature.hotel.name] = feature.hotel.id;
+  //     }
+  //   } catch (e) {
+  //     print('ERROR: $e');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -607,8 +622,7 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Start date : ' +
-                            _foundtrip[widget.index].start),
+                        Text('Start date : ' + _foundtrip[widget.index].start),
 
                         SizedBox(
                           height: 10,
@@ -617,27 +631,25 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Location : ' +
-                            _foundtrip[widget.index].location),
+                        Text('Location : ' + _foundtrip[widget.index].location),
                         SizedBox(
                           height: 10,
                         ),
                         // Text(LiveAboardDatas[widget.index].description),
-                        Text('Total people : ' +
-                            _foundtrip[widget.index].total),
+                        Text(
+                            'Total people : ' + _foundtrip[widget.index].total),
                         SizedBox(
                           height: 10,
                         ),
 
-                        Text('Trip type : ' +
-                            _foundtrip[widget.index].type),
+                        Text('Trip type : ' + _foundtrip[widget.index].type),
                         SizedBox(
                           height: 10,
                         ),
                         Align(
                             alignment: Alignment.centerRight,
-                            child: Text('Price : ' +
-                                _foundtrip[widget.index].price)),
+                            child: Text(
+                                'Price : ' + _foundtrip[widget.index].price)),
                         SizedBox(
                           height: 20,
                         ),
@@ -667,3 +679,5 @@ class _InfoCardState extends State<InfoCard> {
     );
   }
 }
+
+
