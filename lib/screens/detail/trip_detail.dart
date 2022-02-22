@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
-
+import 'package:fixnum/fixnum.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 
 // This list holds the data for the list view
@@ -30,7 +30,7 @@ class _TripDetailState extends State<TripDetail> {
     _foundtrip = LiveAboardDatas;
     super.initState();
     costchecklist = [false, false, false, false, false];
-    durationchecklist = [false, false, false, false, false,false];
+    durationchecklist = [false, false, false, false, false, false];
   }
 
   @override
@@ -85,31 +85,30 @@ class _TripDetailState extends State<TripDetail> {
                 SizedBox(height: 20),
                 Container(
                   width: double.infinity,
-                  child:
-                    DropdownButton<String>(
-                      value: dropdownValue,
-                      icon: const Icon(Icons.arrow_downward),
-                      elevation: 16,
-                      iconSize: 30,
-                      isExpanded: true,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          dropdownValue = newValue;
-                        });
-                      },
-                      items: <String>['Onshore', 'Offshore']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    icon: const Icon(Icons.arrow_downward),
+                    elevation: 16,
+                    iconSize: 30,
+                    isExpanded: true,
+                    style: const TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
                     ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        dropdownValue = newValue;
+                      });
+                    },
+                    items: <String>['Onshore', 'Offshore']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
                 ),
                 // TextField(
                 //     decoration: InputDecoration(
@@ -178,7 +177,7 @@ class _TripDetailState extends State<TripDetail> {
                         //     costchecklist[2] = value;
                         //     this.value = costchecklist[0];
                         //  });
-                         value: costchecklist[2],
+                        value: costchecklist[2],
                         onChanged: (bool value) {
                           setState(() {
                             costchecklist[2] = value;
@@ -208,7 +207,7 @@ class _TripDetailState extends State<TripDetail> {
                         //     costchecklist[3] = value;
                         //     this.value = costchecklist[1];
                         //   });
-                         value: costchecklist[3],
+                        value: costchecklist[3],
                         onChanged: (bool value) {
                           setState(() {
                             costchecklist[3] = value;
@@ -229,7 +228,7 @@ class _TripDetailState extends State<TripDetail> {
                       SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
-                         value: costchecklist[4],
+                        value: costchecklist[4],
                         onChanged: (bool value) {
                           setState(() {
                             costchecklist[4] = value;
@@ -299,7 +298,7 @@ class _TripDetailState extends State<TripDetail> {
                       SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
-                       value: durationchecklist[2],
+                        value: durationchecklist[2],
                         onChanged: (bool value) {
                           setState(() {
                             durationchecklist[2] = value;
@@ -364,7 +363,7 @@ class _TripDetailState extends State<TripDetail> {
                       SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
-                       value: durationchecklist[5],
+                        value: durationchecklist[5],
                         onChanged: (bool value) {
                           setState(() {
                             durationchecklist[5] = value;
@@ -377,7 +376,6 @@ class _TripDetailState extends State<TripDetail> {
                     ], //<Widget>[]
                   ),
 
-             
                   // Text("Diving Intensity"),
                   // Row(
                   //   children: <Widget>[
@@ -564,32 +562,59 @@ class InfoCard extends StatefulWidget {
 class _InfoCardState extends State<InfoCard> {
   Map<String, dynamic> hotelTypeMap = {};
   List<String> hotel = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
-  // getData() async {
-  //   print("before try catch");
-  //   final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-  //       host: '139.59.101.136',
-  //       grpcPort: 50051,
-  //       grpcTransportSecure: false,
-  //       grpcWebPort: 8080,
-  //       grpcWebTransportSecure: false);
-  //   final box = Hive.box('userInfo');
-  //   String token = box.get('token');
+  getData() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
 
-  //   final stub = AgencyServiceClient(channel,
-  //       options: CallOptions(metadata: {'Authorization': '$token'}));
-  //   var listonshorerequest = SearchOnshoreTripsRequest();
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var searchonshore = SearchOnshoreTrips();
+    searchonshore.city = 'Bangkok';
+    searchonshore.divers = 1;
+    searchonshore.startDate = Timestamp.fromDateTime(DateTime.now(),);
+    searchonshore.endDate = Timestamp.fromDateTime( DateTime(2023));
+    var listonshorerequest = SearchOnshoreTripsRequest();
+    listonshorerequest.limit=Int64(20);
+    listonshorerequest.offset=Int64(0);
+    listonshorerequest.searchOnshoreTrips=searchonshore;
 
-  //   try {
-  //     await for (var feature in stub.searchOnshoreTrips(listonshorerequest)) {
-  //       //  print(feature.hotel.name);
-  //       // hotel.add((feature.trip.price).toString());
-  //       // hotelTypeMap[feature.hotel.name] = feature.hotel.id;
-  //     }
-  //   } catch (e) {
-  //     print('ERROR: $e');
-  //   }
-  // }
+
+    try {
+      print('test');
+      await for (var feature in stub.searchOnshoreTrips(listonshorerequest)) {
+        print('list');
+        // print(feature.hotel.name);
+        print(feature.trip.price);
+        print(feature.trip.fromDate);
+        print(feature.trip.toDate);
+        print(feature.trip.maxGuest);
+        hotel.add((feature.trip.price).toString());
+        hotel.add((feature.trip.fromDate).toString());
+        hotel.add((feature.trip.toDate).toString());
+        hotel.add((feature.trip.maxGuest).toString());
+        hotelTypeMap[(feature.trip.price.toString())] = feature.trip.id;
+        hotelTypeMap[(feature.trip.fromDate.toString())] = feature.trip.id;
+        hotelTypeMap[(feature.trip.toDate.toString())] = feature.trip.id;
+        hotelTypeMap[(feature.trip.maxGuest.toString())] = feature.trip.id;
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -678,5 +703,3 @@ class _InfoCardState extends State<InfoCard> {
     );
   }
 }
-
-

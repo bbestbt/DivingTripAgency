@@ -30,8 +30,8 @@ class MyApp extends StatelessWidget {
           ),
           fontFamily: 'Poppins'),
   //home: MainCompanyScreen(),
-     // home: MainScreen(), //Original
-   home: LiveaboardDetailScreen(),
+     home: MainScreen(), //Original
+  //  home: LiveaboardDetailScreen(),
   // home: DiveResortDetailScreen(),
     );
   }
