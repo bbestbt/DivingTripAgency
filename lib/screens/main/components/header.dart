@@ -7,9 +7,12 @@ import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 
 class Header extends StatelessWidget {
   final MenuController _controller = Get.put(MenuController());
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,9 +24,9 @@ class Header extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-            Color(0xfffb9deed),
-            Color(0xfffefefef),
-          ])),
+                Color(0xfffb9deed),
+                Color(0xfffefefef),
+              ])),
       child: SafeArea(
         child: Column(
           children: [
@@ -65,10 +68,15 @@ class Header extends StatelessWidget {
                           style: TextButton.styleFrom(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20 * 1.5, vertical: 20)),
-                          child: Text("Login",
-                              style: TextStyle(
-                                color: Colors.black,
-                              ))),
+                          // child: Text("Login",
+                          // style: TextStyle(
+                          // color: Colors.black,
+                          // ))
+                          child: (checkLogin())
+                              ? Text("Log out", style: TextStyle(color: Colors
+                              .black),)
+                              : Text("Log in", style: TextStyle(color: Colors
+                              .black),)),
                     ],
                   ),
                   SizedBox(
@@ -88,5 +96,23 @@ class Header extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool checkLogin() {
+    try {
+      var box = Hive.box('userInfo');
+      Hive.openBox('userInfo');
+      String token = box.get('token');
+      bool login = box.get('login');
+      if (login == true) {
+        print(login);
+        return true;
+      } else {
+        print(login);
+        return false;
+      }
+    } on GrpcError catch (e) {} catch (e) {
+      print('Exception: $e');
+    }
   }
 }

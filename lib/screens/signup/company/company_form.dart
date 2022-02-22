@@ -152,7 +152,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     agency.documents.add(f2);
 
 
-
     var accountRequest = AccountRequest();
     accountRequest.agency = agency;
 
