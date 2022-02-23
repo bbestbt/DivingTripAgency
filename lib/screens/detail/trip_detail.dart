@@ -14,7 +14,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 List<LiveAboardData> _foundtrip = [];
 List costchecklist = [];
 List durationchecklist = [];
-
+List<SearchTripsResponse_Trip> trips = [];
 class TripDetail extends StatefulWidget {
   _TripDetailState createState() => _TripDetailState();
 }
@@ -643,20 +643,8 @@ class InfoCard extends StatefulWidget {
 }
 
 class _InfoCardState extends State<InfoCard> {
- 
-  List<SearchTripsResponse_Trip> trips = [];
-  // List<String> price = [];
-  // List<String> start = [];
-  // List<String> end = [];
-  // List<String> maxguest = [];
-  // List<String> city = [];
-  // List<String> image=[];
-  // Map<String, dynamic> priceTypeMap = {};
-  // Map<String, dynamic> startTypeMap = {};
-  // Map<String, dynamic> endTypeMap = {};
-  // Map<String, dynamic> maxguestTypeMap = {};
-  // Map<String, dynamic> cityTypeMap = {};
-  // Map<String, dynamic> imgTypeMap = {};
+  // List<SearchTripsResponse_Trip> trips = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -690,7 +678,6 @@ class _InfoCardState extends State<InfoCard> {
     listonshorerequest.limit = Int64(20);
     listonshorerequest.offset = Int64(0);
     listonshorerequest.searchTripsOptions = searchonshore;
-
     print(listonshorerequest);
     try {
       await for (var feature in stub.searchTrips(listonshorerequest)) {
@@ -701,10 +688,8 @@ class _InfoCardState extends State<InfoCard> {
         print(feature.trip.tripTemplate.address.city);
         print(feature.trip.tripTemplate.images);
         trips.add(feature.trip);
+        // print(trips);
       }
-      // print(price);
-      // print("d");
-      // print(priceTypeMap);
     } catch (e) {
       print('ERROR: $e');
     }
@@ -736,17 +721,20 @@ class _InfoCardState extends State<InfoCard> {
                       children: [
                         // Text('Trip name : ' + _foundtrip[widget.index].name),
                         //LiveAboardDatas[widget.index].name),
-                     
-                        Text('Location : ' + trips[widget.index].tripTemplate.address.city),
+
+                        Text('Location : ' +
+                            trips[widget.index].tripTemplate.address.city),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Start date : ' + trips[widget.index].fromDate.toString()),
+                        Text('Start date : ' +
+                            trips[widget.index].fromDate.toString()),
 
                         SizedBox(
                           height: 10,
                         ),
-                        Text('End date : ' + trips[widget.index].toDate.toString()),
+                        Text('End date : ' +
+                            trips[widget.index].toDate.toString()),
                         SizedBox(
                           height: 10,
                         ),
@@ -755,20 +743,24 @@ class _InfoCardState extends State<InfoCard> {
                         //   height: 10,
                         // ),
                         // Text(LiveAboardDatas[widget.index].description),
-                        Text(
-                            'Total people : ' + trips[widget.index].maxGuest.toString()),
+                        Text('Total people : ' +
+                            trips[widget.index].maxGuest.toString()),
                         SizedBox(
                           height: 10,
                         ),
 
-                        Text('Trip type : ' + trips[widget.index].tripTemplate.tripType.toString()),
+                        Text('Trip type : ' +
+                            trips[widget.index]
+                                .tripTemplate
+                                .tripType
+                                .toString()),
                         SizedBox(
                           height: 10,
                         ),
                         Align(
                             alignment: Alignment.centerRight,
-                            child: Text(
-                                'Price : ' + trips[widget.index].price.toString())),
+                            child: Text('Price : ' +
+                                trips[widget.index].price.toString())),
                         SizedBox(
                           height: 20,
                         ),
