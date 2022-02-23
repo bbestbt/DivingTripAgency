@@ -702,7 +702,7 @@ class _InfoCardState extends State<InfoCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Trip name : ' + _foundtrip[widget.index].name),
+                        // Text('Trip name : ' + _foundtrip[widget.index].name),
                         //LiveAboardDatas[widget.index].name),
 
                         SizedBox(
