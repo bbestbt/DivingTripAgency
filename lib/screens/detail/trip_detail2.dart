@@ -1,5 +1,4 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
-import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbjson.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
@@ -17,75 +16,20 @@ List costchecklist = [];
 List durationchecklist = [];
 List<SearchTripsResponse_Trip> trips = [];
 
-class TripDetail extends StatefulWidget {
-  _TripDetailState createState() => _TripDetailState();
+class tripdetail2 extends StatefulWidget {
+  _tripdetail2State createState() => _tripdetail2State();
 }
 
-class _TripDetailState extends State<TripDetail> {
+class _tripdetail2State extends State<tripdetail2> {
   DateTime _dateTime;
   bool value = false;
   String dropdownValue = 'Onshore';
   String dropdownValue2 = 'Phuket';
-  Map<String, dynamic> tripMap = {};
 
-  Future<List<SearchTripsResponse_Trip>> getData() async {
-    print("before try catch");
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-    final box = Hive.box('userInfo');
-    String token = box.get('token');
-
-    final stub = AgencyServiceClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
-    var searchonshore = SearchTripsOptions();
-    searchonshore.country = 'Thailand';
-    searchonshore.divers = 5;
-    var ts = Timestamp();
-    ts.seconds = Int64(1643663834);
-    searchonshore.startDate = ts;
-    var ts2 = Timestamp();
-    ts2.seconds = Int64(1645996634);
-    searchonshore.endDate = ts2;
-    var listonshorerequest = SearchTripsRequest();
-    listonshorerequest.limit = Int64(20);
-    listonshorerequest.offset = Int64(0);
-    listonshorerequest.searchTripsOptions = searchonshore;
-    // print(listonshorerequest);
-    // stub.searchTrips(listonshorerequest);
-    try {
-      await for (var feature in stub.searchTrips(listonshorerequest)) {
-        // print(feature.trip.price);
-        // print(feature.trip.fromDate);
-        // print(feature.trip.toDate);
-        // print(feature.trip.maxGuest);
-        // print(feature.trip.tripTemplate.address.city);
-        // print(feature.trip.tripTemplate.images);
-        print(feature.trip);
-        trips.add(feature.trip);
-        print(trips.length);
-        // tripMap[feature.trip.toString()] = feature.trip.id;
-      }
-    } catch (e) {
-      print('ERROR: $e');
-    }
-    // print('---');
-    return trips;
-    // print(trips.length);
-    // print('****');
-  }
-
-  Future<List<SearchTripsResponse_Trip>> allTrips;
   @override
   initState() {
     // at the beginning, all users are shown
     super.initState();
-    // allTrips = getData();
-    // print(allTrips);
-
     costchecklist = [false, false, false, false, false];
     durationchecklist = [false, false, false, false, false, false];
   }
@@ -93,11 +37,10 @@ class _TripDetailState extends State<TripDetail> {
   @override
   Widget build(BuildContext context) {
     _foundtrip = LiveAboardDatas;
-    // print('candy mai suay');
+    // print('candy mai sauy');
     // print(_foundtrip[1].id);
     // print(_foundtrip[2].id);
     // print(_foundtrip[3].id);
-    getData();
     return Row(children: [
       Expanded(
           flex: 3,
@@ -649,22 +592,20 @@ class _TripDetailState extends State<TripDetail> {
                       color: Color(0xFFFF78a2cc),
                     ),
                     SizedBox(height: 40),
-                    Text(trips.length.toString()),
+
                     SizedBox(
                         width: 1110,
-                        child:
-                            // _buildFunction()
-                            Wrap(
-                                spacing: 20,
-                                runSpacing: 40,
-                                children: List.generate(
-                                  trips.length,
-                                  (index) => Center(
-                                    child: InfoCard(
-                                      index: index,
-                                    ),
-                                  ),
-                                ))),
+                        child: Wrap(
+                            spacing: 20,
+                            runSpacing: 40,
+                            children: List.generate(
+                              _foundtrip.length,
+                              (index) => Center(
+                                child: InfoCard(
+                                  index: index,
+                                ),
+                              ),
+                            ))),
                     // Text(trips[trips.length].diveMasters.toString()),
                     SizedBox(
                       height: 100,
@@ -675,24 +616,6 @@ class _TripDetailState extends State<TripDetail> {
             ),
           ))
     ]);
-  }
-
-  Widget _buildFunction() {
-    return FutureBuilder(
-        future: allTrips,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData) {
-            return Center(child: Text('test'));
-          } else {
-            Container(
-                child: ListView.builder(
-                    itemCount: snapshot.data.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Text('test2');
-                    }));
-          }
-        });
   }
 
   void _runFilter(String enteredKeyword) {
@@ -737,6 +660,54 @@ class _InfoCardState extends State<InfoCard> {
     //  print('candy');
     print('candy2');
     print(trips.length);
+  }
+
+  getData() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var searchonshore = SearchTripsOptions();
+    searchonshore.country = 'Thailand';
+    searchonshore.divers = 5;
+    var ts = Timestamp();
+    ts.seconds = Int64(1643663834);
+    searchonshore.startDate = ts;
+    var ts2 = Timestamp();
+    ts2.seconds = Int64(1645996634);
+    searchonshore.endDate = ts2;
+    var listonshorerequest = SearchTripsRequest();
+    listonshorerequest.limit = Int64(20);
+    listonshorerequest.offset = Int64(0);
+    listonshorerequest.searchTripsOptions = searchonshore;
+    // print(listonshorerequest);
+    // stub.searchTrips(listonshorerequest);
+    try {
+      await for (var feature in stub.searchTrips(listonshorerequest)) {
+        // print(feature.trip.price);
+        // print(feature.trip.fromDate);
+        // print(feature.trip.toDate);
+        // print(feature.trip.maxGuest);
+        // print(feature.trip.tripTemplate.address.city);
+        // print(feature.trip.tripTemplate.images);
+        print(feature.trip);
+        trips.add(feature.trip);
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+    // print('---');
+    return trips;
+    // print(trips.length);
+    // print('****');
   }
 
   @override
