@@ -54,10 +54,10 @@ class _TripDetailState extends State<TripDetail> {
                   style: TextStyle(fontSize: 20),
                 ),
                 //TextField(
-                    //decoration: InputDecoration(
-                        //border: OutlineInputBorder(),
-                        //fillColor: Colors.white,
-                        //hintText: 'From (DD/MM/YY)')),
+                //decoration: InputDecoration(
+                //border: OutlineInputBorder(),
+                //fillColor: Colors.white,
+                //hintText: 'From (DD/MM/YY)')),
                 SizedBox(height: 20),
                 SizedBox(height: 20),
                 Row(
@@ -71,34 +71,33 @@ class _TripDetailState extends State<TripDetail> {
                         child: Text('Pick a date'),
                         onPressed: () {
                           showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime.now())
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1900),
+                                  lastDate: DateTime.now())
                               .then((date) => {
-                            setState(() {
-                              var timeStamp =
-                              print(Timestamp.fromDateTime(date));
-                              _dateTime = date;
-                            })
-
-                          });
+                                    setState(() {
+                                      var timeStamp =
+                                          print(Timestamp.fromDateTime(date));
+                                      _dateTime = date;
+                                    })
+                                  });
                         }),
                   ],
                 ),
                 SizedBox(height: 20),
                 //TextField(
-                    //decoration: InputDecoration(
-                        //border: OutlineInputBorder(),
-                        //fillColor: Colors.white,
-                       // hintText: 'To (DD/MM/YY)')),
+                //decoration: InputDecoration(
+                //border: OutlineInputBorder(),
+                //fillColor: Colors.white,
+                // hintText: 'To (DD/MM/YY)')),
                 //SizedBox(height: 20),
                 //TextField(
-                    //onChanged: (value) => _runFilter(value),
-                    //decoration: InputDecoration(
-                        //border: OutlineInputBorder(),
-                        //fillColor: Colors.white,
-                        //hintText: 'Trip Name (Test)')),
+                //onChanged: (value) => _runFilter(value),
+                //decoration: InputDecoration(
+                //border: OutlineInputBorder(),
+                //fillColor: Colors.white,
+                //hintText: 'Trip Name (Test)')),
                 Row(
                   children: [
                     Text('To'),
@@ -110,33 +109,30 @@ class _TripDetailState extends State<TripDetail> {
                         child: Text('Pick a date'),
                         onPressed: () {
                           showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime.now())
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1900),
+                                  lastDate: DateTime.now())
                               .then((date) => {
-                            setState(() {
-                              var timeStamp =
-                              print(Timestamp.fromDateTime(date));
-                              _dateTime = date;
-                            })
-
-                          });
+                                    setState(() {
+                                      var timeStamp =
+                                          print(Timestamp.fromDateTime(date));
+                                      _dateTime = date;
+                                    })
+                                  });
                         }),
-
                   ],
                 ),
                 SizedBox(height: 20),
-               // TextField(
-                  //  decoration: InputDecoration(
-                      //  border: OutlineInputBorder(),
-                       // fillColor: Colors.white,
-                       // hintText: 'Location')),
+                // TextField(
+                //  decoration: InputDecoration(
+                //  border: OutlineInputBorder(),
+                // fillColor: Colors.white,
+                // hintText: 'Location')),
                 Text('Location'),
                 Container(
                   width: double.infinity,
-                  child:
-                  DropdownButton<String>(
+                  child: DropdownButton<String>(
                     value: dropdownValue2,
                     icon: const Icon(Icons.arrow_downward),
                     elevation: 16,
@@ -147,13 +143,13 @@ class _TripDetailState extends State<TripDetail> {
                       height: 2,
                       color: Colors.deepPurpleAccent,
                     ),
-                    onChanged: (String newValue){
+                    onChanged: (String newValue) {
                       _runFilter(newValue);
                       setState(() {
                         dropdownValue2 = newValue;
                       });
                     },
-                    items: <String>['Phuket', 'Krabi','Samui island','Trat']
+                    items: <String>['Phuket', 'Krabi', 'Samui island', 'Trat']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -647,8 +643,20 @@ class InfoCard extends StatefulWidget {
 }
 
 class _InfoCardState extends State<InfoCard> {
-  Map<String, dynamic> hotelTypeMap = {};
-  List<String> hotel = [];
+ 
+  List<SearchTripsResponse_Trip> trips = [];
+  // List<String> price = [];
+  // List<String> start = [];
+  // List<String> end = [];
+  // List<String> maxguest = [];
+  // List<String> city = [];
+  // List<String> image=[];
+  // Map<String, dynamic> priceTypeMap = {};
+  // Map<String, dynamic> startTypeMap = {};
+  // Map<String, dynamic> endTypeMap = {};
+  // Map<String, dynamic> maxguestTypeMap = {};
+  // Map<String, dynamic> cityTypeMap = {};
+  // Map<String, dynamic> imgTypeMap = {};
   @override
   void initState() {
     // TODO: implement initState
@@ -669,35 +677,34 @@ class _InfoCardState extends State<InfoCard> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var searchonshore = SearchOnshoreTrips();
+    var searchonshore = SearchTripsOptions();
     searchonshore.city = 'Bangkok';
-    searchonshore.divers = 1;
-    searchonshore.startDate = Timestamp.fromDateTime(DateTime.now(),);
-    searchonshore.endDate = Timestamp.fromDateTime( DateTime(2023));
-    var listonshorerequest = SearchOnshoreTripsRequest();
-    listonshorerequest.limit=Int64(20);
-    listonshorerequest.offset=Int64(0);
-    listonshorerequest.searchOnshoreTrips=searchonshore;
+    searchonshore.divers = 5;
+    var ts = Timestamp();
+    ts.seconds = Int64(1643663834);
+    searchonshore.startDate = ts;
+    var ts2 = Timestamp();
+    ts2.seconds = Int64(1645996634);
+    searchonshore.endDate = ts2;
+    var listonshorerequest = SearchTripsRequest();
+    listonshorerequest.limit = Int64(20);
+    listonshorerequest.offset = Int64(0);
+    listonshorerequest.searchTripsOptions = searchonshore;
 
-
+    print(listonshorerequest);
     try {
-      print('test');
-      await for (var feature in stub.searchOnshoreTrips(listonshorerequest)) {
-        print('list');
-        // print(feature.hotel.name);
+      await for (var feature in stub.searchTrips(listonshorerequest)) {
         print(feature.trip.price);
         print(feature.trip.fromDate);
         print(feature.trip.toDate);
         print(feature.trip.maxGuest);
-        hotel.add((feature.trip.price).toString());
-        hotel.add((feature.trip.fromDate).toString());
-        hotel.add((feature.trip.toDate).toString());
-        hotel.add((feature.trip.maxGuest).toString());
-        hotelTypeMap[(feature.trip.price.toString())] = feature.trip.id;
-        hotelTypeMap[(feature.trip.fromDate.toString())] = feature.trip.id;
-        hotelTypeMap[(feature.trip.toDate.toString())] = feature.trip.id;
-        hotelTypeMap[(feature.trip.maxGuest.toString())] = feature.trip.id;
+        print(feature.trip.tripTemplate.address.city);
+        print(feature.trip.tripTemplate.images);
+        trips.add(feature.trip);
       }
+      // print(price);
+      // print("d");
+      // print(priceTypeMap);
     } catch (e) {
       print('ERROR: $e');
     }
@@ -714,10 +721,10 @@ class _InfoCardState extends State<InfoCard> {
         ),
         child: Row(
           children: [
-            Container(
-                width: 300,
-                height: 300,
-                child: Image.asset(_foundtrip[widget.index].image)),
+            // Container(
+            //     width: 300,
+            //     height: 300,
+            //     child: Image.asset(_foundtrip[widget.index].image)),
             // child: Image.asset(LiveAboardDatas[widget.index].image)),
             Expanded(
               child: Padding(
@@ -729,38 +736,39 @@ class _InfoCardState extends State<InfoCard> {
                       children: [
                         // Text('Trip name : ' + _foundtrip[widget.index].name),
                         //LiveAboardDatas[widget.index].name),
+                     
+                        Text('Location : ' + trips[widget.index].tripTemplate.address.city),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Start date : ' + trips[widget.index].fromDate.toString()),
 
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Start date : ' + _foundtrip[widget.index].start),
+                        Text('End date : ' + trips[widget.index].toDate.toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
 
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('End date : ' + _foundtrip[widget.index].end),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('Location : ' + _foundtrip[widget.index].location),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
                         // Text(LiveAboardDatas[widget.index].description),
                         Text(
-                            'Total people : ' + _foundtrip[widget.index].total),
+                            'Total people : ' + trips[widget.index].maxGuest.toString()),
                         SizedBox(
                           height: 10,
                         ),
 
-                        Text('Trip type : ' + _foundtrip[widget.index].type),
+                        Text('Trip type : ' + trips[widget.index].tripTemplate.tripType.toString()),
                         SizedBox(
                           height: 10,
                         ),
                         Align(
                             alignment: Alignment.centerRight,
                             child: Text(
-                                'Price : ' + _foundtrip[widget.index].price)),
+                                'Price : ' + trips[widget.index].price.toString())),
                         SizedBox(
                           height: 20,
                         ),
