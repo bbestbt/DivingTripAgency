@@ -3,6 +3,7 @@ import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/components/side_menu.dart';
+import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -37,31 +38,15 @@ class detail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("Liveaboard name"),
+        SectionTitle(
+          title: "Liveaboard",
+          color: Color(0xFFFF78a2cc),
+        ),
+        Text("Liveaboard name : eiusmod tempor"),
         SizedBox(
           height: 20,
         ),
-        Text("address"),
-        SizedBox(
-          height: 20,
-        ),
-        Image.asset("assets/images/S__77242370.jpg"),
-        SizedBox(
-          height: 20,
-        ),
-        Text('description'),
-        SizedBox(
-          height: 20,
-        ),
-        Text('length'),
-        SizedBox(
-          height: 20,
-        ),
-        Text('width'),
-        SizedBox(
-          height: 20,
-        ),
-        Text('Total capacity'),
+        Text("Address : Lorem ipsum dolor sit ametm"),
         SizedBox(
           height: 20,
         ),
@@ -69,19 +54,55 @@ class detail extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        Text('Room type'),
+        Text(
+            'Description : sed do eiusmod tempor incididunt ut labore et dolore'),
         SizedBox(
           height: 20,
         ),
-        Text('Room description'),
+        Text('Length: 9'),
         SizedBox(
           height: 20,
         ),
-        Text('Max capacity'),
+        Text('Width: 7'),
         SizedBox(
           height: 20,
         ),
-        Text('Room quantity'),
+        Text('Total capacity : 25'),
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          decoration: BoxDecoration(
+              color: Color(0xFFFF8edfff),
+              borderRadius: BorderRadius.circular(10)),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Image.asset("assets/images/S__77242370.jpg"),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text('Room type : Single Room'),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                  'Room description : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore'),
+              SizedBox(
+                height: 20,
+              ),
+              Text('Max capacity : 3'),
+              SizedBox(
+                height: 20,
+              ),
+              Text('Room quantity : 10'),
+              SizedBox(height: 20),
+            ],
+          ),
+        ),
         SizedBox(
           height: 20,
         ),
@@ -89,7 +110,7 @@ class detail extends StatelessWidget {
           alignment: Alignment.bottomRight,
           child: Column(
             children: [
-              Text('Price'),
+              Text('Price : 39,000'),
               SizedBox(
                 height: 20,
               ),
