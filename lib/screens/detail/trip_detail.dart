@@ -23,6 +23,7 @@ class _TripDetailState extends State<TripDetail> {
   DateTime _dateTime;
   bool value = false;
   String dropdownValue = 'Onshore';
+  String dropdownValue2 = 'Phuket';
 
   @override
   initState() {
@@ -52,30 +53,116 @@ class _TripDetailState extends State<TripDetail> {
                   "SEARCH",
                   style: TextStyle(fontSize: 20),
                 ),
-                TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        fillColor: Colors.white,
-                        hintText: 'From (DD/MM/YY)')),
+                //TextField(
+                    //decoration: InputDecoration(
+                        //border: OutlineInputBorder(),
+                        //fillColor: Colors.white,
+                        //hintText: 'From (DD/MM/YY)')),
                 SizedBox(height: 20),
-                TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        fillColor: Colors.white,
-                        hintText: 'To (DD/MM/YY)')),
                 SizedBox(height: 20),
-                TextField(
-                    onChanged: (value) => _runFilter(value),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        fillColor: Colors.white,
-                        hintText: 'Trip Name (Test)')),
+                Row(
+                  children: [
+                    Text('Start Date'),
+                    Spacer(),
+                    //  Text(_dateTime == null ? '' : _dateTime.toString()),
+                    Spacer(),
+                    RaisedButton(
+                        color: Color(0xfff8dd9cc),
+                        child: Text('Pick a date'),
+                        onPressed: () {
+                          showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime.now())
+                              .then((date) => {
+                            setState(() {
+                              var timeStamp =
+                              print(Timestamp.fromDateTime(date));
+                              _dateTime = date;
+                            })
+
+                          });
+                        }),
+                  ],
+                ),
                 SizedBox(height: 20),
-                TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        fillColor: Colors.white,
-                        hintText: 'Location')),
+                //TextField(
+                    //decoration: InputDecoration(
+                        //border: OutlineInputBorder(),
+                        //fillColor: Colors.white,
+                       // hintText: 'To (DD/MM/YY)')),
+                //SizedBox(height: 20),
+                //TextField(
+                    //onChanged: (value) => _runFilter(value),
+                    //decoration: InputDecoration(
+                        //border: OutlineInputBorder(),
+                        //fillColor: Colors.white,
+                        //hintText: 'Trip Name (Test)')),
+                Row(
+                  children: [
+                    Text('To'),
+                    Spacer(),
+                    //  Text(_dateTime == null ? '' : _dateTime.toString()),
+                    Spacer(),
+                    RaisedButton(
+                        color: Color(0xfff8dd9cc),
+                        child: Text('Pick a date'),
+                        onPressed: () {
+                          showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime.now())
+                              .then((date) => {
+                            setState(() {
+                              var timeStamp =
+                              print(Timestamp.fromDateTime(date));
+                              _dateTime = date;
+                            })
+
+                          });
+                        }),
+
+                  ],
+                ),
+                SizedBox(height: 20),
+               // TextField(
+                  //  decoration: InputDecoration(
+                      //  border: OutlineInputBorder(),
+                       // fillColor: Colors.white,
+                       // hintText: 'Location')),
+                Text('Location'),
+                Container(
+                  width: double.infinity,
+                  child:
+                  DropdownButton<String>(
+                    value: dropdownValue2,
+                    icon: const Icon(Icons.arrow_downward),
+                    elevation: 16,
+                    iconSize: 30,
+                    isExpanded: true,
+                    style: const TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (String newValue){
+                      _runFilter(newValue);
+                      setState(() {
+                        dropdownValue2 = newValue;
+                      });
+                    },
+                    items: <String>['Phuket', 'Krabi','Samui island','Trat']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+
                 SizedBox(height: 20),
                 TextField(
                     decoration: InputDecoration(
