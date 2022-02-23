@@ -14,7 +14,8 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 List<LiveAboardData> _foundtrip = [];
 List costchecklist = [];
 List durationchecklist = [];
-List<SearchTripsResponse_Trip> trips = [];
+List<SearchTripsResponse_Trip> trips=[];
+
 class TripDetail extends StatefulWidget {
   _TripDetailState createState() => _TripDetailState();
 }
@@ -28,7 +29,6 @@ class _TripDetailState extends State<TripDetail> {
   @override
   initState() {
     // at the beginning, all users are shown
-    _foundtrip = LiveAboardDatas;
     super.initState();
     costchecklist = [false, false, false, false, false];
     durationchecklist = [false, false, false, false, false, false];
@@ -36,6 +36,11 @@ class _TripDetailState extends State<TripDetail> {
 
   @override
   Widget build(BuildContext context) {
+    _foundtrip = LiveAboardDatas;
+    // print('candy mai sauy');
+    // print(_foundtrip[1].id);
+    // print(_foundtrip[2].id);
+    // print(_foundtrip[3].id);
     return Row(children: [
       Expanded(
           flex: 3,
@@ -587,6 +592,7 @@ class _TripDetailState extends State<TripDetail> {
                       color: Color(0xFFFF78a2cc),
                     ),
                     SizedBox(height: 40),
+
                     SizedBox(
                         width: 1110,
                         child: Wrap(
@@ -600,6 +606,7 @@ class _TripDetailState extends State<TripDetail> {
                                 ),
                               ),
                             ))),
+                    // Text(trips[trips.length].diveMasters.toString()),
                     SizedBox(
                       height: 100,
                     )
@@ -644,12 +651,16 @@ class InfoCard extends StatefulWidget {
 
 class _InfoCardState extends State<InfoCard> {
   // List<SearchTripsResponse_Trip> trips = [];
-
+  List<SearchTripsResponse_Trip> listTrip;
   @override
-  void initState() {
+  void initState() async {
     // TODO: implement initState
+    await getData();
     super.initState();
-    getData();
+    //  print('candy');
+
+    print('candy2');
+    print(trips.length);
   }
 
   getData() async {
@@ -666,7 +677,7 @@ class _InfoCardState extends State<InfoCard> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var searchonshore = SearchTripsOptions();
-    searchonshore.city = 'Bangkok';
+    searchonshore.country = 'Thailand';
     searchonshore.divers = 5;
     var ts = Timestamp();
     ts.seconds = Int64(1643663834);
@@ -678,21 +689,26 @@ class _InfoCardState extends State<InfoCard> {
     listonshorerequest.limit = Int64(20);
     listonshorerequest.offset = Int64(0);
     listonshorerequest.searchTripsOptions = searchonshore;
-    print(listonshorerequest);
+    // print(listonshorerequest);
+    // stub.searchTrips(listonshorerequest);
     try {
       await for (var feature in stub.searchTrips(listonshorerequest)) {
-        print(feature.trip.price);
-        print(feature.trip.fromDate);
-        print(feature.trip.toDate);
-        print(feature.trip.maxGuest);
-        print(feature.trip.tripTemplate.address.city);
-        print(feature.trip.tripTemplate.images);
+        // print(feature.trip.price);
+        // print(feature.trip.fromDate);
+        // print(feature.trip.toDate);
+        // print(feature.trip.maxGuest);
+        // print(feature.trip.tripTemplate.address.city);
+        // print(feature.trip.tripTemplate.images);
+        print(feature.trip);
         trips.add(feature.trip);
-        // print(trips);
       }
     } catch (e) {
       print('ERROR: $e');
     }
+    // print('---');
+    return trips;
+    // print(trips.length);
+    // print('****');
   }
 
   @override
