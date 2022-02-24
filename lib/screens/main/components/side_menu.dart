@@ -7,6 +7,7 @@ import 'package:diving_trip_agency/screens/diveresort/dive_resort_screen.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_screen.dart';
+import 'package:diving_trip_agency/screens/profile/diver/profile_screen.dart';
 import 'package:diving_trip_agency/screens/weatherforecast/forecast_screen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +76,13 @@ class SideMenu extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => WForecastScreen()));
                             }
+                             if (_controller.selectedIndex == 3) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UserProfileScreen()));
+                            }
+                            
                             // if (_controller.selectedIndex == 5) {
                             //   Navigator.push(
                             //       context,

@@ -4,6 +4,7 @@ import 'package:diving_trip_agency/screens/create_liveaboard/add_liveabord_scree
 import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_screen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
+import 'package:diving_trip_agency/screens/profile/company/company_profile_screen.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
 import 'package:flutter/material.dart';
@@ -33,45 +34,52 @@ class CompanyHamburger extends StatelessWidget {
                           title: _controller.menuItems[index],
                           press: () {
                             _controller.setMenuIndex(index);
-                            if (_controller.selectedIndex == 1) {
+                            if (_controller.selectedIndex == 0) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => CreateTrip()));
                             }
-                            if (_controller.selectedIndex == 2) {
+                            if (_controller.selectedIndex == 1) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => HotelScreen()));
                             }
-                             if (_controller.selectedIndex == 3) {
+                             if (_controller.selectedIndex == 2) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           CreateLiveaboardScreen()));
                             }
-                            if (_controller.selectedIndex == 4) {
+                            if (_controller.selectedIndex == 3) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => CreateBoat()));
                             }
                            
-                                 if (_controller.selectedIndex == 5) {
+                                 if (_controller.selectedIndex == 4) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           SignupDiveMaster()));
                             }
-                                 if (_controller.selectedIndex == 6) {
+                                 if (_controller.selectedIndex == 5) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           SignupStaff()));
+                            }
+                                if (_controller.selectedIndex == 6) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CompanyProfileScreen()));
                             }
                           },
                         ))
