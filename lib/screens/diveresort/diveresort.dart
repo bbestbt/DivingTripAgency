@@ -109,6 +109,7 @@ class _InfoCardState extends State<InfoCard> {
   Map<String, dynamic> hotelTypeMap = {};
   List<String> hotel = [];
 
+
   @override
   Widget build(BuildContext context) {
     return InkWell(

@@ -1,5 +1,7 @@
 import 'package:diving_trip_agency/screens/create_trip/testDropdownw.dart';
 import 'package:diving_trip_agency/screens/detail/testComment.dart';
+import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
+import 'package:diving_trip_agency/screens/liveaboard/liveaboard_details.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/signup/test.dart';
@@ -27,9 +29,10 @@ class MyApp extends StatelessWidget {
             style: TextButton.styleFrom(backgroundColor: Color(0xFFF52B2Bf)),
           ),
           fontFamily: 'Poppins'),
-  //home: MainCompanyScreen(),
-      home: MainScreen(), //Original
-  // home: TestMe(),
+  // home: MainCompanyScreen(),
+     home: MainScreen(), //Original
+  //  home: LiveaboardDetailScreen(),
+  // home: DiveResortDetailScreen(),
     );
   }
 

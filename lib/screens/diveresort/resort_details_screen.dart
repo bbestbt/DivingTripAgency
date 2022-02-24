@@ -3,6 +3,7 @@ import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/components/side_menu.dart';
+import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -37,16 +38,20 @@ class detail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("Hotel name"),
+        SectionTitle(
+          title: "Dive resorts",
+          color: Color(0xFFFF78a2cc),
+        ),
+        Text("Hotel name : Lorem veniam"),
         SizedBox(
           height: 20,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('phone number'),
+            Text('Phone number : 0957573722'),
             SizedBox(width: 30),
-            Text("address")
+            Text("Address: Lorem ipsum dolor sit amet, consectem")
           ],
         ),
         SizedBox(
@@ -56,27 +61,46 @@ class detail extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        Text('description'),
+        Text(
+            'Description : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'),
         SizedBox(
           height: 20,
         ),
-        Image.asset("assets/images/S__77242370.jpg"),
-        SizedBox(
-          height: 20,
+        Container(
+          decoration: BoxDecoration(
+              color: Color(0xFFFF89cfef),
+              borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+            
+              children: [
+                SizedBox(height: 20),
+                Image.asset("assets/images/S__77242370.jpg"),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Room type : Single Room'),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                    'Room description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Max capacity : 5'),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Room quantity : 10'),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          ),
         ),
-        Text('Room type'),
-        SizedBox(
-          height: 20,
-        ),
-        Text('Room description'),
-        SizedBox(
-          height: 20,
-        ),
-        Text('Max capacity'),
-        SizedBox(
-          height: 20,
-        ),
-        Text('Room quantity'),
         SizedBox(
           height: 20,
         ),
@@ -84,7 +108,7 @@ class detail extends StatelessWidget {
           alignment: Alignment.bottomRight,
           child: Column(
             children: [
-              Text('Price'),
+              Text('Price : 1,500 baht'),
               SizedBox(
                 height: 20,
               ),

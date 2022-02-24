@@ -1,6 +1,4 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
-import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbjson.dart';
-import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
@@ -16,96 +14,33 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 List<LiveAboardData> _foundtrip = [];
 List costchecklist = [];
 List durationchecklist = [];
-
-String dropdownValue = "";
-String dropdownValue2 = "";
-
 List<SearchTripsResponse_Trip> trips = [];
 
-
-class TripDetail extends StatefulWidget {
-  _TripDetailState createState() => _TripDetailState();
+class tripdetail2 extends StatefulWidget {
+  _tripdetail2State createState() => _tripdetail2State();
 }
 
-class _TripDetailState extends State<TripDetail> {
+class _tripdetail2State extends State<tripdetail2> {
   DateTime _dateTime;
   bool value = false;
-
-  String dropdownValue = 'All';
-  String dropdownValue2 = 'All';
-
+  String dropdownValue = 'Onshore';
+  String dropdownValue2 = 'Phuket';
 
   @override
   initState() {
     // at the beginning, all users are shown
     super.initState();
-    // getData();
     costchecklist = [false, false, false, false, false];
     durationchecklist = [false, false, false, false, false, false];
-
-  }
-
-  getData() async {
-    print("before try catch");
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-    final box = Hive.box('userInfo');
-    String token = box.get('token');
-
-    final stub = AgencyServiceClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
-    var searchonshore = SearchTripsOptions();
-    searchonshore.country = 'Thailand';
-    searchonshore.divers = 5;
-    var ts = Timestamp();
-    ts.seconds = Int64(1643663834);
-    searchonshore.startDate = ts;
-    var ts2 = Timestamp();
-    // ts2.seconds = Int64(1645996634);
-    ts2.seconds = Int64(1648681149);
-    searchonshore.endDate = ts2;
-    // searchonshore.tripType = TripType.ONSHORE;
-    var listonshorerequest = SearchTripsRequest();
-    listonshorerequest.limit = Int64(20);
-    listonshorerequest.offset = Int64(0);
-    listonshorerequest.searchTripsOptions = searchonshore;
-    // print(listonshorerequest);
-    // stub.searchTrips(listonshorerequest);
-    try {
-      await for (var feature in stub.searchTrips(listonshorerequest)) {
-        // print(feature.trip.price);
-        // print(feature.trip.fromDate);
-        // print(feature.trip.toDate);
-        // print(feature.trip.maxGuest);
-        // print(feature.trip.tripTemplate.address.city);
-        // print(feature.trip.tripTemplate.images);
-        print(feature.trip);
-        trips.add(feature.trip);
-        print(trips.length);
-        // tripMap[feature.trip.toString()] = feature.trip.id;
-      }
-    } catch (e) {
-      print('ERROR: $e');
-    }
-    // print('---');
-    return trips;
-    // print(trips.length);
-    // print('****');
-
   }
 
   @override
   Widget build(BuildContext context) {
-    //   _foundtrip = LiveAboardDatas;
-    //   // print('candy mai suay');
-    //   // print(_foundtrip[1].id);
-    //   // print(_foundtrip[2].id);
-    //   // print(_foundtrip[3].id);
-
+    _foundtrip = LiveAboardDatas;
+    // print('candy mai sauy');
+    // print(_foundtrip[1].id);
+    // print(_foundtrip[2].id);
+    // print(_foundtrip[3].id);
     return Row(children: [
       Expanded(
           flex: 3,
@@ -219,9 +154,7 @@ class _TripDetailState extends State<TripDetail> {
                         dropdownValue2 = newValue;
                       });
                     },
-
-                    items: <String>['All','Phuket', 'Krabi','Samui island','Trat']
-
+                    items: <String>['Phuket', 'Krabi', 'Samui island', 'Trat']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -256,9 +189,7 @@ class _TripDetailState extends State<TripDetail> {
                         dropdownValue = newValue;
                       });
                     },
-
-                    items: <String>['All','Onshore', 'Offshore']
-
+                    items: <String>['Onshore', 'Offshore']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -661,50 +592,20 @@ class _TripDetailState extends State<TripDetail> {
                       color: Color(0xFFFF78a2cc),
                     ),
                     SizedBox(height: 40),
-                    // Text(trips.length.toString()),
+
                     SizedBox(
-                      width: 1110,
-                      child: FutureBuilder(
-                        future: getData(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            // debugPrint(
-                            //     'Step 3, build widget: ${snapshot.data}');
-                            // Build the widget with data.
-                            return Center(
-                                child: Container(
-                                    child: Wrap(
-                                        spacing: 20,
-                                        runSpacing: 40,
-                                        children: List.generate(
-                                          trips.length,
-                                          (index) => Center(
-                                            child: InfoCard(
-                                              index: index,
-                                            ),
-                                          ),
-                                        ))));
-                            //Text('hasData: ${snapshot.data}')));
-                          } else {
-                            // We can show the loading view until the data comes back.
-                            // debugPrint('Step 1, build loading widget');
-                            return CircularProgressIndicator();
-                          }
-                        },
-                      ),
-                      // _buildFunction()
-                      // Wrap(
-                      //     spacing: 20,
-                      //     runSpacing: 40,
-                      //     children: List.generate(
-                      //       trips.length,
-                      //       (index) => Center(
-                      //         child: InfoCard(
-                      //           index: index,
-                      //         ),
-                      //       ),
-                      //     ))
-                    ),
+                        width: 1110,
+                        child: Wrap(
+                            spacing: 20,
+                            runSpacing: 40,
+                            children: List.generate(
+                              _foundtrip.length,
+                              (index) => Center(
+                                child: InfoCard(
+                                  index: index,
+                                ),
+                              ),
+                            ))),
                     // Text(trips[trips.length].diveMasters.toString()),
                     SizedBox(
                       height: 100,
@@ -719,43 +620,16 @@ class _TripDetailState extends State<TripDetail> {
 
   void _runFilter(String enteredKeyword) {
     var results = [];
-    print(dropdownValue);
-    print(dropdownValue2);
-    if (enteredKeyword=="All" && dropdownValue == "All" ) {
+    if (enteredKeyword.isEmpty) {
       // if the search field is empty or only contains white-space, we'll display all users
       results = LiveAboardDatas;
-    } else if (enteredKeyword == "All") {
-      results = LiveAboardDatas.where((trip) =>
-      trip
-          .name
-          .toLowerCase()
-          .contains("") &&
-          trip
-              .type
-              .contains(dropdownValue)
-
-      ).toList();
-    }else {
+    } else {
       results = LiveAboardDatas.where((trip) => trip
-          .name
+          .getname()
           .toLowerCase()
-          .contains(enteredKeyword.toLowerCase()) &&
-          trip
-              .type
-              .contains(dropdownValue)
-
-      ).toList();
-
+          .contains(enteredKeyword.toLowerCase())).toList();
       // we use the toLowerCase() method to make it case-insensitive
-     /* results = results.where((trip) => trip
-          .type
-          .contains(dropdownValue)).toList();*/
     }
-    //print(results.);
-
-
-
-
     setState(() {
       _foundtrip = results;
     });
@@ -776,7 +650,6 @@ class InfoCard extends StatefulWidget {
 }
 
 class _InfoCardState extends State<InfoCard> {
-
   // List<SearchTripsResponse_Trip> trips = [];
   List<SearchTripsResponse_Trip> listTrip;
   @override
@@ -787,7 +660,54 @@ class _InfoCardState extends State<InfoCard> {
     //  print('candy');
     print('candy2');
     print(trips.length);
+  }
 
+  getData() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var searchonshore = SearchTripsOptions();
+    searchonshore.country = 'Thailand';
+    searchonshore.divers = 5;
+    var ts = Timestamp();
+    ts.seconds = Int64(1643663834);
+    searchonshore.startDate = ts;
+    var ts2 = Timestamp();
+    ts2.seconds = Int64(1645996634);
+    searchonshore.endDate = ts2;
+    var listonshorerequest = SearchTripsRequest();
+    listonshorerequest.limit = Int64(20);
+    listonshorerequest.offset = Int64(0);
+    listonshorerequest.searchTripsOptions = searchonshore;
+    // print(listonshorerequest);
+    // stub.searchTrips(listonshorerequest);
+    try {
+      await for (var feature in stub.searchTrips(listonshorerequest)) {
+        // print(feature.trip.price);
+        // print(feature.trip.fromDate);
+        // print(feature.trip.toDate);
+        // print(feature.trip.maxGuest);
+        // print(feature.trip.tripTemplate.address.city);
+        // print(feature.trip.tripTemplate.images);
+        print(feature.trip);
+        trips.add(feature.trip);
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+    // print('---');
+    return trips;
+    // print(trips.length);
+    // print('****');
   }
 
   @override
@@ -802,20 +722,10 @@ class _InfoCardState extends State<InfoCard> {
         ),
         child: Row(
           children: [
-            Container(
-                width: 300,
-                height: 300,
-                child: trips[widget.index].tripTemplate.images.length == 0
-                    ? new Container(
-                        color: Colors.pink,
-                      )
-                    : Image.network(' http://139.59.101.136/static/' +
-                            trips[widget.index]
-                                .tripTemplate
-                                .images[0]
-                                .toString()
-                        // trips[widget.index].tripTemplate.images[0].toString()
-                        )),
+            // Container(
+            //     width: 300,
+            //     height: 300,
+            //     child: Image.asset(_foundtrip[widget.index].image)),
             // child: Image.asset(LiveAboardDatas[widget.index].image)),
             Expanded(
               child: Padding(
@@ -834,15 +744,13 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         Text('Start date : ' +
-                            trips[widget.index]
-                                .fromDate
-                                .toDateTime()
-                                .toString()),
+                            trips[widget.index].fromDate.toString()),
+
                         SizedBox(
                           height: 10,
                         ),
                         Text('End date : ' +
-                            trips[widget.index].toDate.toDateTime().toString()),
+                            trips[widget.index].toDate.toString()),
                         SizedBox(
                           height: 10,
                         ),
