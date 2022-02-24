@@ -657,8 +657,8 @@ class _TripDetailState extends State<TripDetail> {
                         future: getData(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
-                            debugPrint(
-                                'Step 3, build widget: ${snapshot.data}');
+                            // debugPrint(
+                            //     'Step 3, build widget: ${snapshot.data}');
                             // Build the widget with data.
                             return Center(
                                 child: Container(
@@ -676,7 +676,7 @@ class _TripDetailState extends State<TripDetail> {
                             //Text('hasData: ${snapshot.data}')));
                           } else {
                             // We can show the loading view until the data comes back.
-                            debugPrint('Step 1, build loading widget');
+                            // debugPrint('Step 1, build loading widget');
                             return CircularProgressIndicator();
                           }
                         },
@@ -762,10 +762,10 @@ class _InfoCardState extends State<InfoCard> {
         ),
         child: Row(
           children: [
-            // Container(
-            //     width: 300,
-            //     height: 300,
-            //     child: Image.asset(_foundtrip[widget.index].image)),
+            Container(
+                width: 300,
+                height: 300,
+                child: Image.network(trips[widget.index].tripTemplate.images[0].toString())),
             // child: Image.asset(LiveAboardDatas[widget.index].image)),
             Expanded(
               child: Padding(
