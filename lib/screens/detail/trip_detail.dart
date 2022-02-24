@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbjson.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
@@ -26,17 +27,11 @@ class _TripDetailState extends State<TripDetail> {
   bool value = false;
   String dropdownValue = 'Onshore';
   String dropdownValue2 = 'Phuket';
-  Map<String, dynamic> tripMap = {};
-
-  Future<List<SearchTripsResponse_Trip>> allTrips;
   @override
   initState() {
     // at the beginning, all users are shown
     super.initState();
     // getData();
-    // allTrips = getData();
-    // print(allTrips);
-
     costchecklist = [false, false, false, false, false];
     durationchecklist = [false, false, false, false, false, false];
   }
@@ -63,6 +58,7 @@ class _TripDetailState extends State<TripDetail> {
     var ts2 = Timestamp();
     ts2.seconds = Int64(1645996634);
     searchonshore.endDate = ts2;
+    searchonshore.tripType = TripType.ONSHORE;
     var listonshorerequest = SearchTripsRequest();
     listonshorerequest.limit = Int64(20);
     listonshorerequest.offset = Int64(0);
@@ -765,7 +761,17 @@ class _InfoCardState extends State<InfoCard> {
             Container(
                 width: 300,
                 height: 300,
-                child: Image.network(trips[widget.index].tripTemplate.images[0].toString())),
+                child: trips[widget.index].tripTemplate.images.length == 0
+                    ? new Container(
+                        color: Colors.pink,
+                      )
+                    : Image.network(' http://139.59.101.136/static/' +
+                            trips[widget.index]
+                                .tripTemplate
+                                .images[0]
+                                .toString()
+                        // trips[widget.index].tripTemplate.images[0].toString()
+                        )),
             // child: Image.asset(LiveAboardDatas[widget.index].image)),
             Expanded(
               child: Padding(
@@ -784,7 +790,10 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         Text('Start date : ' +
-                            trips[widget.index].fromDate.toDateTime().toString()),
+                            trips[widget.index]
+                                .fromDate
+                                .toDateTime()
+                                .toString()),
                         SizedBox(
                           height: 10,
                         ),
