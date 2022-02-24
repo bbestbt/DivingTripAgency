@@ -56,9 +56,10 @@ class _TripDetailState extends State<TripDetail> {
     ts.seconds = Int64(1643663834);
     searchonshore.startDate = ts;
     var ts2 = Timestamp();
-    ts2.seconds = Int64(1645996634);
+    // ts2.seconds = Int64(1645996634);
+    ts2.seconds = Int64(1648681149);
     searchonshore.endDate = ts2;
-    searchonshore.tripType = TripType.ONSHORE;
+    // searchonshore.tripType = TripType.ONSHORE;
     var listonshorerequest = SearchTripsRequest();
     listonshorerequest.limit = Int64(20);
     listonshorerequest.offset = Int64(0);
