@@ -28,7 +28,20 @@ class _TripDetailState extends State<TripDetail> {
   String dropdownValue2 = 'Phuket';
   Map<String, dynamic> tripMap = {};
 
-  Future<List<SearchTripsResponse_Trip>> getData() async {
+  Future<List<SearchTripsResponse_Trip>> allTrips;
+  @override
+  initState() {
+    // at the beginning, all users are shown
+    super.initState();
+    // getData();
+    // allTrips = getData();
+    // print(allTrips);
+
+    costchecklist = [false, false, false, false, false];
+    durationchecklist = [false, false, false, false, false, false];
+  }
+
+  getData() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -78,26 +91,14 @@ class _TripDetailState extends State<TripDetail> {
     // print('****');
   }
 
-  Future<List<SearchTripsResponse_Trip>> allTrips;
-  @override
-  initState() {
-    // at the beginning, all users are shown
-    super.initState();
-    // allTrips = getData();
-    // print(allTrips);
-
-    costchecklist = [false, false, false, false, false];
-    durationchecklist = [false, false, false, false, false, false];
-  }
-
   @override
   Widget build(BuildContext context) {
-    _foundtrip = LiveAboardDatas;
-    // print('candy mai suay');
-    // print(_foundtrip[1].id);
-    // print(_foundtrip[2].id);
-    // print(_foundtrip[3].id);
-    getData();
+    //   _foundtrip = LiveAboardDatas;
+    //   // print('candy mai suay');
+    //   // print(_foundtrip[1].id);
+    //   // print(_foundtrip[2].id);
+    //   // print(_foundtrip[3].id);
+
     return Row(children: [
       Expanded(
           flex: 3,
@@ -649,22 +650,50 @@ class _TripDetailState extends State<TripDetail> {
                       color: Color(0xFFFF78a2cc),
                     ),
                     SizedBox(height: 40),
-                    Text(trips.length.toString()),
+                    // Text(trips.length.toString()),
                     SizedBox(
-                        width: 1110,
-                        child:
-                            // _buildFunction()
-                            Wrap(
-                                spacing: 20,
-                                runSpacing: 40,
-                                children: List.generate(
-                                  trips.length,
-                                  (index) => Center(
-                                    child: InfoCard(
-                                      index: index,
-                                    ),
-                                  ),
-                                ))),
+                      width: 1110,
+                      child: FutureBuilder(
+                        future: getData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            debugPrint(
+                                'Step 3, build widget: ${snapshot.data}');
+                            // Build the widget with data.
+                            return Center(
+                                child: Container(
+                                    child: Wrap(
+                                        spacing: 20,
+                                        runSpacing: 40,
+                                        children: List.generate(
+                                          trips.length,
+                                          (index) => Center(
+                                            child: InfoCard(
+                                              index: index,
+                                            ),
+                                          ),
+                                        ))));
+                            //Text('hasData: ${snapshot.data}')));
+                          } else {
+                            // We can show the loading view until the data comes back.
+                            debugPrint('Step 1, build loading widget');
+                            return CircularProgressIndicator();
+                          }
+                        },
+                      ),
+                      // _buildFunction()
+                      // Wrap(
+                      //     spacing: 20,
+                      //     runSpacing: 40,
+                      //     children: List.generate(
+                      //       trips.length,
+                      //       (index) => Center(
+                      //         child: InfoCard(
+                      //           index: index,
+                      //         ),
+                      //       ),
+                      //     ))
+                    ),
                     // Text(trips[trips.length].diveMasters.toString()),
                     SizedBox(
                       height: 100,
@@ -675,24 +704,6 @@ class _TripDetailState extends State<TripDetail> {
             ),
           ))
     ]);
-  }
-
-  Widget _buildFunction() {
-    return FutureBuilder(
-        future: allTrips,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData) {
-            return Center(child: Text('test'));
-          } else {
-            Container(
-                child: ListView.builder(
-                    itemCount: snapshot.data.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Text('test2');
-                    }));
-          }
-        });
   }
 
   void _runFilter(String enteredKeyword) {
@@ -773,13 +784,12 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         Text('Start date : ' +
-                            trips[widget.index].fromDate.toString()),
-
+                            trips[widget.index].fromDate.toDateTime().toString()),
                         SizedBox(
                           height: 10,
                         ),
                         Text('End date : ' +
-                            trips[widget.index].toDate.toString()),
+                            trips[widget.index].toDate.toDateTime().toString()),
                         SizedBox(
                           height: 10,
                         ),
