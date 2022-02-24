@@ -16,7 +16,12 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 List<LiveAboardData> _foundtrip = [];
 List costchecklist = [];
 List durationchecklist = [];
+
+String dropdownValue = "";
+String dropdownValue2 = "";
+
 List<SearchTripsResponse_Trip> trips = [];
+
 
 class TripDetail extends StatefulWidget {
   _TripDetailState createState() => _TripDetailState();
@@ -25,8 +30,11 @@ class TripDetail extends StatefulWidget {
 class _TripDetailState extends State<TripDetail> {
   DateTime _dateTime;
   bool value = false;
-  String dropdownValue = 'Onshore';
-  String dropdownValue2 = 'Phuket';
+
+  String dropdownValue = 'All';
+  String dropdownValue2 = 'All';
+
+
   @override
   initState() {
     // at the beginning, all users are shown
@@ -34,6 +42,7 @@ class _TripDetailState extends State<TripDetail> {
     // getData();
     costchecklist = [false, false, false, false, false];
     durationchecklist = [false, false, false, false, false, false];
+
   }
 
   getData() async {
@@ -86,6 +95,7 @@ class _TripDetailState extends State<TripDetail> {
     return trips;
     // print(trips.length);
     // print('****');
+
   }
 
   @override
@@ -209,7 +219,9 @@ class _TripDetailState extends State<TripDetail> {
                         dropdownValue2 = newValue;
                       });
                     },
-                    items: <String>['Phuket', 'Krabi', 'Samui island', 'Trat']
+
+                    items: <String>['All','Phuket', 'Krabi','Samui island','Trat']
+
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -244,7 +256,9 @@ class _TripDetailState extends State<TripDetail> {
                         dropdownValue = newValue;
                       });
                     },
-                    items: <String>['Onshore', 'Offshore']
+
+                    items: <String>['All','Onshore', 'Offshore']
+
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -705,16 +719,43 @@ class _TripDetailState extends State<TripDetail> {
 
   void _runFilter(String enteredKeyword) {
     var results = [];
-    if (enteredKeyword.isEmpty) {
+    print(dropdownValue);
+    print(dropdownValue2);
+    if (enteredKeyword=="All" && dropdownValue == "All" ) {
       // if the search field is empty or only contains white-space, we'll display all users
       results = LiveAboardDatas;
-    } else {
-      results = LiveAboardDatas.where((trip) => trip
-          .getname()
+    } else if (enteredKeyword == "All") {
+      results = LiveAboardDatas.where((trip) =>
+      trip
+          .name
           .toLowerCase()
-          .contains(enteredKeyword.toLowerCase())).toList();
+          .contains("") &&
+          trip
+              .type
+              .contains(dropdownValue)
+
+      ).toList();
+    }else {
+      results = LiveAboardDatas.where((trip) => trip
+          .name
+          .toLowerCase()
+          .contains(enteredKeyword.toLowerCase()) &&
+          trip
+              .type
+              .contains(dropdownValue)
+
+      ).toList();
+
       // we use the toLowerCase() method to make it case-insensitive
+     /* results = results.where((trip) => trip
+          .type
+          .contains(dropdownValue)).toList();*/
     }
+    //print(results.);
+
+
+
+
     setState(() {
       _foundtrip = results;
     });
@@ -735,6 +776,7 @@ class InfoCard extends StatefulWidget {
 }
 
 class _InfoCardState extends State<InfoCard> {
+
   // List<SearchTripsResponse_Trip> trips = [];
   List<SearchTripsResponse_Trip> listTrip;
   @override
@@ -745,6 +787,7 @@ class _InfoCardState extends State<InfoCard> {
     //  print('candy');
     print('candy2');
     print(trips.length);
+
   }
 
   @override
