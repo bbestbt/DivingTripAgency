@@ -698,20 +698,24 @@ class _InfoCardState extends State<InfoCard> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var searchonshore = SearchOnshoreTrips();
-    searchonshore.city = 'Bangkok';
-    searchonshore.divers = 1;
-    searchonshore.startDate = Timestamp.fromDateTime(DateTime.now(),);
-    searchonshore.endDate = Timestamp.fromDateTime( DateTime(2023));
-    var listonshorerequest = SearchOnshoreTripsRequest();
-    listonshorerequest.limit=Int64(20);
-    listonshorerequest.offset=Int64(0);
-    listonshorerequest.searchOnshoreTrips=searchonshore;
+    var searchonshore = SearchTripsOptions();
+    searchonshore.country = 'Thailand';
+    searchonshore.divers = 5;
+    var ts = Timestamp();
+    ts.seconds = Int64(1643663834);
+    searchonshore.startDate = ts;
+    var ts2 = Timestamp();
+    ts2.seconds = Int64(1645996634);
+    searchonshore.endDate = ts2;
+    var listonshorerequest = SearchTripsRequest();
+    listonshorerequest.limit = Int64(20);
+    listonshorerequest.offset = Int64(0);
+    listonshorerequest.searchTripsOptions = searchonshore;
 
 
     try {
       print('test');
-      await for (var feature in stub.searchOnshoreTrips(listonshorerequest)) {
+      await for (var feature in stub.searchTrips(listonshorerequest)) {
         print('list');
         // print(feature.hotel.name);
         print(feature.trip.price);
