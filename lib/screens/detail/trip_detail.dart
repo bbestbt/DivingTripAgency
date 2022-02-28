@@ -33,6 +33,7 @@ class _TripDetailState extends State<TripDetail> {
   DateTime _dateTo;
   bool value = false;
 
+
   @override
   initState() {
     // at the beginning, all users are shown
@@ -40,6 +41,7 @@ class _TripDetailState extends State<TripDetail> {
     // getData();
     costchecklist = [false, false, false, false, false];
     durationchecklist = [false, false, false, false, false, false];
+
     dropdownValue = 'All';
     dropdownValue2 = 'All';
     _foundtrip = trips;
@@ -224,7 +226,9 @@ class _TripDetailState extends State<TripDetail> {
                     Container(
                       width: 200,
                       child: DropdownButton<String>(
+
                         value: dropdownValue,
+
                         icon: const Icon(Icons.arrow_downward),
                         elevation: 16,
                         iconSize: 30,
@@ -236,12 +240,15 @@ class _TripDetailState extends State<TripDetail> {
                         ),
                         onChanged: (String newValue) {
 
+
                           setState(() {
                             dropdownValue = newValue;
+
                           });
                         },
                         items: <String>[
                           'All',
+
                           'Bangkok',
                           'Phuket',
                           'Krabi',
@@ -250,6 +257,7 @@ class _TripDetailState extends State<TripDetail> {
                           'test',
                           'Koh Samet',
                           'Rayong'
+
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -271,6 +279,7 @@ class _TripDetailState extends State<TripDetail> {
                       height: 30,
                       child: TextField(
                           decoration: InputDecoration(
+
                             border: OutlineInputBorder(),
                             fillColor: Colors.white,
                             // hintText: 'Number of customer'
@@ -282,6 +291,7 @@ class _TripDetailState extends State<TripDetail> {
                             });
                           },
                       ),
+
                     ),
                   ],
                 ),
@@ -295,6 +305,7 @@ class _TripDetailState extends State<TripDetail> {
                       height: 30,
                       child: TextField(
                           decoration: InputDecoration(
+
                             border: OutlineInputBorder(),
                             fillColor: Colors.white,
                             // hintText: 'Trip Duration (days)'
@@ -335,6 +346,7 @@ class _TripDetailState extends State<TripDetail> {
                       ),
                     ),
                   ],
+
                 ),
                 // TextField(
                 //     decoration: InputDecoration(
@@ -349,6 +361,7 @@ class _TripDetailState extends State<TripDetail> {
 
                 Container(
                     child: Column(children: [
+
                       Row(
                         children: <Widget>[
                           SizedBox(
@@ -713,6 +726,7 @@ class _TripDetailState extends State<TripDetail> {
                       //   ], //<Widget>[]
                       // ),
                     ]))
+
               ]),
             ),
           ])),
@@ -780,6 +794,7 @@ class _TripDetailState extends State<TripDetail> {
   }
 
 
+
   void _runFilter() {
     List<SearchTripsResponse_Trip> results = [];
     if (dropdownValue == "All" && _dateFrom == null && _dateTo == null) {
@@ -791,6 +806,7 @@ class _TripDetailState extends State<TripDetail> {
       setState(() {
         _foundtrip = results;
       });
+
     }
     else
       results= trips;
@@ -798,6 +814,7 @@ class _TripDetailState extends State<TripDetail> {
         print("Filtering 2");
         results = results.where((trip) =>
             trip.tripTemplate.address.city.contains(dropdownValue)).toList();
+
 
       }
       if (_dateFrom!=null) {
@@ -825,6 +842,7 @@ class _TripDetailState extends State<TripDetail> {
 
 
       setState(() {
+
       _foundtrip = results;
       });
     }
@@ -896,6 +914,7 @@ class _InfoCardState extends State<InfoCard> {
     //  print('candy');
     //print('candy2');
     //print(trips.length);
+
   }
 
   @override
