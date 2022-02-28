@@ -61,7 +61,9 @@ class _TripDetailState extends State<TripDetail> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var searchonshore = SearchTripsOptions();
     searchonshore.country = 'Thailand';
+    //  searchonshore.city = dropdownValue;
     searchonshore.divers = 5;
+    // searchonshore.divers =guestvalue;
     var ts = Timestamp();
     ts.seconds = Int64(1643663834);
     searchonshore.startDate = ts;
