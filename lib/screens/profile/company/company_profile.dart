@@ -231,7 +231,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               spacing: 20,
                               runSpacing: 40,
                               children: List.generate(
-                                trips.length,
+                                trips.length~/2,
                                 (index) => Center(
                                   child: InfoCard(
                                     index: index,
