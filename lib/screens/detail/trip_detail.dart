@@ -120,15 +120,28 @@ class _TripDetailState extends State<TripDetail> {
                 color: Colors.red[50],
               ),
               child: Column(children: [
-                Text(
-                  "SEARCH",
-                  style: TextStyle(fontSize: 20),
+                Container(
+                    width: double.infinity,
+                    child:Row(
+                    children:[
+                      Text(
+                        "SEARCH",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      Spacer(),
+                      ElevatedButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                        ),
+                        onPressed: () {
+                          _runFilter();
+                        },
+                        child: const Text('Search'),
+                      )]
+                  )
                 ),
-                //TextField(
-                //decoration: InputDecoration(
-                //border: OutlineInputBorder(),
-                //fillColor: Colors.white,
-                //hintText: 'From (DD/MM/YY)')),
+
+
                 SizedBox(height: 20),
                 SizedBox(height: 20),
                 Row(
@@ -220,7 +233,7 @@ class _TripDetailState extends State<TripDetail> {
                           color: Colors.black,
                         ),
                         onChanged: (String newValue) {
-                          _runFilter(newValue);
+
                           setState(() {
                             dropdownValue = newValue;
                           });
@@ -261,7 +274,7 @@ class _TripDetailState extends State<TripDetail> {
                             // hintText: 'Number of customer'
                           ),
                           onChanged: (String newValue) {
-                            _runFilter(newValue);
+
                             setState(() {
                               guestvalue = int.parse(newValue);
                             });
@@ -751,18 +764,6 @@ class _TripDetailState extends State<TripDetail> {
                           }
                         },
                       ),
-                      // _buildFunction()
-                      // Wrap(
-                      //     spacing: 20,
-                      //     runSpacing: 40,
-                      //     children: List.generate(
-                      //       trips.length,
-                      //       (index) => Center(
-                      //         child: InfoCard(
-                      //           index: index,
-                      //         ),
-                      //       ),
-                      //     ))
                     ),
                     // Text(trips[trips.length].diveMasters.toString()),
                     SizedBox(
@@ -777,58 +778,98 @@ class _TripDetailState extends State<TripDetail> {
   }
 
 
-  void _runFilter(String enteredKeyword) {
+  void _runFilter() {
     List<SearchTripsResponse_Trip> results = [];
-    if (enteredKeyword == "All" && dropdownValue == "All" &&
-        _dateFrom == null && _dateTo == null) {
+    if (dropdownValue == "All" && _dateFrom == null && _dateTo == null) {
+      print("Filtering 1");
+      
       // if the search field is empty or only contains white-space, we'll display all users
       results = trips;
+      results[0].tripTemplate.tripType.toString();
       setState(() {
         _foundtrip = results;
       });
     }
     else
-    if (_dateFrom != null && _dateTo != null) //if datetimepicker is not null
-        {
-      if (enteredKeyword == "All" &&
-          dropdownValue == "All") { //if not filter province
-        // if the search field is empty or only contains white-space, we'll display all users
-        results = trips.where((trip) =>
-        trip.fromDate.toDateTime().isAfter(_dateFrom)
-            && trip.toDate.toDateTime().isBefore(_dateTo)).toList();
+      results= trips;
+      if (dropdownValue != "All") {
+        print("Filtering 2");
+        results = results.where((trip) =>
+            trip.tripTemplate.address.city.contains(dropdownValue)).toList();
 
-        setState(() {
-          _foundtrip = results;
-        });
       }
-      else if (enteredKeyword != "All")
-      { //if filter province
-        print("Checking date and place");
-        results = trips.where((trip) =>
-        trip.fromDate.toDateTime().isAfter(_dateFrom)
-            && trip.toDate.toDateTime().isBefore(_dateTo)
-            && trip.tripTemplate.address.city.contains(enteredKeyword))
-            .toList();
-        setState(() {
-          _foundtrip = results;
-        });
+      if (_dateFrom!=null) {
+        results = results.where((trip) =>
+            trip.fromDate.toDateTime().isAfter(_dateFrom)).toList();
       }
-      else  if (dropdownValue != "All"){
-        results = trips.where((trip) =>
-        trip.fromDate.toDateTime().isAfter(_dateFrom)
-            && trip.toDate.toDateTime().isBefore(_dateTo)
-          && trip.tripTemplate.tripType.toString().capitalize == dropdownValue).toList();
+      if(_dateTo!=null) {
+        results = results.where((trip) =>
+            trip.toDate.toDateTime().isBefore(_dateTo)).toList();
       }
-      else if (!guestvalue.isBlank && dropdownValue == "All"){
-        results = trips.where((trip) =>
-        trip.fromDate.toDateTime().isAfter(_dateFrom)
-            && trip.toDate.toDateTime().isBefore(_dateTo)
-            
-          && trip.maxGuest == guestvalue).toList();
+      if (guestvalue!=null){
+        results = results.where((trip) =>
+        trip.maxGuest == guestvalue).toList();
       }
+      if (dropdownValue2!="All"){
+        if (dropdownValue2=="Onshore"){
+          results = results.where((trip) =>
+          trip.tripTemplate.tripType.toString() == "ONSHORE").toList(); }
+        else{
+          results = results.where((trip) =>
+          trip.tripTemplate.tripType.toString() == "OFFSHORE").toList();
+
+          }
+        }
+
+
+      setState(() {
+      _foundtrip = results;
+      });
     }
+
+    /*if (_dateFrom != null && _dateTo != null) //if datetimepicker is not null
+        {
+          if (
+              dropdownValue == "All" &&
+              guestvalue.isBlank) { //if not filter province
+
+            // if the search field is empty or only contains white-space, we'll display all users
+            results = trips.where((trip) =>
+            trip.fromDate.toDateTime().isAfter(_dateFrom)
+                && trip.toDate.toDateTime().isBefore(_dateTo)).toList();
+
+            setState(() {
+              _foundtrip = results;
+            });
+          }
+          else if (dropdownValue != "All")
+          { //if filter province
+            print("Checking date and place");
+            results = trips.where((trip) =>
+            trip.fromDate.toDateTime().isAfter(_dateFrom)
+                && trip.toDate.toDateTime().isBefore(_dateTo)
+                && trip.tripTemplate.address.city.contains(dropdownValue))
+                .toList();
+            setState(() {
+              _foundtrip = results;
+            });
+          }
+          else if (dropdownValue != "All"){
+            results = trips.where((trip) =>
+            trip.fromDate.toDateTime().isAfter(_dateFrom)
+                && trip.toDate.toDateTime().isBefore(_dateTo)
+              && trip.tripTemplate.tripType.toString().capitalize == dropdownValue).toList();
+          }
+          else if (!guestvalue.isBlank && dropdownValue == "All"){
+            results = trips.where((trip) =>
+            trip.fromDate.toDateTime().isAfter(_dateFrom)
+                && trip.toDate.toDateTime().isBefore(_dateTo)
+
+              && trip.maxGuest == guestvalue).toList();
+          }*/
+   // }
   }
-}
+
 
 
 class InfoCard extends StatefulWidget {
