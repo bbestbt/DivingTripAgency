@@ -61,23 +61,23 @@ class _TripDetailState extends State<TripDetail> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var searchonshore = SearchTripsOptions();
-    searchonshore.country = 'Thailand';
-    //  searchonshore.city = dropdownValue;
-    searchonshore.divers = 5;
-    // searchonshore.divers =guestvalue;
+    var searchtrips = SearchTripsOptions();
+    searchtrips.country = 'Thailand';
+    //  searchtrips.city = dropdownValue;
+    searchtrips.divers = 5;
+    // searchtrips.divers =guestvalue;
     var ts = Timestamp();
     ts.seconds = Int64(1643663834);
-    searchonshore.startDate = ts;
+    searchtrips.startDate = ts;
     var ts2 = Timestamp();
     // ts2.seconds = Int64(1645996634);
     ts2.seconds = Int64(1648681149);
-    searchonshore.endDate = ts2;
-    // searchonshore.tripType = TripType.ONSHORE;
+    searchtrips.endDate = ts2;
+    // searchtrips.tripType = TripType.ONSHORE;
     var listonshorerequest = SearchTripsRequest();
     listonshorerequest.limit = Int64(20);
     listonshorerequest.offset = Int64(0);
-    listonshorerequest.searchTripsOptions = searchonshore;
+    listonshorerequest.searchTripsOptions = searchtrips;
     trips.clear();
     // print(listonshorerequest);
     // stub.searchTrips(listonshorerequest);
@@ -904,17 +904,11 @@ class InfoCard extends StatefulWidget {
 }
 
 class _InfoCardState extends State<InfoCard> {
-  // List<SearchTripsResponse_Trip> trips = [];
-  List<SearchTripsResponse_Trip> listTrip;
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
-    //  print('candy');
-    //print('candy2');
-    //print(trips.length);
-
   }
 
   @override

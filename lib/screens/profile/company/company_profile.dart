@@ -10,7 +10,7 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
-List<SearchTripsResponse_Trip> trips = [];
+List<ListTripsWithTemplatesResponse_Trip> trips = [];
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 Map<String, dynamic> tripMap = {};
@@ -36,50 +36,36 @@ class _CompanyProfileState extends State<CompanyProfile> {
     profile = await pf.getProfile(new Empty());
     // print(profile);
     user_profile = profile;
-    print(user_profile.agency.account.email);
-    print(user_profile.agency.phone);
-    print(user_profile.agency.name);
-    print(user_profile.agency.documents);
-    print(user_profile.agency.address.addressLine1);
-    print(user_profile.agency.address.addressLine2);
-    print(user_profile.agency.address.city);
-    print(user_profile.agency.address.country);
-    print(user_profile.agency.address.region);
-    print(user_profile.agency.address.postcode);
+    // print(user_profile.agency.account.email);
+    // print(user_profile.agency.phone);
+    // print(user_profile.agency.name);
+    // print(user_profile.agency.documents);
+    // print(user_profile.agency.address.addressLine1);
+    // print(user_profile.agency.address.addressLine2);
+    // print(user_profile.agency.address.city);
+    // print(user_profile.agency.address.country);
+    // print(user_profile.agency.address.region);
+    // print(user_profile.agency.address.postcode);
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var searchonshore = SearchTripsOptions();
-    searchonshore.country = 'Thailand';
-    searchonshore.divers = 5;
-    var ts = Timestamp();
-    ts.seconds = Int64(1643663834);
-    searchonshore.startDate = ts;
-    var ts2 = Timestamp();
-    // ts2.seconds = Int64(1645996634);
-    ts2.seconds = Int64(1648681149);
-    searchonshore.endDate = ts2;
-    // searchonshore.tripType = TripType.ONSHORE;
-    var listonshorerequest = SearchTripsRequest();
-    listonshorerequest.limit = Int64(20);
-    listonshorerequest.offset = Int64(0);
-    listonshorerequest.searchTripsOptions = searchonshore;
-    // print(listonshorerequest);
-    // stub.searchTrips(listonshorerequest);
-
+    var listTrips = ListTripsWithTemplatesRequest();
+    listTrips.limit = Int64(20);
+    listTrips.offset = Int64(0);
+    trips.clear();
     try {
-      await for (var feature in stub.searchTrips(listonshorerequest)) {
-        // print(feature.trip);
+    //  print('test');
+      await for (var feature in stub.listTripsWithTemplates(listTrips)) {
+        print(feature.trip);
         trips.add(feature.trip);
+        // print(trips);
         // print(trips.length);
       }
     } catch (e) {
       print('ERROR: $e');
     }
-    // print('---');
+
     return trips;
-    // print(trips.length);
-    // print('****');
   }
 
   @override
@@ -178,7 +164,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                             height: 20,
                           ),
                           Row(
-                               mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 'Region : ' +
@@ -253,7 +239,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                 ),
                               ))));
                 } else {
-                  return CircularProgressIndicator();
+                  return Text('No data');
                 }
               },
             ),
@@ -279,16 +265,10 @@ class InfoCard extends StatefulWidget {
 }
 
 class _InfoCardState extends State<InfoCard> {
-  // List<SearchTripsResponse_Trip> trips = [];
-  List<SearchTripsResponse_Trip> listTrip;
   @override
   void initState() {
     // TODO: implement initState
-
     super.initState();
-    //  print('candy');
-    // print('candy2');
-    // print(trips.length);
   }
 
   @override
@@ -317,7 +297,6 @@ class _InfoCardState extends State<InfoCard> {
                                 .toString()
                         // trips[widget.index].tripTemplate.images[0].toString()
                         )),
-            // child: Image.asset(LiveAboardDatas[widget.index].image)),
             Expanded(
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
@@ -326,9 +305,6 @@ class _InfoCardState extends State<InfoCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Text('Trip name : ' + _foundtrip[widget.index].name),
-                        //LiveAboardDatas[widget.index].name),
-
                         Text('Location : ' +
                             trips[widget.index].tripTemplate.address.city),
                         SizedBox(
