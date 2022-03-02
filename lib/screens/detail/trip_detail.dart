@@ -72,16 +72,16 @@ class _TripDetailState extends State<TripDetail> {
     ts2.seconds = Int64(1648681149);
     searchtrips.endDate = ts2;
     searchtrips.tripType = TripType.OFFSHORE;
-    var listonshorerequest = SearchTripsRequest();
-    listonshorerequest.limit = Int64(20);
-    listonshorerequest.offset = Int64(0);
-    listonshorerequest.searchTripsOptions = searchtrips;
+    var listtriprequest = SearchTripsRequest();
+    listtriprequest.limit = Int64(20);
+    listtriprequest.offset = Int64(0);
+    listtriprequest.searchTripsOptions = searchtrips;
     trips.clear();
     // print(listonshorerequest);
     // stub.searchTrips(listonshorerequest);
-    print(listonshorerequest);
+    print(listtriprequest);
     try {
-      await for (var feature in stub.searchTrips(listonshorerequest)) {
+      await for (var feature in stub.searchTrips(listtriprequest)) {
         // print(feature.trip.price);
         // print(feature.trip.fromDate);
         // print(feature.trip.toDate);
