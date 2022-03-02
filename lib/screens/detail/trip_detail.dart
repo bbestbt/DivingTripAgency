@@ -33,7 +33,6 @@ class _TripDetailState extends State<TripDetail> {
   DateTime _dateTo;
   bool value = false;
 
-
   @override
   initState() {
     // at the beginning, all users are shown
@@ -45,7 +44,6 @@ class _TripDetailState extends State<TripDetail> {
     dropdownValue = 'All';
     dropdownValue2 = 'All';
     _foundtrip = trips;
-
   }
 
   getData() async {
@@ -62,7 +60,7 @@ class _TripDetailState extends State<TripDetail> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var searchtrips = SearchTripsOptions();
-    searchtrips.country = 'Thailand';
+    searchtrips.country = 'm';
     //  searchtrips.city = dropdownValue;
     searchtrips.divers = 5;
     // searchtrips.divers =guestvalue;
@@ -73,7 +71,7 @@ class _TripDetailState extends State<TripDetail> {
     // ts2.seconds = Int64(1645996634);
     ts2.seconds = Int64(1648681149);
     searchtrips.endDate = ts2;
-    // searchtrips.tripType = TripType.ONSHORE;
+    searchtrips.tripType = TripType.OFFSHORE;
     var listonshorerequest = SearchTripsRequest();
     listonshorerequest.limit = Int64(20);
     listonshorerequest.offset = Int64(0);
@@ -81,6 +79,7 @@ class _TripDetailState extends State<TripDetail> {
     trips.clear();
     // print(listonshorerequest);
     // stub.searchTrips(listonshorerequest);
+    print(listonshorerequest);
     try {
       await for (var feature in stub.searchTrips(listonshorerequest)) {
         // print(feature.trip.price);
@@ -126,8 +125,7 @@ class _TripDetailState extends State<TripDetail> {
               child: Column(children: [
                 Container(
                     width: double.infinity,
-                    child:Row(
-                    children:[
+                    child: Row(children: [
                       Text(
                         "SEARCH",
                         style: TextStyle(fontSize: 20),
@@ -141,10 +139,8 @@ class _TripDetailState extends State<TripDetail> {
                           _runFilter();
                         },
                         child: const Text('Search'),
-                      )]
-                  )
-                ),
-
+                      )
+                    ])),
 
                 SizedBox(height: 20),
                 SizedBox(height: 20),
@@ -159,18 +155,17 @@ class _TripDetailState extends State<TripDetail> {
                         child: Text('Pick a date'),
                         onPressed: () {
                           showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime.now())
-                              .then((date) =>
-                          {
-                            setState(() {
-                              var timeStamp =
-                              //  print(Timestamp.fromDateTime(date));
-                              _dateFrom = date;
-                            })
-                          });
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1900),
+                                  lastDate: DateTime.now())
+                              .then((date) => {
+                                    setState(() {
+                                      var timeStamp =
+                                          //  print(Timestamp.fromDateTime(date));
+                                          _dateFrom = date;
+                                    })
+                                  });
                         }),
                   ],
                 ),
@@ -198,18 +193,17 @@ class _TripDetailState extends State<TripDetail> {
                         child: Text('Pick a date'),
                         onPressed: () {
                           showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime.now())
-                              .then((date) =>
-                          {
-                            setState(() {
-                              var timeStamp =
-                              //    print(Timestamp.fromDateTime(date));
-                              _dateTo = date;
-                            })
-                          });
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1900),
+                                  lastDate: DateTime.now())
+                              .then((date) => {
+                                    setState(() {
+                                      var timeStamp =
+                                          //    print(Timestamp.fromDateTime(date));
+                                          _dateTo = date;
+                                    })
+                                  });
                         }),
                   ],
                 ),
@@ -226,9 +220,7 @@ class _TripDetailState extends State<TripDetail> {
                     Container(
                       width: 200,
                       child: DropdownButton<String>(
-
                         value: dropdownValue,
-
                         icon: const Icon(Icons.arrow_downward),
                         elevation: 16,
                         iconSize: 30,
@@ -239,16 +231,12 @@ class _TripDetailState extends State<TripDetail> {
                           color: Colors.black,
                         ),
                         onChanged: (String newValue) {
-
-
                           setState(() {
                             dropdownValue = newValue;
-
                           });
                         },
                         items: <String>[
                           'All',
-
                           'Bangkok',
                           'Phuket',
                           'Krabi',
@@ -257,7 +245,6 @@ class _TripDetailState extends State<TripDetail> {
                           'test',
                           'Koh Samet',
                           'Rayong'
-
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -278,20 +265,17 @@ class _TripDetailState extends State<TripDetail> {
                       width: 200,
                       height: 30,
                       child: TextField(
-                          decoration: InputDecoration(
-
-                            border: OutlineInputBorder(),
-                            fillColor: Colors.white,
-                            // hintText: 'Number of customer'
-                          ),
-                          onChanged: (String newValue) {
-
-                            setState(() {
-                              guestvalue = int.parse(newValue);
-                            });
-                          },
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          fillColor: Colors.white,
+                          // hintText: 'Number of customer'
+                        ),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            guestvalue = int.parse(newValue);
+                          });
+                        },
                       ),
-
                     ),
                   ],
                 ),
@@ -305,11 +289,10 @@ class _TripDetailState extends State<TripDetail> {
                       height: 30,
                       child: TextField(
                           decoration: InputDecoration(
-
-                            border: OutlineInputBorder(),
-                            fillColor: Colors.white,
-                            // hintText: 'Trip Duration (days)'
-                          )),
+                        border: OutlineInputBorder(),
+                        fillColor: Colors.white,
+                        // hintText: 'Trip Duration (days)'
+                      )),
                     ),
                   ],
                 ),
@@ -346,7 +329,6 @@ class _TripDetailState extends State<TripDetail> {
                       ),
                     ),
                   ],
-
                 ),
                 // TextField(
                 //     decoration: InputDecoration(
@@ -361,372 +343,370 @@ class _TripDetailState extends State<TripDetail> {
 
                 Container(
                     child: Column(children: [
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        value: costchecklist[0],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[0] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$0 - \$1,000',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            value: costchecklist[0],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[0] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$0 - \$1,000',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        value: costchecklist[1],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[1] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$1,001 - \$2,000',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            value: costchecklist[1],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[1] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$1,001 - \$2,000',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        // value: this.value,
+                        // onChanged: (bool value) {
+                        //   setState(() {
+                        //     costchecklist[2] = value;
+                        //     this.value = costchecklist[0];
+                        //  });
+                        value: costchecklist[2],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[2] = value;
+                          });
+                          // print(costchecklist);
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$2,001 - \$3,000',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
 
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            // value: this.value,
-                            // onChanged: (bool value) {
-                            //   setState(() {
-                            //     costchecklist[2] = value;
-                            //     this.value = costchecklist[0];
-                            //  });
-                            value: costchecklist[2],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[2] = value;
-                              });
-                              // print(costchecklist);
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$2,001 - \$3,000',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
+                  ///Row
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                      ///Row
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        // value: this.value,
+                        // onChanged: (bool value) {
+                        //   setState(() {
+                        //     costchecklist[3] = value;
+                        //     this.value = costchecklist[1];
+                        //   });
+                        value: costchecklist[3],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[3] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$3,000+',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            // value: this.value,
-                            // onChanged: (bool value) {
-                            //   setState(() {
-                            //     costchecklist[3] = value;
-                            //     this.value = costchecklist[1];
-                            //   });
-                            value: costchecklist[3],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[3] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$3,000+',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        value: costchecklist[4],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[4] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        'Only special deals',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  SizedBox(height: 20),
+                  //Trip Duration
+                  // Text("Trip Duration"),
 
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            value: costchecklist[4],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[4] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            'Only special deals',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      SizedBox(height: 20),
-                      //Trip Duration
-                      // Text("Trip Duration"),
+                  // Row(
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ), //SizedBox
 
-                      // Row(
-                      //   children: <Widget>[
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ), //SizedBox
+                  //     //SizedBox
+                  //     /** Checkbox Widget **/
 
-                      //     //SizedBox
-                      //     /** Checkbox Widget **/
+                  //     SizedBox(width: 10),
+                  //     Checkbox(
+                  //       value: durationchecklist[0],
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           durationchecklist[0] = value;
+                  //         });
+                  //       },
+                  //     ), //Checkbox
+                  //     Text(
+                  //       '1 day',
+                  //     ), //Text
+                  //   ], //<Widget>[]
+                  // ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ), //SizedBox
 
-                      //     SizedBox(width: 10),
-                      //     Checkbox(
-                      //       value: durationchecklist[0],
-                      //       onChanged: (bool value) {
-                      //         setState(() {
-                      //           durationchecklist[0] = value;
-                      //         });
-                      //       },
-                      //     ), //Checkbox
-                      //     Text(
-                      //       '1 day',
-                      //     ), //Text
-                      //   ], //<Widget>[]
-                      // ),
-                      // Row(
-                      //   children: <Widget>[
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ), //SizedBox
+                  //     //SizedBox
+                  //     /** Checkbox Widget **/
 
-                      //     //SizedBox
-                      //     /** Checkbox Widget **/
+                  //     SizedBox(width: 10),
+                  //     Checkbox(
+                  //       value: durationchecklist[1],
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           durationchecklist[1] = value;
+                  //         });
+                  //       },
+                  //     ), //Checkbox
+                  //     Text(
+                  //       '6 nights',
+                  //     ), //Text
+                  //   ], //<Widget>[]
+                  // ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ), //SizedBox
 
-                      //     SizedBox(width: 10),
-                      //     Checkbox(
-                      //       value: durationchecklist[1],
-                      //       onChanged: (bool value) {
-                      //         setState(() {
-                      //           durationchecklist[1] = value;
-                      //         });
-                      //       },
-                      //     ), //Checkbox
-                      //     Text(
-                      //       '6 nights',
-                      //     ), //Text
-                      //   ], //<Widget>[]
-                      // ),
-                      // Row(
-                      //   children: <Widget>[
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ), //SizedBox
+                  //     SizedBox(width: 10), //SizedBox
+                  //     /** Checkbox Widget **/
+                  //     Checkbox(
+                  //       value: durationchecklist[2],
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           durationchecklist[2] = value;
+                  //         });
+                  //       },
+                  //     ), //Checkbox
+                  //     Text(
+                  //       '7 nights',
+                  //     ), //Text
+                  //   ], //<Widget>[]
+                  // ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ), //SizedBox
 
-                      //     SizedBox(width: 10), //SizedBox
-                      //     /** Checkbox Widget **/
-                      //     Checkbox(
-                      //       value: durationchecklist[2],
-                      //       onChanged: (bool value) {
-                      //         setState(() {
-                      //           durationchecklist[2] = value;
-                      //         });
-                      //       },
-                      //     ), //Checkbox
-                      //     Text(
-                      //       '7 nights',
-                      //     ), //Text
-                      //   ], //<Widget>[]
-                      // ),
-                      // Row(
-                      //   children: <Widget>[
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ), //SizedBox
+                  //     SizedBox(width: 10), //SizedBox
+                  //     /** Checkbox Widget **/
+                  //     Checkbox(
+                  //       value: durationchecklist[3],
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           durationchecklist[3] = value;
+                  //         });
+                  //       },
+                  //     ), //Checkbox
+                  //     Text(
+                  //       '8 nights',
+                  //     ), //Text
+                  //   ], //<Widget>[]
+                  // ),
 
-                      //     SizedBox(width: 10), //SizedBox
-                      //     /** Checkbox Widget **/
-                      //     Checkbox(
-                      //       value: durationchecklist[3],
-                      //       onChanged: (bool value) {
-                      //         setState(() {
-                      //           durationchecklist[3] = value;
-                      //         });
-                      //       },
-                      //     ), //Checkbox
-                      //     Text(
-                      //       '8 nights',
-                      //     ), //Text
-                      //   ], //<Widget>[]
-                      // ),
+                  // ///Row
+                  // Row(
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ), //SizedBox
 
-                      // ///Row
-                      // Row(
-                      //   children: <Widget>[
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ), //SizedBox
+                  //     SizedBox(width: 10), //SizedBox
+                  //     /** Checkbox Widget **/
+                  //     Checkbox(
+                  //       value: durationchecklist[4],
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           durationchecklist[4] = value;
+                  //         });
+                  //       },
+                  //     ), //Checkbox
+                  //     Text(
+                  //       '9 nights',
+                  //     ), //Text
+                  //   ], //<Widget>[]
+                  // ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ), //SizedBox
 
-                      //     SizedBox(width: 10), //SizedBox
-                      //     /** Checkbox Widget **/
-                      //     Checkbox(
-                      //       value: durationchecklist[4],
-                      //       onChanged: (bool value) {
-                      //         setState(() {
-                      //           durationchecklist[4] = value;
-                      //         });
-                      //       },
-                      //     ), //Checkbox
-                      //     Text(
-                      //       '9 nights',
-                      //     ), //Text
-                      //   ], //<Widget>[]
-                      // ),
-                      // Row(
-                      //   children: <Widget>[
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ), //SizedBox
+                  //     SizedBox(width: 10), //SizedBox
+                  //     /** Checkbox Widget **/
+                  //     Checkbox(
+                  //       value: durationchecklist[5],
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           durationchecklist[5] = value;
+                  //         });
+                  //       },
+                  //     ), //Checkbox
+                  //     Text(
+                  //       '10 Nights',
+                  //     ), //Text
+                  //   ], //<Widget>[]
+                  // ),
 
-                      //     SizedBox(width: 10), //SizedBox
-                      //     /** Checkbox Widget **/
-                      //     Checkbox(
-                      //       value: durationchecklist[5],
-                      //       onChanged: (bool value) {
-                      //         setState(() {
-                      //           durationchecklist[5] = value;
-                      //         });
-                      //       },
-                      //     ), //Checkbox
-                      //     Text(
-                      //       '10 Nights',
-                      //     ), //Text
-                      //   ], //<Widget>[]
-                      // ),
+                  // Text("Diving Intensity"),
+                  // Row(
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ), //SizedBox
 
-                      // Text("Diving Intensity"),
-                      // Row(
-                      //   children: <Widget>[
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ), //SizedBox
+                  //     SizedBox(width: 10), //SizedBox
+                  //     /** Checkbox Widget **/
+                  //     Checkbox(
+                  //       value: this.value,
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           this.value = value;
+                  //         });
+                  //       },
+                  //     ),//Checkbox
+                  //     Text(
+                  //       '>30 Diving',
+                  //     ), //Text
+                  //   ], //<Widget>[]
+                  // ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ), //SizedBox
 
-                      //     SizedBox(width: 10), //SizedBox
-                      //     /** Checkbox Widget **/
-                      //     Checkbox(
-                      //       value: this.value,
-                      //       onChanged: (bool value) {
-                      //         setState(() {
-                      //           this.value = value;
-                      //         });
-                      //       },
-                      //     ),//Checkbox
-                      //     Text(
-                      //       '>30 Diving',
-                      //     ), //Text
-                      //   ], //<Widget>[]
-                      // ),
-                      // Row(
-                      //   children: <Widget>[
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ), //SizedBox
+                  //     SizedBox(width: 10), //SizedBox
+                  //     /** Checkbox Widget **/
+                  //     Checkbox(
+                  //       value: this.value,
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           this.value = value;
+                  //         });
+                  //       },
+                  //     ),//Checkbox
+                  //     Text(
+                  //       '25-30 Diving',
+                  //     ), //Text
+                  //   ], //<Widget>[]
+                  // ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ), //SizedBox
 
-                      //     SizedBox(width: 10), //SizedBox
-                      //     /** Checkbox Widget **/
-                      //     Checkbox(
-                      //       value: this.value,
-                      //       onChanged: (bool value) {
-                      //         setState(() {
-                      //           this.value = value;
-                      //         });
-                      //       },
-                      //     ),//Checkbox
-                      //     Text(
-                      //       '25-30 Diving',
-                      //     ), //Text
-                      //   ], //<Widget>[]
-                      // ),
-                      // Row(
-                      //   children: <Widget>[
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ), //SizedBox
+                  //     SizedBox(width: 10), //SizedBox
+                  //     /** Checkbox Widget **/
+                  //     Checkbox(
+                  //       value: this.value,
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           this.value = value;
+                  //         });
+                  //       },
+                  //     ),//Checkbox
+                  //     Text(
+                  //       '20-25 Dives',
+                  //     ), //Text
+                  //   ], //<Widget>[]
+                  // ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ), //SizedBox
 
-                      //     SizedBox(width: 10), //SizedBox
-                      //     /** Checkbox Widget **/
-                      //     Checkbox(
-                      //       value: this.value,
-                      //       onChanged: (bool value) {
-                      //         setState(() {
-                      //           this.value = value;
-                      //         });
-                      //       },
-                      //     ),//Checkbox
-                      //     Text(
-                      //       '20-25 Dives',
-                      //     ), //Text
-                      //   ], //<Widget>[]
-                      // ),
-                      // Row(
-                      //   children: <Widget>[
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ), //SizedBox
+                  //     SizedBox(width: 10), //SizedBox
+                  //     /** Checkbox Widget **/
+                  //     Checkbox(
+                  //       value: this.value,
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           this.value = value;
+                  //         });
+                  //       },
+                  //     ),//Checkbox
+                  //     Text(
+                  //       '15-20 Dives',
+                  //     ), //Text
+                  //   ], //<Widget>[]
+                  // ),
+                  // Row(
+                  //   children: <Widget>[
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ), //SizedBox
 
-                      //     SizedBox(width: 10), //SizedBox
-                      //     /** Checkbox Widget **/
-                      //     Checkbox(
-                      //       value: this.value,
-                      //       onChanged: (bool value) {
-                      //         setState(() {
-                      //           this.value = value;
-                      //         });
-                      //       },
-                      //     ),//Checkbox
-                      //     Text(
-                      //       '15-20 Dives',
-                      //     ), //Text
-                      //   ], //<Widget>[]
-                      // ),
-                      // Row(
-                      //   children: <Widget>[
-                      //     SizedBox(
-                      //       width: 10,
-                      //     ), //SizedBox
-
-                      //     SizedBox(width: 10), //SizedBox
-                      //     /** Checkbox Widget **/
-                      //     Checkbox(
-                      //       value: this.value,
-                      //       onChanged: (bool value) {
-                      //         setState(() {
-                      //           this.value = value;
-                      //         });
-                      //       },
-                      //     ),//Checkbox
-                      //     Text(
-                      //       '10-15 Dives',
-                      //     ), //Text
-                      //   ], //<Widget>[]
-                      // ),
-                    ]))
-
+                  //     SizedBox(width: 10), //SizedBox
+                  //     /** Checkbox Widget **/
+                  //     Checkbox(
+                  //       value: this.value,
+                  //       onChanged: (bool value) {
+                  //         setState(() {
+                  //           this.value = value;
+                  //         });
+                  //       },
+                  //     ),//Checkbox
+                  //     Text(
+                  //       '10-15 Dives',
+                  //     ), //Text
+                  //   ], //<Widget>[]
+                  // ),
+                ]))
               ]),
             ),
           ])),
@@ -740,7 +720,7 @@ class _TripDetailState extends State<TripDetail> {
                 width: double.infinity,
                 // height: 600,
                 decoration:
-                BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
+                    BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
                 child: Column(
                   children: [
                     SectionTitle(
@@ -765,12 +745,11 @@ class _TripDetailState extends State<TripDetail> {
                                         runSpacing: 40,
                                         children: List.generate(
                                           _foundtrip.length,
-                                              (index) =>
-                                              Center(
-                                                child: InfoCard(
-                                                  index: index,
-                                                ),
-                                              ),
+                                          (index) => Center(
+                                            child: InfoCard(
+                                              index: index,
+                                            ),
+                                          ),
                                         ))));
                             //Text('hasData: ${snapshot.data}')));
                           } else {
@@ -793,61 +772,58 @@ class _TripDetailState extends State<TripDetail> {
     ]);
   }
 
-
-
   void _runFilter() {
     List<SearchTripsResponse_Trip> results = [];
     if (dropdownValue == "All" && _dateFrom == null && _dateTo == null) {
       print("Filtering 1");
-      
+
       // if the search field is empty or only contains white-space, we'll display all users
       results = trips;
       results[0].tripTemplate.tripType.toString();
       setState(() {
         _foundtrip = results;
       });
-
+    } else
+      results = trips;
+    if (dropdownValue != "All") {
+      print("Filtering 2");
+      results = results
+          .where(
+              (trip) => trip.tripTemplate.address.city.contains(dropdownValue))
+          .toList();
     }
-    else
-      results= trips;
-      if (dropdownValue != "All") {
-        print("Filtering 2");
-        results = results.where((trip) =>
-            trip.tripTemplate.address.city.contains(dropdownValue)).toList();
-
-
+    if (_dateFrom != null) {
+      results = results
+          .where((trip) => trip.fromDate.toDateTime().isAfter(_dateFrom))
+          .toList();
+    }
+    if (_dateTo != null) {
+      results = results
+          .where((trip) => trip.toDate.toDateTime().isBefore(_dateTo))
+          .toList();
+    }
+    if (guestvalue != null) {
+      results = results.where((trip) => trip.maxGuest == guestvalue).toList();
+    }
+    if (dropdownValue2 != "All") {
+      if (dropdownValue2 == "Onshore") {
+        results = results
+            .where((trip) => trip.tripTemplate.tripType.toString() == "ONSHORE")
+            .toList();
+      } else {
+        results = results
+            .where(
+                (trip) => trip.tripTemplate.tripType.toString() == "OFFSHORE")
+            .toList();
       }
-      if (_dateFrom!=null) {
-        results = results.where((trip) =>
-            trip.fromDate.toDateTime().isAfter(_dateFrom)).toList();
-      }
-      if(_dateTo!=null) {
-        results = results.where((trip) =>
-            trip.toDate.toDateTime().isBefore(_dateTo)).toList();
-      }
-      if (guestvalue!=null){
-        results = results.where((trip) =>
-        trip.maxGuest == guestvalue).toList();
-      }
-      if (dropdownValue2!="All"){
-        if (dropdownValue2=="Onshore"){
-          results = results.where((trip) =>
-          trip.tripTemplate.tripType.toString() == "ONSHORE").toList(); }
-        else{
-          results = results.where((trip) =>
-          trip.tripTemplate.tripType.toString() == "OFFSHORE").toList();
+    }
 
-          }
-        }
-
-
-      setState(() {
-
+    setState(() {
       _foundtrip = results;
-      });
-    }
+    });
+  }
 
-    /*if (_dateFrom != null && _dateTo != null) //if datetimepicker is not null
+  /*if (_dateFrom != null && _dateTo != null) //if datetimepicker is not null
         {
           if (
               dropdownValue == "All" &&
@@ -887,10 +863,8 @@ class _TripDetailState extends State<TripDetail> {
 
               && trip.maxGuest == guestvalue).toList();
           }*/
-   // }
-  }
-
-
+  // }
+}
 
 class InfoCard extends StatefulWidget {
   InfoCard({
@@ -930,11 +904,14 @@ class _InfoCardState extends State<InfoCard> {
                     ? new Container(
                         color: Colors.pink,
                       )
-                    : Image.network(' http://139.59.101.136/static/' +
-                            _foundtrip[widget.index]
-                                .tripTemplate
-                                .images[0]
-                                .toString()
+                    : Image.network(
+                        // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                        _foundtrip[widget.index]
+                            .tripTemplate
+                            .images[0]
+                            .link
+                            .toString()
+
                         // _foundtrip[widget.index].tripTemplate.images[0].toString()
                         )),
             // child: Image.asset(LiveAboardDatas[widget.index].image)),
@@ -963,7 +940,10 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         Text('End date : ' +
-                            _foundtrip[widget.index].toDate.toDateTime().toString()),
+                            _foundtrip[widget.index]
+                                .toDate
+                                .toDateTime()
+                                .toString()),
                         SizedBox(
                           height: 10,
                         ),
