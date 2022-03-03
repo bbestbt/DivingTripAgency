@@ -654,7 +654,7 @@ class _InfoCardState extends State<InfoCard> {
                         //LiveAboardDatas[widget.index].name),
 
                         Text('Location : ' +
-                            _foundtrip[widget.index].tripTemplate.address.city),
+                            _foundtrip[widget.index].tripTemplate.address.city+', '+ _foundtrip[widget.index].tripTemplate.address.country),
                         SizedBox(
                           height: 10,
                         ),
