@@ -73,6 +73,7 @@ class _TripDetailState extends State<TripDetail> {
     var searchtrips = SearchTripsOptions();
 
     searchtrips.country = 'Thailand';
+    // searchtrips.country = 'm';
 
     //  searchtrips.city = dropdownValue;
     searchtrips.divers = 5;
@@ -654,7 +655,12 @@ class _InfoCardState extends State<InfoCard> {
                         //LiveAboardDatas[widget.index].name),
 
                         Text('Location : ' +
-                            _foundtrip[widget.index].tripTemplate.address.city+', '+ _foundtrip[widget.index].tripTemplate.address.country),
+                            _foundtrip[widget.index].tripTemplate.address.city +
+                            ', ' +
+                            _foundtrip[widget.index]
+                                .tripTemplate
+                                .address
+                                .country),
                         SizedBox(
                           height: 10,
                         ),
@@ -705,9 +711,9 @@ class _InfoCardState extends State<InfoCard> {
                           child: RaisedButton(
                             onPressed: () {
                               print(_foundtrip[widget.index]
-                                      .tripTemplate
-                                      .tripType
-                                      .toString());
+                                  .tripTemplate
+                                  .tripType
+                                  .toString());
                               if (_foundtrip[widget.index]
                                       .tripTemplate
                                       .tripType
@@ -717,19 +723,21 @@ class _InfoCardState extends State<InfoCard> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            DiveResortDetailScreen(widget.index,trips)));
+                                            DiveResortDetailScreen(
+                                                widget.index, trips)));
+                              } else {
+                                // print(_foundtrip[widget.index]);
+                                // print('------------------');
+                                // print(widget.index);
+                                // print('***');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            LiveaboardDetailScreen(
+                                                widget.index, trips)));
                               }
-                             else {
-                              // print(_foundtrip[widget.index]);
-                              // print('------------------');
-                              // print(widget.index);
-                              // print('***');
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          LiveaboardDetailScreen(widget.index,trips)));
-                            }},
+                            },
                             color: Colors.amber,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),

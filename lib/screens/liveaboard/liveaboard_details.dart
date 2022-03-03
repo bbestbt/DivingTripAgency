@@ -84,6 +84,21 @@ class _detailState extends State<detail> {
           title: "Liveaboard",
           color: Color(0xFFFF78a2cc),
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("From : " +
+                details[widget.index].fromDate.toDateTime().toString()),
+            SizedBox(
+              width: 10,
+            ),
+            Text("From : " +
+                details[widget.index].toDate.toDateTime().toString()),
+          ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
         Text("Address : " +
             details[widget.index].tripTemplate.address.addressLine1),
         SizedBox(
@@ -125,18 +140,54 @@ class _detailState extends State<detail> {
           height: 10,
         ),
         // Image.asset("assets/images/S__77242370.jpg"),
-        Container(
-            width: 300,
-            height: 300,
-            child: details[widget.index].tripTemplate.images.length == 0
-                ? new Container(
-                    color: Colors.pink,
-                  )
-                : Image.network(details[widget.index]
-                    .tripTemplate
-                    .images[0]
-                    .link
-                    .toString())),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                width: 300,
+                height: 300,
+                child: details[widget.index].tripTemplate.images.length == 0
+                    ? new Container(
+                        color: Colors.pink,
+                      )
+                    : Image.network(details[widget.index]
+                        .tripTemplate
+                        .images[0]
+                        .link
+                        .toString())),
+            SizedBox(
+              width: 10,
+            ),
+            Container(
+                width: 300,
+                height: 300,
+                child: details[widget.index].tripTemplate.images.length == 0
+                    ? new Container(
+                        color: Colors.pink,
+                      )
+                    : Image.network(details[widget.index]
+                        .tripTemplate
+                        .images[1]
+                        .link
+                        .toString())),
+            SizedBox(
+              width: 10,
+            ),
+            Container(
+                width: 300,
+                height: 300,
+                child: details[widget.index].tripTemplate.images.length == 0
+                    ? new Container(
+                        color: Colors.pink,
+                      )
+                    : Image.network(details[widget.index]
+                        .tripTemplate
+                        .images[2]
+                        .link
+                        .toString())),
+          ],
+        ),
         SizedBox(
           height: 10,
         ),
