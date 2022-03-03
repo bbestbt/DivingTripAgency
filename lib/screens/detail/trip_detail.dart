@@ -4,6 +4,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
+import 'package:diving_trip_agency/screens/liveaboard/liveaboard_details.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,10 +26,20 @@ int guestvalue;
 List<SearchTripsResponse_Trip> trips = [];
 
 class TripDetail extends StatefulWidget {
+  // SearchTripsResponse_Trip tripdetail ;
+  // TripDetail(SearchTripsResponse_Trip tripdetail){
+  //   this.tripdetail=tripdetail;
+
+  // }
   _TripDetailState createState() => _TripDetailState();
 }
 
 class _TripDetailState extends State<TripDetail> {
+  // _TripDetailState(SearchTripsResponse_Trip tripdetail){
+  //   this.tripdetail=tripdetail;
+
+  // }
+  //  SearchTripsResponse_Trip tripdetail ;
   DateTime _dateFrom;
   DateTime _dateTo;
   bool value = false;
@@ -61,7 +72,7 @@ class _TripDetailState extends State<TripDetail> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var searchtrips = SearchTripsOptions();
 
-    searchtrips.country = 'm';
+    searchtrips.country = 'Thailand';
 
     //  searchtrips.city = dropdownValue;
     searchtrips.divers = 5;
@@ -74,7 +85,7 @@ class _TripDetailState extends State<TripDetail> {
     ts2.seconds = Int64(1648681149);
     searchtrips.endDate = ts2;
 
-    searchtrips.tripType = TripType.OFFSHORE;
+    // searchtrips.tripType = TripType.OFFSHORE;
     var listtriprequest = SearchTripsRequest();
     listtriprequest.limit = Int64(20);
     listtriprequest.offset = Int64(0);
@@ -129,11 +140,8 @@ class _TripDetailState extends State<TripDetail> {
               ),
               child: Column(children: [
                 Container(
-
                     width: 1000,
-                    child:Row(
-                    children:[
-
+                    child: Row(children: [
                       Text(
                         "SEARCH",
                         style: TextStyle(fontSize: 20),
@@ -255,7 +263,6 @@ class _TripDetailState extends State<TripDetail> {
 
                 SizedBox(height: 20),
                 Row(
-
                   children: [
                     Container(
                       child: Text('Number of customers'),
@@ -282,11 +289,11 @@ class _TripDetailState extends State<TripDetail> {
                 ),
                 SizedBox(height: 20),
                 Row(
-                    children: [
-                Container(
-                  child: Text('Trip Duration (days)'),
-                    width: screenwidth * 0.05,
-                ),
+                  children: [
+                    Container(
+                      child: Text('Trip Duration (days)'),
+                      width: screenwidth * 0.05,
+                    ),
                     Spacer(),
                     Container(
                       width: screenwidth * 0.05,
@@ -347,133 +354,128 @@ class _TripDetailState extends State<TripDetail> {
 
                 Container(
                     child: Column(children: [
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        value: costchecklist[0],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[0] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$0 - \$1,000',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        value: costchecklist[1],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[1] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$1,001 - \$2,000',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            value: costchecklist[0],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[0] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$0 - \$1,000',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        // value: this.value,
+                        // onChanged: (bool value) {
+                        //   setState(() {
+                        //     costchecklist[2] = value;
+                        //     this.value = costchecklist[0];
+                        //  });
+                        value: costchecklist[2],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[2] = value;
+                          });
+                          // print(costchecklist);
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$2,001 - \$3,000',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
 
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            value: costchecklist[1],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[1] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$1,001 - \$2,000',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
+                  ///Row
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            // value: this.value,
-                            // onChanged: (bool value) {
-                            //   setState(() {
-                            //     costchecklist[2] = value;
-                            //     this.value = costchecklist[0];
-                            //  });
-                            value: costchecklist[2],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[2] = value;
-                              });
-                              // print(costchecklist);
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$2,001 - \$3,000',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        // value: this.value,
+                        // onChanged: (bool value) {
+                        //   setState(() {
+                        //     costchecklist[3] = value;
+                        //     this.value = costchecklist[1];
+                        //   });
+                        value: costchecklist[3],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[3] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$3,000+',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                      ///Row
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
-
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            // value: this.value,
-                            // onChanged: (bool value) {
-                            //   setState(() {
-                            //     costchecklist[3] = value;
-                            //     this.value = costchecklist[1];
-                            //   });
-                            value: costchecklist[3],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[3] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$3,000+',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
-
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            value: costchecklist[4],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[4] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            'Only special deals',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      SizedBox(height: 20),
-
-                    ]))
-
-
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        value: costchecklist[4],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[4] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        'Only special deals',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  SizedBox(height: 20),
+                ]))
               ]),
             ),
           ])),
@@ -589,11 +591,7 @@ class _TripDetailState extends State<TripDetail> {
       _foundtrip = results;
     });
   }
-
-
-  }
-
-
+}
 
 class InfoCard extends StatefulWidget {
   InfoCard({
@@ -706,12 +704,32 @@ class _InfoCardState extends State<InfoCard> {
                           alignment: Alignment.centerRight,
                           child: RaisedButton(
                             onPressed: () {
-                              //   Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //           builder: (context) =>
-                              //               DiveResortDetailScreen()));
-                            },
+                              print(_foundtrip[widget.index]
+                                      .tripTemplate
+                                      .tripType
+                                      .toString());
+                              if (_foundtrip[widget.index]
+                                      .tripTemplate
+                                      .tripType
+                                      .toString() ==
+                                  "ONSHORE") {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DiveResortDetailScreen(widget.index,trips)));
+                              }
+                             else {
+                              // print(_foundtrip[widget.index]);
+                              // print('------------------');
+                              // print(widget.index);
+                              // print('***');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          LiveaboardDetailScreen(widget.index,trips)));
+                            }},
                             color: Colors.amber,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),

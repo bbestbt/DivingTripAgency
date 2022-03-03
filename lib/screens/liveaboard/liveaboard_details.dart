@@ -1,4 +1,5 @@
 import 'package:diving_trip_agency/controllers/menuController.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
@@ -8,10 +9,34 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 
-class LiveaboardDetailScreen extends StatelessWidget {
+class LiveaboardDetailScreen extends StatefulWidget {
+  int index;
+  List<SearchTripsResponse_Trip> details;
+  LiveaboardDetailScreen(int index, List<SearchTripsResponse_Trip> details) {
+    this.details = details;
+    this.index = index;
+  }
+  @override
+  State<LiveaboardDetailScreen> createState() =>
+      _LiveaboardDetailScreenState(this.index, this.details);
+}
+
+class _LiveaboardDetailScreenState extends State<LiveaboardDetailScreen> {
+  int index;
+  List<SearchTripsResponse_Trip> details;
+  _LiveaboardDetailScreenState(
+      int index, List<SearchTripsResponse_Trip> details) {
+    this.index = index;
+    this.details = details;
+    //  print(index.toString());
+    //   print('detail');
+    // print(details);
+  }
   final MenuController _controller = Get.put(MenuController());
+
   @override
   Widget build(BuildContext context) {
+    // print('build'+index.toString());
     return Scaffold(
         key: _controller.scaffoldkey,
         drawer: SideMenu(),
@@ -21,7 +46,7 @@ class LiveaboardDetailScreen extends StatelessWidget {
               children: [
                 Header(),
                 SizedBox(height: 30),
-                detail(),
+                detail(this.index, this.details),
               ],
             ),
           ),
@@ -29,11 +54,28 @@ class LiveaboardDetailScreen extends StatelessWidget {
   }
 }
 
-class detail extends StatelessWidget {
-  const detail({
-    Key key,
-  }) : super(key: key);
+class detail extends StatefulWidget {
+  int index;
+  List<SearchTripsResponse_Trip> details;
+  detail(int index, List<SearchTripsResponse_Trip> details) {
+    this.index = index;
+    this.details = details;
+    // print('detail');
+    // print(details);
+    // print("index");
+    // print(index.toString());
+  }
+  @override
+  State<detail> createState() => _detailState(this.index, this.details);
+}
 
+class _detailState extends State<detail> {
+  int index;
+  List<SearchTripsResponse_Trip> details;
+  _detailState(int index, List<SearchTripsResponse_Trip> details) {
+    this.index = index;
+    this.details = details;
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -42,32 +84,81 @@ class detail extends StatelessWidget {
           title: "Liveaboard",
           color: Color(0xFFFF78a2cc),
         ),
-        Text("Liveaboard name : eiusmod tempor"),
+        Text("Address : " +
+            details[widget.index].tripTemplate.address.addressLine1),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
-        Text("Address : Lorem ipsum dolor sit ametm"),
+        Text("Address2 : " +
+            details[widget.index].tripTemplate.address.addressLine2),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
-        Image.asset("assets/images/S__77242370.jpg"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('City : ' + details[widget.index].tripTemplate.address.city),
+            SizedBox(
+              width: 20,
+            ),
+            Text("Country : " +
+                details[widget.index].tripTemplate.address.country),
+          ],
+        ),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
-        Text(
-            'Description : sed do eiusmod tempor incididunt ut labore et dolore'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Region : ' +
+                details[widget.index].tripTemplate.address.region),
+            SizedBox(
+              width: 20,
+            ),
+            Text('Postcode : ' +
+                details[widget.index].tripTemplate.address.postcode),
+          ],
+        ),
+
         SizedBox(
-          height: 20,
+          height: 10,
         ),
-        Text('Length: 9'),
+        // Image.asset("assets/images/S__77242370.jpg"),
+        Container(
+            width: 300,
+            height: 300,
+            child: details[widget.index].tripTemplate.images.length == 0
+                ? new Container(
+                    color: Colors.pink,
+                  )
+                : Image.network(details[widget.index]
+                    .tripTemplate
+                    .images[0]
+                    .link
+                    .toString())),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
-        Text('Width: 7'),
+        Text("Description : " + details[widget.index].tripTemplate.description),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
-        Text('Total capacity : 25'),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     Text('Length : 8 '),
+        //      SizedBox(
+        //   width: 20,
+        // ),
+        // Text('Width : 7'),
+        //   ],
+        // ),
+
+        SizedBox(
+          height: 10,
+        ),
+        Text('Total capacity : ' + details[widget.index].maxGuest.toString()),
         SizedBox(
           height: 20,
         ),
@@ -100,26 +191,23 @@ class detail extends StatelessWidget {
               ),
               Text('Room quantity : 10'),
               SizedBox(height: 20),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Column(
-            children: [
-              Text('Price : 39,000'),
-              SizedBox(
-                height: 20,
-              ),
-              RaisedButton(
-                onPressed: () {},
-                color: Colors.amber,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Text("Book"),
+              Column(
+                children: [
+                  Text('Price : ' + details[widget.index].price.toString()),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  RaisedButton(
+                    onPressed: () {},
+                    color: Colors.amber,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Text("Book"),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
               ),
             ],
           ),
