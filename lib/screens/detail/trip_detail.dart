@@ -4,6 +4,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
+import 'package:diving_trip_agency/screens/liveaboard/liveaboard_details.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,19 +21,30 @@ List durationchecklist = [];
 
 String dropdownValue = "All";
 String dropdownValue2 = "All";
-int guestvalue;
+
 
 List<SearchTripsResponse_Trip> trips = [];
 
 class TripDetail extends StatefulWidget {
+  // SearchTripsResponse_Trip tripdetail ;
+  // TripDetail(SearchTripsResponse_Trip tripdetail){
+  //   this.tripdetail=tripdetail;
+
+  // }
   _TripDetailState createState() => _TripDetailState();
 }
 
 class _TripDetailState extends State<TripDetail> {
+  // _TripDetailState(SearchTripsResponse_Trip tripdetail){
+  //   this.tripdetail=tripdetail;
+
+  // }
+  //  SearchTripsResponse_Trip tripdetail ;
   DateTime _dateFrom;
   DateTime _dateTo;
+  String _diff = "";
   bool value = false;
-
+  int guestvalue;
   @override
   initState() {
     // at the beginning, all users are shown
@@ -61,7 +73,8 @@ class _TripDetailState extends State<TripDetail> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var searchtrips = SearchTripsOptions();
 
-    searchtrips.country = 'm';
+    searchtrips.country = 'Thailand';
+    // searchtrips.country = 'm';
 
     //  searchtrips.city = dropdownValue;
     searchtrips.divers = 5;
@@ -74,7 +87,7 @@ class _TripDetailState extends State<TripDetail> {
     ts2.seconds = Int64(1648681149);
     searchtrips.endDate = ts2;
 
-    searchtrips.tripType = TripType.OFFSHORE;
+    // searchtrips.tripType = TripType.OFFSHORE;
     var listtriprequest = SearchTripsRequest();
     listtriprequest.limit = Int64(20);
     listtriprequest.offset = Int64(0);
@@ -83,7 +96,7 @@ class _TripDetailState extends State<TripDetail> {
     trips.clear();
     // print(listonshorerequest);
     // stub.searchTrips(listonshorerequest);
-    print(listtriprequest);
+    //print(listtriprequest);
     try {
       await for (var feature in stub.searchTrips(listtriprequest)) {
         // print(feature.trip.price);
@@ -129,11 +142,8 @@ class _TripDetailState extends State<TripDetail> {
               ),
               child: Column(children: [
                 Container(
-
                     width: 1000,
-                    child:Row(
-                    children:[
-
+                    child: Row(children: [
                       Text(
                         "SEARCH",
                         style: TextStyle(fontSize: 20),
@@ -255,7 +265,6 @@ class _TripDetailState extends State<TripDetail> {
 
                 SizedBox(height: 20),
                 Row(
-
                   children: [
                     Container(
                       child: Text('Number of customers'),
@@ -282,21 +291,27 @@ class _TripDetailState extends State<TripDetail> {
                 ),
                 SizedBox(height: 20),
                 Row(
-                    children: [
-                Container(
-                  child: Text('Trip Duration (days)'),
-                    width: screenwidth * 0.05,
-                ),
+                  children: [
+                    Container(
+                      child: Text('Trip Duration (days)'),
+                      width: screenwidth * 0.05,
+                    ),
                     Spacer(),
                     Container(
                       width: screenwidth * 0.05,
                       height: 30,
                       child: TextField(
                           decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        fillColor: Colors.white,
-                        // hintText: 'Trip Duration (days)'
-                      )),
+                            border: OutlineInputBorder(),
+                            fillColor: Colors.white,
+                            // hintText: 'Trip Duration (days)'
+                          ),
+                          onChanged: (String newvalue) {
+
+                            setState(() {
+                              _diff = newvalue;
+                            });
+                          }),
                     ),
                   ],
                 ),
@@ -347,133 +362,128 @@ class _TripDetailState extends State<TripDetail> {
 
                 Container(
                     child: Column(children: [
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        value: costchecklist[0],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[0] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$0 - \$1,000',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        value: costchecklist[1],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[1] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$1,001 - \$2,000',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            value: costchecklist[0],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[0] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$0 - \$1,000',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        // value: this.value,
+                        // onChanged: (bool value) {
+                        //   setState(() {
+                        //     costchecklist[2] = value;
+                        //     this.value = costchecklist[0];
+                        //  });
+                        value: costchecklist[2],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[2] = value;
+                          });
+                          // print(costchecklist);
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$2,001 - \$3,000',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
 
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            value: costchecklist[1],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[1] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$1,001 - \$2,000',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
+                  ///Row
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            // value: this.value,
-                            // onChanged: (bool value) {
-                            //   setState(() {
-                            //     costchecklist[2] = value;
-                            //     this.value = costchecklist[0];
-                            //  });
-                            value: costchecklist[2],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[2] = value;
-                              });
-                              // print(costchecklist);
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$2,001 - \$3,000',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        // value: this.value,
+                        // onChanged: (bool value) {
+                        //   setState(() {
+                        //     costchecklist[3] = value;
+                        //     this.value = costchecklist[1];
+                        //   });
+                        value: costchecklist[3],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[3] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        '\$3,000+',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 10,
+                      ), //SizedBox
 
-                      ///Row
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
-
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            // value: this.value,
-                            // onChanged: (bool value) {
-                            //   setState(() {
-                            //     costchecklist[3] = value;
-                            //     this.value = costchecklist[1];
-                            //   });
-                            value: costchecklist[3],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[3] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            '\$3,000+',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ), //SizedBox
-
-                          SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            value: costchecklist[4],
-                            onChanged: (bool value) {
-                              setState(() {
-                                costchecklist[4] = value;
-                              });
-                            },
-                          ), //Checkbox
-                          Text(
-                            'Only special deals',
-                          ), //Text
-                        ], //<Widget>[]
-                      ),
-                      SizedBox(height: 20),
-
-                    ]))
-
-
+                      SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        value: costchecklist[4],
+                        onChanged: (bool value) {
+                          setState(() {
+                            costchecklist[4] = value;
+                          });
+                        },
+                      ), //Checkbox
+                      Text(
+                        'Only special deals',
+                      ), //Text
+                    ], //<Widget>[]
+                  ),
+                  SizedBox(height: 20),
+                ]))
               ]),
             ),
           ])),
@@ -541,59 +551,84 @@ class _TripDetailState extends State<TripDetail> {
 
   void _runFilter() {
     List<SearchTripsResponse_Trip> results = [];
-    if (dropdownValue == "All" && _dateFrom == null && _dateTo == null) {
+    print("_diff: "+_diff.toString());
+    if (dropdownValue == "All" && _dateFrom == null && _dateTo == null && guestvalue == null && _diff == "" ){
       print("Filtering 1");
 
       // if the search field is empty or only contains white-space, we'll display all users
       results = trips;
-      results[0].tripTemplate.tripType.toString();
+      //results[0].tripTemplate.tripType.toString();
       setState(() {
         _foundtrip = results;
       });
-    } else
+    } else {
+      //print("Guestvalue" + guestvalue.toString());
       results = trips;
-    if (dropdownValue != "All") {
-      print("Filtering 2");
-      results = results
-          .where(
-              (trip) => trip.tripTemplate.address.city.contains(dropdownValue))
-          .toList();
-    }
-    if (_dateFrom != null) {
-      results = results
-          .where((trip) => trip.fromDate.toDateTime().isAfter(_dateFrom))
-          .toList();
-    }
-    if (_dateTo != null) {
-      results = results
-          .where((trip) => trip.toDate.toDateTime().isBefore(_dateTo))
-          .toList();
-    }
-    if (guestvalue != null) {
-      results = results.where((trip) => trip.maxGuest == guestvalue).toList();
-    }
-    if (dropdownValue2 != "All") {
-      if (dropdownValue2 == "Onshore") {
+      setState(() {
+        _foundtrip = results;
+      });
+      //print(_dateFrom);
+      //print(results[0].fromDate.toDateTime());
+      //print(results[1].fromDate.toDateTime());
+
+      if (dropdownValue != "All") {
+        print("Filtering 2");
         results = results
-            .where((trip) => trip.tripTemplate.tripType.toString() == "ONSHORE")
-            .toList();
-      } else {
-        results = results
-            .where(
-                (trip) => trip.tripTemplate.tripType.toString() == "OFFSHORE")
+            .where((trip) =>
+                trip.tripTemplate.address.city.contains(dropdownValue))
             .toList();
       }
+      if (_dateFrom != null) {
+        results = results
+            .where((trip) => trip.fromDate.toDateTime().isAfter(_dateFrom))
+            .toList();
+        //print(_dateFrom);
+        //print(results[0].fromDate.toDateTime());
+        //print(results[0].fromDate.toDateTime().isAfter(_dateFrom));
+      }
+      if (_dateTo != null) {
+        results = results
+            .where((trip) => trip.toDate.toDateTime().subtract(Duration(days:1)).isBefore(_dateTo))
+            .toList();
+      }
+      if (guestvalue != null) {
+        results = results.where((trip) => trip.maxGuest <= guestvalue).toList();
+        //print(results[0].maxGuest);
+      }
+      if (dropdownValue2 != "All") {
+        if (dropdownValue2 == "Onshore") {
+          results = results
+              .where(
+                  (trip) => trip.tripTemplate.tripType.toString() == "ONSHORE")
+              .toList();
+        } else {
+          results = results
+              .where(
+                  (trip) => trip.tripTemplate.tripType.toString() == "OFFSHORE")
+              .toList();
+        }
+      }
+      if (_diff != "") {
+        //print(_diff);
+
+        results = results
+            .where((trip) =>
+        (trip.fromDate
+                    .toDateTime()
+                    .difference(trip.toDate.toDateTime())
+                    .inDays).abs() <=
+                int.parse(_diff))
+            .toList();
+        //print((results[1].fromDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays).abs());
+        //print(_diff);
+      }
+
+      setState(() {
+        _foundtrip = results;
+      });
     }
-
-    setState(() {
-      _foundtrip = results;
-    });
   }
-
-
-  }
-
-
+}
 
 class InfoCard extends StatefulWidget {
   InfoCard({
@@ -656,7 +691,12 @@ class _InfoCardState extends State<InfoCard> {
                         //LiveAboardDatas[widget.index].name),
 
                         Text('Location : ' +
-                            _foundtrip[widget.index].tripTemplate.address.city),
+                            _foundtrip[widget.index].tripTemplate.address.city +
+                            ', ' +
+                            _foundtrip[widget.index]
+                                .tripTemplate
+                                .address
+                                .country),
                         SizedBox(
                           height: 10,
                         ),
@@ -706,11 +746,33 @@ class _InfoCardState extends State<InfoCard> {
                           alignment: Alignment.centerRight,
                           child: RaisedButton(
                             onPressed: () {
-                              //   Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //           builder: (context) =>
-                              //               DiveResortDetailScreen()));
+                              /*  print(_foundtrip[widget.index]
+                                  .tripTemplate
+                                  .tripType
+                                  .toString());
+                              if (_foundtrip[widget.index]
+                                      .tripTemplate
+                                      .tripType
+                                      .toString() ==
+                                  "ONSHORE") {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DiveResortDetailScreen(
+                                                widget.index, trips)));
+                              } else {
+                                // print(_foundtrip[widget.index]);
+                                // print('------------------');
+                                // print(widget.index);
+                                // print('***');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            LiveaboardDetailScreen(
+                                                widget.index, trips)));
+                              }*/
                             },
                             color: Colors.amber,
                             shape: RoundedRectangleBorder(
