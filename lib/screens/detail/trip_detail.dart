@@ -616,7 +616,7 @@ class _TripDetailState extends State<TripDetail> {
         (trip.fromDate
                     .toDateTime()
                     .difference(trip.toDate.toDateTime())
-                    .inDays).abs() <=
+                    .inDays).abs() ==
                 int.parse(_diff))
             .toList();
         //print((results[1].fromDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays).abs());
