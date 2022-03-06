@@ -1,4 +1,4 @@
-import 'dart:html';
+//import 'dart:html';
 
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
@@ -188,11 +188,11 @@ class _InfoCardState extends State<InfoCard> {
                           alignment: Alignment.centerRight,
                           child: RaisedButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          LiveaboardDetailScreen()));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             LiveaboardDetailScreen()));
                               
                             },
                             color: Colors.amber,

@@ -109,31 +109,6 @@ class _InfoCardState extends State<InfoCard> {
   Map<String, dynamic> hotelTypeMap = {};
   List<String> hotel = [];
 
-  getData() async {
-    print("before try catch");
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-    final box = Hive.box('userInfo');
-    String token = box.get('token');
-
-    final stub = AgencyServiceClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
-    var listonshorerequest = SearchOnshoreTripsRequest();
-
-    try {
-      await for (var feature in stub.searchOnshoreTrips(listonshorerequest)) {
-        //  print(feature.hotel.name);
-        // hotel.add((feature.trip.price).toString());
-        // hotelTypeMap[feature.hotel.name] = feature.hotel.id;
-      }
-    } catch (e) {
-      print('ERROR: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,11 +174,11 @@ class _InfoCardState extends State<InfoCard> {
                           alignment: Alignment.centerRight,
                           child: RaisedButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DiveResortDetailScreen()));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) =>
+                              //             DiveResortDetailScreen()));
                             },
                             color: Colors.amber,
                             shape: RoundedRectangleBorder(
