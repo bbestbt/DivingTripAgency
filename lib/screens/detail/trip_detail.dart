@@ -21,7 +21,7 @@ List durationchecklist = [];
 
 String dropdownValue = "All";
 String dropdownValue2 = "All";
-int guestvalue;
+
 
 List<SearchTripsResponse_Trip> trips = [];
 
@@ -42,8 +42,9 @@ class _TripDetailState extends State<TripDetail> {
   //  SearchTripsResponse_Trip tripdetail ;
   DateTime _dateFrom;
   DateTime _dateTo;
+  String _diff = "";
   bool value = false;
-
+  int guestvalue;
   @override
   initState() {
     // at the beginning, all users are shown
@@ -95,7 +96,7 @@ class _TripDetailState extends State<TripDetail> {
     trips.clear();
     // print(listonshorerequest);
     // stub.searchTrips(listonshorerequest);
-    print(listtriprequest);
+    //print(listtriprequest);
     try {
       await for (var feature in stub.searchTrips(listtriprequest)) {
         // print(feature.trip.price);
@@ -301,10 +302,16 @@ class _TripDetailState extends State<TripDetail> {
                       height: 30,
                       child: TextField(
                           decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        fillColor: Colors.white,
-                        // hintText: 'Trip Duration (days)'
-                      )),
+                            border: OutlineInputBorder(),
+                            fillColor: Colors.white,
+                            // hintText: 'Trip Duration (days)'
+                          ),
+                          onChanged: (String newvalue) {
+
+                            setState(() {
+                              _diff = newvalue;
+                            });
+                          }),
                     ),
                   ],
                 ),
@@ -544,53 +551,84 @@ class _TripDetailState extends State<TripDetail> {
 
   void _runFilter() {
     List<SearchTripsResponse_Trip> results = [];
-    if (dropdownValue == "All" && _dateFrom == null && _dateTo == null) {
+    print("_diff: "+_diff.toString());
+    if (dropdownValue == "All" && _dateFrom == null && _dateTo == null && guestvalue == null && _diff == "" ){
       print("Filtering 1");
 
       // if the search field is empty or only contains white-space, we'll display all users
       results = trips;
-      results[0].tripTemplate.tripType.toString();
+      //results[0].tripTemplate.tripType.toString();
       setState(() {
         _foundtrip = results;
       });
-    } else
+    } else {
+      //print("Guestvalue" + guestvalue.toString());
       results = trips;
-    if (dropdownValue != "All") {
-      print("Filtering 2");
-      results = results
-          .where(
-              (trip) => trip.tripTemplate.address.city.contains(dropdownValue))
-          .toList();
-    }
-    if (_dateFrom != null) {
-      results = results
-          .where((trip) => trip.fromDate.toDateTime().isAfter(_dateFrom))
-          .toList();
-    }
-    if (_dateTo != null) {
-      results = results
-          .where((trip) => trip.toDate.toDateTime().isBefore(_dateTo))
-          .toList();
-    }
-    if (guestvalue != null) {
-      results = results.where((trip) => trip.maxGuest == guestvalue).toList();
-    }
-    if (dropdownValue2 != "All") {
-      if (dropdownValue2 == "Onshore") {
+      setState(() {
+        _foundtrip = results;
+      });
+      //print(_dateFrom);
+      //print(results[0].fromDate.toDateTime());
+      //print(results[1].fromDate.toDateTime());
+
+      if (dropdownValue != "All") {
+        print("Filtering 2");
         results = results
-            .where((trip) => trip.tripTemplate.tripType.toString() == "ONSHORE")
-            .toList();
-      } else {
-        results = results
-            .where(
-                (trip) => trip.tripTemplate.tripType.toString() == "OFFSHORE")
+            .where((trip) =>
+                trip.tripTemplate.address.city.contains(dropdownValue))
             .toList();
       }
+      if (_dateFrom != null) {
+        results = results
+            .where((trip) => trip.fromDate.toDateTime().isAfter(_dateFrom))
+            .toList();
+        //print(_dateFrom);
+        //print(results[0].fromDate.toDateTime());
+        //print(results[0].fromDate.toDateTime().isAfter(_dateFrom));
+      }
+      if (_dateTo != null) {
+        results = results
+            .where((trip) => trip.toDate.toDateTime().subtract(Duration(days:1)).isBefore(_dateTo))
+            .toList();
+      }
+
+      if (guestvalue != null) {
+        results = results.where((trip) => trip.maxGuest <= guestvalue).toList();
+        //print(results[0].maxGuest);
+      }
+      if (dropdownValue2 != "All") {
+        if (dropdownValue2 == "Onshore") {
+          results = results
+              .where(
+                  (trip) => trip.tripTemplate.tripType.toString() == "ONSHORE")
+              .toList();
+        } else {
+          results = results
+              .where(
+                  (trip) => trip.tripTemplate.tripType.toString() == "OFFSHORE")
+              .toList();
+        }
+      }
+      if (_diff != "") {
+        //print(_diff);
+
+        results = results
+            .where((trip) =>
+        (trip.fromDate
+                    .toDateTime()
+                    .difference(trip.toDate.toDateTime())
+                    .inDays).abs() ==
+                int.parse(_diff))
+            .toList();
+        //print((results[1].fromDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays).abs());
+        //print(_diff);
+      }
+
+      setState(() {
+        _foundtrip = results;
+      });
     }
 
-    setState(() {
-      _foundtrip = results;
-    });
   }
 }
 
@@ -710,7 +748,9 @@ class _InfoCardState extends State<InfoCard> {
                           alignment: Alignment.centerRight,
                           child: RaisedButton(
                             onPressed: () {
-                              print(_foundtrip[widget.index]
+
+                              /*  print(_foundtrip[widget.index]
+
                                   .tripTemplate
                                   .tripType
                                   .toString());
@@ -736,7 +776,9 @@ class _InfoCardState extends State<InfoCard> {
                                         builder: (context) =>
                                             LiveaboardDetailScreen(
                                                 widget.index, trips)));
-                              }
+
+                              }*/
+
                             },
                             color: Colors.amber,
                             shape: RoundedRectangleBorder(
