@@ -591,6 +591,7 @@ class _TripDetailState extends State<TripDetail> {
             .where((trip) => trip.toDate.toDateTime().subtract(Duration(days:1)).isBefore(_dateTo))
             .toList();
       }
+
       if (guestvalue != null) {
         results = results.where((trip) => trip.maxGuest <= guestvalue).toList();
         //print(results[0].maxGuest);
@@ -627,6 +628,7 @@ class _TripDetailState extends State<TripDetail> {
         _foundtrip = results;
       });
     }
+
   }
 }
 
@@ -746,7 +748,9 @@ class _InfoCardState extends State<InfoCard> {
                           alignment: Alignment.centerRight,
                           child: RaisedButton(
                             onPressed: () {
+
                               /*  print(_foundtrip[widget.index]
+
                                   .tripTemplate
                                   .tripType
                                   .toString());
@@ -772,7 +776,9 @@ class _InfoCardState extends State<InfoCard> {
                                         builder: (context) =>
                                             LiveaboardDetailScreen(
                                                 widget.index, trips)));
+
                               }*/
+
                             },
                             color: Colors.amber,
                             shape: RoundedRectangleBorder(
