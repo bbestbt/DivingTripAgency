@@ -10,13 +10,20 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'dart:convert';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_map/flutter_map.dart';
-
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 
 enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 class WForecast extends StatefulWidget {
   @override
   _WForecastState createState() => _WForecastState();
+}
+
+class _ChartData {
+  _ChartData(this.day, this.temp);
+  final String day;
+  final double temp;
 }
 
 class _WForecastState extends State<WForecast> {
@@ -27,6 +34,7 @@ class _WForecastState extends State<WForecast> {
 
 
   WeatherFactory ws;
+  List<_ChartData> tempdata = [];
   List<Weather> _data = [];
   AppState _state = AppState.NOT_DOWNLOADED;
 
@@ -122,178 +130,294 @@ class _WForecastState extends State<WForecast> {
 
     double txtsize;
     if (kIsWeb){
-      txtsize = 80.0;
+      txtsize = 20.0;
     }else{
-      txtsize = 40.0;
+      txtsize = 15.0;
     }
+    tempdata =[];
+    for(int i=0;i<_data.length;i++) {
+      //print(_data[0].date.day);
+      tempdata.add(_ChartData(_data[i].date.day.toString(), _data[i].temperature.celsius));
+      //tempdata.add(_ChartData("2", 36));
+      //tempdata.add(_ChartData("3", 14));
+      //tempdata.add(_ChartData("4", 36));
+      //tempdata.add(_ChartData("5", 14));
+    }
+    print(tempdata);
 
     //if _data[index].weatherDescription
     return Center(
-      child: ListView.separated(
-        itemCount: _data.length,
-        itemBuilder: (context, index) {
-          return //ListTile(
-            //title: //Text(_data[index].toString()),
-            //Text("Hello Boy!!!"),
-            Container(
-              decoration: BoxDecoration(
-                //color: Colors.grey,
-                image : DecorationImage(image: AssetImage('assets/images/'+_data[index].weatherIcon+'.jpg'),fit: BoxFit.cover
-                  //image : DecorationImage(image: AssetImage('assets/images/03d.jpg'),fit: BoxFit.cover
+      child: Column(
+        children:[
+          Container(
+              child: Text(_data[0].areaName, style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w100,
+              )
+              )
+          ),
+          Container(
 
-                  ),
-                border:Border.all(color:Colors.indigo,width:1)
-
-              ),
               child:
+                    Column(children: [
+                    //Initialize the chart widget
+                    SfCartesianChart(
+                    primaryXAxis: CategoryAxis(),
+                    // Chart title
+                    title: ChartTitle(text: 'Temperature forecast'),
+                    // Enable legend
+                    legend: Legend(isVisible: true),
+                    // Enable tooltip
+                    tooltipBehavior: TooltipBehavior(enable: true),
+                    series: <ChartSeries<_ChartData, String>>[
+                    LineSeries<_ChartData, String>(
+                    dataSource: tempdata,
+                    xValueMapper: (_ChartData sales, _) => sales.day,
+                    yValueMapper: (_ChartData sales, _) => sales.temp,
+                    name: 'Temp',
+              // Enable data label
+              dataLabelSettings: DataLabelSettings(isVisible: true))
+              ]),
+          ]),
+    ),
+          Container(
+            height:150,
+            child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: _data.length,
+            itemBuilder: (context, index) {
+              return //ListTile(
+                //title: //Text(_data[index].toString()),
+                //Text("Hello Boy!!!"),
+                Container(
+                  width:100,
+                  decoration: BoxDecoration(
+                    //color: Colors.grey,
+                    image : DecorationImage(image: AssetImage('assets/images/'+_data[index].weatherIcon+'.jpg'),fit: BoxFit.cover
+                      //image : DecorationImage(image: AssetImage('assets/images/03d.jpg'),fit: BoxFit.cover
 
-                          Column(
-                                children: [
-                                  //Icon(WeatherIcons.fromString(Weathercode),size:80,color:Colors.blue),
-                                  Image(image:NetworkImage('http://openweathermap.org/img/w/'+_data[index].weatherIcon+'.png')),
-                                  //Text(_loc[index].toString(),  style:TextStyle(fontSize:80, fontWeight:FontWeight.w100)),
+                      ),
+                    border:Border.all(color:Colors.indigo,width:1)
+                  ),
+                  child:
 
-                                    Stack(
-                                        children: [
+                              Column(
+                                    children: [
+                                      //Icon(WeatherIcons.fromString(Weathercode),size:80,color:Colors.blue),
+                                      Image(image:NetworkImage('http://openweathermap.org/img/w/'+_data[index].weatherIcon+'.png')),
+                                      //Text(_loc[index].toString(),  style:TextStyle(fontSize:80, fontWeight:FontWeight.w100)),
 
-                                          Text(_data[index].areaName, style: TextStyle(
-                                              fontSize: txtsize,
-                                              fontWeight: FontWeight.w100,
-                                              foreground: Paint()
-                                                ..style = PaintingStyle.stroke
-                                                ..strokeWidth = 6
-                                                ..color = Colors.black)),
-                                          Text(_data[index].areaName, style: TextStyle(
-                                              fontSize: txtsize,
-                                              fontWeight: FontWeight.w100,
-                                              color: Colors.white))
-                                        ]
-                                    ),
-                                    Stack(
-                                        children: [
-                                          Text(_data[index].weatherDescription,
-                                              style: TextStyle(fontSize: txtsize/1.5,
+                                        /*Stack(
+                                            children: [
+
+                                              Text(_data[index].areaName, style: TextStyle(
+                                                  fontSize: txtsize,
                                                   fontWeight: FontWeight.w100,
                                                   foreground: Paint()
                                                     ..style = PaintingStyle.stroke
                                                     ..strokeWidth = 6
                                                     ..color = Colors.black)),
-                                          Text(_data[index].weatherDescription,
-                                              style: TextStyle(fontSize: txtsize/1.5,
+                                              Text(_data[index].areaName, style: TextStyle(
+                                                  fontSize: txtsize,
                                                   fontWeight: FontWeight.w100,
                                                   color: Colors.white))
-                                        ]
-                                    ),
-                                    Stack(
-                                        children: [
-                                          Text(DateFormat.yMMMMd().format(
-                                              _data[index].date).toString(),
-                                              style: TextStyle(fontSize: txtsize/1.5,
-                                                  fontWeight: FontWeight.w100,
-                                                  foreground: Paint()
-                                                    ..style = PaintingStyle.stroke
-                                                    ..strokeWidth = 6
-                                                    ..color = Colors.black)),
-                                          Text(DateFormat.yMMMMd().format(
-                                              _data[index].date).toString(),
-                                              style: TextStyle(fontSize: txtsize/1.5,
-                                                  fontWeight: FontWeight.w100,
-                                                  color: Colors.white))
-                                        ]
-                                    ),
-                                    Stack(
-                                        children: [
-                                          Text(DateFormat.jm()
-                                              .format(_data[index].date)
-                                              .toString(), style: TextStyle(fontSize: txtsize/1.5,
-                                              fontWeight: FontWeight.w100,
-                                              foreground: Paint()
-                                                ..style = PaintingStyle.stroke
-                                                ..strokeWidth = 6
-                                                ..color = Colors.black)),
-                                          Text(DateFormat.jm()
-                                              .format(_data[index].date)
-                                              .toString(), style: TextStyle(fontSize: txtsize/1.5,
-                                              fontWeight: FontWeight.w100,
-                                              color: Colors.white))
-                                        ]
-                                    ),
-                                    Stack(
-                                        children: [
-                                          Text(_data[index].temperature.toString(),
-                                              style: TextStyle(fontSize: txtsize/1.5,
-                                                  fontWeight: FontWeight.w100,
-                                                  foreground: Paint()
-                                                    ..style = PaintingStyle.stroke
-                                                    ..strokeWidth = 6
-                                                    ..color = Colors.black)),
-                                          Text(_data[index].temperature.toString(),
-                                              style: TextStyle(fontSize: txtsize/1.5,
-                                                  fontWeight: FontWeight.w100,
-                                                  color: Colors.white))
-                                        ]
-                                    ),
-                                    Stack(
-                                        children: [
-                                          Text("Humidity: " +
-                                              _data[index].humidity.toString(),
-                                              style: TextStyle(fontSize: txtsize/2.5,
-                                                  fontWeight: FontWeight.w100,
-                                                  foreground: Paint()
-                                                    ..style = PaintingStyle.stroke
-                                                    ..strokeWidth = 6
-                                                    ..color = Colors.black)),
-                                          Text("Humidity: " +
-                                              _data[index].humidity.toString(),
-                                              style: TextStyle(fontSize: txtsize/2.5,
-                                                  fontWeight: FontWeight.w100,
-                                                  color: Colors.white))
-                                        ]
-                                    )
-                                  ,SizedBox(height:10),
-                        Container(
-                          decoration: BoxDecoration(color: Colors.greenAccent),
-                          width:MediaQuery.of(context).size.width * 0.9,
-                          height: 200,
-                          child:FlutterMap(
-                            options: MapOptions(
-                              center: LatLng(latc, lonc),
-                              zoom: 13.0,
-                            ),
-                            layers: [
-                              TileLayerOptions(
-                                urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                                subdomains: ['a', 'b', 'c'],
-                                attributionBuilder: (_) {
-                                  return Text("© OpenStreetMap contributors");
-                                },
-                              ),
-                              MarkerLayerOptions(
-                                markers: [
-                                  Marker(
-                                    width: 80.0,
-                                    height: 80.0,
-                                    point: LatLng(51.5, -0.09),
-                                    builder: (ctx) =>
-                                        Container(
-                                          child: FlutterLogo(),
+                                            ]
+                                        ),*/
+                                        /*Stack(
+                                            children: [
+                                              Text(_data[index].weatherDescription,
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      foreground: Paint()
+                                                        ..style = PaintingStyle.stroke
+                                                        ..strokeWidth = 6
+                                                        ..color = Colors.black)),
+                                              Text(_data[index].weatherDescription,
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      color: Colors.white))
+                                            ]
+                                        ),*/
+                                      Stack(
+                                          children: [
+                                            Text(DateFormat.Hm().format(
+                                                _data[index].date).toString(),
+                                                style: TextStyle(fontSize: txtsize/1.5,
+                                                    fontWeight: FontWeight.w100,
+                                                    foreground: Paint()
+                                                      ..style = PaintingStyle.stroke
+                                                      ..strokeWidth = 6
+                                                      ..color = Colors.black)),
+                                            Text(DateFormat.Hm().format(
+                                                _data[index].date).toString(),
+                                                style: TextStyle(fontSize: txtsize/1.5,
+                                                    fontWeight: FontWeight.w100,
+                                                    color: Colors.white))
+                                          ]
+                                      ),
+                                        Stack(
+                                            children: [
+                                              Text(DateFormat.E().format(
+                                                  _data[index].date).toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      foreground: Paint()
+                                                        ..style = PaintingStyle.stroke
+                                                        ..strokeWidth = 6
+                                                        ..color = Colors.black)),
+                                              Text(DateFormat.E().format(
+                                                  _data[index].date).toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      color: Colors.white))
+                                            ]
                                         ),
+                                        /*Stack(
+                                            children: [
+                                              Text(DateFormat.jm()
+                                                  .format(_data[index].date)
+                                                  .toString(), style: TextStyle(fontSize: txtsize/1.5,
+                                                  fontWeight: FontWeight.w100,
+                                                  foreground: Paint()
+                                                    ..style = PaintingStyle.stroke
+                                                    ..strokeWidth = 6
+                                                    ..color = Colors.black)),
+                                              Text(DateFormat.jm()
+                                                  .format(_data[index].date)
+                                                  .toString(), style: TextStyle(fontSize: txtsize/1.5,
+                                                  fontWeight: FontWeight.w100,
+                                                  color: Colors.white))
+                                            ]
+                                        ),*/
+                                        Stack(
+                                            children: [
+                                              Text(_data[index].temperature.toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      foreground: Paint()
+                                                        ..style = PaintingStyle.stroke
+                                                        ..strokeWidth = 6
+                                                        ..color = Colors.black)),
+                                              Text(_data[index].temperature.toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      color: Colors.white))
+                                            ]
+                                        ),
+                                      Stack(
+                                          children: [
+                                            Text(
+                                                _data[index].windGust.toString(),
+                                                style: TextStyle(fontSize: txtsize/1.5,
+                                                    fontWeight: FontWeight.w100,
+                                                    foreground: Paint()
+                                                      ..style = PaintingStyle.stroke
+                                                      ..strokeWidth = 6
+                                                      ..color = Colors.black)),
+                                            Text(_data[index].windGust.toString(),
+                                                style: TextStyle(fontSize: txtsize/1.5,
+                                                    fontWeight: FontWeight.w100,
+                                                    color: Colors.white))
+                                          ]
+                                      ),
+                                        /*Stack(
+                                            children: [
+                                              Text("Humidity: " +
+                                                  _data[index].humidity.toString(),
+                                                  style: TextStyle(fontSize: txtsize/2.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      foreground: Paint()
+                                                        ..style = PaintingStyle.stroke
+                                                        ..strokeWidth = 6
+                                                        ..color = Colors.black)),
+                                              Text("Humidity: " +
+                                                  _data[index].humidity.toString(),
+                                                  style: TextStyle(fontSize: txtsize/2.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      color: Colors.white))
+                                            ]
+                                        )*/
+                                      //,SizedBox(height:10),
+                           /* Container(
+                              decoration: BoxDecoration(color: Colors.greenAccent),
+                              width:MediaQuery.of(context).size.width * 0.9,
+                              height: 50,
+                              child:FlutterMap(
+                                options: MapOptions(
+                                  center: LatLng(latc, lonc),
+                                  zoom: 13.0,
+                                ),
+                                layers: [
+                                  TileLayerOptions(
+                                    urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                                    subdomains: ['a', 'b', 'c'],
+                                    attributionBuilder: (_) {
+                                      return Text("© OpenStreetMap contributors");
+                                    },
+                                  ),
+                                  MarkerLayerOptions(
+                                    markers: [
+                                      Marker(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        point: LatLng(51.5, -0.09),
+                                        builder: (ctx) =>
+                                            Container(
+                                              child: FlutterLogo(),
+                                            ),
+                                      ),
+                                    ],
                                   ),
                                 ],
-                              ),
-                            ],
-                          )
-                        )
+                              )
+                            )*/
 
-                ]
+                    ]
+                  )
+
+                );
+            },
+            separatorBuilder: (context, index) {
+              return Divider();
+            },
+          ),
+          ),
+          Container(
+              decoration: BoxDecoration(color: Colors.greenAccent),
+              width:MediaQuery.of(context).size.width * 0.9,
+              height: 70,
+              child:FlutterMap(
+                options: MapOptions(
+                  center: LatLng(latc, lonc),
+                  zoom: 13.0,
+                ),
+                layers: [
+                  TileLayerOptions(
+                    urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    subdomains: ['a', 'b', 'c'],
+                    attributionBuilder: (_) {
+                      return Text("© OpenStreetMap contributors");
+                    },
+                  ),
+                  MarkerLayerOptions(
+                    markers: [
+                      Marker(
+                        width: 80.0,
+                        height: 80.0,
+                        point: LatLng(51.5, -0.09),
+                        builder: (ctx) =>
+                            Container(
+                              child: FlutterLogo(),
+                            ),
+                      ),
+                    ],
+                  ),
+                ],
               )
-            );
-        },
-        separatorBuilder: (context, index) {
-          return Divider();
-        },
-      ),
-    );
+          )
+        ]
+      )
+        );
   }
 
   Widget contentDownloading() {
@@ -398,7 +522,7 @@ class _WForecastState extends State<WForecast> {
           Column(
             children: [//<Widget>[
               _CityInputs(),
-              _CityDropdown(),
+              //_CityDropdown(),
               _buttons(),
             Text(
               'Output:',
