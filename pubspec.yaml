@@ -46,7 +46,8 @@ dependencies:
   flutter_map: ^0.14.0
   latlng: any
   comment_box: ^0.0.17
-
+  syncfusion_flutter_charts: ^19.4.55
+  multi_image_picker2: ^5.0.2
 dev_dependencies:
   hive_generator: ^1.1.0
   build_runner: ^2.1.2
