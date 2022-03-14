@@ -664,10 +664,6 @@ class _TriptemplateState extends State<Triptemplate> {
 
           SizedBox(height: 20),
 
-
-
-
-
           SizedBox(height: 20),
           Row(
             children: [

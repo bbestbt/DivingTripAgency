@@ -301,10 +301,6 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           //Center(child:imageFile == null ? Text('No image selected'):Text(imageFile.path.split('/').last)),
 
           SizedBox(height: 20),
-          ElevatedButton(
-            child: Text("Pick images"),
-            onPressed: loadAssets,
-          ),
           SizedBox(height: 20),
           FormError(errors: errors),
           SizedBox(height: 20),
