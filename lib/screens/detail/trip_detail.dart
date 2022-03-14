@@ -21,7 +21,7 @@ List durationchecklist = [];
 
 String dropdownValue = "All";
 String dropdownValue2 = "All";
-
+enum Cost {one,two,three,more, all}
 
 List<SearchTripsResponse_Trip> trips = [];
 
@@ -45,6 +45,7 @@ class _TripDetailState extends State<TripDetail> {
   String _diff = "";
   bool value = false;
   int guestvalue;
+  Cost tripcost = Cost.all;
   @override
   initState() {
     // at the beginning, all users are shown
@@ -158,7 +159,8 @@ class _TripDetailState extends State<TripDetail> {
                         },
                         child: const Text('Search'),
                       )
-                    ])),
+                    ])
+                ),
 
                 SizedBox(height: 20),
                 SizedBox(height: 20),
@@ -215,11 +217,7 @@ class _TripDetailState extends State<TripDetail> {
                   ],
                 ),
                 SizedBox(height: 20),
-                // TextField(
-                //  decoration: InputDecoration(
-                //  border: OutlineInputBorder(),
-                // fillColor: Colors.white,
-                // hintText: 'Location')),
+
                 Row(
                   children: [
                     Text('Location'),
@@ -349,145 +347,86 @@ class _TripDetailState extends State<TripDetail> {
                     ),
                   ],
                 ),
-                // TextField(
-                //     decoration: InputDecoration(
-                //         border: OutlineInputBorder(),
-                //         fillColor: Colors.white,
-                //         hintText: 'Onshore or offshore')),
-                //ElevatedButton(onPressed: () {}, child: Text("SEARCH")),
                 SizedBox(height: 20),
                 Align(
                     alignment: Alignment.topLeft,
                     child: Text("Price (per person/trip)")),
-
                 Container(
-                    child: Column(children: [
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10,
-                      ), //SizedBox
-
-                      SizedBox(width: 10), //SizedBox
-                      /** Checkbox Widget **/
-                      Checkbox(
-                        value: costchecklist[0],
-                        onChanged: (bool value) {
+                    child:
+                        Column(
+                          children: <Widget>[
+                            ListTile(
+                              title: const Text('all'),
+                              leading: Radio<Cost>(
+                                value: Cost.all,
+                                groupValue: tripcost,
+                                onChanged: (Cost value) {
+                                  setState(() {
+                                    tripcost = value;
+                                  });
+                                },
+                              ),
+                            ),
+                            ListTile(
+                          title: const Text('0 - 1,000'),
+                          leading: Radio<Cost>(
+                            value: Cost.one,
+                            groupValue: tripcost,
+                            onChanged: (Cost value) {
+                            setState(() {
+                            tripcost = value;
+                                  });
+                                },
+                              ),
+                        ),
+                            ListTile(
+                          title: const Text('1,000 - 2,000'),
+                          leading: Radio<Cost>(
+                          value: Cost.two,
+                          groupValue: tripcost,
+                          onChanged: (Cost value) {
                           setState(() {
-                            costchecklist[0] = value;
-                          });
-                        },
-                      ), //Checkbox
-                      Text(
-                        '\$0 - \$1,000',
-                      ), //Text
-                    ], //<Widget>[]
-                  ),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10,
-                      ), //SizedBox
+                            tripcost = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ListTile(
+                              title: const Text('2,000 - 3,000'),
+                              leading: Radio<Cost>(
+                                value: Cost.three,
+                                groupValue: tripcost,
+                                onChanged: (Cost value) {
+                                  setState(() {
+                                    tripcost = value;
+                                  });
+                                },
+                              ),
+                            ),
+                            ListTile(
+                              title: const Text('3,000 +'),
+                              leading: Radio<Cost>(
+                                value: Cost.more,
+                                groupValue: tripcost,
+                                onChanged: (Cost value) {
+                                  setState(() {
+                                    tripcost = value;
+                                  });
+                                },
+                              ),
+                            ),
+                           ],
+                        )
+                    )
+                ]
+              )
+              ),
 
-                      SizedBox(width: 10), //SizedBox
-                      /** Checkbox Widget **/
-                      Checkbox(
-                        value: costchecklist[1],
-                        onChanged: (bool value) {
-                          setState(() {
-                            costchecklist[1] = value;
-                          });
-                        },
-                      ), //Checkbox
-                      Text(
-                        '\$1,001 - \$2,000',
-                      ), //Text
-                    ], //<Widget>[]
-                  ),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10,
-                      ), //SizedBox
+          ]
+          )
+    ),
 
-                      SizedBox(width: 10), //SizedBox
-                      /** Checkbox Widget **/
-                      Checkbox(
-                        // value: this.value,
-                        // onChanged: (bool value) {
-                        //   setState(() {
-                        //     costchecklist[2] = value;
-                        //     this.value = costchecklist[0];
-                        //  });
-                        value: costchecklist[2],
-                        onChanged: (bool value) {
-                          setState(() {
-                            costchecklist[2] = value;
-                          });
-                          // print(costchecklist);
-                        },
-                      ), //Checkbox
-                      Text(
-                        '\$2,001 - \$3,000',
-                      ), //Text
-                    ], //<Widget>[]
-                  ),
-
-                  ///Row
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10,
-                      ), //SizedBox
-
-                      SizedBox(width: 10), //SizedBox
-                      /** Checkbox Widget **/
-                      Checkbox(
-                        // value: this.value,
-                        // onChanged: (bool value) {
-                        //   setState(() {
-                        //     costchecklist[3] = value;
-                        //     this.value = costchecklist[1];
-                        //   });
-                        value: costchecklist[3],
-                        onChanged: (bool value) {
-                          setState(() {
-                            costchecklist[3] = value;
-                          });
-                        },
-                      ), //Checkbox
-                      Text(
-                        '\$3,000+',
-                      ), //Text
-                    ], //<Widget>[]
-                  ),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 10,
-                      ), //SizedBox
-
-                      SizedBox(width: 10), //SizedBox
-                      /** Checkbox Widget **/
-                      Checkbox(
-                        value: costchecklist[4],
-                        onChanged: (bool value) {
-                          setState(() {
-                            costchecklist[4] = value;
-                          });
-                        },
-                      ), //Checkbox
-                      Text(
-                        'Only special deals',
-                      ), //Text
-                    ], //<Widget>[]
-                  ),
-                  SizedBox(height: 20),
-                ]))
-              ]),
-            ),
-          ])),
-      Expanded(
+        Expanded(
           flex: 7,
           child: Material(
             type: MaterialType.transparency,
@@ -546,13 +485,17 @@ class _TripDetailState extends State<TripDetail> {
               ),
             ),
           ))
+
+
+
+
     ]);
   }
 
   void _runFilter() {
     List<SearchTripsResponse_Trip> results = [];
     print("_diff: "+_diff.toString());
-    if (dropdownValue == "All" && _dateFrom == null && _dateTo == null && guestvalue == null && _diff == "" ){
+    if (dropdownValue == "All" && _dateFrom == null && _dateTo == null && guestvalue == null && _diff == "" && tripcost == Cost.all ){
       print("Filtering 1");
 
       // if the search field is empty or only contains white-space, we'll display all users
@@ -622,6 +565,29 @@ class _TripDetailState extends State<TripDetail> {
             .toList();
         //print((results[1].fromDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays).abs());
         //print(_diff);
+      }
+// Edit cost filter
+      if (tripcost != Cost.all){
+        if (tripcost == Cost.one){
+          results = results
+              .where((trip) =>
+          (trip.price <= 300)).toList();
+        }
+        else if (tripcost == Cost.two){
+          results = results
+              .where((trip) =>
+          (trip.price <= 400)).toList();
+        }
+        else if (tripcost == Cost.three){
+          results = results
+              .where((trip) =>
+          (trip.price <= 500)).toList();
+        }
+        else if (tripcost == Cost.more){
+          results = results
+              .where((trip) =>
+          (trip.price > 500)).toList();
+        }
       }
 
       setState(() {

@@ -10,6 +10,7 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import '../../../nautilus/proto/dart/model.pb.dart';
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 //check pass
 class SignupCompanyForm extends StatefulWidget {
@@ -51,6 +52,10 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   io.File imageFile;
   io.File docFile;
   var bytes;
+  //List<io.File> imagelist = <io.File>[];
+  List<Asset> imagelist = <Asset>[];
+  List<io.File> docList = <io.File>[];
+
 
   PickedFile Img;
   PickedFile doc;
@@ -75,6 +80,32 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
 
          //bytes = imageFile.readAsBytes();
       });
+    }
+  }
+
+  Future<void> loadAssets() async {
+    List<Asset> resultList = <Asset>[];
+    String error = 'No Error Detected';
+
+    try {
+      resultList = await MultiImagePicker.pickImages(
+        maxImages: 300,
+        enableCamera: true,
+        selectedAssets: imagelist,
+        cupertinoOptions: CupertinoOptions(
+          takePhotoIcon: "chat",
+          doneButtonTitle: "Fatto",
+        ),
+        materialOptions: MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+    } on Exception catch (e) {
+      error = e.toString();
     }
   }
 
@@ -295,6 +326,11 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           ),
           //Center(child:imageFile == null ? Text('No image selected'):Text(imageFile.path.split('/').last)),
 
+          SizedBox(height: 20),
+          ElevatedButton(
+            child: Text("Pick images"),
+            onPressed: loadAssets,
+          ),
           SizedBox(height: 20),
           FormError(errors: errors),
           SizedBox(height: 20),

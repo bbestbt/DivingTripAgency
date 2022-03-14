@@ -13,6 +13,7 @@ import 'package:hive/hive.dart';
 import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
@@ -31,8 +32,16 @@ class _TriptemplateState extends State<Triptemplate> {
   String tripname;
   String description;
   io.File Pictrip;
+  io.File Pictrip2;
+  io.File Pictrip3;
+  io.File Pictrip4;
+  io.File Pictrip5;
+  io.File Pictrip6;
+  io.File Pictrip7;
+  io.File Pictrip8;
   io.File Boatpic;
   io.File Schedule;
+
 
   XFile pt;
   XFile bt;
@@ -119,11 +128,12 @@ class _TriptemplateState extends State<Triptemplate> {
   final TextEditingController _controllerCity = TextEditingController();
 
   /// Get from gallery
-  _getPictrip() async {
+  _getPictrip(int num) async {
     pt = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
+
     );
 
     var f = File();
@@ -131,15 +141,24 @@ class _TriptemplateState extends State<Triptemplate> {
     //f2.filename = 'image.jpg';
     List<int> a = await pt.readAsBytes();
     f.file = a;
-
+    //this.imagelist.add(f);
     this.triptemplate.images.add(f);
 
     if (pt != null) {
       setState(() {
-        Pictrip = io.File(pt.path);
+       // imagelist.add(io.File(pt.path));
+        if (num==1) Pictrip = io.File(pt.path);
+        if (num==2) Pictrip2 = io.File(pt.path);
+        if (num==3) Pictrip3 = io.File(pt.path);
+        if (num==4) Pictrip4 = io.File(pt.path);
+        if (num==5) Pictrip5 = io.File(pt.path);
+        if (num==6) Pictrip6 = io.File(pt.path);
+        if (num==7) Pictrip7 = io.File(pt.path);
+        if (num==8) Pictrip8 = io.File(pt.path);
       });
     }
   }
+
 
   _getBoatpic() async {
     bt = await ImagePicker().pickImage(
@@ -162,6 +181,36 @@ class _TriptemplateState extends State<Triptemplate> {
       });
     }
   }
+
+
+   // Widget buildGridView() {
+     // return Column(
+       // children:[
+         // Text("Gallery here:"),
+          //Container(
+          //height:100,
+        //width:400,
+          //             child:
+            //  GridView.count(
+              //  crossAxisCount: 3,
+                //children: List.generate(imagelist.length, (index) {
+                  //Asset asset = imagelist[index];
+                  //return AssetThumb(
+                   // asset: asset,
+                    //width: 20,
+                    //height: 20,
+                  //);
+                //}),
+          //)
+      //),
+
+       // ]
+      //) ;
+    //}
+
+
+
+
 
   _getSchedule() async {
     sc = await ImagePicker().pickImage(
@@ -459,14 +508,14 @@ class _TriptemplateState extends State<Triptemplate> {
             },
           ),
           SizedBox(height: 20),
-          Row(
+          Row( //Pic1
             children: [
               Center(
                   child: Pictrip == null
                       ? Text('Trip image')
                       : kIsWeb
                           ? Image.network(
-                              Pictrip.path,
+                            Pictrip.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -483,11 +532,141 @@ class _TriptemplateState extends State<Triptemplate> {
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
-                  _getPictrip();
+                  _getPictrip(1);
+                },
+              ),
+                          ],
+          ),
+
+              SizedBox(height: 20),
+          Row(
+            children: [
+              Center(
+                  child: Pictrip2 == null
+                      ? Text('Trip image')
+                      : kIsWeb
+                      ? Image.network(
+                    Pictrip2.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(Pictrip2.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPictrip(2);
                 },
               ),
             ],
           ),
+
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Center(
+                  child: Pictrip3 == null
+                      ? Text('Trip image')
+                      : kIsWeb
+                      ? Image.network(
+                    Pictrip3.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(Pictrip3.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPictrip(3);
+                },
+              ),
+            ],
+          ),
+
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Center(
+                  child: Pictrip4 == null
+                      ? Text('Trip image')
+                      : kIsWeb
+                      ? Image.network(
+                    Pictrip4.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(Pictrip4.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPictrip(4);
+                },
+              ),
+            ],
+          ),
+
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Center(
+                  child: Pictrip5 == null
+                      ? Text('Trip image')
+                      : kIsWeb
+                      ? Image.network(
+                    Pictrip5.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(Pictrip5.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPictrip(5);
+                },
+              ),
+            ],
+          ),
+
+          SizedBox(height: 20),
+
+
+
+
 
           SizedBox(height: 20),
           Row(
@@ -554,6 +733,14 @@ class _TriptemplateState extends State<Triptemplate> {
           // FormError(errors: errors),
 
           SizedBox(height: 20),
+
+          //Container(
+           // child:
+
+          //buildGridView(),
+                      
+         // )
+
           //  FlatButton(onPressed: getData, child: Text('check')),
         ]),
       ),
