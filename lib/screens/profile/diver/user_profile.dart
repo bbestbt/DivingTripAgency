@@ -5,6 +5,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
+import 'package:diving_trip_agency/screens/profile/diver/edit_profile_diver.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -44,7 +45,6 @@ class _UserProfileState extends State<UserProfile> {
     // print(user_profile.diver.level);
     // print(user_profile.diver.birthDate);
 
-    
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var searchonshore = SearchTripsOptions();
@@ -64,7 +64,7 @@ class _UserProfileState extends State<UserProfile> {
     listonshorerequest.searchTripsOptions = searchonshore;
     // print(listonshorerequest);
     // stub.searchTrips(listonshorerequest);
-    
+
     try {
       await for (var feature in stub.searchTrips(listonshorerequest)) {
         // print(feature.trip);
@@ -164,7 +164,7 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                   );
                 } else {
-                  return  Text('User is not logged in.');
+                  return Text('User is not logged in.');
                 }
               },
             ),
@@ -177,7 +177,12 @@ class _UserProfileState extends State<UserProfile> {
                 child: Text(
                   'Edit',
                 ),
-                onPressed: () {}),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditDiverScreen()));
+                }),
           ),
           SizedBox(
             height: 20,

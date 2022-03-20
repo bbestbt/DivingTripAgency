@@ -5,6 +5,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
+import 'package:diving_trip_agency/screens/profile/company/edit_profile_comp.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -208,7 +209,13 @@ class _CompanyProfileState extends State<CompanyProfile> {
                 child: Text(
                   'Edit',
                 ),
-                onPressed: () {}),
+                onPressed: () {
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditCompanyScreen()));
+                  
+                }),
           ),
           SizedBox(
             height: 20,
