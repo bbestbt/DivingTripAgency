@@ -17,11 +17,11 @@ import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
-  HotelAndBoatId hotelandboatID = new HotelAndBoatId();
+  // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   Triptemplate(TripTemplate triptemplate) {
     this.triptemplate = triptemplate;
-    this.triptemplate.hotelAndBoatId = hotelandboatID;
+    // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
   }
   @override
@@ -110,11 +110,11 @@ class _TriptemplateState extends State<Triptemplate> {
   String triptype = '';
   String boatname;
   TripTemplate triptemplate;
-  HotelAndBoatId hotelandboatID = new HotelAndBoatId();
+  // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   _TriptemplateState(TripTemplate triptemplate) {
     this.triptemplate = triptemplate;
-    this.triptemplate.hotelAndBoatId = hotelandboatID;
+    // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
   }
   final TextEditingController _controllerTripname = TextEditingController();
@@ -359,7 +359,7 @@ class _TriptemplateState extends State<Triptemplate> {
                     print(value);
                     //  hotelandboatID.boatId = boatMap[boatSelected];
 
-                    triptemplate.hotelAndBoatId.boatId = boatMap[boatSelected];
+                    triptemplate.boatId = boatMap[boatSelected];
 
                     // triptemplate.hotelAndBoatId=hotelandboatID;
                     //   triptemplate.divingBoatId=boatMap[boatSelected];
@@ -497,7 +497,7 @@ class _TriptemplateState extends State<Triptemplate> {
                   // print('hotel');
                   // print(hotelTypeMap[selectedsleep]);
 
-                  triptemplate.hotelAndBoatId.hotelId =
+                  triptemplate.hotelId =
                       hotelTypeMap[selectedsleep];
 
                   // hotelandboatID.hotelId = hotelTypeMap[selectedsleep];

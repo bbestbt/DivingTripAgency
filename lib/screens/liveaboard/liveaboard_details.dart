@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/controllers/menuController.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
@@ -11,8 +12,8 @@ import 'package:get/get_instance/src/extension_instance.dart';
 
 class LiveaboardDetailScreen extends StatefulWidget {
   int index;
-  List<SearchTripsResponse_Trip> details;
-  LiveaboardDetailScreen(int index, List<SearchTripsResponse_Trip> details) {
+  List<TripWithTemplate> details;
+  LiveaboardDetailScreen(int index, List<TripWithTemplate> details) {
     this.details = details;
     this.index = index;
   }
@@ -23,9 +24,9 @@ class LiveaboardDetailScreen extends StatefulWidget {
 
 class _LiveaboardDetailScreenState extends State<LiveaboardDetailScreen> {
   int index;
-  List<SearchTripsResponse_Trip> details;
+  List<TripWithTemplate> details;
   _LiveaboardDetailScreenState(
-      int index, List<SearchTripsResponse_Trip> details) {
+      int index, List<TripWithTemplate> details) {
     this.index = index;
     this.details = details;
     //  print(index.toString());
@@ -56,8 +57,8 @@ class _LiveaboardDetailScreenState extends State<LiveaboardDetailScreen> {
 
 class detail extends StatefulWidget {
   int index;
-  List<SearchTripsResponse_Trip> details;
-  detail(int index, List<SearchTripsResponse_Trip> details) {
+  List<TripWithTemplate> details;
+  detail(int index, List<TripWithTemplate> details) {
     this.index = index;
     this.details = details;
     // print('detail');
@@ -71,8 +72,8 @@ class detail extends StatefulWidget {
 
 class _detailState extends State<detail> {
   int index;
-  List<SearchTripsResponse_Trip> details;
-  _detailState(int index, List<SearchTripsResponse_Trip> details) {
+  List<TripWithTemplate> details;
+  _detailState(int index, List<TripWithTemplate> details) {
     this.index = index;
     this.details = details;
   }

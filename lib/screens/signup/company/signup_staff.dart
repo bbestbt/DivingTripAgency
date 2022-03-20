@@ -1,6 +1,7 @@
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';

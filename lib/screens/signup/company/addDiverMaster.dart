@@ -1,4 +1,5 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/signup/company/divermaster_form.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class _AddmoreDiverMasterState extends State<AddmoreDiverMaster> {
             shrinkWrap: true,
             itemCount: count,
             itemBuilder: (BuildContext context, int index) {
-              return DiveMasterForm(count, this.divemasterValue);
+             return DiveMasterForm(count, this.divemasterValue);
             }),
         MaterialButton(
           onPressed: () {

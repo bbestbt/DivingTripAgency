@@ -25,6 +25,15 @@ class _addHotelState extends State<addHotel> {
   String hotel_description;
   String phone;
   io.File hotelimg;
+  io.File hotelimg2;
+  io.File hotelimg3;
+  io.File hotelimg4;
+  io.File hotelimg5;
+  io.File hotelimg6;
+  io.File hotelimg7;
+  io.File hotelimg8;
+  io.File hotelimg9;
+  
   String address1;
   String address2;
   String postalCode;
@@ -36,9 +45,9 @@ class _addHotelState extends State<addHotel> {
   XFile rroom;
 
   List<RoomType> pinkValue = [new RoomType()];
-  List<List<Amenity>> blueValue = [
-    [new Amenity()]
-  ];
+  // List<List<Amenity>> blueValue = [
+  //   [new Amenity()]
+  // ];
   List<DropdownMenuItem<String>> listStar = [];
   List<String> star = ['1', '2', '3', '4', '5'];
   String starSelected;
@@ -91,10 +100,10 @@ class _addHotelState extends State<addHotel> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var hotel = Hotel();
-    hotel.hotelName = _controllerHotelname.text;
-    hotel.hotelDescription = _controllerHoteldescription.text;
+    hotel.name = _controllerHotelname.text;
+    hotel.description= _controllerHoteldescription.text;
     hotel.phone = _controllerPhone.text;
-    hotel.star = int.parse(starSelected);
+    hotel.stars = int.parse(starSelected);
 
 
     var address = Address();
@@ -165,7 +174,8 @@ class _addHotelState extends State<addHotel> {
   }
 
   // get hotel image
-  _gethotelimg() async {
+  _gethotelimg(int num) async {
+    
     hhotel = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
@@ -173,8 +183,14 @@ class _addHotelState extends State<addHotel> {
     );
     if (hhotel != null) {
       setState(() {
-        hotelimg = io.File(hhotel.path);
-        //hhotel = XFile;
+      if (num==1) hotelimg = io.File(hhotel.path);
+      if (num==2) hotelimg2 = io.File(hhotel.path);
+      if (num==3) hotelimg3 = io.File(hhotel.path);
+      if (num==4) hotelimg4 = io.File(hhotel.path);
+      if (num==5) hotelimg5 = io.File(hhotel.path);
+      if (num==6) hotelimg6 = io.File(hhotel.path);
+      if (num==7) hotelimg7 = io.File(hhotel.path);
+      if (num==8) hotelimg8 = io.File(hhotel.path);
       });
     }
   }
@@ -250,6 +266,7 @@ class _addHotelState extends State<addHotel> {
                               width: screenwidth * 0.05,
                             )),
               Spacer(),
+
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
@@ -263,7 +280,7 @@ class _addHotelState extends State<addHotel> {
                           style: TextStyle(fontSize: 15),
                         ))),
                 onPressed: () {
-                  _gethotelimg();
+                  _gethotelimg(1);
                 },
               ),
             ],
@@ -304,7 +321,9 @@ class _addHotelState extends State<addHotel> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreRoom(this.pinkValue, this.blueValue),
+            child: AddMoreRoom(this.pinkValue,
+            //  this.blueValue
+             ),
           ),
           SizedBox(height: 30),
           FlatButton(

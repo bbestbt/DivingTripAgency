@@ -99,10 +99,10 @@ class _CreateTripFormState extends State<CreateTripForm> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var trip = Trip();
-    trip.from = Timestamp.fromDateTime(from);
-    trip.to = Timestamp.fromDateTime(to);
+    trip.startDate= Timestamp.fromDateTime(from);
+    trip.endDate = Timestamp.fromDateTime(to);
     trip.lastReservationDate = Timestamp.fromDateTime(last);
-    trip.maxCapacity = int.parse(_controllerTotalpeople.text);
+    trip.maxGuest = int.parse(_controllerTotalpeople.text);
     trip.price = double.parse(_controllerPrice.text);
     trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
 

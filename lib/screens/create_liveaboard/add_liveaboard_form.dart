@@ -47,9 +47,9 @@ class _addLiveaboardState extends State<addLiveaboard> {
   XFile rroom;
 
   List<RoomType> pinkValue = [new RoomType()];
-  List<List<Amenity>> blueValue = [
-    [new Amenity()]
-  ];
+  // List<List<Amenity>> blueValue = [
+  //   [new Amenity()]
+  // ];
 
   final List<String> errors = [];
   final TextEditingController _controllerLiveaboardname =
@@ -99,8 +99,8 @@ class _addLiveaboardState extends State<addLiveaboard> {
     var liveaboard = Liveaboard();
     liveaboard.name = _controllerLiveaboardname.text;
     liveaboard.description = _controllerLiveaboarddescription.text;
-    liveaboard.width = int.parse(_controllerWidth.text);
-    liveaboard.length = int.parse(_controllerLength.text);
+    liveaboard.width = double.parse(_controllerWidth.text);
+    liveaboard.length = double.parse(_controllerLength.text);
     liveaboard.totalCapacity = int.parse(_controllerTotalcapacity.text);
     liveaboard.staffRooms = int.parse(_controllerStaffroom.text);
     liveaboard.diverRooms = int.parse(_controllerDiverroom.text);
@@ -281,7 +281,9 @@ class _addLiveaboardState extends State<addLiveaboard> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreRoom(this.pinkValue, this.blueValue),
+            child: AddMoreRoom(this.pinkValue, 
+            // this.blueValue
+            ),
           ),
           SizedBox(height: 30),
           FlatButton(

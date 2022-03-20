@@ -14,17 +14,21 @@ import 'package:hive/hive.dart';
 class RoomForm extends StatefulWidget {
   int pinkcount;
   List<RoomType> pinkValue;
-  List<List<Amenity>> blueValue;
+  // List<List<Amenity>> blueValue;
 
   RoomForm(
-      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
+      int pinkcount, List<RoomType> pinkValue, 
+      // List<List<Amenity>> blueValue
+      ) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
-    this.blueValue = blueValue;
+    // this.blueValue = blueValue;
   }
   @override
   _RoomFormState createState() =>
-      _RoomFormState(this.pinkcount, this.pinkValue, this.blueValue);
+      _RoomFormState(this.pinkcount, this.pinkValue,
+      //  this.blueValue
+       );
 }
 
 class _RoomFormState extends State<RoomForm> {
@@ -32,29 +36,31 @@ class _RoomFormState extends State<RoomForm> {
   String room_description;
   String max_capa;
   String price;
-  String amenity;
+  // String amenity;
   String selected = null;
   io.File roomimg;
   String room_type;
   String room_name;
   String quantity;
   List<RoomType> pinkValue;
-  List<List<Amenity>> blueValue;
+  // List<List<Amenity>> blueValue;
 
   XFile rroom;
 
   _RoomFormState(
-      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
+      int pinkcount, List<RoomType> pinkValue, 
+      // List<List<Amenity>> blueValue
+      ) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
-    this.blueValue = blueValue;
+    // this.blueValue = blueValue;
   }
   final List<String> errors = [];
   final TextEditingController _controllerRoomdescription =
       TextEditingController();
   final TextEditingController _controllerMax = TextEditingController();
   final TextEditingController _controllerPrice = TextEditingController();
-  final TextEditingController _controllerAmenity = TextEditingController();
+  // final TextEditingController _controllerAmenity = TextEditingController();
   final TextEditingController _controllerRoomtype = TextEditingController();
   final TextEditingController _controllerRoomname = TextEditingController();
   final TextEditingController _controllerQuantity = TextEditingController();
