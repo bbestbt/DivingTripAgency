@@ -91,10 +91,10 @@ class _addHotelState extends State<addHotel> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var hotel = Hotel();
-    hotel.hotelName = _controllerHotelname.text;
-    hotel.hotelDescription = _controllerHoteldescription.text;
+    hotel.name = _controllerHotelname.text;
+    hotel.description= _controllerHoteldescription.text;
     hotel.phone = _controllerPhone.text;
-    hotel.star = int.parse(starSelected);
+    hotel.stars = int.parse(starSelected);
 
 
     var address = Address();

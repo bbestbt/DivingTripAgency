@@ -3,6 +3,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
-List<ListTripsWithTemplatesResponse_Trip> trips = [];
+List<TripWithTemplate> trips = [];
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 Map<String, dynamic> tripMap = {};
@@ -56,7 +57,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
     try {
     //  print('test');
       await for (var feature in stub.listTripsWithTemplates(listTrips)) {
-        print(feature.trip);
+        //print(feature.trip);
         trips.add(feature.trip);
         // print(trips);
         // print(trips.length);
