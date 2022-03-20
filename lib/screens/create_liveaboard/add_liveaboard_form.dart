@@ -99,8 +99,8 @@ class _addLiveaboardState extends State<addLiveaboard> {
     var liveaboard = Liveaboard();
     liveaboard.name = _controllerLiveaboardname.text;
     liveaboard.description = _controllerLiveaboarddescription.text;
-    liveaboard.width = int.parse(_controllerWidth.text);
-    liveaboard.length = int.parse(_controllerLength.text);
+    liveaboard.width = double.parse(_controllerWidth.text);
+    liveaboard.length = double.parse(_controllerLength.text);
     liveaboard.totalCapacity = int.parse(_controllerTotalcapacity.text);
     liveaboard.staffRooms = int.parse(_controllerStaffroom.text);
     liveaboard.diverRooms = int.parse(_controllerDiverroom.text);

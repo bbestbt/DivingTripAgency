@@ -1,12 +1,14 @@
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pbenum.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'dart:io' as io;
+import 'dart:convert';
 
 class DiveMasterForm extends StatefulWidget {
   int count;
@@ -26,11 +28,11 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   String lastname;
   String email;
   String phoneNumber;
-  File CardFile;
+  io.File CardFile;
   String levelSelected = null;
   List<DiveMaster> divemasterValue;
   int count;
-  File CardFileBack;
+  io.File CardFileBack;
   Map<String, int> levelTypeMap = {};
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
@@ -95,7 +97,9 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     );
     if (pickedFile != null) {
       setState(() {
-        CardFile = File(pickedFile.path);
+
+        CardFile = io.File(pickedFile.path);
+        print(CardFile);
       });
     }
   }
@@ -108,7 +112,8 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     );
     if (pickedFile != null) {
       setState(() {
-        CardFileBack = File(pickedFile.path);
+        CardFileBack = io.File(pickedFile.path);
+        print("CardFileBack");
       });
     }
   }
@@ -179,10 +184,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                               width: screenwidth*0.2,
                             )
                           : Image.file(
-                              File(CardFile.path),
+
+                             io.File(CardFile.path),
                               fit: BoxFit.cover,
                               width: screenwidth*0.05,
-                            )),
+                            )
+              ),
               Spacer(),
               FlatButton(
                 color: Color(0xfffa2c8ff),
@@ -223,10 +230,11 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                               width: screenwidth*0.2,
                             )
                           : Image.file(
-                              File(CardFileBack.path),
+                              io.File(CardFileBack.path),
                               fit: BoxFit.cover,
                               width: screenwidth*0.05,
-                            )),
+                            )
+              ),
               Spacer(),
               FlatButton(
                 color: Color(0xfffa2c8ff),

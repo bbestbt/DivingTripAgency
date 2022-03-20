@@ -1,6 +1,7 @@
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pbenum.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
@@ -38,8 +39,8 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
     for (int i = 0; i < divemasterValue.length; i++) {
       divemaster.firstName = divemasterValue[i].firstName;
       divemaster.lastName = divemasterValue[i].lastName;
-      divemaster.frontImage = divemasterValue[i].frontImage;
-      divemaster.backImage = divemasterValue[i].backImage;
+      divemaster.documents.add(divemasterValue[i].documents[0]);
+      divemaster.documents.add(divemasterValue[i].documents[1]);
       divemaster.level = divemasterValue[i].level;
       var divemasterRequest = AddDiveMasterRequest();
       divemasterRequest.diveMaster = divemaster;

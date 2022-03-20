@@ -15,7 +15,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 import 'package:intl/intl.dart';
 
 // This list holds the data for the list view
-List<SearchTripsResponse_Trip> _foundtrip = [];
+List<TripWithTemplate> _foundtrip = [];
 List costchecklist = [];
 List durationchecklist = [];
 
@@ -23,7 +23,7 @@ String dropdownValue = "All";
 String dropdownValue2 = "All";
 enum Cost {one,two,three,more, all}
 
-List<SearchTripsResponse_Trip> trips = [];
+List<TripWithTemplate> trips = [];
 
 class TripDetail extends StatefulWidget {
   // SearchTripsResponse_Trip tripdetail ;
@@ -493,7 +493,7 @@ class _TripDetailState extends State<TripDetail> {
   }
 
   void _runFilter() {
-    List<SearchTripsResponse_Trip> results = [];
+    List<TripWithTemplate> results = [];
     print("_diff: "+_diff.toString());
     if (dropdownValue == "All" && _dateFrom == null && _dateTo == null && guestvalue == null && _diff == "" && tripcost == Cost.all ){
       print("Filtering 1");

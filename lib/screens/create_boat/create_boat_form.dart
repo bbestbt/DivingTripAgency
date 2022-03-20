@@ -81,7 +81,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var boat = DivingBoat();
+    var boat = Boat();
     boat.name = _controllerName.text;
     boat.description = _controllerDescription.text;
     boat.totalCapacity = int.parse(_controllerCapacity.text);
@@ -108,7 +108,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     //f.file = new List<int>.from(t);
     List<int> b = await bboat.readAsBytes();
     f.file = b;
-    boat.boatImages.add(f);
+    boat.images.add(f);
 
     // try {
     //  var response = stub.addDivingBoat(boatRequest);
