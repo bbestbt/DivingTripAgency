@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
           ),
           fontFamily: 'Poppins'),
   // home: MainCompanyScreen(),
-    //  home: MainScreen(), //Original
-   home: LoginScreen(),
+     home: MainScreen(), //Original
+  //  home: LoginScreen(),
     );
   }
 

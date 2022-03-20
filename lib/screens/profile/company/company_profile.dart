@@ -56,7 +56,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
     listTrips.offset = Int64(0);
     trips.clear();
     try {
-    //  print('test');
+      //  print('test');
       await for (var feature in stub.listTripsWithTemplates(listTrips)) {
         //print(feature.trip);
         trips.add(feature.trip);
@@ -161,7 +161,6 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               ),
                             ],
                           ),
-
                           SizedBox(
                             height: 20,
                           ),
@@ -185,38 +184,35 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               ),
                             ],
                           ),
-
                           SizedBox(
                             height: 20,
                           ),
-
-                          //doc
+                          Align(
+                            alignment: Alignment.center,
+                            child: RaisedButton(
+                                color: Colors.yellow,
+                                child: Text(
+                                  'Edit',
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              EditCompanyScreen()));
+                                }),
+                          ),
                         ],
                       ),
                     ),
                   );
                 } else {
-                  return CircularProgressIndicator();
+                  return Text('User is not logged in.');
                 }
               },
             ),
           ),
 
-          Align(
-            alignment: Alignment.center,
-            child: RaisedButton(
-                color: Colors.yellow,
-                child: Text(
-                  'Edit',
-                ),
-                onPressed: () {
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EditCompanyScreen()));
-                  
-                }),
-          ),
           SizedBox(
             height: 20,
           ),
@@ -239,7 +235,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               spacing: 20,
                               runSpacing: 40,
                               children: List.generate(
-                                trips.length~/2,
+                                trips.length ~/ 2,
                                 (index) => Center(
                                   child: InfoCard(
                                     index: index,
@@ -247,7 +243,8 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                 ),
                               ))));
                 } else {
-                  return Text('No data');
+                  return Align(
+                      alignment: Alignment.center, child: Text('No data'));
                 }
               },
             ),

@@ -159,6 +159,21 @@ class _UserProfileState extends State<UserProfile> {
                           SizedBox(
                             height: 20,
                           ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: RaisedButton(
+                                color: Colors.yellow,
+                                child: Text(
+                                  'Edit',
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              EditDiverScreen()));
+                                }),
+                          ),
                         ],
                       ),
                     ),
@@ -170,20 +185,6 @@ class _UserProfileState extends State<UserProfile> {
             ),
           ),
 
-          Align(
-            alignment: Alignment.center,
-            child: RaisedButton(
-                color: Colors.yellow,
-                child: Text(
-                  'Edit',
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EditDiverScreen()));
-                }),
-          ),
           SizedBox(
             height: 20,
           ),
@@ -214,7 +215,8 @@ class _UserProfileState extends State<UserProfile> {
                                 ),
                               ))));
                 } else {
-                  return Text('No data');
+                  return Align(
+                      alignment: Alignment.center, child: Text('No data'));
                 }
               },
             ),
