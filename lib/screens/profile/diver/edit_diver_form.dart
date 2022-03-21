@@ -13,6 +13,7 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import '../../../nautilus/proto/dart/model.pb.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 
@@ -276,9 +277,10 @@ class _EditDiverFormState extends State<EditDiverForm> {
                       Spacer(),
                       RaisedButton(
                           color: Color(0xfff8dd9cc),
-                          child: Text(user_profile.diver.birthDate
-                              .toDateTime()
-                              .toString()),
+                          child: Text(
+                            DateFormat("dd/MM/yyyy").format(
+                                user_profile.diver.birthDate.toDateTime()),
+                          ),
                           onPressed: () {
                             showDatePicker(
                                     context: context,
