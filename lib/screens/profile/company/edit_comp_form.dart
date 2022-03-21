@@ -235,9 +235,9 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     updateRequest.agency.address.region = user_profile.agency.address.region;
     updateRequest.agency.name = user_profile.agency.name;
     updateRequest.agency.phone = user_profile.agency.phone;
-     for (int i = 0; i < user_profile.agency.documents.length; i++) {
-    updateRequest.agency.documents.add(user_profile.agency.documents[i]);
-     }
+    for (int i = 0; i < user_profile.agency.documents.length; i++) {
+      updateRequest.agency.documents.add(user_profile.agency.documents[i]);
+    }
 
     try {
       var response = pf.update(updateRequest);
@@ -319,6 +319,18 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                           Text('Document'),
                         ],
                       ),
+                      SizedBox(width: 30),
+                      Container(
+                          width: 200,
+                          height: 200,
+                          child: user_profile.agency.documents.length == 0
+                              ? new Container(
+                                  color: Colors.pink,
+                                )
+                              : Image.network(
+                                  // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                  user_profile.agency.documents[1].link
+                                      .toString())),
                       Center(
                           child: docFile == null
                               ? Column(
@@ -360,6 +372,18 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                           Text('Image'),
                         ],
                       ),
+                      SizedBox(width: 30),
+                      Container(
+                          width: 200,
+                          height: 200,
+                          child: user_profile.agency.documents.length == 0
+                              ? new Container(
+                                  color: Colors.green,
+                                )
+                              : Image.network(
+                                  // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                  user_profile.agency.documents[1].link
+                                      .toString())),
                       Center(
                           child: imageFile == null
                               ? Text('')

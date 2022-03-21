@@ -305,6 +305,18 @@ class _EditDiverFormState extends State<EditDiverForm> {
                   Row(
                     children: [
                       Text('Front Image'),
+                       SizedBox(width: 30),
+                      Container(
+                          width: 200,
+                          height: 200,
+                          child: user_profile.diver.documents.length == 0
+                              ? new Container(
+                                  color: Colors.blue,
+                                )
+                              : Image.network(
+                                  // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                  user_profile.diver.documents[0].link
+                                      .toString())),
                       Center(
                         child: DiverImage == null
                             ? Text('')
@@ -343,6 +355,18 @@ class _EditDiverFormState extends State<EditDiverForm> {
                   Row(
                     children: [
                       Text('Back image'),
+                       SizedBox(width: 30),
+                      Container(
+                          width: 200,
+                          height: 200,
+                          child: user_profile.diver.documents.length == 0
+                              ? new Container(
+                                  color: Colors.green,
+                                )
+                              : Image.network(
+                                  // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                  user_profile.diver.documents[1].link
+                                      .toString())),
                       Center(
                           child: DiveBack == null
                               ? Text('')
