@@ -16,15 +16,27 @@ import 'package:flutter/services.dart';
 import '../../../nautilus/proto/dart/model.pb.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 
-//check pass
+GetProfileResponse user_profile = new GetProfileResponse();
+var profile;
+final TextEditingController _controllerName =
+    TextEditingController(text: user_profile.diver.firstName);
+final TextEditingController _controllerLastname =
+    TextEditingController(text: user_profile.diver.lastName);
+final TextEditingController _controllerUsername =
+    TextEditingController(text: user_profile.diver.account.username);
+final TextEditingController _controllerPassword = TextEditingController();
+final TextEditingController _controllerEmail =
+    TextEditingController(text: user_profile.diver.account.email);
+final TextEditingController _controllerPhone =
+    TextEditingController(text: user_profile.diver.phone);
+final TextEditingController _controllerConfirm = TextEditingController();
+
 class EditDiverForm extends StatefulWidget {
   @override
   _EditDiverFormState createState() => _EditDiverFormState();
 }
 
 class _EditDiverFormState extends State<EditDiverForm> {
-  GetProfileResponse user_profile = new GetProfileResponse();
-  var profile;
   bool _isObscure = true;
   final _formKey = GlobalKey<FormState>();
   String username;
@@ -36,13 +48,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
   String password;
   String confirmPassword;
   final List<String> errors = [];
-  final TextEditingController _controllerName = TextEditingController();
-  final TextEditingController _controllerLastname = TextEditingController();
-  final TextEditingController _controllerUsername = TextEditingController();
-  final TextEditingController _controllerPassword = TextEditingController();
-  final TextEditingController _controllerEmail = TextEditingController();
-  final TextEditingController _controllerPhone = TextEditingController();
-  final TextEditingController _controllerConfirm = TextEditingController();
+
   io.File DiverImage;
   io.File DiveBack;
   DateTime _dateTime;
@@ -61,6 +67,25 @@ class _EditDiverFormState extends State<EditDiverForm> {
     LevelType.INSTRUCTOR,
     LevelType.ADVANCED_OPEN_WATER
   ];
+
+  getData() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final pf = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    profile = await pf.getProfile(new Empty());
+    // print(profile);
+    user_profile = profile;
+
+    return user_profile;
+  }
 
   void loadData() async {
     drop.forEach((element) {
@@ -97,7 +122,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
       });
   }
 
-  void sendDiver() async {
+  void sendDiverEdit() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -105,22 +130,26 @@ class _EditDiverFormState extends State<EditDiverForm> {
         grpcTransportSecure: false,
         grpcWebPort: 8080,
         grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final stub = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    final stub = AccountClient(channel);
     // var accountRequest = AccountRequest();
     // var diver =Diver();
     // var account =Account();
     // diver.account=account;
-    var account = Account();
-    account.username = _controllerUsername.text;
-    account.email = _controllerEmail.text;
-    account.password = _controllerPassword.text;
-    var diver = Diver();
-    diver.firstName = _controllerName.text;
-    diver.lastName = _controllerLastname.text;
-    diver.phone = _controllerPhone.text;
-    diver.account = account;
-    diver.birthDate = Timestamp.fromDateTime(_dateTime);
+    // var account = Account();
+
+    user_profile.diver.account.username = _controllerUsername.text;
+    user_profile.diver.account.email = _controllerEmail.text;
+    user_profile.diver.account.password = _controllerPassword.text;
+    // var diver = Diver();
+    user_profile.diver.firstName = _controllerName.text;
+    user_profile.diver.lastName = _controllerLastname.text;
+    user_profile.diver.phone = _controllerPhone.text;
+    // diver.account = account;
+    user_profile.diver.birthDate = Timestamp.fromDateTime(_dateTime);
 
     var f = File();
     f.filename = 'Image.jpg';
@@ -128,25 +157,34 @@ class _EditDiverFormState extends State<EditDiverForm> {
     //f.file = new List<int>.from(t);
     List<int> b = await divfront.readAsBytes();
     f.file = b;
-    diver.documents.add(f);
+    user_profile.diver.documents.add(f);
 
     var f2 = File();
     f2.filename = 'Image.jpg';
     List<int> a = await card.readAsBytes();
     f2.file = a;
-    diver.documents.add(f2);
+    user_profile.diver.documents.add(f2);
 
     LevelType.values.forEach((levelType) {
       if (levelTypeMap[levelType.toString()] == int.parse(selected)) {
-        diver.level = levelType;
+        user_profile.diver.level = levelType;
       }
     });
 
-    var accountRequest = AccountRequest();
-    accountRequest.diver = diver;
+    var accountUpdateRequest = UpdateAccountRequest();
+    accountUpdateRequest.account.username = user_profile.diver.account.username;
+    accountUpdateRequest.account.password = user_profile.diver.account.password;
+    accountUpdateRequest.account.email = user_profile.diver.account.email;
+    var updateRequest = UpdateRequest();
+    updateRequest.diver.birthDate = user_profile.diver.birthDate;
+    updateRequest.diver.level = user_profile.diver.level;
+    updateRequest.diver.phone = user_profile.diver.phone;
+    updateRequest.diver.firstName = user_profile.diver.firstName;
+    updateRequest.diver.lastName = user_profile.diver.lastName;
 
     try {
-      var response = stub.create(accountRequest);
+      var response = stub.update(updateRequest);
+      var response2 = stub.updateAccount(accountUpdateRequest);
       print('response: ${response}');
     } catch (e) {
       print(e);
@@ -184,192 +222,178 @@ class _EditDiverFormState extends State<EditDiverForm> {
     }
   }
 
-  getData() async {
-    print("before try catch");
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-    final box = Hive.box('userInfo');
-    String token = box.get('token');
-    final pf = AccountClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
-    profile = await pf.getProfile(new Empty());
-    // print(profile);
-    user_profile = profile;
-    // print(user_profile.agency.account.email);
-    // print(user_profile.agency.phone);
-    // print(user_profile.agency.name);
-    // print(user_profile.agency.documents);
-    // print(user_profile.agency.address.addressLine1);
-    // print(user_profile.agency.address.addressLine2);
-    // print(user_profile.agency.address.city);
-    // print(user_profile.agency.address.country);
-    // print(user_profile.agency.address.region);
-    // print(user_profile.agency.address.postcode);
-  }
-
   @override
   Widget build(BuildContext context) {
     loadData();
     double screenwidth = MediaQuery.of(context).size.width;
-    return Form(
-      key: _formKey,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(children: [
-          SizedBox(height: 20),
-          buildUsernameFormField(),
-          SizedBox(height: 20),
-          buildNameFormField(),
-          SizedBox(height: 20),
-          buildLastnameFormField(),
-          SizedBox(height: 20),
-          // LevelDropdown(),
-          Container(
-            color: Colors.white,
-            //color: Color(0xFFFd0efff),
-            child: Center(
-              child: DropdownButton(
-                isExpanded: true,
-                value: selected,
-                items: listDrop,
-                hint: Text('  Select level'),
-                iconSize: 40,
-                onChanged: (value) {
-                  setState(() {
-                    selected = value;
-                    print(value);
-                  });
-                },
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
-          buildEmailFormField(),
-          SizedBox(height: 20),
-          buildPhoneNumberFormField(),
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Text('Birthday'),
-              Spacer(),
-              //  Text(_dateTime == null ? '' : _dateTime.toString()),
-              Spacer(),
-              RaisedButton(
-                  color: Color(0xfff8dd9cc),
-                  child: Text('Pick a date'),
-                  onPressed: () {
-                    showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime.now())
-                        .then((date) => {
-                              setState(() {
-                                var timeStamp =
-                                    print(Timestamp.fromDateTime(date));
-                                _dateTime = date;
-                              })
-                            });
-                  }),
-            ],
-          ),
-          SizedBox(height: 20),
-          buildPasswordFormField(),
-          SizedBox(height: 20),
-          buildConfirmPasswordFormField(),
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Text('Front Image'),
-              Center(
-                child: DiverImage == null
-                    ? Text('')
-                    : kIsWeb
-                        ? Image.network(
-                            DiverImage.path,
-                            fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
-                          )
-                        : Image.file(
-                            io.File(DiverImage.path),
-                            fit: BoxFit.cover,
-                            width: screenwidth * 0.05,
-                          ),
-              ),
-              /* Spacer(),
+    return SizedBox(
+      child: FutureBuilder(
+        future: getData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Form(
+              key: _formKey,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(children: [
+                  SizedBox(height: 20),
+                  buildUsernameFormField(),
+                  SizedBox(height: 20),
+                  buildNameFormField(),
+                  SizedBox(height: 20),
+                  buildLastnameFormField(),
+                  SizedBox(height: 20),
+                  // LevelDropdown(),
+                  Container(
+                    color: Colors.white,
+                    //color: Color(0xFFFd0efff),
+                    child: Center(
+                      child: DropdownButton(
+                        isExpanded: true,
+                        value: selected,
+                        items: listDrop,
+                        hint: Text(user_profile.diver.level.toString()),
+                        iconSize: 40,
+                        onChanged: (value) {
+                          setState(() {
+                            selected = value;
+                            print(value);
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  buildEmailFormField(),
+                  SizedBox(height: 20),
+                  buildPhoneNumberFormField(),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Text('Birthday'),
+                      Spacer(),
+                      //  Text(_dateTime == null ? '' : _dateTime.toString()),
+                      Spacer(),
+                      RaisedButton(
+                          color: Color(0xfff8dd9cc),
+                          child: Text(user_profile.diver.birthDate
+                              .toDateTime()
+                              .toString()),
+                          onPressed: () {
+                            showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now())
+                                .then((date) => {
+                                      setState(() {
+                                        var timeStamp =
+                                            print(Timestamp.fromDateTime(date));
+                                        _dateTime = date;
+                                      })
+                                    });
+                          }),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  buildPasswordFormField(),
+                  SizedBox(height: 20),
+                  buildConfirmPasswordFormField(),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Text('Front Image'),
+                      Center(
+                        child: DiverImage == null
+                            ? Text('')
+                            : kIsWeb
+                                ? Image.network(
+                                    DiverImage.path,
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.2,
+                                  )
+                                : Image.file(
+                                    io.File(DiverImage.path),
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.05,
+                                  ),
+                      ),
+                      /* Spacer(),
               DiverImage == null
                   ? Text('')
                   :
                   print(DiverImage.path)
               ,*/
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getPicDiver();
-                },
+                      Spacer(),
+                      FlatButton(
+                        color: Color(0xfffa2c8ff),
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        onPressed: () {
+                          _getPicDiver();
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Text('Back image'),
+                      Center(
+                          child: DiveBack == null
+                              ? Text('')
+                              : kIsWeb
+                                  ? Image.network(
+                                      DiveBack.path,
+                                      fit: BoxFit.cover,
+                                      width: screenwidth * 0.2,
+                                    )
+                                  : Image.file(
+                                      io.File(DiveBack.path),
+                                      fit: BoxFit.cover,
+                                      width: screenwidth * 0.05,
+                                    )),
+                      Spacer(),
+                      FlatButton(
+                        color: Color(0xfffa2c8ff),
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        onPressed: () {
+                          _getPicCard();
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  FormError(errors: errors),
+                  SizedBox(height: 20),
+                  FlatButton(
+                    onPressed: () => {
+                      // if (_formKey.currentState.validate())
+                      //   {
+                      // sendDiverEdit(),
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MainScreen()))
+                      // }
+                    },
+                    color: Color(0xfff75BDFF),
+                    child: Text(
+                      'Confirm',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ]),
               ),
-            ],
-          ),
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Text('Back image'),
-              Center(
-                  child: DiveBack == null
-                      ? Text('')
-                      : kIsWeb
-                          ? Image.network(
-                              DiveBack.path,
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
-                            )
-                          : Image.file(
-                              io.File(DiveBack.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getPicCard();
-                },
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          FormError(errors: errors),
-          SizedBox(height: 20),
-          FlatButton(
-            onPressed: () => {
-              if (_formKey.currentState.validate())
-                {
-                  // sendDiver(),
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainScreen()))
-                }
-            },
-            color: Color(0xfff75BDFF),
-            child: Text(
-              'Confirm',
-              style: TextStyle(fontSize: 15),
-            ),
-          ),
-          SizedBox(height: 20),
-        ]),
+            );
+          } else {
+            return Text('User is not logged in.');
+          }
+        },
       ),
     );
   }
@@ -424,7 +448,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
         return null;
       },
       decoration: InputDecoration(
-         hintText: user_profile.diver.lastName,
+          hintText: user_profile.diver.lastName,
           labelText: "Last Name",
           filled: true,
           fillColor: Colors.white,
@@ -452,7 +476,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
         return null;
       },
       decoration: InputDecoration(
-       hintText: user_profile.diver.account.username,
+          hintText: user_profile.diver.account.username,
           labelText: "Username",
           filled: true,
           fillColor: Colors.white,
@@ -576,7 +600,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
         filled: true,
         fillColor: Colors.white,
         labelText: "Email",
-       hintText: user_profile.diver.account.email,
+        hintText: user_profile.diver.account.email,
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
       ),
@@ -608,7 +632,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
         filled: true,
         fillColor: Colors.white,
         labelText: "Phone number",
-       hintText: user_profile.diver.phone,
+        hintText: user_profile.diver.phone,
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.phone),
       ),
