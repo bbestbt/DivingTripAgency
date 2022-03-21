@@ -715,11 +715,11 @@ class _InfoCardState extends State<InfoCard> {
                           child: RaisedButton(
                             onPressed: () {
 
-                              /*  print(_foundtrip[widget.index]
+                                // print(_foundtrip[widget.index]
 
-                                  .tripTemplate
-                                  .tripType
-                                  .toString());
+                                //   .tripTemplate
+                                //   .tripType
+                                //   .toString());
                               if (_foundtrip[widget.index]
                                       .tripTemplate
                                       .tripType
@@ -743,7 +743,7 @@ class _InfoCardState extends State<InfoCard> {
                                             LiveaboardDetailScreen(
                                                 widget.index, trips)));
 
-                              }*/
+                              }
 
                             },
                             color: Colors.amber,

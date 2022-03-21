@@ -199,12 +199,30 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     user_profile.agency.documents.add(f2);
 
     var accountUpdateRequest = UpdateAccountRequest();
+    // var account = Account();
+    // account.username = user_profile.agency.account.username;
+    // account.password = user_profile.agency.account.password;
+    // account.email = user_profile.agency.account.email;
+    // accountUpdateRequest.account = account;
     accountUpdateRequest.account.username =
         user_profile.agency.account.username;
     accountUpdateRequest.account.password =
         user_profile.agency.account.password;
-    accountUpdateRequest.account.email = user_profile.agency.account.email;
+    // accountUpdateRequest.account.email = user_profile.agency.account.email;
     var updateRequest = UpdateRequest();
+    // var address = Address();
+    // address.addressLine1 = user_profile.agency.address.addressLine1;
+    // address.addressLine2 = user_profile.agency.address.addressLine2;
+    // address.city = user_profile.agency.address.city;
+    // address.country = user_profile.agency.address.country;
+    // address.postcode = user_profile.agency.address.postcode;
+    // address.region = user_profile.agency.address.region;
+    // updateRequest.agency.address = address;
+    // updateRequest.agency.name = user_profile.agency.name;
+    // updateRequest.agency.phone = user_profile.agency.phone;
+    // for (int i = 0; i < user_profile.agency.documents.length; i++) {
+    //   updateRequest.agency.documents.add(user_profile.agency.documents[i]);
+    // }
 
     updateRequest.agency.address.addressLine1 =
         user_profile.agency.address.addressLine1;
@@ -223,8 +241,11 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
 
     try {
       var response = pf.update(updateRequest);
-      var response2 = pf.updateAccount(accountUpdateRequest);
       print('response: ${response}');
+      print('----------');
+      var response2 = pf.updateAccount(accountUpdateRequest);
+
+      print('response: ${response2}');
     } catch (e) {
       print(e);
     }
