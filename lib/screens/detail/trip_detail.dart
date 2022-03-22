@@ -74,8 +74,8 @@ class _TripDetailState extends State<TripDetail> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var searchtrips = SearchTripsOptions();
 
-    // searchtrips.country = 'Thailand';
-    searchtrips.country = 'm';
+    searchtrips.country = 'Thailand';
+    // searchtrips.country = 'm';
 
     //  searchtrips.city = dropdownValue;
     searchtrips.divers = 5;
@@ -88,7 +88,7 @@ class _TripDetailState extends State<TripDetail> {
     ts2.seconds = Int64(1648681149);
     searchtrips.endDate = ts2;
 
-    searchtrips.tripType = TripType.OFFSHORE;
+    // searchtrips.tripType = TripType.OFFSHORE;
     var listtriprequest = SearchTripsRequest();
     listtriprequest.limit = Int64(20);
     listtriprequest.offset = Int64(0);

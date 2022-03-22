@@ -26,11 +26,11 @@ final TextEditingController _controllerLastname =
 final TextEditingController _controllerUsername =
     TextEditingController(text: user_profile.diver.account.username);
 final TextEditingController _controllerPassword = TextEditingController();
+final TextEditingController _controllerOldPassword = TextEditingController();
 final TextEditingController _controllerEmail =
     TextEditingController(text: user_profile.diver.account.email);
 final TextEditingController _controllerPhone =
     TextEditingController(text: user_profile.diver.phone);
-final TextEditingController _controllerConfirm = TextEditingController();
 
 class EditDiverForm extends StatefulWidget {
   @override
@@ -47,7 +47,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
   String phoneNumber;
   String email;
   String password;
-  String confirmPassword;
+  String oldpassword;
   final List<String> errors = [];
 
   io.File DiverImage;
@@ -172,21 +172,32 @@ class _EditDiverFormState extends State<EditDiverForm> {
       }
     });
 
-    var accountUpdateRequest = UpdateAccountRequest();
-    accountUpdateRequest.account.username = user_profile.diver.account.username;
-    accountUpdateRequest.account.password = user_profile.diver.account.password;
-    accountUpdateRequest.account.email = user_profile.diver.account.email;
-    var updateRequest = UpdateRequest();
-    updateRequest.diver.birthDate = user_profile.diver.birthDate;
-    updateRequest.diver.level = user_profile.diver.level;
-    updateRequest.diver.phone = user_profile.diver.phone;
-    updateRequest.diver.firstName = user_profile.diver.firstName;
-    updateRequest.diver.lastName = user_profile.diver.lastName;
+    var account = Account();
+    account.username = user_profile.diver.account.username;
+    account.password = _controllerPassword.text;
+    account.oldPassword = _controllerOldPassword.text;
+    account.email = user_profile.diver.account.email;
+
+    var accountUpdateRequest = UpdateAccountRequest()..account = account;
+
+    var diver = Diver();
+
+    diver.birthDate = user_profile.diver.birthDate;
+    diver.level = user_profile.diver.level;
+    diver.phone = user_profile.diver.phone;
+    diver.firstName = user_profile.diver.firstName;
+    diver.lastName = user_profile.diver.lastName;
+    for (int i = 0; i < user_profile.diver.documents.length; i++) {
+      diver.documents.add(user_profile.diver.documents[i]);
+    }
+    final updateRequest = UpdateRequest()..diver = diver;
 
     try {
       var response = stub.update(updateRequest);
       var response2 = stub.updateAccount(accountUpdateRequest);
       print('response: ${response}');
+      print('ddd');
+      print('response: ${response2}');
     } catch (e) {
       print(e);
     }
@@ -273,14 +284,14 @@ class _EditDiverFormState extends State<EditDiverForm> {
                     children: [
                       Text('Birthday'),
                       Spacer(),
-                      //  Text(_dateTime == null ? '' : _dateTime.toString()),
+                      Text(_dateTime == null
+                          ? DateFormat("dd/MM/yyyy")
+                              .format(user_profile.diver.birthDate.toDateTime())
+                          : DateFormat("dd/MM/yyyy").format(_dateTime)),
                       Spacer(),
                       RaisedButton(
                           color: Color(0xfff8dd9cc),
-                          child: Text(
-                            DateFormat("dd/MM/yyyy").format(
-                                user_profile.diver.birthDate.toDateTime()),
-                          ),
+                          child: Text('Pick a date'),
                           onPressed: () {
                             showDatePicker(
                                     context: context,
@@ -298,14 +309,14 @@ class _EditDiverFormState extends State<EditDiverForm> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  buildPasswordFormField(),
+                  buildoldpasswordFormField(),
                   SizedBox(height: 20),
-                  buildConfirmPasswordFormField(),
+                  buildPasswordFormField(),
                   SizedBox(height: 20),
                   Row(
                     children: [
                       Text('Front Image'),
-                       SizedBox(width: 30),
+                      SizedBox(width: 30),
                       Container(
                           width: 200,
                           height: 200,
@@ -355,7 +366,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
                   Row(
                     children: [
                       Text('Back image'),
-                       SizedBox(width: 30),
+                      SizedBox(width: 30),
                       Container(
                           width: 200,
                           height: 200,
@@ -401,7 +412,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
                     onPressed: () => {
                       // if (_formKey.currentState.validate())
                       //   {
-                      // sendDiverEdit(),
+                      sendDiverEdit(),
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => MainScreen()))
                       // }
@@ -511,13 +522,13 @@ class _EditDiverFormState extends State<EditDiverForm> {
     );
   }
 
-  TextFormField buildConfirmPasswordFormField() {
+  TextFormField buildoldpasswordFormField() {
     return TextFormField(
-      controller: _controllerConfirm,
+      controller: _controllerOldPassword,
       obscureText: _isObscure,
-      onSaved: (newValue) => confirmPassword = newValue,
+      onSaved: (newValue) => oldpassword = newValue,
       onChanged: (value) {
-        if (password == confirmPassword) {
+        if (password == oldpassword) {
           removeError(error: "Password doesn't match");
         }
         return null;
@@ -534,7 +545,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
-          labelText: "Confirm password",
+          labelText: "Old password",
           //   hintText: "Confirm password",
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: IconButton(
@@ -581,7 +592,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
         return null;
       },
       decoration: InputDecoration(
-          labelText: "Password",
+          labelText: "New password",
           //  hintText: "Password",
           filled: true,
           fillColor: Colors.white,

@@ -197,16 +197,15 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     List<int> a = await Img.readAsBytes();
     f2.file = a;
     user_profile.agency.documents.add(f2);
- 
+
     var account = Account();
     account.username = user_profile.agency.account.username;
     account.password = _controllerPassword.text;
-    account.oldPassword= _controlleroldpassword.text;
+    account.oldPassword = _controlleroldpassword.text;
     account.email = user_profile.agency.account.email;
-   
-    var accountUpdateRequest = UpdateAccountRequest()..account=account;
-    
-   
+
+    var accountUpdateRequest = UpdateAccountRequest()..account = account;
+
     // accountUpdateRequest.account.username =
     //     user_profile.agency.account.username;
     // accountUpdateRequest.account.password =
@@ -220,9 +219,9 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     address.country = user_profile.agency.address.country;
     address.postcode = user_profile.agency.address.postcode;
     address.region = user_profile.agency.address.region;
-    
-    var agency=Agency()..address=address;
-    agency.name=user_profile.agency.name;
+
+    var agency = Agency()..address = address;
+    agency.name = user_profile.agency.name;
     agency.phone = user_profile.agency.phone;
     for (int i = 0; i < user_profile.agency.documents.length; i++) {
       agency.documents.add(user_profile.agency.documents[i]);
@@ -237,7 +236,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     //     user_profile.agency.address.postcode;
     // agency.address.region = user_profile.agency.address.region;
 
-    final updateRequest = UpdateRequest()..agency=agency;
+    final updateRequest = UpdateRequest()..agency = agency;
     // updateRequest.agency.name = user_profile.agency.name;
     // updateRequest.agency.phone = user_profile.agency.phone;
     // for (int i = 0; i < user_profile.agency.documents.length; i++) {
@@ -319,11 +318,10 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                           child: buildPostalCodeFormField()),
                     ],
                   ),
-
-                  SizedBox(height: 20),
-                  buildPasswordFormField(),
                   SizedBox(height: 20),
                   buildoldpasswordFormField(),
+                  SizedBox(height: 20),
+                  buildPasswordFormField(),
                   SizedBox(height: 20),
                   Row(
                     children: [
