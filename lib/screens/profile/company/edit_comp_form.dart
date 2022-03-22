@@ -30,7 +30,7 @@ final TextEditingController _controllerAddress =
     TextEditingController(text: user_profile.agency.address.addressLine1);
 final TextEditingController _controllerPhone =
     TextEditingController(text: user_profile.agency.phone);
-final TextEditingController _controllerConfirm = TextEditingController();
+final TextEditingController _controlleroldpassword = TextEditingController();
 final TextEditingController _controllerAddress2 =
     TextEditingController(text: user_profile.agency.address.addressLine2);
 final TextEditingController _controllerPostalcode =
@@ -88,7 +88,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
   String phoneNumber;
   String address1;
   String password;
-  String confirmPassword;
+  String oldpassword;
   String address2;
   String postalCode;
   String country;
@@ -197,47 +197,61 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     List<int> a = await Img.readAsBytes();
     f2.file = a;
     user_profile.agency.documents.add(f2);
-
-    var accountUpdateRequest = UpdateAccountRequest();
-    // var account = Account();
-    // account.username = user_profile.agency.account.username;
-    // account.password = user_profile.agency.account.password;
-    // account.email = user_profile.agency.account.email;
-    // accountUpdateRequest.account = account;
-    accountUpdateRequest.account.username =
-        user_profile.agency.account.username;
-    accountUpdateRequest.account.password =
-        user_profile.agency.account.password;
+ 
+    var account = Account();
+    account.username = user_profile.agency.account.username;
+    account.password = _controllerPassword.text;
+    account.oldPassword= _controlleroldpassword.text;
+    account.email = user_profile.agency.account.email;
+   
+    var accountUpdateRequest = UpdateAccountRequest()..account=account;
+    
+   
+    // accountUpdateRequest.account.username =
+    //     user_profile.agency.account.username;
+    // accountUpdateRequest.account.password =
+    //     user_profile.agency.account.password;
     // accountUpdateRequest.account.email = user_profile.agency.account.email;
-    var updateRequest = UpdateRequest();
-    // var address = Address();
-    // address.addressLine1 = user_profile.agency.address.addressLine1;
-    // address.addressLine2 = user_profile.agency.address.addressLine2;
-    // address.city = user_profile.agency.address.city;
-    // address.country = user_profile.agency.address.country;
-    // address.postcode = user_profile.agency.address.postcode;
-    // address.region = user_profile.agency.address.region;
-    // updateRequest.agency.address = address;
+
+    var address = Address();
+    address.addressLine1 = user_profile.agency.address.addressLine1;
+    address.addressLine2 = user_profile.agency.address.addressLine2;
+    address.city = user_profile.agency.address.city;
+    address.country = user_profile.agency.address.country;
+    address.postcode = user_profile.agency.address.postcode;
+    address.region = user_profile.agency.address.region;
+    
+    var agency=Agency()..address=address;
+    agency.name=user_profile.agency.name;
+    agency.phone = user_profile.agency.phone;
+    for (int i = 0; i < user_profile.agency.documents.length; i++) {
+      agency.documents.add(user_profile.agency.documents[i]);
+    }
+    //  agency.address.addressLine1 =
+    //     user_profile.agency.address.addressLine1;
+    // agency.address.addressLine2 =
+    //     user_profile.agency.address.addressLine2;
+    // agency.address.city = user_profile.agency.address.city;
+    // agency.address.country = user_profile.agency.address.country;
+    // agency.address.postcode =
+    //     user_profile.agency.address.postcode;
+    // agency.address.region = user_profile.agency.address.region;
+
+    final updateRequest = UpdateRequest()..agency=agency;
     // updateRequest.agency.name = user_profile.agency.name;
     // updateRequest.agency.phone = user_profile.agency.phone;
     // for (int i = 0; i < user_profile.agency.documents.length; i++) {
     //   updateRequest.agency.documents.add(user_profile.agency.documents[i]);
     // }
-
-    updateRequest.agency.address.addressLine1 =
-        user_profile.agency.address.addressLine1;
-    updateRequest.agency.address.addressLine2 =
-        user_profile.agency.address.addressLine2;
-    updateRequest.agency.address.city = user_profile.agency.address.city;
-    updateRequest.agency.address.country = user_profile.agency.address.country;
-    updateRequest.agency.address.postcode =
-        user_profile.agency.address.postcode;
-    updateRequest.agency.address.region = user_profile.agency.address.region;
-    updateRequest.agency.name = user_profile.agency.name;
-    updateRequest.agency.phone = user_profile.agency.phone;
-    for (int i = 0; i < user_profile.agency.documents.length; i++) {
-      updateRequest.agency.documents.add(user_profile.agency.documents[i]);
-    }
+    // updateRequest.agency.address.addressLine1 =
+    //     user_profile.agency.address.addressLine1;
+    // updateRequest.agency.address.addressLine2 =
+    //     user_profile.agency.address.addressLine2;
+    // updateRequest.agency.address.city = user_profile.agency.address.city;
+    // updateRequest.agency.address.country = user_profile.agency.address.country;
+    // updateRequest.agency.address.postcode =
+    //     user_profile.agency.address.postcode;
+    // updateRequest.agency.address.region = user_profile.agency.address.region;
 
     try {
       var response = pf.update(updateRequest);
@@ -309,7 +323,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                   SizedBox(height: 20),
                   buildPasswordFormField(),
                   SizedBox(height: 20),
-                  buildConfirmPasswordFormField(),
+                  buildoldpasswordFormField(),
                   SizedBox(height: 20),
                   Row(
                     children: [
@@ -529,13 +543,13 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     );
   }
 
-  TextFormField buildConfirmPasswordFormField() {
+  TextFormField buildoldpasswordFormField() {
     return TextFormField(
-      controller: _controllerConfirm,
+      controller: _controlleroldpassword,
       obscureText: _isObscure,
-      onSaved: (newValue) => confirmPassword = newValue,
+      onSaved: (newValue) => oldpassword = newValue,
       onChanged: (value) {
-        if (password == confirmPassword) {
+        if (password == oldpassword) {
           removeError(error: "Password doesn't match");
         }
         return null;
@@ -553,7 +567,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
           filled: true,
           fillColor: Colors.white,
           //  hintText: "Confirm password",
-          labelText: "Confirm Password",
+          labelText: "Old Password",
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: IconButton(
               icon: Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
@@ -600,7 +614,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       },
       decoration: InputDecoration(
           hintText: user_profile.agency.account.password,
-          labelText: "Password",
+          labelText: "New password",
           filled: true,
           fillColor: Colors.white,
           floatingLabelBehavior: FloatingLabelBehavior.always,
