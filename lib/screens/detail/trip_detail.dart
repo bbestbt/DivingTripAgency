@@ -25,7 +25,7 @@ String dropdownValue2 = "All";
 enum Cost { one, two, three, more, all }
 
 List<TripWithTemplate> trips = [];
-List<TripWithTemplate> allTrips = [];
+// List<TripWithTemplate> allTrips = [];
 
 class TripDetail extends StatefulWidget {
   // SearchTripsResponse_Trip tripdetail ;
@@ -57,7 +57,7 @@ class _TripDetailState extends State<TripDetail> {
 
     dropdownValue = 'All';
     dropdownValue2 = 'All';
-    _foundtrip = allTrips;
+    _foundtrip = trips;
     //  trips;
   }
 
@@ -76,17 +76,17 @@ class _TripDetailState extends State<TripDetail> {
     var listtriprequest = ListValidTripsRequest();
     listtriprequest.limit = Int64(20);
     listtriprequest.offset = Int64(0);
-    allTrips.clear();
+    trips.clear();
     try {
       await for (var feature in stub.listValidTrips(listtriprequest)) {
-        allTrips.add(feature.trip);
-        print(allTrips);
+        trips.add(feature.trip);
+        print(trips);
       }
     } catch (e) {
       print('ERROR: $e');
     }
 
-    return allTrips;
+    return trips;
   }
 
   searchData() async {
@@ -524,13 +524,9 @@ class _TripDetailState extends State<TripDetail> {
       });
     } else {
       //print("Guestvalue" + guestvalue.toString());
-      results = 
-      // allTrips;
-      trips;
+      results = trips;
       setState(() {
-        _foundtrip = 
-        // allTrips;
-        results;
+        _foundtrip =  results;
       });
       //print(_dateFrom);
       //print(results[0].fromDate.toDateTime());
@@ -748,8 +744,9 @@ class _InfoCardState extends State<InfoCard> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DiveResortDetailScreen(
-                                                widget.index, allTrips
-                                                // trips
+                                                widget.index, 
+                                              
+                                                trips
                                                 )));
                               } else {
                                 // print(_foundtrip[widget.index]);
@@ -761,8 +758,8 @@ class _InfoCardState extends State<InfoCard> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             LiveaboardDetailScreen(
-                                                widget.index,allTrips
-                                                //  trips
+                                                widget.index,
+                                                 trips
                                                  )));
                               }
                             },
