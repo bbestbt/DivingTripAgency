@@ -25,10 +25,11 @@ import 'package:fixnum/fixnum.dart';
 List<RoomType> roomtypes = [];
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
-List<TripWithTemplate> details=[];
+List<TripWithTemplate> details;
 GetHotelResponse hotelDetial = new GetHotelResponse();
 var hotel;
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+final TextEditingController _textEditingController = TextEditingController();
 
 class DiveResortDetailScreen extends StatefulWidget {
   int index;
@@ -371,7 +372,6 @@ class _InfoCardState extends State<InfoCard> {
 
     user_profile = profile;
     return user_profile;
-    
   }
 
   void bookTrips() async {
@@ -388,30 +388,27 @@ class _InfoCardState extends State<InfoCard> {
     final stub = ReservationServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    // var bookRequest = CreateReservationRequest();
-    // bookRequest.reservation.diverId = user_profile.diver.id;
-    // // bookRequest.reservation.price = roomtypes[widget.index].price+details[widget.index].price;
-    // bookRequest.reservation.totalDivers =
-    //     Int64(roomtypes[widget.index].maxGuest);
-    // bookRequest.reservation.tripId = details[widget.index].id;
-    // // bookRequest.reservation.rooms.add(roomtypes[widget.index]);
+    var bookRequest = CreateReservationRequest();
+    bookRequest.reservation.diverId = user_profile.diver.id;
+    bookRequest.reservation.price =
+        roomtypes[widget.index].price * int.parse(_textEditingController.text);
+    bookRequest.reservation.totalDivers =
+        Int64(roomtypes[widget.index].maxGuest);
+    bookRequest.reservation.tripId = details[widget.index].id;
+    // bookRequest.reservation.rooms.add(roomtypes[widget.index]);
 
-    // try {
-    //   var response = stub.createReservation(bookRequest);
-    //   print('response: ${response}');
-    // } catch (e) {
-    //   print(e);
-    // }
+    try {
+      var response = stub.createReservation(bookRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
   }
-
-
 
   Future<void> showInformationDialog(BuildContext context) async {
     return await showDialog(
         context: context,
         builder: (context) {
-          final TextEditingController _textEditingController =
-              TextEditingController();
           // bool isChecked = false;
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
@@ -453,8 +450,9 @@ class _InfoCardState extends State<InfoCard> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       // bookTrips();
-                      print(details[widget.index].price);
-                      print(roomtypes[widget.index].price);
+                      // print(details[widget.index].price);
+                      print(roomtypes[widget.index].price *
+                          int.parse(_textEditingController.text));
                       // print((roomtypes[widget.index].price+details[widget.index].price).toString());
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
