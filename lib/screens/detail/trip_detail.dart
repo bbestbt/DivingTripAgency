@@ -1,6 +1,7 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbjson.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/trip.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
@@ -24,6 +25,7 @@ String dropdownValue2 = "All";
 enum Cost { one, two, three, more, all }
 
 List<TripWithTemplate> trips = [];
+List<TripWithTemplate> allTrips = [];
 
 class TripDetail extends StatefulWidget {
   // SearchTripsResponse_Trip tripdetail ;
@@ -50,16 +52,44 @@ class _TripDetailState extends State<TripDetail> {
   initState() {
     // at the beginning, all users are shown
     super.initState();
-    // getData();
     costchecklist = [false, false, false, false, false];
     durationchecklist = [false, false, false, false, false, false];
 
     dropdownValue = 'All';
     dropdownValue2 = 'All';
-    _foundtrip = trips;
+    _foundtrip = allTrips;
+    //  trips;
   }
 
-  getData() async {
+  getTrip() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = TripServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listtriprequest = ListValidTripsRequest();
+    listtriprequest.limit = Int64(20);
+    listtriprequest.offset = Int64(0);
+    allTrips.clear();
+    try {
+      await for (var feature in stub.listValidTrips(listtriprequest)) {
+        allTrips.add(feature.trip);
+        print(allTrips);
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+
+    return allTrips;
+  }
+
+  searchData() async {
     //print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -74,32 +104,32 @@ class _TripDetailState extends State<TripDetail> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var searchtrips = SearchTripsOptions();
 
-    searchtrips.country = 'Thailand';
+    searchtrips.country = '5';
     // searchtrips.country = 'm';
 
-    //  searchtrips.city = dropdownValue;
-    searchtrips.divers = 5;
+    //  searchtrips.country = dropdownValue;
+    searchtrips.divers = 1;
     // searchtrips.divers =guestvalue;
     var ts = Timestamp();
-    ts.seconds = Int64(1643663834);
+    ts.seconds = Int64(1643670395);
     searchtrips.startDate = ts;
     var ts2 = Timestamp();
     // ts2.seconds = Int64(1645996634);
-    ts2.seconds = Int64(1648681149);
+    ts2.seconds = Int64(1648767995);
     searchtrips.endDate = ts2;
 
     // searchtrips.tripType = TripType.OFFSHORE;
-    var listtriprequest = SearchTripsRequest();
-    listtriprequest.limit = Int64(20);
-    listtriprequest.offset = Int64(0);
-    listtriprequest.searchTripsOptions = searchtrips;
+    var searchtriprequest = SearchTripsRequest();
+    searchtriprequest.limit = Int64(100);
+    searchtriprequest.offset = Int64(100);
+    searchtriprequest.searchTripsOptions = searchtrips;
 
     trips.clear();
     // print(listonshorerequest);
     // stub.searchTrips(listonshorerequest);
     //print(listtriprequest);
     try {
-      await for (var feature in stub.searchTrips(listtriprequest)) {
+      await for (var feature in stub.searchTrips(searchtriprequest)) {
         // print(feature.trip.price);
         // print(feature.trip.fromDate);
         // print(feature.trip.toDate);
@@ -434,7 +464,8 @@ class _TripDetailState extends State<TripDetail> {
                     SizedBox(
                       width: 1110,
                       child: FutureBuilder(
-                        future: getData(),
+                        future: getTrip(),
+                        // searchData(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             // debugPrint(
@@ -493,9 +524,13 @@ class _TripDetailState extends State<TripDetail> {
       });
     } else {
       //print("Guestvalue" + guestvalue.toString());
-      results = trips;
+      results = 
+      // allTrips;
+      trips;
       setState(() {
-        _foundtrip = results;
+        _foundtrip = 
+        // allTrips;
+        results;
       });
       //print(_dateFrom);
       //print(results[0].fromDate.toDateTime());
@@ -598,7 +633,6 @@ class _InfoCardState extends State<InfoCard> {
 
   @override
   Widget build(BuildContext context) {
-    // getData();
     return InkWell(
       child: Container(
         height: 320,
@@ -678,6 +712,7 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
+                        
 
                         Text('Trip type : ' +
                             _foundtrip[widget.index]
@@ -713,7 +748,9 @@ class _InfoCardState extends State<InfoCard> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DiveResortDetailScreen(
-                                                widget.index, trips)));
+                                                widget.index, allTrips
+                                                // trips
+                                                )));
                               } else {
                                 // print(_foundtrip[widget.index]);
                                 // print('------------------');
@@ -724,7 +761,9 @@ class _InfoCardState extends State<InfoCard> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             LiveaboardDetailScreen(
-                                                widget.index, trips)));
+                                                widget.index,allTrips
+                                                //  trips
+                                                 )));
                               }
                             },
                             color: Colors.amber,

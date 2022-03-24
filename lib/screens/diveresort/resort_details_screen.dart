@@ -1,7 +1,14 @@
 import 'package:diving_trip_agency/controllers/menuController.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/hotel.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
+import 'package:diving_trip_agency/screens/diveresort/dialog.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
@@ -15,6 +22,11 @@ import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
 List<RoomType> roomtypes = [];
+GetProfileResponse user_profile = new GetProfileResponse();
+var profile;
+List<TripWithTemplate> details;
+GetHotelResponse hotelDetial = new GetHotelResponse();
+var hotel;
 
 class DiveResortDetailScreen extends StatefulWidget {
   int index;
@@ -83,6 +95,7 @@ class _detailState extends State<detail> {
 
   getData() async {
     //print("before try catch");
+    await getHotelDetail();
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -98,23 +111,47 @@ class _detailState extends State<detail> {
     var listroomrequest = ListRoomTypesRequest();
     listroomrequest.limit = Int64(20);
     listroomrequest.offset = Int64(0);
-    listroomrequest.hotelId =  details[widget.index].tripTemplate.hotelId;
+    listroomrequest.hotelId = details[widget.index].tripTemplate.hotelId;
     // Int64(2);
-   
+
     roomtypes.clear();
-    print('test');
+    // print('test');
     try {
-      print('test2');
+      // print('test2');
       await for (var feature in stub.listRoomTypes(listroomrequest)) {
-        print('test3');
+        // print('test3');
         roomtypes.add(feature.roomType);
-        print(roomtypes);
+        // print(roomtypes);
       }
     } catch (e) {
       print('ERROR: $e');
     }
 
     return roomtypes;
+  }
+
+  getHotelDetail() async {
+    //print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = HotelServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var hotelrequest = GetHotelRequest();
+    hotelrequest.id =  details[widget.index].tripTemplate.hotelId;
+    // Int64(2);
+    print(hotelrequest.id);
+    hotel = await stub.getHotel(hotelrequest);
+    hotelDetial = hotel;
+    
+    print(hotelDetial.hotel.name);
+    return hotelDetial.hotel.name;
   }
 
   @override
@@ -125,10 +162,9 @@ class _detailState extends State<detail> {
           title: "Dive resorts",
           color: Color(0xFFFF78a2cc),
         ),
-        Text("Hotel : " 
-        // +
-            // details[widget.index].tripTemplate.hotelId
-            ),
+        Text("Hotel : " +
+        // details[widget.index].tripTemplate.hotelId.toString()),
+        hotelDetial.hotel.name),
         SizedBox(
           height: 10,
         ),
@@ -186,8 +222,7 @@ class _detailState extends State<detail> {
         SizedBox(
           height: 10,
         ),
-         Text("Description : " + details[widget.index].tripTemplate.description),
-        
+        Text("Description : " + details[widget.index].tripTemplate.description),
         SizedBox(
           height: 10,
         ),
@@ -209,7 +244,6 @@ class _detailState extends State<detail> {
             SizedBox(
               width: 10,
             ),
-            
             Container(
                 width: 300,
                 height: 300,
@@ -242,7 +276,16 @@ class _detailState extends State<detail> {
         SizedBox(
           height: 10,
         ),
-       
+
+        //  RaisedButton(
+        //           onPressed: () {
+        //            getHotelDetail();
+        //           },
+        //           color: Colors.amber,
+        //           shape: RoundedRectangleBorder(
+        //               borderRadius: BorderRadius.circular(10)),
+        //           child: Text("get hotel"),
+        //         ),
         Container(
           // decoration: BoxDecoration(
           //     color: Color(0xFFFF89cfef),
@@ -306,6 +349,55 @@ class _InfoCardState extends State<InfoCard> {
   Map<String, dynamic> hotelTypeMap = {};
   List<String> hotel = [];
 
+  getProfile() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final pf = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    profile = await pf.getProfile(new Empty());
+
+    user_profile = profile;
+
+    return user_profile;
+  }
+
+  void bookTrips() async {
+    await getProfile();
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = ReservationServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    var bookRequest = CreateReservationRequest();
+    // bookRequest.reservation.diverId = user_profile.diver.id;
+    // bookRequest.reservation.price = roomtypes[widget.index].price;
+    // bookRequest.reservation.totalDivers =
+    //     Int64(roomtypes[widget.index].maxGuest);
+    // bookRequest.reservation.tripId = details[widget.index].id;
+    // bookRequest.reservation.rooms.add(roomtypes[widget.index]);
+
+    try {
+      var response = stub.createReservation(bookRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -313,10 +405,9 @@ class _InfoCardState extends State<InfoCard> {
         height: 320,
         width: 500,
         decoration: BoxDecoration(
-          // color: Colors.white,
-           color: Color(0xFFFF89cfef),
-            borderRadius: BorderRadius.circular(10)
-        ),
+            // color: Colors.white,
+            color: Color(0xFFFF89cfef),
+            borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
             SizedBox(width: 20),
@@ -334,44 +425,50 @@ class _InfoCardState extends State<InfoCard> {
             SizedBox(
               width: 20,
             ),
-            
             Column(
               children: [
                 SizedBox(
-              height: 40,
-            ),
+                  height: 40,
+                ),
                 Text('Room type : ' + roomtypes[widget.index].name),
-                 SizedBox(
-              height: 20,
-            ),
-            Text('Room description: ' + roomtypes[widget.index].description),
-            SizedBox(
-              height: 20,
-            ),
-            Text('Max capacity : ' +
-                roomtypes[widget.index].maxGuest.toString()),
-            SizedBox(
-              height: 20,
-            ),
-            Text('Room quantity : ' +
-                roomtypes[widget.index].quantity.toString()),
-            SizedBox(
-              height: 20,
-            ),
-            Text('Price : ' + roomtypes[widget.index].price.toString()),
-            SizedBox(
-              height: 20,
-            ),
-            RaisedButton(
-              onPressed: () {},
-              color: Colors.amber,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Text("Book"),
-            ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                    'Room description: ' + roomtypes[widget.index].description),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Max capacity : ' +
+                    roomtypes[widget.index].maxGuest.toString()),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Room quantity : ' +
+                    roomtypes[widget.index].quantity.toString()),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Price : ' + roomtypes[widget.index].price.toString()),
+                SizedBox(
+                  height: 20,
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    // print('bf');
+                    // bookTrips();
+                    // print('af');
+
+                    // final action = Dialogs.yesAbortDialog(context,
+                    //     "Do you want to book?", roomtypes[widget.index].name);
+                  },
+                  color: Colors.amber,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Text("Book"),
+                ),
               ],
             ),
-           
             SizedBox(
               height: 20,
             ),

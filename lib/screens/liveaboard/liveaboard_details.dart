@@ -2,6 +2,7 @@ import 'package:diving_trip_agency/controllers/menuController.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/liveaboard.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
@@ -14,7 +15,8 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
-
+GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
+var liveaboard;
 List<RoomType> roomtypes = [];
 class LiveaboardDetailScreen extends StatefulWidget {
   int index;
@@ -85,6 +87,7 @@ class _detailState extends State<detail> {
   }
 
    getData() async {
+     await getLiveaboardDetail();
     //print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -120,6 +123,29 @@ class _detailState extends State<detail> {
     return roomtypes;
   }
 
+  getLiveaboardDetail() async {
+    //print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = LiveaboardServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var liveaboardrequest = GetLiveaboardRequest();
+    liveaboardrequest.id =  details[widget.index].tripTemplate.liveaboardId;
+
+    liveaboard = await stub.getLiveaboard(liveaboardrequest);
+    liveaboardDetial = liveaboard;
+    
+    return liveaboardDetial.liveaboard.name;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -128,9 +154,8 @@ class _detailState extends State<detail> {
           title: "Liveaboard",
           color: Color(0xFFFF78a2cc),
         ),
-        Text("Liveaboard : " 
-        // +
-            // details[widget.index].tripTemplate.hotelId
+        Text("Liveaboard : " +  liveaboardDetial.liveaboard.name
+       
             ),
         SizedBox(
           height: 10,
