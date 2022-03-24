@@ -19,10 +19,6 @@ GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
 var liveaboard;
 List<RoomType> roomtypes = [];
 
-
-GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
-var liveaboard;
-List<RoomType> roomtypes = [];
 class LiveaboardDetailScreen extends StatefulWidget {
   int index;
   List<TripWithTemplate> details;

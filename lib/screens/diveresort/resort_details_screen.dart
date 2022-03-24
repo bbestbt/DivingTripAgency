@@ -31,7 +31,6 @@ var hotel;
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-
 class DiveResortDetailScreen extends StatefulWidget {
   int index;
   List<TripWithTemplate> details;
