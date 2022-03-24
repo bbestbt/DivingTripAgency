@@ -28,8 +28,10 @@ var profile;
 List<TripWithTemplate> details;
 GetHotelResponse hotelDetial = new GetHotelResponse();
 var hotel;
+
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final TextEditingController _textEditingController = TextEditingController();
+
 
 class DiveResortDetailScreen extends StatefulWidget {
   int index;
@@ -147,7 +149,9 @@ class _detailState extends State<detail> {
     final stub = HotelServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var hotelrequest = GetHotelRequest();
+
     hotelrequest.id = details[widget.index].tripTemplate.hotelId;
+
     // Int64(2);
     print(hotelrequest.id);
     hotel = await stub.getHotel(hotelrequest);
@@ -166,8 +170,10 @@ class _detailState extends State<detail> {
           color: Color(0xFFFF78a2cc),
         ),
         Text("Hotel : " +
+
             // details[widget.index].tripTemplate.hotelId.toString()),
             hotelDetial.hotel.name),
+
         SizedBox(
           height: 10,
         ),
@@ -229,10 +235,12 @@ class _detailState extends State<detail> {
         SizedBox(
           height: 10,
         ),
+
         Text("Price : " + details[widget.index].price.toString()),
         SizedBox(
           height: 10,
         ),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -327,6 +335,7 @@ class _detailState extends State<detail> {
                       }
                     },
                   ),
+
                 ),
               ],
             ),
@@ -464,6 +473,7 @@ class _InfoCardState extends State<InfoCard> {
             );
           });
         });
+
   }
 
   @override
@@ -522,12 +532,16 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
+
                   onPressed: () async {
+
                     // print('bf');
                     // bookTrips();
                     // print('af');
 
+
                     await showInformationDialog(context);
+
                   },
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
