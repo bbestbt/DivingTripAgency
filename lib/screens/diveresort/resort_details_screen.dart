@@ -25,11 +25,11 @@ import 'package:fixnum/fixnum.dart';
 List<RoomType> roomtypes = [];
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
-List<TripWithTemplate> details=[];
+List<TripWithTemplate> details;
 GetHotelResponse hotelDetial = new GetHotelResponse();
 var hotel;
-
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+final TextEditingController _textEditingController = TextEditingController();
 
 class DiveResortDetailScreen extends StatefulWidget {
   int index;
@@ -147,9 +147,7 @@ class _detailState extends State<detail> {
     final stub = HotelServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var hotelrequest = GetHotelRequest();
-
     hotelrequest.id = details[widget.index].tripTemplate.hotelId;
-
     // Int64(2);
     print(hotelrequest.id);
     hotel = await stub.getHotel(hotelrequest);
@@ -168,10 +166,8 @@ class _detailState extends State<detail> {
           color: Color(0xFFFF78a2cc),
         ),
         Text("Hotel : " +
-
             // details[widget.index].tripTemplate.hotelId.toString()),
             hotelDetial.hotel.name),
-
         SizedBox(
           height: 10,
         ),
@@ -233,12 +229,10 @@ class _detailState extends State<detail> {
         SizedBox(
           height: 10,
         ),
-
         Text("Price : " + details[widget.index].price.toString()),
         SizedBox(
           height: 10,
         ),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -333,7 +327,6 @@ class _detailState extends State<detail> {
                       }
                     },
                   ),
-
                 ),
               ],
             ),
@@ -379,7 +372,6 @@ class _InfoCardState extends State<InfoCard> {
 
     user_profile = profile;
     return user_profile;
-    
   }
 
   void bookTrips() async {
@@ -396,30 +388,27 @@ class _InfoCardState extends State<InfoCard> {
     final stub = ReservationServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    // var bookRequest = CreateReservationRequest();
-    // bookRequest.reservation.diverId = user_profile.diver.id;
-    // // bookRequest.reservation.price = roomtypes[widget.index].price+details[widget.index].price;
-    // bookRequest.reservation.totalDivers =
-    //     Int64(roomtypes[widget.index].maxGuest);
-    // bookRequest.reservation.tripId = details[widget.index].id;
-    // // bookRequest.reservation.rooms.add(roomtypes[widget.index]);
+    var bookRequest = CreateReservationRequest();
+    bookRequest.reservation.diverId = user_profile.diver.id;
+    bookRequest.reservation.price =
+        roomtypes[widget.index].price * int.parse(_textEditingController.text);
+    bookRequest.reservation.totalDivers =
+        Int64(roomtypes[widget.index].maxGuest);
+    bookRequest.reservation.tripId = details[widget.index].id;
+    // bookRequest.reservation.rooms.add(roomtypes[widget.index]);
 
-    // try {
-    //   var response = stub.createReservation(bookRequest);
-    //   print('response: ${response}');
-    // } catch (e) {
-    //   print(e);
-    // }
+    try {
+      var response = stub.createReservation(bookRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
   }
-
-
 
   Future<void> showInformationDialog(BuildContext context) async {
     return await showDialog(
         context: context,
         builder: (context) {
-          final TextEditingController _textEditingController =
-              TextEditingController();
           // bool isChecked = false;
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
@@ -461,8 +450,9 @@ class _InfoCardState extends State<InfoCard> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       // bookTrips();
-                      print(details[widget.index].price);
-                      print(roomtypes[widget.index].price);
+                      // print(details[widget.index].price);
+                      print(roomtypes[widget.index].price *
+                          int.parse(_textEditingController.text));
                       // print((roomtypes[widget.index].price+details[widget.index].price).toString());
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
@@ -474,7 +464,6 @@ class _InfoCardState extends State<InfoCard> {
             );
           });
         });
-
   }
 
   @override
@@ -533,16 +522,12 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
-
                   onPressed: () async {
-
                     // print('bf');
                     // bookTrips();
                     // print('af');
 
-
                     await showInformationDialog(context);
-
                   },
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
