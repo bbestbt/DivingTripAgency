@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:intl/intl.dart';
 
 List<TripWithTemplate> trips = [];
 GetProfileResponse user_profile = new GetProfileResponse();
@@ -151,13 +152,27 @@ class _UserProfileState extends State<UserProfile> {
                           ),
                           Text(
                             'Birthday : ' +
-                                user_profile.diver.birthDate
-                                    .toDateTime()
-                                    .toString(),
+                                DateFormat("dd/MM/yyyy").format(
+                                    user_profile.diver.birthDate.toDateTime()),
                             style: TextStyle(fontSize: 18),
                           ),
                           SizedBox(
                             height: 20,
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: RaisedButton(
+                                color: Colors.yellow,
+                                child: Text(
+                                  'Edit',
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              EditDiverScreen()));
+                                }),
                           ),
                         ],
                       ),
@@ -170,20 +185,6 @@ class _UserProfileState extends State<UserProfile> {
             ),
           ),
 
-          Align(
-            alignment: Alignment.center,
-            child: RaisedButton(
-                color: Colors.yellow,
-                child: Text(
-                  'Edit',
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EditDiverScreen()));
-                }),
-          ),
           SizedBox(
             height: 20,
           ),
@@ -214,7 +215,8 @@ class _UserProfileState extends State<UserProfile> {
                                 ),
                               ))));
                 } else {
-                  return Text('No data');
+                  return Align(
+                      alignment: Alignment.center, child: Text('No data'));
                 }
               },
             ),
