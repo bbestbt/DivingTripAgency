@@ -15,6 +15,7 @@ import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/components/side_menu.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -24,9 +25,10 @@ import 'package:fixnum/fixnum.dart';
 List<RoomType> roomtypes = [];
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
-List<TripWithTemplate> details;
+List<TripWithTemplate> details=[];
 GetHotelResponse hotelDetial = new GetHotelResponse();
 var hotel;
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
 class DiveResortDetailScreen extends StatefulWidget {
   int index;
@@ -144,12 +146,12 @@ class _detailState extends State<detail> {
     final stub = HotelServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var hotelrequest = GetHotelRequest();
-    hotelrequest.id =  details[widget.index].tripTemplate.hotelId;
+    hotelrequest.id = details[widget.index].tripTemplate.hotelId;
     // Int64(2);
     print(hotelrequest.id);
     hotel = await stub.getHotel(hotelrequest);
     hotelDetial = hotel;
-    
+
     print(hotelDetial.hotel.name);
     return hotelDetial.hotel.name;
   }
@@ -163,8 +165,8 @@ class _detailState extends State<detail> {
           color: Color(0xFFFF78a2cc),
         ),
         Text("Hotel : " +
-        // details[widget.index].tripTemplate.hotelId.toString()),
-        hotelDetial.hotel.name),
+            // details[widget.index].tripTemplate.hotelId.toString()),
+            hotelDetial.hotel.name),
         SizedBox(
           height: 10,
         ),
@@ -223,6 +225,10 @@ class _detailState extends State<detail> {
           height: 10,
         ),
         Text("Description : " + details[widget.index].tripTemplate.description),
+        SizedBox(
+          height: 10,
+        ),
+        Text("Price : " + details[widget.index].price.toString()),
         SizedBox(
           height: 10,
         ),
@@ -364,8 +370,8 @@ class _InfoCardState extends State<InfoCard> {
     profile = await pf.getProfile(new Empty());
 
     user_profile = profile;
-
     return user_profile;
+    
   }
 
   void bookTrips() async {
@@ -382,20 +388,84 @@ class _InfoCardState extends State<InfoCard> {
     final stub = ReservationServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    var bookRequest = CreateReservationRequest();
+    // var bookRequest = CreateReservationRequest();
     // bookRequest.reservation.diverId = user_profile.diver.id;
-    // bookRequest.reservation.price = roomtypes[widget.index].price;
+    // // bookRequest.reservation.price = roomtypes[widget.index].price+details[widget.index].price;
     // bookRequest.reservation.totalDivers =
     //     Int64(roomtypes[widget.index].maxGuest);
     // bookRequest.reservation.tripId = details[widget.index].id;
-    // bookRequest.reservation.rooms.add(roomtypes[widget.index]);
+    // // bookRequest.reservation.rooms.add(roomtypes[widget.index]);
 
-    try {
-      var response = stub.createReservation(bookRequest);
-      print('response: ${response}');
-    } catch (e) {
-      print(e);
-    }
+    // try {
+    //   var response = stub.createReservation(bookRequest);
+    //   print('response: ${response}');
+    // } catch (e) {
+    //   print(e);
+    // }
+  }
+
+
+
+  Future<void> showInformationDialog(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          final TextEditingController _textEditingController =
+              TextEditingController();
+          // bool isChecked = false;
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              content: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        controller: _textEditingController,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Invalid Field";
+                        },
+                        decoration:
+                            InputDecoration(hintText: "Enter room quantity"),
+                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Text("Confirmation"),
+                      //     Checkbox(
+                      //         value: isChecked,
+                      //         onChanged: (checked) {
+                      //           setState(() {
+                      //             isChecked = checked;
+                      //           });
+                      //         })
+                      //   ],
+                      // )
+                    ],
+                  )),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Confirm'),
+                  onPressed: () {
+                    if (_formKey.currentState.validate()) {
+                      // bookTrips();
+                      print(details[widget.index].price);
+                      print(roomtypes[widget.index].price);
+                      // print((roomtypes[widget.index].price+details[widget.index].price).toString());
+                      // Do something like updating SharedPreferences or User Settings etc.
+                      Navigator.of(context).pop();
+                      print('done');
+                    }
+                  },
+                ),
+              ],
+            );
+          });
+        });
   }
 
   @override
@@ -454,13 +524,12 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // print('bf');
                     // bookTrips();
                     // print('af');
 
-                    // final action = Dialogs.yesAbortDialog(context,
-                    //     "Do you want to book?", roomtypes[widget.index].name);
+                    await showInformationDialog(context);
                   },
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(

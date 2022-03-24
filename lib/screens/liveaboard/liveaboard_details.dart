@@ -18,6 +18,7 @@ import 'package:fixnum/fixnum.dart';
 GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
 var liveaboard;
 List<RoomType> roomtypes = [];
+
 class LiveaboardDetailScreen extends StatefulWidget {
   int index;
   List<TripWithTemplate> details;
@@ -33,8 +34,7 @@ class LiveaboardDetailScreen extends StatefulWidget {
 class _LiveaboardDetailScreenState extends State<LiveaboardDetailScreen> {
   int index;
   List<TripWithTemplate> details;
-  _LiveaboardDetailScreenState(
-      int index, List<TripWithTemplate> details) {
+  _LiveaboardDetailScreenState(int index, List<TripWithTemplate> details) {
     this.index = index;
     this.details = details;
     //  print(index.toString());
@@ -86,8 +86,8 @@ class _detailState extends State<detail> {
     this.details = details;
   }
 
-   getData() async {
-     await getLiveaboardDetail();
+  getData() async {
+    await getLiveaboardDetail();
     //print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -104,9 +104,10 @@ class _detailState extends State<detail> {
     var listroomrequest = ListRoomTypesRequest();
     listroomrequest.limit = Int64(20);
     listroomrequest.offset = Int64(0);
-    listroomrequest.liveaboardId =  details[widget.index].tripTemplate.liveaboardId;
+    listroomrequest.liveaboardId =
+        details[widget.index].tripTemplate.liveaboardId;
     // Int64(2);
-   
+
     roomtypes.clear();
     print('test');
     try {
@@ -137,14 +138,13 @@ class _detailState extends State<detail> {
     final stub = LiveaboardServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var liveaboardrequest = GetLiveaboardRequest();
-    liveaboardrequest.id =  details[widget.index].tripTemplate.liveaboardId;
+    liveaboardrequest.id = details[widget.index].tripTemplate.liveaboardId;
 
     liveaboard = await stub.getLiveaboard(liveaboardrequest);
     liveaboardDetial = liveaboard;
-    
+
     return liveaboardDetial.liveaboard.name;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -154,9 +154,7 @@ class _detailState extends State<detail> {
           title: "Liveaboard",
           color: Color(0xFFFF78a2cc),
         ),
-        Text("Liveaboard : " +  liveaboardDetial.liveaboard.name
-       
-            ),
+        Text("Liveaboard : " + liveaboardDetial.liveaboard.name),
         SizedBox(
           height: 10,
         ),
@@ -211,32 +209,21 @@ class _detailState extends State<detail> {
                 details[widget.index].tripTemplate.address.postcode),
           ],
         ),
-         SizedBox(
+        SizedBox(
           height: 10,
         ),
         Text("Description : " + details[widget.index].tripTemplate.description),
         SizedBox(
           height: 10,
         ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     Text('Length : 8 '),
-        //      SizedBox(
-        //   width: 20,
-        // ),
-        // Text('Width : 7'),
-        //   ],
-        // ),
-
-      
-        Text('Total capacity : ' + details[widget.index].maxGuest.toString()),
-
+        Text("Price : " + details[widget.index].price.toString()),
         SizedBox(
           height: 10,
         ),
-        // Image.asset("assets/images/S__77242370.jpg"),
-
+        Text('Total capacity : ' + details[widget.index].maxGuest.toString()),
+        SizedBox(
+          height: 10,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -284,11 +271,10 @@ class _detailState extends State<detail> {
                         .toString())),
           ],
         ),
-       
         SizedBox(
           height: 20,
         ),
-          Container(
+        Container(
           // decoration: BoxDecoration(
           //     color: Color(0xFFFF89cfef),
           //     borderRadius: BorderRadius.circular(10)),
@@ -327,56 +313,6 @@ class _detailState extends State<detail> {
             ),
           ),
         ),
-        // Container(
-        //   decoration: BoxDecoration(
-        //       color: Color(0xFFFF8edfff),
-        //       borderRadius: BorderRadius.circular(10)),
-        //   child: Column(
-        //     children: [
-        //       SizedBox(height: 20),
-        //       Padding(
-        //         padding: const EdgeInsets.all(10),
-        //         child: Image.asset("assets/images/S__77242370.jpg"),
-        //       ),
-        //       SizedBox(
-        //         height: 20,
-        //       ),
-        //       Text('Room type : Single Room'),
-        //       SizedBox(
-        //         height: 20,
-        //       ),
-        //       Text(
-        //           'Room description : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore'),
-        //       SizedBox(
-        //         height: 20,
-        //       ),
-        //       Text('Max capacity : 3'),
-        //       SizedBox(
-        //         height: 20,
-        //       ),
-        //       Text('Room quantity : 10'),
-        //       SizedBox(height: 20),
-        //       Column(
-        //         children: [
-        //           Text('Price : ' + details[widget.index].price.toString()),
-        //           SizedBox(
-        //             height: 20,
-        //           ),
-        //           RaisedButton(
-        //             onPressed: () {},
-        //             color: Colors.amber,
-        //             shape: RoundedRectangleBorder(
-        //                 borderRadius: BorderRadius.circular(10)),
-        //             child: Text("Book"),
-        //           ),
-        //           SizedBox(
-        //             height: 20,
-        //           ),
-        //         ],
-        //       ),
-        //     ],
-        //   ),
-        // ),
         SizedBox(
           height: 20,
         ),
@@ -408,10 +344,9 @@ class _InfoCardState extends State<InfoCard> {
         height: 320,
         width: 500,
         decoration: BoxDecoration(
-          // color: Colors.white,
-           color: Color(0xFFFF89cfef),
-            borderRadius: BorderRadius.circular(10)
-        ),
+            // color: Colors.white,
+            color: Color(0xFFFF89cfef),
+            borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
             SizedBox(width: 20),
@@ -429,44 +364,43 @@ class _InfoCardState extends State<InfoCard> {
             SizedBox(
               width: 20,
             ),
-            
             Column(
               children: [
                 SizedBox(
-              height: 40,
-            ),
+                  height: 40,
+                ),
                 Text('Room type : ' + roomtypes[widget.index].name),
-                 SizedBox(
-              height: 20,
-            ),
-            Text('Room description: ' + roomtypes[widget.index].description),
-            SizedBox(
-              height: 20,
-            ),
-            Text('Max capacity : ' +
-                roomtypes[widget.index].maxGuest.toString()),
-            SizedBox(
-              height: 20,
-            ),
-            Text('Room quantity : ' +
-                roomtypes[widget.index].quantity.toString()),
-            SizedBox(
-              height: 20,
-            ),
-            Text('Price : ' + roomtypes[widget.index].price.toString()),
-            SizedBox(
-              height: 20,
-            ),
-            RaisedButton(
-              onPressed: () {},
-              color: Colors.amber,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Text("Book"),
-            ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                    'Room description: ' + roomtypes[widget.index].description),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Max capacity : ' +
+                    roomtypes[widget.index].maxGuest.toString()),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Room quantity : ' +
+                    roomtypes[widget.index].quantity.toString()),
+                SizedBox(
+                  height: 20,
+                ),
+                Text('Price : ' + roomtypes[widget.index].price.toString()),
+                SizedBox(
+                  height: 20,
+                ),
+                RaisedButton(
+                  onPressed: () {},
+                  color: Colors.amber,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Text("Book"),
+                ),
               ],
             ),
-           
             SizedBox(
               height: 20,
             ),
