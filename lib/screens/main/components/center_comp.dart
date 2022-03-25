@@ -5,17 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 
-
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
+
 class CenterCompanySection extends StatefulWidget {
   @override
   State<CenterCompanySection> createState() => _CenterCompanySectionState();
 }
 
 class _CenterCompanySectionState extends State<CenterCompanySection> {
-
-   getProfile() async {
+  getProfile() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -28,18 +27,17 @@ class _CenterCompanySectionState extends State<CenterCompanySection> {
     final pf = AccountClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     profile = await pf.getProfile(new Empty());
-    
+
     user_profile = profile;
     print('test');
     print(user_profile.agency.name);
- 
+
     return user_profile;
-    
   }
 
   @override
   Widget build(BuildContext context) {
-    getProfile();
+    // getProfile();
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
         child: Container(
@@ -48,11 +46,34 @@ class _CenterCompanySectionState extends State<CenterCompanySection> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Welcome '+user_profile.agency.name+ ' agency',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Colors.black)),
+            SizedBox(
+              child: FutureBuilder(
+                future: getProfile(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Center(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Text(
+                                'Welcome ' +
+                                    user_profile.agency.name +
+                                    ' agency',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                    color: Colors.black)),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Text('User is not logged in.');
+                  }
+                },
+              ),
+            ),
+
             // Padding(
             //   padding: const EdgeInsets.symmetric(vertical: 20),
             //   child: Text(
@@ -60,7 +81,7 @@ class _CenterCompanySectionState extends State<CenterCompanySection> {
             //     style: TextStyle(fontSize: 16),
             //   ),
             // ),
-            SizedBox(height:20),
+            SizedBox(height: 20),
             // MaterialButton(
             //   color: Colors.white,
             //   shape: RoundedRectangleBorder(
@@ -87,7 +108,7 @@ class _CenterCompanySectionState extends State<CenterCompanySection> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-             Color(0xfffcfecd0),
+            Color(0xfffcfecd0),
             Color(0xfffffc5ca),
           ])),
     ));
