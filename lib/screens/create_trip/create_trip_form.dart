@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/screens/create_trip/addDiveSite.dart';
 import 'package:diving_trip_agency/screens/create_trip/trip_template.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
@@ -46,6 +47,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   DateTime from;
   DateTime to;
   DateTime last;
+  List<DiveSite> pinkValue = [new DiveSite()];
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -65,7 +67,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   void initState() {
     // TODO: implement initState
     super.initState();
-   loadData();
+    loadData();
   }
 
   void loadData() async {
@@ -99,12 +101,24 @@ class _CreateTripFormState extends State<CreateTripForm> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var trip = Trip();
-    trip.startDate= Timestamp.fromDateTime(from);
+    trip.startDate = Timestamp.fromDateTime(from);
     trip.endDate = Timestamp.fromDateTime(to);
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
     trip.price = double.parse(_controllerPrice.text);
     trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
+
+    for (int i = 0; i < pinkValue.length; i++) {
+      var divesite = DiveSite();
+      divesite.name = pinkValue[i].name;
+      divesite.description = pinkValue[i].description;
+      divesite.maxDepth = pinkValue[i].maxDepth;
+      divesite.minDepth = pinkValue[i].minDepth;
+
+      trip.diveSites.add(divesite);
+    }
+
+    var hotelRequest = AddHotelRequest();
 
     var tripRequest = AddTripRequest();
     tripRequest.trip = trip;
@@ -150,7 +164,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-   var divemasterrequest = ListDiveMastersRequest();
+    var divemasterrequest = ListDiveMastersRequest();
 
     try {
       // var response = await stub.listBoats(boatrequest);
@@ -182,6 +196,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
               Text('From'),
               Spacer(),
               //  Text(from == null ? '' : from.toString()),
+              Text(from == null
+                          ? ''
+                          : DateFormat("dd/MM/yyyy").format(from)),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
@@ -208,6 +225,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
               Text('To'),
               Spacer(),
               // Text(to == null ? '' : to.toString()),
+              Text(to == null
+                          ? ''
+                          : DateFormat("dd/MM/yyyy").format(to)),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
@@ -216,7 +236,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
                     showDatePicker(
                             context: context,
                             initialDate: from,
-                            firstDate:from,
+                            firstDate: from,
                             lastDate: DateTime(2023))
                         .then((date) => {
                               setState(() {
@@ -239,21 +259,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
               ),
               Spacer(),
               // Text(to == null ? '' : to.toString()),
+              Text(last == null
+                          ? ''
+                          : DateFormat("dd/MM/yyyy").format(last)),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
                   child: Container(
-                      constraints: const BoxConstraints(
-                          minWidth: 70.0, minHeight: 36.0),
+                      constraints:
+                          const BoxConstraints(minWidth: 70.0, minHeight: 36.0),
                       alignment: Alignment.center,
                       child: Center(child: Text('Pick a date'))),
-
                   onPressed: () {
                     showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime.now(),
-                            lastDate: from.subtract(Duration(days:1 )))
+                            lastDate: from.subtract(Duration(days: 1)))
                         .then((date) => {
                               setState(() {
                                 var timeStamp =
@@ -290,6 +312,16 @@ class _CreateTripFormState extends State<CreateTripForm> {
           SizedBox(height: 20),
           buildTotalPeopleFormField(),
           SizedBox(height: 20),
+           Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xffffee1e8),
+                borderRadius: BorderRadius.circular(10)),
+            child: AddMoreDiveSite(this.pinkValue,
+      
+             ),
+          ),
+           SizedBox(height: 20),
           Container(
               width: MediaQuery.of(context).size.width / 1.5,
               decoration: BoxDecoration(

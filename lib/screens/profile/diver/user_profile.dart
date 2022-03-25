@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:intl/intl.dart';
 
 List<TripWithTemplate> trips = [];
 GetProfileResponse user_profile = new GetProfileResponse();
@@ -151,9 +152,8 @@ class _UserProfileState extends State<UserProfile> {
                           ),
                           Text(
                             'Birthday : ' +
-                                user_profile.diver.birthDate
-                                    .toDateTime()
-                                    .toString(),
+                                DateFormat("dd/MM/yyyy").format(
+                                    user_profile.diver.birthDate.toDateTime()),
                             style: TextStyle(fontSize: 18),
                           ),
                           SizedBox(

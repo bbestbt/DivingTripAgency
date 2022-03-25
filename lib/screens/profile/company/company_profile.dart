@@ -38,6 +38,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
     profile = await pf.getProfile(new Empty());
     // print(profile);
     user_profile = profile;
+    // print(0);
     // print(user_profile.agency.account.email);
     // print(user_profile.agency.phone);
     // print(user_profile.agency.name);
@@ -48,6 +49,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
     // print(user_profile.agency.address.country);
     // print(user_profile.agency.address.region);
     // print(user_profile.agency.address.postcode);
+    // print(1);
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
