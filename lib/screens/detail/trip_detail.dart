@@ -195,7 +195,10 @@ class _TripDetailState extends State<TripDetail> {
                     children: [
                       Text('Start Date'),
                       Spacer(),
-                      Text(_dateFrom == null ? '' : _dateFrom.toString()),
+                      // Text(_dateFrom == null ? '' : _dateFrom.toString()),
+                       Text(_dateFrom == null
+                          ? ''
+                          : DateFormat("dd/MM/yyyy").format(_dateFrom)),
                       Spacer(),
                       RaisedButton(
                           color: Color(0xfff8dd9cc),
@@ -221,7 +224,10 @@ class _TripDetailState extends State<TripDetail> {
                     children: [
                       Text('To'),
                       Spacer(),
-                      Text(_dateTo == null ? '' : _dateTo.toString()),
+                      // Text(_dateTo == null ? '' : _dateTo.toString()),
+                       Text(_dateTo == null
+                          ? ''
+                          : DateFormat("dd/MM/yyyy").format(_dateFrom)),
                       Spacer(),
                       RaisedButton(
                           color: Color(0xfff8dd9cc),
@@ -618,108 +624,7 @@ class _TripDetailState extends State<TripDetail> {
     }
   }
 }
-//   void _runFilter() {
-//     List<TripWithTemplate> results = [];
-//     print("_diff: " + _diff.toString());
-//     if (dropdownValue == "All" &&
-//         _dateFrom == null &&
-//         _dateTo == null &&
-//         guestvalue == null &&
-//         _diff == "" &&
-//         tripcost == Cost.all) {
-//       print("Filtering 1");
 
-//       // if the search field is empty or only contains white-space, we'll display all users
-//       results = trips;
-//       //results[0].tripTemplate.tripType.toString();
-//       setState(() {
-//         _foundtrip = results;
-//       });
-//     } else {
-//       //print("Guestvalue" + guestvalue.toString());
-//       results = trips;
-//       setState(() {
-//         _foundtrip = results;
-//       });
-//       //print(_dateFrom);
-//       //print(results[0].fromDate.toDateTime());
-//       //print(results[1].fromDate.toDateTime());
-
-//       if (dropdownValue != "All") {
-//         print("Filtering 2");
-//         results = results
-//             .where((trip) =>
-//                 trip.tripTemplate.address.city.contains(dropdownValue))
-//             .toList();
-//       }
-//       if (_dateFrom != null) {
-//         results = results
-//             .where((trip) => trip.fromDate.toDateTime().isAfter(_dateFrom))
-//             .toList();
-//         //print(_dateFrom);
-//         //print(results[0].fromDate.toDateTime());
-//         //print(results[0].fromDate.toDateTime().isAfter(_dateFrom));
-//       }
-//       if (_dateTo != null) {
-//         results = results
-//             .where((trip) => trip.toDate
-//                 .toDateTime()
-//                 .subtract(Duration(days: 1))
-//                 .isBefore(_dateTo))
-//             .toList();
-//       }
-
-//       if (guestvalue != null) {
-//         results = results.where((trip) => trip.maxGuest <= guestvalue).toList();
-//         //print(results[0].maxGuest);
-//       }
-//       if (dropdownValue2 != "All") {
-//         if (dropdownValue2 == "Onshore") {
-//           results = results
-//               .where(
-//                   (trip) => trip.tripTemplate.tripType.toString() == "ONSHORE")
-//               .toList();
-//         } else {
-//           results = results
-//               .where(
-//                   (trip) => trip.tripTemplate.tripType.toString() == "OFFSHORE")
-//               .toList();
-//         }
-//       }
-//       if (_diff != "") {
-//         //print(_diff);
-
-//         results = results
-//             .where((trip) =>
-//                 (trip.fromDate
-//                         .toDateTime()
-//                         .difference(trip.toDate.toDateTime())
-//                         .inDays)
-//                     .abs() ==
-//                 int.parse(_diff))
-//             .toList();
-//         //print((results[1].fromDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays).abs());
-//         //print(_diff);
-//       }
-// // Edit cost filter
-//       if (tripcost != Cost.all) {
-//         if (tripcost == Cost.one) {
-//           results = results.where((trip) => (trip.price <= 300)).toList();
-//         } else if (tripcost == Cost.two) {
-//           results = results.where((trip) => (trip.price <= 400)).toList();
-//         } else if (tripcost == Cost.three) {
-//           results = results.where((trip) => (trip.price <= 500)).toList();
-//         } else if (tripcost == Cost.more) {
-//           results = results.where((trip) => (trip.price > 500)).toList();
-//         }
-//       }
-
-//       setState(() {
-//         _foundtrip = results;
-//       });
-//     }
-//   }
-// }
 
 class InfoCard extends StatefulWidget {
   InfoCard({

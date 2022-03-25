@@ -486,7 +486,7 @@ class _InfoCardState extends State<InfoCard> {
                     ? new Container(
                         color: Colors.green,
                       )
-                    : Image.network(' http://139.59.101.136/static/' +
+                    : Image.network('http://139.59.101.136/static/' +
                             roomtypes[widget.index].roomImages[0].toString()
                         // trips[widget.index].tripTemplate.images[0].toString()
                         )),

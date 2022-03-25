@@ -12,6 +12,7 @@ import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class SignupDiverForm extends StatefulWidget {
   @override
@@ -224,6 +225,9 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
               Text('Birthday'),
               Spacer(),
               //  Text(_dateTime == null ? '' : _dateTime.toString()),
+               Text(_dateTime == null
+                          ? ''
+                          : DateFormat("dd/MM/yyyy").format(_dateTime)),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),

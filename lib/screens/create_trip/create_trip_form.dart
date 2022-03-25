@@ -196,6 +196,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
               Text('From'),
               Spacer(),
               //  Text(from == null ? '' : from.toString()),
+              Text(from == null
+                          ? ''
+                          : DateFormat("dd/MM/yyyy").format(from)),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
@@ -222,6 +225,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
               Text('To'),
               Spacer(),
               // Text(to == null ? '' : to.toString()),
+              Text(to == null
+                          ? ''
+                          : DateFormat("dd/MM/yyyy").format(to)),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
@@ -253,6 +259,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
               ),
               Spacer(),
               // Text(to == null ? '' : to.toString()),
+              Text(last == null
+                          ? ''
+                          : DateFormat("dd/MM/yyyy").format(last)),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
