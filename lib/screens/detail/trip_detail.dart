@@ -80,7 +80,7 @@ class _TripDetailState extends State<TripDetail> {
     try {
       await for (var feature in stub.listValidTrips(listtriprequest)) {
         trips.add(feature.trip);
-        print(trips);
+        // print(trips);
       }
     } catch (e) {
       print('ERROR: $e');
@@ -454,7 +454,7 @@ class _TripDetailState extends State<TripDetail> {
             type: MaterialType.transparency,
             child: SingleChildScrollView(
               child: Container(
-                //   margin: EdgeInsetsDirectional.only(top:120),
+                  // margin: EdgeInsetsDirectional.only(top:120),
                 width: screenwidth * 0.05,
                 // height: 600,
                 decoration:
@@ -663,7 +663,7 @@ class _InfoCardState extends State<InfoCard> {
                     ? new Container(
                         color: Colors.pink,
                       )
-                    : Image.network(
+                    : Image.network('http://139.59.101.136/static/'+
                         // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
                         _foundtrip[widget.index]
                             .tripTemplate
