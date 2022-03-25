@@ -98,7 +98,7 @@ class _detailState extends State<detail> {
 
   getData() async {
     //print("before try catch");
-    await getHotelDetail();
+    // await getHotelDetail();
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -165,9 +165,25 @@ class _detailState extends State<detail> {
           title: "Dive resorts",
           color: Color(0xFFFF78a2cc),
         ),
-        Text("Hotel : " +
-            // details[widget.index].tripTemplate.hotelId.toString()),
-            hotelDetial.hotel.name),
+        SizedBox(
+          width: 1110,
+          child: FutureBuilder(
+            future: getHotelDetail(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Center(
+                  child: Text("Hotel : " +
+                      // details[widget.index].tripTemplate.hotelId.toString()),
+                      hotelDetial.hotel.name),
+                );
+              } else {
+                return Align(
+                    alignment: Alignment.center, child: Text('No name'));
+              }
+            },
+          ),
+        ),
+
         SizedBox(
           height: 10,
         ),
@@ -244,12 +260,12 @@ class _detailState extends State<detail> {
                         color: Colors.pink,
                       )
                     : Image.network(
-                      // 'http://139.59.101.136/static/'+
-                      details[widget.index]
-                        .tripTemplate
-                        .images[0]
-                        .link
-                        .toString())),
+                        // 'http://139.59.101.136/static/'+
+                        details[widget.index]
+                            .tripTemplate
+                            .images[0]
+                            .link
+                            .toString())),
             SizedBox(
               width: 10,
             ),
@@ -261,12 +277,12 @@ class _detailState extends State<detail> {
                         color: Colors.pink,
                       )
                     : Image.network(
-                      // 'http://139.59.101.136/static/'+
-                      details[widget.index]
-                        .tripTemplate
-                        .images[1]
-                        .link
-                        .toString())),
+                        // 'http://139.59.101.136/static/'+
+                        details[widget.index]
+                            .tripTemplate
+                            .images[1]
+                            .link
+                            .toString())),
             SizedBox(
               width: 10,
             ),
@@ -278,12 +294,12 @@ class _detailState extends State<detail> {
                         color: Colors.pink,
                       )
                     : Image.network(
-                      // 'http://139.59.101.136/static/'+
-                      details[widget.index]
-                        .tripTemplate
-                        .images[2]
-                        .link
-                        .toString())),
+                        // 'http://139.59.101.136/static/'+
+                        details[widget.index]
+                            .tripTemplate
+                            .images[2]
+                            .link
+                            .toString())),
           ],
         ),
         SizedBox(
@@ -493,8 +509,8 @@ class _InfoCardState extends State<InfoCard> {
                         color: Colors.green,
                       )
                     : Image.network(
-                      // 'http://139.59.101.136/static/' +
-                            roomtypes[widget.index].roomImages[0].link.toString()
+                        // 'http://139.59.101.136/static/' +
+                        roomtypes[widget.index].roomImages[0].link.toString()
                         // trips[widget.index].tripTemplate.images[0].toString()
                         )),
             SizedBox(
