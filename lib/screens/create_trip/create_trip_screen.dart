@@ -18,18 +18,19 @@ class CreateTrip extends StatelessWidget {
       drawer: CompanyHamburger(),
       body: SingleChildScrollView(
         child: Container(
-           width: double.infinity,
+          width: double.infinity,
           // height: 600,
-          decoration: BoxDecoration(color: Color(0xfffbbdfbc).withOpacity(0.3)),
+          // decoration: BoxDecoration(color: Color(0xfffbbdfbc).withOpacity(0.3)),
+          decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
           child: Column(
             children: [
               HeaderCompany(),
               SizedBox(height: 50),
-                SectionTitle(
-                  title: "Create Trip",
-                  color: Color(0xFFFF78a2cc),
-                ),
-                 SizedBox(
+              SectionTitle(
+                title: "Create Trip",
+                color: Color(0xFFFF78a2cc),
+              ),
+              SizedBox(
                 height: 30,
               ),
               Container(

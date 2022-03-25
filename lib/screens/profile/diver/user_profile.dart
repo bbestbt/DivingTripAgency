@@ -162,7 +162,10 @@ class _UserProfileState extends State<UserProfile> {
                           Align(
                             alignment: Alignment.center,
                             child: RaisedButton(
-                                color: Colors.yellow,
+                                // color: Colors.yellow,
+                                  color: Colors.blue[300],
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
                                 child: Text(
                                   'Edit',
                                 ),
