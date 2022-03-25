@@ -153,7 +153,7 @@ class _detailState extends State<detail> {
     hotel = await stub.getHotel(hotelrequest);
     hotelDetial = hotel;
 
-    print(hotelDetial.hotel.name);
+    // print(hotelDetial.hotel.name);
     return hotelDetial.hotel.name;
   }
 
@@ -243,7 +243,8 @@ class _detailState extends State<detail> {
                     ? new Container(
                         color: Colors.pink,
                       )
-                    : Image.network('http://139.59.101.136/static/'+
+                    : Image.network(
+                      // 'http://139.59.101.136/static/'+
                       details[widget.index]
                         .tripTemplate
                         .images[0]
@@ -259,7 +260,8 @@ class _detailState extends State<detail> {
                     ? new Container(
                         color: Colors.pink,
                       )
-                    : Image.network('http://139.59.101.136/static/'+
+                    : Image.network(
+                      // 'http://139.59.101.136/static/'+
                       details[widget.index]
                         .tripTemplate
                         .images[1]
@@ -275,7 +277,8 @@ class _detailState extends State<detail> {
                     ? new Container(
                         color: Colors.pink,
                       )
-                    : Image.network('http://139.59.101.136/static/'+
+                    : Image.network(
+                      // 'http://139.59.101.136/static/'+
                       details[widget.index]
                         .tripTemplate
                         .images[2]
@@ -489,7 +492,8 @@ class _InfoCardState extends State<InfoCard> {
                     ? new Container(
                         color: Colors.green,
                       )
-                    : Image.network('http://139.59.101.136/static/' +
+                    : Image.network(
+                      // 'http://139.59.101.136/static/' +
                             roomtypes[widget.index].roomImages[0].link.toString()
                         // trips[widget.index].tripTemplate.images[0].toString()
                         )),

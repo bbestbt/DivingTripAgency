@@ -663,7 +663,8 @@ class _InfoCardState extends State<InfoCard> {
                     ? new Container(
                         color: Colors.pink,
                       )
-                    : Image.network('http://139.59.101.136/static/'+
+                    : Image.network(
+                      // 'http://139.59.101.136/static/'+
                         // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
                         _foundtrip[widget.index]
                             .tripTemplate

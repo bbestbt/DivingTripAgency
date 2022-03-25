@@ -325,7 +325,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
                                   color: Colors.blue,
                                 )
                               : Image.network(
-                                  // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                  // 'http://139.59.101.136/static/'+
                                   user_profile.diver.documents[0].link
                                       .toString())),
                       Center(
@@ -375,6 +375,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
                                   color: Colors.green,
                                 )
                               : Image.network(
+                                // 'http://139.59.101.136/static/'+
                                   // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
                                   user_profile.diver.documents[1].link
                                       .toString())),
