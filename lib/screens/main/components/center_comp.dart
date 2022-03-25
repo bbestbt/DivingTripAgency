@@ -1,8 +1,45 @@
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:flutter/material.dart';
+import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 
-class CenterCompanySection extends StatelessWidget {
+
+GetProfileResponse user_profile = new GetProfileResponse();
+var profile;
+class CenterCompanySection extends StatefulWidget {
+  @override
+  State<CenterCompanySection> createState() => _CenterCompanySectionState();
+}
+
+class _CenterCompanySectionState extends State<CenterCompanySection> {
+
+   getProfile() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final pf = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    profile = await pf.getProfile(new Empty());
+    
+    user_profile = profile;
+    print('test');
+    print(user_profile.agency.name);
+ 
+    return user_profile;
+    
+  }
+
   @override
   Widget build(BuildContext context) {
+    getProfile();
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
         child: Container(
@@ -11,7 +48,7 @@ class CenterCompanySection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Welcome agency',
+            Text('Welcome '+user_profile.agency.name+ ' agency',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
@@ -24,21 +61,21 @@ class CenterCompanySection extends StatelessWidget {
             //   ),
             // ),
             SizedBox(height:20),
-            MaterialButton(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              onPressed: () {},
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Text(
-                  'All Detail',
-                  style: TextStyle(color: Colors.green, fontSize: 12),
-                ),
-              ),
-            )
+            // MaterialButton(
+            //   color: Colors.white,
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.all(Radius.circular(20)),
+            //   ),
+            //   onPressed: () {},
+            //   child: Padding(
+            //     padding:
+            //         const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            //     child: Text(
+            //       'All Detail',
+            //       style: TextStyle(color: Colors.green, fontSize: 12),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
