@@ -13,7 +13,7 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
-List<TripWithTemplate> trips = [];
+List<GenerateCurrentTripsReportResponse_ReportTrip> trips = [];
 // GetProfileResponse user_profile = new GetProfileResponse();
 // var profile;
 // Map<String, dynamic> tripMap = {};
@@ -24,7 +24,7 @@ class CompanyReport extends StatefulWidget {
 }
 
 class _CompanyReportState extends State<CompanyReport> {
-  getTrip() async {
+  getValidTrip() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -34,21 +34,24 @@ class _CompanyReportState extends State<CompanyReport> {
     final box = Hive.box('userInfo');
     String token = box.get('token');
 
-    final stub = TripServiceClient(channel,
+    final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var listtriprequest = ListValidTripsRequest();
-    listtriprequest.limit = Int64(20);
-    listtriprequest.offset = Int64(0);
+    var listvalidtriprequest = GenerateCurrentTripsReportRequest();
+    listvalidtriprequest.limit = Int64(20);
+    listvalidtriprequest.offset = Int64(0);
     trips.clear();
-    try {
-      await for (var feature in stub.listValidTrips(listtriprequest)) {
-        trips.add(feature.trip);
-        // print(trips);
+     try {
+      //  print('test');
+      await for (var feature in stub.generateCurrentTripsReport(listvalidtriprequest)) {
+        //print(feature.trip);
+        trips.add(feature.report);
+        print(trips);
+        // print(trips.length);
       }
     } catch (e) {
       print('ERROR: $e');
     }
-
+    // print(trips);
     return trips;
   }
 
@@ -75,7 +78,7 @@ class _CompanyReportState extends State<CompanyReport> {
           SizedBox(
             width: 1110,
             child: FutureBuilder(
-              future: getTrip(),
+              future: getValidTrip(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Center(
@@ -84,7 +87,7 @@ class _CompanyReportState extends State<CompanyReport> {
                               spacing: 20,
                               runSpacing: 40,
                               children: List.generate(
-                                trips.length ~/ 2,
+                                trips.length,
                                 (index) => Center(
                                   child: InfoCard(
                                     index: index,
@@ -110,31 +113,31 @@ class _CompanyReportState extends State<CompanyReport> {
                   style: TextStyle(fontSize: 20),
                 )),
           ),
-          SizedBox(
-            width: 1110,
-            child: FutureBuilder(
-              future: getTrip(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Center(
-                      child: Container(
-                          child: Wrap(
-                              spacing: 20,
-                              runSpacing: 40,
-                              children: List.generate(
-                                trips.length ~/ 2,
-                                (index) => Center(
-                                  child: InfoCard(
-                                    index: index,
-                                  ),
-                                ),
-                              ))));
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-          ),
+          // SizedBox(
+          //   width: 1110,
+          //   child: FutureBuilder(
+          //     future: getTrip(),
+          //     builder: (context, snapshot) {
+          //       if (snapshot.hasData) {
+          //         return Center(
+          //             child: Container(
+          //                 child: Wrap(
+          //                     spacing: 20,
+          //                     runSpacing: 40,
+          //                     children: List.generate(
+          //                       trips.length,
+          //                       (index) => Center(
+          //                         child: InfoCard(
+          //                           index: index,
+          //                         ),
+          //                       ),
+          //                     ))));
+          //       } else {
+          //         return CircularProgressIndicator();
+          //       }
+          //     },
+          //   ),
+          // ),
           SizedBox(height: 40,)
         ],
       ),
@@ -206,14 +209,14 @@ class _InfoCardState extends State<InfoCard> {
                         ),
                         Text('Start date : ' +
                             trips[widget.index]
-                                .fromDate
+                                .startDate
                                 .toDateTime()
                                 .toString()),
                         SizedBox(
                           height: 10,
                         ),
                         Text('End date : ' +
-                            trips[widget.index].toDate.toDateTime().toString()),
+                            trips[widget.index].endDate.toDateTime().toString()),
                         SizedBox(
                           height: 10,
                         ),
@@ -223,7 +226,7 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         Text('Number of divers left : ' +
-                            (trips[widget.index].maxGuest - 5).toString()),
+                            trips[widget.index].curentGuest.toString()),
                         SizedBox(
                           height: 10,
                         ),
