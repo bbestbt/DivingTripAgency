@@ -1,5 +1,6 @@
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pbenum.dart';
@@ -8,6 +9,7 @@ import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -59,7 +61,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
 
   void loadData() async {
     drop.forEach((element) {
-     // print(element);
+      // print(element);
     });
     //listDrop = [];
     listDrop = drop
@@ -92,7 +94,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       });
   }
 
-  void sendDiver()async {
+  void sendDiver() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -140,11 +142,26 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
     var accountRequest = AccountRequest();
     accountRequest.diver = diver;
 
+    var loginRequest = LoginRequest();
+    loginRequest.email = account.email;
+    loginRequest.password = account.password;
+
+    var box;
     try {
-      var response = stub.create(accountRequest);
+      var response = await stub.create(accountRequest);
       print('response: ${response}');
+      print('login');
+      await Hive.openBox('userInfo');
+      box = Hive.box('userInfo');
+      var response2 = await stub.login(loginRequest);
+      box.put('token', response2.token);
+      box.put('login', true);
+      String token = box.get('token');
+      print("login ja");
+
     } catch (e) {
       print(e);
+      box.put('login', false);
     }
   }
 
@@ -225,9 +242,9 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
               Text('Birthday'),
               Spacer(),
               //  Text(_dateTime == null ? '' : _dateTime.toString()),
-               Text(_dateTime == null
-                          ? ''
-                          : DateFormat("dd/MM/yyyy").format(_dateTime)),
+              Text(_dateTime == null
+                  ? ''
+                  : DateFormat("dd/MM/yyyy").format(_dateTime)),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
@@ -244,10 +261,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                                     print(Timestamp.fromDateTime(date));
                                 _dateTime = date;
                               })
-
                             });
                   }),
-
             ],
           ),
           SizedBox(height: 20),
@@ -265,12 +280,12 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                         ? Image.network(
                             DiverImage.path,
                             fit: BoxFit.cover,
-                            width: screenwidth*0.2,
+                            width: screenwidth * 0.2,
                           )
                         : Image.file(
                             io.File(DiverImage.path),
                             fit: BoxFit.cover,
-                            width: screenwidth*0.05,
+                            width: screenwidth * 0.05,
                           ),
               ),
               /* Spacer(),
@@ -303,12 +318,12 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                           ? Image.network(
                               DiveBack.path,
                               fit: BoxFit.cover,
-                              width: screenwidth*0.2,
+                              width: screenwidth * 0.2,
                             )
                           : Image.file(
                               io.File(DiveBack.path),
                               fit: BoxFit.cover,
-                              width: screenwidth*0.05,
+                              width: screenwidth * 0.05,
                             )),
               Spacer(),
               FlatButton(

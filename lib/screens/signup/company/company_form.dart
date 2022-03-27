@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import '../../../nautilus/proto/dart/model.pb.dart';
@@ -48,14 +49,13 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
-  
+
   io.File imageFile;
   io.File docFile;
   var bytes;
   //List<io.File> imagelist = <io.File>[];
   List<Asset> imagelist = <Asset>[];
   List<io.File> docList = <io.File>[];
-
 
   PickedFile Img;
   PickedFile doc;
@@ -78,7 +78,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
 
         Img = pickedFile;
 
-         //bytes = imageFile.readAsBytes();
+        //bytes = imageFile.readAsBytes();
       });
     }
   }
@@ -139,7 +139,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     //agency.documents.add(imageFile);
 
     //final pngByteData = await imageFile.toByteData(format: ImageByteFormat.png);
-    
+
     //ns file
 
     var f = File();
@@ -156,15 +156,28 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     f2.file = a;
     agency.documents.add(f2);
 
-
     var accountRequest = AccountRequest();
     accountRequest.agency = agency;
 
+    var loginRequest = LoginRequest();
+    loginRequest.email = account.email;
+    loginRequest.password = account.password;
+
+    var box;
     try {
-      var response = stub.create(accountRequest);
+      var response = await stub.create(accountRequest);
       print('response: ${response}');
+      print('login');
+      await Hive.openBox('userInfo');
+      box = Hive.box('userInfo');
+      var response2 = await stub.login(loginRequest);
+      box.put('token', response2.token);
+      box.put('login', true);
+      String token = box.get('token');
+      print("login ja");
     } catch (e) {
       print(e);
+      box.put('login', false);
     }
   }
 
@@ -239,12 +252,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                           ? Image.network(
                               docFile.path,
                               fit: BoxFit.cover,
-                              width: screenwidth*0.2,
+                              width: screenwidth * 0.2,
                             )
                           : Image.file(
                               io.File(docFile.path),
                               fit: BoxFit.cover,
-                              width: screenwidth*0.05,
+                              width: screenwidth * 0.05,
                             )),
               Spacer(),
               FlatButton(
@@ -278,12 +291,12 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                           ? Image.network(
                               imageFile.path,
                               fit: BoxFit.cover,
-                              width: screenwidth*0.2,
+                              width: screenwidth * 0.2,
                             )
                           : Image.file(
                               io.File(imageFile.path),
                               fit: BoxFit.cover,
-                              width: screenwidth*0.05,
+                              width: screenwidth * 0.05,
                             )),
               Spacer(),
               FlatButton(
