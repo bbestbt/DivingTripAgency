@@ -68,8 +68,11 @@ class _CompanyProfileState extends State<CompanyProfile> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     profile = await pf.getProfile(new Empty());
     // print(profile);
-    user_profile = profile;
-   return user_profile;
+    if (profile.hasAgency()) {
+      user_profile = profile;
+      return user_profile;
+    }
+ 
   }
 
 

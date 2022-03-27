@@ -70,7 +70,7 @@ class _UserProfileState extends State<UserProfile> {
     // print('****');
   }
 
- getProfile() async {
+  getProfile() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -84,8 +84,10 @@ class _UserProfileState extends State<UserProfile> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     profile = await pf.getProfile(new Empty());
     // print(profile);
-    user_profile = profile;
-    return user_profile;
+    if (profile.hasDiver()) {
+      user_profile = profile;
+      return user_profile;
+    }
   }
 
   @override
@@ -170,7 +172,7 @@ class _UserProfileState extends State<UserProfile> {
                             alignment: Alignment.center,
                             child: RaisedButton(
                                 // color: Colors.yellow,
-                                  color: Colors.blue[300],
+                                color: Colors.blue[300],
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Text(
@@ -211,19 +213,23 @@ class _UserProfileState extends State<UserProfile> {
               future: getData(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Center(
-                      child: Container(
-                          child: Wrap(
-                              spacing: 20,
-                              runSpacing: 40,
-                              children: List.generate(
-                                trips.length,
-                                (index) => Center(
-                                  child: InfoCard(
-                                    index: index,
-                                  ),
-                                ),
-                              ))));
+                  return Column(
+                    children: [
+                      Center(
+                          child: Container(
+                              child: Wrap(
+                                  spacing: 20,
+                                  runSpacing: 40,
+                                  children: List.generate(
+                                    trips.length,
+                                    (index) => Center(
+                                      child: InfoCard(
+                                        index: index,
+                                      ),
+                                    ),
+                                  )))),
+                    ],
+                  );
                 } else {
                   return Align(
                       alignment: Alignment.center, child: Text('No data'));
