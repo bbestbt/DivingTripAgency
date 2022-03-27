@@ -28,10 +28,8 @@ var profile;
 List<TripWithTemplate> details;
 GetHotelResponse hotelDetial = new GetHotelResponse();
 var hotel;
-
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final TextEditingController _textEditingController = TextEditingController();
-
 
 class DiveResortDetailScreen extends StatefulWidget {
   int index;
@@ -100,7 +98,7 @@ class _detailState extends State<detail> {
 
   getData() async {
     //print("before try catch");
-    await getHotelDetail();
+    // await getHotelDetail();
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -149,15 +147,13 @@ class _detailState extends State<detail> {
     final stub = HotelServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var hotelrequest = GetHotelRequest();
-
     hotelrequest.id = details[widget.index].tripTemplate.hotelId;
-
     // Int64(2);
     print(hotelrequest.id);
     hotel = await stub.getHotel(hotelrequest);
     hotelDetial = hotel;
 
-    print(hotelDetial.hotel.name);
+    // print(hotelDetial.hotel.name);
     return hotelDetial.hotel.name;
   }
 
@@ -169,10 +165,24 @@ class _detailState extends State<detail> {
           title: "Dive resorts",
           color: Color(0xFFFF78a2cc),
         ),
-        Text("Hotel : " +
-
-            // details[widget.index].tripTemplate.hotelId.toString()),
-            hotelDetial.hotel.name),
+        SizedBox(
+          width: 1110,
+          child: FutureBuilder(
+            future: getHotelDetail(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Center(
+                  child: Text("Hotel : " +
+                      // details[widget.index].tripTemplate.hotelId.toString()),
+                      hotelDetial.hotel.name),
+                );
+              } else {
+                return Align(
+                    alignment: Alignment.center, child: Text('No name'));
+              }
+            },
+          ),
+        ),
 
         SizedBox(
           height: 10,
@@ -235,12 +245,10 @@ class _detailState extends State<detail> {
         SizedBox(
           height: 10,
         ),
-
         Text("Price : " + details[widget.index].price.toString()),
         SizedBox(
           height: 10,
         ),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -251,11 +259,13 @@ class _detailState extends State<detail> {
                     ? new Container(
                         color: Colors.pink,
                       )
-                    : Image.network(details[widget.index]
-                        .tripTemplate
-                        .images[0]
-                        .link
-                        .toString())),
+                    : Image.network(
+                        // 'http://139.59.101.136/static/'+
+                        details[widget.index]
+                            .tripTemplate
+                            .images[0]
+                            .link
+                            .toString())),
             SizedBox(
               width: 10,
             ),
@@ -266,11 +276,13 @@ class _detailState extends State<detail> {
                     ? new Container(
                         color: Colors.pink,
                       )
-                    : Image.network(details[widget.index]
-                        .tripTemplate
-                        .images[1]
-                        .link
-                        .toString())),
+                    : Image.network(
+                        // 'http://139.59.101.136/static/'+
+                        details[widget.index]
+                            .tripTemplate
+                            .images[1]
+                            .link
+                            .toString())),
             SizedBox(
               width: 10,
             ),
@@ -281,11 +293,13 @@ class _detailState extends State<detail> {
                     ? new Container(
                         color: Colors.pink,
                       )
-                    : Image.network(details[widget.index]
-                        .tripTemplate
-                        .images[2]
-                        .link
-                        .toString())),
+                    : Image.network(
+                        // 'http://139.59.101.136/static/'+
+                        details[widget.index]
+                            .tripTemplate
+                            .images[2]
+                            .link
+                            .toString())),
           ],
         ),
         SizedBox(
@@ -335,7 +349,6 @@ class _detailState extends State<detail> {
                       }
                     },
                   ),
-
                 ),
               ],
             ),
@@ -473,7 +486,6 @@ class _InfoCardState extends State<InfoCard> {
             );
           });
         });
-
   }
 
   @override
@@ -496,8 +508,9 @@ class _InfoCardState extends State<InfoCard> {
                     ? new Container(
                         color: Colors.green,
                       )
-                    : Image.network(' http://139.59.101.136/static/' +
-                            roomtypes[widget.index].roomImages[0].toString()
+                    : Image.network(
+                        // 'http://139.59.101.136/static/' +
+                        roomtypes[widget.index].roomImages[0].link.toString()
                         // trips[widget.index].tripTemplate.images[0].toString()
                         )),
             SizedBox(
@@ -532,16 +545,12 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
-
                   onPressed: () async {
-
                     // print('bf');
                     // bookTrips();
                     // print('af');
 
-
                     await showInformationDialog(context);
-
                   },
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(

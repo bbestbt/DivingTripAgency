@@ -34,17 +34,6 @@ class _UserProfileState extends State<UserProfile> {
         grpcWebTransportSecure: false);
     final box = Hive.box('userInfo');
     String token = box.get('token');
-    final pf = AccountClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
-    profile = await pf.getProfile(new Empty());
-    // print(profile);
-    user_profile = profile;
-    // print(user_profile.diver.firstName);
-    // print(user_profile.diver.lastName);
-    // print(user_profile.diver.phone);
-    // print(user_profile.diver.account.email);
-    // print(user_profile.diver.level);
-    // print(user_profile.diver.birthDate);
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
@@ -81,6 +70,24 @@ class _UserProfileState extends State<UserProfile> {
     // print('****');
   }
 
+ getProfile() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final pf = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    profile = await pf.getProfile(new Empty());
+    // print(profile);
+    user_profile = profile;
+    return user_profile;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -104,7 +111,7 @@ class _UserProfileState extends State<UserProfile> {
           ),
           SizedBox(
             child: FutureBuilder(
-              future: getData(),
+              future: getProfile(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Center(
@@ -162,7 +169,10 @@ class _UserProfileState extends State<UserProfile> {
                           Align(
                             alignment: Alignment.center,
                             child: RaisedButton(
-                                color: Colors.yellow,
+                                // color: Colors.yellow,
+                                  color: Colors.blue[300],
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
                                 child: Text(
                                   'Edit',
                                 ),

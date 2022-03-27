@@ -33,24 +33,6 @@ class _CompanyProfileState extends State<CompanyProfile> {
         grpcWebTransportSecure: false);
     final box = Hive.box('userInfo');
     String token = box.get('token');
-    final pf = AccountClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
-    profile = await pf.getProfile(new Empty());
-    // print(profile);
-    user_profile = profile;
-    // print(0);
-    // print(user_profile.agency.account.email);
-    // print(user_profile.agency.phone);
-    // print(user_profile.agency.name);
-    // print(user_profile.agency.documents);
-    // print(user_profile.agency.address.addressLine1);
-    // print(user_profile.agency.address.addressLine2);
-    // print(user_profile.agency.address.city);
-    // print(user_profile.agency.address.country);
-    // print(user_profile.agency.address.region);
-    // print(user_profile.agency.address.postcode);
-    // print(1);
-
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var listTrips = ListTripsWithTemplatesRequest();
@@ -72,11 +54,31 @@ class _CompanyProfileState extends State<CompanyProfile> {
     return trips;
   }
 
+  getProfile() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final pf = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    profile = await pf.getProfile(new Empty());
+    // print(profile);
+    user_profile = profile;
+   return user_profile;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      decoration: BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
+      // decoration: BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
+      decoration: BoxDecoration(color: Color(0xfffbbdfbc).withOpacity(0.3)),
       child: Column(
         children: [
           SizedBox(
@@ -95,7 +97,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
           ),
           SizedBox(
             child: FutureBuilder(
-              future: getData(),
+              future: getProfile(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Center(
@@ -192,7 +194,9 @@ class _CompanyProfileState extends State<CompanyProfile> {
                           Align(
                             alignment: Alignment.center,
                             child: RaisedButton(
-                                color: Colors.yellow,
+                                color: Colors.blue[300],
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
                                 child: Text(
                                   'Edit',
                                 ),
@@ -237,7 +241,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                               spacing: 20,
                               runSpacing: 40,
                               children: List.generate(
-                                trips.length ~/ 2,
+                                trips.length,
                                 (index) => Center(
                                   child: InfoCard(
                                     index: index,
@@ -280,7 +284,6 @@ class _InfoCardState extends State<InfoCard> {
 
   @override
   Widget build(BuildContext context) {
-    // getData();
     return InkWell(
       child: Container(
         height: 320,

@@ -15,8 +15,6 @@ import 'package:fixnum/fixnum.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:intl/intl.dart';
 
-import '../../nautilus/proto/dart/model.pb.dart';
-
 // This list holds the data for the list view
 List<TripWithTemplate> _foundtrip = [];
 List costchecklist = [];
@@ -82,9 +80,7 @@ class _TripDetailState extends State<TripDetail> {
     try {
       await for (var feature in stub.listValidTrips(listtriprequest)) {
         trips.add(feature.trip);
-
-       // print(trips);
-
+        // print(trips);
       }
     } catch (e) {
       print('ERROR: $e');
@@ -108,15 +104,12 @@ class _TripDetailState extends State<TripDetail> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var searchtrips = SearchTripsOptions();
 
-
-    //searchtrips.country = '5';
+    searchtrips.country = '5';
     // searchtrips.country = 'm';
 
-    searchtrips.country = dropdownValue;
-
-    //searchtrips.divers = 1;
-    searchtrips.divers =guestvalue;
-
+    //  searchtrips.country = dropdownValue;
+    searchtrips.divers = 1;
+    // searchtrips.divers =guestvalue;
     var ts = Timestamp();
     ts.seconds = Int64(1643670395);
     searchtrips.startDate = ts;
@@ -125,12 +118,7 @@ class _TripDetailState extends State<TripDetail> {
     ts2.seconds = Int64(1648767995);
     searchtrips.endDate = ts2;
 
-    if (dropdownValue2 == "Onshore")
-      searchtrips.tripType = TripType.ONSHORE;
-    else
-      searchtrips.tripType = TripType.OFFSHORE;
-
-
+    // searchtrips.tripType = TripType.OFFSHORE;
     var searchtriprequest = SearchTripsRequest();
     searchtriprequest.limit = Int64(100);
     searchtriprequest.offset = Int64(100);
@@ -162,7 +150,6 @@ class _TripDetailState extends State<TripDetail> {
     // print('****');
   }
 
-  @override
   Widget build(BuildContext context) {
     //   _foundtrip = LiveAboardDatas;
     //   // print('candy mai suay');
@@ -208,7 +195,10 @@ class _TripDetailState extends State<TripDetail> {
                     children: [
                       Text('Start Date'),
                       Spacer(),
-                      Text(_dateFrom == null ? '' : _dateFrom.toString()),
+                      // Text(_dateFrom == null ? '' : _dateFrom.toString()),
+                       Text(_dateFrom == null
+                          ? ''
+                          : DateFormat("dd/MM/yyyy").format(_dateFrom)),
                       Spacer(),
                       RaisedButton(
                           color: Color(0xfff8dd9cc),
@@ -217,10 +207,8 @@ class _TripDetailState extends State<TripDetail> {
                             showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
-
                                     firstDate: DateTime.now().subtract(Duration(days:60)),
                                     lastDate: DateTime.now().add(Duration(days:30)))
-
                                 .then((date) => {
                                       setState(() {
                                         var timeStamp =
@@ -236,7 +224,10 @@ class _TripDetailState extends State<TripDetail> {
                     children: [
                       Text('To'),
                       Spacer(),
-                      Text(_dateTo == null ? '' : _dateTo.toString()),
+                      // Text(_dateTo == null ? '' : _dateTo.toString()),
+                       Text(_dateTo == null
+                          ? ''
+                          : DateFormat("dd/MM/yyyy").format(_dateFrom)),
                       Spacer(),
                       RaisedButton(
                           color: Color(0xfff8dd9cc),
@@ -245,10 +236,8 @@ class _TripDetailState extends State<TripDetail> {
                             showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
-
                                 firstDate: DateTime.now().subtract(Duration(days:60)),
                                 lastDate: DateTime.now().add(Duration(days:30)))
-
                                 .then((date) => {
                                       setState(() {
                                         var timeStamp =
@@ -293,7 +282,6 @@ class _TripDetailState extends State<TripDetail> {
                             'Koh Samet',
                             'Rayong',
                             'Chanthaburi'
-
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -374,7 +362,6 @@ class _TripDetailState extends State<TripDetail> {
                             color: Colors.black,
                           ),
                           onChanged: (String newValue) {
-
                             setState(() {
                               dropdownValue2 = newValue;
                             });
@@ -421,7 +408,6 @@ class _TripDetailState extends State<TripDetail> {
                           },
                         ),
                       ),
-
                       ListTile(
                         title: const Text('1,000 - 2,000'),
                         leading: Radio<Cost>(
@@ -468,7 +454,7 @@ class _TripDetailState extends State<TripDetail> {
             type: MaterialType.transparency,
             child: SingleChildScrollView(
               child: Container(
-                //   margin: EdgeInsetsDirectional.only(top:120),
+                  // margin: EdgeInsetsDirectional.only(top:120),
                 width: screenwidth * 0.05,
                 // height: 600,
                 decoration:
@@ -525,24 +511,21 @@ class _TripDetailState extends State<TripDetail> {
     ]);
   }
 
+
   void _runFilter() {
     print("Date diff: "+_diff);
    // print("Dropdownvalue2:"+dropdownValue2);
    // print("Dropdownvalue:"+dropdownValue);
     List<TripWithTemplate> results = [];
-
    // print("_diff: " + _diff.toString());
     if (dropdownValue == "All" &&
         dropdownValue2 == "All" &&
-
         _dateFrom == null &&
         _dateTo == null &&
         guestvalue == null &&
         _diff == "" &&
         tripcost == Cost.all) {
-
      // print("Filtering 1");
-
 
       // if the search field is empty or only contains white-space, we'll display all users
       results = trips;
@@ -625,7 +608,6 @@ class _TripDetailState extends State<TripDetail> {
 // Edit cost filter
       if (tripcost != Cost.all) {
         if (tripcost == Cost.one) {
-
           results = results.where((trip) => (trip.price > 0 && trip.price <= 1000)).toList();
         } else if (tripcost == Cost.two) {
           results = results.where((trip) => (trip.price > 1000 && trip.price <= 2000)).toList();
@@ -633,7 +615,6 @@ class _TripDetailState extends State<TripDetail> {
           results = results.where((trip) => (trip.price > 2000 && trip.price <= 3000)).toList();
         } else if (tripcost == Cost.more) {
           results = results.where((trip) => (trip.price > 3000)).toList();
-
         }
       }
 
@@ -643,6 +624,7 @@ class _TripDetailState extends State<TripDetail> {
     }
   }
 }
+
 
 class InfoCard extends StatefulWidget {
   InfoCard({
@@ -682,6 +664,7 @@ class _InfoCardState extends State<InfoCard> {
                         color: Colors.pink,
                       )
                     : Image.network(
+                      // 'http://139.59.101.136/static/'+
                         // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
                         _foundtrip[widget.index]
                             .tripTemplate
@@ -744,7 +727,6 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        
 
                         Text('Trip type : ' +
                             _foundtrip[widget.index]
@@ -773,16 +755,14 @@ class _InfoCardState extends State<InfoCard> {
                               if (_foundtrip[widget.index]
                                       .tripTemplate
                                       .tripType
-                                      == 0) {
+                                      .toString() ==
+                                  "ONSHORE") {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             DiveResortDetailScreen(
-                                                widget.index, 
-                                              
-                                                trips
-                                                )));
+                                                widget.index, trips)));
                               } else {
                                 // print(_foundtrip[widget.index]);
                                 // print('------------------');
@@ -793,9 +773,7 @@ class _InfoCardState extends State<InfoCard> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             LiveaboardDetailScreen(
-                                                widget.index,
-                                                 trips
-                                                 )));
+                                                widget.index, trips)));
                               }
                             },
                             color: Colors.amber,
