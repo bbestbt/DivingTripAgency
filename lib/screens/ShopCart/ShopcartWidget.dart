@@ -13,63 +13,100 @@ import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
 
-List Cart = ["Trip A", "Trip B", "Trip C"];
-
+List Cartlist=[["1.jpg","Trip A",500,5],["2.jpg","Trip B",700,10],["3.jpg","Trip C", 800,7]];
 class CartWidget extends StatefulWidget {
   @override
   _CartState createState() => _CartState();
 }
 
+
+
 class _CartState extends State<CartWidget> {
+
+
   @override
   Widget build(BuildContext context){
-    return ListView.builder(
-      itemCount: Cart.length,
-      shrinkWrap: true,
-      itemBuilder: (context, position) {
-        return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              children:[
-                    Image(image:NetworkImage('https://media.tacdn.com/media/attractions-splice-spp-674x446/07/2d/d7/09.jpg')),
-                    SizedBox(width:30),
-                    Text(
-                    Cart[position],
-                    style: TextStyle(fontSize: 22.0),
+    return Container(
+      child:Column(
+        children:[
+                ListView.builder(
+                itemCount: Cartlist.length,
+                shrinkWrap: true,
+                itemBuilder: (context, position) {
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        children:[
+                              Image(image:NetworkImage('https://media.tacdn.com/media/attractions-splice-spp-674x446/07/2d/d7/09.jpg')),
+                              SizedBox(width:30),
+                              Column(
+                                children:[
+                                  Text("Hotel Name: "+
+                                    Cartlist[position][1],
+                                    style: TextStyle(fontSize: 22.0),
+
+                                  ),
+                                  Text(
+                                    "Price: "+Cartlist[position][2],
+                                    style: TextStyle(fontSize: 22.0),
+
+                                  ),
+                                ]
+                              ),
+
+                          SizedBox(width:30),
+                          /*TextButton(
+                            child: Text(
+                              "Edit",
+                              style: TextStyle(fontSize: 25),
+                            ),
+                            onPressed: () {},
+                            style: TextButton.styleFrom(
+                                primary: Colors.red,
+                                elevation: 2,
+                                backgroundColor: Colors.amber),
+                          ),*/
+                          TextButton(
+                            child: Text(
+                              "Remove",
+                              style: TextStyle(fontSize: 25),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                print("deleted");
+
+                                Cartlist.removeAt(position);
+                                print(Cartlist);
+                              });
+                            },
+                            style: TextButton.styleFrom(
+                                primary: Colors.red,
+                                elevation: 2,
+                                backgroundColor: Colors.amber),
+                          ),
+                        ]
 
                     ),
-                SizedBox(width:30),
-                TextButton(
-                  child: Text(
-                    "Edit",
-                    style: TextStyle(fontSize: 25),
-                  ),
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      primary: Colors.red,
-                      elevation: 2,
-                      backgroundColor: Colors.amber),
-                ),
-                TextButton(
-                  child: Text(
-                    "Remove",
-                    style: TextStyle(fontSize: 25),
-                  ),
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                      primary: Colors.red,
-                      elevation: 2,
-                      backgroundColor: Colors.amber),
-                ),
-              ]
+                  )
+                  );
+                },
+              )
+          ,TextButton(
+              child: Text(
+                "Go to payment",
+                style: TextStyle(fontSize: 25),
+              ),
+              onPressed: () {},
+              style: TextButton.styleFrom(
+                  primary: Colors.red,
+                  elevation: 2,
+                  backgroundColor: Colors.amber),
+            ),
+        ]
 
-          ),
-        )
-        );
-      },
+      )
     );
-
 
 
       /*Container(

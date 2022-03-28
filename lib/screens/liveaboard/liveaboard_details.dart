@@ -14,10 +14,12 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:diving_trip_agency/screens/ShopCart/ShopcartWidget.dart';
 
 GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
 var liveaboard;
 List<RoomType> roomtypes = [];
+
 
 class LiveaboardDetailScreen extends StatefulWidget {
   int index;
@@ -418,7 +420,9 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),

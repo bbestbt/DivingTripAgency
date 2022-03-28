@@ -22,6 +22,8 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
+import 'package:diving_trip_agency/screens/ShopCart/ShopcartWidget.dart';
+
 List<RoomType> roomtypes = [];
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
@@ -71,6 +73,7 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
         ));
   }
 }
+
 
 class detail extends StatefulWidget {
   int index;
@@ -473,8 +476,15 @@ class _InfoCardState extends State<InfoCard> {
                     if (_formKey.currentState.validate()) {
                       // bookTrips();
                       // print(details[widget.index].price);
+                      /*print(details[widget.index]
+                          .tripTemplate
+                          .images[1]
+                          .link
+                          .toString());*/
                       print(roomtypes[widget.index].price *
                           int.parse(_textEditingController.text));
+                      Cartlist.add(["5.jpg",hotelDetial.hotel.name,roomtypes[widget.index].price *
+                          int.parse(_textEditingController.text)]);
                       // print((roomtypes[widget.index].price+details[widget.index].price).toString());
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
@@ -551,11 +561,12 @@ class _InfoCardState extends State<InfoCard> {
                     // print('af');
 
                     await showInformationDialog(context);
+
                   },
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  child: Text("Book"),
+                  child: Text("Book the trip"),
                 ),
               ],
             ),
