@@ -9,6 +9,7 @@ import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_screen.dart';
 import 'package:diving_trip_agency/screens/profile/diver/profile_screen.dart';
 import 'package:diving_trip_agency/screens/weatherforecast/forecast_screen.dart';
+import 'package:diving_trip_agency/screens/ShopCart/ShopcartScreen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -81,6 +82,14 @@ class SideMenu extends StatelessWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => UserProfileScreen()));
+                            }
+                            if (_controller.selectedIndex == 4) {
+                              print("Shopping cart");
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ShopCart()));
                             }
                             
                             // if (_controller.selectedIndex == 5) {

@@ -7,6 +7,7 @@ import 'package:diving_trip_agency/screens/diveresort/dive_resort_screen.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_screen.dart';
 import 'package:diving_trip_agency/screens/profile/diver/profile_screen.dart';
 import 'package:diving_trip_agency/screens/weatherforecast/forecast_screen.dart';
+import 'package:diving_trip_agency/screens/ShopCart/ShopcartScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:diving_trip_agency/constants.dart';
 import 'package:get/get.dart';
@@ -64,6 +65,15 @@ class WebMenu extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => UserProfileScreen()));
+                  }
+
+                  if (_controller.selectedIndex == 4) {
+                    print("Shopping cart");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ShopCart()));
                   }
                   
                   // if (_controller.selectedIndex == 5) {

@@ -70,7 +70,9 @@ class _UserProfileState extends State<UserProfile> {
     // print('****');
   }
 
+
   getProfile() async {
+
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -84,10 +86,12 @@ class _UserProfileState extends State<UserProfile> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     profile = await pf.getProfile(new Empty());
     // print(profile);
+
     if (profile.hasDiver()) {
       user_profile = profile;
       return user_profile;
     }
+
   }
 
   @override
@@ -172,7 +176,9 @@ class _UserProfileState extends State<UserProfile> {
                             alignment: Alignment.center,
                             child: RaisedButton(
                                 // color: Colors.yellow,
+
                                 color: Colors.blue[300],
+
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Text(

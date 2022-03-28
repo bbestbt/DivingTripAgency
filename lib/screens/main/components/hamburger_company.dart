@@ -8,6 +8,7 @@ import 'package:diving_trip_agency/screens/profile/company/company_profile_scree
 import 'package:diving_trip_agency/screens/report/company_report.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
+import 'package:diving_trip_agency/screens/ShopCart/ShopcartScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -88,6 +89,7 @@ class CompanyHamburger extends StatelessWidget {
                                       builder: (context) =>
                                           CompanyReportScreen()));
                             }
+
                           },
                         ))
               ],
