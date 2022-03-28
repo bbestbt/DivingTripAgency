@@ -561,7 +561,6 @@ class _InfoCardState extends State<InfoCard> {
                     // print('af');
 
                     await showInformationDialog(context);
-
                   },
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
