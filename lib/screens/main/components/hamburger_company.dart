@@ -5,8 +5,10 @@ import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_screen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/profile/company/company_profile_screen.dart';
+import 'package:diving_trip_agency/screens/report/company_report.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
+import 'package:diving_trip_agency/screens/ShopCart/ShopcartScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,7 +48,7 @@ class CompanyHamburger extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => HotelScreen()));
                             }
-                             if (_controller.selectedIndex == 2) {
+                            if (_controller.selectedIndex == 2) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -59,28 +61,35 @@ class CompanyHamburger extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => CreateBoat()));
                             }
-                           
-                                 if (_controller.selectedIndex == 4) {
+
+                            if (_controller.selectedIndex == 4) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           SignupDiveMaster()));
                             }
-                                 if (_controller.selectedIndex == 5) {
+                            if (_controller.selectedIndex == 5) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          SignupStaff()));
+                                      builder: (context) => SignupStaff()));
                             }
-                                if (_controller.selectedIndex == 6) {
+                            if (_controller.selectedIndex == 6) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           CompanyProfileScreen()));
                             }
+                            if (_controller.selectedIndex == 7) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CompanyReportScreen()));
+                            }
+
                           },
                         ))
               ],

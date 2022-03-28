@@ -84,7 +84,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
     profile = await pf.getProfile(new Empty());
     // print(profile);
     user_profile = profile;
-
+ print(user_profile.diver.level.toString());
     return user_profile;
   }
 
@@ -104,9 +104,9 @@ class _EditDiverFormState extends State<EditDiverForm> {
       value = LevelType.valueOf(i).toString();
       levelTypeMap[value] = i;
     }
-
-    print("LevelType-----------------");
-    print(levelTypeMap);
+  
+    // print("LevelType-----------------");
+    // print(levelTypeMap);
   }
 
   void addError({String error}) {
@@ -196,7 +196,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
       var response = stub.update(updateRequest);
       var response2 = stub.updateAccount(accountUpdateRequest);
       print('response: ${response}');
-      print('ddd');
+      // print('ddd');
       print('response: ${response2}');
     } catch (e) {
       print(e);
@@ -375,7 +375,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
                                   color: Colors.green,
                                 )
                               : Image.network(
-                                // 'http://139.59.101.136/static/'+
+                                  // 'http://139.59.101.136/static/'+
                                   // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
                                   user_profile.diver.documents[1].link
                                       .toString())),

@@ -1,9 +1,19 @@
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
+import 'package:diving_trip_agency/screens/main/CarouselTest.dart';
 import 'package:diving_trip_agency/screens/main/components/center_comp.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+final List<String> imgList = [
+  'assets/images/S__83271685.jpg',
+  'assets/images/S__77250562.jpg',
+  'assets/images/S__83271682.jpg',
+  'assets/images/S__83271684.jpg',
+  'assets/images/S__83271687.jpg',
+  'assets/images/S__83271688.jpg',
+];
 
 class MainCompanyScreen extends StatelessWidget {
   final MenuCompany _controller = Get.put(MenuCompany());
@@ -20,6 +30,7 @@ class MainCompanyScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
+              CarouselWithDotsPage(imgList: imgList),
           ],
         ),
       ),
