@@ -484,7 +484,7 @@ class _InfoCardState extends State<InfoCard> {
                       print(roomtypes[widget.index].price *
                           int.parse(_textEditingController.text));
                       Cartlist.add(["5.jpg",hotelDetial.hotel.name,roomtypes[widget.index].price *
-                          int.parse(_textEditingController.text)]);
+                          int.parse(_textEditingController.text),7]);
                       // print((roomtypes[widget.index].price+details[widget.index].price).toString());
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();

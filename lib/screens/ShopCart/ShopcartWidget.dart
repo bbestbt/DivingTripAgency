@@ -43,12 +43,12 @@ class _CartState extends State<CartWidget> {
                               Column(
                                 children:[
                                   Text("Hotel Name: "+
-                                    Cartlist[position][1],
+                                    Cartlist[position][1].toString(),
                                     style: TextStyle(fontSize: 22.0),
 
                                   ),
                                   Text(
-                                    "Price: "+Cartlist[position][2],
+                                    "Price: "+Cartlist[position][2].toString(),
                                     style: TextStyle(fontSize: 22.0),
 
                                   ),
