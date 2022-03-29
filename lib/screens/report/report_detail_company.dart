@@ -17,7 +17,6 @@ List<ReportTrip> trips = [];
 
 List<ReportTrip> endedTrips = [];
 
-
 class CompanyReport extends StatefulWidget {
   @override
   State<CompanyReport> createState() => _CompanyReportState();
@@ -41,7 +40,6 @@ class _CompanyReportState extends State<CompanyReport> {
     listvalidtriprequest.offset = Int64(0);
     trips.clear();
     try {
-      //  print('test');
       await for (var feature
           in stub.generateCurrentTripsReport(listvalidtriprequest)) {
         //print(feature.trip);
@@ -52,7 +50,6 @@ class _CompanyReportState extends State<CompanyReport> {
     } catch (e) {
       print('ERROR: $e');
     }
-    // print(trips);
     return trips;
   }
 
@@ -80,7 +77,7 @@ class _CompanyReportState extends State<CompanyReport> {
         // print(feature.reports);
         for (int i = 0; i < feature.reports.length; i++) {
           endedTrips.add(feature.reports[i]);
-          print(endedTrips);
+          // print(endedTrips);
         }
       }
     } catch (e) {
@@ -155,20 +152,19 @@ class _CompanyReportState extends State<CompanyReport> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Center(
-                    // child: Text('test'),
-                    child: Container(
-                        child: Wrap(
-                            spacing: 20,
-                            runSpacing: 40,
-                            children: List.generate(
-                              endedTrips.length,
-                              (index) => Center(
-                                child: InfoCardEnded(
-                                  index: index,
+                      // child: Text('test'),
+                      child: Container(
+                          child: Wrap(
+                              spacing: 20,
+                              runSpacing: 40,
+                              children: List.generate(
+                                endedTrips.length,
+                                (index) => Center(
+                                  child: InfoCardEnded(
+                                    index: index,
+                                  ),
                                 ),
-                              ),
-                            )))
-                  );
+                              ))));
                 } else {
                   return Text('No data');
                 }
@@ -268,7 +264,7 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         Text('Number of divers left : ' +
-                            trips[widget.index].curentGuest.toString()),
+                            trips[widget.index].placesLeft.toString()),
                         SizedBox(
                           height: 10,
                         ),
@@ -389,7 +385,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                           height: 10,
                         ),
                         Text('Number of divers left : ' +
-                            endedTrips[widget.index].curentGuest.toString()),
+                            endedTrips[widget.index].placesLeft.toString()),
                         SizedBox(
                           height: 10,
                         ),
