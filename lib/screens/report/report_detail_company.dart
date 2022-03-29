@@ -16,6 +16,7 @@ import 'package:fixnum/fixnum.dart';
 List<ReportTrip> trips = [];
 
 List<ReportTrip> endedTrips = [];
+List<Diver> diver = [];
 
 class CompanyReport extends StatefulWidget {
   @override
@@ -44,12 +45,17 @@ class _CompanyReportState extends State<CompanyReport> {
           in stub.generateCurrentTripsReport(listvalidtriprequest)) {
         //print(feature.trip);
         trips.add(feature.report);
+        for (int i = 0; i < feature.report.divers.length; i++) {
+          diver.add(feature.report.divers[i]);
+        }
+
         // print(trips);
         // print(trips.length);
       }
     } catch (e) {
       print('ERROR: $e');
     }
+    // print(diver);
     return trips;
   }
 
@@ -78,12 +84,14 @@ class _CompanyReportState extends State<CompanyReport> {
         for (int i = 0; i < feature.reports.length; i++) {
           endedTrips.add(feature.reports[i]);
           // print(endedTrips);
+          for (int j = 0; j < feature.reports.length; j++) {
+          diver.add(feature.reports[i].divers[j]);
+        }
         }
       }
     } catch (e) {
       print('ERROR: $e');
-    }
-
+    }print(diver);
     return endedTrips;
   }
 
@@ -276,7 +284,7 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('List of divers : ' + 'd'),
+                        Text('List of divers : ' + diver[widget.index].firstName),
                         SizedBox(
                           height: 10,
                         ),
@@ -397,7 +405,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('List of divers : ' + 'd'),
+                        Text('List of divers : ' + diver[widget.index].firstName),
                         SizedBox(
                           height: 10,
                         ),
