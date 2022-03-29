@@ -338,10 +338,8 @@ class _detailState extends State<detail> {
                                     runSpacing: 40,
                                     children: List.generate(
                                       roomtypes.length,
-                                      (index) => Center(
-                                        child: InfoCard(
-                                         index,details
-                                        ),
+                                      (candy) => Center(
+                                        child: InfoCard(candy, details, index),
                                       ),
                                     ))));
                       } else {
@@ -366,42 +364,38 @@ class _detailState extends State<detail> {
 
 class InfoCard extends StatefulWidget {
   List<TripWithTemplate> details;
-  int index;
+  int indexRoom;
+  int indexDetail;
 
   //  InfoCard({
   //   this.index,
   // });
-  InfoCard(int index, List<TripWithTemplate> details) {
-    this.index = index;
+  InfoCard(int indexRoom, List<TripWithTemplate> details, int indexDetail) {
+    this.indexRoom = indexRoom;
     this.details = details;
+    this.indexDetail = indexDetail;
     // print(details);
-    print(index);
+    // print(indexRoom);
     // for (int i =0;i<details.length;i++){
-    //   print(index);
+    //   print('index detail');
+    //   print(indexDetail);
+    //   print('price');
     //   print(details[i].price);
     // }
-
   }
 
   @override
-  State<InfoCard> createState() => _InfoCardState(this.index,this.details);
+  State<InfoCard> createState() =>
+      _InfoCardState(this.indexRoom, this.details, this.indexDetail);
 }
 
 class _InfoCardState extends State<InfoCard> {
   Map<String, dynamic> hotelTypeMap = {};
   List<String> hotel = [];
   List<TripWithTemplate> details;
-  int index;
-   _InfoCardState(int index, List<TripWithTemplate> details) {
-    this.index = index;
-    this.details = details;
-    // print(details);
-    // for (int i =0;i<details.length;i++){
-    //   print(details[i].price);
-    // }
-
-  }
-
+  int indexRoom;
+  int indexDetail;
+  _InfoCardState(this.indexRoom, this.details, this.indexDetail);
 
   Future<void> showInformationDialog(BuildContext context) async {
     // print(details.length);
@@ -450,8 +444,8 @@ class _InfoCardState extends State<InfoCard> {
                     if (_formKey.currentState.validate()) {
                       // bookTrips();
                       // print(index);
-                      print(details[index].tripTemplate.name);
-                      // print(details[widget.index].price);
+                      //  print(details[index].tripTemplate.name);
+                      // print(details[indexDetail].price);
                       /*print(details[widget.index]
                           .tripTemplate
                           .images[1]
@@ -472,8 +466,10 @@ class _InfoCardState extends State<InfoCard> {
                       //   // 7
                       // ]);
 
-                      // print(((roomtypes[widget.index].price *
-                      //     int.parse(_textEditingController.text))+details[widget.index].price).toString());
+                      print(((roomtypes[indexRoom].price *
+                                  int.parse(_textEditingController.text)) +
+                              details[indexDetail].price)
+                          .toString());
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
                       print('done');
@@ -488,6 +484,9 @@ class _InfoCardState extends State<InfoCard> {
 
   @override
   Widget build(BuildContext context) {
+    for (int i = 0; i < roomtypes.length; i++) {
+      print(roomtypes);
+    }
     return InkWell(
       child: Container(
         height: 320,
@@ -502,13 +501,16 @@ class _InfoCardState extends State<InfoCard> {
             Container(
                 width: 200,
                 height: 200,
-                child: roomtypes[widget.index].roomImages.length == 0
+                child: roomtypes[widget.indexRoom].roomImages.length == 0
                     ? new Container(
                         color: Colors.green,
                       )
                     : Image.network(
                         // 'http://139.59.101.136/static/' +
-                        roomtypes[widget.index].roomImages[0].link.toString()
+                        roomtypes[widget.indexRoom]
+                            .roomImages[0]
+                            .link
+                            .toString()
                         // trips[widget.index].tripTemplate.images[0].toString()
                         )),
             SizedBox(
@@ -519,26 +521,26 @@ class _InfoCardState extends State<InfoCard> {
                 SizedBox(
                   height: 40,
                 ),
-                Text('Room type : ' + roomtypes[widget.index].name),
+                Text('Room type : ' + roomtypes[widget.indexRoom].name),
                 SizedBox(
                   height: 20,
                 ),
-                Text(
-                    'Room description: ' + roomtypes[widget.index].description),
+                Text('Room description: ' +
+                    roomtypes[widget.indexRoom].description),
                 SizedBox(
                   height: 20,
                 ),
                 Text('Max capacity : ' +
-                    roomtypes[widget.index].maxGuest.toString()),
+                    roomtypes[widget.indexRoom].maxGuest.toString()),
                 SizedBox(
                   height: 20,
                 ),
                 Text('Room quantity : ' +
-                    roomtypes[widget.index].quantity.toString()),
+                    roomtypes[widget.indexRoom].quantity.toString()),
                 SizedBox(
                   height: 20,
                 ),
-                Text('Price : ' + roomtypes[widget.index].price.toString()),
+                Text('Price : ' + roomtypes[widget.indexRoom].price.toString()),
                 SizedBox(
                   height: 20,
                 ),
