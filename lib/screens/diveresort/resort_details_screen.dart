@@ -374,8 +374,13 @@ class InfoCard extends StatefulWidget {
   InfoCard(int index, List<TripWithTemplate> details) {
     this.index = index;
     this.details = details;
-    // print("index");
-    // print(index.toString());
+    // print(details);
+    print(index);
+    // for (int i =0;i<details.length;i++){
+    //   print(index);
+    //   print(details[i].price);
+    // }
+
   }
 
   @override
@@ -390,14 +395,16 @@ class _InfoCardState extends State<InfoCard> {
    _InfoCardState(int index, List<TripWithTemplate> details) {
     this.index = index;
     this.details = details;
-    print('detail');
-    print(details[index].id);
-    // print("index");
-    // print(index.toString());
+    // print(details);
+    // for (int i =0;i<details.length;i++){
+    //   print(details[i].price);
+    // }
+
   }
 
 
   Future<void> showInformationDialog(BuildContext context) async {
+    // print(details.length);
     return await showDialog(
         context: context,
         builder: (context) {
@@ -442,14 +449,16 @@ class _InfoCardState extends State<InfoCard> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       // bookTrips();
-                      print(this.details[widget.index].price);
+                      // print(index);
+                      print(details[index].tripTemplate.name);
+                      // print(details[widget.index].price);
                       /*print(details[widget.index]
                           .tripTemplate
                           .images[1]
                           .link
                           .toString());*/
-                      print(roomtypes[widget.index].price *
-                          int.parse(_textEditingController.text));
+                      // print(roomtypes[widget.index].price *
+                      //     int.parse(_textEditingController.text));
 
                       // Cartlist.add([
                       //   "5.jpg",
@@ -463,8 +472,8 @@ class _InfoCardState extends State<InfoCard> {
                       //   // 7
                       // ]);
 
-                      print(((roomtypes[widget.index].price *
-                          int.parse(_textEditingController.text))+details[widget.index].price).toString());
+                      // print(((roomtypes[widget.index].price *
+                      //     int.parse(_textEditingController.text))+details[widget.index].price).toString());
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
                       print('done');

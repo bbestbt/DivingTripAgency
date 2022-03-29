@@ -13,7 +13,7 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
-List<GenerateCurrentTripsReportResponse_ReportTrip> trips = [];
+List<ReportTrip> trips = [];
 // GetProfileResponse user_profile = new GetProfileResponse();
 // var profile;
 // Map<String, dynamic> tripMap = {};
