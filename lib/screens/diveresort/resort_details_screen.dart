@@ -395,9 +395,6 @@ class InfoCard extends StatefulWidget {
 }
 
 class _InfoCardState extends State<InfoCard> {
-  Map<String, dynamic> hotelTypeMap = {};
-  List<String> hotel = [];
-
   List<TripWithTemplate> details;
   int indexRoom;
   int indexDetail;
@@ -563,9 +560,9 @@ class _InfoCardState extends State<InfoCard> {
 
   @override
   Widget build(BuildContext context) {
-    for (int i = 0; i < roomtypes.length; i++) {
-      print(roomtypes);
-    }
+    // for (int i = 0; i < roomtypes.length; i++) {
+    //   print(roomtypes);
+    // }
     return InkWell(
       child: Container(
         height: 320,
