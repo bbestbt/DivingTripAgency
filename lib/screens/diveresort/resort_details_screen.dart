@@ -74,7 +74,6 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
   }
 }
 
-
 class detail extends StatefulWidget {
   int index;
   List<TripWithTemplate> details;
@@ -341,7 +340,7 @@ class _detailState extends State<detail> {
                                       roomtypes.length,
                                       (index) => Center(
                                         child: InfoCard(
-                                          index: index,
+                                         index,details
                                         ),
                                       ),
                                     ))));
@@ -366,20 +365,36 @@ class _detailState extends State<detail> {
 }
 
 class InfoCard extends StatefulWidget {
-  const InfoCard({
-    Key key,
-    this.index,
-  }) : super(key: key);
+  List<TripWithTemplate> details;
+  int index;
 
-  final int index;
+  //  InfoCard({
+  //   this.index,
+  // });
+  InfoCard(int index, List<TripWithTemplate> details) {
+    this.index = index;
+    this.details = details;
+    // print("index");
+    // print(index.toString());
+  }
 
   @override
-  State<InfoCard> createState() => _InfoCardState();
+  State<InfoCard> createState() => _InfoCardState(this.index,this.details);
 }
 
 class _InfoCardState extends State<InfoCard> {
   Map<String, dynamic> hotelTypeMap = {};
   List<String> hotel = [];
+  List<TripWithTemplate> details;
+  int index;
+   _InfoCardState(int index, List<TripWithTemplate> details) {
+    this.index = index;
+    this.details = details;
+    print('detail');
+    print(details[index].id);
+    // print("index");
+    // print(index.toString());
+  }
 
 
   Future<void> showInformationDialog(BuildContext context) async {
@@ -427,7 +442,7 @@ class _InfoCardState extends State<InfoCard> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       // bookTrips();
-                      // print(details[widget.index].price);
+                      print(this.details[widget.index].price);
                       /*print(details[widget.index]
                           .tripTemplate
                           .images[1]
@@ -435,10 +450,21 @@ class _InfoCardState extends State<InfoCard> {
                           .toString());*/
                       print(roomtypes[widget.index].price *
                           int.parse(_textEditingController.text));
-                      Cartlist.add(["5.jpg", "trip name",hotelDetial.hotel.name, roomtypes[widget.index].name,
-                      roomtypes[widget.index].price *
-                          int.parse(_textEditingController.text),7]);
-                      // print((roomtypes[widget.index].price+details[widget.index].price).toString());
+
+                      // Cartlist.add([
+                      //   "5.jpg",
+                      //   details[widget.index].tripTemplate.name,
+                      //   hotelDetial.hotel.name,
+                      //   roomtypes[widget.index].name,
+                      //   ((roomtypes[widget.index].price *
+                      //     int.parse(_textEditingController.text))+details[widget.index].price).toString()
+                      //   // roomtypes[widget.index].price *
+                      //   //     int.parse(_textEditingController.text),
+                      //   // 7
+                      // ]);
+
+                      print(((roomtypes[widget.index].price *
+                          int.parse(_textEditingController.text))+details[widget.index].price).toString());
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
                       print('done');
