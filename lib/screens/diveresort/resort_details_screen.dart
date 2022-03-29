@@ -31,7 +31,8 @@ List<TripWithTemplate> details;
 GetHotelResponse hotelDetial = new GetHotelResponse();
 var hotel;
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-final TextEditingController _textEditingController = TextEditingController();
+final TextEditingController _textEditingQuantity = TextEditingController();
+final TextEditingController _textEditingDiver = TextEditingController();
 
 class DiveResortDetailScreen extends StatefulWidget {
   int index;
@@ -117,7 +118,7 @@ class _detailState extends State<detail> {
     listroomrequest.limit = Int64(20);
     listroomrequest.offset = Int64(0);
     listroomrequest.hotelId = details[widget.index].tripTemplate.hotelId;
-    // Int64(2);
+    //  Int64(2);
 
     roomtypes.clear();
     // print('test');
@@ -166,6 +167,10 @@ class _detailState extends State<detail> {
         SectionTitle(
           title: "Dive resorts",
           color: Color(0xFFFF78a2cc),
+        ),
+        Text("Trip name : " + details[widget.index].tripTemplate.name),
+        SizedBox(
+          height: 10,
         ),
         SizedBox(
           width: 1110,
@@ -392,10 +397,71 @@ class InfoCard extends StatefulWidget {
 class _InfoCardState extends State<InfoCard> {
   Map<String, dynamic> hotelTypeMap = {};
   List<String> hotel = [];
+
   List<TripWithTemplate> details;
   int indexRoom;
   int indexDetail;
   _InfoCardState(this.indexRoom, this.details, this.indexDetail);
+
+
+  getProfile() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final pf = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    profile = await pf.getProfile(new Empty());
+
+    user_profile = profile;
+    return user_profile;
+  }
+
+  void bookTrips() async {
+    await getProfile();
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = ReservationServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    var room = Reservation_Room();
+    for (int i = 0; i < roomtypes.length; i++) {
+      room.quantity = int.parse(_textEditingQuantity.text);
+      room.roomTypeId = roomtypes[i].id;
+      room.noDivers = int.parse(_textEditingDiver.text);
+      print(room.quantity);
+      print(room.noDivers);
+    }
+
+    var reservation = Reservation()..rooms.add(room);
+    reservation.tripId=Int64(28);
+    reservation.diverId = user_profile.diver.id;
+    reservation.price =
+        roomtypes[widget.index].price * int.parse(_textEditingQuantity.text);
+    reservation.totalDivers = Int64(roomtypes[widget.index].maxGuest);
+
+    var bookRequest = CreateReservationRequest()..reservation = reservation;
+
+    try {
+      var response = stub.createReservation(bookRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
   Future<void> showInformationDialog(BuildContext context) async {
     // print(details.length);
@@ -415,12 +481,24 @@ class _InfoCardState extends State<InfoCard> {
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                         ],
-                        controller: _textEditingController,
+                        controller: _textEditingQuantity,
                         validator: (value) {
                           return value.isNotEmpty ? null : "Invalid Field";
                         },
                         decoration:
                             InputDecoration(hintText: "Enter room quantity"),
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        controller: _textEditingDiver,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Invalid Field";
+                        },
+                        decoration:
+                            InputDecoration(hintText: "Enter number of diver"),
                       ),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -439,7 +517,7 @@ class _InfoCardState extends State<InfoCard> {
                   )),
               actions: <Widget>[
                 TextButton(
-                  child: Text('Confirm'),
+                  child: Text('Add room'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       // bookTrips();
@@ -451,28 +529,43 @@ class _InfoCardState extends State<InfoCard> {
                           .images[1]
                           .link
                           .toString());*/
-                      // print(roomtypes[widget.index].price *
-                      //     int.parse(_textEditingController.text));
 
-                      // Cartlist.add([
-                      //   "5.jpg",
-                      //   details[widget.index].tripTemplate.name,
-                      //   hotelDetial.hotel.name,
-                      //   roomtypes[widget.index].name,
-                      //   ((roomtypes[widget.index].price *
-                      //     int.parse(_textEditingController.text))+details[widget.index].price).toString()
-                      //   // roomtypes[widget.index].price *
-                      //   //     int.parse(_textEditingController.text),
-                      //   // 7
-                      // ]);
 
                       print(((roomtypes[indexRoom].price *
                                   int.parse(_textEditingController.text)) +
                               details[indexDetail].price)
                           .toString());
+
+                      print(roomtypes[widget.index].price *
+                          int.parse(_textEditingQuantity.text));
+                      Cartlist.add([
+                        "5.jpg",
+                        "trip name",
+                        hotelDetial.hotel.name,
+                        roomtypes[widget.index].name,
+                        roomtypes[widget.index].price *
+                            int.parse(_textEditingQuantity.text),
+                        7
+                      ]);
+                       print(((roomtypes[indexRoom].price *
+                                  int.parse(_textEditingController.text)) +
+                              details[indexDetail].price)
+                          .toString());
+
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
                       print('done');
+                    }
+                  },
+                ),
+                TextButton(
+                  child: Text('Book'),
+                  onPressed: () async {
+                    if (_formKey.currentState.validate()) {
+                      await bookTrips();
+
+                      Navigator.of(context).pop();
+                      print('book');
                     }
                   },
                 ),

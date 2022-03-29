@@ -157,6 +157,11 @@ class _detailState extends State<detail> {
           title: "Liveaboard",
           color: Color(0xFFFF78a2cc),
         ),
+         Text("Trip name : " +
+            details[widget.index].tripTemplate.name),
+        SizedBox(
+          height: 10,
+        ),
         SizedBox(
           width: 1110,
           child: FutureBuilder(

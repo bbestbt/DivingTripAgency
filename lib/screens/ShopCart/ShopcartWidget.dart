@@ -4,6 +4,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/profile/diver/edit_profile_diver.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
@@ -14,6 +15,8 @@ import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
 
 List Cartlist = [];
+GetProfileResponse user_profile = new GetProfileResponse();
+var profile;
 
 class CartWidget extends StatefulWidget {
   @override
@@ -21,6 +24,55 @@ class CartWidget extends StatefulWidget {
 }
 
 class _CartState extends State<CartWidget> {
+
+    getProfile() async {
+    print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final pf = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    profile = await pf.getProfile(new Empty());
+
+    user_profile = profile;
+    return user_profile;
+  }
+
+  void bookTrips() async {
+    await getProfile();
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = ReservationServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    var bookRequest = CreateReservationRequest();
+    bookRequest.reservation.diverId = user_profile.diver.id;
+    // bookRequest.reservation.price =
+    //     roomtypes[widget.index].price * int.parse(_textEditingController.text);
+    // bookRequest.reservation.totalDivers =
+    //     Int64(roomtypes[widget.index].maxGuest);
+    // bookRequest.reservation.tripId = details[widget.index].id;
+    // bookRequest.reservation.rooms.add(roomtypes[widget.index]);
+
+    try {
+      var response = stub.createReservation(bookRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
