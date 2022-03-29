@@ -427,11 +427,11 @@ class _InfoCardState extends State<InfoCard> {
     }
 
     var reservation = Reservation()..rooms.add(room);
+    reservation.tripId=Int64(28);
     reservation.diverId = user_profile.diver.id;
     reservation.price =
         roomtypes[widget.index].price * int.parse(_textEditingQuantity.text);
     reservation.totalDivers = Int64(roomtypes[widget.index].maxGuest);
-    // reservation.rooms.add(room);
 
     var bookRequest = CreateReservationRequest()..reservation = reservation;
 
