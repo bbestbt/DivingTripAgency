@@ -14,7 +14,9 @@ import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
 List<ReportTrip> trips = [];
+
 List<ReportTrip> endedTrips = [];
+
 
 class CompanyReport extends StatefulWidget {
   @override

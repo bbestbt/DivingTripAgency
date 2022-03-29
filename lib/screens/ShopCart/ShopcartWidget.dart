@@ -103,7 +103,7 @@ class _CartState extends State<CartWidget> {
                   style: TextStyle(fontSize: 22.0),
                 ),
                 Text(
-                  "Price: " + Cartlist[position][4].toString(),
+                  "Total price: " + Cartlist[position][4].toString(),
                   style: TextStyle(fontSize: 22.0),
                 ),
               ]),
