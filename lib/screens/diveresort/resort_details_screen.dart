@@ -168,8 +168,7 @@ class _detailState extends State<detail> {
           title: "Dive resorts",
           color: Color(0xFFFF78a2cc),
         ),
-         Text("Trip name : " +
-            details[widget.index].tripTemplate.name),
+        Text("Trip name : " + details[widget.index].tripTemplate.name),
         SizedBox(
           height: 10,
         ),
@@ -418,27 +417,23 @@ class _InfoCardState extends State<InfoCard> {
     final stub = ReservationServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    var bookRequest = CreateReservationRequest();
-
-    bookRequest.reservation.diverId = user_profile.diver.id;
-    bookRequest.reservation.price =
-        roomtypes[widget.index].price * int.parse(_textEditingQuantity.text);
-    bookRequest.reservation.totalDivers =
-        Int64(roomtypes[widget.index].maxGuest);
-    bookRequest.reservation.tripId = details[widget.index].id;
-    
-    var room = Reservation_Room(); 
+    var room = Reservation_Room();
     for (int i = 0; i < roomtypes.length; i++) {
       room.quantity = int.parse(_textEditingQuantity.text);
       room.roomTypeId = roomtypes[i].id;
       room.noDivers = int.parse(_textEditingDiver.text);
       print(room.quantity);
       print(room.noDivers);
-    
     }
-     var reservation=Reservation()..rooms.add(room);
-     bookRequest.reservation.rooms.add(room);
-   
+
+    var reservation = Reservation()..rooms.add(room);
+    reservation.diverId = user_profile.diver.id;
+    reservation.price =
+        roomtypes[widget.index].price * int.parse(_textEditingQuantity.text);
+    reservation.totalDivers = Int64(roomtypes[widget.index].maxGuest);
+    // reservation.rooms.add(room);
+
+    var bookRequest = CreateReservationRequest()..reservation = reservation;
 
     try {
       var response = stub.createReservation(bookRequest);
@@ -531,7 +526,7 @@ class _InfoCardState extends State<InfoCard> {
                 ),
                 TextButton(
                   child: Text('Book'),
-                  onPressed: () async{
+                  onPressed: () async {
                     if (_formKey.currentState.validate()) {
                       await bookTrips();
 
