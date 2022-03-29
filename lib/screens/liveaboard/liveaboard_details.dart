@@ -503,7 +503,7 @@ class _InfoCardState extends State<InfoCard> {
                   child: Text('Add room'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      Cartlist.add([
+                    Cartlist.add([
                         "5.jpg",
                         details[indexDetail].tripTemplate.name,
                         liveaboardDetial.liveaboard.name,
@@ -511,6 +511,12 @@ class _InfoCardState extends State<InfoCard> {
                         (roomtypes[indexRoom].price *
                                 int.parse(_textEditingQuantity.text)) +
                             details[indexDetail].price,
+                            details,
+                            roomtypes,
+                            indexRoom,
+                            indexDetail,
+                           int.parse( _textEditingQuantity.text),
+                            int.parse(_textEditingDiver.text)
                       ]);
 
                       // Do something like updating SharedPreferences or User Settings etc.

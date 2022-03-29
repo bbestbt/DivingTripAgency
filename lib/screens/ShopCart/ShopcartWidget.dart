@@ -15,6 +15,12 @@ import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
 
 List Cartlist = [];
+List<RoomType> roomtypes = Cartlist[0][6];
+List<TripWithTemplate> details = Cartlist[0][5];
+int indexRoom = Cartlist[0][7];
+int indexDetail = Cartlist[0][8];
+int quantity = Cartlist[0][9];
+int diver = Cartlist[0][10];
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 
@@ -24,7 +30,6 @@ class CartWidget extends StatefulWidget {
 }
 
 class _CartState extends State<CartWidget> {
-
   getProfile() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -43,50 +48,52 @@ class _CartState extends State<CartWidget> {
     return user_profile;
   }
 
-  // void bookTrips() async {
-  //   await getProfile();
-  //   final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-  //       host: '139.59.101.136',
-  //       grpcPort: 50051,
-  //       grpcTransportSecure: false,
-  //       grpcWebPort: 8080,
-  //       grpcWebTransportSecure: false);
-  //   final box = Hive.box('userInfo');
-  //   String token = box.get('token');
+  void bookTrips() async {
+    await getProfile();
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
 
-  //   final stub = ReservationServiceClient(channel,
-  //       options: CallOptions(metadata: {'Authorization': '$token'}));
+    final stub = ReservationServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var reservation;
 
-  //   var room = Reservation_Room();
-  //   for (int i = 0; i < roomtypes.length; i++) {
-  //     room.quantity = int.parse(_textEditingQuantity.text);
-  //     room.roomTypeId = roomtypes[i].id;
-  //     room.noDivers = int.parse(_textEditingDiver.text);
-  //     // print(room.quantity);
-  //     // print(room.noDivers);
-  //   }
+    var room = Reservation_Room();
+    for (int i = 0; i < roomtypes.length; i++) {
+      room.quantity = quantity;
+      room.roomTypeId = roomtypes[i].id;
+      room.noDivers = diver;
+    }
 
-  //   var reservation = Reservation()..rooms.add(room);
-  //   reservation.tripId = details[indexDetail].id;
-  //   // Int64(28);
-  //   reservation.diverId = user_profile.diver.id;
-  //   reservation.price =
-  //       (roomtypes[indexRoom].price * int.parse(_textEditingQuantity.text)) +
-  //           details[indexDetail].price;
-  //   reservation.totalDivers = Int64(roomtypes[indexRoom].maxGuest);
+    reservation = Reservation()..rooms.add(room);
+    reservation.tripId = details[indexDetail].id;
+    reservation.diverId = user_profile.diver.id;
+    reservation.price =
+        (roomtypes[indexRoom].price * quantity) + details[indexDetail].price;
+    reservation.totalDivers = Int64(roomtypes[indexRoom].maxGuest);
 
-  //   var bookRequest = CreateReservationRequest()..reservation = reservation;
-
-  //   try {
-  //     var response = stub.createReservation(bookRequest);
-  //     print('response: ${response}');
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
+    var bookRequest = CreateReservationRequest()..reservation = reservation;
+    try {
+      var response = stub.createReservation(bookRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(roomtypes);
+    print(details);
+    print(indexRoom);
+    print(indexDetail);
+    print(quantity);
+    print(diver);
     return Container(
         child: Column(children: [
       ListView.builder(
@@ -158,8 +165,8 @@ class _CartState extends State<CartWidget> {
           "Book",
           style: TextStyle(fontSize: 25),
         ),
-        onPressed: () {
-
+        onPressed: () async {
+          await bookTrips();
         },
         style: TextButton.styleFrom(
             primary: Colors.red, elevation: 2, backgroundColor: Colors.amber),
