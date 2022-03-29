@@ -25,7 +25,7 @@ class CartWidget extends StatefulWidget {
 
 class _CartState extends State<CartWidget> {
 
-    getProfile() async {
+  getProfile() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -43,36 +43,48 @@ class _CartState extends State<CartWidget> {
     return user_profile;
   }
 
-  void bookTrips() async {
-    await getProfile();
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-    final box = Hive.box('userInfo');
-    String token = box.get('token');
+  // void bookTrips() async {
+  //   await getProfile();
+  //   final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+  //       host: '139.59.101.136',
+  //       grpcPort: 50051,
+  //       grpcTransportSecure: false,
+  //       grpcWebPort: 8080,
+  //       grpcWebTransportSecure: false);
+  //   final box = Hive.box('userInfo');
+  //   String token = box.get('token');
 
-    final stub = ReservationServiceClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
+  //   final stub = ReservationServiceClient(channel,
+  //       options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    var bookRequest = CreateReservationRequest();
-    bookRequest.reservation.diverId = user_profile.diver.id;
-    // bookRequest.reservation.price =
-    //     roomtypes[widget.index].price * int.parse(_textEditingController.text);
-    // bookRequest.reservation.totalDivers =
-    //     Int64(roomtypes[widget.index].maxGuest);
-    // bookRequest.reservation.tripId = details[widget.index].id;
-    // bookRequest.reservation.rooms.add(roomtypes[widget.index]);
+  //   var room = Reservation_Room();
+  //   for (int i = 0; i < roomtypes.length; i++) {
+  //     room.quantity = int.parse(_textEditingQuantity.text);
+  //     room.roomTypeId = roomtypes[i].id;
+  //     room.noDivers = int.parse(_textEditingDiver.text);
+  //     // print(room.quantity);
+  //     // print(room.noDivers);
+  //   }
 
-    try {
-      var response = stub.createReservation(bookRequest);
-      print('response: ${response}');
-    } catch (e) {
-      print(e);
-    }
-  }
+  //   var reservation = Reservation()..rooms.add(room);
+  //   reservation.tripId = details[indexDetail].id;
+  //   // Int64(28);
+  //   reservation.diverId = user_profile.diver.id;
+  //   reservation.price =
+  //       (roomtypes[indexRoom].price * int.parse(_textEditingQuantity.text)) +
+  //           details[indexDetail].price;
+  //   reservation.totalDivers = Int64(roomtypes[indexRoom].maxGuest);
+
+  //   var bookRequest = CreateReservationRequest()..reservation = reservation;
+
+  //   try {
+  //     var response = stub.createReservation(bookRequest);
+  //     print('response: ${response}');
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -143,10 +155,12 @@ class _CartState extends State<CartWidget> {
       ),
       TextButton(
         child: Text(
-          "Go to payment",
+          "Book",
           style: TextStyle(fontSize: 25),
         ),
-        onPressed: () {},
+        onPressed: () {
+
+        },
         style: TextButton.styleFrom(
             primary: Colors.red, elevation: 2, backgroundColor: Colors.amber),
       ),

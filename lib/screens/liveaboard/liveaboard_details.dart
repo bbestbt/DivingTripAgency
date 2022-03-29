@@ -505,12 +505,12 @@ class _InfoCardState extends State<InfoCard> {
                     if (_formKey.currentState.validate()) {
                       Cartlist.add([
                         "5.jpg",
-                        "trip name",
+                        details[indexDetail].tripTemplate.name,
                         liveaboardDetial.liveaboard.name,
                         roomtypes[indexRoom].name,
-                        roomtypes[indexRoom].price *
-                            int.parse(_textEditingQuantity.text),
-                        7
+                        (roomtypes[indexRoom].price *
+                                int.parse(_textEditingQuantity.text)) +
+                            details[indexDetail].price,
                       ]);
 
                       // Do something like updating SharedPreferences or User Settings etc.

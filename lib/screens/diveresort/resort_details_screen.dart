@@ -442,9 +442,8 @@ class _InfoCardState extends State<InfoCard> {
     }
 
     var reservation = Reservation()..rooms.add(room);
-    reservation.tripId =
-        details[indexDetail].id;
-        // Int64(28);
+    reservation.tripId = details[indexDetail].id;
+    // Int64(28);
     reservation.diverId = user_profile.diver.id;
     reservation.price =
         (roomtypes[indexRoom].price * int.parse(_textEditingQuantity.text)) +
@@ -520,12 +519,12 @@ class _InfoCardState extends State<InfoCard> {
                     if (_formKey.currentState.validate()) {
                       Cartlist.add([
                         "5.jpg",
-                        "trip name",
+                        details[indexDetail].tripTemplate.name,
                         hotelDetial.hotel.name,
                         roomtypes[indexRoom].name,
-                        roomtypes[indexRoom].price *
-                            int.parse(_textEditingQuantity.text),
-                        7
+                        (roomtypes[indexRoom].price *
+                                int.parse(_textEditingQuantity.text)) +
+                            details[indexDetail].price,
                       ]);
 
                       // Do something like updating SharedPreferences or User Settings etc.
