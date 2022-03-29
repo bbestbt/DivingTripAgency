@@ -403,7 +403,6 @@ class _InfoCardState extends State<InfoCard> {
   int indexDetail;
   _InfoCardState(this.indexRoom, this.details, this.indexDetail);
 
-
   getProfile() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -441,16 +440,19 @@ class _InfoCardState extends State<InfoCard> {
       room.quantity = int.parse(_textEditingQuantity.text);
       room.roomTypeId = roomtypes[i].id;
       room.noDivers = int.parse(_textEditingDiver.text);
-      print(room.quantity);
-      print(room.noDivers);
+      // print(room.quantity);
+      // print(room.noDivers);
     }
 
     var reservation = Reservation()..rooms.add(room);
-    reservation.tripId=Int64(28);
+    reservation.tripId =
+        details[indexDetail].id;
+        // Int64(28);
     reservation.diverId = user_profile.diver.id;
     reservation.price =
-        roomtypes[widget.index].price * int.parse(_textEditingQuantity.text);
-    reservation.totalDivers = Int64(roomtypes[widget.index].maxGuest);
+        (roomtypes[indexRoom].price * int.parse(_textEditingQuantity.text)) +
+            details[indexDetail].price;
+    reservation.totalDivers = Int64(roomtypes[indexRoom].maxGuest);
 
     var bookRequest = CreateReservationRequest()..reservation = reservation;
 
@@ -461,7 +463,6 @@ class _InfoCardState extends State<InfoCard> {
       print(e);
     }
   }
-
 
   Future<void> showInformationDialog(BuildContext context) async {
     // print(details.length);
@@ -520,37 +521,15 @@ class _InfoCardState extends State<InfoCard> {
                   child: Text('Add room'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      // bookTrips();
-                      // print(index);
-                      //  print(details[index].tripTemplate.name);
-                      // print(details[indexDetail].price);
-                      /*print(details[widget.index]
-                          .tripTemplate
-                          .images[1]
-                          .link
-                          .toString());*/
-
-
-                      print(((roomtypes[indexRoom].price *
-                                  int.parse(_textEditingController.text)) +
-                              details[indexDetail].price)
-                          .toString());
-
-                      print(roomtypes[widget.index].price *
-                          int.parse(_textEditingQuantity.text));
                       Cartlist.add([
                         "5.jpg",
                         "trip name",
                         hotelDetial.hotel.name,
-                        roomtypes[widget.index].name,
-                        roomtypes[widget.index].price *
+                        roomtypes[indexRoom].name,
+                        roomtypes[indexRoom].price *
                             int.parse(_textEditingQuantity.text),
                         7
                       ]);
-                       print(((roomtypes[indexRoom].price *
-                                  int.parse(_textEditingController.text)) +
-                              details[indexDetail].price)
-                          .toString());
 
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
@@ -562,6 +541,13 @@ class _InfoCardState extends State<InfoCard> {
                   child: Text('Book'),
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
+                      // print(details[indexDetail].price);
+                      // print('--');
+                      // print((roomtypes[indexRoom].price *
+                      //     int.parse(_textEditingQuantity.text)));
+                      // print((roomtypes[indexRoom].price *
+                      //         int.parse(_textEditingQuantity.text)) +
+                      //     details[indexDetail].price);
                       await bookTrips();
 
                       Navigator.of(context).pop();
