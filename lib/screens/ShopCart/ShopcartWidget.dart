@@ -15,12 +15,13 @@ import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
 
 List Cartlist = [];
-List<RoomType> roomtypes = Cartlist[0][6];
-List<TripWithTemplate> details = Cartlist[0][5];
-int indexRoom = Cartlist[0][7];
-int indexDetail = Cartlist[0][8];
-int quantity = Cartlist[0][9];
-int diver = Cartlist[0][10];
+
+List<RoomType> roomtypes;
+List<TripWithTemplate> details;
+int indexRoom;
+int indexDetail;
+int quantity;
+int diver;
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 
@@ -30,6 +31,20 @@ class CartWidget extends StatefulWidget {
 }
 
 class _CartState extends State<CartWidget> {
+  @override
+  void initState() {
+    for (int i = 0; i < Cartlist.length; i++) {
+      roomtypes = Cartlist[i][6];
+      details = Cartlist[i][5];
+      indexRoom = Cartlist[i][7];
+      indexDetail = Cartlist[i][8];
+      quantity = Cartlist[i][9];
+      diver = Cartlist[i][10];
+    }
+    // TODO: implement initState
+    super.initState();
+  }
+
   getProfile() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -88,12 +103,12 @@ class _CartState extends State<CartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(roomtypes);
-    print(details);
-    print(indexRoom);
-    print(indexDetail);
-    print(quantity);
-    print(diver);
+    // print(roomtypes);
+    // print(details);
+    // print(indexRoom);
+    // print(indexDetail);
+    // print(quantity);
+    // print(diver);
     return Container(
         child: Column(children: [
       ListView.builder(
@@ -160,6 +175,7 @@ class _CartState extends State<CartWidget> {
           ));
         },
       ),
+        SizedBox(height: 30),
       TextButton(
         child: Text(
           "Book",
@@ -167,10 +183,24 @@ class _CartState extends State<CartWidget> {
         ),
         onPressed: () async {
           await bookTrips();
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Booking"),
+                  content: Text("done"),
+                  actions: <Widget>[
+                    // FlatButton(
+                    //   child: Text("OK"),
+                    // ),
+                  ],
+                );
+              });
         },
         style: TextButton.styleFrom(
             primary: Colors.red, elevation: 2, backgroundColor: Colors.amber),
       ),
+      SizedBox(height: 30),
     ]));
 
     /*Container(

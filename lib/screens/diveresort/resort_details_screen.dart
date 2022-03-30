@@ -514,7 +514,7 @@ class _InfoCardState extends State<InfoCard> {
                   )),
               actions: <Widget>[
                 TextButton(
-                  child: Text('Add room'),
+                  child: Text('Add room to cart'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       Cartlist.add([
@@ -525,17 +525,16 @@ class _InfoCardState extends State<InfoCard> {
                         (roomtypes[indexRoom].price *
                                 int.parse(_textEditingQuantity.text)) +
                             details[indexDetail].price,
-                            details,
-                            roomtypes,
-                            indexRoom,
-                            indexDetail,
-                           int.parse( _textEditingQuantity.text),
-                            int.parse(_textEditingDiver.text)
+                        details,
+                        roomtypes,
+                        indexRoom,
+                        indexDetail,
+                        int.parse(_textEditingQuantity.text),
+                        int.parse(_textEditingDiver.text)
                       ]);
 
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
-                  
                     }
                   },
                 ),
@@ -551,6 +550,19 @@ class _InfoCardState extends State<InfoCard> {
                       //         int.parse(_textEditingQuantity.text)) +
                       //     details[indexDetail].price);
                       await bookTrips();
+                      // showDialog(
+                      //     context: context,
+                      //     builder: (BuildContext context) {
+                      //       return AlertDialog(
+                      //         title: Text("Booking"),
+                      //         content: Text("done"),
+                      //         actions: <Widget>[
+                      //           // FlatButton(
+                      //           //child: Text("OK"),
+                      //           //     ),
+                      //         ],
+                      //       );
+                      //     });
 
                       Navigator.of(context).pop();
                       print('book');
