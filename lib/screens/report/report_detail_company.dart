@@ -17,6 +17,7 @@ List<ReportTrip> trips = [];
 
 List<ReportTrip> endedTrips = [];
 List<Diver> diver = [];
+List<Diver> endedDiver = [];
 
 class CompanyReport extends StatefulWidget {
   @override
@@ -85,13 +86,14 @@ class _CompanyReportState extends State<CompanyReport> {
           endedTrips.add(feature.reports[i]);
           // print(endedTrips);
           for (int j = 0; j < feature.reports.length; j++) {
-          diver.add(feature.reports[i].divers[j]);
+          endedDiver.add(feature.reports[i].divers[j]);
         }
         }
       }
     } catch (e) {
       print('ERROR: $e');
-    }print(diver);
+    }
+    // print(endedDiver);
     return endedTrips;
   }
 
@@ -284,7 +286,8 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('List of divers : ' + diver[widget.index].firstName),
+                        // Text('List of divers : ' + diver[widget.index].firstName),
+                          diver.length==0? new Text("No diver"): new Text("List of divers : "+diver[widget.index].firstName+diver[widget.index].lastName),
                         SizedBox(
                           height: 10,
                         ),
@@ -327,6 +330,11 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
 
   @override
   Widget build(BuildContext context) {
+    // print('s');
+    // // print(endedDiver[widget.index].firstName.length);
+    // print('d');
+    // print(endedDiver.length);
+    // print('g');
     return InkWell(
       child: Container(
         height: 320,
@@ -405,7 +413,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('List of divers : ' + diver[widget.index].firstName),
+                        endedDiver.length==0? new Text("No diver"): new Text("List of divers : "+endedDiver[widget.index].firstName+endedDiver[widget.index].lastName),
                         SizedBox(
                           height: 10,
                         ),
