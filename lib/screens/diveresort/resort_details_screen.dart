@@ -31,7 +31,8 @@ List<TripWithTemplate> details;
 GetHotelResponse hotelDetial = new GetHotelResponse();
 var hotel;
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-final TextEditingController _textEditingController = TextEditingController();
+final TextEditingController _textEditingQuantity = TextEditingController();
+final TextEditingController _textEditingDiver = TextEditingController();
 
 class DiveResortDetailScreen extends StatefulWidget {
   int index;
@@ -73,7 +74,6 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
         ));
   }
 }
-
 
 class detail extends StatefulWidget {
   int index;
@@ -118,7 +118,7 @@ class _detailState extends State<detail> {
     listroomrequest.limit = Int64(20);
     listroomrequest.offset = Int64(0);
     listroomrequest.hotelId = details[widget.index].tripTemplate.hotelId;
-    // Int64(2);
+    //  Int64(2);
 
     roomtypes.clear();
     // print('test');
@@ -167,6 +167,10 @@ class _detailState extends State<detail> {
         SectionTitle(
           title: "Dive resorts",
           color: Color(0xFFFF78a2cc),
+        ),
+        Text("Trip name : " + details[widget.index].tripTemplate.name),
+        SizedBox(
+          height: 10,
         ),
         SizedBox(
           width: 1110,
@@ -339,10 +343,8 @@ class _detailState extends State<detail> {
                                     runSpacing: 40,
                                     children: List.generate(
                                       roomtypes.length,
-                                      (index) => Center(
-                                        child: InfoCard(
-                                          index: index,
-                                        ),
+                                      (candy) => Center(
+                                        child: InfoCard(candy, details, index),
                                       ),
                                     ))));
                       } else {
@@ -366,20 +368,37 @@ class _detailState extends State<detail> {
 }
 
 class InfoCard extends StatefulWidget {
-  const InfoCard({
-    Key key,
-    this.index,
-  }) : super(key: key);
+  List<TripWithTemplate> details;
+  int indexRoom;
+  int indexDetail;
 
-  final int index;
+  //  InfoCard({
+  //   this.index,
+  // });
+  InfoCard(int indexRoom, List<TripWithTemplate> details, int indexDetail) {
+    this.indexRoom = indexRoom;
+    this.details = details;
+    this.indexDetail = indexDetail;
+    // print(details);
+    // print(indexRoom);
+    // for (int i =0;i<details.length;i++){
+    //   print('index detail');
+    //   print(indexDetail);
+    //   print('price');
+    //   print(details[i].price);
+    // }
+  }
 
   @override
-  State<InfoCard> createState() => _InfoCardState();
+  State<InfoCard> createState() =>
+      _InfoCardState(this.indexRoom, this.details, this.indexDetail);
 }
 
 class _InfoCardState extends State<InfoCard> {
-  Map<String, dynamic> hotelTypeMap = {};
-  List<String> hotel = [];
+  List<TripWithTemplate> details;
+  int indexRoom;
+  int indexDetail;
+  _InfoCardState(this.indexRoom, this.details, this.indexDetail);
 
   getProfile() async {
     print("before try catch");
@@ -413,14 +432,25 @@ class _InfoCardState extends State<InfoCard> {
     final stub = ReservationServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    var bookRequest = CreateReservationRequest();
-    bookRequest.reservation.diverId = user_profile.diver.id;
-    bookRequest.reservation.price =
-        roomtypes[widget.index].price * int.parse(_textEditingController.text);
-    bookRequest.reservation.totalDivers =
-        Int64(roomtypes[widget.index].maxGuest);
-    bookRequest.reservation.tripId = details[widget.index].id;
-    // bookRequest.reservation.rooms.add(roomtypes[widget.index]);
+    var room = Reservation_Room();
+    for (int i = 0; i < roomtypes.length; i++) {
+      room.quantity = int.parse(_textEditingQuantity.text);
+      room.roomTypeId = roomtypes[i].id;
+      room.noDivers = int.parse(_textEditingDiver.text);
+      // print(room.quantity);
+      // print(room.noDivers);
+    }
+
+    var reservation = Reservation()..rooms.add(room);
+    reservation.tripId = details[indexDetail].id;
+    // Int64(28);
+    reservation.diverId = user_profile.diver.id;
+    reservation.price =
+        (roomtypes[indexRoom].price * int.parse(_textEditingQuantity.text)) +
+            details[indexDetail].price;
+    reservation.totalDivers = Int64(roomtypes[indexRoom].maxGuest);
+
+    var bookRequest = CreateReservationRequest()..reservation = reservation;
 
     try {
       var response = stub.createReservation(bookRequest);
@@ -431,6 +461,7 @@ class _InfoCardState extends State<InfoCard> {
   }
 
   Future<void> showInformationDialog(BuildContext context) async {
+    // print(details.length);
     return await showDialog(
         context: context,
         builder: (context) {
@@ -447,12 +478,24 @@ class _InfoCardState extends State<InfoCard> {
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                         ],
-                        controller: _textEditingController,
+                        controller: _textEditingQuantity,
                         validator: (value) {
                           return value.isNotEmpty ? null : "Invalid Field";
                         },
                         decoration:
                             InputDecoration(hintText: "Enter room quantity"),
+                      ),
+                      TextFormField(
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        controller: _textEditingDiver,
+                        validator: (value) {
+                          return value.isNotEmpty ? null : "Invalid Field";
+                        },
+                        decoration:
+                            InputDecoration(hintText: "Enter number of diver"),
                       ),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -471,24 +514,58 @@ class _InfoCardState extends State<InfoCard> {
                   )),
               actions: <Widget>[
                 TextButton(
-                  child: Text('Confirm'),
+                  child: Text('Add room to cart'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      // bookTrips();
-                      // print(details[widget.index].price);
-                      /*print(details[widget.index]
-                          .tripTemplate
-                          .images[1]
-                          .link
-                          .toString());*/
-                      print(roomtypes[widget.index].price *
-                          int.parse(_textEditingController.text));
-                      Cartlist.add(["5.jpg",hotelDetial.hotel.name,roomtypes[widget.index].price *
-                          int.parse(_textEditingController.text),7]);
-                      // print((roomtypes[widget.index].price+details[widget.index].price).toString());
+                      Cartlist.add([
+                        "5.jpg",
+                        details[indexDetail].tripTemplate.name,
+                        hotelDetial.hotel.name,
+                        roomtypes[indexRoom].name,
+                        (roomtypes[indexRoom].price *
+                                int.parse(_textEditingQuantity.text)) +
+                            details[indexDetail].price,
+                        details,
+                        roomtypes,
+                        indexRoom,
+                        indexDetail,
+                        int.parse(_textEditingQuantity.text),
+                        int.parse(_textEditingDiver.text)
+                      ]);
+
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
-                      print('done');
+                    }
+                  },
+                ),
+                TextButton(
+                  child: Text('Book'),
+                  onPressed: () async {
+                    if (_formKey.currentState.validate()) {
+                      // print(details[indexDetail].price);
+                      // print('--');
+                      // print((roomtypes[indexRoom].price *
+                      //     int.parse(_textEditingQuantity.text)));
+                      // print((roomtypes[indexRoom].price *
+                      //         int.parse(_textEditingQuantity.text)) +
+                      //     details[indexDetail].price);
+                      await bookTrips();
+                      // showDialog(
+                      //     context: context,
+                      //     builder: (BuildContext context) {
+                      //       return AlertDialog(
+                      //         title: Text("Booking"),
+                      //         content: Text("done"),
+                      //         actions: <Widget>[
+                      //           // FlatButton(
+                      //           //child: Text("OK"),
+                      //           //     ),
+                      //         ],
+                      //       );
+                      //     });
+
+                      Navigator.of(context).pop();
+                      print('book');
                     }
                   },
                 ),
@@ -500,6 +577,9 @@ class _InfoCardState extends State<InfoCard> {
 
   @override
   Widget build(BuildContext context) {
+    // for (int i = 0; i < roomtypes.length; i++) {
+    //   print(roomtypes);
+    // }
     return InkWell(
       child: Container(
         height: 320,
@@ -514,13 +594,16 @@ class _InfoCardState extends State<InfoCard> {
             Container(
                 width: 200,
                 height: 200,
-                child: roomtypes[widget.index].roomImages.length == 0
+                child: roomtypes[widget.indexRoom].roomImages.length == 0
                     ? new Container(
                         color: Colors.green,
                       )
                     : Image.network(
                         // 'http://139.59.101.136/static/' +
-                        roomtypes[widget.index].roomImages[0].link.toString()
+                        roomtypes[widget.indexRoom]
+                            .roomImages[0]
+                            .link
+                            .toString()
                         // trips[widget.index].tripTemplate.images[0].toString()
                         )),
             SizedBox(
@@ -531,26 +614,26 @@ class _InfoCardState extends State<InfoCard> {
                 SizedBox(
                   height: 40,
                 ),
-                Text('Room type : ' + roomtypes[widget.index].name),
+                Text('Room type : ' + roomtypes[widget.indexRoom].name),
                 SizedBox(
                   height: 20,
                 ),
-                Text(
-                    'Room description: ' + roomtypes[widget.index].description),
+                Text('Room description: ' +
+                    roomtypes[widget.indexRoom].description),
                 SizedBox(
                   height: 20,
                 ),
                 Text('Max capacity : ' +
-                    roomtypes[widget.index].maxGuest.toString()),
+                    roomtypes[widget.indexRoom].maxGuest.toString()),
                 SizedBox(
                   height: 20,
                 ),
                 Text('Room quantity : ' +
-                    roomtypes[widget.index].quantity.toString()),
+                    roomtypes[widget.indexRoom].quantity.toString()),
                 SizedBox(
                   height: 20,
                 ),
-                Text('Price : ' + roomtypes[widget.index].price.toString()),
+                Text('Price : ' + roomtypes[widget.indexRoom].price.toString()),
                 SizedBox(
                   height: 20,
                 ),

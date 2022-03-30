@@ -196,7 +196,7 @@ class _TripDetailState extends State<TripDetail> {
                       Text('Start Date'),
                       Spacer(),
                       // Text(_dateFrom == null ? '' : _dateFrom.toString()),
-                      Text(_dateFrom == null
+                       Text(_dateFrom == null
                           ? ''
                           : DateFormat("dd/MM/yyyy").format(_dateFrom)),
                       Spacer(),
@@ -205,17 +205,17 @@ class _TripDetailState extends State<TripDetail> {
                           child: Text('Pick a date'),
                           onPressed: () {
                             showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime.now().subtract(Duration(days:60)),
-                                lastDate: DateTime.now().add(Duration(days:30)))
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime.now().subtract(Duration(days:60)),
+                                    lastDate: DateTime.now().add(Duration(days:30)))
                                 .then((date) => {
-                              setState(() {
-                                var timeStamp =
-                                //  print(Timestamp.fromDateTime(date));
-                                _dateFrom = date;
-                              })
-                            });
+                                      setState(() {
+                                        var timeStamp =
+                                            //  print(Timestamp.fromDateTime(date));
+                                            _dateFrom = date;
+                                      })
+                                    });
                           }),
                     ],
                   ),
@@ -225,7 +225,7 @@ class _TripDetailState extends State<TripDetail> {
                       Text('To'),
                       Spacer(),
                       // Text(_dateTo == null ? '' : _dateTo.toString()),
-                      Text(_dateTo == null
+                       Text(_dateTo == null
                           ? ''
                           : DateFormat("dd/MM/yyyy").format(_dateFrom)),
                       Spacer(),
@@ -234,17 +234,17 @@ class _TripDetailState extends State<TripDetail> {
                           child: Text('Pick a date'),
                           onPressed: () {
                             showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
+                                    context: context,
+                                    initialDate: DateTime.now(),
                                 firstDate: DateTime.now().subtract(Duration(days:60)),
                                 lastDate: DateTime.now().add(Duration(days:30)))
                                 .then((date) => {
-                              setState(() {
-                                var timeStamp =
-                                //    print(Timestamp.fromDateTime(date));
-                                _dateTo = date;
-                              })
-                            });
+                                      setState(() {
+                                        var timeStamp =
+                                            //    print(Timestamp.fromDateTime(date));
+                                            _dateTo = date;
+                                      })
+                                    });
                           }),
                     ],
                   ),
@@ -383,69 +383,69 @@ class _TripDetailState extends State<TripDetail> {
                       child: Text("Price (per person/trip)")),
                   Container(
                       child: Column(
-                        children: <Widget>[
-                          ListTile(
-                            title: const Text('all'),
-                            leading: Radio<Cost>(
-                              value: Cost.all,
-                              groupValue: tripcost,
-                              onChanged: (Cost value) {
-                                setState(() {
-                                  tripcost = value;
-                                });
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            title: const Text('0 - 1,000'),
-                            leading: Radio<Cost>(
-                              value: Cost.one,
-                              groupValue: tripcost,
-                              onChanged: (Cost value) {
-                                setState(() {
-                                  tripcost = value;
-                                });
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            title: const Text('1,000 - 2,000'),
-                            leading: Radio<Cost>(
-                              value: Cost.two,
-                              groupValue: tripcost,
-                              onChanged: (Cost value) {
-                                setState(() {
-                                  tripcost = value;
-                                });
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            title: const Text('2,000 - 3,000'),
-                            leading: Radio<Cost>(
-                              value: Cost.three,
-                              groupValue: tripcost,
-                              onChanged: (Cost value) {
-                                setState(() {
-                                  tripcost = value;
-                                });
-                              },
-                            ),
-                          ),
-                          ListTile(
-                            title: const Text('3,000 +'),
-                            leading: Radio<Cost>(
-                              value: Cost.more,
-                              groupValue: tripcost,
-                              onChanged: (Cost value) {
-                                setState(() {
-                                  tripcost = value;
-                                });
-                              },
-                            ),
-                          ),
-                        ],
-                      ))
+                    children: <Widget>[
+                      ListTile(
+                        title: const Text('all'),
+                        leading: Radio<Cost>(
+                          value: Cost.all,
+                          groupValue: tripcost,
+                          onChanged: (Cost value) {
+                            setState(() {
+                              tripcost = value;
+                            });
+                          },
+                        ),
+                      ),
+                      ListTile(
+                        title: const Text('0 - 1,000'),
+                        leading: Radio<Cost>(
+                          value: Cost.one,
+                          groupValue: tripcost,
+                          onChanged: (Cost value) {
+                            setState(() {
+                              tripcost = value;
+                            });
+                          },
+                        ),
+                      ),
+                      ListTile(
+                        title: const Text('1,000 - 2,000'),
+                        leading: Radio<Cost>(
+                          value: Cost.two,
+                          groupValue: tripcost,
+                          onChanged: (Cost value) {
+                            setState(() {
+                              tripcost = value;
+                            });
+                          },
+                        ),
+                      ),
+                      ListTile(
+                        title: const Text('2,000 - 3,000'),
+                        leading: Radio<Cost>(
+                          value: Cost.three,
+                          groupValue: tripcost,
+                          onChanged: (Cost value) {
+                            setState(() {
+                              tripcost = value;
+                            });
+                          },
+                        ),
+                      ),
+                      ListTile(
+                        title: const Text('3,000 +'),
+                        leading: Radio<Cost>(
+                          value: Cost.more,
+                          groupValue: tripcost,
+                          onChanged: (Cost value) {
+                            setState(() {
+                              tripcost = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ))
                 ])),
           ])),
       Expanded(
@@ -456,11 +456,11 @@ class _TripDetailState extends State<TripDetail> {
 
               child: Container(
 
-                // margin: EdgeInsetsDirectional.only(top:120),
+                  // margin: EdgeInsetsDirectional.only(top:120),
                 width: screenwidth * 0.05,
-                 height: 1800,
+                // height: 600,
                 decoration:
-                BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
+                    BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
                 child: Column(
                   children: [
                     SectionTitle(
@@ -486,7 +486,7 @@ class _TripDetailState extends State<TripDetail> {
                                         runSpacing: 40,
                                         children: List.generate(
                                           _foundtrip.length,
-                                              (index) => Center(
+                                          (index) => Center(
                                             child: InfoCard(
                                               index: index,
                                             ),
@@ -516,10 +516,10 @@ class _TripDetailState extends State<TripDetail> {
 
   void _runFilter() {
     print("Date diff: "+_diff);
-    // print("Dropdownvalue2:"+dropdownValue2);
-    // print("Dropdownvalue:"+dropdownValue);
+   // print("Dropdownvalue2:"+dropdownValue2);
+   // print("Dropdownvalue:"+dropdownValue);
     List<TripWithTemplate> results = [];
-    // print("_diff: " + _diff.toString());
+   // print("_diff: " + _diff.toString());
     if (dropdownValue == "All" &&
         dropdownValue2 == "All" &&
         _dateFrom == null &&
@@ -527,12 +527,12 @@ class _TripDetailState extends State<TripDetail> {
         guestvalue == null &&
         _diff == "" &&
         tripcost == Cost.all) {
-      // print("Filtering 1");
+     // print("Filtering 1");
 
       // if the search field is empty or only contains white-space, we'll display all users
       results = trips;
       //print("Date diff of trip 0: "+results[1].startDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays.abs().toString());
-      //print(results[0].tripTemplate.tripType.toString());
+    //print(results[0].tripTemplate.tripType.toString());
       //results[0].tripTemplate.tripType.toString();
       setState(() {
         _foundtrip = results;
@@ -548,10 +548,10 @@ class _TripDetailState extends State<TripDetail> {
       //print(results[1].fromDate.toDateTime());
 
       if (dropdownValue != "All") {
-        // print("Filtering 2");
+       // print("Filtering 2");
         results = results
             .where((trip) =>
-            trip.tripTemplate.address.city.contains(dropdownValue))
+                trip.tripTemplate.address.city.contains(dropdownValue))
             .toList();
       }
       if (_dateFrom != null) {
@@ -565,9 +565,9 @@ class _TripDetailState extends State<TripDetail> {
       if (_dateTo != null) {
         results = results
             .where((trip) => trip.toDate
-            .toDateTime()
-            .subtract(Duration(days: 1))
-            .isBefore(_dateTo))
+                .toDateTime()
+                .subtract(Duration(days: 1))
+                .isBefore(_dateTo))
             .toList();
       }
 
@@ -577,7 +577,7 @@ class _TripDetailState extends State<TripDetail> {
       }
       if (dropdownValue2 != "All") {
         if (dropdownValue2 == "Onshore") {
-          // print("dropdownValue 2 (Should be onshore):"+dropdownValue2);
+         // print("dropdownValue 2 (Should be onshore):"+dropdownValue2);
           results = results
               .where(
                   (trip) => trip.tripTemplate.tripType.toString() == "ONSHORE")
@@ -597,12 +597,12 @@ class _TripDetailState extends State<TripDetail> {
 
         results = results
             .where((trip) =>
-        (trip.fromDate
-            .toDateTime()
-            .difference(trip.toDate.toDateTime())
-            .inDays)
-            .abs() ==
-            int.parse(_diff))
+                (trip.fromDate
+                        .toDateTime()
+                        .difference(trip.toDate.toDateTime())
+                        .inDays)
+                    .abs() ==
+                int.parse(_diff))
             .toList();
         //print((results[1].fromDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays).abs());
         //print(_diff);
@@ -663,19 +663,19 @@ class _InfoCardState extends State<InfoCard> {
                 height: 300,
                 child: _foundtrip[widget.index].tripTemplate.images.length == 0
                     ? new Container(
-                  color: Colors.pink,
-                )
+                        color: Colors.pink,
+                      )
                     : Image.network(
-                  // 'http://139.59.101.136/static/'+
-                  // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
-                    _foundtrip[widget.index]
-                        .tripTemplate
-                        .images[0]
-                        .link
-                        .toString()
+                      // 'http://139.59.101.136/static/'+
+                        // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                        _foundtrip[widget.index]
+                            .tripTemplate
+                            .images[0]
+                            .link
+                            .toString()
 
-                  // _foundtrip[widget.index].tripTemplate.images[0].toString()
-                )),
+                        // _foundtrip[widget.index].tripTemplate.images[0].toString()
+                        )),
             // child: Image.asset(LiveAboardDatas[widget.index].image)),
             Expanded(
               child: Padding(
@@ -755,9 +755,9 @@ class _InfoCardState extends State<InfoCard> {
                               //   .tripType
                               //   .toString());
                               if (_foundtrip[widget.index]
-                                  .tripTemplate
-                                  .tripType
-                                  .toString() ==
+                                      .tripTemplate
+                                      .tripType
+                                      .toString() ==
                                   "ONSHORE") {
                                 Navigator.push(
                                     context,

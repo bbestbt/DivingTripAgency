@@ -71,51 +71,39 @@ class _GlassContentState extends State<GlassContent> {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: Container(
+                  padding: EdgeInsets.all(24),
                   color: Colors.white.withOpacity(0),
                   //  color: Colors.pink,
                   constraints: BoxConstraints(
-                      maxWidth: 400, maxHeight: widget.size.height * 0.25),
+                      maxWidth: MediaQuery.of(context).size.width, maxHeight: widget.size.height * 0.25),
 
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      buildSearchFormField(),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          RaisedButton(
-                            onPressed: () => pickDateRange(context),
-                            child: Text(getFrom()),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Icon(Icons.arrow_forward, color: Colors.black),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          RaisedButton(
-                            onPressed: () => pickDateRange(context),
-                            child: Text(getTo()),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
+                      Stack(children:[
+                        Text("Welcome to the diving Trip website",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 60,
+                              fontFamily: 'PT Sans Narrow',
+                              foreground:Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 6
+                                ..color = Colors.white
+                            ),
+                          softWrap: false,
+                        ),
+                        Text("Welcome to the diving Trip website",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 60,
+                              fontFamily: 'PT Sans Narrow',
 
-                          Spacer(),
-                          // Text('People'),
-                          Icon(Icons.people),
-                          SizedBox(
-                            width: 10,
                           ),
-                          peopleDropdown()
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      RaisedButton(child: Text('Confirm'), onPressed: () {})
+                          softWrap: false,
+                        )
+                      ]),
                     ],
                   ),
                 ),

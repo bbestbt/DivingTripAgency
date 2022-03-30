@@ -13,10 +13,11 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
-List<GenerateCurrentTripsReportResponse_ReportTrip> trips = [];
-// GetProfileResponse user_profile = new GetProfileResponse();
-// var profile;
-// Map<String, dynamic> tripMap = {};
+List<ReportTrip> trips = [];
+
+List<ReportTrip> endedTrips = [];
+List<Diver> diver = [];
+List<Diver> endedDiver = [];
 
 class CompanyReport extends StatefulWidget {
   @override
@@ -40,19 +41,60 @@ class _CompanyReportState extends State<CompanyReport> {
     listvalidtriprequest.limit = Int64(20);
     listvalidtriprequest.offset = Int64(0);
     trips.clear();
-     try {
-      //  print('test');
-      await for (var feature in stub.generateCurrentTripsReport(listvalidtriprequest)) {
+    try {
+      await for (var feature
+          in stub.generateCurrentTripsReport(listvalidtriprequest)) {
         //print(feature.trip);
         trips.add(feature.report);
-        print(trips);
+        for (int i = 0; i < feature.report.divers.length; i++) {
+          diver.add(feature.report.divers[i]);
+        }
+
+        // print(trips);
         // print(trips.length);
       }
     } catch (e) {
       print('ERROR: $e');
     }
-    // print(trips);
+    // print(diver);
     return trips;
+  }
+
+  getEndedTrip() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listendedtriprequest = GenerateYearlyEndedTripsReportRequest();
+    listendedtriprequest.limit = Int64(20);
+    listendedtriprequest.offset = Int64(0);
+    endedTrips.clear();
+    // print(endedTrips);
+    try {
+      await for (var feature
+          in stub.generateYearlyEndedTripsReport(listendedtriprequest)) {
+        // print(feature);
+        // print(feature.reports);
+        for (int i = 0; i < feature.reports.length; i++) {
+          endedTrips.add(feature.reports[i]);
+          // print(endedTrips);
+          for (int j = 0; j < feature.reports.length; j++) {
+          endedDiver.add(feature.reports[i].divers[j]);
+        }
+        }
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+    // print(endedDiver);
+    return endedTrips;
   }
 
   @override
@@ -95,7 +137,7 @@ class _CompanyReportState extends State<CompanyReport> {
                                 ),
                               ))));
                 } else {
-                  return CircularProgressIndicator();
+                  return Text('No data');
                 }
               },
             ),
@@ -113,32 +155,35 @@ class _CompanyReportState extends State<CompanyReport> {
                   style: TextStyle(fontSize: 20),
                 )),
           ),
-          // SizedBox(
-          //   width: 1110,
-          //   child: FutureBuilder(
-          //     future: getTrip(),
-          //     builder: (context, snapshot) {
-          //       if (snapshot.hasData) {
-          //         return Center(
-          //             child: Container(
-          //                 child: Wrap(
-          //                     spacing: 20,
-          //                     runSpacing: 40,
-          //                     children: List.generate(
-          //                       trips.length,
-          //                       (index) => Center(
-          //                         child: InfoCard(
-          //                           index: index,
-          //                         ),
-          //                       ),
-          //                     ))));
-          //       } else {
-          //         return CircularProgressIndicator();
-          //       }
-          //     },
-          //   ),
-          // ),
-          SizedBox(height: 40,)
+          SizedBox(
+            width: 1110,
+            child: FutureBuilder(
+              future: getEndedTrip(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Center(
+                      // child: Text('test'),
+                      child: Container(
+                          child: Wrap(
+                              spacing: 20,
+                              runSpacing: 40,
+                              children: List.generate(
+                                endedTrips.length,
+                                (index) => Center(
+                                  child: InfoCardEnded(
+                                    index: index,
+                                  ),
+                                ),
+                              ))));
+                } else {
+                  return Text('No data');
+                }
+              },
+            ),
+          ),
+          SizedBox(
+            height: 40,
+          )
         ],
       ),
     );
@@ -216,7 +261,10 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         Text('End date : ' +
-                            trips[widget.index].endDate.toDateTime().toString()),
+                            trips[widget.index]
+                                .endDate
+                                .toDateTime()
+                                .toString()),
                         SizedBox(
                           height: 10,
                         ),
@@ -226,7 +274,7 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         Text('Number of divers left : ' +
-                            trips[widget.index].curentGuest.toString()),
+                            trips[widget.index].placesLeft.toString()),
                         SizedBox(
                           height: 10,
                         ),
@@ -238,7 +286,8 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('List of divers : ' + 'd'),
+                        // Text('List of divers : ' + diver[widget.index].firstName),
+                          diver.length==0? new Text("No diver"): new Text("List of divers : "+diver[widget.index].firstName+diver[widget.index].lastName),
                         SizedBox(
                           height: 10,
                         ),
@@ -246,6 +295,132 @@ class _InfoCardState extends State<InfoCard> {
                             alignment: Alignment.centerRight,
                             child: Text('Price : ' +
                                 trips[widget.index].price.toString())),
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  )),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class InfoCardEnded extends StatefulWidget {
+  InfoCardEnded({
+    Key key,
+    this.index,
+  }) : super(key: key);
+  int index;
+
+  @override
+  State<InfoCardEnded> createState() => _InfoCardEndedState();
+}
+
+class _InfoCardEndedState extends State<InfoCardEnded> {
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // print('s');
+    // // print(endedDiver[widget.index].firstName.length);
+    // print('d');
+    // print(endedDiver.length);
+    // print('g');
+    return InkWell(
+      child: Container(
+        height: 320,
+        width: 1000,
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Row(
+          children: [
+            Container(
+                width: 300,
+                height: 300,
+                child: endedTrips[widget.index].tripTemplate.images.length == 0
+                    ? new Container(
+                        color: Colors.pink,
+                      )
+                    : Image.network(endedTrips[widget.index]
+                        .tripTemplate
+                        .images[0]
+                        .link
+                        .toString())),
+            Expanded(
+              child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Trip name : ' +
+                            endedTrips[widget.index].tripTemplate.name),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Location : ' +
+                            endedTrips[widget.index].tripTemplate.address.city +
+                            ', ' +
+                            endedTrips[widget.index]
+                                .tripTemplate
+                                .address
+                                .country),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Start date : ' +
+                            endedTrips[widget.index]
+                                .startDate
+                                .toDateTime()
+                                .toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('End date : ' +
+                            endedTrips[widget.index]
+                                .endDate
+                                .toDateTime()
+                                .toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Total people : ' +
+                            endedTrips[widget.index].maxGuest.toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Number of divers left : ' +
+                            endedTrips[widget.index].placesLeft.toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Trip type : ' +
+                            endedTrips[widget.index]
+                                .tripTemplate
+                                .tripType
+                                .toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        endedDiver.length==0? new Text("No diver"): new Text("List of divers : "+endedDiver[widget.index].firstName+endedDiver[widget.index].lastName),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: Text('Price : ' +
+                                endedTrips[widget.index].price.toString())),
                         SizedBox(
                           height: 20,
                         ),

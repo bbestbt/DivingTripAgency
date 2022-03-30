@@ -1,6 +1,7 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/diver.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
@@ -16,7 +17,6 @@ import 'package:intl/intl.dart';
 List<TripWithTemplate> trips = [];
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
-Map<String, dynamic> tripMap = {};
 
 class UserProfile extends StatefulWidget {
   @override
@@ -34,45 +34,26 @@ class _UserProfileState extends State<UserProfile> {
         grpcWebTransportSecure: false);
     final box = Hive.box('userInfo');
     String token = box.get('token');
-
-    final stub = AgencyServiceClient(channel,
+    final stub = DiverServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var searchonshore = SearchTripsOptions();
-    searchonshore.country = 'Thailand';
-    searchonshore.divers = 5;
-    var ts = Timestamp();
-    ts.seconds = Int64(1643663834);
-    searchonshore.startDate = ts;
-    var ts2 = Timestamp();
-    // ts2.seconds = Int64(1645996634);
-    ts2.seconds = Int64(1648681149);
-    searchonshore.endDate = ts2;
-    // searchonshore.tripType = TripType.ONSHORE;
-    var listonshorerequest = SearchTripsRequest();
-    listonshorerequest.limit = Int64(20);
-    listonshorerequest.offset = Int64(0);
-    listonshorerequest.searchTripsOptions = searchonshore;
-    // print(listonshorerequest);
-    // stub.searchTrips(listonshorerequest);
-
+    var listTrips = ListBookedTripsRequest();
+    listTrips.limit = Int64(20);
+    listTrips.offset = Int64(0);
+    trips.clear();
     try {
-      await for (var feature in stub.searchTrips(listonshorerequest)) {
-        // print(feature.trip);
+      //  print('test');
+      await for (var feature in stub.listBookedTrips(listTrips)) {
         trips.add(feature.trip);
-        // print(trips.length);
+      
       }
     } catch (e) {
       print('ERROR: $e');
     }
-    // print('---');
+  print(trips);
     return trips;
-    // print(trips.length);
-    // print('****');
   }
 
-
   getProfile() async {
-
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -91,7 +72,6 @@ class _UserProfileState extends State<UserProfile> {
       user_profile = profile;
       return user_profile;
     }
-
   }
 
   @override
@@ -178,7 +158,6 @@ class _UserProfileState extends State<UserProfile> {
                                 // color: Colors.yellow,
 
                                 color: Colors.blue[300],
-
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Text(
