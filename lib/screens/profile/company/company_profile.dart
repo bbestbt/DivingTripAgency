@@ -363,22 +363,22 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 20,
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: RaisedButton(
-                            onPressed: () {
-                              //   Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //           builder: (context) =>
-                              //               DiveResortDetailScreen()));
-                            },
-                            color: Colors.amber,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Text("View package"),
-                          ),
-                        )
+                        // Align(
+                        //   alignment: Alignment.centerRight,
+                        //   child: RaisedButton(
+                        //     onPressed: () {
+                        //       //   Navigator.push(
+                        //       //       context,
+                        //       //       MaterialPageRoute(
+                        //       //           builder: (context) =>
+                        //       //               DiveResortDetailScreen()));
+                        //     },
+                        //     color: Colors.amber,
+                        //     shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(10)),
+                        //     child: Text("View package"),
+                        //   ),
+                        // )
                       ],
                     ),
                   )),

@@ -82,11 +82,11 @@ class _GlassContentState extends State<GlassContent> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Stack(children:[
-                        Text("Welcome to the diving Trip website",
+                        Text("Welcome to the Diving Trip website",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 60,
-                              fontFamily: 'PT Sans Narrow',
+                              // fontFamily: 'PT Sans Narrow',
                               foreground:Paint()
                                 ..style = PaintingStyle.stroke
                                 ..strokeWidth = 6
@@ -94,11 +94,11 @@ class _GlassContentState extends State<GlassContent> {
                             ),
                           softWrap: false,
                         ),
-                        Text("Welcome to the diving Trip website",
+                        Text("Welcome to the Diving Trip website",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 60,
-                              fontFamily: 'PT Sans Narrow',
+                              // fontFamily: 'PT Sans Narrow',
 
                           ),
                           softWrap: false,

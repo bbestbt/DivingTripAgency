@@ -720,12 +720,13 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
 
-                        // SizedBox(
-                        //   height: 10,
-                        // ),
-                        // Text(LiveAboardDatas[widget.index].description),
                         Text('Total people : ' +
                             _foundtrip[widget.index].maxGuest.toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
+                            Text('Place Left : ' +
+                            (_foundtrip[widget.index].maxGuest-_foundtrip[widget.index].curentGuest).toString(),),
                         SizedBox(
                           height: 10,
                         ),
