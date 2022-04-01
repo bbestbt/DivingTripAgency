@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io' as io;
+import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'dart:convert';
 
 class DiveMasterForm extends StatefulWidget {
@@ -29,10 +30,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   String email;
   String phoneNumber;
   io.File CardFile;
+  XFile cb;
   String levelSelected = null;
   List<DiveMaster> divemasterValue;
   int count;
   io.File CardFileBack;
+  XFile ca;
   Map<String, int> levelTypeMap = {};
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
@@ -90,33 +93,52 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   }
 
   _getCard() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+    ca = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
       maxHeight: 5000,
     );
-    if (pickedFile != null) {
+    var f2 = File();
+    f2.filename = ca.name;
+    //f2.filename = 'image.jpg';
+    List<int> b = await ca.readAsBytes();
+    f2.file = b;
+    //this.imagelist.add(f);
+    this.divemasterValue[count - 1].documents.add(f2);
+
+    if (ca != null) {
       setState(() {
-        CardFile = io.File(pickedFile.path);
-        print(CardFile);
-        // divemasterValue[count - 1].documents.add(CardFile);
+        CardFile = io.File(ca.path);
+
       });
     }
   }
 
   _getCardBack() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
+    cb = await ImagePicker().pickImage(
+    source: ImageSource.gallery,
       maxWidth: 5000,
       maxHeight: 5000,
     );
-    if (pickedFile != null) {
-      setState(() {
-        CardFileBack = io.File(pickedFile.path);
-        print("CardFileBack");
-          //  divemasterValue[count - 1].documents.add(CardFileBack);
-      });
-    }
+      var f = File();
+      f.filename = cb.name;
+      //f2.filename = 'image.jpg';
+      List<int> a = await cb.readAsBytes();
+      f.file = a;
+      //this.imagelist.add(f);
+      this.divemasterValue[count - 1].documents.add(f);
+
+      if (cb != null) {
+        setState(() {
+          CardFileBack = io.File(cb.path);
+
+        });
+      }
+      //setState(() {
+        //CardFileBack = io.File(pickedFile.path);
+        //print("CardFileBack");
+        //divemasterValue[count - 1].documents.add(CardFileBack);
+      //});
   }
 
   @override

@@ -36,11 +36,11 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var divemaster = DiveMaster();
+
+
     for (int i = 0; i < divemasterValue.length; i++) {
       divemaster.firstName = divemasterValue[i].firstName;
       divemaster.lastName = divemasterValue[i].lastName;
-      // divemaster.documents.add(divemasterValue[i].documents[0]);
-      // divemaster.documents.add(divemasterValue[i].documents[1]);
       divemaster.level = divemasterValue[i].level;
       var divemasterRequest = AddDiveMasterRequest();
       divemasterRequest.diveMaster = divemaster;
