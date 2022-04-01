@@ -68,7 +68,7 @@ class _CenterCompanySectionState extends State<CenterCompanySection> {
                       ),
                     );
                   } else {
-                    return Text('User is not logged in.');
+                    return Text('Welcome');
                   }
                 },
               ),

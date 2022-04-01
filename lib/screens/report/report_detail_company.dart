@@ -14,10 +14,11 @@ import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
 List<ReportTrip> trips = [];
-
 List<ReportTrip> endedTrips = [];
 List<Diver> diver = [];
 List<Diver> endedDiver = [];
+List<ReportTrip> incomingTrips = [];
+List<Diver> incomingDiver = [];
 
 class CompanyReport extends StatefulWidget {
   @override
@@ -97,6 +98,39 @@ class _CompanyReportState extends State<CompanyReport> {
     return endedTrips;
   }
 
+   getIncomingTrip() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listincomingtriprequest = GenerateIncomingTripsReportRequest();
+    listincomingtriprequest.limit = Int64(20);
+    listincomingtriprequest.offset = Int64(0);
+    listincomingtriprequest.weeks=4;
+    incomingTrips.clear();
+  
+     try {
+      await for (var feature
+          in stub.generateIncomingTripsReport(listincomingtriprequest)) {
+        incomingTrips.add(feature.report);
+        for (int i = 0; i < feature.report.divers.length; i++) {
+          incomingDiver.add(feature.report.divers[i]);
+        }
+
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+    return incomingTrips;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -107,6 +141,44 @@ class _CompanyReportState extends State<CompanyReport> {
             color: Color(0xFFFF78a2cc),
           ),
           SizedBox(height: 40),
+                    Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
+            constraints: BoxConstraints(maxWidth: 1110),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Incoming Trips',
+                  style: TextStyle(fontSize: 20),
+                )),
+          ),
+          SizedBox(
+            width: 1110,
+            child: FutureBuilder(
+              future: getIncomingTrip(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Center(
+                      child: Container(
+                          child: Wrap(
+                              spacing: 20,
+                              runSpacing: 40,
+                              children: List.generate(
+                                trips.length,
+                                (index) => Center(
+                                  child: IncomingCard(
+                                    index: index,
+                                  ),
+                                ),
+                              ))));
+                } else {
+                  return Text('No data');
+                }
+              },
+            ),
+          ),
+          SizedBox(
+            height: 100,
+          ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 20),
             constraints: BoxConstraints(maxWidth: 1110),
@@ -408,7 +480,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         SizedBox(
                           height: 10,
                         ),
-                        endedDiver.length==0? new Text("No diver"): new Text("List of divers : "+endedDiver[widget.index].firstName+endedDiver[widget.index].lastName),
+                        // endedDiver.length==0? new Text("No diver"): new Text("List of divers : "+endedDiver[widget.index].firstName+endedDiver[widget.index].lastName),
                         SizedBox(
                           height: 10,
                         ),
@@ -416,6 +488,126 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                             alignment: Alignment.centerRight,
                             child: Text('Price : ' +
                                 endedTrips[widget.index].price.toString())),
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  )),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class IncomingCard extends StatefulWidget {
+  IncomingCard({
+    Key key,
+    this.index,
+  }) : super(key: key);
+  int index;
+
+  @override
+  State<IncomingCard> createState() => _IncomingCardState();
+}
+
+class _IncomingCardState extends State<IncomingCard> {
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Container(
+        height: 320,
+        width: 1000,
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Row(
+          children: [
+            Container(
+                width: 300,
+                height: 300,
+                child: incomingTrips[widget.index].tripTemplate.images.length == 0
+                    ? new Container(
+                        color: Colors.pink,
+                      )
+                    : Image.network(incomingTrips[widget.index]
+                        .tripTemplate
+                        .images[0]
+                        .link
+                        .toString())),
+            Expanded(
+              child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Trip name : ' +
+                            incomingTrips[widget.index].tripTemplate.name),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Location : ' +
+                            incomingTrips[widget.index].tripTemplate.address.city +
+                            ', ' +
+                            incomingTrips[widget.index].tripTemplate.address.country),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Start date : ' +
+                            incomingTrips[widget.index]
+                                .startDate
+                                .toDateTime()
+                                .toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('End date : ' +
+                            incomingTrips[widget.index]
+                                .endDate
+                                .toDateTime()
+                                .toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Total people : ' +
+                            incomingTrips[widget.index].maxGuest.toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Number of divers left : ' +
+                            incomingTrips[widget.index].placesLeft.toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text('Trip type : ' +
+                            incomingTrips[widget.index]
+                                .tripTemplate
+                                .tripType
+                                .toString()),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        // Text('List of divers : ' + diver[widget.index].firstName),
+                          diver.length==0? new Text("No diver"): new Text("List of divers : "+incomingDiver[widget.index].firstName+incomingDiver[widget.index].lastName+"  Phone number :"+incomingDiver[widget.index].phone),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Align(
+                            alignment: Alignment.centerRight,
+                            child: Text('Price : ' +
+                                incomingTrips[widget.index].price.toString())),
                         SizedBox(
                           height: 20,
                         ),
