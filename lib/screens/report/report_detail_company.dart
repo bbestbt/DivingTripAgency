@@ -57,7 +57,7 @@ class _CompanyReportState extends State<CompanyReport> {
     } catch (e) {
       print('ERROR: $e');
     }
-    // print(diver);
+    print(diver);
     return trips;
   }
 
@@ -87,8 +87,8 @@ class _CompanyReportState extends State<CompanyReport> {
           endedTrips.add(feature.reports[i]);
           // print(endedTrips);
           for (int j = 0; j < feature.reports.length; j++) {
-          endedDiver.add(feature.reports[i].divers[j]);
-        }
+            endedDiver.add(feature.reports[i].divers[j]);
+          }
         }
       }
     } catch (e) {
@@ -98,7 +98,7 @@ class _CompanyReportState extends State<CompanyReport> {
     return endedTrips;
   }
 
-   getIncomingTrip() async {
+  getIncomingTrip() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -113,17 +113,16 @@ class _CompanyReportState extends State<CompanyReport> {
     var listincomingtriprequest = GenerateIncomingTripsReportRequest();
     listincomingtriprequest.limit = Int64(20);
     listincomingtriprequest.offset = Int64(0);
-    listincomingtriprequest.weeks=4;
+    listincomingtriprequest.weeks = 4;
     incomingTrips.clear();
-  
-     try {
+
+    try {
       await for (var feature
           in stub.generateIncomingTripsReport(listincomingtriprequest)) {
         incomingTrips.add(feature.report);
         for (int i = 0; i < feature.report.divers.length; i++) {
           incomingDiver.add(feature.report.divers[i]);
         }
-
       }
     } catch (e) {
       print('ERROR: $e');
@@ -141,7 +140,7 @@ class _CompanyReportState extends State<CompanyReport> {
             color: Color(0xFFFF78a2cc),
           ),
           SizedBox(height: 40),
-                    Container(
+          Container(
             margin: EdgeInsets.symmetric(vertical: 20),
             constraints: BoxConstraints(maxWidth: 1110),
             child: Align(
@@ -312,6 +311,9 @@ class _InfoCardState extends State<InfoCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text('Trip name : ' +
                             trips[widget.index].tripTemplate.name),
                         SizedBox(
@@ -358,8 +360,17 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        // Text('List of divers : ' + diver[widget.index].firstName),
-                          diver.length==0? new Text("No diver"): new Text("List of divers : "+diver[widget.index].firstName+diver[widget.index].lastName+"  Phone number :"+diver[widget.index].phone),
+                        Text('List of divers'),
+                        diver.length == 0
+                            ? new Text("No diver")
+                            : new Text("Firstname : " +
+                                diver[widget.index].firstName +
+                                " Lastname : " +
+                                diver[widget.index].lastName +
+                                "  \nPhone number :" +
+                                diver[widget.index].phone +
+                                " Level :" +
+                                diver[widget.index].level.toString()),
                         SizedBox(
                           height: 10,
                         ),
@@ -431,6 +442,9 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text('Trip name : ' +
                             endedTrips[widget.index].tripTemplate.name),
                         SizedBox(
@@ -480,7 +494,11 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         SizedBox(
                           height: 10,
                         ),
-                        // endedDiver.length==0? new Text("No diver"): new Text("List of divers : "+endedDiver[widget.index].firstName+endedDiver[widget.index].lastName),
+                        endedDiver.length == 0
+                            ? new Text("No diver")
+                            : new Text("List of divers : " +
+                                endedDiver[widget.index].firstName +
+                                endedDiver[widget.index].lastName),
                         SizedBox(
                           height: 10,
                         ),
@@ -501,7 +519,6 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
     );
   }
 }
-
 
 class IncomingCard extends StatefulWidget {
   IncomingCard({
@@ -536,15 +553,16 @@ class _IncomingCardState extends State<IncomingCard> {
             Container(
                 width: 300,
                 height: 300,
-                child: incomingTrips[widget.index].tripTemplate.images.length == 0
-                    ? new Container(
-                        color: Colors.pink,
-                      )
-                    : Image.network(incomingTrips[widget.index]
-                        .tripTemplate
-                        .images[0]
-                        .link
-                        .toString())),
+                child:
+                    incomingTrips[widget.index].tripTemplate.images.length == 0
+                        ? new Container(
+                            color: Colors.pink,
+                          )
+                        : Image.network(incomingTrips[widget.index]
+                            .tripTemplate
+                            .images[0]
+                            .link
+                            .toString())),
             Expanded(
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
@@ -553,15 +571,24 @@ class _IncomingCardState extends State<IncomingCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        SizedBox(
+                          height: 20,
+                        ),
                         Text('Trip name : ' +
                             incomingTrips[widget.index].tripTemplate.name),
                         SizedBox(
                           height: 10,
                         ),
                         Text('Location : ' +
-                            incomingTrips[widget.index].tripTemplate.address.city +
+                            incomingTrips[widget.index]
+                                .tripTemplate
+                                .address
+                                .city +
                             ', ' +
-                            incomingTrips[widget.index].tripTemplate.address.country),
+                            incomingTrips[widget.index]
+                                .tripTemplate
+                                .address
+                                .country),
                         SizedBox(
                           height: 10,
                         ),
@@ -600,7 +627,17 @@ class _IncomingCardState extends State<IncomingCard> {
                           height: 10,
                         ),
                         // Text('List of divers : ' + diver[widget.index].firstName),
-                          diver.length==0? new Text("No diver"): new Text("List of divers : "+incomingDiver[widget.index].firstName+incomingDiver[widget.index].lastName+"  Phone number :"+incomingDiver[widget.index].phone),
+                        Text('List of divers'),
+                        incomingDiver.length == 0
+                            ? new Text("No diver")
+                            : new Text("Firstname : " +
+                                incomingDiver[widget.index].firstName +
+                                " Lastname : " +
+                                incomingDiver[widget.index].lastName +
+                                "  \nPhone number :" +
+                                incomingDiver[widget.index].phone +
+                                " Level :" +
+                                incomingDiver[widget.index].level.toString()),
                         SizedBox(
                           height: 10,
                         ),
