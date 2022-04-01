@@ -287,7 +287,7 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         // Text('List of divers : ' + diver[widget.index].firstName),
-                          diver.length==0? new Text("No diver"): new Text("List of divers : "+diver[widget.index].firstName+diver[widget.index].lastName),
+                          diver.length==0? new Text("No diver"): new Text("List of divers : "+diver[widget.index].firstName+diver[widget.index].lastName+"  Phone number :"+diver[widget.index].phone),
                         SizedBox(
                           height: 10,
                         ),
@@ -330,11 +330,6 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
 
   @override
   Widget build(BuildContext context) {
-    // print('s');
-    // // print(endedDiver[widget.index].firstName.length);
-    // print('d');
-    // print(endedDiver.length);
-    // print('g');
     return InkWell(
       child: Container(
         height: 320,

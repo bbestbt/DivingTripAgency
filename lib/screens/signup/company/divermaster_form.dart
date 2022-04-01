@@ -97,9 +97,9 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     );
     if (pickedFile != null) {
       setState(() {
-
         CardFile = io.File(pickedFile.path);
         print(CardFile);
+        // divemasterValue[count - 1].documents.add(CardFile);
       });
     }
   }
@@ -114,6 +114,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       setState(() {
         CardFileBack = io.File(pickedFile.path);
         print("CardFileBack");
+          //  divemasterValue[count - 1].documents.add(CardFileBack);
       });
     }
   }
@@ -142,16 +143,15 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                 hint: Text('  Select level'),
                 iconSize: 40,
                 onChanged: (value) {
-                 
-               //   divemasterValue[count - 1].level = value;
+                  //   divemasterValue[count - 1].level = value;
                   setState(() {
                     levelSelected = value;
-                     LevelType.values.forEach((levelType) {
-                    if (levelTypeMap[levelType.toString()] ==
-                        int.parse(levelSelected)) {
-                      divemasterValue[count - 1].level = levelType;
-                    }
-                  });
+                    LevelType.values.forEach((levelType) {
+                      if (levelTypeMap[levelType.toString()] ==
+                          int.parse(levelSelected)) {
+                        divemasterValue[count - 1].level = levelType;
+                      }
+                    });
                     print('------');
                     print(value);
                   });
@@ -159,15 +159,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               ),
             ),
           ),
-          // buildEmailFormField(),
-          // SizedBox(height: 20),
-          // buildPhoneNumberFormField(),
           SizedBox(height: 20),
           FormError(errors: errors),
           Row(
             children: [
               Column(
-                children: [Text("Divemaster"),Text('Card'), Text('(Front)')],
+                children: [Text("Divemaster"), Text('Card'), Text('(Front)')],
               ),
               Center(
                   child: CardFile == null
@@ -181,21 +178,20 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                           ? Image.network(
                               CardFile.path,
                               fit: BoxFit.cover,
-                              width: screenwidth*0.2,
+                              width: screenwidth * 0.2,
                             )
                           : Image.file(
-
-                             io.File(CardFile.path),
+                              io.File(CardFile.path),
                               fit: BoxFit.cover,
-                              width: screenwidth*0.05,
-                            )
-              ),
+                              width: screenwidth * 0.05,
+                            )),
+
               Spacer(),
               FlatButton(
                 color: Color(0xfffa2c8ff),
                 child: Container(
-                  constraints: const BoxConstraints(
-                      minWidth: 20.0, minHeight: 10.0),
+                  constraints:
+                      const BoxConstraints(minWidth: 20.0, minHeight: 10.0),
                   child: Text(
                     'Upload',
                     style: TextStyle(fontSize: 15),
@@ -212,8 +208,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           Row(
             children: [
               Column(
-                children: [Text("Divemaster"), Text('Card'),
-                  Text("(Back)")],
+                children: [Text("Divemaster"), Text('Card'), Text("(Back)")],
               ),
               Center(
                   child: CardFileBack == null
@@ -227,20 +222,19 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                           ? Image.network(
                               CardFileBack.path,
                               fit: BoxFit.cover,
-                              width: screenwidth*0.2,
+                              width: screenwidth * 0.2,
                             )
                           : Image.file(
                               io.File(CardFileBack.path),
                               fit: BoxFit.cover,
-                              width: screenwidth*0.05,
-                            )
-              ),
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 color: Color(0xfffa2c8ff),
                 child: Container(
-                  constraints: const BoxConstraints(
-                      minWidth: 20.0, minHeight: 10.0),
+                  constraints:
+                      const BoxConstraints(minWidth: 20.0, minHeight: 10.0),
                   child: Text(
                     'Upload',
                     style: TextStyle(fontSize: 15),
@@ -266,7 +260,11 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
+        print('name  start');
+        print(count);
+        print('name end');
         divemasterValue[count - 1].firstName = value;
+        print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your name");
         }
@@ -296,7 +294,11 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => lastname = newValue,
       onChanged: (value) {
+        print('lastname  start');
+        print(count);
+        print('lastname end');
         divemasterValue[count - 1].lastName = value;
+           print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your lastname");
         }
@@ -319,69 +321,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     );
   }
 
-  TextFormField buildEmailFormField() {
-    return TextFormField(
-      controller: _controllerEmail,
-      keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter your email");
-        } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            .hasMatch(value)) {
-          removeError(error: "Please Enter Valid Email");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter your email");
-          return "";
-        } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
-            .hasMatch(value)) {
-          addError(error: "Please Enter Valid Email");
-          return "";
-        }
+  
 
-        return null;
-      },
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-        //  hintText: "Email",
-        labelText: "Email",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: Icon(Icons.mail),
-      ),
-    );
-  }
-
-  TextFormField buildPhoneNumberFormField() {
-    return TextFormField(
-      controller: _controllerPhone,
-      keyboardType: TextInputType.phone,
-      onSaved: (newValue) => phoneNumber = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter your phone number");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter your phone number");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-        //     hintText: "Phone number",
-        labelText: "Phone number",
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: Icon(Icons.phone),
-      ),
-    );
-  }
 }

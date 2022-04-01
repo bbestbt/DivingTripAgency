@@ -21,6 +21,7 @@ class _AddmoreDiverMasterState extends State<AddmoreDiverMaster> {
   }
   @override
   Widget build(BuildContext context) {
+      print(divemasterValue);
     return Container(
       child: SingleChildScrollView(
           child: Column(children: [
