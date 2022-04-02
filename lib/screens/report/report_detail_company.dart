@@ -47,17 +47,24 @@ class _CompanyReportState extends State<CompanyReport> {
           in stub.generateCurrentTripsReport(listvalidtriprequest)) {
         //print(feature.trip);
         trips.add(feature.report);
-        for (int i = 0; i < feature.report.divers.length; i++) {
-          diver.add(feature.report.divers[i]);
+        // for (int i = 0; i < feature.report.divers.length; i++) {
+        //   diver.add(feature.report.divers[i]);
+        // }
+        // print(trips.length);
+        for (int j = 0; j < trips.length; j++) {
+          for (int k = 0; k < trips[j].divers.length; k++) {
+            diver.add(trips[j].divers[k]);
+          }
         }
 
         // print(trips);
         // print(trips.length);
       }
     } catch (e) {
+      print('valid');
       print('ERROR: $e');
     }
-    print(diver);
+    // print(diver);
     return trips;
   }
 
@@ -84,14 +91,18 @@ class _CompanyReportState extends State<CompanyReport> {
         // print(feature);
         // print(feature.reports);
         for (int i = 0; i < feature.reports.length; i++) {
+          // print(feature.reports[i]);
           endedTrips.add(feature.reports[i]);
           // print(endedTrips);
-          for (int j = 0; j < feature.reports.length; j++) {
-            endedDiver.add(feature.reports[i].divers[j]);
+        }
+        for (int j = 0; j < endedTrips.length; j++) {
+          for (int k = 0; k < endedTrips.length; k++) {
+            endedDiver.add(endedTrips[j].divers[k]);
           }
         }
       }
     } catch (e) {
+      print('end');
       print('ERROR: $e');
     }
     // print(endedDiver);
@@ -120,11 +131,18 @@ class _CompanyReportState extends State<CompanyReport> {
       await for (var feature
           in stub.generateIncomingTripsReport(listincomingtriprequest)) {
         incomingTrips.add(feature.report);
-        for (int i = 0; i < feature.report.divers.length; i++) {
-          incomingDiver.add(feature.report.divers[i]);
+        // print(incomingTrips);
+        // for (int i = 0; i < feature.report.divers.length; i++) {
+        //   incomingDiver.add(feature.report.divers[i]);
+        // }
+        for (int j = 0; j < incomingTrips.length; j++) {
+          for (int k = 0; k < incomingTrips[j].divers.length; k++) {
+            incomingDiver.add(incomingTrips[j].divers[k]);
+          }
         }
       }
     } catch (e) {
+      print('incoming');
       print('ERROR: $e');
     }
     return incomingTrips;
