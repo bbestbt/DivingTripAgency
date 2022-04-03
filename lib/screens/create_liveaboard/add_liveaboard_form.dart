@@ -1,10 +1,8 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 
-
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_hotel/addRoom.dart';
-
 
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
@@ -47,9 +45,9 @@ class _addLiveaboardState extends State<addLiveaboard> {
   XFile rroom;
 
   List<RoomType> pinkValue = [new RoomType()];
-  // List<List<Amenity>> blueValue = [
-  //   [new Amenity()]
-  // ];
+  List<List<Amenity>> blueValue = [
+    [new Amenity()]
+  ];
 
   final List<String> errors = [];
   final TextEditingController _controllerLiveaboardname =
@@ -113,7 +111,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
     address.region = _controllerRegion.text;
     address.country = _controllerCountry.text;
     liveaboard.address = address;
-    
+
     var f = File();
     f.filename = lvb.name;
     //var t = await imageFile.readAsBytes();
@@ -193,7 +191,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
           SizedBox(height: 20),
           buildWidthFormField(),
           SizedBox(height: 20),
-           buildAddressFormField(),
+          buildAddressFormField(),
           SizedBox(height: 20),
           buildAddress2FormField(),
           SizedBox(height: 20),
@@ -281,9 +279,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreRoom(this.pinkValue, 
-            // this.blueValue
-            ),
+            child: AddMoreRoom(this.pinkValue, this.blueValue),
           ),
           SizedBox(height: 30),
           FlatButton(
@@ -513,7 +509,6 @@ class _addLiveaboardState extends State<addLiveaboard> {
     );
   }
 
-  
   TextFormField buildAddressFormField() {
     return TextFormField(
       controller: _controllerAddress,

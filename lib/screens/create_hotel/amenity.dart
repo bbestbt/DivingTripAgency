@@ -7,13 +7,14 @@ class amenityForm extends StatefulWidget {
   int pinkcount;
   List<List<Amenity>> blueValue;
 
-  amenityForm(int blue,int pinkcount, List<List<Amenity>> blueValue){
-    this.bluecount=blue;
-    this.pinkcount=pinkcount;
-    this.blueValue=blueValue;
+  amenityForm(int blue, int pinkcount, List<List<Amenity>> blueValue) {
+    this.bluecount = blue;
+    this.pinkcount = pinkcount;
+    this.blueValue = blueValue;
   }
   @override
-  _amenityFormState createState() => _amenityFormState(this.bluecount,this.pinkcount,this.blueValue);
+  _amenityFormState createState() =>
+      _amenityFormState(this.bluecount, this.pinkcount, this.blueValue);
 }
 
 class _amenityFormState extends State<amenityForm> {
@@ -22,15 +23,17 @@ class _amenityFormState extends State<amenityForm> {
   int bluecount;
   int pinkcount;
   List<List<Amenity>> blueValue;
-  _amenityFormState(int bluecount, int pinkcount, List<List<Amenity>> blueValue){
-    this.bluecount=bluecount;
-    this.pinkcount=pinkcount;
-    this.blueValue=blueValue;
+  _amenityFormState(
+      int bluecount, int pinkcount, List<List<Amenity>> blueValue) {
+    this.bluecount = bluecount;
+    this.pinkcount = pinkcount;
+    this.blueValue = blueValue;
   }
 
   final List<String> errors = [];
   final TextEditingController _controllerAmenityName = TextEditingController();
-  final TextEditingController _controllerAmenityDescription = TextEditingController();
+  final TextEditingController _controllerAmenityDescription =
+      TextEditingController();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -51,18 +54,17 @@ class _amenityFormState extends State<amenityForm> {
     return Form(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
+        child: Column(children: [
           SizedBox(height: 20),
           buildAmenityNameFormField(),
           SizedBox(height: 20),
           buildAmenityDescriptionFormField(),
           SizedBox(height: 20),
-
         ]),
       ),
     );
   }
+
   TextFormField buildAmenityNameFormField() {
     return TextFormField(
       controller: _controllerAmenityName,
@@ -73,7 +75,7 @@ class _amenityFormState extends State<amenityForm> {
         print(bluecount);
         print(pinkcount);
         print(' amnity name end');
-        blueValue[pinkcount-1][bluecount-1].name=value;
+        blueValue[pinkcount - 1][bluecount - 1].name = value;
         print(value);
         print("===");
         if (value.isNotEmpty) {
@@ -107,7 +109,7 @@ class _amenityFormState extends State<amenityForm> {
         print(bluecount);
         print(pinkcount);
         print(' amnity desc end');
-        blueValue[pinkcount-1][bluecount-1].description=value;
+        blueValue[pinkcount - 1][bluecount - 1].description = value;
         print(value);
         print("===");
         if (value.isNotEmpty) {
@@ -128,60 +130,6 @@ class _amenityFormState extends State<amenityForm> {
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
-    );
-  }
-
-}
-
-
-class AddMoreAmenity extends StatefulWidget {
-    List<List<Amenity>> blueValue;
-   int pinkcount;
-     AddMoreAmenity( int pinkcount, List<List<Amenity>> blueValue) {
-       this.pinkcount=pinkcount;
-    this.blueValue = blueValue;
-  }
-  @override
-  _AddMoreAmenityState createState() => _AddMoreAmenityState(this.pinkcount,this.blueValue);
-}
-
-class _AddMoreAmenityState extends State<AddMoreAmenity> {
-  int bluecount = 1;
-  int pinkcount;
-    List<List<Amenity>> blueValue;
-    _AddMoreAmenityState(int pinkcount, List<List<Amenity>> blueValue) {
-      this.pinkcount=pinkcount;
-    this.blueValue=blueValue;
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: SingleChildScrollView(
-          child: Column(children: [
-        ListView.separated(
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
-            shrinkWrap: true,
-            itemCount: bluecount,
-            itemBuilder: (BuildContext context, int index) {
-              return amenityForm(bluecount,pinkcount,this.blueValue);
-            }),
-        MaterialButton(
-          onPressed: () {
-            setState(() {
-              bluecount += 1;
-               blueValue[pinkcount-1].add(new Amenity());
-            });
-          },
-          color: Color(0xfff8fcaca),
-          textColor: Colors.white,
-          child: Icon(
-            Icons.add,
-            size: 20,
-          ),
-        ),
-         SizedBox(height: 30),
-      ])),
     );
   }
 }

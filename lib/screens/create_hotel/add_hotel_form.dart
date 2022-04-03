@@ -45,9 +45,9 @@ class _addHotelState extends State<addHotel> {
   XFile rroom;
 
   List<RoomType> pinkValue = [new RoomType()];
-  // List<List<Amenity>> blueValue = [
-  //   [new Amenity()]
-  // ];
+  List<List<Amenity>> blueValue = [
+    [new Amenity()]
+  ];
   List<DropdownMenuItem<String>> listStar = [];
   List<String> star = ['1', '2', '3', '4', '5'];
   String starSelected;
@@ -322,7 +322,7 @@ class _addHotelState extends State<addHotel> {
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreRoom(this.pinkValue,
-            //  this.blueValue
+             this.blueValue
              ),
           ),
           SizedBox(height: 30),

@@ -1,5 +1,7 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/screens/create_hotel/addMoreAmenity.dart';
+import 'package:diving_trip_agency/screens/create_hotel/amenity.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:flutter/services.dart';
@@ -14,21 +16,17 @@ import 'package:hive/hive.dart';
 class RoomForm extends StatefulWidget {
   int pinkcount;
   List<RoomType> pinkValue;
-  // List<List<Amenity>> blueValue;
+  List<List<Amenity>> blueValue;
 
   RoomForm(
-      int pinkcount, List<RoomType> pinkValue, 
-      // List<List<Amenity>> blueValue
-      ) {
+      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
-    // this.blueValue = blueValue;
+    this.blueValue = blueValue;
   }
   @override
   _RoomFormState createState() =>
-      _RoomFormState(this.pinkcount, this.pinkValue,
-      //  this.blueValue
-       );
+      _RoomFormState(this.pinkcount, this.pinkValue, this.blueValue);
 }
 
 class _RoomFormState extends State<RoomForm> {
@@ -43,17 +41,15 @@ class _RoomFormState extends State<RoomForm> {
   String room_name;
   String quantity;
   List<RoomType> pinkValue;
-  // List<List<Amenity>> blueValue;
+  List<List<Amenity>> blueValue;
 
   XFile rroom;
 
   _RoomFormState(
-      int pinkcount, List<RoomType> pinkValue, 
-      // List<List<Amenity>> blueValue
-      ) {
+      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
-    // this.blueValue = blueValue;
+    this.blueValue = blueValue;
   }
   final List<String> errors = [];
   final TextEditingController _controllerRoomdescription =
@@ -152,14 +148,14 @@ class _RoomFormState extends State<RoomForm> {
           buildMaxCapacityFormField(),
           SizedBox(height: 20),
           // buildAmenityFormField(),
-          //  Container(
-          //         width: MediaQuery.of(context).size.width / 1.5,
-          //          decoration: BoxDecoration(
-          //               color: Color(0xfffd4f0f0),
-          //               borderRadius: BorderRadius.circular(10)),
-          //         child: AddMoreAmenity(this.pinkcount,this.blueValue),
-          //       ),
-          // SizedBox(height: 20),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xfffd4f0f0),
+                borderRadius: BorderRadius.circular(10)),
+            child: AddMoreAmenity(this.pinkcount, this.blueValue),
+          ),
+          SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
           buildPriceFormField(),
@@ -193,7 +189,7 @@ class _RoomFormState extends State<RoomForm> {
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
                     child: Container(
-                        color:Color(0xfffa2c8ff),
+                        color: Color(0xfffa2c8ff),
                         constraints: const BoxConstraints(
                             minWidth: 70.0, minHeight: 36.0),
                         alignment: Alignment.center,
