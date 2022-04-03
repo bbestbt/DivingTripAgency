@@ -21,6 +21,16 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:diving_trip_agency/screens/weatherforecast/forecast_widget.dart';
+import 'package:weather/weather.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'dart:convert';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_map/flutter_map.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+import 'package:intl/intl.dart';
+
 
 import 'package:diving_trip_agency/screens/ShopCart/ShopcartWidget.dart';
 
@@ -33,8 +43,16 @@ var hotel;
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final TextEditingController _textEditingQuantity = TextEditingController();
 final TextEditingController _textEditingDiver = TextEditingController();
+enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
+
+
 
 class DiveResortDetailScreen extends StatefulWidget {
+  //List<_ChartData> tempdata = [];
+  List<Weather> _data = [];
+  AppState _state = AppState.NOT_DOWNLOADED;
+
+  double latc, lonc;
   int index;
   List<TripWithTemplate> details;
   DiveResortDetailScreen(int index, List<TripWithTemplate> details) {
@@ -48,6 +66,11 @@ class DiveResortDetailScreen extends StatefulWidget {
 }
 
 class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
+  String cityname = "";
+  String key = "cc27393688bcc7bbe2999c2e9366c65d";
+  WeatherFactory ws;
+  List<Weather> _data = [];
+  AppState _state = AppState.NOT_DOWNLOADED;
   final MenuController _controller = Get.put(MenuController());
   int index;
   List<TripWithTemplate> details;
@@ -55,6 +78,17 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
     this.index = index;
     this.details = details;
   }
+
+
+  @override
+  void initState() {
+    super.initState();
+    ws = new WeatherFactory(key);
+  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +110,8 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
 }
 
 class detail extends StatefulWidget {
+
+
   int index;
   List<TripWithTemplate> details;
   detail(int index, List<TripWithTemplate> details) {
@@ -92,11 +128,20 @@ class detail extends StatefulWidget {
 }
 
 class _detailState extends State<detail> {
+  String key = '856822fd8e22db5e1ba48c0e7d69844a';
+  WeatherFactory ws;
+  List<Weather> _data = [];
+  AppState _state = AppState.NOT_DOWNLOADED;
   int index;
   List<TripWithTemplate> details;
+
+  double txtsize=15;
+
+
   _detailState(int index, List<TripWithTemplate> details) {
     this.index = index;
     this.details = details;
+
   }
 
   getData() async {
@@ -160,6 +205,24 @@ class _detailState extends State<detail> {
     return hotelDetial.hotel.name;
   }
 
+
+  void queryForecast() async {
+    /// Removes keyboard
+    FocusScope.of(context).requestFocus(FocusNode());
+    setState(() {
+      _state = AppState.DOWNLOADING;
+    });
+
+    List<Weather> forecasts = await ws.fiveDayForecastByCityName(details[widget.index].tripTemplate.address.city);
+
+    setState(() {
+
+      _data = forecasts;
+      _state = AppState.FINISHED_DOWNLOADING;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -173,7 +236,7 @@ class _detailState extends State<detail> {
           height: 10,
         ),
         SizedBox(
-          width: 1110,
+          width: MediaQuery.of(context).size.width,
           child: FutureBuilder(
             future: getHotelDetail(),
             builder: (context, snapshot) {
@@ -256,58 +319,62 @@ class _detailState extends State<detail> {
         SizedBox(
           height: 10,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-                width: 300,
-                height: 300,
-                child: details[widget.index].tripTemplate.images.length == 0
-                    ? new Container(
-                        color: Colors.pink,
-                      )
-                    : Image.network(
-                        // 'http://139.59.101.136/static/'+
-                        details[widget.index]
-                            .tripTemplate
-                            .images[0]
-                            .link
-                            .toString())),
-            SizedBox(
-              width: 10,
-            ),
-            Container(
-                width: 300,
-                height: 300,
-                child: details[widget.index].tripTemplate.images.length == 0
-                    ? new Container(
-                        color: Colors.pink,
-                      )
-                    : Image.network(
-                        // 'http://139.59.101.136/static/'+
-                        details[widget.index]
-                            .tripTemplate
-                            .images[1]
-                            .link
-                            .toString())),
-            SizedBox(
-              width: 10,
-            ),
-            Container(
-                width: 300,
-                height: 300,
-                child: details[widget.index].tripTemplate.images.length == 0
-                    ? new Container(
-                        color: Colors.pink,
-                      )
-                    : Image.network(
-                        // 'http://139.59.101.136/static/'+
-                        details[widget.index]
-                            .tripTemplate
-                            .images[2]
-                            .link
-                            .toString())),
-          ],
+        Container(
+          width:MediaQuery.of(context).size.width,
+          child:
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  width: MediaQuery.of(context).size.width/3.5,
+                  height: MediaQuery.of(context).size.width/3.5,
+                  child: details[widget.index].tripTemplate.images.length == 0
+                      ? new Container(
+                          color: Colors.pink,
+                        )
+                      : Image.network(
+                          // 'http://139.59.101.136/static/'+
+                          details[widget.index]
+                              .tripTemplate
+                              .images[0]
+                              .link
+                              .toString())),
+              SizedBox(
+                width: 10,
+              ),
+              Container(
+                  width: MediaQuery.of(context).size.width/3.5,
+                  height: MediaQuery.of(context).size.width/3.5,
+                  child: details[widget.index].tripTemplate.images.length == 0
+                      ? new Container(
+                          color: Colors.pink,
+                        )
+                      : Image.network(
+                          // 'http://139.59.101.136/static/'+
+                          details[widget.index]
+                              .tripTemplate
+                              .images[1]
+                              .link
+                              .toString())),
+              SizedBox(
+                width: 10,
+              ),
+              Container(
+                  width: MediaQuery.of(context).size.width/3.5,
+                  height: MediaQuery.of(context).size.width/3.5,
+                  child: details[widget.index].tripTemplate.images.length == 0
+                      ? new Container(
+                          color: Colors.pink,
+                        )
+                      : Image.network(
+                          // 'http://139.59.101.136/static/'+
+                          details[widget.index]
+                              .tripTemplate
+                              .images[2]
+                              .link
+                              .toString())),
+            ],
+          ),
         ),
         SizedBox(
           height: 10,
@@ -362,6 +429,126 @@ class _detailState extends State<detail> {
         SizedBox(
           height: 20,
         ),
+        Container(
+          decoration: BoxDecoration(
+            // color: Colors.white,
+              color: Color(0xFFFF89cfef),
+              borderRadius: BorderRadius.circular(10)),
+
+          width:MediaQuery.of(context).size.width,
+            child:Expanded(
+                child: Container(
+                  child: Column(
+                    children:[
+                      Text("5-day weather forecast"),
+                      Text("Weather example"),
+                      Container(
+                        height:150,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: _data.length,
+                          itemBuilder: (context, index) {
+                            return //ListTile(
+                              //title: //Text(_data[index].toString()),
+                              //Text("Hello Boy!!!"),
+                              Container(
+                                  width:100,
+                                  decoration: BoxDecoration(
+                                    //color: Colors.grey,
+                                      image : DecorationImage(image: AssetImage('assets/images/'+_data[index].weatherIcon+'.jpg'),fit: BoxFit.cover
+                                        //image : DecorationImage(image: AssetImage('assets/images/03d.jpg'),fit: BoxFit.cover
+
+                                      ),
+                                      border:Border.all(color:Colors.indigo,width:1)
+                                  ),
+                                  child:
+
+                                  Column(
+                                      children: [
+                                        Image(image:NetworkImage('http://openweathermap.org/img/w/'+_data[index].weatherIcon+'.png')),
+                                        Stack(
+                                            children: [
+                                              Text(DateFormat.Hm().format(
+                                                  _data[index].date).toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      foreground: Paint()
+                                                        ..style = PaintingStyle.stroke
+                                                        ..strokeWidth = 6
+                                                        ..color = Colors.black)),
+                                              Text(DateFormat.Hm().format(
+                                                  _data[index].date).toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      color: Colors.white))
+                                            ]
+                                        ),
+                                        Stack(
+                                            children: [
+                                              Text(DateFormat.E().format(
+                                                  _data[index].date).toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      foreground: Paint()
+                                                        ..style = PaintingStyle.stroke
+                                                        ..strokeWidth = 6
+                                                        ..color = Colors.black)),
+                                              Text(DateFormat.E().format(
+                                                  _data[index].date).toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      color: Colors.white))
+                                            ]
+                                        ),
+
+                                        Stack(
+                                            children: [
+                                              Text(_data[index].temperature.toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      foreground: Paint()
+                                                        ..style = PaintingStyle.stroke
+                                                        ..strokeWidth = 6
+                                                        ..color = Colors.black)),
+                                              Text(_data[index].temperature.toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      color: Colors.white))
+                                            ]
+                                        ),
+                                        Stack(
+                                            children: [
+                                              Text(
+                                                  _data[index].windGust.toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      foreground: Paint()
+                                                        ..style = PaintingStyle.stroke
+                                                        ..strokeWidth = 6
+                                                        ..color = Colors.black)),
+                                              Text(_data[index].windGust.toString(),
+                                                  style: TextStyle(fontSize: txtsize/1.5,
+                                                      fontWeight: FontWeight.w100,
+                                                      color: Colors.white))
+                                            ]
+                                        ),
+
+                                      ]
+                                  )
+
+                              );
+                          },
+                          separatorBuilder: (context, index) {
+                            return Divider();
+                          },
+                        ),
+                      ),
+                    ]
+        ),
+        )
+    )
+        )
+
       ],
     );
   }
@@ -583,7 +770,7 @@ class _InfoCardState extends State<InfoCard> {
     return InkWell(
       child: Container(
         height: 320,
-        width: 500,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             // color: Colors.white,
             color: Color(0xFFFF89cfef),
@@ -655,9 +842,11 @@ class _InfoCardState extends State<InfoCard> {
             SizedBox(
               height: 20,
             ),
+
           ],
         ),
       ),
+
     );
   }
 }

@@ -110,6 +110,7 @@ class _CartState extends State<CartWidget> {
     // print(quantity);
     // print(diver);
     return Container(
+      width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.all(20),
         child: Column(children: [
           SectionTitle(
@@ -120,15 +121,29 @@ class _CartState extends State<CartWidget> {
       ListView.builder(
         itemCount: Cartlist.length,
         shrinkWrap: true,
+
         itemBuilder: (context, position) {
           return Card(
               child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Row(children: [
-              Image(
-                  image: NetworkImage(
-                      'https://media.tacdn.com/media/attractions-splice-spp-674x446/07/2d/d7/09.jpg')),
-              SizedBox(width: 30),
+            child:
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                child:
+
+              Row(
+                children: [
+                  Flexible(
+                  child:
+                    Container(
+                      child:
+                      Image(
+                          image: NetworkImage(
+                              'https://media.tacdn.com/media/attractions-splice-spp-674x446/07/2d/d7/09.jpg')),
+              )
+          ),
+                      SizedBox(width: 30),
+              Flexible(child:
               Column(children: [
                 Text(
                   "Trip Name: " + Cartlist[position][1].toString(),
@@ -146,7 +161,8 @@ class _CartState extends State<CartWidget> {
                   "Total price: " + Cartlist[position][4].toString(),
                   style: TextStyle(fontSize: 22.0),
                 ),
-              ]),
+              ])
+              ),
               SizedBox(width: 30),
               /*TextButton(
                             child: Text(
@@ -178,7 +194,9 @@ class _CartState extends State<CartWidget> {
                     backgroundColor: Colors.amber),
               ),
             ]),
-          ));
+          )
+              )
+          );
         },
       ),
         SizedBox(height: 30),

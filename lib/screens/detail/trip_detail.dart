@@ -165,7 +165,7 @@ class _TripDetailState extends State<TripDetail> {
             Container(
                 margin: EdgeInsets.all(10.0),
                 padding: EdgeInsets.all(10.0),
-                height: 1800,
+                height: 1080,
                 width: screenwidth,
                 decoration: BoxDecoration(
                   color: Colors.red[50],
@@ -458,7 +458,7 @@ class _TripDetailState extends State<TripDetail> {
 
                 // margin: EdgeInsetsDirectional.only(top:120),
                 width: screenwidth * 0.05,
-                 height: 1800,
+                 height: 1080,
                 decoration:
                 BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
                 child: Column(
@@ -479,19 +479,33 @@ class _TripDetailState extends State<TripDetail> {
                             // debugPrint(
                             //     'Step 3, build widget: ${snapshot.data}');
                             // Build the widget with data.
-                            return Center(
-                                child: Container(
-                                    child: Wrap(
-                                        spacing: 20,
-                                        runSpacing: 40,
-                                        children: List.generate(
+                            return Container(
+                              height:800,
+                              width:screenwidth,
+                              child:
+
+                                        ListView.builder(
+                                            scrollDirection: Axis.vertical,
+                                          shrinkWrap:true,
+                                          itemCount: _foundtrip.length,
+                                          itemBuilder:(context, index){
+                                            return InfoCard(
+                                            index: index,
+                                            );
+                                          }
+                                        ),
+
+                                        /*List.generate(
                                           _foundtrip.length,
                                               (index) => Center(
                                             child: InfoCard(
                                               index: index,
                                             ),
                                           ),
-                                        ))));
+                                        )*/
+
+
+                            );
                             //Text('hasData: ${snapshot.data}')));
                           } else {
                             // We can show the loading view until the data comes back.
