@@ -122,12 +122,13 @@ class _addLiveaboardState extends State<addLiveaboard> {
 
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
-      // for (int j = 0; j < blueValue[i].length; j++) {
-      //   var amenity = Amenity();
-      //   amenity.name = blueValue[i][j].name;
-      //   amenity.description = blueValue[i][j].description;
-      //   room.amenities.add(amenity);
-      // }
+      for (int j = 0; j < blueValue[i].length; j++) {
+        var amenity = Amenity();
+        amenity.name = blueValue[i][j].name;
+        amenity.id = blueValue[i][j].id;
+        // amenity.description = blueValue[i][j].description;
+        room.amenities.add(amenity);
+      }
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;

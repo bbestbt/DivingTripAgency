@@ -2,6 +2,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_hotel/addRoom.dart';
+import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
@@ -134,12 +135,13 @@ class _addHotelState extends State<addHotel> {
     //var amenity = Amenity();
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
-      // for (int j = 0; j < blueValue[i].length; j++) {
-      //   var amenity = Amenity();
-      //   amenity.name = blueValue[i][j].name;
-      //   amenity.description = blueValue[i][j].description;
-      //   room.amenities.add(amenity);
-      // }
+      for (int j = 0; j < blueValue[i].length; j++) {
+        var amenity = Amenity();
+        amenity.id=blueValue[i][j].id;
+        amenity.name = blueValue[i][j].name;
+        // amenity.description = blueValue[i][j].description;
+        room.amenities.add(amenity);
+      }
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
@@ -152,7 +154,9 @@ class _addHotelState extends State<addHotel> {
       }
       hotel.roomTypes.add(room);
     }
-
+for (int i=0;i<hotel.roomTypes.length;i++){
+   print(hotel.roomTypes[i]);
+}
     var hotelRequest = AddHotelRequest();
     hotelRequest.hotel = hotel;
 
