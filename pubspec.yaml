@@ -49,6 +49,7 @@ dependencies:
   syncfusion_flutter_charts: ^19.4.55
   multi_image_picker2: ^5.0.2
   form_field_validator: ^1.1.0
+  auto_size_text: ^3.0.0
 dev_dependencies:
   hive_generator: ^1.1.0
   build_runner: ^2.1.2
