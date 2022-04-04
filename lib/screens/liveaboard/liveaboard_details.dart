@@ -328,17 +328,20 @@ class _detailState extends State<detail> {
                       if (snapshot.hasData) {
                         return Center(
                             child: Container(
-                                child: Wrap(
-                                    spacing: 20,
-                                    runSpacing: 40,
-                                    children: List.generate(
-                                      roomtypes.length,
-                                      (candy) => Center(
-                                        child: InfoCard(candy, details, index),
-                                      ),
-                                    ))));
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Wrap(
+                                      spacing: 20,
+                                      runSpacing: 40,
+                                      children: List.generate(
+                                        roomtypes.length,
+                                        (candy) => Center(
+                                          child: InfoCard(candy, details, index),
+                                        ),
+                                      )),
+                                )));
                       } else {
-                        getLiveaboardDetail();
+                        // getLiveaboardDetail();
                         return Align(
                             alignment: Alignment.center,
                             child: Text('No data'));
