@@ -261,12 +261,14 @@ class _detailState extends State<detail> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("From : " +
-                details[widget.index].fromDate.toDateTime().toString()),
+            DateFormat("dd/MM/yyyy").format( details[widget.index].fromDate.toDateTime())
+               ),
             SizedBox(
               width: 10,
             ),
             Text("From : " +
-                details[widget.index].toDate.toDateTime().toString()),
+             DateFormat("dd/MM/yyyy").format( details[widget.index].toDate.toDateTime())
+               ),
           ],
         ),
         SizedBox(
@@ -405,15 +407,18 @@ class _detailState extends State<detail> {
                       if (snapshot.hasData) {
                         return Center(
                             child: Container(
-                                child: Wrap(
-                                    spacing: 20,
-                                    runSpacing: 40,
-                                    children: List.generate(
-                                      roomtypes.length,
-                                      (candy) => Center(
-                                        child: InfoCard(candy, details, index),
-                                      ),
-                                    ))));
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Wrap(
+                                      spacing: 20,
+                                      runSpacing: 40,
+                                      children: List.generate(
+                                        roomtypes.length,
+                                        (candy) => Center(
+                                          child: InfoCard(candy, details, index),
+                                        ),
+                                      )),
+                                )));
                       } else {
                         return Align(
                             alignment: Alignment.center,
@@ -770,7 +775,7 @@ class _InfoCardState extends State<InfoCard> {
     return InkWell(
       child: Container(
         height: 320,
-        width: MediaQuery.of(context).size.width,
+         width: 500,
         decoration: BoxDecoration(
             // color: Colors.white,
             color: Color(0xFFFF89cfef),

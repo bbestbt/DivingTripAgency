@@ -19,6 +19,7 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:diving_trip_agency/screens/ShopCart/ShopcartWidget.dart';
+import 'package:intl/intl.dart';
 
 GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
 var liveaboard;
@@ -191,12 +192,14 @@ class _detailState extends State<detail> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("From : " +
-                details[widget.index].fromDate.toDateTime().toString()),
+                DateFormat("dd/MM/yyyy")
+                    .format(details[widget.index].fromDate.toDateTime())),
             SizedBox(
               width: 10,
             ),
             Text("From : " +
-                details[widget.index].toDate.toDateTime().toString()),
+                DateFormat("dd/MM/yyyy")
+                    .format(details[widget.index].toDate.toDateTime())),
           ],
         ),
         SizedBox(

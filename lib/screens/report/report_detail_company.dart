@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:intl/intl.dart';
 
 List<ReportTrip> trips = [];
 List<ReportTrip> endedTrips = [];
@@ -344,19 +345,19 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Start date : ' +
+                        Text('Start date : ' +   DateFormat("dd/MM/yyyy").format(
                             trips[widget.index]
                                 .startDate
                                 .toDateTime()
-                                .toString()),
+                              )),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('End date : ' +
+                        Text('End date : ' +  DateFormat("dd/MM/yyyy").format(
                             trips[widget.index]
                                 .endDate
                                 .toDateTime()
-                                .toString()),
+                        )),
                         SizedBox(
                           height: 10,
                         ),
@@ -478,19 +479,19 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Start date : ' +
+                        Text('Start date : ' +  DateFormat("dd/MM/yyyy").format(
                             endedTrips[widget.index]
                                 .startDate
                                 .toDateTime()
-                                .toString()),
+                                )),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('End date : ' +
+                        Text('End date : ' +  DateFormat("dd/MM/yyyy").format(
                             endedTrips[widget.index]
                                 .endDate
                                 .toDateTime()
-                                .toString()),
+                                )),
                         SizedBox(
                           height: 10,
                         ),
@@ -610,19 +611,19 @@ class _IncomingCardState extends State<IncomingCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Start date : ' +
+                        Text('Start date : ' +  DateFormat("dd/MM/yyyy").format(
                             incomingTrips[widget.index]
                                 .startDate
                                 .toDateTime()
-                                .toString()),
+                        )),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('End date : ' +
+                        Text('End date : ' +  DateFormat("dd/MM/yyyy").format(
                             incomingTrips[widget.index]
                                 .endDate
                                 .toDateTime()
-                                .toString()),
+                                )),
                         SizedBox(
                           height: 10,
                         ),
