@@ -8,18 +8,21 @@ import 'package:get/get.dart';
 
 class PaymentScreen extends StatefulWidget {
   int reservation_id;
+   double total_price;
   @override
-  PaymentScreen(int reservation_id) {
+  PaymentScreen(int reservation_id, double total_price) {
     this.reservation_id = reservation_id;
+    this.total_price=total_price;
   }
-  State<PaymentScreen> createState() => _PaymentScreenState(this.reservation_id);
+  State<PaymentScreen> createState() => _PaymentScreenState(this.reservation_id,this.total_price);
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
   int reservation_id;
+   double total_price;
 
   final MenuController _controller = Get.put(MenuController());
-_PaymentScreenState(this.reservation_id);
+_PaymentScreenState(this.reservation_id,this.total_price);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +31,7 @@ _PaymentScreenState(this.reservation_id);
       body: SingleChildScrollView(
         child: Column(
           children: [Header(), 
-          PaymentUpload(reservation_id)
+          PaymentUpload(reservation_id,total_price)
           ],
         ),
       ),

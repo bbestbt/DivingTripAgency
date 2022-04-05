@@ -27,16 +27,19 @@ PickedFile slipPayment;
 
 class PaymentUpload extends StatefulWidget {
   int reservation_id;
-  PaymentUpload(int reservation_id) {
+  double total_price;
+  PaymentUpload(int reservation_id,double total_price) {
     this.reservation_id = reservation_id;
+    this.total_price=total_price;
   }
   @override
-  _PaymentUploadState createState() => _PaymentUploadState(this.reservation_id);
+  _PaymentUploadState createState() => _PaymentUploadState(this.reservation_id,this.total_price);
 }
 
 class _PaymentUploadState extends State<PaymentUpload> {
   int reservation_id;
-  _PaymentUploadState(this.reservation_id);
+   double total_price;
+  _PaymentUploadState(this.reservation_id,this.total_price);
   makePayment() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -103,6 +106,10 @@ class _PaymentUploadState extends State<PaymentUpload> {
               title: "Payment",
               color: Color(0xFFFF78a2cc),
             ),
+            SizedBox(
+              height: 50,
+            ),
+            Text("Total price :"+total_price.toString()),
             SizedBox(
               height: 50,
             ),

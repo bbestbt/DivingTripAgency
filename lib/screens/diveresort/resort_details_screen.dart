@@ -45,6 +45,7 @@ final TextEditingController _textEditingQuantity = TextEditingController();
 final TextEditingController _textEditingDiver = TextEditingController();
 enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 int reservation_id;
+double total_price;
 
 class DiveResortDetailScreen extends StatefulWidget {
   //List<_ChartData> tempdata = [];
@@ -639,8 +640,9 @@ class _InfoCardState extends State<InfoCard> {
       // print(bookRequest.reservation.id);
       // print(response.reservation.id);
       reservation_id=int.parse(response.reservation.id.toString());
+      total_price= total_price=response.reservation.price;
       // print(reservation_id);
-      return reservation_id;
+      return [reservation_id,total_price];
     } catch (e) {
       print(e);
     }
@@ -755,7 +757,7 @@ class _InfoCardState extends State<InfoCard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PaymentScreen(reservation_id)));
+                              builder: (context) => PaymentScreen(reservation_id,total_price)));
                     }
                   },
                 ),

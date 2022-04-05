@@ -29,6 +29,7 @@ final TextEditingController _textEditingQuantity = TextEditingController();
 final TextEditingController _textEditingDiver = TextEditingController();
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 int reservation_id;
+double total_price;
 
 class LiveaboardDetailScreen extends StatefulWidget {
   int index;
@@ -453,8 +454,9 @@ try {
       // print(bookRequest.reservation.id);
       // print(response.reservation.id);
       reservation_id=int.parse(response.reservation.id.toString());
+      total_price=response.reservation.price;
       // print(reservation_id);
-      return reservation_id;
+      return [reservation_id,total_price];
     } catch (e) {
       print(e);
     }
@@ -569,7 +571,7 @@ try {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PaymentScreen(reservation_id)));
+                              builder: (context) => PaymentScreen(reservation_id,total_price)));
                     }
                   },
                 ),
