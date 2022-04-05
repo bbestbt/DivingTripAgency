@@ -298,16 +298,16 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Start date : ' +
+                        Text('Start date : ' +  DateFormat("dd/MM/yyyy").format(
                             trips[widget.index]
                                 .fromDate
                                 .toDateTime()
-                                .toString()),
+                                )),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('End date : ' +
-                            trips[widget.index].toDate.toDateTime().toString()),
+                        Text('End date : ' +  DateFormat("dd/MM/yyyy").format(
+                            trips[widget.index].toDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),

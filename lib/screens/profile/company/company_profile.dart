@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:intl/intl.dart';
 
 List<TripWithTemplate> trips = [];
 GetProfileResponse user_profile = new GetProfileResponse();
@@ -73,9 +74,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
       user_profile = profile;
       return user_profile;
     }
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -325,15 +324,13 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         Text('Start date : ' +
-                            trips[widget.index]
-                                .fromDate
-                                .toDateTime()
-                                .toString()),
+                            DateFormat("dd/MM/yyyy").format(
+                                trips[widget.index].fromDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('End date : ' +
-                            trips[widget.index].toDate.toDateTime().toString()),
+                        Text('End date : ' +  DateFormat("dd/MM/yyyy").format(
+                            trips[widget.index].toDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),

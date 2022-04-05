@@ -13,6 +13,7 @@ import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/components/side_menu.dart';
+import 'package:diving_trip_agency/screens/payment/payment_screen.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +32,6 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:intl/intl.dart';
 
-
 import 'package:diving_trip_agency/screens/ShopCart/ShopcartWidget.dart';
 
 List<RoomType> roomtypes = [];
@@ -44,8 +44,7 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final TextEditingController _textEditingQuantity = TextEditingController();
 final TextEditingController _textEditingDiver = TextEditingController();
 enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
-
-
+int reservation_id;
 
 class DiveResortDetailScreen extends StatefulWidget {
   //List<_ChartData> tempdata = [];
@@ -79,16 +78,11 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
     this.details = details;
   }
 
-
   @override
   void initState() {
     super.initState();
     ws = new WeatherFactory(key);
   }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +104,6 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
 }
 
 class detail extends StatefulWidget {
-
-
   int index;
   List<TripWithTemplate> details;
   detail(int index, List<TripWithTemplate> details) {
@@ -135,13 +127,11 @@ class _detailState extends State<detail> {
   int index;
   List<TripWithTemplate> details;
 
-  double txtsize=15;
-
+  double txtsize = 15;
 
   _detailState(int index, List<TripWithTemplate> details) {
     this.index = index;
     this.details = details;
-
   }
 
   getData() async {
@@ -205,7 +195,6 @@ class _detailState extends State<detail> {
     return hotelDetial.hotel.name;
   }
 
-
   void queryForecast() async {
     /// Removes keyboard
     FocusScope.of(context).requestFocus(FocusNode());
@@ -213,15 +202,14 @@ class _detailState extends State<detail> {
       _state = AppState.DOWNLOADING;
     });
 
-    List<Weather> forecasts = await ws.fiveDayForecastByCityName(details[widget.index].tripTemplate.address.city);
+    List<Weather> forecasts = await ws.fiveDayForecastByCityName(
+        details[widget.index].tripTemplate.address.city);
 
     setState(() {
-
       _data = forecasts;
       _state = AppState.FINISHED_DOWNLOADING;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -261,12 +249,14 @@ class _detailState extends State<detail> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("From : " +
-                details[widget.index].fromDate.toDateTime().toString()),
+                DateFormat("dd/MM/yyyy")
+                    .format(details[widget.index].fromDate.toDateTime())),
             SizedBox(
               width: 10,
             ),
             Text("From : " +
-                details[widget.index].toDate.toDateTime().toString()),
+                DateFormat("dd/MM/yyyy")
+                    .format(details[widget.index].toDate.toDateTime())),
           ],
         ),
         SizedBox(
@@ -320,14 +310,13 @@ class _detailState extends State<detail> {
           height: 10,
         ),
         Container(
-          width:MediaQuery.of(context).size.width,
-          child:
-          Row(
+          width: MediaQuery.of(context).size.width,
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width/3.5,
-                  height: MediaQuery.of(context).size.width/3.5,
+                  width: MediaQuery.of(context).size.width / 3.5,
+                  height: MediaQuery.of(context).size.width / 3.5,
                   child: details[widget.index].tripTemplate.images.length == 0
                       ? new Container(
                           color: Colors.pink,
@@ -343,8 +332,8 @@ class _detailState extends State<detail> {
                 width: 10,
               ),
               Container(
-                  width: MediaQuery.of(context).size.width/3.5,
-                  height: MediaQuery.of(context).size.width/3.5,
+                  width: MediaQuery.of(context).size.width / 3.5,
+                  height: MediaQuery.of(context).size.width / 3.5,
                   child: details[widget.index].tripTemplate.images.length == 0
                       ? new Container(
                           color: Colors.pink,
@@ -360,8 +349,8 @@ class _detailState extends State<detail> {
                 width: 10,
               ),
               Container(
-                  width: MediaQuery.of(context).size.width/3.5,
-                  height: MediaQuery.of(context).size.width/3.5,
+                  width: MediaQuery.of(context).size.width / 3.5,
+                  height: MediaQuery.of(context).size.width / 3.5,
                   child: details[widget.index].tripTemplate.images.length == 0
                       ? new Container(
                           color: Colors.pink,
@@ -405,15 +394,18 @@ class _detailState extends State<detail> {
                       if (snapshot.hasData) {
                         return Center(
                             child: Container(
-                                child: Wrap(
-                                    spacing: 20,
-                                    runSpacing: 40,
-                                    children: List.generate(
-                                      roomtypes.length,
-                                      (candy) => Center(
-                                        child: InfoCard(candy, details, index),
-                                      ),
-                                    ))));
+                                child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Wrap(
+                              spacing: 20,
+                              runSpacing: 40,
+                              children: List.generate(
+                                roomtypes.length,
+                                (candy) => Center(
+                                  child: InfoCard(candy, details, index),
+                                ),
+                              )),
+                        )));
                       } else {
                         return Align(
                             alignment: Alignment.center,
@@ -430,125 +422,126 @@ class _detailState extends State<detail> {
           height: 20,
         ),
         Container(
-          decoration: BoxDecoration(
-            // color: Colors.white,
-              color: Color(0xFFFF89cfef),
-              borderRadius: BorderRadius.circular(10)),
-
-          width:MediaQuery.of(context).size.width,
-            child:Expanded(
+            decoration: BoxDecoration(
+                // color: Colors.white,
+                color: Color(0xFFFF89cfef),
+                borderRadius: BorderRadius.circular(10)),
+            width: MediaQuery.of(context).size.width,
+            child: Expanded(
                 child: Container(
-                  child: Column(
-                    children:[
-                      Text("5-day weather forecast"),
-                      Text("Weather example"),
-                      Container(
-                        height:150,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: _data.length,
-                          itemBuilder: (context, index) {
-                            return //ListTile(
-                              //title: //Text(_data[index].toString()),
-                              //Text("Hello Boy!!!"),
-                              Container(
-                                  width:100,
-                                  decoration: BoxDecoration(
-                                    //color: Colors.grey,
-                                      image : DecorationImage(image: AssetImage('assets/images/'+_data[index].weatherIcon+'.jpg'),fit: BoxFit.cover
-                                        //image : DecorationImage(image: AssetImage('assets/images/03d.jpg'),fit: BoxFit.cover
+              child: Column(children: [
+                Text("5-day weather forecast"),
+                Text("Weather example"),
+                Container(
+                  height: 150,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _data.length,
+                    itemBuilder: (context, index) {
+                      return //ListTile(
+                          //title: //Text(_data[index].toString()),
+                          //Text("Hello Boy!!!"),
+                          Container(
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  //color: Colors.grey,
+                                  image: DecorationImage(
+                                      image: AssetImage('assets/images/' +
+                                          _data[index].weatherIcon +
+                                          '.jpg'),
+                                      fit: BoxFit.cover
+                                      //image : DecorationImage(image: AssetImage('assets/images/03d.jpg'),fit: BoxFit.cover
 
                                       ),
-                                      border:Border.all(color:Colors.indigo,width:1)
-                                  ),
-                                  child:
-
-                                  Column(
-                                      children: [
-                                        Image(image:NetworkImage('http://openweathermap.org/img/w/'+_data[index].weatherIcon+'.png')),
-                                        Stack(
-                                            children: [
-                                              Text(DateFormat.Hm().format(
-                                                  _data[index].date).toString(),
-                                                  style: TextStyle(fontSize: txtsize/1.5,
-                                                      fontWeight: FontWeight.w100,
-                                                      foreground: Paint()
-                                                        ..style = PaintingStyle.stroke
-                                                        ..strokeWidth = 6
-                                                        ..color = Colors.black)),
-                                              Text(DateFormat.Hm().format(
-                                                  _data[index].date).toString(),
-                                                  style: TextStyle(fontSize: txtsize/1.5,
-                                                      fontWeight: FontWeight.w100,
-                                                      color: Colors.white))
-                                            ]
-                                        ),
-                                        Stack(
-                                            children: [
-                                              Text(DateFormat.E().format(
-                                                  _data[index].date).toString(),
-                                                  style: TextStyle(fontSize: txtsize/1.5,
-                                                      fontWeight: FontWeight.w100,
-                                                      foreground: Paint()
-                                                        ..style = PaintingStyle.stroke
-                                                        ..strokeWidth = 6
-                                                        ..color = Colors.black)),
-                                              Text(DateFormat.E().format(
-                                                  _data[index].date).toString(),
-                                                  style: TextStyle(fontSize: txtsize/1.5,
-                                                      fontWeight: FontWeight.w100,
-                                                      color: Colors.white))
-                                            ]
-                                        ),
-
-                                        Stack(
-                                            children: [
-                                              Text(_data[index].temperature.toString(),
-                                                  style: TextStyle(fontSize: txtsize/1.5,
-                                                      fontWeight: FontWeight.w100,
-                                                      foreground: Paint()
-                                                        ..style = PaintingStyle.stroke
-                                                        ..strokeWidth = 6
-                                                        ..color = Colors.black)),
-                                              Text(_data[index].temperature.toString(),
-                                                  style: TextStyle(fontSize: txtsize/1.5,
-                                                      fontWeight: FontWeight.w100,
-                                                      color: Colors.white))
-                                            ]
-                                        ),
-                                        Stack(
-                                            children: [
-                                              Text(
-                                                  _data[index].windGust.toString(),
-                                                  style: TextStyle(fontSize: txtsize/1.5,
-                                                      fontWeight: FontWeight.w100,
-                                                      foreground: Paint()
-                                                        ..style = PaintingStyle.stroke
-                                                        ..strokeWidth = 6
-                                                        ..color = Colors.black)),
-                                              Text(_data[index].windGust.toString(),
-                                                  style: TextStyle(fontSize: txtsize/1.5,
-                                                      fontWeight: FontWeight.w100,
-                                                      color: Colors.white))
-                                            ]
-                                        ),
-
-                                      ]
-                                  )
-
-                              );
-                          },
-                          separatorBuilder: (context, index) {
-                            return Divider();
-                          },
-                        ),
-                      ),
-                    ]
-        ),
-        )
-    )
-        )
-
+                                  border: Border.all(
+                                      color: Colors.indigo, width: 1)),
+                              child: Column(children: [
+                                Image(
+                                    image: NetworkImage(
+                                        'http://openweathermap.org/img/w/' +
+                                            _data[index].weatherIcon +
+                                            '.png')),
+                                Stack(children: [
+                                  Text(
+                                      DateFormat.Hm()
+                                          .format(_data[index].date)
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: txtsize / 1.5,
+                                          fontWeight: FontWeight.w100,
+                                          foreground: Paint()
+                                            ..style = PaintingStyle.stroke
+                                            ..strokeWidth = 6
+                                            ..color = Colors.black)),
+                                  Text(
+                                      DateFormat.Hm()
+                                          .format(_data[index].date)
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: txtsize / 1.5,
+                                          fontWeight: FontWeight.w100,
+                                          color: Colors.white))
+                                ]),
+                                Stack(children: [
+                                  Text(
+                                      DateFormat.E()
+                                          .format(_data[index].date)
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: txtsize / 1.5,
+                                          fontWeight: FontWeight.w100,
+                                          foreground: Paint()
+                                            ..style = PaintingStyle.stroke
+                                            ..strokeWidth = 6
+                                            ..color = Colors.black)),
+                                  Text(
+                                      DateFormat.E()
+                                          .format(_data[index].date)
+                                          .toString(),
+                                      style: TextStyle(
+                                          fontSize: txtsize / 1.5,
+                                          fontWeight: FontWeight.w100,
+                                          color: Colors.white))
+                                ]),
+                                Stack(children: [
+                                  Text(_data[index].temperature.toString(),
+                                      style: TextStyle(
+                                          fontSize: txtsize / 1.5,
+                                          fontWeight: FontWeight.w100,
+                                          foreground: Paint()
+                                            ..style = PaintingStyle.stroke
+                                            ..strokeWidth = 6
+                                            ..color = Colors.black)),
+                                  Text(_data[index].temperature.toString(),
+                                      style: TextStyle(
+                                          fontSize: txtsize / 1.5,
+                                          fontWeight: FontWeight.w100,
+                                          color: Colors.white))
+                                ]),
+                                Stack(children: [
+                                  Text(_data[index].windGust.toString(),
+                                      style: TextStyle(
+                                          fontSize: txtsize / 1.5,
+                                          fontWeight: FontWeight.w100,
+                                          foreground: Paint()
+                                            ..style = PaintingStyle.stroke
+                                            ..strokeWidth = 6
+                                            ..color = Colors.black)),
+                                  Text(_data[index].windGust.toString(),
+                                      style: TextStyle(
+                                          fontSize: txtsize / 1.5,
+                                          fontWeight: FontWeight.w100,
+                                          color: Colors.white))
+                                ]),
+                              ]));
+                    },
+                    separatorBuilder: (context, index) {
+                      return Divider();
+                    },
+                  ),
+                ),
+              ]),
+            )))
       ],
     );
   }
@@ -605,7 +598,7 @@ class _InfoCardState extends State<InfoCard> {
     return user_profile;
   }
 
-  void bookTrips() async {
+   bookTrips() async {
     await getProfile();
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -622,7 +615,7 @@ class _InfoCardState extends State<InfoCard> {
     var room = Reservation_Room();
     for (int i = 0; i < roomtypes.length; i++) {
       room.quantity = int.parse(_textEditingQuantity.text);
-      room.roomTypeId = roomtypes[i].id;
+      room.roomTypeId = roomtypes[indexRoom].id;
       room.noDivers = int.parse(_textEditingDiver.text);
       // print(room.quantity);
       // print(room.noDivers);
@@ -635,13 +628,19 @@ class _InfoCardState extends State<InfoCard> {
     reservation.price =
         (roomtypes[indexRoom].price * int.parse(_textEditingQuantity.text)) +
             details[indexDetail].price;
-    reservation.totalDivers = Int64(roomtypes[indexRoom].maxGuest);
+    reservation.totalDivers = Int64(int.parse(_textEditingDiver.text));
 
     var bookRequest = CreateReservationRequest()..reservation = reservation;
 
     try {
-      var response = stub.createReservation(bookRequest);
+      var response = await stub.createReservation(bookRequest);
       print('response: ${response}');
+      // print('id');
+      // print(bookRequest.reservation.id);
+      // print(response.reservation.id);
+      reservation_id=int.parse(response.reservation.id.toString());
+      // print(reservation_id);
+      return reservation_id;
     } catch (e) {
       print(e);
     }
@@ -751,8 +750,12 @@ class _InfoCardState extends State<InfoCard> {
                       //       );
                       //     });
 
-                      Navigator.of(context).pop();
+                      // Navigator.of(context).pop();
                       print('book');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PaymentScreen(reservation_id)));
                     }
                   },
                 ),
@@ -770,7 +773,7 @@ class _InfoCardState extends State<InfoCard> {
     return InkWell(
       child: Container(
         height: 320,
-        width: MediaQuery.of(context).size.width,
+        width: 500,
         decoration: BoxDecoration(
             // color: Colors.white,
             color: Color(0xFFFF89cfef),
@@ -842,11 +845,9 @@ class _InfoCardState extends State<InfoCard> {
             SizedBox(
               height: 20,
             ),
-
           ],
         ),
       ),
-
     );
   }
 }

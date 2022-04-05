@@ -202,6 +202,7 @@ class _TripDetailState extends State<TripDetail> {
                               overflow: TextOverflow.ellipsis,
                           )
                         )
+
                       ]),
                       SizedBox(height: 20),
                       Wrap(
@@ -522,6 +523,7 @@ class _TripDetailState extends State<TripDetail> {
                             ],
                           ),
                         ),
+
                       ),
                     )
                     )
@@ -534,9 +536,8 @@ class _TripDetailState extends State<TripDetail> {
     );
   }
 
-
   void _runFilter() {
-    print("Date diff: "+_diff);
+    print("Date diff: " + _diff);
     // print("Dropdownvalue2:"+dropdownValue2);
     // print("Dropdownvalue:"+dropdownValue);
     List<TripWithTemplate> results = [];
@@ -562,7 +563,7 @@ class _TripDetailState extends State<TripDetail> {
       //print("Guestvalue" + guestvalue.toString());
       results = trips;
       setState(() {
-        _foundtrip =  results;
+        _foundtrip = results;
       });
       //print(_dateFrom);
       //print(results[0].fromDate.toDateTime());
@@ -572,7 +573,7 @@ class _TripDetailState extends State<TripDetail> {
         // print("Filtering 2");
         results = results
             .where((trip) =>
-            trip.tripTemplate.address.city.contains(dropdownValue))
+                trip.tripTemplate.address.city.contains(dropdownValue))
             .toList();
       }
       if (_dateFrom != null) {
@@ -586,9 +587,9 @@ class _TripDetailState extends State<TripDetail> {
       if (_dateTo != null) {
         results = results
             .where((trip) => trip.toDate
-            .toDateTime()
-            .subtract(Duration(days: 1))
-            .isBefore(_dateTo))
+                .toDateTime()
+                .subtract(Duration(days: 1))
+                .isBefore(_dateTo))
             .toList();
       }
 
@@ -618,12 +619,12 @@ class _TripDetailState extends State<TripDetail> {
 
         results = results
             .where((trip) =>
-        (trip.fromDate
-            .toDateTime()
-            .difference(trip.toDate.toDateTime())
-            .inDays)
-            .abs() ==
-            int.parse(_diff))
+                (trip.fromDate
+                        .toDateTime()
+                        .difference(trip.toDate.toDateTime())
+                        .inDays)
+                    .abs() ==
+                int.parse(_diff))
             .toList();
         //print((results[1].fromDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays).abs());
         //print(_diff);
@@ -631,11 +632,17 @@ class _TripDetailState extends State<TripDetail> {
 // Edit cost filter
       if (tripcost != Cost.all) {
         if (tripcost == Cost.one) {
-          results = results.where((trip) => (trip.price > 0 && trip.price <= 1000)).toList();
+          results = results
+              .where((trip) => (trip.price > 0 && trip.price <= 1000))
+              .toList();
         } else if (tripcost == Cost.two) {
-          results = results.where((trip) => (trip.price > 1000 && trip.price <= 2000)).toList();
+          results = results
+              .where((trip) => (trip.price > 1000 && trip.price <= 2000))
+              .toList();
         } else if (tripcost == Cost.three) {
-          results = results.where((trip) => (trip.price > 2000 && trip.price <= 3000)).toList();
+          results = results
+              .where((trip) => (trip.price > 2000 && trip.price <= 3000))
+              .toList();
         } else if (tripcost == Cost.more) {
           results = results.where((trip) => (trip.price > 3000)).toList();
         }
@@ -647,7 +654,6 @@ class _TripDetailState extends State<TripDetail> {
     }
   }
 }
-
 
 class InfoCard extends StatefulWidget {
   InfoCard({
@@ -677,6 +683,7 @@ class _InfoCardState extends State<InfoCard> {
         ),
         child: Row(
           children: [
+
             Expanded(
               flex:2,
               child:
@@ -689,16 +696,19 @@ class _InfoCardState extends State<InfoCard> {
                         : Image.network(
                       // 'http://139.59.101.136/static/'+
                       // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+
                         _foundtrip[widget.index]
                             .tripTemplate
                             .images[0]
                             .link
                             .toString()
 
+
                       // _foundtrip[widget.index].tripTemplate.images[0].toString()
                     )
                   )
                 ),
+
             // child: Image.asset(LiveAboardDatas[widget.index].image)),
             Expanded(
               flex: 6,
@@ -727,18 +737,16 @@ class _InfoCardState extends State<InfoCard> {
                           height: 10,
                         ),
                         Text('Start date : ' +
-                            _foundtrip[widget.index]
-                                .fromDate
-                                .toDateTime()
-                                .toString()),
+                            DateFormat("dd/MM/yyyy").format(
+                                _foundtrip[widget.index]
+                                    .fromDate
+                                    .toDateTime())),
                         SizedBox(
                           height: 10,
                         ),
                         Text('End date : ' +
-                            _foundtrip[widget.index]
-                                .toDate
-                                .toDateTime()
-                                .toString()),
+                            DateFormat("dd/MM/yyyy").format(
+                                _foundtrip[widget.index].toDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),
@@ -748,8 +756,12 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                            Text('Place Left : ' +
-                            (_foundtrip[widget.index].maxGuest-_foundtrip[widget.index].curentGuest).toString(),),
+                        Text(
+                          'Place Left : ' +
+                              (_foundtrip[widget.index].maxGuest -
+                                      _foundtrip[widget.index].curentGuest)
+                                  .toString(),
+                        ),
                         SizedBox(
                           height: 10,
                         ),
@@ -779,9 +791,9 @@ class _InfoCardState extends State<InfoCard> {
                               //   .tripType
                               //   .toString());
                               if (_foundtrip[widget.index]
-                                  .tripTemplate
-                                  .tripType
-                                  .toString() ==
+                                      .tripTemplate
+                                      .tripType
+                                      .toString() ==
                                   "ONSHORE") {
                                 Navigator.push(
                                     context,
