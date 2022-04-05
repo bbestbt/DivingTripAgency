@@ -619,6 +619,7 @@ try {
               width: 20,
             ),
             Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 40,

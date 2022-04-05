@@ -809,6 +809,7 @@ class _InfoCardState extends State<InfoCard> {
               width: 20,
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 40,
