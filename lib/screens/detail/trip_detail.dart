@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbjson.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
@@ -14,6 +16,7 @@ import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:intl/intl.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 // This list holds the data for the list view
 List<TripWithTemplate> _foundtrip = [];
@@ -48,6 +51,7 @@ class _TripDetailState extends State<TripDetail> {
   bool value = false;
   int guestvalue;
   Cost tripcost = Cost.all;
+  double fontsize = 20;
   @override
   initState() {
     // at the beginning, all users are shown
@@ -104,12 +108,11 @@ class _TripDetailState extends State<TripDetail> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var searchtrips = SearchTripsOptions();
 
-    searchtrips.country = '5';
-    // searchtrips.country = 'm';
 
-    //  searchtrips.country = dropdownValue;
+    searchtrips.country = '5';
+
     searchtrips.divers = 1;
-    // searchtrips.divers =guestvalue;
+
     var ts = Timestamp();
     ts.seconds = Int64(1643670395);
     searchtrips.startDate = ts;
@@ -151,34 +154,39 @@ class _TripDetailState extends State<TripDetail> {
   }
 
   Widget build(BuildContext context) {
-    //   _foundtrip = LiveAboardDatas;
-    //   // print('candy mai suay');
-    //   // print(_foundtrip[1].id);
-    //   // print(_foundtrip[2].id);
-    //   // print(_foundtrip[3].id);
     double screenwidth = MediaQuery.of(context).size.width;
 
-    return Row(children: [
-      Expanded(
-          flex: 3,
-          child: Column(children: [
-            Container(
-                margin: EdgeInsets.all(10.0),
-                padding: EdgeInsets.all(10.0),
-                height: 1080,
-                width: screenwidth,
-                decoration: BoxDecoration(
-                  color: Colors.red[50],
-                ),
-                child: Column(children: [
+    return Container(
+      width: screenwidth,
+      child:
+          Row(
+            children:[
+              Expanded(
+                flex: 2,
+                child:Align(
+                      alignment: Alignment.topLeft,
+                      child:
                   Container(
-                      width: 1000,
-                      child: Row(children: [
-                        Text(
+                    margin: EdgeInsets.all(10.0),
+                    padding: EdgeInsets.all(10.0),
+                    //height: 1080,
+
+                    decoration: BoxDecoration(
+                      color: Colors.red[50]
+                    ),
+                    child: Column(children: [
+
+                      Wrap(
+                          spacing: 10,
+                          children: [
+                        AutoSizeText(
                           "SEARCH",
-                          style: TextStyle(fontSize: 20),
+                          maxFontSize: fontsize,
+                          minFontSize: 10,
+                          maxLines:1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        Spacer(),
+
                         ElevatedButton(
                           style: TextButton.styleFrom(
                             textStyle: const TextStyle(fontSize: 20),
@@ -186,342 +194,346 @@ class _TripDetailState extends State<TripDetail> {
                           onPressed: () {
                             _runFilter();
                           },
-                          child: const Text('Search'),
+                          child: AutoSizeText(
+                              "Search",
+                              maxFontSize: fontsize,
+                              minFontSize: 5,
+                              maxLines:1,
+                              overflow: TextOverflow.ellipsis,
+                          )
                         )
-                      ])),
-                  SizedBox(height: 20),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Text('Start Date'),
-                      Spacer(),
-                      // Text(_dateFrom == null ? '' : _dateFrom.toString()),
-                      Text(_dateFrom == null
-                          ? ''
-                          : DateFormat("dd/MM/yyyy").format(_dateFrom)),
-                      Spacer(),
-                      RaisedButton(
-                          color: Color(0xfff8dd9cc),
-                          child: Text('Pick a date'),
-                          onPressed: () {
-                            showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime.now()
-                                        .subtract(Duration(days: 60)),
-                                    lastDate:
-                                        DateTime.now().add(Duration(days: 30)))
-                                .then((date) => {
-                                      setState(() {
-                                        var timeStamp =
-                                            //  print(Timestamp.fromDateTime(date));
-                                            _dateFrom = date;
-                                      })
-                                    });
-                          }),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Text('To'),
-                      Spacer(),
-                      // Text(_dateTo == null ? '' : _dateTo.toString()),
-                      Text(_dateTo == null
-                          ? ''
-                          : DateFormat("dd/MM/yyyy").format(_dateFrom)),
-                      Spacer(),
-                      RaisedButton(
-                          color: Color(0xfff8dd9cc),
-                          child: Text('Pick a date'),
-                          onPressed: () {
-                            showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime.now()
-                                        .subtract(Duration(days: 60)),
-                                    lastDate:
-                                        DateTime.now().add(Duration(days: 30)))
-                                .then((date) => {
-                                      setState(() {
-                                        var timeStamp =
-                                            //    print(Timestamp.fromDateTime(date));
-                                            _dateTo = date;
-                                      })
-                                    });
-                          }),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Text('Location'),
-                      Spacer(),
-                      Container(
-                        width: screenwidth * 0.05,
-                        child: DropdownButton<String>(
-                          value: dropdownValue,
-                          icon: const Icon(Icons.arrow_downward),
-                          elevation: 16,
-                          iconSize: 30,
-                          isExpanded: true,
-                          style: const TextStyle(color: Colors.black),
-                          underline: Container(
-                            height: 2,
-                            color: Colors.black,
-                          ),
-                          onChanged: (String newValue) {
-                            setState(() {
-                              dropdownValue = newValue;
-                            });
-                          },
-                          items: <String>[
-                            'All',
-                            'Bangkok',
-                            'Phuket',
-                            'Krabi',
-                            'Samui island',
-                            'Trat',
-                            'test',
-                            'Koh Samet',
-                            'Rayong',
-                            'Chanthaburi'
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Container(
-                        child: Text('Number of customers'),
-                        width: screenwidth * 0.05,
-                      ),
-                      Spacer(),
-                      Container(
-                        width: screenwidth * 0.05,
-                        height: 30,
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            fillColor: Colors.white,
-                            // hintText: 'Number of customer'
-                          ),
-                          onChanged: (String newValue) {
-                            setState(() {
-                              guestvalue = int.parse(newValue);
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Container(
-                        child: Text('Trip Duration (days)'),
-                        width: screenwidth * 0.05,
-                      ),
-                      Spacer(),
-                      Container(
-                        width: screenwidth * 0.05,
-                        height: 30,
-                        child: TextField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              fillColor: Colors.white,
-                              // hintText: 'Trip Duration (days)'
-                            ),
-                            onChanged: (String newvalue) {
-                              setState(() {
-                                _diff = newvalue;
-                              });
-                            }),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Text('Trip type'),
-                      Spacer(),
-                      Container(
-                        width: screenwidth * 0.05,
-                        child: DropdownButton<String>(
-                          value: dropdownValue2,
-                          icon: const Icon(Icons.arrow_downward),
-                          elevation: 16,
-                          iconSize: 30,
-                          isExpanded: true,
-                          style: const TextStyle(color: Colors.black),
-                          underline: Container(
-                            height: 2,
-                            color: Colors.black,
-                          ),
-                          onChanged: (String newValue) {
-                            setState(() {
-                              dropdownValue2 = newValue;
-                            });
-                          },
-                          items: <String>['All', 'Onshore', 'Offshore']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Text("Price (per person/trip)")),
-                  Container(
-                      child: Column(
-                    children: <Widget>[
-                      ListTile(
-                        title: const Text('all'),
-                        leading: Radio<Cost>(
-                          value: Cost.all,
-                          groupValue: tripcost,
-                          onChanged: (Cost value) {
-                            setState(() {
-                              tripcost = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: const Text('0 - 1,000'),
-                        leading: Radio<Cost>(
-                          value: Cost.one,
-                          groupValue: tripcost,
-                          onChanged: (Cost value) {
-                            setState(() {
-                              tripcost = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: const Text('1,000 - 2,000'),
-                        leading: Radio<Cost>(
-                          value: Cost.two,
-                          groupValue: tripcost,
-                          onChanged: (Cost value) {
-                            setState(() {
-                              tripcost = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: const Text('2,000 - 3,000'),
-                        leading: Radio<Cost>(
-                          value: Cost.three,
-                          groupValue: tripcost,
-                          onChanged: (Cost value) {
-                            setState(() {
-                              tripcost = value;
-                            });
-                          },
-                        ),
-                      ),
-                      ListTile(
-                        title: const Text('3,000 +'),
-                        leading: Radio<Cost>(
-                          value: Cost.more,
-                          groupValue: tripcost,
-                          onChanged: (Cost value) {
-                            setState(() {
-                              tripcost = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ))
-                ])),
-          ])),
-      Expanded(
-          flex: 7,
-          child: Material(
-            type: MaterialType.transparency,
-            child: SingleChildScrollView(
-              child: Container(
-                // margin: EdgeInsetsDirectional.only(top:120),
-                width: screenwidth * 0.05,
-                height: 1080,
-                decoration:
-                    BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
-                child: Column(
-                  children: [
-                    SectionTitle(
-                      title: "All Trips",
-                      color: Color(0xFFFF78a2cc),
-                    ),
-                    SizedBox(height: 40),
-                    // Text(trips.length.toString()),
-                    SizedBox(
-                      width: 1110,
-                      child: FutureBuilder(
-                        future: getTrip(),
-                        // searchData(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            // debugPrint(
-                            //     'Step 3, build widget: ${snapshot.data}');
-                            // Build the widget with data.
-                            return Container(
-                              height: 800,
-                              width: screenwidth,
-                              child: ListView.builder(
-                                  scrollDirection: Axis.vertical,
-                                  shrinkWrap: true,
-                                  itemCount: _foundtrip.length,
-                                  itemBuilder: (context, index) {
-                                    return InfoCard(
-                                      index: index,
-                                    );
-                                  }),
 
-                              /*List.generate(
-                                          _foundtrip.length,
-                                              (index) => Center(
-                                            child: InfoCard(
-                                              index: index,
-                                            ),
-                                          ),
-                                        )*/
-                            );
-                            //Text('hasData: ${snapshot.data}')));
-                          } else {
-                            // We can show the loading view until the data comes back.
-                            // debugPrint('Step 1, build loading widget');
-                            return CircularProgressIndicator();
-                          }
-                        },
+                      ]),
+                      SizedBox(height: 20),
+                      Wrap(
+                        spacing: 10,
+                        children: [
+                          Text('Start Date'),
+                          Spacer(),
+                          // Text(_dateFrom == null ? '' : _dateFrom.toString()),
+                          AutoSizeText(_dateFrom == null
+                              ? ''
+                              : DateFormat("dd/MM/yyyy").format(_dateFrom)),
+                          Spacer(),
+                          RaisedButton(
+                              color: Color(0xfff8dd9cc),
+                              child: AutoSizeText('Pick a date'),
+                              onPressed: () {
+                                showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime.now().subtract(Duration(days:60)),
+                                    lastDate: DateTime.now().add(Duration(days:30)))
+                                    .then((date) => {
+                                  setState(() {
+                                    var timeStamp =
+                                    //  print(Timestamp.fromDateTime(date));
+                                    _dateFrom = date;
+                                  })
+                                });
+                              }),
+                        ],
                       ),
-                    ),
-                    // Text(trips[trips.length].diveMasters.toString()),
-                    SizedBox(
-                      height: 100,
+                      SizedBox(height: 20),
+                      Wrap(
+                        spacing: 10,
+                        children: [
+                          Text('To'),
+                          Spacer(),
+                          // Text(_dateTo == null ? '' : _dateTo.toString()),
+                          Text(_dateTo == null
+                              ? ''
+                              : DateFormat("dd/MM/yyyy").format(_dateFrom)),
+                          Spacer(),
+                          RaisedButton(
+                              color: Color(0xfff8dd9cc),
+                              child: Text('Pick a date'),
+                              onPressed: () {
+                                showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime.now().subtract(Duration(days:60)),
+                                    lastDate: DateTime.now().add(Duration(days:30)))
+                                    .then((date) => {
+                                  setState(() {
+                                    var timeStamp =
+                                    //    print(Timestamp.fromDateTime(date));
+                                    _dateTo = date;
+                                  })
+                                });
+                              }),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Wrap(
+                        spacing: 10,
+                        children: [
+                          Text('Location'),
+                          Spacer(),
+                          DropdownButton<String>(
+                              value: dropdownValue,
+                              icon: const Icon(Icons.arrow_downward),
+                              elevation: 16,
+                              iconSize: 30,
+                              isExpanded: true,
+                              style: const TextStyle(color: Colors.black),
+                              underline: Container(
+                                height: 2,
+                                color: Colors.black,
+                              ),
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  dropdownValue = newValue;
+                                });
+                              },
+                              items: <String>[
+                                'All',
+                                'Bangkok',
+                                'Phuket',
+                                'Krabi',
+                                'Samui island',
+                                'Trat',
+                                'test',
+                                'Koh Samet',
+                                'Rayong',
+                                'Chanthaburi'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Wrap(
+                        spacing: 10,
+                        children: [
+                          Text('Number of customers'),
+                          Spacer(),
+                          TextField(
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                fillColor: Colors.white,
+                                // hintText: 'Number of customer'
+                              ),
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  guestvalue = int.parse(newValue);
+                                });
+                              },
+                            ),
+
+                          ],
+                      ),
+                      SizedBox(height: 20),
+                      Wrap(
+                        spacing: 10,
+                        children: [
+                          AutoSizeText('Trip Duration (days)'),
+
+                          Spacer(),
+                          TextField(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  fillColor: Colors.white,
+                                  // hintText: 'Trip Duration (days)'
+                                ),
+                                onChanged: (String newvalue) {
+                                  setState(() {
+                                    _diff = newvalue;
+                                  });
+                                }),
+
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Wrap(
+                        spacing: 10,
+                        children: [
+                          AutoSizeText('Trip type'),
+                          Spacer(),
+                          DropdownButton<String>(
+                              value: dropdownValue2,
+                              icon: const Icon(Icons.arrow_downward),
+                              elevation: 16,
+                              iconSize: 30,
+                              isExpanded: true,
+                              style: const TextStyle(color: Colors.black),
+                              underline: Container(
+                                height: 2,
+                                color: Colors.black,
+                              ),
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  dropdownValue2 = newValue;
+                                });
+                              },
+                              items: <String>['All', 'Onshore', 'Offshore']
+                                  .map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                            ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Align(
+                          alignment: Alignment.topLeft,
+                          child: Text("Price (per person/trip)")),
+                      Container(
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                title: const Text('all'),
+                                leading: Radio<Cost>(
+                                  value: Cost.all,
+                                  groupValue: tripcost,
+                                  onChanged: (Cost value) {
+                                    setState(() {
+                                      tripcost = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              ListTile(
+                                title: const Text('0 - 1,000'),
+                                leading: Radio<Cost>(
+                                  value: Cost.one,
+                                  groupValue: tripcost,
+                                  onChanged: (Cost value) {
+                                    setState(() {
+                                      tripcost = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              ListTile(
+                                title: const Text('1,000 - 2,000'),
+                                leading: Radio<Cost>(
+                                  value: Cost.two,
+                                  groupValue: tripcost,
+                                  onChanged: (Cost value) {
+                                    setState(() {
+                                      tripcost = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              ListTile(
+                                title: const Text('2,000 - 3,000'),
+                                leading: Radio<Cost>(
+                                  value: Cost.three,
+                                  groupValue: tripcost,
+                                  onChanged: (Cost value) {
+                                    setState(() {
+                                      tripcost = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              ListTile(
+                                title: const Text('3,000 +'),
+                                leading: Radio<Cost>(
+                                  value: Cost.more,
+                                  groupValue: tripcost,
+                                  onChanged: (Cost value) {
+                                    setState(() {
+                                      tripcost = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ))
+
+
+                        ] //Container of left side
+                      )
                     )
-                  ],
-                ),
+                )
+                  ),
+
+
+              Expanded(
+                flex: 6,
+                child:
+                  Container(
+
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child:
+
+                    Material(
+                      type: MaterialType.transparency,
+                      child: SingleChildScrollView(
+
+                        child: Container(
+
+                          // margin: EdgeInsetsDirectional.only(top:120),
+
+                          decoration:
+                          BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
+                          child: Wrap(
+                            children: [
+                              SectionTitle(
+                                title: "All Trips",
+                                color: Color(0xFFFF78a2cc),
+                              ),
+                              SizedBox(height: 40),
+                              // Text(trips.length.toString()),
+                              SizedBox(
+
+                                child: FutureBuilder(
+                                  future: getTrip(),
+                                  // searchData(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      // debugPrint(
+                                      //     'Step 3, build widget: ${snapshot.data}');
+                                      // Build the widget with data.
+                                      return
+                                            ListView.builder(
+                                            scrollDirection: Axis.vertical,
+                                            shrinkWrap:true,
+                                            itemCount: _foundtrip.length,
+                                            itemBuilder:(context, index){
+                                              return InfoCard(
+                                                index: index,
+                                              );
+                                            }
+
+                                      );
+
+                                    } else {
+                                      // We can show the loading view until the data comes back.
+                                      return CircularProgressIndicator();
+                                    }
+                                  },
+                                ),
+                              ),
+                              // Text(trips[trips.length].diveMasters.toString()),
+                              SizedBox(
+                                height: 100,
+                              )
+                            ],
+                          ),
+                        ),
+
+                      ),
+                    )
+                    )
+
+                  )
               ),
-            ),
-          ))
-    ]);
+            ]
+          ),
+
+    );
   }
 
   void _runFilter() {
@@ -666,37 +678,43 @@ class _InfoCardState extends State<InfoCard> {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        height: 320,
-        width: 1000,
         decoration: BoxDecoration(
           color: Colors.white,
         ),
         child: Row(
           children: [
-            Container(
-                width: 300,
-                height: 300,
-                child: _foundtrip[widget.index].tripTemplate.images.length == 0
-                    ? new Container(
-                        color: Colors.pink,
-                      )
-                    : Image.network(
-                        // 'http://139.59.101.136/static/'+
-                        // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+
+            Expanded(
+              flex:2,
+              child:
+                Container(
+
+                    child: _foundtrip[widget.index].tripTemplate.images.length == 0
+                        ? new Container(
+                      color: Colors.pink,
+                    )
+                        : Image.network(
+                      // 'http://139.59.101.136/static/'+
+                      // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+
                         _foundtrip[widget.index]
                             .tripTemplate
                             .images[0]
                             .link
                             .toString()
 
-                        // _foundtrip[widget.index].tripTemplate.images[0].toString()
-                        )),
+
+                      // _foundtrip[widget.index].tripTemplate.images[0].toString()
+                    )
+                  )
+                ),
+
             // child: Image.asset(LiveAboardDatas[widget.index].image)),
             Expanded(
+              flex: 6,
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: SingleChildScrollView(
-                    child: Column(
+                  child:  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -805,7 +823,7 @@ class _InfoCardState extends State<InfoCard> {
                       ],
                     ),
                   )),
-            )
+
           ],
         ),
       ),

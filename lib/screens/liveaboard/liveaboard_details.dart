@@ -171,7 +171,7 @@ class _detailState extends State<detail> {
           height: 10,
         ),
         SizedBox(
-          width: 1110,
+          width: MediaQuery.of(context).size.width ,
           child: FutureBuilder(
             future: getLiveaboardDetail(),
             builder: (context, snapshot) {
@@ -262,8 +262,8 @@ class _detailState extends State<detail> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-                width: 300,
-                height: 300,
+                width: MediaQuery.of(context).size.width/3.5,
+                height: MediaQuery.of(context).size.width/3.5,
                 child: details[widget.index].tripTemplate.images.length == 0
                     ? new Container(
                         color: Colors.pink,
@@ -279,8 +279,8 @@ class _detailState extends State<detail> {
               width: 10,
             ),
             Container(
-                width: 300,
-                height: 300,
+                width: MediaQuery.of(context).size.width/3.5,
+                height: MediaQuery.of(context).size.width/3.5,
                 child: details[widget.index].tripTemplate.images.length == 0
                     ? new Container(
                         color: Colors.pink,
@@ -296,8 +296,8 @@ class _detailState extends State<detail> {
               width: 10,
             ),
             Container(
-                width: 300,
-                height: 300,
+                width: MediaQuery.of(context).size.width/3.5 ,
+                height: MediaQuery.of(context).size.width/3.5,
                 child: details[widget.index].tripTemplate.images.length == 0
                     ? new Container(
                         color: Colors.pink,
