@@ -585,8 +585,14 @@ try {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        height: 320,
-        width: 500,
+         constraints: BoxConstraints(
+          maxHeight: double.infinity,
+           maxWidth: double.infinity,
+           minHeight: 320, //minimum height
+          minWidth: 500, // minimum width
+        ),
+        // height: 320,
+        // width: 500,
         decoration: BoxDecoration(
             // color: Colors.white,
             color: Color(0xFFFF89cfef),

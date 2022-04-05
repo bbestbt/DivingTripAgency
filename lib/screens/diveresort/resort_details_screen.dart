@@ -599,7 +599,7 @@ class _InfoCardState extends State<InfoCard> {
     return user_profile;
   }
 
-   bookTrips() async {
+  bookTrips() async {
     await getProfile();
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -639,10 +639,10 @@ class _InfoCardState extends State<InfoCard> {
       // print('id');
       // print(bookRequest.reservation.id);
       // print(response.reservation.id);
-      reservation_id=int.parse(response.reservation.id.toString());
-      total_price= total_price=response.reservation.price;
+      reservation_id = int.parse(response.reservation.id.toString());
+      total_price = total_price = response.reservation.price;
       // print(reservation_id);
-      return [reservation_id,total_price];
+      return [reservation_id, total_price];
     } catch (e) {
       print(e);
     }
@@ -757,7 +757,8 @@ class _InfoCardState extends State<InfoCard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PaymentScreen(reservation_id,total_price)));
+                              builder: (context) =>
+                                  PaymentScreen(reservation_id, total_price)));
                     }
                   },
                 ),
@@ -774,8 +775,14 @@ class _InfoCardState extends State<InfoCard> {
     // }
     return InkWell(
       child: Container(
-        height: 320,
-        width: 500,
+        constraints: BoxConstraints(
+          maxHeight: double.infinity,
+           maxWidth: double.infinity,
+           minHeight: 320, //minimum height
+          minWidth: 500, // minimum width
+        ),
+        // height: 320,
+        // width: 500,
         decoration: BoxDecoration(
             // color: Colors.white,
             color: Color(0xFFFF89cfef),
