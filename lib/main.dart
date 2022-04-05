@@ -5,6 +5,7 @@ import 'package:diving_trip_agency/screens/liveaboard/liveaboard_details.dart';
 import 'package:diving_trip_agency/screens/login/login.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
+import 'package:diving_trip_agency/screens/payment/payment_screen.dart';
 import 'package:diving_trip_agency/screens/signup/test.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins'),
   // home: MainCompanyScreen(),
      home: MainScreen(), //Original
-  //  home: LoginScreen(),
+  //  home: PaymentScreen(),
     );
   }
 

@@ -10,6 +10,7 @@ import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/components/side_menu.dart';
+import 'package:diving_trip_agency/screens/payment/payment_screen.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +28,7 @@ List<RoomType> roomtypes = [];
 final TextEditingController _textEditingQuantity = TextEditingController();
 final TextEditingController _textEditingDiver = TextEditingController();
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+int reservation_id;
 
 class LiveaboardDetailScreen extends StatefulWidget {
   int index;
@@ -410,7 +412,7 @@ class _InfoCardState extends State<InfoCard> {
     return user_profile;
   }
 
-  void bookTrips() async {
+   bookTrips() async {
     await getProfile();
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -427,7 +429,7 @@ class _InfoCardState extends State<InfoCard> {
     var room = Reservation_Room();
     for (int i = 0; i < roomtypes.length; i++) {
       room.quantity = int.parse(_textEditingQuantity.text);
-      room.roomTypeId = roomtypes[i].id;
+      room.roomTypeId = roomtypes[indexRoom].id;
       room.noDivers = int.parse(_textEditingDiver.text);
       // print(room.quantity);
       // print(room.noDivers);
@@ -440,13 +442,19 @@ class _InfoCardState extends State<InfoCard> {
     reservation.price =
         (roomtypes[indexRoom].price * int.parse(_textEditingQuantity.text)) +
             details[indexDetail].price;
-    reservation.totalDivers = Int64(roomtypes[indexRoom].maxGuest);
+    reservation.totalDivers =Int64(int.parse(_textEditingDiver.text));
 
     var bookRequest = CreateReservationRequest()..reservation = reservation;
 
-    try {
-      var response = stub.createReservation(bookRequest);
+try {
+      var response = await stub.createReservation(bookRequest);
       print('response: ${response}');
+      // print('id');
+      // print(bookRequest.reservation.id);
+      // print(response.reservation.id);
+      reservation_id=int.parse(response.reservation.id.toString());
+      // print(reservation_id);
+      return reservation_id;
     } catch (e) {
       print(e);
     }
@@ -556,8 +564,12 @@ class _InfoCardState extends State<InfoCard> {
                       //         ],
                       //       );
                       //     });
-                      Navigator.of(context).pop();
+                      // Navigator.of(context).pop();
                       print('book');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PaymentScreen(reservation_id)));
                     }
                   },
                 ),
