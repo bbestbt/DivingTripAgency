@@ -2,6 +2,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/diver.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/diver.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
@@ -36,13 +37,13 @@ class _UserProfileState extends State<UserProfile> {
     String token = box.get('token');
     final stub = DiverServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var listTrips = ListBookedTripsRequest();
+    var listTrips = ListReservationsWithTripsRequest();
     listTrips.limit = Int64(20);
     listTrips.offset = Int64(0);
     trips.clear();
     try {
       //  print('test');
-      await for (var feature in stub.listBookedTrips(listTrips)) {
+      await for (var feature in stub.listReservationsWithTrips(listTrips)) {
         trips.add(feature.trip);
       
       }
