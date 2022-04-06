@@ -6,6 +6,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
+import 'package:diving_trip_agency/screens/payment/payment_screen.dart';
 import 'package:diving_trip_agency/screens/profile/diver/edit_profile_diver.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,11 @@ import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
 
 List<TripWithTemplate> trips = [];
+List<Reservation> reservation = [];
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
+int reservation_id;
+double total_price;
 
 class UserProfile extends StatefulWidget {
   @override
@@ -25,7 +29,6 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   getData() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -36,20 +39,20 @@ class _UserProfileState extends State<UserProfile> {
     String token = box.get('token');
     final stub = DiverServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var listTrips = ListBookedTripsRequest();
+    var listTrips = ListReservationsWithTripsRequest();
     listTrips.limit = Int64(20);
     listTrips.offset = Int64(0);
     trips.clear();
     try {
-      //  print('test');
-      await for (var feature in stub.listBookedTrips(listTrips)) {
+      await for (var feature in stub.listReservationsWithTrips(listTrips)) {
         trips.add(feature.trip);
-      
+        reservation.add(feature.reservation);
       }
+      // print(reservation); 
     } catch (e) {
       print('ERROR: $e');
     }
-  print(trips);
+    // print(trips);
     return trips;
   }
 
@@ -246,19 +249,17 @@ class _InfoCardState extends State<InfoCard> {
   // List<SearchTripsResponse_Trip> trips = [];
   List<TripWithTemplate> listTrip;
   @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-    //  print('candy');
-    // print('candy2');
-    // print(trips.length);
-  }
-
-  @override
   Widget build(BuildContext context) {
     // getData();
     return InkWell(
+      onTap: () {
+        
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    PaymentScreen(int.parse(reservation[widget.index].id.toString()), double.parse(reservation[widget.index].price.toString()))));
+      },
       child: Container(
         height: 320,
         width: 1000,
@@ -298,16 +299,15 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Start date : ' +  DateFormat("dd/MM/yyyy").format(
-                            trips[widget.index]
-                                .fromDate
-                                .toDateTime()
-                                )),
+                        Text('Start date : ' +
+                            DateFormat("dd/MM/yyyy").format(
+                                trips[widget.index].fromDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('End date : ' +  DateFormat("dd/MM/yyyy").format(
-                            trips[widget.index].toDate.toDateTime())),
+                        Text('End date : ' +
+                            DateFormat("dd/MM/yyyy").format(
+                                trips[widget.index].toDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),
@@ -333,7 +333,7 @@ class _InfoCardState extends State<InfoCard> {
                         Align(
                             alignment: Alignment.centerRight,
                             child: Text('Price : ' +
-                                trips[widget.index].price.toString())),
+                                reservation[widget.index].price.toString())),
                         SizedBox(
                           height: 20,
                         ),

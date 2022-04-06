@@ -6,6 +6,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/liveaboard.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/roomtype.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
@@ -110,22 +111,21 @@ class _detailState extends State<detail> {
     final box = Hive.box('userInfo');
     String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel,
+    final stub = RoomTypeServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    var listroomrequest = ListRoomTypesRequest();
+    var listroomrequest = ListRoomTypesByTripRequest();
     listroomrequest.limit = Int64(20);
     listroomrequest.offset = Int64(0);
     listroomrequest.liveaboardId =
         details[widget.index].tripTemplate.liveaboardId;
+    listroomrequest.tripId = details[widget.index].id;
     // Int64(2);
 
     roomtypes.clear();
-    print('test');
+
     try {
-      print('test2');
-      await for (var feature in stub.listRoomTypes(listroomrequest)) {
-        print('test3');
+      await for (var feature in stub.listRoomTypesByTrip(listroomrequest)) {
         roomtypes.add(feature.roomType);
         print(roomtypes);
       }
@@ -172,7 +172,7 @@ class _detailState extends State<detail> {
           height: 10,
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width ,
+          width: MediaQuery.of(context).size.width,
           child: FutureBuilder(
             future: getLiveaboardDetail(),
             builder: (context, snapshot) {
@@ -263,8 +263,8 @@ class _detailState extends State<detail> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-                width: MediaQuery.of(context).size.width/3.5,
-                height: MediaQuery.of(context).size.width/3.5,
+                width: MediaQuery.of(context).size.width / 3.5,
+                height: MediaQuery.of(context).size.width / 3.5,
                 child: details[widget.index].tripTemplate.images.length == 0
                     ? new Container(
                         color: Colors.pink,
@@ -280,8 +280,8 @@ class _detailState extends State<detail> {
               width: 10,
             ),
             Container(
-                width: MediaQuery.of(context).size.width/3.5,
-                height: MediaQuery.of(context).size.width/3.5,
+                width: MediaQuery.of(context).size.width / 3.5,
+                height: MediaQuery.of(context).size.width / 3.5,
                 child: details[widget.index].tripTemplate.images.length == 0
                     ? new Container(
                         color: Colors.pink,
@@ -297,8 +297,8 @@ class _detailState extends State<detail> {
               width: 10,
             ),
             Container(
-                width: MediaQuery.of(context).size.width/3.5 ,
-                height: MediaQuery.of(context).size.width/3.5,
+                width: MediaQuery.of(context).size.width / 3.5,
+                height: MediaQuery.of(context).size.width / 3.5,
                 child: details[widget.index].tripTemplate.images.length == 0
                     ? new Container(
                         color: Colors.pink,
@@ -332,17 +332,17 @@ class _detailState extends State<detail> {
                         return Center(
                             child: Container(
                                 child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Wrap(
-                                      spacing: 20,
-                                      runSpacing: 40,
-                                      children: List.generate(
-                                        roomtypes.length,
-                                        (candy) => Center(
-                                          child: InfoCard(candy, details, index),
-                                        ),
-                                      )),
-                                )));
+                          scrollDirection: Axis.horizontal,
+                          child: Wrap(
+                              spacing: 20,
+                              runSpacing: 40,
+                              children: List.generate(
+                                roomtypes.length,
+                                (candy) => Center(
+                                  child: InfoCard(candy, details, index),
+                                ),
+                              )),
+                        )));
                       } else {
                         // getLiveaboardDetail();
                         return Align(
@@ -413,7 +413,7 @@ class _InfoCardState extends State<InfoCard> {
     return user_profile;
   }
 
-   bookTrips() async {
+  bookTrips() async {
     await getProfile();
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -443,20 +443,20 @@ class _InfoCardState extends State<InfoCard> {
     reservation.price =
         (roomtypes[indexRoom].price * int.parse(_textEditingQuantity.text)) +
             details[indexDetail].price;
-    reservation.totalDivers =Int64(int.parse(_textEditingDiver.text));
+    reservation.totalDivers = Int64(int.parse(_textEditingDiver.text));
 
     var bookRequest = CreateReservationRequest()..reservation = reservation;
 
-try {
+    try {
       var response = await stub.createReservation(bookRequest);
       print('response: ${response}');
       // print('id');
       // print(bookRequest.reservation.id);
       // print(response.reservation.id);
-      reservation_id=int.parse(response.reservation.id.toString());
-      total_price=response.reservation.price;
+      reservation_id = int.parse(response.reservation.id.toString());
+      total_price = response.reservation.price;
       // print(reservation_id);
-      return [reservation_id,total_price];
+      return [reservation_id, total_price];
     } catch (e) {
       print(e);
     }
@@ -568,10 +568,11 @@ try {
                       //     });
                       // Navigator.of(context).pop();
                       print('book');
-                        Navigator.push(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PaymentScreen(reservation_id,total_price)));
+                              builder: (context) =>
+                                  PaymentScreen(reservation_id, total_price)));
                     }
                   },
                 ),
@@ -585,10 +586,10 @@ try {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-         constraints: BoxConstraints(
+        constraints: BoxConstraints(
           maxHeight: double.infinity,
-           maxWidth: double.infinity,
-           minHeight: 320, //minimum height
+          maxWidth: double.infinity,
+          minHeight: 320, //minimum height
           minWidth: 500, // minimum width
         ),
         // height: 320,
@@ -619,7 +620,7 @@ try {
               width: 20,
             ),
             Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 40,

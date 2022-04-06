@@ -8,6 +8,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/hotel.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/roomtype.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/diveresort/dialog.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
@@ -147,20 +148,21 @@ class _detailState extends State<detail> {
     final box = Hive.box('userInfo');
     String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel,
+    final stub = RoomTypeServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    var listroomrequest = ListRoomTypesRequest();
+    var listroomrequest = ListRoomTypesByTripRequest();
     listroomrequest.limit = Int64(20);
     listroomrequest.offset = Int64(0);
     listroomrequest.hotelId = details[widget.index].tripTemplate.hotelId;
+    listroomrequest.tripId=details[widget.index].id;
     //  Int64(2);
 
     roomtypes.clear();
     // print('test');
     try {
       // print('test2');
-      await for (var feature in stub.listRoomTypes(listroomrequest)) {
+      await for (var feature in stub.listRoomTypesByTrip(listroomrequest)) {
         // print('test3');
         roomtypes.add(feature.roomType);
         // print(roomtypes);
