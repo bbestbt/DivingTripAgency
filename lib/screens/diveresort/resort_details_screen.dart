@@ -155,6 +155,7 @@ class _detailState extends State<detail> {
     listroomrequest.limit = Int64(20);
     listroomrequest.offset = Int64(0);
     listroomrequest.hotelId = details[widget.index].tripTemplate.hotelId;
+    listroomrequest.tripId=details[widget.index].id;
     //  Int64(2);
 
     roomtypes.clear();
