@@ -6,6 +6,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
+import 'package:diving_trip_agency/screens/payment/payment_review_screen.dart';
 import 'package:diving_trip_agency/screens/payment/payment_screen.dart';
 import 'package:diving_trip_agency/screens/profile/diver/edit_profile_diver.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
@@ -17,6 +18,7 @@ import 'package:intl/intl.dart';
 
 List<TripWithTemplate> trips = [];
 List<Reservation> reservation = [];
+List<Reservation_Room> room = [];
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 int reservation_id;
@@ -48,7 +50,14 @@ class _UserProfileState extends State<UserProfile> {
         trips.add(feature.trip);
         reservation.add(feature.reservation);
       }
-      // print(reservation); 
+      //  for (int i = 0; i < reservation.length; i++) {
+      //      print( reservation[i].rooms);
+      //     room = reservation[i].rooms;
+      //     // print('room');
+      //     // print(room);
+      //   }
+
+      // print(reservation);
     } catch (e) {
       print('ERROR: $e');
     }
@@ -253,12 +262,15 @@ class _InfoCardState extends State<InfoCard> {
     // getData();
     return InkWell(
       onTap: () {
-        
+        print(reservation[widget.index].rooms);
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    PaymentScreen(int.parse(reservation[widget.index].id.toString()), double.parse(reservation[widget.index].price.toString()))));
+                builder: (context) => ReviewTripScreen(
+                    int.parse(reservation[widget.index].id.toString()),
+                    double.parse(reservation[widget.index].price.toString()),
+                    trips[widget.index],
+                    reservation[widget.index].rooms)));
       },
       child: Container(
         height: 320,

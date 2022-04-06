@@ -257,7 +257,7 @@ class _detailState extends State<detail> {
             SizedBox(
               width: 10,
             ),
-            Text("From : " +
+            Text("To : " +
                 DateFormat("dd/MM/yyyy")
                     .format(details[widget.index].toDate.toDateTime())),
           ],
