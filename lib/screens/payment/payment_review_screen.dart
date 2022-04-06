@@ -12,29 +12,25 @@ class ReviewTripScreen extends StatefulWidget {
   int reservation_id;
   double total_price;
   TripWithTemplate trips;
-  List<Reservation_Room> roomtypes = [];
 
   @override
   ReviewTripScreen(
-      int reservation_id, double total_price, TripWithTemplate trips,List<Reservation_Room> roomtypes) {
+      int reservation_id, double total_price, TripWithTemplate trips) {
     this.reservation_id = reservation_id;
     this.total_price = total_price;
     this.trips = trips;
-    this.roomtypes=roomtypes;
   }
   State<ReviewTripScreen> createState() =>
-      _ReviewTripScreenState(this.reservation_id, this.total_price, this.trips,this.roomtypes);
+      _ReviewTripScreenState(this.reservation_id, this.total_price, this.trips);
 }
 
 class _ReviewTripScreenState extends State<ReviewTripScreen> {
   int reservation_id;
   double total_price;
   TripWithTemplate trips;
-  List<Reservation_Room> roomtypes = [];
-
 
   final MenuController _controller = Get.put(MenuController());
-  _ReviewTripScreenState(this.reservation_id, this.total_price, this.trips,this.roomtypes);
+  _ReviewTripScreenState(this.reservation_id, this.total_price, this.trips);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +40,7 @@ class _ReviewTripScreenState extends State<ReviewTripScreen> {
         child: Column(
           children: [
             Header(),
-            PaymentReview(reservation_id, total_price, trips,roomtypes)
+            PaymentReview(reservation_id, total_price, trips)
           ],
         ),
       ),
