@@ -13,6 +13,7 @@ class ReviewTripScreen extends StatefulWidget {
   double total_price;
   TripWithTemplate trips;
 
+
   @override
   ReviewTripScreen(
       int reservation_id, double total_price, TripWithTemplate trips) {
@@ -22,6 +23,7 @@ class ReviewTripScreen extends StatefulWidget {
   }
   State<ReviewTripScreen> createState() =>
       _ReviewTripScreenState(this.reservation_id, this.total_price, this.trips);
+
 }
 
 class _ReviewTripScreenState extends State<ReviewTripScreen> {
@@ -29,8 +31,10 @@ class _ReviewTripScreenState extends State<ReviewTripScreen> {
   double total_price;
   TripWithTemplate trips;
 
+
   final MenuController _controller = Get.put(MenuController());
   _ReviewTripScreenState(this.reservation_id, this.total_price, this.trips);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +44,9 @@ class _ReviewTripScreenState extends State<ReviewTripScreen> {
         child: Column(
           children: [
             Header(),
+
             PaymentReview(reservation_id, total_price, trips)
+
           ],
         ),
       ),

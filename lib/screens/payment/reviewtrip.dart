@@ -4,8 +4,10 @@ import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/diver.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
+
 import 'package:diving_trip_agency/nautilus/proto/dart/hotel.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/liveaboard.pbgrpc.dart';
+
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/payment.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/payment.pbgrpc.dart';
@@ -13,7 +15,9 @@ import 'package:diving_trip_agency/nautilus/proto/dart/roomtype.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/profile/diver/edit_profile_diver.dart';
+
 import 'package:diving_trip_agency/screens/report/company_liveaboard.dart';
+
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -28,6 +32,7 @@ GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 io.File slip;
 PickedFile slipPayment;
+
 ReservationRoom room;
 GetHotelResponse hotelDetial = new GetHotelResponse();
 var hotel;
@@ -36,10 +41,12 @@ var room_name;
 GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
 var liveaboard;
 
+
 class PaymentReview extends StatefulWidget {
   int reservation_id;
   double total_price;
   TripWithTemplate trips;
+
 
   PaymentReview(
     int reservation_id,
@@ -53,13 +60,16 @@ class PaymentReview extends StatefulWidget {
   @override
   _PaymentReviewState createState() =>
       _PaymentReviewState(this.reservation_id, this.total_price, this.trips);
+
 }
 
 class _PaymentReviewState extends State<PaymentReview> {
   int reservation_id;
   double total_price;
   TripWithTemplate trips;
+
   _PaymentReviewState(this.reservation_id, this.total_price, this.trips);
+
   makePayment() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -108,6 +118,7 @@ class _PaymentReviewState extends State<PaymentReview> {
       print(pickedFile.path.split('/').last);
     }
   }
+
 
   getRoom() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -195,6 +206,7 @@ class _PaymentReviewState extends State<PaymentReview> {
 
   @override
   Widget build(BuildContext context) {
+
     double screenwidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Container(
@@ -274,6 +286,7 @@ class _PaymentReviewState extends State<PaymentReview> {
             SizedBox(
               height: 10,
             ),
+
             trips.tripTemplate.tripType.toString() == "ONSHORE"
                 ? SizedBox(
                     width: 1110,
@@ -372,6 +385,7 @@ class _PaymentReviewState extends State<PaymentReview> {
                 },
               ),
             ),
+
             SizedBox(
               height: 10,
             ),
@@ -446,6 +460,7 @@ class _PaymentReviewState extends State<PaymentReview> {
               ),
             ),
             SizedBox(height: 20),
+
           ],
         ),
       ),

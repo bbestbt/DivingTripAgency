@@ -1,6 +1,6 @@
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
-import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
+
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';

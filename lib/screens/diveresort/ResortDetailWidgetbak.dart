@@ -1,55 +1,42 @@
-import 'package:diving_trip_agency/controllers/menuController.dart';
+
+import 'dart:convert';
+
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
-import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
-import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
+import 'package:diving_trip_agency/screens/ShopCart/ShopcartWidget.dart';
+import 'package:diving_trip_agency/screens/weatherforecast/forecast_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/hotel.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
-import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pb.dart';
-import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/roomtype.pbgrpc.dart';
-import 'package:diving_trip_agency/screens/diveresort/dialog.dart';
-import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
-import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
-import 'package:diving_trip_agency/screens/main/components/header.dart';
-import 'package:diving_trip_agency/screens/main/components/side_menu.dart';
-import 'package:diving_trip_agency/screens/payment/payment_screen.dart';
-import 'package:diving_trip_agency/screens/sectionTitile.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
-import 'package:fixnum/fixnum.dart';
-import 'package:diving_trip_agency/screens/weatherforecast/forecast_widget.dart';
-import 'package:weather/weather.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'dart:convert';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter_map/flutter_map.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:http/http.dart' as http;
-import 'package:diving_trip_agency/screens/ShopCart/ShopcartWidget.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:weather/weather.dart';
+import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:fixnum/fixnum.dart';
+import 'package:diving_trip_agency/screens/payment/payment_screen.dart';
 import 'package:latlong2/latlong.dart';
 
 
-List<RoomType> roomtypes = [];
-GetProfileResponse user_profile = new GetProfileResponse();
+
+enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 var profile;
-List<TripWithTemplate> details;
+GetProfileResponse user_profile = new GetProfileResponse();
 GetHotelResponse hotelDetial = new GetHotelResponse();
-var hotel;
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+List<RoomType> roomtypes = [];
 final TextEditingController _textEditingQuantity = TextEditingController();
 final TextEditingController _textEditingDiver = TextEditingController();
-enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 int reservation_id;
 double total_price;
-
 
 class _ChartData {
   _ChartData(this.day, this.temp);
@@ -57,88 +44,54 @@ class _ChartData {
   final double temp;
 }
 
-
-class DiveResortDetailScreen extends StatefulWidget {
-  List<Weather> _data = [];
-  double latc, lonc;
+class HotelDetail extends StatefulWidget {
   int index;
   List<TripWithTemplate> details;
-  DiveResortDetailScreen(int index, List<TripWithTemplate> details) {
-    this.details = details;
-    this.index = index;
-  }
-
-  @override
-  State<DiveResortDetailScreen> createState() =>
-      _DiveResortDetailScreenState(this.index, this.details);
-}
-
-class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
   String cityname = "";
-  String key = "cc27393688bcc7bbe2999c2e9366c65d";
+  String APIkey = "cc27393688bcc7bbe2999c2e9366c65d";
+  String dropdownValue = 'Bangkok'; //Default value for the dropdown
   WeatherFactory ws;
-
-  List<Weather> _data = [];
-  final MenuController _controller = Get.put(MenuController());
-  int index;
-  List<TripWithTemplate> details;
-  _DiveResortDetailScreenState(int index, List<TripWithTemplate> details) {
-    this.index = index;
-    this.details = details;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        key: _controller.scaffoldkey,
-        drawer: SideMenu(),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                Header(),
-                SizedBox(height: 30),
-                detail(this.index, this.details),
-              ],
-            ),
-          ),
-        ));
-  }
-}
-
-class detail extends StatefulWidget {
-  int index;
-  List<TripWithTemplate> details;
-  detail(int index, List<TripWithTemplate> details) {
-    this.index = index;
-    this.details = details;
-  }
-
-  @override
-  State<detail> createState() => _detailState(this.index, this.details);
-}
-
-class _detailState extends State<detail> {
-  String key = '856822fd8e22db5e1ba48c0e7d69844a';
-  WeatherFactory ws;
+  List<_ChartData> tempdata = [];
   List<Weather> _data = [];
   AppState _state = AppState.NOT_DOWNLOADED;
+
+  double latc, lonc;
+
+
+
+  HotelDetail(int index, List<TripWithTemplate> details) {
+    this.index = index;
+    this.details = details;
+  }
+
+
+  @override
+  State<HotelDetail> createState() => _HotelState(this.index, this.details);
+}
+
+class _HotelState extends State<HotelDetail> {
+  String APIkey = '856822fd8e22db5e1ba48c0e7d69844a';
+  WeatherFactory ws;
+  List<Weather> _data = [];
+  List<RoomType> roomtypes = [];
+  AppState _state = AppState.NOT_DOWNLOADED;
+
+  var hotel;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   int index;
   List<TripWithTemplate> details;
   String cityname = "Phuket";
   double txtsize = 15;
   double latc, lonc;
   List<_ChartData> tempdata = [];
-  _detailState(int index, List<TripWithTemplate> details) {
+
+  _HotelState(int index, List<TripWithTemplate> details) {
     this.index = index;
     this.details = details;
   }
-
-
   @override
   void initState() {
-    super.initState();
-    ws = new WeatherFactory(key);
+    ws = new WeatherFactory(APIkey);
   }
 
 
@@ -171,7 +124,7 @@ class _detailState extends State<detail> {
       await for (var feature in stub.listRoomTypesByTrip(listroomrequest)) {
         // print('test3');
         roomtypes.add(feature.roomType);
-        // print(roomtypes);
+        //print(roomtypes);
       }
     } catch (e) {
       print('ERROR: $e');
@@ -206,41 +159,53 @@ class _detailState extends State<detail> {
     return hotelDetial.hotel.name;
   }
 
+  void queryForecast() async {
+    /// Removes keyboard
+    FocusScope.of(context).requestFocus(FocusNode());
+    setState(() {
+      _state = AppState.DOWNLOADING;
+    });
+
+    List<Weather> forecasts = await ws.fiveDayForecastByCityName(cityname);
+
+    setState(() {
+
+      _data = forecasts;
+      _state = AppState.FINISHED_DOWNLOADING;
+    });
+  }
+
+
   void queryWeather() async {
     /// Removes keyboard
     ///
-
     cityname = details[widget.index].tripTemplate.address.city;
-
     FocusScope.of(context).requestFocus(FocusNode());
     var url = "http://api.openweathermap.org/geo/1.0/direct?q="+cityname+
-        "&limit=1&appid="+key;
+        "&limit=1&appid="+APIkey;
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200){
       var jsonbody = json.decode(response.body);
       print(jsonbody);
       // var parsedData =
       List loclist = jsonbody;
-      //print(loclist[0]['lat']);
-      //print(loclist[0]['lon']);
       latc = loclist[0]['lat'];
       lonc = loclist[0]['lon'];
-      //print(cityname);
-     // print(latc);
-     // print(lonc);
-     // print(json.decode(response.body));
+      print(latc);
+      print(lonc);
+      // print(json.decode(response.body));
     }
     setState(() {
       _state = AppState.DOWNLOADING;
 
     });
 
-    List<Weather> weather = await ws.fiveDayForecastByCityName(cityname);
-    //print("_data");
-   // print([weather]);
-    setState(() {
-      _data = weather;
+    Weather weather = await ws.currentWeatherByCityName(cityname);
 
+    setState(() {
+      _data = [weather];
+      print("Weather Data");
+      print(_data);
       _state = AppState.FINISHED_DOWNLOADING;
     });
   }
@@ -259,10 +224,6 @@ class _detailState extends State<detail> {
     for(int i=0;i<_data.length;i++) {
       //print(_data[0].date.day);
       tempdata.add(_ChartData(_data[i].date.day.toString(), _data[i].temperature.celsius));
-      //tempdata.add(_ChartData("2", 36));
-      //tempdata.add(_ChartData("3", 14));
-      //tempdata.add(_ChartData("4", 36));
-      //tempdata.add(_ChartData("5", 14));
     }
     print(tempdata);
 
@@ -308,7 +269,6 @@ class _detailState extends State<detail> {
                   itemCount: _data.length,
                   itemBuilder: (context, index) {
                     return
-
                       Container(
                           width:100,
                           decoration: BoxDecoration(
@@ -322,10 +282,8 @@ class _detailState extends State<detail> {
 
                           Column(
                               children: [
-
                                 Image(image:NetworkImage('http://openweathermap.org/img/w/'+_data[index].weatherIcon+'.png')),
 
-
                                 Stack(
                                     children: [
                                       Text(DateFormat.Hm().format(
@@ -360,7 +318,6 @@ class _detailState extends State<detail> {
                                               color: Colors.white))
                                     ]
                                 ),
-
                                 Stack(
                                     children: [
                                       Text(_data[index].temperature.toString(),
@@ -392,7 +349,9 @@ class _detailState extends State<detail> {
                                               color: Colors.white))
                                     ]
                                 ),
-                                                             ]
+
+
+                              ]
                           )
 
                       );
@@ -440,7 +399,6 @@ class _detailState extends State<detail> {
     );
   }
 
-
   Widget contentDownloading() {
     return Container(
       margin: EdgeInsets.all(25),
@@ -475,253 +433,247 @@ class _detailState extends State<detail> {
       ? contentDownloading()
       : contentNotDownloaded();
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        SectionTitle(
-          title: "Dive resorts",
-          color: Color(0xFFFF78a2cc),
-        ),
-        Text("Trip name : " + details[widget.index].tripTemplate.name),
-        SizedBox(
-          height: 10,
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: FutureBuilder(
-            future: getHotelDetail(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Center(
-                  child: Text("Hotel : " +
-                      // details[widget.index].tripTemplate.hotelId.toString()),
-                      hotelDetial.hotel.name),
-                );
-              } else {
-                return Align(
-                    alignment: Alignment.center, child: Text('No name'));
-              }
-            },
+        children: [
+          SectionTitle(
+            title: "Dive resorts",
+            color: Color(0xFFFF78a2cc),
           ),
-        ),
+          Text("Trip name : " + details[widget.index].tripTemplate.name),
+          SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: FutureBuilder(
+              future: getHotelDetail(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Center(
+                    child: Text("Hotel : " +
+                        // details[widget.index].tripTemplate.hotelId.toString()),
+                        hotelDetial.hotel.name),
+                  );
+                } else {
+                  return Align(
+                      alignment: Alignment.center, child: Text('No name'));
+                }
+              },
+            ),
+          ),
 
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("From : " +
-                DateFormat("dd/MM/yyyy")
-                    .format(details[widget.index].fromDate.toDateTime())),
-            SizedBox(
-              width: 10,
-            ),
-            Text("To : " +
-                DateFormat("dd/MM/yyyy")
-                    .format(details[widget.index].toDate.toDateTime())),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text("Address : " +
-            details[widget.index].tripTemplate.address.addressLine1),
-        SizedBox(
-          height: 10,
-        ),
-        Text("Address2 : " +
-            details[widget.index].tripTemplate.address.addressLine2),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('City : ' + details[widget.index].tripTemplate.address.city),
-            SizedBox(
-              width: 20,
-            ),
-            Text("Country : " +
-                details[widget.index].tripTemplate.address.country),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Region : ' +
-                details[widget.index].tripTemplate.address.region),
-            SizedBox(
-              width: 20,
-            ),
-            Text('Postcode : ' +
-                details[widget.index].tripTemplate.address.postcode),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text("Description : " + details[widget.index].tripTemplate.description),
-        SizedBox(
-          height: 10,
-        ),
-        Text("Price : " + details[widget.index].price.toString()),
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width,
-          child: Row(
+          SizedBox(
+            height: 10,
+          ),
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                  width: MediaQuery.of(context).size.width / 3.5,
-                  height: MediaQuery.of(context).size.width / 3.5,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[0]
-                              .link
-                              .toString())),
+              Text("From : " +
+                  DateFormat("dd/MM/yyyy")
+                      .format(details[widget.index].fromDate.toDateTime())),
               SizedBox(
                 width: 10,
               ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 3.5,
-                  height: MediaQuery.of(context).size.width / 3.5,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[1]
-                              .link
-                              .toString())),
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 3.5,
-                  height: MediaQuery.of(context).size.width / 3.5,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[2]
-                              .link
-                              .toString())),
+              Text("To : " +
+                  DateFormat("dd/MM/yyyy")
+                      .format(details[widget.index].toDate.toDateTime())),
             ],
           ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-
-        //  RaisedButton(
-        //           onPressed: () {
-        //            getHotelDetail();
-        //           },
-        //           color: Colors.amber,
-        //           shape: RoundedRectangleBorder(
-        //               borderRadius: BorderRadius.circular(10)),
-        //           child: Text("get hotel"),
-        //         ),
-        Container(
-          // decoration: BoxDecoration(
-          //     color: Color(0xFFFF89cfef),
-          //     borderRadius: BorderRadius.circular(10)),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
+          SizedBox(
+            height: 10,
+          ),
+          Text("Address : " +
+              details[widget.index].tripTemplate.address.addressLine1),
+          SizedBox(
+            height: 10,
+          ),
+          Text("Address2 : " +
+              details[widget.index].tripTemplate.address.addressLine2),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('City : ' + details[widget.index].tripTemplate.address.city),
+              SizedBox(
+                width: 20,
+              ),
+              Text("Country : " +
+                  details[widget.index].tripTemplate.address.country),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Region : ' +
+                  details[widget.index].tripTemplate.address.region),
+              SizedBox(
+                width: 20,
+              ),
+              Text('Postcode : ' +
+                  details[widget.index].tripTemplate.address.postcode),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text("Description : " + details[widget.index].tripTemplate.description),
+          SizedBox(
+            height: 10,
+          ),
+          Text("Price : " + details[widget.index].price.toString()),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                    width: MediaQuery.of(context).size.width / 3.5,
+                    height: MediaQuery.of(context).size.width / 3.5,
+                    child: details[widget.index].tripTemplate.images.length == 0
+                        ? new Container(
+                      color: Colors.pink,
+                    )
+                        : Image.network(
+                      // 'http://139.59.101.136/static/'+
+                        details[widget.index]
+                            .tripTemplate
+                            .images[0]
+                            .link
+                            .toString())),
                 SizedBox(
-                  width: 1110,
-                  child: FutureBuilder(
-                    future: getData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Center(
-                            child: Container(
-                                child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Wrap(
-                              spacing: 20,
-                              runSpacing: 40,
-                              children: List.generate(
-                                roomtypes.length,
-                                (candy) => Center(
-                                  child: InfoCard(candy, details, index),
-                                ),
-                              )),
-                        )));
-                      } else {
-                        return Align(
-                            alignment: Alignment.center,
-                            child: Text('No data'));
-                      }
-                    },
-                  ),
+                  width: 10,
                 ),
+                Container(
+                    width: MediaQuery.of(context).size.width / 3.5,
+                    height: MediaQuery.of(context).size.width / 3.5,
+                    child: details[widget.index].tripTemplate.images.length == 0
+                        ? new Container(
+                      color: Colors.pink,
+                    )
+                        : Image.network(
+                      // 'http://139.59.101.136/static/'+
+                        details[widget.index]
+                            .tripTemplate
+                            .images[1]
+                            .link
+                            .toString())),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                    width: MediaQuery.of(context).size.width / 3.5,
+                    height: MediaQuery.of(context).size.width / 3.5,
+                    child: details[widget.index].tripTemplate.images.length == 0
+                        ? new Container(
+                      color: Colors.pink,
+                    )
+                        : Image.network(
+                      // 'http://139.59.101.136/static/'+
+                        details[widget.index]
+                            .tripTemplate
+                            .images[2]
+                            .link
+                            .toString())),
               ],
             ),
           ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-            decoration: BoxDecoration(
-                // color: Colors.white,
-                color: Color(0xFFFF89cfef),
-                borderRadius: BorderRadius.circular(10)),
-            width: MediaQuery.of(context).size.width,
-            child: Expanded(
-                child: Container(
-              child: Column(children: [
-                Text("5-day weather forecast"),
-                Text("Weather example"),
-                Container(
-                  margin: EdgeInsets.all(5),
-                  child: TextButton(
-                    child: Text(
-                      'Fetch forecast',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: queryWeather,
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue)),
-                  ),
-                ),
-                Container(
-                  child: _resultView(),
-                )
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  SizedBox(
+                    child: FutureBuilder(
+                      future: getData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                        return Center(
+                        child: Container(
+                          child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Wrap(
+                            spacing: 20,
+                            runSpacing: 40,
+                            children: List.generate(
+                            roomtypes.length,
+                            (candy) => Center(
+                            child: InfoCard(candy, details, index),
+                              ),
+                            )
+                          ),
+                        )
+                        )
+                        );
+                        }
 
-              ]),
-            )))
-      ],
+
+                        else {
+                          return Align(
+                              alignment: Alignment.center,
+                              child: Text('No data'));
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            margin: EdgeInsets.all(5),
+            child: TextButton(
+              child: Text(
+                'Fetch weather',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: queryWeather,
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue)),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(5),
+            child: TextButton(
+              child: Text(
+                'Fetch forecast',
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: queryForecast,
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue)),
+            ),
+          ),
+          Container(
+            child: _resultView(),
+          )
+
+
+
+        ]
     );
   }
 }
+
+
 
 class InfoCard extends StatefulWidget {
   List<TripWithTemplate> details;
@@ -737,12 +689,12 @@ class InfoCard extends StatefulWidget {
     this.indexDetail = indexDetail;
     // print(details);
     // print(indexRoom);
-    // for (int i =0;i<details.length;i++){
-    //   print('index detail');
-    //   print(indexDetail);
-    //   print('price');
-    //   print(details[i].price);
-    // }
+    /* for (int i =0;i<details.length;i++){
+       print('index detail');
+       print(indexDetail);
+       print('price');
+       print(details[i].price);
+     }*/
   }
 
   @override
@@ -793,8 +745,10 @@ class _InfoCardState extends State<InfoCard> {
       room.quantity = int.parse(_textEditingQuantity.text);
       room.roomTypeId = roomtypes[indexRoom].id;
       room.noDivers = int.parse(_textEditingDiver.text);
-      // print(room.quantity);
-      // print(room.noDivers);
+      //print(room.quantity);
+      //print("Room.noDivers");
+      //print(room.noDivers);
+
     }
 
     var reservation = Reservation()..rooms.add(room);
@@ -846,7 +800,7 @@ class _InfoCardState extends State<InfoCard> {
                           return value.isNotEmpty ? null : "Invalid Field";
                         },
                         decoration:
-                            InputDecoration(hintText: "Enter room quantity"),
+                        InputDecoration(hintText: "Enter room quantity"),
                       ),
                       TextFormField(
                         keyboardType: TextInputType.number,
@@ -858,21 +812,8 @@ class _InfoCardState extends State<InfoCard> {
                           return value.isNotEmpty ? null : "Invalid Field";
                         },
                         decoration:
-                            InputDecoration(hintText: "Enter number of diver"),
+                        InputDecoration(hintText: "Enter number of diver"),
                       ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Text("Confirmation"),
-                      //     Checkbox(
-                      //         value: isChecked,
-                      //         onChanged: (checked) {
-                      //           setState(() {
-                      //             isChecked = checked;
-                      //           });
-                      //         })
-                      //   ],
-                      // )
                     ],
                   )),
               actions: <Widget>[
@@ -886,7 +827,7 @@ class _InfoCardState extends State<InfoCard> {
                         hotelDetial.hotel.name,
                         roomtypes[indexRoom].name,
                         (roomtypes[indexRoom].price *
-                                int.parse(_textEditingQuantity.text)) +
+                            int.parse(_textEditingQuantity.text)) +
                             details[indexDetail].price,
                         details,
                         roomtypes,
@@ -905,29 +846,8 @@ class _InfoCardState extends State<InfoCard> {
                   child: Text('Book'),
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
-                      // print(details[indexDetail].price);
-                      // print('--');
-                      // print((roomtypes[indexRoom].price *
-                      //     int.parse(_textEditingQuantity.text)));
-                      // print((roomtypes[indexRoom].price *
-                      //         int.parse(_textEditingQuantity.text)) +
-                      //     details[indexDetail].price);
-                      await bookTrips();
-                      // showDialog(
-                      //     context: context,
-                      //     builder: (BuildContext context) {
-                      //       return AlertDialog(
-                      //         title: Text("Booking"),
-                      //         content: Text("done"),
-                      //         actions: <Widget>[
-                      //           // FlatButton(
-                      //           //child: Text("OK"),
-                      //           //     ),
-                      //         ],
-                      //       );
-                      //     });
 
-                      // Navigator.of(context).pop();
+                      await bookTrips();
                       print('book');
                       Navigator.push(
                           context,
@@ -945,41 +865,39 @@ class _InfoCardState extends State<InfoCard> {
 
   @override
   Widget build(BuildContext context) {
-    // for (int i = 0; i < roomtypes.length; i++) {
-    //   print(roomtypes);
-    // }
     return InkWell(
       child: Container(
         constraints: BoxConstraints(
           maxHeight: double.infinity,
-           maxWidth: double.infinity,
-           minHeight: 320, //minimum height
+          maxWidth: double.infinity,
+          minHeight: 320, //minimum height
           minWidth: 500, // minimum width
         ),
         // height: 320,
         // width: 500,
         decoration: BoxDecoration(
-            // color: Colors.white,
+          // color: Colors.white,
             color: Color(0xFFFF89cfef),
             borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
             SizedBox(width: 20),
+            Text(roomtypes.length.toString()),
             Container(
                 width: 200,
                 height: 200,
                 child: roomtypes[widget.indexRoom].roomImages.length == 0
                     ? new Container(
-                        color: Colors.green,
-                      )
+                  color: Colors.green,
+                )
                     : Image.network(
-                        // 'http://139.59.101.136/static/' +
-                        roomtypes[widget.indexRoom]
-                            .roomImages[0]
-                            .link
-                            .toString()
-                        // trips[widget.index].tripTemplate.images[0].toString()
-                        )),
+                  // 'http://139.59.101.136/static/' +
+                    roomtypes[widget.indexRoom]
+                        .roomImages[0]
+                        .link
+                        .toString()
+                  // trips[widget.index].tripTemplate.images[0].toString()
+                )),/*
             SizedBox(
               width: 20,
             ),
@@ -1026,7 +944,7 @@ class _InfoCardState extends State<InfoCard> {
                   child: Text("Book the trip"),
                 ),
               ],
-            ),
+            ),*/
             SizedBox(
               height: 20,
             ),

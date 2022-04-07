@@ -8,7 +8,9 @@ import 'package:diving_trip_agency/nautilus/proto/dart/trip.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/profile/company/edit_profile_comp.dart';
+
 import 'package:diving_trip_agency/screens/report/company_check_payment.dart';
+
 import 'package:diving_trip_agency/screens/report/company_liveaboard.dart';
 import 'package:diving_trip_agency/screens/report/company_resort.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
@@ -302,10 +304,12 @@ class _InfoCardState extends State<InfoCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => CompanyCheckpayment(diver,widget.indexTrip)));
+
         // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   Navigator.push(
         //       context,
@@ -364,13 +368,17 @@ class _InfoCardState extends State<InfoCard> {
                         ),
                         Text('Start date : ' +
                             DateFormat("dd/MM/yyyy").format(
+
                                 trips[widget.indexTrip].startDate.toDateTime())),
+
                         SizedBox(
                           height: 10,
                         ),
                         Text('End date : ' +
                             DateFormat("dd/MM/yyyy").format(
+
                                 trips[widget.indexTrip].endDate.toDateTime())),
+
                         SizedBox(
                           height: 10,
                         ),
@@ -448,10 +456,12 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => CompanyCheckpayment(endedDiver,widget.indexEndedTrip)));
+
         // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   Navigator.push(
         //       context,
@@ -515,7 +525,9 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         ),
                         Text('Start date : ' +
                             DateFormat("dd/MM/yyyy").format(
+
                                 endedTrips[widget.indexEndedTrip]
+
                                     .startDate
                                     .toDateTime())),
                         SizedBox(
@@ -523,7 +535,9 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         ),
                         Text('End date : ' +
                             DateFormat("dd/MM/yyyy").format(
+
                                 endedTrips[widget.indexEndedTrip].endDate.toDateTime())),
+
                         SizedBox(
                           height: 10,
                         ),
@@ -595,6 +609,7 @@ class _IncomingCardState extends State<IncomingCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -612,6 +627,7 @@ class _IncomingCardState extends State<IncomingCard> {
       //   //           builder: (context) =>
       //   //               CompanyLiveaboard(widget.index, incomingTrips)));
       //   // }
+
         
       },
       child: Container(
@@ -666,7 +682,9 @@ class _IncomingCardState extends State<IncomingCard> {
                         ),
                         Text('Start date : ' +
                             DateFormat("dd/MM/yyyy").format(
+
                                 incomingTrips[widget.indexIncoming]
+
                                     .startDate
                                     .toDateTime())),
                         SizedBox(
@@ -674,7 +692,9 @@ class _IncomingCardState extends State<IncomingCard> {
                         ),
                         Text('End date : ' +
                             DateFormat("dd/MM/yyyy").format(
+
                                 incomingTrips[widget.indexIncoming]
+
                                     .endDate
                                     .toDateTime())),
                         SizedBox(
