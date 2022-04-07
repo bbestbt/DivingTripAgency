@@ -5,8 +5,11 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/trip.pbgrpc.dart';
+import 'package:diving_trip_agency/screens/diveresort/resort_details_screen.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/profile/company/edit_profile_comp.dart';
+import 'package:diving_trip_agency/screens/report/company_liveaboard.dart';
+import 'package:diving_trip_agency/screens/report/company_resort.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -302,6 +305,20 @@ class _InfoCardState extends State<InfoCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
+        //   Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //           builder: (context) => CompanyResort(widget.index, trips)));
+        // } else {
+        //   Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //           builder: (context) => CompanyLiveaboard(widget.index, trips)));
+        // }
+      
+      },
       child: Container(
         height: 320,
         width: 1000,
@@ -345,19 +362,15 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Start date : ' +   DateFormat("dd/MM/yyyy").format(
-                            trips[widget.index]
-                                .startDate
-                                .toDateTime()
-                              )),
+                        Text('Start date : ' +
+                            DateFormat("dd/MM/yyyy").format(
+                                trips[widget.index].startDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('End date : ' +  DateFormat("dd/MM/yyyy").format(
-                            trips[widget.index]
-                                .endDate
-                                .toDateTime()
-                        )),
+                        Text('End date : ' +
+                            DateFormat("dd/MM/yyyy").format(
+                                trips[widget.index].endDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),
@@ -433,6 +446,22 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
+        //   Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //           builder: (context) =>
+        //               CompanyResort(widget.index, endedTrips)));
+        // } else {
+        //   Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //           builder: (context) =>
+        //               CompanyLiveaboard(widget.index, endedTrips)));
+        // }
+       
+      },
       child: Container(
         height: 320,
         width: 1000,
@@ -479,19 +508,17 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Start date : ' +  DateFormat("dd/MM/yyyy").format(
-                            endedTrips[widget.index]
-                                .startDate
-                                .toDateTime()
-                                )),
+                        Text('Start date : ' +
+                            DateFormat("dd/MM/yyyy").format(
+                                endedTrips[widget.index]
+                                    .startDate
+                                    .toDateTime())),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('End date : ' +  DateFormat("dd/MM/yyyy").format(
-                            endedTrips[widget.index]
-                                .endDate
-                                .toDateTime()
-                                )),
+                        Text('End date : ' +
+                            DateFormat("dd/MM/yyyy").format(
+                                endedTrips[widget.index].endDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),
@@ -561,6 +588,22 @@ class _IncomingCardState extends State<IncomingCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
+        //   Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //           builder: (context) =>
+        //               CompanyResort(widget.index, incomingTrips)));
+        // } else {
+        //   Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //           builder: (context) =>
+        //               CompanyLiveaboard(widget.index, incomingTrips)));
+        // }
+        
+      },
       child: Container(
         height: 320,
         width: 1000,
@@ -611,19 +654,19 @@ class _IncomingCardState extends State<IncomingCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('Start date : ' +  DateFormat("dd/MM/yyyy").format(
-                            incomingTrips[widget.index]
-                                .startDate
-                                .toDateTime()
-                        )),
+                        Text('Start date : ' +
+                            DateFormat("dd/MM/yyyy").format(
+                                incomingTrips[widget.index]
+                                    .startDate
+                                    .toDateTime())),
                         SizedBox(
                           height: 10,
                         ),
-                        Text('End date : ' +  DateFormat("dd/MM/yyyy").format(
-                            incomingTrips[widget.index]
-                                .endDate
-                                .toDateTime()
-                                )),
+                        Text('End date : ' +
+                            DateFormat("dd/MM/yyyy").format(
+                                incomingTrips[widget.index]
+                                    .endDate
+                                    .toDateTime())),
                         SizedBox(
                           height: 10,
                         ),

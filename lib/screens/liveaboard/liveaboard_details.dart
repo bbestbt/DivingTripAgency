@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:diving_trip_agency/controllers/menuController.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
@@ -6,6 +8,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/liveaboard.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/roomtype.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
@@ -15,12 +18,17 @@ import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:weather/weather.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:fixnum/fixnum.dart';
 import 'package:diving_trip_agency/screens/ShopCart/ShopcartWidget.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:http/http.dart' as http;
 
 GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
 var liveaboard;
@@ -28,7 +36,15 @@ List<RoomType> roomtypes = [];
 final TextEditingController _textEditingQuantity = TextEditingController();
 final TextEditingController _textEditingDiver = TextEditingController();
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 int reservation_id;
+double total_price;
+
+class _ChartData {
+  _ChartData(this.day, this.temp);
+  final String day;
+  final double temp;
+}
 
 class LiveaboardDetailScreen extends StatefulWidget {
   int index;
@@ -75,6 +91,7 @@ class _LiveaboardDetailScreenState extends State<LiveaboardDetailScreen> {
 }
 
 class detail extends StatefulWidget {
+
   int index;
   List<TripWithTemplate> details;
   detail(int index, List<TripWithTemplate> details) {
@@ -90,8 +107,16 @@ class detail extends StatefulWidget {
 }
 
 class _detailState extends State<detail> {
+  String cityname = "";
+  String key = "cc27393688bcc7bbe2999c2e9366c65d";
+  WeatherFactory ws;
+  AppState _state = AppState.NOT_DOWNLOADED;
+  List<Weather> _data = [];
+  double latc, lonc;
   int index;
   List<TripWithTemplate> details;
+  double txtsize = 15;
+  List<_ChartData> tempdata = [];
   _detailState(int index, List<TripWithTemplate> details) {
     this.index = index;
     this.details = details;
@@ -109,22 +134,21 @@ class _detailState extends State<detail> {
     final box = Hive.box('userInfo');
     String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel,
+    final stub = RoomTypeServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    var listroomrequest = ListRoomTypesRequest();
+    var listroomrequest = ListRoomTypesByTripRequest();
     listroomrequest.limit = Int64(20);
     listroomrequest.offset = Int64(0);
     listroomrequest.liveaboardId =
         details[widget.index].tripTemplate.liveaboardId;
+    listroomrequest.tripId = details[widget.index].id;
     // Int64(2);
 
     roomtypes.clear();
-    print('test');
+
     try {
-      print('test2');
-      await for (var feature in stub.listRoomTypes(listroomrequest)) {
-        print('test3');
+      await for (var feature in stub.listRoomTypesByTrip(listroomrequest)) {
         roomtypes.add(feature.roomType);
         print(roomtypes);
       }
@@ -158,6 +182,276 @@ class _detailState extends State<detail> {
     return liveaboardDetial.liveaboard.name;
   }
 
+  void queryWeather() async {
+    /// Removes keyboard
+    ///
+
+    cityname = details[widget.index].tripTemplate.address.city;
+
+    FocusScope.of(context).requestFocus(FocusNode());
+    var url = "http://api.openweathermap.org/geo/1.0/direct?q="+cityname+
+        "&limit=1&appid="+key;
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200){
+      var jsonbody = json.decode(response.body);
+      print(jsonbody);
+      // var parsedData =
+      List loclist = jsonbody;
+      //print(loclist[0]['lat']);
+      //print(loclist[0]['lon']);
+      latc = loclist[0]['lat'];
+      lonc = loclist[0]['lon'];
+      //print(cityname);
+      // print(latc);
+      // print(lonc);
+      // print(json.decode(response.body));
+    }
+    setState(() {
+      _state = AppState.DOWNLOADING;
+
+    });
+
+    List<Weather> weather = await ws.fiveDayForecastByCityName(cityname);
+    //print("_data");
+    // print([weather]);
+    setState(() {
+      _data = weather;
+
+      _state = AppState.FINISHED_DOWNLOADING;
+    });
+  }
+
+
+  Widget contentFinishedDownload() {
+    String Weathercode = "wi-day-snow";
+
+    double txtsize;
+    if (kIsWeb){
+      txtsize = 20.0;
+    }else{
+      txtsize = 15.0;
+    }
+    tempdata =[];
+    for(int i=0;i<_data.length;i++) {
+      //print(_data[0].date.day);
+      tempdata.add(_ChartData(_data[i].date.day.toString(), _data[i].temperature.celsius));
+      //tempdata.add(_ChartData("2", 36));
+      //tempdata.add(_ChartData("3", 14));
+      //tempdata.add(_ChartData("4", 36));
+      //tempdata.add(_ChartData("5", 14));
+    }
+    print(tempdata);
+
+    //if _data[index].weatherDescription
+    return Center(
+        child: Column(
+            children:[
+              Container(
+                  child: Text(_data[0].areaName, style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w100,
+                  )
+                  )
+              ),
+              Container(
+
+                child:
+                Column(children: [
+                  //Initialize the chart widget
+                  SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      // Chart title
+                      title: ChartTitle(text: 'Temperature forecast'),
+                      // Enable legend
+                      legend: Legend(isVisible: true),
+                      // Enable tooltip
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      series: <ChartSeries<_ChartData, String>>[
+                        LineSeries<_ChartData, String>(
+                            dataSource: tempdata,
+                            xValueMapper: (_ChartData sales, _) => sales.day,
+                            yValueMapper: (_ChartData sales, _) => sales.temp,
+                            name: 'Temp',
+                            // Enable data label
+                            dataLabelSettings: DataLabelSettings(isVisible: true))
+                      ]),
+                ]),
+              ),
+              Container(
+                height:150,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _data.length,
+                  itemBuilder: (context, index) {
+                    return
+
+                      Container(
+                          width:100,
+                          decoration: BoxDecoration(
+
+                              image : DecorationImage(image: AssetImage('assets/images/'+_data[index].weatherIcon+'.jpg'),fit: BoxFit.cover
+
+                              ),
+                              border:Border.all(color:Colors.indigo,width:1)
+                          ),
+                          child:
+
+                          Column(
+                              children: [
+
+                                Image(image:NetworkImage('http://openweathermap.org/img/w/'+_data[index].weatherIcon+'.png')),
+
+
+                                Stack(
+                                    children: [
+                                      Text(DateFormat.Hm().format(
+                                          _data[index].date).toString(),
+                                          style: TextStyle(fontSize: txtsize/1.5,
+                                              fontWeight: FontWeight.w100,
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..strokeWidth = 6
+                                                ..color = Colors.black)),
+                                      Text(DateFormat.Hm().format(
+                                          _data[index].date).toString(),
+                                          style: TextStyle(fontSize: txtsize/1.5,
+                                              fontWeight: FontWeight.w100,
+                                              color: Colors.white))
+                                    ]
+                                ),
+                                Stack(
+                                    children: [
+                                      Text(DateFormat.E().format(
+                                          _data[index].date).toString(),
+                                          style: TextStyle(fontSize: txtsize/1.5,
+                                              fontWeight: FontWeight.w100,
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..strokeWidth = 6
+                                                ..color = Colors.black)),
+                                      Text(DateFormat.E().format(
+                                          _data[index].date).toString(),
+                                          style: TextStyle(fontSize: txtsize/1.5,
+                                              fontWeight: FontWeight.w100,
+                                              color: Colors.white))
+                                    ]
+                                ),
+
+                                Stack(
+                                    children: [
+                                      Text(_data[index].temperature.toString(),
+                                          style: TextStyle(fontSize: txtsize/1.5,
+                                              fontWeight: FontWeight.w100,
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..strokeWidth = 6
+                                                ..color = Colors.black)),
+                                      Text(_data[index].temperature.toString(),
+                                          style: TextStyle(fontSize: txtsize/1.5,
+                                              fontWeight: FontWeight.w100,
+                                              color: Colors.white))
+                                    ]
+                                ),
+                                Stack(
+                                    children: [
+                                      Text(
+                                          _data[index].windGust.toString(),
+                                          style: TextStyle(fontSize: txtsize/1.5,
+                                              fontWeight: FontWeight.w100,
+                                              foreground: Paint()
+                                                ..style = PaintingStyle.stroke
+                                                ..strokeWidth = 6
+                                                ..color = Colors.black)),
+                                      Text(_data[index].windGust.toString(),
+                                          style: TextStyle(fontSize: txtsize/1.5,
+                                              fontWeight: FontWeight.w100,
+                                              color: Colors.white))
+                                    ]
+                                ),
+                              ]
+                          )
+
+                      );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider();
+                  },
+                ),
+              ),
+              Container(
+                  decoration: BoxDecoration(color: Colors.greenAccent),
+                  width:MediaQuery.of(context).size.width * 0.9,
+                  height: 70,
+                  child:FlutterMap(
+                    options: MapOptions(
+                      center: LatLng(latc, lonc),
+                      zoom: 13.0,
+                    ),
+                    layers: [
+                      TileLayerOptions(
+                        urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        subdomains: ['a', 'b', 'c'],
+                        attributionBuilder: (_) {
+                          return Text("© OpenStreetMap contributors");
+                        },
+                      ),
+                      MarkerLayerOptions(
+                        markers: [
+                          Marker(
+                            width: 80.0,
+                            height: 80.0,
+                            point: LatLng(51.5, -0.09),
+                            builder: (ctx) =>
+                                Container(
+                                  child: FlutterLogo(),
+                                ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+              )
+            ]
+        )
+    );
+  }
+
+
+  Widget contentDownloading() {
+    return Container(
+      margin: EdgeInsets.all(25),
+      child: Column(children: [
+        Text(
+          'Fetching Weather...',
+          style: TextStyle(fontSize: 20),
+        ),
+        Container(
+            margin: EdgeInsets.only(top: 50),
+            child: Center(child: CircularProgressIndicator(strokeWidth: 10)))
+      ]),
+    );
+  }
+
+  Widget contentNotDownloaded() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            'Press the button to download the Weather forecast',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _resultView() => _state == AppState.FINISHED_DOWNLOADING
+      ? contentFinishedDownload()
+      : _state == AppState.DOWNLOADING
+      ? contentDownloading()
+      : contentNotDownloaded();
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -171,7 +465,7 @@ class _detailState extends State<detail> {
           height: 10,
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width ,
+          width: MediaQuery.of(context).size.width,
           child: FutureBuilder(
             future: getLiveaboardDetail(),
             builder: (context, snapshot) {
@@ -199,7 +493,7 @@ class _detailState extends State<detail> {
             SizedBox(
               width: 10,
             ),
-            Text("From : " +
+            Text("To : " +
                 DateFormat("dd/MM/yyyy")
                     .format(details[widget.index].toDate.toDateTime())),
           ],
@@ -262,8 +556,8 @@ class _detailState extends State<detail> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-                width: MediaQuery.of(context).size.width/3.5,
-                height: MediaQuery.of(context).size.width/3.5,
+                width: MediaQuery.of(context).size.width / 3.5,
+                height: MediaQuery.of(context).size.width / 3.5,
                 child: details[widget.index].tripTemplate.images.length == 0
                     ? new Container(
                         color: Colors.pink,
@@ -279,8 +573,8 @@ class _detailState extends State<detail> {
               width: 10,
             ),
             Container(
-                width: MediaQuery.of(context).size.width/3.5,
-                height: MediaQuery.of(context).size.width/3.5,
+                width: MediaQuery.of(context).size.width / 3.5,
+                height: MediaQuery.of(context).size.width / 3.5,
                 child: details[widget.index].tripTemplate.images.length == 0
                     ? new Container(
                         color: Colors.pink,
@@ -296,8 +590,8 @@ class _detailState extends State<detail> {
               width: 10,
             ),
             Container(
-                width: MediaQuery.of(context).size.width/3.5 ,
-                height: MediaQuery.of(context).size.width/3.5,
+                width: MediaQuery.of(context).size.width / 3.5,
+                height: MediaQuery.of(context).size.width / 3.5,
                 child: details[widget.index].tripTemplate.images.length == 0
                     ? new Container(
                         color: Colors.pink,
@@ -331,17 +625,17 @@ class _detailState extends State<detail> {
                         return Center(
                             child: Container(
                                 child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Wrap(
-                                      spacing: 20,
-                                      runSpacing: 40,
-                                      children: List.generate(
-                                        roomtypes.length,
-                                        (candy) => Center(
-                                          child: InfoCard(candy, details, index),
-                                        ),
-                                      )),
-                                )));
+                          scrollDirection: Axis.horizontal,
+                          child: Wrap(
+                              spacing: 20,
+                              runSpacing: 40,
+                              children: List.generate(
+                                roomtypes.length,
+                                (candy) => Center(
+                                  child: InfoCard(candy, details, index),
+                                ),
+                              )),
+                        )));
                       } else {
                         // getLiveaboardDetail();
                         return Align(
@@ -412,7 +706,7 @@ class _InfoCardState extends State<InfoCard> {
     return user_profile;
   }
 
-   bookTrips() async {
+  bookTrips() async {
     await getProfile();
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -442,19 +736,20 @@ class _InfoCardState extends State<InfoCard> {
     reservation.price =
         (roomtypes[indexRoom].price * int.parse(_textEditingQuantity.text)) +
             details[indexDetail].price;
-    reservation.totalDivers =Int64(int.parse(_textEditingDiver.text));
+    reservation.totalDivers = Int64(int.parse(_textEditingDiver.text));
 
     var bookRequest = CreateReservationRequest()..reservation = reservation;
 
-try {
+    try {
       var response = await stub.createReservation(bookRequest);
       print('response: ${response}');
       // print('id');
       // print(bookRequest.reservation.id);
       // print(response.reservation.id);
-      reservation_id=int.parse(response.reservation.id.toString());
+      reservation_id = int.parse(response.reservation.id.toString());
+      total_price = response.reservation.price;
       // print(reservation_id);
-      return reservation_id;
+      return [reservation_id, total_price];
     } catch (e) {
       print(e);
     }
@@ -566,10 +861,11 @@ try {
                       //     });
                       // Navigator.of(context).pop();
                       print('book');
-                        Navigator.push(
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PaymentScreen(reservation_id)));
+                              builder: (context) =>
+                                  PaymentScreen(reservation_id, total_price)));
                     }
                   },
                 ),
@@ -583,8 +879,14 @@ try {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        height: 320,
-        width: 500,
+        constraints: BoxConstraints(
+          maxHeight: double.infinity,
+          maxWidth: double.infinity,
+          minHeight: 320, //minimum height
+          minWidth: 500, // minimum width
+        ),
+        // height: 320,
+        // width: 500,
         decoration: BoxDecoration(
             // color: Colors.white,
             color: Color(0xFFFF89cfef),
@@ -611,6 +913,7 @@ try {
               width: 20,
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 40,

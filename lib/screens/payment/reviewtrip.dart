@@ -7,6 +7,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/payment.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/payment.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/roomtype.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/profile/diver/edit_profile_diver.dart';
@@ -25,21 +26,32 @@ var profile;
 io.File slip;
 PickedFile slipPayment;
 
-class PaymentUpload extends StatefulWidget {
+class PaymentReview extends StatefulWidget {
   int reservation_id;
   double total_price;
-  PaymentUpload(int reservation_id,double total_price) {
+  TripWithTemplate trips;
+  List<Reservation_Room> roomtypes = [];
+
+  PaymentReview(int reservation_id, double total_price, TripWithTemplate trips,
+      List<Reservation_Room> roomtypes) {
     this.reservation_id = reservation_id;
-    this.total_price=total_price;
+    this.total_price = total_price;
+    this.trips = trips;
+    this.roomtypes = roomtypes;
   }
   @override
-  _PaymentUploadState createState() => _PaymentUploadState(this.reservation_id,this.total_price);
+  _PaymentReviewState createState() => _PaymentReviewState(
+      this.reservation_id, this.total_price, this.trips, this.roomtypes);
 }
 
-class _PaymentUploadState extends State<PaymentUpload> {
+class _PaymentReviewState extends State<PaymentReview> {
   int reservation_id;
-   double total_price;
-  _PaymentUploadState(this.reservation_id,this.total_price);
+  double total_price;
+  TripWithTemplate trips;
+  List<Reservation_Room> roomtypes = [];
+
+  _PaymentReviewState(
+      this.reservation_id, this.total_price, this.trips, this.roomtypes);
   makePayment() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -91,6 +103,7 @@ class _PaymentUploadState extends State<PaymentUpload> {
 
   @override
   Widget build(BuildContext context) {
+    print(roomtypes);
     double screenwidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Container(
@@ -103,13 +116,92 @@ class _PaymentUploadState extends State<PaymentUpload> {
               height: 50,
             ),
             SectionTitle(
-              title: "Payment",
+              title: " Review Trip",
               color: Color(0xFFFF78a2cc),
             ),
             SizedBox(
               height: 50,
             ),
-            Text("Total price :"+total_price.toString()),
+            Text(
+              "Trip name : " + trips.tripTemplate.name,
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("From : " +
+                    DateFormat("dd/MM/yyyy")
+                        .format(trips.fromDate.toDateTime())),
+                SizedBox(
+                  width: 10,
+                ),
+                Text("To : " +
+                    DateFormat("dd/MM/yyyy").format(trips.toDate.toDateTime())),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text("Trip type : " + trips.tripTemplate.tripType.toString()),
+            SizedBox(
+              height: 10,
+            ),
+            Text("Address : " + trips.tripTemplate.address.addressLine1),
+            SizedBox(
+              height: 10,
+            ),
+            Text("Address2 : " + trips.tripTemplate.address.addressLine2),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('City : ' + trips.tripTemplate.address.city),
+                SizedBox(
+                  width: 20,
+                ),
+                Text("Country : " + trips.tripTemplate.address.country),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Region : ' + trips.tripTemplate.address.region),
+                SizedBox(
+                  width: 20,
+                ),
+                Text('Postcode : ' + trips.tripTemplate.address.postcode),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            // Text(
+            //   "Room "+roomtypes.length.toString(),
+            //   style: TextStyle(fontSize: 20),
+            // ),
+            // Center(
+            //     child: Container(
+            //         child: Wrap(
+            //             spacing: 20,
+            //             runSpacing: 40,
+            //             children: List.generate(
+            //               roomtypes.length,
+            //               (index) => Center(
+            //                 child: InfoCard(index, roomtypes),
+            //               ),
+            //             )))),
+            SizedBox(
+              height: 10,
+            ),
+            Text("Total price :" + total_price.toString()),
             SizedBox(
               height: 50,
             ),
@@ -180,9 +272,69 @@ class _PaymentUploadState extends State<PaymentUpload> {
               ),
             ),
             SizedBox(height: 20),
+
+
+
+
+
           ],
         ),
       ),
     );
   }
 }
+
+
+// class InfoCard extends StatefulWidget {
+//   List<Reservation_Room> roomtypes = [];
+//   int index;
+//   InfoCard(int index, List<Reservation_Room> roomtypes) {
+//     this.index = index;
+//     this.roomtypes = roomtypes;
+//   }
+
+//   @override
+//   State<InfoCard> createState() => _InfoCardState();
+// }
+
+// class _InfoCardState extends State<InfoCard> {
+//   List<Reservation_Room> roomtypes = [];
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       child: Container(
+//         height: 320,
+//         width: 1000,
+//         decoration: BoxDecoration(
+//           color: Colors.white,
+//         ),
+//         child: Row(
+//           children: [
+//             Expanded(
+//               child: Padding(
+//                   padding: EdgeInsets.symmetric(horizontal: 20),
+//                   child: SingleChildScrollView(
+//                     child: Column(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       mainAxisAlignment: MainAxisAlignment.center,
+//                       children: [
+//                         Text('Room quantity : ' +
+//                             roomtypes[widget.index].quantity.toString()),
+//                         SizedBox(
+//                           height: 10,
+//                         ),
+//                         Text('Total people : ' +
+//                             roomtypes[widget.index].noDivers.toString()),
+//                         SizedBox(
+//                           height: 20,
+//                         ),
+//                       ],
+//                     ),
+//                   )),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

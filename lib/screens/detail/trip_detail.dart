@@ -108,7 +108,6 @@ class _TripDetailState extends State<TripDetail> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var searchtrips = SearchTripsOptions();
 
-
     searchtrips.country = '5';
 
     searchtrips.divers = 1;
@@ -158,51 +157,40 @@ class _TripDetailState extends State<TripDetail> {
 
     return Container(
       width: screenwidth,
-      child:
-          Row(
-            children:[
-              Expanded(
-                flex: 2,
-                child:Align(
-                      alignment: Alignment.topLeft,
-                      child:
-                  Container(
+      child: Row(children: [
+        Expanded(
+            flex: 2,
+            child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
                     margin: EdgeInsets.all(10.0),
                     padding: EdgeInsets.all(10.0),
                     //height: 1080,
 
-                    decoration: BoxDecoration(
-                      color: Colors.red[50]
-                    ),
+                    decoration: BoxDecoration(color: Colors.red[50]),
                     child: Column(children: [
-
-                      Wrap(
-                          spacing: 10,
-                          children: [
+                      Wrap(spacing: 10, children: [
                         AutoSizeText(
                           "SEARCH",
                           maxFontSize: fontsize,
                           minFontSize: 10,
-                          maxLines:1,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-
                         ElevatedButton(
-                          style: TextButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 20),
-                          ),
-                          onPressed: () {
-                            _runFilter();
-                          },
-                          child: AutoSizeText(
+                            style: TextButton.styleFrom(
+                              textStyle: const TextStyle(fontSize: 20),
+                            ),
+                            onPressed: () {
+                              _runFilter();
+                            },
+                            child: AutoSizeText(
                               "Search",
                               maxFontSize: fontsize,
                               minFontSize: 5,
-                              maxLines:1,
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                          )
-                        )
-
+                            ))
                       ]),
                       SizedBox(height: 20),
                       Wrap(
@@ -220,17 +208,17 @@ class _TripDetailState extends State<TripDetail> {
                               child: AutoSizeText('Pick a date'),
                               onPressed: () {
                                 showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime.now().subtract(Duration(days:60)),
-                                    lastDate: DateTime.now().add(Duration(days:30)))
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime(2023))
                                     .then((date) => {
-                                  setState(() {
-                                    var timeStamp =
-                                    //  print(Timestamp.fromDateTime(date));
-                                    _dateFrom = date;
-                                  })
-                                });
+                                          setState(() {
+                                            var timeStamp =
+                                                //  print(Timestamp.fromDateTime(date));
+                                                _dateFrom = date;
+                                          })
+                                        });
                               }),
                         ],
                       ),
@@ -250,17 +238,17 @@ class _TripDetailState extends State<TripDetail> {
                               child: Text('Pick a date'),
                               onPressed: () {
                                 showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime.now().subtract(Duration(days:60)),
-                                    lastDate: DateTime.now().add(Duration(days:30)))
+                                        context: context,
+                                        initialDate: _dateFrom,
+                                        firstDate: _dateFrom,
+                                        lastDate: DateTime(2023))
                                     .then((date) => {
-                                  setState(() {
-                                    var timeStamp =
-                                    //    print(Timestamp.fromDateTime(date));
-                                    _dateTo = date;
-                                  })
-                                });
+                                          setState(() {
+                                            var timeStamp =
+                                                //    print(Timestamp.fromDateTime(date));
+                                                _dateTo = date;
+                                          })
+                                        });
                               }),
                         ],
                       ),
@@ -271,40 +259,39 @@ class _TripDetailState extends State<TripDetail> {
                           Text('Location'),
                           Spacer(),
                           DropdownButton<String>(
-                              value: dropdownValue,
-                              icon: const Icon(Icons.arrow_downward),
-                              elevation: 16,
-                              iconSize: 30,
-                              isExpanded: true,
-                              style: const TextStyle(color: Colors.black),
-                              underline: Container(
-                                height: 2,
-                                color: Colors.black,
-                              ),
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  dropdownValue = newValue;
-                                });
-                              },
-                              items: <String>[
-                                'All',
-                                'Bangkok',
-                                'Phuket',
-                                'Krabi',
-                                'Samui island',
-                                'Trat',
-                                'test',
-                                'Koh Samet',
-                                'Rayong',
-                                'Chanthaburi'
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
+                            value: dropdownValue,
+                            icon: const Icon(Icons.arrow_downward),
+                            elevation: 16,
+                            iconSize: 30,
+                            isExpanded: true,
+                            style: const TextStyle(color: Colors.black),
+                            underline: Container(
+                              height: 2,
+                              color: Colors.black,
                             ),
-
+                            onChanged: (String newValue) {
+                              setState(() {
+                                dropdownValue = newValue;
+                              });
+                            },
+                            items: <String>[
+                              'All',
+                              'Bangkok',
+                              'Phuket',
+                              'Krabi',
+                              'Samui island',
+                              'Trat',
+                              'test',
+                              'Koh Samet',
+                              'Rayong',
+                              'Chanthaburi'
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
                         ],
                       ),
                       SizedBox(height: 20),
@@ -314,39 +301,36 @@ class _TripDetailState extends State<TripDetail> {
                           Text('Number of customers'),
                           Spacer(),
                           TextField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                                fillColor: Colors.white,
-                                // hintText: 'Number of customer'
-                              ),
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  guestvalue = int.parse(newValue);
-                                });
-                              },
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              fillColor: Colors.white,
+                              // hintText: 'Number of customer'
                             ),
-
-                          ],
+                            onChanged: (String newValue) {
+                              setState(() {
+                                guestvalue = int.parse(newValue);
+                              });
+                            },
+                          ),
+                        ],
                       ),
                       SizedBox(height: 20),
                       Wrap(
                         spacing: 10,
                         children: [
                           AutoSizeText('Trip Duration (days)'),
-
                           Spacer(),
                           TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  fillColor: Colors.white,
-                                  // hintText: 'Trip Duration (days)'
-                                ),
-                                onChanged: (String newvalue) {
-                                  setState(() {
-                                    _diff = newvalue;
-                                  });
-                                }),
-
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
+                                fillColor: Colors.white,
+                                // hintText: 'Trip Duration (days)'
+                              ),
+                              onChanged: (String newvalue) {
+                                setState(() {
+                                  _diff = newvalue;
+                                });
+                              }),
                         ],
                       ),
                       SizedBox(height: 20),
@@ -356,29 +340,29 @@ class _TripDetailState extends State<TripDetail> {
                           AutoSizeText('Trip type'),
                           Spacer(),
                           DropdownButton<String>(
-                              value: dropdownValue2,
-                              icon: const Icon(Icons.arrow_downward),
-                              elevation: 16,
-                              iconSize: 30,
-                              isExpanded: true,
-                              style: const TextStyle(color: Colors.black),
-                              underline: Container(
-                                height: 2,
-                                color: Colors.black,
-                              ),
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  dropdownValue2 = newValue;
-                                });
-                              },
-                              items: <String>['All', 'Onshore', 'Offshore']
-                                  .map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
+                            value: dropdownValue2,
+                            icon: const Icon(Icons.arrow_downward),
+                            elevation: 16,
+                            iconSize: 30,
+                            isExpanded: true,
+                            style: const TextStyle(color: Colors.black),
+                            underline: Container(
+                              height: 2,
+                              color: Colors.black,
                             ),
+                            onChanged: (String newValue) {
+                              setState(() {
+                                dropdownValue2 = newValue;
+                              });
+                            },
+                            items: <String>['All', 'Onshore', 'Offshore']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
                         ],
                       ),
                       SizedBox(height: 20),
@@ -387,97 +371,84 @@ class _TripDetailState extends State<TripDetail> {
                           child: Text("Price (per person/trip)")),
                       Container(
                           child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                title: const Text('all'),
-                                leading: Radio<Cost>(
-                                  value: Cost.all,
-                                  groupValue: tripcost,
-                                  onChanged: (Cost value) {
-                                    setState(() {
-                                      tripcost = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ListTile(
-                                title: const Text('0 - 1,000'),
-                                leading: Radio<Cost>(
-                                  value: Cost.one,
-                                  groupValue: tripcost,
-                                  onChanged: (Cost value) {
-                                    setState(() {
-                                      tripcost = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ListTile(
-                                title: const Text('1,000 - 2,000'),
-                                leading: Radio<Cost>(
-                                  value: Cost.two,
-                                  groupValue: tripcost,
-                                  onChanged: (Cost value) {
-                                    setState(() {
-                                      tripcost = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ListTile(
-                                title: const Text('2,000 - 3,000'),
-                                leading: Radio<Cost>(
-                                  value: Cost.three,
-                                  groupValue: tripcost,
-                                  onChanged: (Cost value) {
-                                    setState(() {
-                                      tripcost = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                              ListTile(
-                                title: const Text('3,000 +'),
-                                leading: Radio<Cost>(
-                                  value: Cost.more,
-                                  groupValue: tripcost,
-                                  onChanged: (Cost value) {
-                                    setState(() {
-                                      tripcost = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          ))
-
-
-                        ] //Container of left side
-                      )
-                    )
-                )
-                  ),
-
-
-              Expanded(
-                flex: 6,
-                child:
-                  Container(
-
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child:
-
-                    Material(
+                        children: <Widget>[
+                          ListTile(
+                            title: const Text('all'),
+                            leading: Radio<Cost>(
+                              value: Cost.all,
+                              groupValue: tripcost,
+                              onChanged: (Cost value) {
+                                setState(() {
+                                  tripcost = value;
+                                });
+                              },
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text('0 - 1,000'),
+                            leading: Radio<Cost>(
+                              value: Cost.one,
+                              groupValue: tripcost,
+                              onChanged: (Cost value) {
+                                setState(() {
+                                  tripcost = value;
+                                });
+                              },
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text('1,000 - 2,000'),
+                            leading: Radio<Cost>(
+                              value: Cost.two,
+                              groupValue: tripcost,
+                              onChanged: (Cost value) {
+                                setState(() {
+                                  tripcost = value;
+                                });
+                              },
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text('2,000 - 3,000'),
+                            leading: Radio<Cost>(
+                              value: Cost.three,
+                              groupValue: tripcost,
+                              onChanged: (Cost value) {
+                                setState(() {
+                                  tripcost = value;
+                                });
+                              },
+                            ),
+                          ),
+                          ListTile(
+                            title: const Text('3,000 +'),
+                            leading: Radio<Cost>(
+                              value: Cost.more,
+                              groupValue: tripcost,
+                              onChanged: (Cost value) {
+                                setState(() {
+                                  tripcost = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ))
+                    ] //Container of left side
+                        )))),
+        Expanded(
+            flex: 6,
+            child: Container(
+                child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Material(
                       type: MaterialType.transparency,
                       child: SingleChildScrollView(
-
                         child: Container(
-
                           // margin: EdgeInsetsDirectional.only(top:120),
 
-                          decoration:
-                          BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
+                          decoration: BoxDecoration(
+                              color: Color(0xfffd4f0f7).withOpacity(0.3)),
                           child: Wrap(
                             children: [
                               SectionTitle(
@@ -487,7 +458,6 @@ class _TripDetailState extends State<TripDetail> {
                               SizedBox(height: 40),
                               // Text(trips.length.toString()),
                               SizedBox(
-
                                 child: FutureBuilder(
                                   future: getTrip(),
                                   // searchData(),
@@ -496,19 +466,15 @@ class _TripDetailState extends State<TripDetail> {
                                       // debugPrint(
                                       //     'Step 3, build widget: ${snapshot.data}');
                                       // Build the widget with data.
-                                      return
-                                            ListView.builder(
-                                            scrollDirection: Axis.vertical,
-                                            shrinkWrap:true,
-                                            itemCount: _foundtrip.length,
-                                            itemBuilder:(context, index){
-                                              return InfoCard(
-                                                index: index,
-                                              );
-                                            }
-
-                                      );
-
+                                      return ListView.builder(
+                                          scrollDirection: Axis.vertical,
+                                          shrinkWrap: true,
+                                          itemCount: _foundtrip.length,
+                                          itemBuilder: (context, index) {
+                                            return InfoCard(
+                                              index: index,
+                                            );
+                                          });
                                     } else {
                                       // We can show the loading view until the data comes back.
                                       return CircularProgressIndicator();
@@ -523,16 +489,9 @@ class _TripDetailState extends State<TripDetail> {
                             ],
                           ),
                         ),
-
                       ),
-                    )
-                    )
-
-                  )
-              ),
-            ]
-          ),
-
+                    )))),
+      ]),
     );
   }
 
@@ -683,147 +642,142 @@ class _InfoCardState extends State<InfoCard> {
         ),
         child: Row(
           children: [
-
             Expanded(
-              flex:2,
-              child:
-                Container(
-
-                    child: _foundtrip[widget.index].tripTemplate.images.length == 0
+                flex: 2,
+                child: Container(
+                    child: _foundtrip[widget.index]
+                                .tripTemplate
+                                .images
+                                .length ==
+                            0
                         ? new Container(
-                      color: Colors.pink,
-                    )
+                            color: Colors.pink,
+                          )
                         : Image.network(
-                      // 'http://139.59.101.136/static/'+
-                      // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                            // 'http://139.59.101.136/static/'+
+                            // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
 
-                        _foundtrip[widget.index]
-                            .tripTemplate
-                            .images[0]
-                            .link
-                            .toString()
+                            _foundtrip[widget.index]
+                                .tripTemplate
+                                .images[0]
+                                .link
+                                .toString()
 
-
-                      // _foundtrip[widget.index].tripTemplate.images[0].toString()
-                    )
-                  )
-                ),
+                            // _foundtrip[widget.index].tripTemplate.images[0].toString()
+                            ))),
 
             // child: Image.asset(LiveAboardDatas[widget.index].image)),
             Expanded(
-              flex: 6,
-              child: Padding(
+                flex: 6,
+                child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
-                  child:  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Text('Trip name : ' + _foundtrip[widget.index].name),
-                        //LiveAboardDatas[widget.index].name),
-                        Text('Trip name : ' +
-                            _foundtrip[widget.index].tripTemplate.name),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Text('Trip name : ' + _foundtrip[widget.index].name),
+                      //LiveAboardDatas[widget.index].name),
+                      Text('Trip name : ' +
+                          _foundtrip[widget.index].tripTemplate.name),
 
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('Location : ' +
-                            _foundtrip[widget.index].tripTemplate.address.city +
-                            ', ' +
-                            _foundtrip[widget.index]
-                                .tripTemplate
-                                .address
-                                .country),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('Start date : ' +
-                            DateFormat("dd/MM/yyyy").format(
-                                _foundtrip[widget.index]
-                                    .fromDate
-                                    .toDateTime())),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text('End date : ' +
-                            DateFormat("dd/MM/yyyy").format(
-                                _foundtrip[widget.index].toDate.toDateTime())),
-                        SizedBox(
-                          height: 10,
-                        ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text('Location : ' +
+                          _foundtrip[widget.index].tripTemplate.address.city +
+                          ', ' +
+                          _foundtrip[widget.index]
+                              .tripTemplate
+                              .address
+                              .country),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text('Start date : ' +
+                          DateFormat("dd/MM/yyyy").format(
+                              _foundtrip[widget.index].fromDate.toDateTime())),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text('End date : ' +
+                          DateFormat("dd/MM/yyyy").format(
+                              _foundtrip[widget.index].toDate.toDateTime())),
+                      SizedBox(
+                        height: 10,
+                      ),
 
-                        Text('Total people : ' +
-                            _foundtrip[widget.index].maxGuest.toString()),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Place Left : ' +
-                              (_foundtrip[widget.index].maxGuest -
-                                      _foundtrip[widget.index].curentGuest)
-                                  .toString(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
+                      Text('Total people : ' +
+                          _foundtrip[widget.index].maxGuest.toString()),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        'Place Left : ' +
+                            (_foundtrip[widget.index].maxGuest -
+                                    _foundtrip[widget.index].curentGuest)
+                                .toString(),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
 
-                        Text('Trip type : ' +
-                            _foundtrip[widget.index]
-                                .tripTemplate
-                                .tripType
-                                .toString()),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Align(
-                            alignment: Alignment.centerRight,
-                            child: Text('Price : ' +
-                                _foundtrip[widget.index].price.toString())),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Align(
+                      Text('Trip type : ' +
+                          _foundtrip[widget.index]
+                              .tripTemplate
+                              .tripType
+                              .toString()),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Align(
                           alignment: Alignment.centerRight,
-                          child: RaisedButton(
-                            onPressed: () {
-                              // print(_foundtrip[widget.index]
+                          child: Text('Price : ' +
+                              _foundtrip[widget.index].price.toString())),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: RaisedButton(
+                          onPressed: () {
+                            // print(_foundtrip[widget.index]
 
-                              //   .tripTemplate
-                              //   .tripType
-                              //   .toString());
-                              if (_foundtrip[widget.index]
-                                      .tripTemplate
-                                      .tripType
-                                      .toString() ==
-                                  "ONSHORE") {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            DiveResortDetailScreen(
-                                                widget.index, trips)));
-                              } else {
-                                // print(_foundtrip[widget.index]);
-                                // print('------------------');
-                                // print(widget.index);
-                                // print('***');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            LiveaboardDetailScreen(
-                                                widget.index, trips)));
-                              }
-                            },
-                            color: Colors.amber,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Text("View package"),
-                          ),
-                        )
-                      ],
-                    ),
-                  )),
-
+                            //   .tripTemplate
+                            //   .tripType
+                            //   .toString());
+                            if (_foundtrip[widget.index]
+                                    .tripTemplate
+                                    .tripType
+                                    .toString() ==
+                                "ONSHORE") {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DiveResortDetailScreen(
+                                              widget.index, trips)));
+                            } else {
+                              // print(_foundtrip[widget.index]);
+                              // print('------------------');
+                              // print(widget.index);
+                              // print('***');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          LiveaboardDetailScreen(
+                                              widget.index, trips)));
+                            }
+                          },
+                          color: Colors.amber,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text("View package"),
+                        ),
+                      )
+                    ],
+                  ),
+                )),
           ],
         ),
       ),
