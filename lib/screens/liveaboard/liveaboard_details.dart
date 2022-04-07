@@ -41,11 +41,13 @@ enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 int reservation_id;
 double total_price;
 
+
 class _ChartData {
   _ChartData(this.day, this.temp);
   final String day;
   final double temp;
 }
+
 
 class LiveaboardDetailScreen extends StatefulWidget {
   int index;

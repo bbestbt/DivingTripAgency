@@ -18,7 +18,7 @@ import 'package:intl/intl.dart';
 
 List<TripWithTemplate> trips = [];
 List<Reservation> reservation = [];
-List<Reservation_Room> room = [];
+
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 int reservation_id;
@@ -50,12 +50,6 @@ class _UserProfileState extends State<UserProfile> {
         trips.add(feature.trip);
         reservation.add(feature.reservation);
       }
-      //  for (int i = 0; i < reservation.length; i++) {
-      //      print( reservation[i].rooms);
-      //     room = reservation[i].rooms;
-      //     // print('room');
-      //     // print(room);
-      //   }
 
       // print(reservation);
     } catch (e) {
@@ -262,7 +256,8 @@ class _InfoCardState extends State<InfoCard> {
     // getData();
     return InkWell(
       onTap: () {
-        print(reservation[widget.index].rooms);
+
+
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -270,7 +265,9 @@ class _InfoCardState extends State<InfoCard> {
                     int.parse(reservation[widget.index].id.toString()),
                     double.parse(reservation[widget.index].price.toString()),
                     trips[widget.index],
-                    reservation[widget.index].rooms)));
+
+                    )));
+
       },
       child: Container(
         height: 320,

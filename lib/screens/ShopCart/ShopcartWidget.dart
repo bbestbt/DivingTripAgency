@@ -81,7 +81,7 @@ class _CartState extends State<CartWidget> {
     var room = Reservation_Room();
     for (int i = 0; i < roomtypes.length; i++) {
       room.quantity = quantity;
-      room.roomTypeId = roomtypes[i].id;
+      room.roomTypeId = roomtypes[indexRoom].id;
       room.noDivers = diver;
     }
 

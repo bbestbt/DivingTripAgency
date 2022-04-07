@@ -4,6 +4,10 @@ import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/diver.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
+
+import 'package:diving_trip_agency/nautilus/proto/dart/hotel.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/liveaboard.pbgrpc.dart';
+
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/payment.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/payment.pbgrpc.dart';
@@ -11,6 +15,9 @@ import 'package:diving_trip_agency/nautilus/proto/dart/roomtype.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/profile/diver/edit_profile_diver.dart';
+
+import 'package:diving_trip_agency/screens/report/company_liveaboard.dart';
+
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -26,32 +33,43 @@ var profile;
 io.File slip;
 PickedFile slipPayment;
 
+ReservationRoom room;
+GetHotelResponse hotelDetial = new GetHotelResponse();
+var hotel;
+GetRoomTypeResponse roomDetial = new GetRoomTypeResponse();
+var room_name;
+GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
+var liveaboard;
+
+
 class PaymentReview extends StatefulWidget {
   int reservation_id;
   double total_price;
   TripWithTemplate trips;
-  List<Reservation_Room> roomtypes = [];
 
-  PaymentReview(int reservation_id, double total_price, TripWithTemplate trips,
-      List<Reservation_Room> roomtypes) {
+
+  PaymentReview(
+    int reservation_id,
+    double total_price,
+    TripWithTemplate trips,
+  ) {
     this.reservation_id = reservation_id;
     this.total_price = total_price;
     this.trips = trips;
-    this.roomtypes = roomtypes;
   }
   @override
-  _PaymentReviewState createState() => _PaymentReviewState(
-      this.reservation_id, this.total_price, this.trips, this.roomtypes);
+  _PaymentReviewState createState() =>
+      _PaymentReviewState(this.reservation_id, this.total_price, this.trips);
+
 }
 
 class _PaymentReviewState extends State<PaymentReview> {
   int reservation_id;
   double total_price;
   TripWithTemplate trips;
-  List<Reservation_Room> roomtypes = [];
 
-  _PaymentReviewState(
-      this.reservation_id, this.total_price, this.trips, this.roomtypes);
+  _PaymentReviewState(this.reservation_id, this.total_price, this.trips);
+
   makePayment() async {
     print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -101,9 +119,94 @@ class _PaymentReviewState extends State<PaymentReview> {
     }
   }
 
+
+  getRoom() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final stub = RoomTypeServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var roomDetail = ListRoomsOfReservationRequest();
+    roomDetail.reservationId = Int64(reservation_id);
+    try {
+      await for (var feature in stub.listRoomsOfReservation(roomDetail)) {
+        room = feature.room;
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+    // print(room);
+    return room;
+  }
+
+  getRoomName() async {
+    await getRoom();
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final stub = RoomTypeServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var roomName = GetRoomTypeRequest();
+    roomName.roomTypeId = room.roomTypeId;
+
+    room_name = await stub.getRoomType(roomName);
+    roomDetial = room_name;
+    return roomDetial.roomType.name;
+  }
+
+  getHotelDetail() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = HotelServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var hotelrequest = GetHotelRequest();
+    hotelrequest.id = trips.tripTemplate.hotelId;
+    // print(hotelrequest.id);
+    hotel = await stub.getHotel(hotelrequest);
+    hotelDetial = hotel;
+    return hotelDetial.hotel.name;
+  }
+
+  getLiveaboardDetail() async {
+    //print("before try catch");
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = LiveaboardServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var liveaboardrequest = GetLiveaboardRequest();
+    liveaboardrequest.id = trips.tripTemplate.liveaboardId;
+    liveaboard = await stub.getLiveaboard(liveaboardrequest);
+    liveaboardDetial = liveaboard;
+    return liveaboardDetial.liveaboard.name;
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(roomtypes);
+
     double screenwidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Container(
@@ -183,21 +286,106 @@ class _PaymentReviewState extends State<PaymentReview> {
             SizedBox(
               height: 10,
             ),
-            // Text(
-            //   "Room "+roomtypes.length.toString(),
-            //   style: TextStyle(fontSize: 20),
-            // ),
-            // Center(
-            //     child: Container(
-            //         child: Wrap(
-            //             spacing: 20,
-            //             runSpacing: 40,
-            //             children: List.generate(
-            //               roomtypes.length,
-            //               (index) => Center(
-            //                 child: InfoCard(index, roomtypes),
-            //               ),
-            //             )))),
+
+            trips.tripTemplate.tripType.toString() == "ONSHORE"
+                ? SizedBox(
+                    width: 1110,
+                    child: FutureBuilder(
+                      future: getHotelDetail(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Column(
+                            children: [
+                              Center(
+                                child: Text('Name : ' + hotelDetial.hotel.name),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Align(
+                              alignment: Alignment.center,
+                              child: Text('No data'));
+                        }
+                      },
+                    ),
+                  )
+                : SizedBox(
+                    width: 1110,
+                    child: FutureBuilder(
+                      future: getLiveaboardDetail(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Column(
+                            children: [
+                              Center(
+                                child: Text('Name : ' +
+                                    liveaboardDetial.liveaboard.name),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Align(
+                              alignment: Alignment.center,
+                              child: Text('No data'));
+                        }
+                      },
+                    ),
+                  ),
+            SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: 1110,
+              child: FutureBuilder(
+                future: getRoomName(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        Center(
+                            child: Text(
+                                'Room name : ' + roomDetial.roomType.name)),
+                      ],
+                    );
+                  } else {
+                    return Align(
+                        alignment: Alignment.center, child: Text('No data'));
+                  }
+                },
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: 1110,
+              child: FutureBuilder(
+                future: getRoom(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        Center(
+                            child: Container(
+                                child: Column(
+                          children: [
+                            Text('Room quantity : ' + room.quantity.toString()),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text('Total people : ' + room.noDivers.toString()),
+                          ],
+                        ))),
+                      ],
+                    );
+                  } else {
+                    return Align(
+                        alignment: Alignment.center, child: Text('No data'));
+                  }
+                },
+              ),
+            ),
+
             SizedBox(
               height: 10,
             ),
@@ -273,68 +461,9 @@ class _PaymentReviewState extends State<PaymentReview> {
             ),
             SizedBox(height: 20),
 
-
-
-
-
           ],
         ),
       ),
     );
   }
 }
-
-
-// class InfoCard extends StatefulWidget {
-//   List<Reservation_Room> roomtypes = [];
-//   int index;
-//   InfoCard(int index, List<Reservation_Room> roomtypes) {
-//     this.index = index;
-//     this.roomtypes = roomtypes;
-//   }
-
-//   @override
-//   State<InfoCard> createState() => _InfoCardState();
-// }
-
-// class _InfoCardState extends State<InfoCard> {
-//   List<Reservation_Room> roomtypes = [];
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       child: Container(
-//         height: 320,
-//         width: 1000,
-//         decoration: BoxDecoration(
-//           color: Colors.white,
-//         ),
-//         child: Row(
-//           children: [
-//             Expanded(
-//               child: Padding(
-//                   padding: EdgeInsets.symmetric(horizontal: 20),
-//                   child: SingleChildScrollView(
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       children: [
-//                         Text('Room quantity : ' +
-//                             roomtypes[widget.index].quantity.toString()),
-//                         SizedBox(
-//                           height: 10,
-//                         ),
-//                         Text('Total people : ' +
-//                             roomtypes[widget.index].noDivers.toString()),
-//                         SizedBox(
-//                           height: 20,
-//                         ),
-//                       ],
-//                     ),
-//                   )),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

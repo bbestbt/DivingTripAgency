@@ -57,6 +57,7 @@ class _ChartData {
   final double temp;
 }
 
+
 class DiveResortDetailScreen extends StatefulWidget {
   List<Weather> _data = [];
   double latc, lonc;
