@@ -38,6 +38,7 @@ class CompanyCheckpayment extends StatefulWidget {
 class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
   List<Diver> diver = [];
   int index;
+  bool isChecked = false;
   _CompanyCheckpaymentState(List<Diver> diver, int index) {
     this.diver = diver;
     this.index = index;
@@ -46,6 +47,18 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
 
   @override
   Widget build(BuildContext context) {
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Colors.blue;
+      }
+      return Colors.red;
+    }
+
     return Scaffold(
         key: _controller.scaffoldkey,
         drawer: SideMenu(),
@@ -55,19 +68,62 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
               children: [
                 HeaderCompany(),
                 SizedBox(height: 30),
-                Text('List of divers',style: TextStyle(fontSize: 20),),
-                diver.length == 0
-                    ? new Text("No diver")
-                    : 
-                    new Text("Firstname : " +
-                        diver[widget.index].firstName +
-                        " Lastname : " +
-                        diver[widget.index].lastName +
-                        "  \nPhone number :" +
-                        diver[widget.index].phone +
-                        " Level :" +
-                        diver[widget.index].level.toString()),
-                        
+                SectionTitle(
+                  title: "Review",
+                  color: Color(0xFFFF78a2cc),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'List of divers',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        diver.length == 0
+                            ? new Text("No diver")
+                            : new Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Firstname : " +
+                                      diver[widget.index].firstName),
+                                  Text("Lastname : " +
+                                      diver[widget.index].lastName),
+                                  Text("Phone number :" +
+                                      diver[widget.index].phone),
+                                  Text("Level :" +
+                                      diver[widget.index].level.toString()),
+                                ],
+                              )
+                      ],
+                    ),
+                    SizedBox(
+                      width: 50,
+                    ),
+                    Column(
+                      // crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Payment',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        Checkbox(
+                          checkColor: Colors.white,
+                          fillColor:
+                              MaterialStateProperty.resolveWith(getColor),
+                          value: isChecked,
+                          onChanged: (bool value) {
+                            setState(() {
+                              isChecked = value;
+                            });
+                          },
+                        ),
+                      ],
+                    )
+                  ],
+                )
               ],
             ),
           ),
