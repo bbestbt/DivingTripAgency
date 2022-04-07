@@ -17,6 +17,7 @@ import 'package:diving_trip_agency/screens/payment/payment_screen.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:weather/weather.dart';
@@ -121,6 +122,14 @@ class _detailState extends State<detail> {
     this.index = index;
     this.details = details;
   }
+
+
+  @override
+  void initState() {
+    super.initState();
+    ws = new WeatherFactory(key);
+  }
+
 
   getData() async {
     // await getLiveaboardDetail();
@@ -652,6 +661,35 @@ class _detailState extends State<detail> {
         SizedBox(
           height: 20,
         ),
+        Container(
+            decoration: BoxDecoration(
+              // color: Colors.white,
+                color: Color(0xFFFF89cfef),
+                borderRadius: BorderRadius.circular(10)),
+            width: MediaQuery.of(context).size.width,
+            child: Expanded(
+                child: Container(
+                  child: Column(children: [
+                    Text("5-day weather forecast"),
+                    Text("Weather example"),
+                    Container(
+                      margin: EdgeInsets.all(5),
+                      child: TextButton(
+                        child: Text(
+                          'Fetch forecast',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: queryWeather,
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.blue)),
+                      ),
+                    ),
+                    Container(
+                      child: _resultView(),
+                    )
+
+                  ]),
+                )))
       ],
     );
   }
