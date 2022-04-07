@@ -58,7 +58,8 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                 Text('List of divers',style: TextStyle(fontSize: 20),),
                 diver.length == 0
                     ? new Text("No diver")
-                    : new Text("Firstname : " +
+                    : 
+                    new Text("Firstname : " +
                         diver[widget.index].firstName +
                         " Lastname : " +
                         diver[widget.index].lastName +
@@ -66,6 +67,7 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                         diver[widget.index].phone +
                         " Level :" +
                         diver[widget.index].level.toString()),
+                        
               ],
             ),
           ),
