@@ -25,7 +25,6 @@ class CompanyProfile extends StatefulWidget {
 
 class _CompanyProfileState extends State<CompanyProfile> {
   getData() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -56,7 +55,6 @@ class _CompanyProfileState extends State<CompanyProfile> {
   }
 
   getProfile() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,

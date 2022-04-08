@@ -12,6 +12,8 @@ import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/components/side_menu.dart';
+import 'package:diving_trip_agency/screens/main/mainScreen.dart';
+import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/payment/payment_screen.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +76,37 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
     paymentDetial = payment;
     // print(paymentDetial.payment.paymentSlip.link.toString());
     return paymentDetial;
+  }
+
+  updatePayment() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = PaymentServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    var diverInfo = Diver();
+    diverInfo.id = diver[index].id;
+    var paymentStatus = Payment()..diver = diverInfo;
+    paymentStatus.id=paymentDetial.payment.id;
+    paymentStatus.verified = isChecked;
+    paymentStatus.paymentSlip=paymentDetial.payment.paymentSlip;
+    paymentStatus.reservationId = reservation[index].id;
+
+    var statusrequest = UpdatePaymentStatusRequest()..payment = paymentStatus;
+    try {
+      var response = stub.updatePaymentStatus(statusrequest);
+
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -182,10 +215,10 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                               value: isChecked,
                               onChanged: (bool value) {
                                 setState(() {
-                                  print('bf');
+                                  // print('bf');
                                   isChecked = value;
-                                  print(isChecked);
-                                  print('af');
+                                  // print(isChecked);
+                                  // print('af');
                                 });
                               },
                             ),
@@ -200,15 +233,15 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                 ),
                 FlatButton(
                   onPressed: () async => {
-                    // await makePayment(),
+                    await updatePayment(),
                     print('checking done'),
-                    // Navigator.pushAndRemoveUntil(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (BuildContext context) => MainScreen(),
-                    //   ),
-                    //   (route) => false,
-                    // )
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => MainCompanyScreen(),
+                      ),
+                      (route) => false,
+                    )
                   },
                   color: Color(0xfff75BDFF),
                   child: Text(

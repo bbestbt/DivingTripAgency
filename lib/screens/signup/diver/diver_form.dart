@@ -95,7 +95,6 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
   }
 
   void sendDiver() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,

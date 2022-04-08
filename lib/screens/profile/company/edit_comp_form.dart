@@ -49,7 +49,6 @@ class EditCompanyForm extends StatefulWidget {
 
 class _EditCompanyFormState extends State<EditCompanyForm> {
   getData() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,

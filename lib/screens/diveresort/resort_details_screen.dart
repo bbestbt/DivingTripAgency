@@ -143,8 +143,6 @@ class _detailState extends State<detail> {
 
 
   getData() async {
-    //print("before try catch");
-    // await getHotelDetail();
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -183,7 +181,6 @@ class _detailState extends State<detail> {
 
 
   getHotelDetail() async {
-    //print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -757,7 +754,6 @@ class _InfoCardState extends State<InfoCard> {
   _InfoCardState(this.indexRoom, this.details, this.indexDetail);
 
   getProfile() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,

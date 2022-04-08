@@ -97,21 +97,6 @@ class _RoomFormState extends State<RoomForm> {
     }
   }
 
-//   void sendRoom() {
-//     print("before try catch");
-//     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-//         host: '139.59.101.136',
-//         grpcPort: 50051,
-//         grpcTransportSecure: false,
-//         grpcWebPort: 8080,
-//         grpcWebTransportSecure: false);
-
-//     final stub = AgencyServiceClient(channel);
-//
-// //img, amen (iter)
-
-//     // room.images = roomimg // error, file conflict
-//   }
 
   @override
   Widget build(BuildContext context) {

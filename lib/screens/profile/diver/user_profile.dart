@@ -60,7 +60,6 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   getProfile() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
