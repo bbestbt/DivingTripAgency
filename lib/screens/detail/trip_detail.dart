@@ -543,7 +543,8 @@ class _TripDetailState extends State<TripDetail> {
       }
 
       if (guestvalue != null) {
-        results = results.where((trip) => trip.maxGuest <= guestvalue).toList();
+        //results = results.where((trip) => trip.maxGuest >= guestvalue).toList();
+        results = results.where((trip) => trip.maxGuest - trip.curentGuest >= guestvalue).toList();
         //print(results[0].maxGuest);
       }
       if (dropdownValue2 != "All") {
