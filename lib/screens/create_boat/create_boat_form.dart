@@ -69,7 +69,6 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   }
 
   void AddBoat() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,

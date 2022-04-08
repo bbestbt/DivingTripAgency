@@ -1,4 +1,4 @@
-import 'dart:html';
+
 
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbjson.dart';
@@ -56,8 +56,6 @@ class _TripDetailState extends State<TripDetail> {
   initState() {
     // at the beginning, all users are shown
     super.initState();
-    costchecklist = [false, false, false, false, false];
-    durationchecklist = [false, false, false, false, false, false];
 
     dropdownValue = 'All';
     dropdownValue2 = 'All';
@@ -94,7 +92,6 @@ class _TripDetailState extends State<TripDetail> {
   }
 
   searchData() async {
-    //print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -127,9 +124,7 @@ class _TripDetailState extends State<TripDetail> {
     searchtriprequest.searchTripsOptions = searchtrips;
 
     trips.clear();
-    // print(listonshorerequest);
-    // stub.searchTrips(listonshorerequest);
-    //print(listtriprequest);
+
     try {
       await for (var feature in stub.searchTrips(searchtriprequest)) {
         // print(feature.trip.price);
@@ -157,12 +152,13 @@ class _TripDetailState extends State<TripDetail> {
 
     return Container(
       width: screenwidth,
-      child: Row(children: [
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
         Expanded(
             flex: 2,
-            child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(
+            child:  Container(
                     margin: EdgeInsets.all(10.0),
                     padding: EdgeInsets.all(10.0),
                     //height: 1080,
@@ -276,15 +272,10 @@ class _TripDetailState extends State<TripDetail> {
                             },
                             items: <String>[
                               'All',
-                              'Bangkok',
-                              'Phuket',
-                              'Krabi',
-                              'Samui island',
-                              'Trat',
-                              'test',
-                              'Koh Samet',
-                              'Rayong',
-                              'Chanthaburi'
+                              'Pattaya',
+                              'Chumphon',
+                              'Chanthaburi',
+                              'Surat Thani',
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -370,7 +361,7 @@ class _TripDetailState extends State<TripDetail> {
                           alignment: Alignment.topLeft,
                           child: Text("Price (per person/trip)")),
                       Container(
-                          child: Column(
+                          child: Wrap(
                         children: <Widget>[
                           ListTile(
                             title: const Text('all'),
@@ -435,7 +426,7 @@ class _TripDetailState extends State<TripDetail> {
                         ],
                       ))
                     ] //Container of left side
-                        )))),
+                        ))),
         Expanded(
             flex: 6,
             child: Container(
@@ -466,15 +457,19 @@ class _TripDetailState extends State<TripDetail> {
                                       // debugPrint(
                                       //     'Step 3, build widget: ${snapshot.data}');
                                       // Build the widget with data.
-                                      return ListView.builder(
-                                          scrollDirection: Axis.vertical,
-                                          shrinkWrap: true,
-                                          itemCount: _foundtrip.length,
-                                          itemBuilder: (context, index) {
-                                            return InfoCard(
-                                              index: index,
-                                            );
-                                          });
+                                      if (_foundtrip.length == 0){
+                                        return Text("No Data Available");
+                                      } else {
+                                        return ListView.builder(
+                                            scrollDirection: Axis.vertical,
+                                            shrinkWrap: true,
+                                            itemCount: _foundtrip.length,
+                                            itemBuilder: (context, index) {
+                                              return InfoCard(
+                                                index: index,
+                                              );
+                                            });
+                                      }
                                     } else {
                                       // We can show the loading view until the data comes back.
                                       return CircularProgressIndicator();
@@ -519,14 +514,12 @@ class _TripDetailState extends State<TripDetail> {
         _foundtrip = results;
       });
     } else {
+
       //print("Guestvalue" + guestvalue.toString());
       results = trips;
       setState(() {
         _foundtrip = results;
       });
-      //print(_dateFrom);
-      //print(results[0].fromDate.toDateTime());
-      //print(results[1].fromDate.toDateTime());
 
       if (dropdownValue != "All") {
         // print("Filtering 2");
@@ -539,9 +532,6 @@ class _TripDetailState extends State<TripDetail> {
         results = results
             .where((trip) => trip.fromDate.toDateTime().isAfter(_dateFrom))
             .toList();
-        //print(_dateFrom);
-        //print(results[0].fromDate.toDateTime());
-        //print(results[0].fromDate.toDateTime().isAfter(_dateFrom));
       }
       if (_dateTo != null) {
         results = results
@@ -557,25 +547,29 @@ class _TripDetailState extends State<TripDetail> {
         //print(results[0].maxGuest);
       }
       if (dropdownValue2 != "All") {
-        if (dropdownValue2 == "Onshore") {
+        print("DropdownValue2");
+        print(dropdownValue2);
+       /* if (dropdownValue2 == "Onshore") {
           // print("dropdownValue 2 (Should be onshore):"+dropdownValue2);
           results = results
               .where(
                   (trip) => trip.tripTemplate.tripType.toString() == "ONSHORE")
               .toList();
+          print("TripType");
           print(results[0].tripTemplate.tripType.toString());
-        } else {
-          //print("dropdownValue 2 (Should be Offshore):"+dropdownValue2);
+        }*/
+        if (dropdownValue2 == "Offshore"){
+          print("dropdownValue 2 (Should be Offshore):"+dropdownValue2);
           results = results
               .where(
                   (trip) => trip.tripTemplate.tripType.toString() == "OFFSHORE")
               .toList();
+          print("TripType");
           print(results[0].tripTemplate.tripType.toString());
         }
       }
       if (_diff != "") {
         print(_diff);
-
         results = results
             .where((trip) =>
                 (trip.fromDate
@@ -749,7 +743,7 @@ class _InfoCardState extends State<InfoCard> {
                                     .tripTemplate
                                     .tripType
                                     .toString() ==
-                                "ONSHORE") {
+                                dropdownValue2) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

@@ -89,8 +89,7 @@ class _TripDetailState extends State<TripDetail> {
     return trips;
   }
 
-  searchData() async {
-    //print("before try catch");
+  searchData() async {;
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,

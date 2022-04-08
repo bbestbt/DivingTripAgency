@@ -88,8 +88,6 @@ class _detailState extends State<detail> {
   }
 
   getData() async {
-    // await getLiveaboardDetail();
-    //print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,

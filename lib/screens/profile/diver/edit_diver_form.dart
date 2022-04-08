@@ -70,7 +70,6 @@ class _EditDiverFormState extends State<EditDiverForm> {
   ];
 
   getData() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -124,7 +123,6 @@ class _EditDiverFormState extends State<EditDiverForm> {
   }
 
   void sendDiverEdit() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,

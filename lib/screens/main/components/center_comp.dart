@@ -15,7 +15,6 @@ class CenterCompanySection extends StatefulWidget {
 
 class _CenterCompanySectionState extends State<CenterCompanySection> {
   getProfile() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -29,7 +28,6 @@ class _CenterCompanySectionState extends State<CenterCompanySection> {
     profile = await pf.getProfile(new Empty());
 
     user_profile = profile;
-    print('test');
     print(user_profile.agency.name);
 
     return user_profile;
@@ -37,7 +35,6 @@ class _CenterCompanySectionState extends State<CenterCompanySection> {
 
   @override
   Widget build(BuildContext context) {
-    // getProfile();
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
         child: Container(

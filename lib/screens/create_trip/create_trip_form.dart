@@ -87,7 +87,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
   }
 
   void AddTrip() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -151,7 +150,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
   }
 
   getData() async {
-    print("before try catch");
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
