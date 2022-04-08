@@ -227,7 +227,7 @@ class _TripDetailState extends State<TripDetail> {
                           // Text(_dateTo == null ? '' : _dateTo.toString()),
                           Text(_dateTo == null
                               ? ''
-                              : DateFormat("dd/MM/yyyy").format(_dateFrom)),
+                              : DateFormat("dd/MM/yyyy").format(_dateTo)),
                           Spacer(),
                           RaisedButton(
                               color: Color(0xfff8dd9cc),
