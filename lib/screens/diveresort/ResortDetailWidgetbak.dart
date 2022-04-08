@@ -853,7 +853,7 @@ class _InfoCardState extends State<InfoCard> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  PaymentScreen(reservation_id, total_price)));
+                                  PaymentScreen(reservation_id, total_price,details[indexDetail])));
                     }
                   },
                 ),

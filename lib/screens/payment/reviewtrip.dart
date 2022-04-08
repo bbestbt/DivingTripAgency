@@ -41,12 +41,10 @@ var room_name;
 GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
 var liveaboard;
 
-
 class PaymentReview extends StatefulWidget {
   int reservation_id;
   double total_price;
   TripWithTemplate trips;
-
 
   PaymentReview(
     int reservation_id,
@@ -60,7 +58,6 @@ class PaymentReview extends StatefulWidget {
   @override
   _PaymentReviewState createState() =>
       _PaymentReviewState(this.reservation_id, this.total_price, this.trips);
-
 }
 
 class _PaymentReviewState extends State<PaymentReview> {
@@ -118,7 +115,6 @@ class _PaymentReviewState extends State<PaymentReview> {
       print(pickedFile.path.split('/').last);
     }
   }
-
 
   getRoom() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -206,7 +202,6 @@ class _PaymentReviewState extends State<PaymentReview> {
 
   @override
   Widget build(BuildContext context) {
-
     double screenwidth = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Container(
@@ -286,7 +281,6 @@ class _PaymentReviewState extends State<PaymentReview> {
             SizedBox(
               height: 10,
             ),
-
             trips.tripTemplate.tripType.toString() == "ONSHORE"
                 ? SizedBox(
                     width: 1110,
@@ -385,7 +379,6 @@ class _PaymentReviewState extends State<PaymentReview> {
                 },
               ),
             ),
-
             SizedBox(
               height: 10,
             ),
@@ -460,7 +453,6 @@ class _PaymentReviewState extends State<PaymentReview> {
               ),
             ),
             SizedBox(height: 20),
-
           ],
         ),
       ),

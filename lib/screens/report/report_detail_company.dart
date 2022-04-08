@@ -26,6 +26,8 @@ List<Diver> diver = [];
 List<Diver> endedDiver = [];
 List<ReportTrip> incomingTrips = [];
 List<Diver> incomingDiver = [];
+List<Reservation> reservationIncoming = [];
+List<Reservation> reservation = [];
 
 class CompanyReport extends StatefulWidget {
   @override
@@ -54,10 +56,17 @@ class _CompanyReportState extends State<CompanyReport> {
           in stub.generateCurrentTripsReport(listvalidtriprequest)) {
         //print(feature.trip);
         trips.add(feature.report);
+
         //diver
         for (int j = 0; j < trips.length; j++) {
           for (int k = 0; k < trips[j].divers.length; k++) {
             diver.add(trips[j].divers[k]);
+          }
+        }
+        //reservation
+        for (int j = 0; j < trips.length; j++) {
+          for (int k = 0; k < trips[j].reservations.length; k++) {
+            reservation.add(trips[j].reservations[k]);
           }
         }
 
@@ -141,6 +150,12 @@ class _CompanyReportState extends State<CompanyReport> {
         for (int j = 0; j < incomingTrips.length; j++) {
           for (int k = 0; k < incomingTrips[j].divers.length; k++) {
             incomingDiver.add(incomingTrips[j].divers[k]);
+          }
+        }
+        //reservation
+        for (int j = 0; j < incomingTrips.length; j++) {
+          for (int k = 0; k < incomingTrips[j].reservations.length; k++) {
+            reservationIncoming.add(incomingTrips[j].reservations[k]);
           }
         }
       }
@@ -308,7 +323,7 @@ class _InfoCardState extends State<InfoCard> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    CompanyCheckpayment(diver, widget.indexTrip)));
+                    CompanyCheckpayment(diver, widget.indexTrip, reservation)));
 
         // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   Navigator.push(
@@ -455,12 +470,12 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    CompanyCheckpayment(endedDiver, widget.indexEndedTrip)));
+      // onTap: () {
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) =>
+        //             CompanyCheckpayment(endedDiver, widget.indexEndedTrip)));
 
         // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   Navigator.push(
@@ -475,7 +490,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
         //           builder: (context) =>
         //               CompanyLiveaboard(widget.index, endedTrips)));
         // }
-      },
+      // },
       child: Container(
         height: 320,
         width: 1000,
@@ -544,7 +559,6 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                                 endedTrips[widget.indexEndedTrip]
                                     .endDate
                                     .toDateTime())),
-
                         SizedBox(
                           height: 10,
                         ),
@@ -570,11 +584,11 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         SizedBox(
                           height: 10,
                         ),
-                        // endedDiver.length == 0
-                        //     ? new Text("No diver")
-                        //     : new Text("List of divers : " +
-                        //         endedDiver[widget.index].firstName +
-                        //         endedDiver[widget.index].lastName),
+                        endedDiver.length == 0
+                            ? new Text("No diver")
+                            : new Text("List of divers : " +
+                                endedDiver[widget.indexEndedTrip].firstName +
+                                endedDiver[widget.indexEndedTrip].lastName),
                         SizedBox(
                           height: 10,
                         ),
@@ -623,8 +637,8 @@ class _IncomingCardState extends State<IncomingCard> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    CompanyCheckpayment(incomingDiver, widget.indexIncoming)));
+                builder: (context) => CompanyCheckpayment(
+                    incomingDiver, widget.indexIncoming, reservationIncoming)));
         //   // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   //   Navigator.push(
         //   //       context,

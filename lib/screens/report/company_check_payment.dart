@@ -5,6 +5,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/liveaboard.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/payment.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
@@ -23,27 +24,57 @@ import 'package:fixnum/fixnum.dart';
 import 'package:diving_trip_agency/screens/ShopCart/ShopcartWidget.dart';
 import 'package:intl/intl.dart';
 
+GetPaymentByReservationResponse paymentDetial =
+    new GetPaymentByReservationResponse();
+var payment;
+
 class CompanyCheckpayment extends StatefulWidget {
   List<Diver> diver = [];
+  List<Reservation> reservation = [];
   int index;
-  CompanyCheckpayment(List<Diver> diver, int index) {
+  CompanyCheckpayment(
+      List<Diver> diver, int index, List<Reservation> reservation) {
     this.diver = diver;
     this.index = index;
+    this.reservation = reservation;
   }
   @override
   State<CompanyCheckpayment> createState() =>
-      _CompanyCheckpaymentState(this.diver, this.index);
+      _CompanyCheckpaymentState(this.diver, this.index, this.reservation);
 }
 
 class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
   List<Diver> diver = [];
   int index;
   bool isChecked = false;
-  _CompanyCheckpaymentState(List<Diver> diver, int index) {
+  List<Reservation> reservation = [];
+  _CompanyCheckpaymentState(
+      List<Diver> diver, int index, List<Reservation> reservation) {
     this.diver = diver;
     this.index = index;
+    this.reservation = reservation;
   }
   final MenuController _controller = Get.put(MenuController());
+  getPaymentDetail() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = PaymentServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var paymentrequest = GetPaymentByReservationRequest();
+    paymentrequest.reservationId = reservation[index].id;
+    payment = await stub.getPaymentByReservation(paymentrequest);
+    // print(payment);
+    paymentDetial = payment;
+    // print(paymentDetial.payment.paymentSlip.link.toString());
+    return paymentDetial;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +106,14 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text(
+                      'List of divers',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(width: 50),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'List of divers',
-                          style: TextStyle(fontSize: 20),
-                        ),
                         diver.length == 0
                             ? new Text("No diver")
                             : new Column(
@@ -105,25 +137,85 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                     Column(
                       // crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
-                          'Payment',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Checkbox(
-                          checkColor: Colors.white,
-                          fillColor:
-                              MaterialStateProperty.resolveWith(getColor),
-                          value: isChecked,
-                          onChanged: (bool value) {
-                            setState(() {
-                              isChecked = value;
-                            });
-                          },
+                        // Text(
+                        //   'Payment',
+                        //   style: TextStyle(fontSize: 20),
+                        // ),
+                        SizedBox(height: 20),
+                        Row(
+                          children: [
+                            SizedBox(
+                              child: FutureBuilder(
+                                future: getPaymentDetail(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Center(
+                                        child:
+                                            paymentDetial.payment.paymentSlip ==
+                                                    null
+                                                ? new Container(
+                                                    color: Colors.pink,
+                                                  )
+                                                : Container(
+                                                    width: 300,
+                                                    height: 300,
+                                                    child: Image.network(
+                                                        paymentDetial.payment
+                                                            .paymentSlip.link
+                                                            .toString()),
+                                                  ));
+                                  } else {
+                                    return Align(
+                                        alignment: Alignment.center,
+                                        child: Text('No slip'));
+                                  }
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              width: 50,
+                            ),
+                            Checkbox(
+                              checkColor: Colors.white,
+                              fillColor:
+                                  MaterialStateProperty.resolveWith(getColor),
+                              value: isChecked,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  print('bf');
+                                  isChecked = value;
+                                  print(isChecked);
+                                  print('af');
+                                });
+                              },
+                            ),
+                          ],
                         ),
                       ],
                     )
                   ],
-                )
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                FlatButton(
+                  onPressed: () async => {
+                    // await makePayment(),
+                    print('checking done'),
+                    // Navigator.pushAndRemoveUntil(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (BuildContext context) => MainScreen(),
+                    //   ),
+                    //   (route) => false,
+                    // )
+                  },
+                  color: Color(0xfff75BDFF),
+                  child: Text(
+                    'Confirm',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
               ],
             ),
           ),
