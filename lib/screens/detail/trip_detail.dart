@@ -744,7 +744,7 @@ class _InfoCardState extends State<InfoCard> {
                                     .tripTemplate
                                     .tripType
                                     .toString() ==
-                                dropdownValue2) {
+                                "ONSHORE") {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

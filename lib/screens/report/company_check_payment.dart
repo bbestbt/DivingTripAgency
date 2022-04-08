@@ -17,6 +17,7 @@ import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/payment/payment_screen.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -136,97 +137,100 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                   title: "Review",
                   color: Color(0xFFFF78a2cc),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'List of divers',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(width: 50),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        diver.length == 0
-                            ? new Text("No diver")
-                            : new Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Firstname : " +
-                                      diver[widget.index].firstName),
-                                  Text("Lastname : " +
-                                      diver[widget.index].lastName),
-                                  Text("Phone number :" +
-                                      diver[widget.index].phone),
-                                  Text("Level :" +
-                                      diver[widget.index].level.toString()),
-                                ],
-                              )
-                      ],
-                    ),
-                    SizedBox(
-                      width: 50,
-                    ),
-                    Column(
-                      // crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        // Text(
-                        //   'Payment',
-                        //   style: TextStyle(fontSize: 20),
-                        // ),
-                        SizedBox(height: 20),
-                        Row(
-                          children: [
-                            SizedBox(
-                              child: FutureBuilder(
-                                future: getPaymentDetail(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Center(
-                                        child:
-                                            paymentDetial.payment.paymentSlip ==
-                                                    null
-                                                ? new Container(
-                                                    color: Colors.pink,
-                                                  )
-                                                : Container(
-                                                    width: 300,
-                                                    height: 300,
-                                                    child: Image.network(
-                                                        paymentDetial.payment
-                                                            .paymentSlip.link
-                                                            .toString()),
-                                                  ));
-                                  } else {
-                                    return Align(
-                                        alignment: Alignment.center,
-                                        child: Text('No slip'));
-                                  }
+                SingleChildScrollView(
+                   scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'List of divers',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      SizedBox(width: 50),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          diver.length == 0
+                              ? new Text("No diver")
+                              : new Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Firstname : " +
+                                        diver[widget.index].firstName),
+                                    Text("Lastname : " +
+                                        diver[widget.index].lastName),
+                                    Text("Phone number :" +
+                                        diver[widget.index].phone),
+                                    Text("Level :" +
+                                        diver[widget.index].level.toString()),
+                                  ],
+                                )
+                        ],
+                      ),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      Column(
+                        // crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          // Text(
+                          //   'Payment',
+                          //   style: TextStyle(fontSize: 20),
+                          // ),
+                          SizedBox(height: 20),
+                          Row(
+                            children: [
+                              SizedBox(
+                                child: FutureBuilder(
+                                  future: getPaymentDetail(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Center(
+                                          child:
+                                              paymentDetial.payment.paymentSlip ==
+                                                      null
+                                                  ? new Container(
+                                                      color: Colors.pink,
+                                                    )
+                                                  : Container(
+                                                      width: 300,
+                                                      height: 300,
+                                                      child: Image.network(
+                                                          paymentDetial.payment
+                                                              .paymentSlip.link
+                                                              .toString()),
+                                                    ));
+                                    } else {
+                                      return Align(
+                                          alignment: Alignment.center,
+                                          child: Text('No slip'));
+                                    }
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                width: 50,
+                              ),
+                              Checkbox(
+                                checkColor: Colors.white,
+                                fillColor:
+                                    MaterialStateProperty.resolveWith(getColor),
+                                value: isChecked,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    // print('bf');
+                                    isChecked = value;
+                                    // print(isChecked);
+                                    // print('af');
+                                  });
                                 },
                               ),
-                            ),
-                            SizedBox(
-                              width: 50,
-                            ),
-                            Checkbox(
-                              checkColor: Colors.white,
-                              fillColor:
-                                  MaterialStateProperty.resolveWith(getColor),
-                              value: isChecked,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  // print('bf');
-                                  isChecked = value;
-                                  // print(isChecked);
-                                  // print('af');
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 20,
