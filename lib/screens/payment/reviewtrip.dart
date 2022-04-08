@@ -12,6 +12,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/payment.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/payment.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/roomtype.pbgrpc.dart';
+import 'package:diving_trip_agency/screens/ShopCart/ShopcartWidget.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/profile/diver/edit_profile_diver.dart';
@@ -40,6 +41,9 @@ GetRoomTypeResponse roomDetial = new GetRoomTypeResponse();
 var room_name;
 GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
 var liveaboard;
+GetPaymentByReservationResponse paymentDetial =
+    new GetPaymentByReservationResponse();
+var payment;
 
 class PaymentReview extends StatefulWidget {
   int reservation_id;
@@ -196,6 +200,27 @@ class _PaymentReviewState extends State<PaymentReview> {
     liveaboard = await stub.getLiveaboard(liveaboardrequest);
     liveaboardDetial = liveaboard;
     return liveaboardDetial.liveaboard.name;
+  }
+
+  getPaymentDetail() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = PaymentServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var paymentrequest = GetPaymentByReservationRequest();
+    paymentrequest.reservationId = Int64(reservation_id);
+    payment = await stub.getPaymentByReservation(paymentrequest);
+    // print(payment);
+    paymentDetial = payment;
+    return paymentDetial;
+    // print(paymentDetial.payment.paymentSlip.link.toString());
   }
 
   @override
@@ -382,12 +407,40 @@ class _PaymentReviewState extends State<PaymentReview> {
             ),
             Text("Total price :" + total_price.toString()),
             SizedBox(
-              height: 50,
+              height: 30,
             ),
             Center(
               child: Container(
                 child: Column(
                   children: [
+                    SizedBox(
+                      child: FutureBuilder(
+                        future: getPaymentDetail(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Center(
+                                child: paymentDetial.payment == null
+                                    ? new Container(
+                                        color: Colors.pink,
+                                      )
+                                    : Container(
+                                        width: 300,
+                                        height: 300,
+                                        child: Image.network(paymentDetial
+                                            .payment.paymentSlip.link
+                                            .toString()),
+                                      ));
+                          } else {
+                            return Align(
+                                alignment: Alignment.center,
+                                child: Text('No slip'));
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
