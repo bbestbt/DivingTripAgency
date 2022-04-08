@@ -549,7 +549,7 @@ class _TripDetailState extends State<TripDetail> {
       if (dropdownValue2 != "All") {
         print("DropdownValue2");
         print(dropdownValue2);
-       /* if (dropdownValue2 == "Onshore") {
+        if (dropdownValue2 == "Onshore") {
           // print("dropdownValue 2 (Should be onshore):"+dropdownValue2);
           results = results
               .where(
@@ -557,8 +557,8 @@ class _TripDetailState extends State<TripDetail> {
               .toList();
           print("TripType");
           print(results[0].tripTemplate.tripType.toString());
-        }*/
-        if (dropdownValue2 == "Offshore"){
+        }
+        else if (dropdownValue2 == "Offshore"){
           print("dropdownValue 2 (Should be Offshore):"+dropdownValue2);
           results = results
               .where(
