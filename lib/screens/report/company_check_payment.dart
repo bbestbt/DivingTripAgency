@@ -36,26 +36,30 @@ class CompanyCheckpayment extends StatefulWidget {
   List<Diver> diver = [];
   List<Reservation> reservation = [];
   int index;
-  CompanyCheckpayment(
-      List<Diver> diver, int index, List<Reservation> reservation) {
+  List<ReportTrip> trips = [];
+  CompanyCheckpayment(List<Diver> diver, int index,
+      List<Reservation> reservation, List<ReportTrip> trips) {
     this.diver = diver;
     this.index = index;
     this.reservation = reservation;
+    this.trips = trips;
   }
   @override
-  State<CompanyCheckpayment> createState() =>
-      _CompanyCheckpaymentState(this.diver, this.index, this.reservation);
+  State<CompanyCheckpayment> createState() => _CompanyCheckpaymentState(
+      this.diver, this.index, this.reservation, this.trips);
 }
 
 class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
   List<Diver> diver = [];
   int index;
   List<Reservation> reservation = [];
-  _CompanyCheckpaymentState(
-      List<Diver> diver, int index, List<Reservation> reservation) {
+  List<ReportTrip> trips = [];
+  _CompanyCheckpaymentState(List<Diver> diver, int index,
+      List<Reservation> reservation, List<ReportTrip> trips) {
     this.diver = diver;
     this.index = index;
     this.reservation = reservation;
+    this.trips = trips;
   }
   final MenuController _controller = Get.put(MenuController());
 
@@ -92,7 +96,6 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
 
   @override
   Widget build(BuildContext context) {
-    print(diver.length);
     return Scaffold(
         key: _controller.scaffoldkey,
         drawer: SideMenu(),
@@ -117,13 +120,14 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                       spacing: 20,
                       runSpacing: 40,
                       children: List.generate(
-                        diver.length,
+                        trips[index].divers.length,
                         (indexDiver) => Center(
                           child: InfoCard(
                             index,
                             diver,
                             reservation,
                             indexDiver,
+                            trips,
                           ),
                         ),
                       )),
@@ -164,25 +168,19 @@ class InfoCard extends StatefulWidget {
   List<Diver> diver = [];
   List<Reservation> reservation = [];
   int indexDiver;
-  InfoCard(
-    int index,
-    List<Diver> diver,
-    List<Reservation> reservation,
-    int indexDiver,
-  ) {
+  List<ReportTrip> trips = [];
+  InfoCard(int index, List<Diver> diver, List<Reservation> reservation,
+      int indexDiver, List<ReportTrip> trips) {
     this.index = index;
     this.diver = diver;
     this.reservation = reservation;
     this.indexDiver = indexDiver;
+    this.trips = trips;
   }
 
   @override
   State<InfoCard> createState() => _InfoCardState(
-        this.index,
-        this.diver,
-        this.reservation,
-        this.indexDiver,
-      );
+      this.index, this.diver, this.reservation, this.indexDiver, this.trips);
 }
 
 class _InfoCardState extends State<InfoCard> {
@@ -190,12 +188,9 @@ class _InfoCardState extends State<InfoCard> {
   List<Reservation> reservation = [];
   int indexDiver;
   int index;
+  List<ReportTrip> trips = [];
   _InfoCardState(
-    this.index,
-    this.diver,
-    this.reservation,
-    this.indexDiver,
-  );
+      this.index, this.diver, this.reservation, this.indexDiver, this.trips);
   getPaymentDetail() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -258,13 +253,20 @@ class _InfoCardState extends State<InfoCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Firstname : " +
-                                  diver[widget.indexDiver].firstName),
+                                  trips[widget.index]
+                                      .divers[indexDiver]
+                                      .firstName),
                               Text("Lastname : " +
-                                  diver[widget.indexDiver].lastName),
+                                  trips[widget.index]
+                                      .divers[indexDiver]
+                                      .lastName),
                               Text("Phone number :" +
-                                  diver[widget.indexDiver].phone),
+                                  trips[widget.index].divers[indexDiver].phone),
                               Text("Level :" +
-                                  diver[widget.indexDiver].level.toString()),
+                                  trips[widget.index]
+                                      .divers[indexDiver]
+                                      .level
+                                      .toString()),
                             ],
                           )
                   ],

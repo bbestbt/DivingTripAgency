@@ -76,7 +76,6 @@ class _CompanyReportState extends State<CompanyReport> {
         // print(trips.length);
 
       }
-      print(diver.length);
     } catch (e) {
       print('valid');
       print('ERROR: $e');
@@ -330,7 +329,7 @@ class _InfoCardState extends State<InfoCard> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    CompanyCheckpayment(diver, widget.indexTrip, reservation)));
+                    CompanyCheckpayment(diver, widget.indexTrip, reservation,trips)));
 
         // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   Navigator.push(
@@ -645,7 +644,7 @@ class _IncomingCardState extends State<IncomingCard> {
             context,
             MaterialPageRoute(
                 builder: (context) => CompanyCheckpayment(
-                    incomingDiver, widget.indexIncoming, reservationIncoming)));
+                    incomingDiver, widget.indexIncoming, reservationIncoming,incomingTrips)));
         //   // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   //   Navigator.push(
         //   //       context,
