@@ -51,6 +51,8 @@ class _CompanyReportState extends State<CompanyReport> {
     listvalidtriprequest.limit = Int64(20);
     listvalidtriprequest.offset = Int64(0);
     trips.clear();
+    diver.clear();
+    reservation.clear();
     try {
       await for (var feature
           in stub.generateCurrentTripsReport(listvalidtriprequest)) {
@@ -72,7 +74,9 @@ class _CompanyReportState extends State<CompanyReport> {
 
         // print(trips);
         // print(trips.length);
+
       }
+      print(diver.length);
     } catch (e) {
       print('valid');
       print('ERROR: $e');
@@ -97,6 +101,7 @@ class _CompanyReportState extends State<CompanyReport> {
     listendedtriprequest.limit = Int64(20);
     listendedtriprequest.offset = Int64(0);
     endedTrips.clear();
+    endedDiver.clear();
     // print(endedTrips);
     try {
       await for (var feature
@@ -141,6 +146,8 @@ class _CompanyReportState extends State<CompanyReport> {
     listincomingtriprequest.offset = Int64(0);
     listincomingtriprequest.weeks = 4;
     incomingTrips.clear();
+    incomingDiver.clear();
+    reservationIncoming.clear();
 
     try {
       await for (var feature
@@ -198,7 +205,7 @@ class _CompanyReportState extends State<CompanyReport> {
                               spacing: 20,
                               runSpacing: 40,
                               children: List.generate(
-                                trips.length,
+                                incomingTrips.length,
                                 (indexIncoming) => Center(
                                   child: IncomingCard(
                                     indexIncoming,
@@ -471,25 +478,25 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
   Widget build(BuildContext context) {
     return InkWell(
       // onTap: () {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) =>
-        //             CompanyCheckpayment(endedDiver, widget.indexEndedTrip)));
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) =>
+      //             CompanyCheckpayment(endedDiver, widget.indexEndedTrip)));
 
-        // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
-        //   Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //           builder: (context) =>
-        //               CompanyResort(widget.index, endedTrips)));
-        // } else {
-        //   Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //           builder: (context) =>
-        //               CompanyLiveaboard(widget.index, endedTrips)));
-        // }
+      // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) =>
+      //               CompanyResort(widget.index, endedTrips)));
+      // } else {
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) =>
+      //               CompanyLiveaboard(widget.index, endedTrips)));
+      // }
       // },
       child: Container(
         height: 320,

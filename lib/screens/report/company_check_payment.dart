@@ -30,6 +30,7 @@ import 'package:intl/intl.dart';
 GetPaymentByReservationResponse paymentDetial =
     new GetPaymentByReservationResponse();
 var payment;
+bool isChecked = false;
 
 class CompanyCheckpayment extends StatefulWidget {
   List<Diver> diver = [];
@@ -49,7 +50,6 @@ class CompanyCheckpayment extends StatefulWidget {
 class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
   List<Diver> diver = [];
   int index;
-  bool isChecked = false;
   List<Reservation> reservation = [];
   _CompanyCheckpaymentState(
       List<Diver> diver, int index, List<Reservation> reservation) {
@@ -58,26 +58,6 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
     this.reservation = reservation;
   }
   final MenuController _controller = Get.put(MenuController());
-  getPaymentDetail() async {
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-    final box = Hive.box('userInfo');
-    String token = box.get('token');
-
-    final stub = PaymentServiceClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
-    var paymentrequest = GetPaymentByReservationRequest();
-    paymentrequest.reservationId = reservation[index].id;
-    payment = await stub.getPaymentByReservation(paymentrequest);
-    // print(payment);
-    paymentDetial = payment;
-    // print(paymentDetial.payment.paymentSlip.link.toString());
-    return paymentDetial;
-  }
 
   updatePayment() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -95,9 +75,9 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
     var diverInfo = Diver();
     diverInfo.id = diver[index].id;
     var paymentStatus = Payment()..diver = diverInfo;
-    paymentStatus.id=paymentDetial.payment.id;
+    paymentStatus.id = paymentDetial.payment.id;
     paymentStatus.verified = isChecked;
-    paymentStatus.paymentSlip=paymentDetial.payment.paymentSlip;
+    paymentStatus.paymentSlip = paymentDetial.payment.paymentSlip;
     paymentStatus.reservationId = reservation[index].id;
 
     var statusrequest = UpdatePaymentStatusRequest()..payment = paymentStatus;
@@ -112,18 +92,7 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      const Set<MaterialState> interactiveStates = <MaterialState>{
-        MaterialState.pressed,
-        MaterialState.hovered,
-        MaterialState.focused,
-      };
-      if (states.any(interactiveStates.contains)) {
-        return Colors.blue;
-      }
-      return Colors.red;
-    }
-
+    print(diver.length);
     return Scaffold(
         key: _controller.scaffoldkey,
         drawer: SideMenu(),
@@ -137,101 +106,28 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                   title: "Review",
                   color: Color(0xFFFF78a2cc),
                 ),
-                SingleChildScrollView(
-                   scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'List of divers',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      SizedBox(width: 50),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          diver.length == 0
-                              ? new Text("No diver")
-                              : new Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Firstname : " +
-                                        diver[widget.index].firstName),
-                                    Text("Lastname : " +
-                                        diver[widget.index].lastName),
-                                    Text("Phone number :" +
-                                        diver[widget.index].phone),
-                                    Text("Level :" +
-                                        diver[widget.index].level.toString()),
-                                  ],
-                                )
-                        ],
-                      ),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Column(
-                        // crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          // Text(
-                          //   'Payment',
-                          //   style: TextStyle(fontSize: 20),
-                          // ),
-                          SizedBox(height: 20),
-                          Row(
-                            children: [
-                              SizedBox(
-                                child: FutureBuilder(
-                                  future: getPaymentDetail(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      return Center(
-                                          child:
-                                              paymentDetial.payment.paymentSlip ==
-                                                      null
-                                                  ? new Container(
-                                                      color: Colors.pink,
-                                                    )
-                                                  : Container(
-                                                      width: 300,
-                                                      height: 300,
-                                                      child: Image.network(
-                                                          paymentDetial.payment
-                                                              .paymentSlip.link
-                                                              .toString()),
-                                                    ));
-                                    } else {
-                                      return Align(
-                                          alignment: Alignment.center,
-                                          child: Text('No slip'));
-                                    }
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                width: 50,
-                              ),
-                              Checkbox(
-                                checkColor: Colors.white,
-                                fillColor:
-                                    MaterialStateProperty.resolveWith(getColor),
-                                value: isChecked,
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    // print('bf');
-                                    isChecked = value;
-                                    // print(isChecked);
-                                    // print('af');
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                SizedBox(
+                  height: 20,
                 ),
+                Center(
+                    child: Container(
+                        child: SingleChildScrollView(
+                  // scrollDirection: Axis.horizontal,
+                  child: Wrap(
+                      spacing: 20,
+                      runSpacing: 40,
+                      children: List.generate(
+                        diver.length,
+                        (indexDiver) => Center(
+                          child: InfoCard(
+                            index,
+                            diver,
+                            reservation,
+                            indexDiver,
+                          ),
+                        ),
+                      )),
+                ))),
                 SizedBox(
                   height: 20,
                 ),
@@ -253,9 +149,191 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                     style: TextStyle(fontSize: 15),
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),
         ));
+  }
+}
+
+class InfoCard extends StatefulWidget {
+  int index;
+  List<Diver> diver = [];
+  List<Reservation> reservation = [];
+  int indexDiver;
+  InfoCard(
+    int index,
+    List<Diver> diver,
+    List<Reservation> reservation,
+    int indexDiver,
+  ) {
+    this.index = index;
+    this.diver = diver;
+    this.reservation = reservation;
+    this.indexDiver = indexDiver;
+  }
+
+  @override
+  State<InfoCard> createState() => _InfoCardState(
+        this.index,
+        this.diver,
+        this.reservation,
+        this.indexDiver,
+      );
+}
+
+class _InfoCardState extends State<InfoCard> {
+  List<Diver> diver = [];
+  List<Reservation> reservation = [];
+  int indexDiver;
+  int index;
+  _InfoCardState(
+    this.index,
+    this.diver,
+    this.reservation,
+    this.indexDiver,
+  );
+  getPaymentDetail() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = PaymentServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var paymentrequest = GetPaymentByReservationRequest();
+    paymentrequest.reservationId = reservation[indexDiver].id;
+    payment = await stub.getPaymentByReservation(paymentrequest);
+    // print(payment);
+    paymentDetial = payment;
+    // print(paymentDetial.payment.paymentSlip.link.toString());
+    return paymentDetial;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Colors.blue;
+      }
+      return Colors.red;
+    }
+
+    return Container(
+      // height: 320,
+      width: 1000,
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+      child: Row(
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(width: 50),
+                Text(
+                  'Diver',
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(width: 50),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    diver.length == 0
+                        ? new Text("No diver")
+                        : new Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Firstname : " +
+                                  diver[widget.indexDiver].firstName),
+                              Text("Lastname : " +
+                                  diver[widget.indexDiver].lastName),
+                              Text("Phone number :" +
+                                  diver[widget.indexDiver].phone),
+                              Text("Level :" +
+                                  diver[widget.indexDiver].level.toString()),
+                            ],
+                          )
+                  ],
+                ),
+                SizedBox(
+                  width: 50,
+                ),
+                Column(
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    // Text(
+                    //   'Payment',
+                    //   style: TextStyle(fontSize: 20),
+                    // ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        SizedBox(
+                          child: FutureBuilder(
+                            future: getPaymentDetail(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Center(
+                                    child: paymentDetial.payment.paymentSlip ==
+                                            null
+                                        ? new Container(
+                                            color: Colors.pink,
+                                          )
+                                        : Container(
+                                            width: 300,
+                                            height: 300,
+                                            child: Image.network(paymentDetial
+                                                .payment.paymentSlip.link
+                                                .toString()),
+                                          ));
+                              } else {
+                                return Align(
+                                    alignment: Alignment.center,
+                                    child: Text('No slip'));
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 50,
+                        ),
+                        Checkbox(
+                          checkColor: Colors.white,
+                          fillColor:
+                              MaterialStateProperty.resolveWith(getColor),
+                          value: isChecked,
+                          onChanged: (bool value) {
+                            setState(() {
+                              // print('bf');
+                              isChecked = value;
+                              // print(isChecked);
+                              // print('af');
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
