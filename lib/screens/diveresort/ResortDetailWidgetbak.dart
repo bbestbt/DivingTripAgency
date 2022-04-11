@@ -818,7 +818,15 @@ class _InfoCardState extends State<InfoCard> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       Cartlist.add([
-                        "5.jpg",
+                       details[indexDetail].tripTemplate.images.length == 0
+                            ? new Container(
+                                color: Colors.pink,
+                              )
+                            : Image.network(details[indexDetail]
+                                .tripTemplate
+                                .images[0]
+                                .link
+                                .toString()),
                         details[indexDetail].tripTemplate.name,
                         hotelDetial.hotel.name,
                         roomtypes[indexRoom].name,
