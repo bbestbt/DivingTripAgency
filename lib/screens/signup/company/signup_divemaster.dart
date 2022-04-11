@@ -22,7 +22,7 @@ class SignupDiveMaster extends StatefulWidget {
 
 class _SignupDiveMasterState extends State<SignupDiveMaster> {
   List<DiveMaster> divemasterValue = [new DiveMaster()];
-  final MenuCompany _controller = Get.put(MenuCompany());
+  // final MenuCompany _controller = Get.put(MenuCompany());
   void addDivemaster() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -57,7 +57,7 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _controller.scaffoldkey,
+      // key: _controller.scaffoldkey,
       drawer: CompanyHamburger(),
       body: SingleChildScrollView(
         child: Container(

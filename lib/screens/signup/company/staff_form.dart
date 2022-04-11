@@ -66,7 +66,7 @@ class _StaffFormState extends State<StaffForm> {
       genderTypeMap[value] = i;
     }
 
-    print(genderTypeMap);
+    // print(genderTypeMap);
   }
 
   @override
@@ -123,11 +123,11 @@ class _StaffFormState extends State<StaffForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
-        print('name  start');
-        print(count);
-        print('name end');
+        // print('name  start');
+        // print(count);
+        // print('name end');
         staffValue[count - 1].firstName = value;
-        print(value);
+        // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your name");
         }
@@ -157,11 +157,11 @@ class _StaffFormState extends State<StaffForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => lastname = newValue,
       onChanged: (value) {
-        print('lname  start');
-        print(count);
-        print('lname  end');
+        // print('lname  start');
+        // print(count);
+        // print('lname  end');
         staffValue[count - 1].lastName = value;
-        print(value);
+        // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your lastname");
         }
@@ -190,11 +190,11 @@ class _StaffFormState extends State<StaffForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => position = newValue,
       onChanged: (value) {
-        print('pos  start');
-        print(count);
-        print('pos  end');
+        // print('pos  start');
+        // print(count);
+        // print('pos  end');
         staffValue[count - 1].position = value;
-        print(value);
+        // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter staff position");
         }

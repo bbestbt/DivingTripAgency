@@ -201,7 +201,7 @@ class _InfoCardState extends State<InfoCard> {
     this.trips = trips;
     // print(index);
     // print(indexDiver);
-    print(trips[index].reservations[indexDiver].id);
+    // print(trips[index].reservations[indexDiver].id);
   }
 
   getPaymentDetail() async {
@@ -223,8 +223,10 @@ class _InfoCardState extends State<InfoCard> {
     payment = await stub.getPaymentByReservation(paymentrequest);
     // print(payment);
     paymentDetial = payment;
+    isChecked=paymentDetial.payment.verified;
+    print(isChecked);
     // print(paymentDetial.payment.paymentSlip.link.toString());
-    return paymentDetial;
+    return [paymentDetial,isChecked];
   }
 
   @override
@@ -332,7 +334,7 @@ class _InfoCardState extends State<InfoCard> {
                                                   setState(() {
                                                     // print('bf');
                                                     isChecked = value;
-                                                    // print(isChecked);
+                                                    print(isChecked);
                                                     // print('af');
                                                   });
                                                 },
