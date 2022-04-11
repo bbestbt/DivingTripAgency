@@ -329,7 +329,7 @@ class _InfoCardState extends State<InfoCard> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    CompanyCheckpayment(diver, widget.indexTrip, reservation,trips)));
+                    CompanyCheckpayment(diver, widget.indexTrip, incomingTrips[widget.indexTrip].reservations,trips)));
 
         // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   Navigator.push(
@@ -640,11 +640,13 @@ class _IncomingCardState extends State<IncomingCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        //  print( incomingTrips[widget.indexIncoming].reservations);
+        //  print(reservationIncoming);
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => CompanyCheckpayment(
-                    incomingDiver, widget.indexIncoming, reservationIncoming,incomingTrips)));
+                    incomingDiver, widget.indexIncoming, incomingTrips[widget.indexIncoming].reservations,incomingTrips)));
         //   // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   //   Navigator.push(
         //   //       context,

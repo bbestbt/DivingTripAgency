@@ -30,7 +30,7 @@ import 'package:intl/intl.dart';
 GetPaymentByReservationResponse paymentDetial =
     new GetPaymentByReservationResponse();
 var payment;
-bool isChecked = false;
+bool isChecked = paymentDetial.payment.verified;
 
 class CompanyCheckpayment extends StatefulWidget {
   List<Diver> diver = [];
@@ -43,6 +43,8 @@ class CompanyCheckpayment extends StatefulWidget {
     this.index = index;
     this.reservation = reservation;
     this.trips = trips;
+    // print(reservation);
+    // print(index);
   }
   @override
   State<CompanyCheckpayment> createState() => _CompanyCheckpaymentState(
@@ -61,7 +63,6 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
     this.reservation = reservation;
     this.trips = trips;
   }
-  final MenuController _controller = Get.put(MenuController());
 
   updatePayment() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -97,7 +98,6 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _controller.scaffoldkey,
         drawer: SideMenu(),
         body: SingleChildScrollView(
           child: Center(
@@ -176,6 +176,9 @@ class InfoCard extends StatefulWidget {
     this.reservation = reservation;
     this.indexDiver = indexDiver;
     this.trips = trips;
+    // print(index);
+    // print(indexDiver);
+    // print(trips[index].reservations[indexDiver].id);
   }
 
   @override
@@ -189,8 +192,18 @@ class _InfoCardState extends State<InfoCard> {
   int indexDiver;
   int index;
   List<ReportTrip> trips = [];
-  _InfoCardState(
-      this.index, this.diver, this.reservation, this.indexDiver, this.trips);
+  _InfoCardState(int index, List<Diver> diver, List<Reservation> reservation,
+      int indexDiver, List<ReportTrip> trips) {
+    this.index = index;
+    this.diver = diver;
+    this.reservation = reservation;
+    this.indexDiver = indexDiver;
+    this.trips = trips;
+    // print(index);
+    // print(indexDiver);
+    print(trips[index].reservations[indexDiver].id);
+  }
+
   getPaymentDetail() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -204,7 +217,9 @@ class _InfoCardState extends State<InfoCard> {
     final stub = PaymentServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var paymentrequest = GetPaymentByReservationRequest();
-    paymentrequest.reservationId = reservation[indexDiver].id;
+
+    paymentrequest.reservationId = trips[index].reservations[indexDiver].id;
+
     payment = await stub.getPaymentByReservation(paymentrequest);
     // print(payment);
     paymentDetial = payment;
@@ -295,12 +310,34 @@ class _InfoCardState extends State<InfoCard> {
                                         ? new Container(
                                             color: Colors.pink,
                                           )
-                                        : Container(
-                                            width: 300,
-                                            height: 300,
-                                            child: Image.network(paymentDetial
-                                                .payment.paymentSlip.link
-                                                .toString()),
+                                        : Row(
+                                            children: [
+                                              Container(
+                                                width: 300,
+                                                height: 300,
+                                                child: Image.network(
+                                                    paymentDetial.payment
+                                                        .paymentSlip.link
+                                                        .toString()),
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Checkbox(
+                                                checkColor: Colors.white,
+                                                fillColor: MaterialStateProperty
+                                                    .resolveWith(getColor),
+                                                value: isChecked,
+                                                onChanged: (bool value) {
+                                                  setState(() {
+                                                    // print('bf');
+                                                    isChecked = value;
+                                                    // print(isChecked);
+                                                    // print('af');
+                                                  });
+                                                },
+                                              ),
+                                            ],
                                           ));
                               } else {
                                 return Align(
@@ -312,20 +349,6 @@ class _InfoCardState extends State<InfoCard> {
                         ),
                         SizedBox(
                           width: 50,
-                        ),
-                        Checkbox(
-                          checkColor: Colors.white,
-                          fillColor:
-                              MaterialStateProperty.resolveWith(getColor),
-                          value: isChecked,
-                          onChanged: (bool value) {
-                            setState(() {
-                              // print('bf');
-                              isChecked = value;
-                              // print(isChecked);
-                              // print('af');
-                            });
-                          },
                         ),
                       ],
                     ),
