@@ -34,7 +34,8 @@ class _CartState extends State<CartWidget> {
   @override
   void initState() {
     for (int i = 0; i < Cartlist.length; i++) {
-      roomtypes = Cartlist[i][6];
+      print(Cartlist[0][6]);
+      roomtypes=Cartlist[i][6];
       details = Cartlist[i][5];
       indexRoom = Cartlist[i][7];
       indexDetail = Cartlist[i][8];
@@ -76,99 +77,111 @@ class _CartState extends State<CartWidget> {
 
     final stub = ReservationServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var reservation;
+    var reservation= Reservation();
+    for (int j = 0; j < Cartlist.length; j++) {
+      print(j);
+      List<Reservation_Room> test = [];
 
-    var room = Reservation_Room();
-    for (int i = 0; i < roomtypes.length; i++) {
-      room.quantity = quantity;
-      room.roomTypeId = roomtypes[indexRoom].id;
-      room.noDivers = diver;
+      for (int i = 0; i < roomtypes.length; i++) {
+        var room = Reservation_Room();
+        room.quantity = quantity;
+        room.roomTypeId = roomtypes[indexRoom].id;
+        room.noDivers = diver;
+        test.add(room);
+      }
+      // reservation.rooms=test;
+      // reservation = Reservation()..rooms=test;
+// reservation = Reservation()..rooms.add(test[k]);
+        reservation.tripId = details[indexDetail].id;
+        reservation.diverId = user_profile.diver.id;
+        reservation.price = (roomtypes[indexRoom].price * quantity) +
+            details[indexDetail].price;
+        reservation.totalDivers = Int64(quantity);
+      for (int k = 0; k < test.length; k++) {
+        reservation.rooms.add(test[k]);
+       
+      }
+
+      var bookRequest = CreateReservationRequest()..reservation = reservation;
+      try {
+        var response = await stub.createReservation(bookRequest);
+        print('response: ${response}');
+      } catch (e) {
+        print(e);
+        //   }
+      }
+    }
     }
 
-    reservation = Reservation()..rooms.add(room);
-    reservation.tripId = details[indexDetail].id;
-    reservation.diverId = user_profile.diver.id;
-    reservation.price =
-        (roomtypes[indexRoom].price * quantity) + details[indexDetail].price;
-    reservation.totalDivers = Int64(quantity);
+    @override
+    Widget build(BuildContext context) {
+      // print(roomtypes);
+      // print(details);
+      // print(indexRoom);
+      // print(indexDetail);
+      // print(quantity);
+      // print(diver);
+      return Container(
+          width: 800,
+          // width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.all(20),
+          child: Column(children: [
+            SectionTitle(
+              title: "Trips in cart",
+              color: Color(0xFFFF78a2cc),
+            ),
+            SizedBox(height: 40),
+            ListView.builder(
+              itemCount: Cartlist.length,
+              shrinkWrap: true,
+              itemBuilder: (context, position) {
+                return Card(
+                    child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                    width: 200,
+                                    height: 200,
+                                    child: Cartlist[position][0]),
 
-    var bookRequest = CreateReservationRequest()..reservation = reservation;
-    try {
-      var response = stub.createReservation(bookRequest);
-      print('response: ${response}');
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // print(roomtypes);
-    // print(details);
-    // print(indexRoom);
-    // print(indexDetail);
-    // print(quantity);
-    // print(diver);
-    return Container(
-        width: 800,
-        // width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.all(20),
-        child: Column(children: [
-          SectionTitle(
-            title: "Trips in cart",
-            color: Color(0xFFFF78a2cc),
-          ),
-          SizedBox(height: 40),
-          ListView.builder(
-            itemCount: Cartlist.length,
-            shrinkWrap: true,
-            itemBuilder: (context, position) {
-              return Card(
-                  child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                  width: 200,
-                                  height: 200,
-                                  child: Cartlist[position][0]),
-
-                              // Flexible(
-                              //     child: Container(
-                              //   child: Image(
-                              //       image: NetworkImage(
-                              //          Cartlist[position][0])),
-                              // )),
-                              SizedBox(width: 30),
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Trip Name: " +
-                                          Cartlist[position][1].toString(),
-                                      // style: TextStyle(fontSize: 22.0),
-                                    ),
-                                    Text(
-                                      "Hotel Name: " +
-                                          Cartlist[position][2].toString(),
-                                      // style: TextStyle(fontSize: 22.0),
-                                    ),
-                                    Text(
-                                      "Room Name: " +
-                                          Cartlist[position][3].toString(),
-                                      // style: TextStyle(fontSize: 22.0),
-                                    ),
-                                    Text(
-                                      "Total price: " +
-                                          Cartlist[position][4].toString(),
-                                      // style: TextStyle(fontSize: 22.0),
-                                    ),
-                                  ]),
-                              SizedBox(width: 30),
-                              /*TextButton(
+                                // Flexible(
+                                //     child: Container(
+                                //   child: Image(
+                                //       image: NetworkImage(
+                                //          Cartlist[position][0])),
+                                // )),
+                                SizedBox(width: 30),
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Trip Name: " +
+                                            Cartlist[position][1].toString(),
+                                        // style: TextStyle(fontSize: 22.0),
+                                      ),
+                                      Text(
+                                        "Hotel Name: " +
+                                            Cartlist[position][2].toString(),
+                                        // style: TextStyle(fontSize: 22.0),
+                                      ),
+                                      Text(
+                                        "Room Name: " +
+                                            Cartlist[position][3].toString(),
+                                        // style: TextStyle(fontSize: 22.0),
+                                      ),
+                                      Text(
+                                        "Total price: " +
+                                            Cartlist[position][4].toString(),
+                                        // style: TextStyle(fontSize: 22.0),
+                                      ),
+                                    ]),
+                                SizedBox(width: 30),
+                                /*TextButton(
                             child: Text(
                               "Edit",
                               style: TextStyle(fontSize: 25),
@@ -179,61 +192,61 @@ class _CartState extends State<CartWidget> {
                                 elevation: 2,
                                 backgroundColor: Colors.amber),
                           ),*/
-                              TextButton(
-                                child: Text(
-                                  "Remove",
-                                  // style: TextStyle(fontSize: 25),
+                                TextButton(
+                                  child: Text(
+                                    "Remove",
+                                    // style: TextStyle(fontSize: 25),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      print("deleted");
+
+                                      Cartlist.removeAt(position);
+                                      print(Cartlist);
+                                    });
+                                  },
+                                  style: TextButton.styleFrom(
+                                      primary: Colors.red,
+                                      elevation: 2,
+                                      backgroundColor: Colors.amber),
                                 ),
-                                onPressed: () {
-                                  setState(() {
-                                    print("deleted");
+                              ]),
+                        )));
+              },
+            ),
+            SizedBox(height: 30),
+            Cartlist.length != 0
+                ? TextButton(
+                    child: Text(
+                      "Book",
+                      // style: TextStyle(fontSize: 25),
+                    ),
+                    onPressed: () async {
+                      await bookTrips();
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Booking"),
+                              content: Text("done"),
+                              actions: <Widget>[
+                                // FlatButton(
+                                //   child: Text("OK"),
+                                // ),
+                              ],
+                            );
+                          });
+                    },
+                    style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        elevation: 2,
+                        backgroundColor: Colors.indigo),
+                  )
+                : Text('No trip'),
+            SizedBox(height: 30),
+          ]));
 
-                                    Cartlist.removeAt(position);
-                                    print(Cartlist);
-                                  });
-                                },
-                                style: TextButton.styleFrom(
-                                    primary: Colors.red,
-                                    elevation: 2,
-                                    backgroundColor: Colors.amber),
-                              ),
-                            ]),
-                      )));
-            },
-          ),
-          SizedBox(height: 30),
-          Cartlist.length != 0
-              ? TextButton(
-                  child: Text(
-                    "Book",
-                    // style: TextStyle(fontSize: 25),
-                  ),
-                  onPressed: () async {
-                    await bookTrips();
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Booking"),
-                            content: Text("done"),
-                            actions: <Widget>[
-                              // FlatButton(
-                              //   child: Text("OK"),
-                              // ),
-                            ],
-                          );
-                        });
-                  },
-                  style: TextButton.styleFrom(
-                      primary: Colors.white,
-                      elevation: 2,
-                      backgroundColor: Colors.indigo),
-                )
-              : Text('No trip'),
-          SizedBox(height: 30),
-        ]));
-
-    /*Container(
+      /*Container(
       color: const Color(0xFFFFE306),
       child: Column(
 
@@ -242,5 +255,7 @@ class _CartState extends State<CartWidget> {
         ]
       )
     );*/
+    }
   }
-}
+
+
