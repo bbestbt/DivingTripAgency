@@ -7,12 +7,15 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 class StaffForm extends StatefulWidget {
   int count;
   List<Staff> staffValue;
-  StaffForm(int count, List<Staff> staffValue) {
+  List<String> errors = [];
+  StaffForm(int count, List<Staff> staffValue, List<String> errors) {
     this.count = count;
     this.staffValue = staffValue;
+    this.errors = errors;
   }
   @override
-  _StaffFormState createState() => _StaffFormState(this.count, this.staffValue);
+  _StaffFormState createState() =>
+      _StaffFormState(this.count, this.staffValue, this.errors);
 }
 
 class _StaffFormState extends State<StaffForm> {
@@ -25,12 +28,13 @@ class _StaffFormState extends State<StaffForm> {
   Map<String, int> genderTypeMap = {};
   List<DropdownMenuItem<String>> listGender = [];
   List<GenderType> gender = [GenderType.MALE, GenderType.FEMALE];
-  _StaffFormState(int count, List<Staff> staffValue) {
+  List<String> errors = [];
+  _StaffFormState(int count, List<Staff> staffValue, List<String> errors) {
     this.count = count;
     this.staffValue = staffValue;
+    this.errors = errors;
   }
 
-  final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerLastname = TextEditingController();
   final TextEditingController _controllerPosition = TextEditingController();

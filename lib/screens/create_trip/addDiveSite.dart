@@ -6,26 +6,32 @@ import 'package:flutter/material.dart';
 
 class AddMoreDiveSite extends StatefulWidget {
   List<DiveSite> pinkValue = [];
+   List<String> errors = [];
 
   AddMoreDiveSite(
     List<DiveSite> pinkValue,
+     List<String> errors 
   ) {
     this.pinkValue = pinkValue;
+    this.errors=errors;
   }
   @override
   _AddMoreDiveSiteState createState() => _AddMoreDiveSiteState(
         this.pinkValue,
+        this.errors
       );
 }
 
 class _AddMoreDiveSiteState extends State<AddMoreDiveSite> {
   int pinkcount = 1;
-
+ List<String> errors = [];
   List<DiveSite> pinkValue = [];
   _AddMoreDiveSiteState(
     List<DiveSite> pinkValue,
+     List<String> errors 
   ) {
     this.pinkValue = pinkValue;
+    this.errors=errors;
   }
   @override
   Widget build(BuildContext context) {
@@ -45,6 +51,7 @@ class _AddMoreDiveSiteState extends State<AddMoreDiveSite> {
               return DiveSiteForm(
                 pinkcount,
                 this.pinkValue,
+                this.errors
               );
             }),
         MaterialButton(

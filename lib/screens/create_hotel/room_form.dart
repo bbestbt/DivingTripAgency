@@ -17,16 +17,18 @@ class RoomForm extends StatefulWidget {
   int pinkcount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
+  List<String> errors = [];
 
-  RoomForm(
-      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
+  RoomForm(int pinkcount, List<RoomType> pinkValue,
+      List<List<Amenity>> blueValue, List<String> errors) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
+    this.errors = errors;
   }
   @override
-  _RoomFormState createState() =>
-      _RoomFormState(this.pinkcount, this.pinkValue, this.blueValue);
+  _RoomFormState createState() => _RoomFormState(
+      this.pinkcount, this.pinkValue, this.blueValue, this.errors);
 }
 
 class _RoomFormState extends State<RoomForm> {
@@ -44,14 +46,15 @@ class _RoomFormState extends State<RoomForm> {
   List<List<Amenity>> blueValue;
 
   XFile rroom;
-
-  _RoomFormState(
-      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
+  List<String> errors = [];
+  _RoomFormState(int pinkcount, List<RoomType> pinkValue,
+      List<List<Amenity>> blueValue, List<String> errors) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
+    this.errors = errors;
   }
-  final List<String> errors = [];
+
   final TextEditingController _controllerRoomdescription =
       TextEditingController();
   final TextEditingController _controllerMax = TextEditingController();
@@ -97,7 +100,6 @@ class _RoomFormState extends State<RoomForm> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -138,7 +140,7 @@ class _RoomFormState extends State<RoomForm> {
             decoration: BoxDecoration(
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreAmenity(this.pinkcount, this.blueValue),
+            child: AddMoreAmenity(this.pinkcount, this.blueValue, this.errors),
           ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),

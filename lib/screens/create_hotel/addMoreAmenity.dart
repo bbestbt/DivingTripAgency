@@ -5,23 +5,29 @@ import 'package:flutter/material.dart';
 
 class AddMoreAmenity extends StatefulWidget {
   List<List<Amenity>> blueValue;
+  List<String> errors = [];
   int pinkcount;
-  AddMoreAmenity(int pinkcount, List<List<Amenity>> blueValue) {
+  AddMoreAmenity(
+      int pinkcount, List<List<Amenity>> blueValue, List<String> errors) {
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.errors = errors;
   }
   @override
   _AddMoreAmenityState createState() =>
-      _AddMoreAmenityState(this.pinkcount, this.blueValue);
+      _AddMoreAmenityState(this.pinkcount, this.blueValue, this.errors);
 }
 
 class _AddMoreAmenityState extends State<AddMoreAmenity> {
   int bluecount = 1;
   int pinkcount;
   List<List<Amenity>> blueValue;
-  _AddMoreAmenityState(int pinkcount, List<List<Amenity>> blueValue) {
+  List<String> errors = [];
+  _AddMoreAmenityState(
+      int pinkcount, List<List<Amenity>> blueValue, List<String> errors) {
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.errors = errors;
   }
   @override
   Widget build(BuildContext context) {
@@ -34,7 +40,8 @@ class _AddMoreAmenityState extends State<AddMoreAmenity> {
             shrinkWrap: true,
             itemCount: bluecount,
             itemBuilder: (BuildContext context, int index) {
-              return amenityForm(bluecount, pinkcount, this.blueValue);
+              return amenityForm(
+                  bluecount, pinkcount, this.blueValue, this.errors);
             }),
         MaterialButton(
           onPressed: () {

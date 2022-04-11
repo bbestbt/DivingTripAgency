@@ -10,15 +10,18 @@ class amenityForm extends StatefulWidget {
   int bluecount;
   int pinkcount;
   List<List<Amenity>> blueValue;
+  List<String> errors = [];
 
-  amenityForm(int blue, int pinkcount, List<List<Amenity>> blueValue) {
+  amenityForm(int blue, int pinkcount, List<List<Amenity>> blueValue,
+      List<String> errors) {
     this.bluecount = blue;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.errors = errors;
   }
   @override
-  _amenityFormState createState() =>
-      _amenityFormState(this.bluecount, this.pinkcount, this.blueValue);
+  _amenityFormState createState() => _amenityFormState(
+      this.bluecount, this.pinkcount, this.blueValue, this.errors);
 }
 
 class _amenityFormState extends State<amenityForm> {
@@ -32,15 +35,15 @@ class _amenityFormState extends State<amenityForm> {
   List<String> amenity = [];
   String amenitySelected;
   Map<String, dynamic> amenityMap = {};
-
-  _amenityFormState(
-      int bluecount, int pinkcount, List<List<Amenity>> blueValue) {
+  List<String> errors = [];
+  _amenityFormState(int bluecount, int pinkcount, List<List<Amenity>> blueValue,
+      List<String> errors) {
     this.bluecount = bluecount;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.errors = errors;
   }
 
-  final List<String> errors = [];
   final TextEditingController _controllerAmenityName = TextEditingController();
   final TextEditingController _controllerAmenityDescription =
       TextEditingController();
@@ -137,12 +140,14 @@ class _amenityFormState extends State<amenityForm> {
                       // print(amenityMap[element]);
                       // print(amenitySelected);
                       if (element == amenitySelected) {
-                         print(amenityMap[element]);
+                        print(amenityMap[element]);
                         blueValue[pinkcount - 1][bluecount - 1].name =
                             amenitySelected;
-                        blueValue[pinkcount - 1][bluecount - 1].id=  amenityMap[element];
+                        blueValue[pinkcount - 1][bluecount - 1].id =
+                            amenityMap[element];
                       }
                     });
+                    
                     print(blueValue);
                     // print('------');
                     // print(value);
@@ -166,13 +171,13 @@ class _amenityFormState extends State<amenityForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => amenity_name = newValue,
       onChanged: (value) {
-        print(' amenity name start');
-        print(bluecount);
-        print(pinkcount);
-        print(' amnity name end');
+        // print(' amenity name start');
+        // print(bluecount);
+        // print(pinkcount);
+        // print(' amnity name end');
         blueValue[pinkcount - 1][bluecount - 1].name = value;
-        print(value);
-        print("===");
+        // print(value);
+        // print("===");
         if (value.isNotEmpty) {
           removeError(error: "Please enter amenity name");
         }
@@ -200,13 +205,13 @@ class _amenityFormState extends State<amenityForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => amenity_descption = newValue,
       onChanged: (value) {
-        print(' amenity desc start');
-        print(bluecount);
-        print(pinkcount);
-        print(' amnity desc end');
+        // print(' amenity desc start');
+        // print(bluecount);
+        // print(pinkcount);
+        // print(' amnity desc end');
         blueValue[pinkcount - 1][bluecount - 1].description = value;
-        print(value);
-        print("===");
+        // print(value);
+        // print("===");
         if (value.isNotEmpty) {
           removeError(error: "Please enter amenity description");
         }

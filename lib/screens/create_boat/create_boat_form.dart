@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/create_trip/trip_template.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
@@ -53,6 +54,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -152,7 +154,8 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
-    return Container(
+    return Form(
+       key: _formKey,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
@@ -197,8 +200,6 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
             ],
           ),
           SizedBox(height: 20),
-
-          //   FormError(errors: errors),
           Row(
             children: [
               Text('Image'),
@@ -237,9 +238,13 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
             ],
           ),
           SizedBox(height: 20),
+          FormError(errors: errors),
           FlatButton(
+            
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () => {
+              if (_formKey.currentState.validate())
+                {
               AddBoat(),
               Navigator.pushAndRemoveUntil(
                 context,
@@ -248,7 +253,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                 ),
                 (route) => false,
               )
-            },
+            },},
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',

@@ -14,13 +14,16 @@ import 'dart:convert';
 class DiveMasterForm extends StatefulWidget {
   int count;
   List<DiveMaster> divemasterValue;
-  DiveMasterForm(int count, List<DiveMaster> divemasterValue) {
+  List<String> errors = [];
+  DiveMasterForm(
+      int count, List<DiveMaster> divemasterValue, List<String> errors) {
     this.divemasterValue = divemasterValue;
     this.count = count;
+    this.errors = errors;
   }
   @override
   _DiveMasterFormState createState() =>
-      _DiveMasterFormState(this.count, this.divemasterValue);
+      _DiveMasterFormState(this.count, this.divemasterValue, this.errors);
 }
 
 class _DiveMasterFormState extends State<DiveMasterForm> {
@@ -37,15 +40,16 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   io.File CardFileBack;
   XFile ca;
   Map<String, int> levelTypeMap = {};
-  final List<String> errors = [];
+  List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerLastname = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
 
-  _DiveMasterFormState(int count, this.divemasterValue) {
+  _DiveMasterFormState(int count, this.divemasterValue, List<String> errors) {
     this.count = count;
     this.divemasterValue = divemasterValue;
+    this.errors = errors;
   }
 
   List<DropdownMenuItem<String>> listLevel = [];
@@ -109,36 +113,34 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     if (ca != null) {
       setState(() {
         CardFile = io.File(ca.path);
-
       });
     }
   }
 
   _getCardBack() async {
     cb = await ImagePicker().pickImage(
-    source: ImageSource.gallery,
+      source: ImageSource.gallery,
       maxWidth: 5000,
       maxHeight: 5000,
     );
-      var f = File();
-      f.filename = cb.name;
-      //f2.filename = 'image.jpg';
-      List<int> a = await cb.readAsBytes();
-      f.file = a;
-      //this.imagelist.add(f);
-      this.divemasterValue[count - 1].documents.add(f);
+    var f = File();
+    f.filename = cb.name;
+    //f2.filename = 'image.jpg';
+    List<int> a = await cb.readAsBytes();
+    f.file = a;
+    //this.imagelist.add(f);
+    this.divemasterValue[count - 1].documents.add(f);
 
-      if (cb != null) {
-        setState(() {
-          CardFileBack = io.File(cb.path);
-
-        });
-      }
-      //setState(() {
-        //CardFileBack = io.File(pickedFile.path);
-        //print("CardFileBack");
-        //divemasterValue[count - 1].documents.add(CardFileBack);
-      //});
+    if (cb != null) {
+      setState(() {
+        CardFileBack = io.File(cb.path);
+      });
+    }
+    //setState(() {
+    //CardFileBack = io.File(pickedFile.path);
+    //print("CardFileBack");
+    //divemasterValue[count - 1].documents.add(CardFileBack);
+    //});
   }
 
   @override
@@ -182,7 +184,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
             ),
           ),
           SizedBox(height: 20),
-          FormError(errors: errors),
+          // FormError(errors: errors),
           Row(
             children: [
               Column(
@@ -207,7 +209,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                               fit: BoxFit.cover,
                               width: screenwidth * 0.05,
                             )),
-
               Spacer(),
               FlatButton(
                 color: Color(0xfffa2c8ff),
@@ -226,7 +227,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
             ],
           ),
           SizedBox(height: 20),
-
           Row(
             children: [
               Column(
@@ -268,7 +268,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               ),
             ],
           ),
-
           SizedBox(height: 20),
         ]),
       ),
@@ -320,7 +319,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
         // print(count);
         // print('lastname end');
         divemasterValue[count - 1].lastName = value;
-          //  print(value);
+        //  print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your lastname");
         }
@@ -342,7 +341,4 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           suffixIcon: Icon(Icons.person)),
     );
   }
-
-  
-
 }

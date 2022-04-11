@@ -19,13 +19,16 @@ class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
-  Triptemplate(TripTemplate triptemplate) {
+    List<String> errors = [];
+  Triptemplate(TripTemplate triptemplate,  List<String> errors ) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
+    this.errors=errors;
+    
   }
   @override
-  _TriptemplateState createState() => _TriptemplateState(this.triptemplate);
+  _TriptemplateState createState() => _TriptemplateState(this.triptemplate,this.errors);
 }
 
 class _TriptemplateState extends State<Triptemplate> {
@@ -106,16 +109,17 @@ class _TriptemplateState extends State<Triptemplate> {
     // print(tripTypeMap);
   }
 
-  final List<String> errors = [];
+  List<String> errors = [];
   String triptype = '';
   String boatname;
   TripTemplate triptemplate;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
-  _TriptemplateState(TripTemplate triptemplate) {
+  _TriptemplateState(TripTemplate triptemplate,  List<String> errors ) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
+    this.errors=errors;
   }
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
@@ -322,7 +326,7 @@ class _TriptemplateState extends State<Triptemplate> {
                   child: buildCityFormField()),
             ],
           ),
-
+    
           SizedBox(height: 20),
           Row(
             children: [
@@ -349,7 +353,7 @@ class _TriptemplateState extends State<Triptemplate> {
                 //     child: Text(value),
                 //   );
                 // }).toList(),
-
+    
                 hint: Text('  Select boat'),
                 iconSize: 40,
                 onChanged: (value) {
@@ -357,9 +361,9 @@ class _TriptemplateState extends State<Triptemplate> {
                     boatSelected = value;
                     print(value);
                     //  hotelandboatID.boatId = boatMap[boatSelected];
-
+    
                     triptemplate.boatId = boatMap[boatSelected];
-
+    
                     // triptemplate.hotelAndBoatId=hotelandboatID;
                     //   triptemplate.divingBoatId=boatMap[boatSelected];
                   });
@@ -384,12 +388,12 @@ class _TriptemplateState extends State<Triptemplate> {
           //         setState(() {
           //            triptype = val;
           //             print(val);
-
+    
           //         });
           //       }),
           //   Text('On shore (Hotel)'),
           // ]),
-
+    
           // Row(
           //   children: [
           //     Radio(
@@ -405,7 +409,7 @@ class _TriptemplateState extends State<Triptemplate> {
           //     Text('Off shore (Live on boat)'),
           //   ],
           // ),
-
+    
           // Container(
           //   color: Color(0xfffd4f0f0),
           //   child: Center(
@@ -430,7 +434,7 @@ class _TriptemplateState extends State<Triptemplate> {
           //     ),
           //   ),
           // ),
-
+    
           DropdownButton(
             hint: Text('Trip type'),
             value: selectedTriptype,
@@ -495,10 +499,10 @@ class _TriptemplateState extends State<Triptemplate> {
                 } else if (triptypee == hotel) {
                   // print('hotel');
                   // print(hotelTypeMap[selectedsleep]);
-
+    
                   triptemplate.hotelId =
                       hotelTypeMap[selectedsleep];
-
+    
                   // hotelandboatID.hotelId = hotelTypeMap[selectedsleep];
                   //  triptemplate.hotelAndBoatId=hotelandboatID;
                   //   triptemplate.hotelAndBoatId.hotelId= hotelTypeMap[selectedsleep];
@@ -536,7 +540,7 @@ class _TriptemplateState extends State<Triptemplate> {
               ),
                           ],
           ),
-
+    
               SizedBox(height: 20),
           Row(
             children: [
@@ -567,7 +571,7 @@ class _TriptemplateState extends State<Triptemplate> {
               ),
             ],
           ),
-
+    
           SizedBox(height: 20),
           Row(
             children: [
@@ -598,7 +602,7 @@ class _TriptemplateState extends State<Triptemplate> {
               ),
             ],
           ),
-
+    
           SizedBox(height: 20),
           Row(
             children: [
@@ -629,7 +633,7 @@ class _TriptemplateState extends State<Triptemplate> {
               ),
             ],
           ),
-
+    
           SizedBox(height: 20),
           Row(
             children: [
@@ -660,9 +664,9 @@ class _TriptemplateState extends State<Triptemplate> {
               ),
             ],
           ),
-
+    
           SizedBox(height: 20),
-
+    
           SizedBox(height: 20),
           Row(
             children: [
@@ -693,7 +697,7 @@ class _TriptemplateState extends State<Triptemplate> {
               ),
             ],
           ),
-
+    
           SizedBox(height: 20),
           Row(
             children: [
@@ -724,18 +728,18 @@ class _TriptemplateState extends State<Triptemplate> {
               ),
             ],
           ),
-
+    
           // FormError(errors: errors),
-
+    
           SizedBox(height: 20),
-
+    
           //Container(
            // child:
-
+    
           //buildGridView(),
                       
          // )
-
+    
           //  FlatButton(onPressed: getData, child: Text('check')),
         ]),
       ),

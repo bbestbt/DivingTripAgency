@@ -14,20 +14,17 @@ import 'package:hive/hive.dart';
 class DiveSiteForm extends StatefulWidget {
   int pinkcount;
   List<DiveSite> pinkValue;
+  List<String> errors = [];
 
-  DiveSiteForm(
-    int pinkcount,
-    List<DiveSite> pinkValue,
-  ) {
+  DiveSiteForm(int pinkcount, List<DiveSite> pinkValue, List<String> errors) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
+    this.errors = errors;
     // this.blueValue = blueValue;
   }
   @override
-  _DiveSiteFormState createState() => _DiveSiteFormState(
-        this.pinkcount,
-        this.pinkValue,
-      );
+  _DiveSiteFormState createState() =>
+      _DiveSiteFormState(this.pinkcount, this.pinkValue, this.errors);
 }
 
 class _DiveSiteFormState extends State<DiveSiteForm> {
@@ -38,15 +35,13 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
   String max_depth;
 
   List<DiveSite> pinkValue;
-
+  List<String> errors = [];
   _DiveSiteFormState(
-    int pinkcount,
-    List<DiveSite> pinkValue,
-  ) {
+      int pinkcount, List<DiveSite> pinkValue, List<String> errors) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
+    this.errors = errors;
   }
-  final List<String> errors = [];
   final TextEditingController _controllerDescription = TextEditingController();
   final TextEditingController _controllerMax = TextEditingController();
   final TextEditingController _controllerMin = TextEditingController();
