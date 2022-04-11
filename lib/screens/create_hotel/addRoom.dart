@@ -48,20 +48,41 @@ class _AddMoreRoomState extends State<AddMoreRoom> {
               return RoomForm(
                   pinkcount, this.pinkValue, this.blueValue, this.errors);
             }),
-        MaterialButton(
-          onPressed: () {
-            setState(() {
-              pinkcount += 1;
-              pinkValue.add(new RoomType());
-              blueValue.add([new Amenity()]);
-            });
-          },
-          color: Color(0xfffff968a),
-          textColor: Colors.white,
-          child: Icon(
-            Icons.add,
-            size: 20,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  pinkcount += 1;
+                  pinkValue.add(new RoomType());
+                  blueValue.add([new Amenity()]);
+                });
+              },
+              color: Color(0xfffff968a),
+              textColor: Colors.white,
+              child: Icon(
+                Icons.add,
+                size: 20,
+              ),
+            ),
+            SizedBox(width: 30),
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  pinkcount -= 1;
+                  pinkValue.remove(new RoomType());
+                  blueValue.remove([new Amenity()]);
+                });
+              },
+              color: Color(0xfffff968a),
+              textColor: Colors.white,
+              child: Icon(
+                Icons.remove,
+                size: 20,
+              ),
+            ),
+          ],
         ),
         SizedBox(height: 30),
       ])),

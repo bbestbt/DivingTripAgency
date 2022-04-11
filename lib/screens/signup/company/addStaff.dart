@@ -36,20 +36,41 @@ class _AddMoreStaffState extends State<AddMoreStaff> {
             itemBuilder: (BuildContext context, int index) {
               return StaffForm(count, this.staffValue, this.errors);
             }),
-        MaterialButton(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  count += 1;
+                  staffValue.add(new Staff());
+                });
+              },
+              color: Colors.blue,
+              textColor: Colors.white,
+              child: Icon(
+                Icons.add,
+                size: 20,
+              ),
+            ),
+             SizedBox(width: 30),
+            MaterialButton(
           onPressed: () {
             setState(() {
-              count += 1;
-              staffValue.add(new Staff());
+              count -= 1;
+               staffValue.remove(new Staff());
             });
           },
-          color: Colors.blue,
+          color: Colors.red,
           textColor: Colors.white,
           child: Icon(
-            Icons.add,
+            Icons.remove,
             size: 20,
           ),
         ),
+          ],
+        ),
+        
         SizedBox(height: 30),
       ])),
     );

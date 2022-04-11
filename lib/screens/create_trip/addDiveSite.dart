@@ -6,32 +6,24 @@ import 'package:flutter/material.dart';
 
 class AddMoreDiveSite extends StatefulWidget {
   List<DiveSite> pinkValue = [];
-   List<String> errors = [];
+  List<String> errors = [];
 
-  AddMoreDiveSite(
-    List<DiveSite> pinkValue,
-     List<String> errors 
-  ) {
+  AddMoreDiveSite(List<DiveSite> pinkValue, List<String> errors) {
     this.pinkValue = pinkValue;
-    this.errors=errors;
+    this.errors = errors;
   }
   @override
-  _AddMoreDiveSiteState createState() => _AddMoreDiveSiteState(
-        this.pinkValue,
-        this.errors
-      );
+  _AddMoreDiveSiteState createState() =>
+      _AddMoreDiveSiteState(this.pinkValue, this.errors);
 }
 
 class _AddMoreDiveSiteState extends State<AddMoreDiveSite> {
   int pinkcount = 1;
- List<String> errors = [];
+  List<String> errors = [];
   List<DiveSite> pinkValue = [];
-  _AddMoreDiveSiteState(
-    List<DiveSite> pinkValue,
-     List<String> errors 
-  ) {
+  _AddMoreDiveSiteState(List<DiveSite> pinkValue, List<String> errors) {
     this.pinkValue = pinkValue;
-    this.errors=errors;
+    this.errors = errors;
   }
   @override
   Widget build(BuildContext context) {
@@ -48,25 +40,41 @@ class _AddMoreDiveSiteState extends State<AddMoreDiveSite> {
             shrinkWrap: true,
             itemCount: pinkcount,
             itemBuilder: (BuildContext context, int index) {
-              return DiveSiteForm(
-                pinkcount,
-                this.pinkValue,
-                this.errors
-              );
+              return DiveSiteForm(pinkcount, this.pinkValue, this.errors);
             }),
-        MaterialButton(
-          onPressed: () {
-            setState(() {
-              pinkcount += 1;
-              pinkValue.add(new DiveSite());
-            });
-          },
-          color: Color(0xfffff968a),
-          textColor: Colors.white,
-          child: Icon(
-            Icons.add,
-            size: 20,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  pinkcount += 1;
+                  pinkValue.add(new DiveSite());
+                });
+              },
+              color: Color(0xfffff968a),
+              textColor: Colors.white,
+              child: Icon(
+                Icons.add,
+                size: 20,
+              ),
+            ),
+            SizedBox(width: 30),
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  pinkcount -= 1;
+                  pinkValue.remove(new DiveSite());
+                });
+              },
+              color: Color(0xfffff968a),
+              textColor: Colors.white,
+              child: Icon(
+                Icons.remove,
+                size: 20,
+              ),
+            ),
+          ],
         ),
         SizedBox(height: 30),
       ])),

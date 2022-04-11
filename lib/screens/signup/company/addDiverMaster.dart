@@ -38,19 +38,39 @@ class _AddmoreDiverMasterState extends State<AddmoreDiverMaster> {
             itemBuilder: (BuildContext context, int index) {
               return DiveMasterForm(count, this.divemasterValue, this.errors);
             }),
-        MaterialButton(
-          onPressed: () {
-            setState(() {
-              count += 1;
-              divemasterValue.add(new DiveMaster());
-            });
-          },
-          color: Colors.blue,
-          textColor: Colors.white,
-          child: Icon(
-            Icons.add,
-            size: 20,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  count += 1;
+                  divemasterValue.add(new DiveMaster());
+                });
+              },
+              color: Colors.blue,
+              textColor: Colors.white,
+              child: Icon(
+                Icons.add,
+                size: 20,
+              ),
+            ),
+            SizedBox(width: 30),
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  count -= 1;
+                   divemasterValue.remove(new DiveMaster());
+                });
+              },
+              color: Colors.red,
+              textColor: Colors.white,
+              child: Icon(
+                Icons.remove,
+                size: 20,
+              ),
+            ),
+          ],
         ),
         SizedBox(height: 30),
       ])),
