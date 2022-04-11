@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 class CreateLiveaboardScreen extends StatelessWidget {
-  final MenuCompany _controller = Get.put(MenuCompany());
+  // final MenuCompany _controller = Get.put(MenuCompany());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       key: _controller.scaffoldkey,
+      //  key: _controller.scaffoldkey,
       drawer: CompanyHamburger(),
       body: SingleChildScrollView(
          child: Container(

@@ -32,13 +32,13 @@ class _ReviewTripScreenState extends State<ReviewTripScreen> {
   TripWithTemplate trips;
 
 
-  final MenuController _controller = Get.put(MenuController());
+  // final MenuController _controller = Get.put(MenuController());
   _ReviewTripScreenState(this.reservation_id, this.total_price, this.trips);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _controller.scaffoldkey,
+      // key: _controller.scaffoldkey,
       drawer: SideMenu(),
       body: SingleChildScrollView(
         child: Column(

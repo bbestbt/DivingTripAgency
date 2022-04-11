@@ -282,11 +282,11 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
-        print('name  start');
-        print(count);
-        print('name end');
+        // print('name  start');
+        // print(count);
+        // print('name end');
         divemasterValue[count - 1].firstName = value;
-        print(value);
+        // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your name");
         }
@@ -316,11 +316,11 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => lastname = newValue,
       onChanged: (value) {
-        print('lastname  start');
-        print(count);
-        print('lastname end');
+        // print('lastname  start');
+        // print(count);
+        // print('lastname end');
         divemasterValue[count - 1].lastName = value;
-           print(value);
+          //  print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your lastname");
         }

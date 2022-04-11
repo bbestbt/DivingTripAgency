@@ -22,11 +22,11 @@ final List<String> imgList = [
 ];
 
 class MainScreen extends StatelessWidget {
-  final MenuController _controller = Get.put(MenuController());
+  // final MenuController _controller = Get.put(MenuController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _controller.scaffoldkey,
+      // key: _controller.scaffoldkey,
       drawer: SideMenu(),
 
       body: SingleChildScrollView(
