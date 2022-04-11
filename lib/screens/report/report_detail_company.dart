@@ -329,7 +329,7 @@ class _InfoCardState extends State<InfoCard> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    CompanyCheckpayment(diver, widget.indexTrip, incomingTrips[widget.indexTrip].reservations,trips)));
+                    CompanyCheckpayment(diver, widget.indexTrip, trips[widget.indexTrip].reservations,trips)));
 
         // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   Navigator.push(

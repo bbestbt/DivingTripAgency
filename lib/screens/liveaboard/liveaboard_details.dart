@@ -41,13 +41,11 @@ enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 int reservation_id;
 double total_price;
 
-
 class _ChartData {
   _ChartData(this.day, this.temp);
   final String day;
   final double temp;
 }
-
 
 class LiveaboardDetailScreen extends StatefulWidget {
   int index;
@@ -94,7 +92,6 @@ class _LiveaboardDetailScreenState extends State<LiveaboardDetailScreen> {
 }
 
 class detail extends StatefulWidget {
-
   int index;
   List<TripWithTemplate> details;
   detail(int index, List<TripWithTemplate> details) {
@@ -125,13 +122,11 @@ class _detailState extends State<detail> {
     this.details = details;
   }
 
-
   @override
   void initState() {
     super.initState();
     ws = new WeatherFactory(key);
   }
-
 
   getData() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -197,10 +192,12 @@ class _detailState extends State<detail> {
     cityname = details[widget.index].tripTemplate.address.city;
 
     FocusScope.of(context).requestFocus(FocusNode());
-    var url = "http://api.openweathermap.org/geo/1.0/direct?q="+cityname+
-        "&limit=1&appid="+key;
+    var url = "http://api.openweathermap.org/geo/1.0/direct?q=" +
+        cityname +
+        "&limit=1&appid=" +
+        key;
     final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200){
+    if (response.statusCode == 200) {
       var jsonbody = json.decode(response.body);
       print(jsonbody);
       // var parsedData =
@@ -216,7 +213,6 @@ class _detailState extends State<detail> {
     }
     setState(() {
       _state = AppState.DOWNLOADING;
-
     });
 
     List<Weather> weather = await ws.fiveDayForecastByCityName(cityname);
@@ -229,20 +225,20 @@ class _detailState extends State<detail> {
     });
   }
 
-
   Widget contentFinishedDownload() {
     String Weathercode = "wi-day-snow";
 
     double txtsize;
-    if (kIsWeb){
+    if (kIsWeb) {
       txtsize = 20.0;
-    }else{
+    } else {
       txtsize = 15.0;
     }
-    tempdata =[];
-    for(int i=0;i<_data.length;i++) {
+    tempdata = [];
+    for (int i = 0; i < _data.length; i++) {
       //print(_data[0].date.day);
-      tempdata.add(_ChartData(_data[i].date.day.toString(), _data[i].temperature.celsius));
+      tempdata.add(_ChartData(
+          _data[i].date.day.toString(), _data[i].temperature.celsius));
       //tempdata.add(_ChartData("2", 36));
       //tempdata.add(_ChartData("3", 14));
       //tempdata.add(_ChartData("4", 36));
@@ -252,178 +248,156 @@ class _detailState extends State<detail> {
 
     //if _data[index].weatherDescription
     return Center(
-        child: Column(
-            children:[
-              Container(
-                  child: Text(_data[0].areaName, style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.w100,
-                  )
-                  )
+        child: Column(children: [
+      Container(
+          child: Text(_data[0].areaName,
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w100,
+              ))),
+      Container(
+        child: Column(children: [
+          //Initialize the chart widget
+          SfCartesianChart(
+              primaryXAxis: CategoryAxis(),
+              // Chart title
+              title: ChartTitle(text: 'Temperature forecast'),
+              // Enable legend
+              legend: Legend(isVisible: true),
+              // Enable tooltip
+              tooltipBehavior: TooltipBehavior(enable: true),
+              series: <ChartSeries<_ChartData, String>>[
+                LineSeries<_ChartData, String>(
+                    dataSource: tempdata,
+                    xValueMapper: (_ChartData sales, _) => sales.day,
+                    yValueMapper: (_ChartData sales, _) => sales.temp,
+                    name: 'Temp',
+                    // Enable data label
+                    dataLabelSettings: DataLabelSettings(isVisible: true))
+              ]),
+        ]),
+      ),
+      Container(
+        height: 150,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: _data.length,
+          itemBuilder: (context, index) {
+            return Container(
+                width: 100,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/' +
+                            _data[index].weatherIcon +
+                            '.jpg'),
+                        fit: BoxFit.cover),
+                    border: Border.all(color: Colors.indigo, width: 1)),
+                child: Column(children: [
+                  Image(
+                      image: NetworkImage('http://openweathermap.org/img/w/' +
+                          _data[index].weatherIcon +
+                          '.png')),
+                  Stack(children: [
+                    Text(DateFormat.Hm().format(_data[index].date).toString(),
+                        style: TextStyle(
+                            fontSize: txtsize / 1.5,
+                            fontWeight: FontWeight.w100,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 6
+                              ..color = Colors.black)),
+                    Text(DateFormat.Hm().format(_data[index].date).toString(),
+                        style: TextStyle(
+                            fontSize: txtsize / 1.5,
+                            fontWeight: FontWeight.w100,
+                            color: Colors.white))
+                  ]),
+                  Stack(children: [
+                    Text(DateFormat.E().format(_data[index].date).toString(),
+                        style: TextStyle(
+                            fontSize: txtsize / 1.5,
+                            fontWeight: FontWeight.w100,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 6
+                              ..color = Colors.black)),
+                    Text(DateFormat.E().format(_data[index].date).toString(),
+                        style: TextStyle(
+                            fontSize: txtsize / 1.5,
+                            fontWeight: FontWeight.w100,
+                            color: Colors.white))
+                  ]),
+                  Stack(children: [
+                    Text(_data[index].temperature.toString(),
+                        style: TextStyle(
+                            fontSize: txtsize / 1.5,
+                            fontWeight: FontWeight.w100,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 6
+                              ..color = Colors.black)),
+                    Text(_data[index].temperature.toString(),
+                        style: TextStyle(
+                            fontSize: txtsize / 1.5,
+                            fontWeight: FontWeight.w100,
+                            color: Colors.white))
+                  ]),
+                  Stack(children: [
+                    Text(_data[index].windGust.toString(),
+                        style: TextStyle(
+                            fontSize: txtsize / 1.5,
+                            fontWeight: FontWeight.w100,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 6
+                              ..color = Colors.black)),
+                    Text(_data[index].windGust.toString(),
+                        style: TextStyle(
+                            fontSize: txtsize / 1.5,
+                            fontWeight: FontWeight.w100,
+                            color: Colors.white))
+                  ]),
+                ]));
+          },
+          separatorBuilder: (context, index) {
+            return Divider();
+          },
+        ),
+      ),
+      Container(
+          decoration: BoxDecoration(color: Colors.greenAccent),
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: 70,
+          child: FlutterMap(
+            options: MapOptions(
+              center: LatLng(latc, lonc),
+              zoom: 13.0,
+            ),
+            layers: [
+              TileLayerOptions(
+                urlTemplate:
+                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                subdomains: ['a', 'b', 'c'],
+                attributionBuilder: (_) {
+                  return Text("© OpenStreetMap contributors");
+                },
               ),
-              Container(
-
-                child:
-                Column(children: [
-                  //Initialize the chart widget
-                  SfCartesianChart(
-                      primaryXAxis: CategoryAxis(),
-                      // Chart title
-                      title: ChartTitle(text: 'Temperature forecast'),
-                      // Enable legend
-                      legend: Legend(isVisible: true),
-                      // Enable tooltip
-                      tooltipBehavior: TooltipBehavior(enable: true),
-                      series: <ChartSeries<_ChartData, String>>[
-                        LineSeries<_ChartData, String>(
-                            dataSource: tempdata,
-                            xValueMapper: (_ChartData sales, _) => sales.day,
-                            yValueMapper: (_ChartData sales, _) => sales.temp,
-                            name: 'Temp',
-                            // Enable data label
-                            dataLabelSettings: DataLabelSettings(isVisible: true))
-                      ]),
-                ]),
-              ),
-              Container(
-                height:150,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _data.length,
-                  itemBuilder: (context, index) {
-                    return
-
-                      Container(
-                          width:100,
-                          decoration: BoxDecoration(
-
-                              image : DecorationImage(image: AssetImage('assets/images/'+_data[index].weatherIcon+'.jpg'),fit: BoxFit.cover
-
-                              ),
-                              border:Border.all(color:Colors.indigo,width:1)
-                          ),
-                          child:
-
-                          Column(
-                              children: [
-
-                                Image(image:NetworkImage('http://openweathermap.org/img/w/'+_data[index].weatherIcon+'.png')),
-
-
-                                Stack(
-                                    children: [
-                                      Text(DateFormat.Hm().format(
-                                          _data[index].date).toString(),
-                                          style: TextStyle(fontSize: txtsize/1.5,
-                                              fontWeight: FontWeight.w100,
-                                              foreground: Paint()
-                                                ..style = PaintingStyle.stroke
-                                                ..strokeWidth = 6
-                                                ..color = Colors.black)),
-                                      Text(DateFormat.Hm().format(
-                                          _data[index].date).toString(),
-                                          style: TextStyle(fontSize: txtsize/1.5,
-                                              fontWeight: FontWeight.w100,
-                                              color: Colors.white))
-                                    ]
-                                ),
-                                Stack(
-                                    children: [
-                                      Text(DateFormat.E().format(
-                                          _data[index].date).toString(),
-                                          style: TextStyle(fontSize: txtsize/1.5,
-                                              fontWeight: FontWeight.w100,
-                                              foreground: Paint()
-                                                ..style = PaintingStyle.stroke
-                                                ..strokeWidth = 6
-                                                ..color = Colors.black)),
-                                      Text(DateFormat.E().format(
-                                          _data[index].date).toString(),
-                                          style: TextStyle(fontSize: txtsize/1.5,
-                                              fontWeight: FontWeight.w100,
-                                              color: Colors.white))
-                                    ]
-                                ),
-
-                                Stack(
-                                    children: [
-                                      Text(_data[index].temperature.toString(),
-                                          style: TextStyle(fontSize: txtsize/1.5,
-                                              fontWeight: FontWeight.w100,
-                                              foreground: Paint()
-                                                ..style = PaintingStyle.stroke
-                                                ..strokeWidth = 6
-                                                ..color = Colors.black)),
-                                      Text(_data[index].temperature.toString(),
-                                          style: TextStyle(fontSize: txtsize/1.5,
-                                              fontWeight: FontWeight.w100,
-                                              color: Colors.white))
-                                    ]
-                                ),
-                                Stack(
-                                    children: [
-                                      Text(
-                                          _data[index].windGust.toString(),
-                                          style: TextStyle(fontSize: txtsize/1.5,
-                                              fontWeight: FontWeight.w100,
-                                              foreground: Paint()
-                                                ..style = PaintingStyle.stroke
-                                                ..strokeWidth = 6
-                                                ..color = Colors.black)),
-                                      Text(_data[index].windGust.toString(),
-                                          style: TextStyle(fontSize: txtsize/1.5,
-                                              fontWeight: FontWeight.w100,
-                                              color: Colors.white))
-                                    ]
-                                ),
-                              ]
-                          )
-
-                      );
-                  },
-                  separatorBuilder: (context, index) {
-                    return Divider();
-                  },
-                ),
-              ),
-              Container(
-                  decoration: BoxDecoration(color: Colors.greenAccent),
-                  width:MediaQuery.of(context).size.width * 0.9,
-                  height: 70,
-                  child:FlutterMap(
-                    options: MapOptions(
-                      center: LatLng(latc, lonc),
-                      zoom: 13.0,
+              MarkerLayerOptions(
+                markers: [
+                  Marker(
+                    width: 80.0,
+                    height: 80.0,
+                    point: LatLng(51.5, -0.09),
+                    builder: (ctx) => Container(
+                      child: FlutterLogo(),
                     ),
-                    layers: [
-                      TileLayerOptions(
-                        urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                        subdomains: ['a', 'b', 'c'],
-                        attributionBuilder: (_) {
-                          return Text("© OpenStreetMap contributors");
-                        },
-                      ),
-                      MarkerLayerOptions(
-                        markers: [
-                          Marker(
-                            width: 80.0,
-                            height: 80.0,
-                            point: LatLng(51.5, -0.09),
-                            builder: (ctx) =>
-                                Container(
-                                  child: FlutterLogo(),
-                                ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-              )
-            ]
-        )
-    );
+                  ),
+                ],
+              ),
+            ],
+          ))
+    ]));
   }
-
 
   Widget contentDownloading() {
     return Container(
@@ -456,9 +430,8 @@ class _detailState extends State<detail> {
   Widget _resultView() => _state == AppState.FINISHED_DOWNLOADING
       ? contentFinishedDownload()
       : _state == AppState.DOWNLOADING
-      ? contentDownloading()
-      : contentNotDownloaded();
-
+          ? contentDownloading()
+          : contentNotDownloaded();
 
   @override
   Widget build(BuildContext context) {
@@ -662,33 +635,33 @@ class _detailState extends State<detail> {
         ),
         Container(
             decoration: BoxDecoration(
-              // color: Colors.white,
+                // color: Colors.white,
                 color: Color(0xFFFF89cfef),
                 borderRadius: BorderRadius.circular(10)),
             width: MediaQuery.of(context).size.width,
             child: Expanded(
                 child: Container(
-                  child: Column(children: [
-                    Text("5-day weather forecast"),
-                    Text("Weather example"),
-                    Container(
-                      margin: EdgeInsets.all(5),
-                      child: TextButton(
-                        child: Text(
-                          'Fetch forecast',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: queryWeather,
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.blue)),
-                      ),
+              child: Column(children: [
+                Text("5-day weather forecast"),
+                Text("Weather example"),
+                Container(
+                  margin: EdgeInsets.all(5),
+                  child: TextButton(
+                    child: Text(
+                      'Fetch forecast',
+                      style: TextStyle(color: Colors.white),
                     ),
-                    Container(
-                      child: _resultView(),
-                    )
-
-                  ]),
-                )))
+                    onPressed: queryWeather,
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.blue)),
+                  ),
+                ),
+                Container(
+                  child: _resultView(),
+                )
+              ]),
+            )))
       ],
     );
   }
@@ -849,7 +822,15 @@ class _InfoCardState extends State<InfoCard> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       Cartlist.add([
-                        "5.jpg",
+                        details[indexDetail].tripTemplate.images.length == 0
+                            ? new Container(
+                                color: Colors.pink,
+                              )
+                            : Image.network(details[indexDetail]
+                                .tripTemplate
+                                .images[0]
+                                .link
+                                .toString()),
                         details[indexDetail].tripTemplate.name,
                         liveaboardDetial.liveaboard.name,
                         roomtypes[indexRoom].name,
@@ -900,8 +881,10 @@ class _InfoCardState extends State<InfoCard> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  PaymentScreen(reservation_id, total_price,details[indexDetail])));
+                              builder: (context) => PaymentScreen(
+                                  reservation_id,
+                                  total_price,
+                                  details[indexDetail])));
                     }
                   },
                 ),

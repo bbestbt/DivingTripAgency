@@ -30,7 +30,7 @@ import 'package:intl/intl.dart';
 GetPaymentByReservationResponse paymentDetial =
     new GetPaymentByReservationResponse();
 var payment;
-bool isChecked = paymentDetial.payment.verified;
+bool isChecked = false;
 
 class CompanyCheckpayment extends StatefulWidget {
   List<Diver> diver = [];
@@ -112,50 +112,64 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                 SizedBox(
                   height: 20,
                 ),
-                Center(
-                    child: Container(
-                        child: SingleChildScrollView(
-                  // scrollDirection: Axis.horizontal,
-                  child: Wrap(
-                      spacing: 20,
-                      runSpacing: 40,
-                      children: List.generate(
-                        trips[index].divers.length,
-                        (indexDiver) => Center(
-                          child: InfoCard(
-                            index,
-                            diver,
-                            reservation,
-                            indexDiver,
-                            trips,
+                trips[index].divers.length != 0
+                    ? Column(
+                        children: [
+                          Center(
+                              child: Container(
+                                  child: SingleChildScrollView(
+                            // scrollDirection: Axis.horizontal,
+                            child: Wrap(
+                                spacing: 20,
+                                runSpacing: 40,
+                                children: List.generate(
+                                  trips[index].divers.length,
+                                  (indexDiver) => Center(
+                                    child: InfoCard(
+                                      index,
+                                      diver,
+                                      reservation,
+                                      indexDiver,
+                                      trips,
+                                    ),
+                                  ),
+                                )),
+                          ))),
+                          SizedBox(
+                            height: 20,
                           ),
-                        ),
-                      )),
-                ))),
-                SizedBox(
-                  height: 20,
-                ),
-                FlatButton(
-                  onPressed: () async => {
-                    await updatePayment(),
-                    print('checking done'),
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => MainCompanyScreen(),
+                          FlatButton(
+                            onPressed: () async => {
+                              await updatePayment(),
+                              print('checking done'),
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      MainCompanyScreen(),
+                                ),
+                                (route) => false,
+                              )
+                            },
+                            color: Color(0xfff75BDFF),
+                            child: Text(
+                              'Confirm',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),SizedBox(
+                        height: 20,
                       ),
-                      (route) => false,
-                    )
-                  },
-                  color: Color(0xfff75BDFF),
-                  child: Text(
-                    'Confirm',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
+                        ],
+                      )
+                    : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(child: Text('No diver')),
+                        SizedBox(
+                            height: 20,
+                          ),
+                      ],
+                    ),
               ],
             ),
           ),
@@ -223,10 +237,10 @@ class _InfoCardState extends State<InfoCard> {
     payment = await stub.getPaymentByReservation(paymentrequest);
     // print(payment);
     paymentDetial = payment;
-    isChecked=paymentDetial.payment.verified;
-    print(isChecked);
+    isChecked = paymentDetial.payment.verified;
+    // print(isChecked);
     // print(paymentDetial.payment.paymentSlip.link.toString());
-    return [paymentDetial,isChecked];
+    return [paymentDetial];
   }
 
   @override
@@ -325,20 +339,27 @@ class _InfoCardState extends State<InfoCard> {
                                               SizedBox(
                                                 width: 20,
                                               ),
-                                              Checkbox(
-                                                checkColor: Colors.white,
-                                                fillColor: MaterialStateProperty
-                                                    .resolveWith(getColor),
-                                                value: isChecked,
-                                                onChanged: (bool value) {
-                                                  setState(() {
-                                                    // print('bf');
-                                                    isChecked = value;
-                                                    print(isChecked);
-                                                    // print('af');
-                                                  });
-                                                },
-                                              ),
+                                              StatefulBuilder(builder:
+                                                  (BuildContext context,
+                                                      StateSetter setState) {
+                                                return Checkbox(
+                                                  checkColor: Colors.white,
+                                                  fillColor:
+                                                      MaterialStateProperty
+                                                          .resolveWith(
+                                                              getColor),
+                                                  value: isChecked,
+                                                  onChanged: (bool value) {
+                                                    setState(() {
+                                                      // print(isChecked);
+                                                      // print('bf');
+                                                      isChecked = value;
+                                                      // print(isChecked);
+                                                      // print('af');
+                                                    });
+                                                  },
+                                                );
+                                              }),
                                             ],
                                           ));
                               } else {
