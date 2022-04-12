@@ -121,37 +121,47 @@ class _amenityFormState extends State<amenityForm> {
             color: Color(0xfffd4f0f0),
             //color: Color(0xFFFd0efff),
             child: Center(
-              child: DropdownButton(
+              child: DropdownButtonFormField(
                 isExpanded: true,
                 value: amenitySelected,
                 items: listAmenity,
                 dropdownColor: Color(0xfffd4f0f0),
                 hint: Text('  Select amenity'),
                 iconSize: 40,
+                validator: (value) {
+                  if (value == null) {
+                    addError(error: "Please select amenity");
+                    return "";
+                  }
+                  return null;
+                },
                 onChanged: (value) {
-                  setState(() {
-                    amenitySelected = value;
-                    // print(amenitySelected);
-                    // print(amenity);
-                    amenity.forEach((element) {
-                      // print(amenity);
-                      // print('d');
-                      // print(element);
-                      // print(amenityMap[element]);
+                  if (value != null) {
+                    removeError(error: "Please select amenity");
+                    setState(() {
+                      amenitySelected = value;
                       // print(amenitySelected);
-                      if (element == amenitySelected) {
-                        print(amenityMap[element]);
-                        blueValue[pinkcount - 1][bluecount - 1].name =
-                            amenitySelected;
-                        blueValue[pinkcount - 1][bluecount - 1].id =
-                            amenityMap[element];
-                      }
+                      // print(amenity);
+                      amenity.forEach((element) {
+                        // print(amenity);
+                        // print('d');
+                        // print(element);
+                        // print(amenityMap[element]);
+                        // print(amenitySelected);
+                        if (element == amenitySelected) {
+                          print(amenityMap[element]);
+                          blueValue[pinkcount - 1][bluecount - 1].name =
+                              amenitySelected;
+                          blueValue[pinkcount - 1][bluecount - 1].id =
+                              amenityMap[element];
+                        }
+                      });
+
+                      print(blueValue);
+                      // print('------');
+                      // print(value);
                     });
-                    
-                    print(blueValue);
-                    // print('------');
-                    // print(value);
-                  });
+                  }
                 },
               ),
             ),

@@ -298,17 +298,27 @@ class _addHotelState extends State<addHotel> {
           Container(
             color: Colors.white,
             child: Center(
-              child: DropdownButton(
+              child: DropdownButtonFormField(
                 isExpanded: true,
                 value: starSelected,
                 items: listStar,
                 hint: Text('  Select star'),
                 iconSize: 40,
+                validator: (value) {
+                  if (value == null) {
+                    addError(error: "Please select star");
+                    return "";
+                  }
+                  return null;
+                },
                 onChanged: (value) {
-                  setState(() {
-                    starSelected = value;
-                    print(value);
-                  });
+                  if (value != null) {
+                    removeError(error: "Please select star");
+                    setState(() {
+                      starSelected = value;
+                      print(value);
+                    });
+                  }
                 },
               ),
             ),

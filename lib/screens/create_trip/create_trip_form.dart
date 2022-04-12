@@ -187,7 +187,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   Widget build(BuildContext context) {
     //loadData();
     return Form(
-       key: _formKey,
+      key: _formKey,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
@@ -286,17 +286,27 @@ class _CreateTripFormState extends State<CreateTripForm> {
           Container(
             color: Colors.white,
             child: Center(
-              child: DropdownButton(
+              child: DropdownButtonFormField(
                 isExpanded: true,
                 value: divemasterSelected,
                 items: listDivemaster,
                 hint: Text('  Select dive master'),
                 iconSize: 40,
+                validator: (value) {
+                  if (value == null) {
+                    addError(error: "Please select dive master");
+                    return "";
+                  }
+                  return null;
+                },
                 onChanged: (value) {
-                  setState(() {
-                    divemasterSelected = value;
-                    print(value);
-                  });
+                  if (value != null) {
+                    removeError(error: "Please select dive master");
+                    setState(() {
+                      divemasterSelected = value;
+                      print(value);
+                    });
+                  }
                 },
               ),
             ),
@@ -312,16 +322,14 @@ class _CreateTripFormState extends State<CreateTripForm> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreDiveSite(
-              this.pinkValue,this.errors
-            ),
+            child: AddMoreDiveSite(this.pinkValue, this.errors),
           ),
           SizedBox(height: 20),
           Container(
               width: MediaQuery.of(context).size.width / 1.5,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Triptemplate(this.triptemplate,this.errors)),
+              child: Triptemplate(this.triptemplate, this.errors)),
 
           SizedBox(height: 20),
           FormError(errors: errors),

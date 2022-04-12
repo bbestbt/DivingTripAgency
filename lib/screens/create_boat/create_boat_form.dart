@@ -155,7 +155,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
     return Form(
-       key: _formKey,
+      key: _formKey,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
@@ -186,7 +186,6 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                   child: buildCityFormField()),
             ],
           ),
-
           SizedBox(height: 20),
           Row(
             children: [
@@ -240,20 +239,20 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
           SizedBox(height: 20),
           FormError(errors: errors),
           FlatButton(
-            
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-              AddBoat(),
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
-            },},
+                  AddBoat(),
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => MainCompanyScreen(),
+                    ),
+                    (route) => false,
+                  )
+                },
+            },
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',
@@ -296,6 +295,10 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   TextFormField buildBoatCapacityFormField() {
     return TextFormField(
       controller: _controllerCapacity,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => boat_capacity = newValue,
       onChanged: (value) {
@@ -350,6 +353,10 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   TextFormField buildDiverCapacityFormField() {
     return TextFormField(
       controller: _controllerDivercapacity,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => diver_capacity = newValue,
       onChanged: (value) {
@@ -377,6 +384,10 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   TextFormField buildStaffCapacityFormField() {
     return TextFormField(
       controller: _controllerStaffcapacity,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => staff_capacity = newValue,
       onChanged: (value) {

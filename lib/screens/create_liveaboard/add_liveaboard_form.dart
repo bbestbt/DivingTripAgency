@@ -387,6 +387,10 @@ class _addLiveaboardState extends State<addLiveaboard> {
   TextFormField buildLengthFormField() {
     return TextFormField(
       controller: _controllerLength,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => length = newValue,
       onChanged: (value) {
@@ -414,6 +418,10 @@ class _addLiveaboardState extends State<addLiveaboard> {
   TextFormField buildWidthFormField() {
     return TextFormField(
       controller: _controllerWidth,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => liveaboard_description = newValue,
       onChanged: (value) {
@@ -441,6 +449,10 @@ class _addLiveaboardState extends State<addLiveaboard> {
   TextFormField buildStaffRoomFormField() {
     return TextFormField(
       controller: _controllerStaffroom,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => staff_room = newValue,
       onChanged: (value) {
@@ -468,6 +480,10 @@ class _addLiveaboardState extends State<addLiveaboard> {
   TextFormField buildDiverRoomFormField() {
     return TextFormField(
       controller: _controllerDiverroom,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => diver_room = newValue,
       onChanged: (value) {
@@ -495,6 +511,10 @@ class _addLiveaboardState extends State<addLiveaboard> {
   TextFormField buildTotalCapacityFormField() {
     return TextFormField(
       controller: _controllerTotalcapacity,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => total_capacity = newValue,
       onChanged: (value) {

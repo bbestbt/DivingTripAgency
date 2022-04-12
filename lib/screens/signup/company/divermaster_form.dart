@@ -160,25 +160,35 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
             color: Colors.white,
             //color: Color(0xFFFd0efff),
             child: Center(
-              child: DropdownButton(
+              child: DropdownButtonFormField(
                 isExpanded: true,
                 value: levelSelected,
                 items: listLevel,
                 hint: Text('  Select level'),
                 iconSize: 40,
+                validator: (value) {
+                  if (value == null) {
+                    addError(error: "Please enter level");
+                    return "";
+                  }
+                  return null;
+                },
                 onChanged: (value) {
                   //   divemasterValue[count - 1].level = value;
-                  setState(() {
-                    levelSelected = value;
-                    LevelType.values.forEach((levelType) {
-                      if (levelTypeMap[levelType.toString()] ==
-                          int.parse(levelSelected)) {
-                        divemasterValue[count - 1].level = levelType;
-                      }
+                  if (value != null) {
+                    removeError(error: "Please enter level");
+                    setState(() {
+                      levelSelected = value;
+                      LevelType.values.forEach((levelType) {
+                        if (levelTypeMap[levelType.toString()] ==
+                            int.parse(levelSelected)) {
+                          divemasterValue[count - 1].level = levelType;
+                        }
+                      });
+                      print('------');
+                      print(value);
                     });
-                    print('------');
-                    print(value);
-                  });
+                  }
                 },
               ),
             ),

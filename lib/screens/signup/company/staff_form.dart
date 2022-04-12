@@ -92,23 +92,33 @@ class _StaffFormState extends State<StaffForm> {
             color: Colors.white,
             //color: Color(0xFFFd0efff),
             child: Center(
-              child: DropdownButton(
+              child: DropdownButtonFormField(
                 isExpanded: true,
                 value: levelSelected,
                 items: listGender,
                 hint: Text('  Select gender'),
                 iconSize: 40,
+                validator: (value) {
+                  if (value == null) {
+                    addError(error: "Please select gender");
+                    return "";
+                  }
+                  return null;
+                },
                 onChanged: (value) {
-                  setState(() {
-                    levelSelected = value;
-                    GenderType.values.forEach((genderType) {
-                      if (genderTypeMap[genderType.toString()] ==
-                          int.parse(levelSelected)) {
-                        staffValue[count - 1].gender = genderType;
-                      }
+                  if (value != null) {
+                    removeError(error: "Please select gender");
+                    setState(() {
+                      levelSelected = value;
+                      GenderType.values.forEach((genderType) {
+                        if (genderTypeMap[genderType.toString()] ==
+                            int.parse(levelSelected)) {
+                          staffValue[count - 1].gender = genderType;
+                        }
+                      });
+                      print(value);
                     });
-                    print(value);
-                  });
+                  }
                 },
               ),
             ),
