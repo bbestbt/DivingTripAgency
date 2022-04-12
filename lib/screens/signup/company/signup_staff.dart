@@ -1,7 +1,10 @@
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
 import 'package:diving_trip_agency/form_error.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
@@ -16,7 +19,7 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 
 class SignupStaff extends StatefulWidget {
-   List<String> errors = [];
+  List<String> errors = [];
   @override
   State<SignupStaff> createState() => _SignupStaffState(this.errors);
 }
@@ -27,6 +30,28 @@ class _SignupStaffState extends State<SignupStaff> {
   List<String> errors = [];
   final _formKey = GlobalKey<FormState>();
   _SignupStaffState(this.errors);
+  GetProfileResponse user_profile = new GetProfileResponse();
+  var profile;
+  getProfile() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final pf = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    profile = await pf.getProfile(new Empty());
+    // return profile;
+
+    if (profile.hasAgency()) {
+      user_profile = profile;
+      return user_profile;
+    }
+  }
+
   void addStaff() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -83,32 +108,51 @@ class _SignupStaffState extends State<SignupStaff> {
                 SizedBox(
                   height: 30,
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 1.5,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: AddMoreStaff(this.staffValue, this.errors),
-                ),
-                SizedBox(height: 20),
-                FormError(errors: errors),
-                FlatButton(
-                  onPressed: () => {
-                    if (_formKey.currentState.validate())
-                      {
-                        addStaff(),
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MainCompanyScreen()))
+
+                SizedBox(
+                  width: 1110,
+                  child: FutureBuilder(
+                    future: getProfile(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: AddMoreStaff(this.staffValue, this.errors),
+                            ),
+                            SizedBox(height: 20),
+                            FormError(errors: errors),
+                            FlatButton(
+                              onPressed: () => {
+                                if (_formKey.currentState.validate())
+                                  {
+                                    addStaff(),
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MainCompanyScreen()))
+                                  }
+                              },
+                              color: Color(0xfff75BDFF),
+                              child: Text(
+                                'Confirm',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Center(child: Text('User is not logged in'));
                       }
-                  },
-                  color: Color(0xfff75BDFF),
-                  child: Text(
-                    'Confirm',
-                    style: TextStyle(fontSize: 15),
+                    },
                   ),
                 ),
+
                 SizedBox(height: 30),
                 // FlatButton(
                 //   onPressed: () => {print(staffValue), print(staffValue.length)},

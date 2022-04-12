@@ -28,6 +28,8 @@ List<ReportTrip> incomingTrips = [];
 List<Diver> incomingDiver = [];
 List<Reservation> reservationIncoming = [];
 List<Reservation> reservation = [];
+GetProfileResponse user_profile = new GetProfileResponse();
+var profile;
 
 class CompanyReport extends StatefulWidget {
   @override
@@ -35,6 +37,26 @@ class CompanyReport extends StatefulWidget {
 }
 
 class _CompanyReportState extends State<CompanyReport> {
+  getProfile() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final pf = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    profile = await pf.getProfile(new Empty());
+    // return profile;
+
+    if (profile.hasAgency()) {
+      user_profile = profile;
+      return user_profile;
+    }
+  }
+
   getValidTrip() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -182,114 +204,134 @@ class _CompanyReportState extends State<CompanyReport> {
             color: Color(0xFFFF78a2cc),
           ),
           SizedBox(height: 40),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
-            constraints: BoxConstraints(maxWidth: 1110),
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Incoming Trips',
-                  style: TextStyle(fontSize: 20),
-                )),
-          ),
           SizedBox(
             width: 1110,
             child: FutureBuilder(
-              future: getIncomingTrip(),
+              future: getProfile(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Center(
-                      child: Container(
-                          child: Wrap(
-                              spacing: 20,
-                              runSpacing: 40,
-                              children: List.generate(
-                                incomingTrips.length,
-                                (indexIncoming) => Center(
-                                  child: IncomingCard(
-                                    indexIncoming,
-                                  ),
-                                ),
-                              ))));
+                  return Column(children: [
+                    user_profile.hasAgency()
+                        ? Container(
+                            margin: EdgeInsets.symmetric(vertical: 20),
+                            constraints: BoxConstraints(maxWidth: 1110),
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Incoming Trips',
+                                  style: TextStyle(fontSize: 20),
+                                )),
+                          )
+                        : Text('No data'),
+                    SizedBox(
+                      width: 1110,
+                      child: FutureBuilder(
+                        future: getIncomingTrip(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Center(
+                                child: Container(
+                                    child: Wrap(
+                                        spacing: 20,
+                                        runSpacing: 40,
+                                        children: List.generate(
+                                          incomingTrips.length,
+                                          (indexIncoming) => Center(
+                                            child: IncomingCard(
+                                              indexIncoming,
+                                            ),
+                                          ),
+                                        ))));
+                          } else {
+                            return Text('No data');
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 100,
+                    ),
+                    user_profile.hasAgency()
+                        ? Container(
+                            margin: EdgeInsets.symmetric(vertical: 20),
+                            constraints: BoxConstraints(maxWidth: 1110),
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Trips',
+                                  style: TextStyle(fontSize: 20),
+                                )),
+                          )
+                        : Text(''),
+                    SizedBox(
+                      width: 1110,
+                      child: FutureBuilder(
+                        future: getValidTrip(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Center(
+                                child: Container(
+                                    child: Wrap(
+                                        spacing: 20,
+                                        runSpacing: 40,
+                                        children: List.generate(
+                                          trips.length,
+                                          (indexTrip) => Center(
+                                            child: InfoCard(
+                                              indexTrip,
+                                            ),
+                                          ),
+                                        ))));
+                          } else {
+                            return Text('No data');
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 100,
+                    ),
+                    user_profile.hasAgency()
+                        ? Container(
+                            margin: EdgeInsets.symmetric(vertical: 20),
+                            constraints: BoxConstraints(maxWidth: 1110),
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Ended trips',
+                                  style: TextStyle(fontSize: 20),
+                                )),
+                          )
+                        : Text(''),
+                    SizedBox(
+                      width: 1110,
+                      child: FutureBuilder(
+                        future: getEndedTrip(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Center(
+                                // child: Text('test'),
+                                child: Container(
+                                    child: Wrap(
+                                        spacing: 20,
+                                        runSpacing: 40,
+                                        children: List.generate(
+                                          endedTrips.length,
+                                          (indexEndedTrip) => Center(
+                                            child: InfoCardEnded(
+                                              indexEndedTrip,
+                                            ),
+                                          ),
+                                        ))));
+                          } else {
+                            return Text('No data');
+                          }
+                        },
+                      ),
+                    ),
+                  ]);
                 } else {
-                  return Text('No data');
-                }
-              },
-            ),
-          ),
-          SizedBox(
-            height: 100,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
-            constraints: BoxConstraints(maxWidth: 1110),
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Trips',
-                  style: TextStyle(fontSize: 20),
-                )),
-          ),
-          SizedBox(
-            width: 1110,
-            child: FutureBuilder(
-              future: getValidTrip(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Center(
-                      child: Container(
-                          child: Wrap(
-                              spacing: 20,
-                              runSpacing: 40,
-                              children: List.generate(
-                                trips.length,
-                                (indexTrip) => Center(
-                                  child: InfoCard(
-                                    indexTrip,
-                                  ),
-                                ),
-                              ))));
-                } else {
-                  return Text('No data');
-                }
-              },
-            ),
-          ),
-          SizedBox(
-            height: 100,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
-            constraints: BoxConstraints(maxWidth: 1110),
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Ended trips',
-                  style: TextStyle(fontSize: 20),
-                )),
-          ),
-          SizedBox(
-            width: 1110,
-            child: FutureBuilder(
-              future: getEndedTrip(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Center(
-                      // child: Text('test'),
-                      child: Container(
-                          child: Wrap(
-                              spacing: 20,
-                              runSpacing: 40,
-                              children: List.generate(
-                                endedTrips.length,
-                                (indexEndedTrip) => Center(
-                                  child: InfoCardEnded(
-                                    indexEndedTrip,
-                                  ),
-                                ),
-                              ))));
-                } else {
-                  return Text('No data');
+                  return Center(child: Text('User is not logged in'));
                 }
               },
             ),
@@ -328,8 +370,11 @@ class _InfoCardState extends State<InfoCard> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    CompanyCheckpayment(diver, widget.indexTrip, trips[widget.indexTrip].reservations,trips)));
+                builder: (context) => CompanyCheckpayment(
+                    diver,
+                    widget.indexTrip,
+                    trips[widget.indexTrip].reservations,
+                    trips)));
 
         // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   Navigator.push(
@@ -646,7 +691,10 @@ class _IncomingCardState extends State<IncomingCard> {
             context,
             MaterialPageRoute(
                 builder: (context) => CompanyCheckpayment(
-                    incomingDiver, widget.indexIncoming, incomingTrips[widget.indexIncoming].reservations,incomingTrips)));
+                    incomingDiver,
+                    widget.indexIncoming,
+                    incomingTrips[widget.indexIncoming].reservations,
+                    incomingTrips)));
         //   // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
         //   //   Navigator.push(
         //   //       context,

@@ -1,7 +1,10 @@
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
 import 'package:diving_trip_agency/form_error.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pbenum.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
@@ -27,7 +30,29 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
   List<String> errors = [];
   final _formKey = GlobalKey<FormState>();
   _SignupDiveMasterState(this.errors);
-  // final MenuCompany _controller = Get.put(MenuCompany());
+  // final MenuCompany _controller = Get.put(MenuCompany());'
+  GetProfileResponse user_profile = new GetProfileResponse();
+  var profile;
+  getProfile() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final pf = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    profile = await pf.getProfile(new Empty());
+    // return profile;
+
+    if (profile.hasAgency()) {
+      user_profile = profile;
+      return user_profile;
+    }
+  }
+
   void addDivemaster() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -83,31 +108,48 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
                 SizedBox(
                   height: 30,
                 ),
-                Container(
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child:
-                        AddmoreDiverMaster(this.divemasterValue, this.errors)),
-                SizedBox(height: 20),
-                FormError(errors: errors),
 
-                FlatButton(
-                  onPressed: () => {
-                    if (_formKey.currentState.validate())
-                      {
-                        addDivemaster(),
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MainCompanyScreen()))
+                SizedBox(
+                  width: 1110,
+                  child: FutureBuilder(
+                    future: getProfile(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(
+                          children: [
+                            Container(
+                                width: MediaQuery.of(context).size.width / 1.5,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: AddmoreDiverMaster(
+                                    this.divemasterValue, this.errors)),
+                            SizedBox(height: 20),
+                            FormError(errors: errors),
+                            FlatButton(
+                              onPressed: () => {
+                                if (_formKey.currentState.validate())
+                                  {
+                                    addDivemaster(),
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MainCompanyScreen()))
+                                  }
+                              },
+                              color: Color(0xfff75BDFF),
+                              child: Text(
+                                'Confirm',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return Center(child: Text('User is not logged in'));
                       }
-                  },
-                  color: Color(0xfff75BDFF),
-                  child: Text(
-                    'Confirm',
-                    style: TextStyle(fontSize: 15),
+                    },
                   ),
                 ),
 
