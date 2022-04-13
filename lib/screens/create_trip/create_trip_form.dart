@@ -209,11 +209,19 @@ class _CreateTripFormState extends State<CreateTripForm> {
                             firstDate: DateTime.now(),
                             lastDate: DateTime(2023))
                         .then((date) => {
-                              setState(() {
-                                var timeStamp =
-                                    print(Timestamp.fromDateTime(date));
-                                from = date;
-                              })
+                              if (date != null)
+                                {
+                                  removeError(error: "Please select from date"),
+                                  setState(() {
+                                    var timeStamp =
+                                        print(Timestamp.fromDateTime(date));
+                                    from = date;
+                                  })
+                                }
+                              else if (date == null)
+                                {
+                                  addError(error: "Please select from date"),
+                                }
                             });
                   }),
             ],
@@ -236,11 +244,19 @@ class _CreateTripFormState extends State<CreateTripForm> {
                             firstDate: from,
                             lastDate: DateTime(2023))
                         .then((date) => {
-                              setState(() {
-                                var timeStamp =
-                                    print(Timestamp.fromDateTime(date));
-                                to = date;
-                              })
+                              if (date != null)
+                                {
+                                  removeError(error: "Please select to date"),
+                                  setState(() {
+                                    var timeStamp =
+                                        print(Timestamp.fromDateTime(date));
+                                    to = date;
+                                  })
+                                }
+                              else if (date == null)
+                                {
+                                  addError(error: "Please select to date"),
+                                }
                             });
                   }),
             ],
@@ -272,11 +288,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
                             firstDate: DateTime.now(),
                             lastDate: from.subtract(Duration(days: 1)))
                         .then((date) => {
-                              setState(() {
-                                var timeStamp =
-                                    print(Timestamp.fromDateTime(date));
-                                last = date;
-                              })
+                              if (date != null)
+                                {
+                                  removeError(
+                                      error:
+                                          "Please select last reservation date"),
+                                  setState(() {
+                                    var timeStamp =
+                                        print(Timestamp.fromDateTime(date));
+                                    last = date;
+                                  })
+                                }
+                              else if (date == null)
+                                {
+                                  addError(
+                                      error:
+                                          "Please select last reservation date"),
+                                }
                             });
                   }),
             ],
@@ -338,14 +366,30 @@ class _CreateTripFormState extends State<CreateTripForm> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-                  AddTrip(),
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => MainCompanyScreen(),
-                    ),
-                    (route) => false,
-                  )
+                  if (from == null)
+                    {
+                      addError(error: "Please select from date"),
+                    }
+                  else if (to == null)
+                    {
+                      addError(error: "Please select to date"),
+                    }
+                  else if (last == null)
+                    {
+                      addError(error: "Please select last reservation date"),
+                    }
+                  else
+                    {
+                      AddTrip(),
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              MainCompanyScreen(),
+                        ),
+                        (route) => false,
+                      )
+                    }
                 }
             },
             color: Color(0xfff75BDFF),

@@ -266,11 +266,19 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now())
                         .then((date) => {
-                              setState(() {
-                                var timeStamp =
-                                    print(Timestamp.fromDateTime(date));
-                                _dateTime = date;
-                              })
+                              if (date != null)
+                                {
+                                  removeError(error: "Please select date"),
+                                  setState(() {
+                                    var timeStamp =
+                                        print(Timestamp.fromDateTime(date));
+                                    _dateTime = date;
+                                  })
+                                }
+                              else if (date == null)
+                                {
+                                  addError(error: "Please select date"),
+                                }
                             });
                   }),
             ],
@@ -355,13 +363,23 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-                  //_formKey.currentState.save()
-                  //  print(_controllerUsername.text),
-                  //   print( _dateTime.toString()),
-                  sendDiver(),
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainScreen()))
+                  if (_dateTime == null)
+                    {
+                      addError(error: "Please select date"),
+                    }
+                    else if (DiverImage==null||DiveBack==null){
+                       addError(error: "Please upload image"),
+                    }
+                  else
+                    {
+                      sendDiver(),
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MainScreen()))
+                    }
                 }
+              //_formKey.currentState.save()
+              //  print(_controllerUsername.text),
+              //   print( _dateTime.toString()),
             },
             color: Color(0xfff75BDFF),
             child: Text(

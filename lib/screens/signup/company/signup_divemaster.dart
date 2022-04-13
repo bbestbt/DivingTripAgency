@@ -71,6 +71,8 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
       divemaster.firstName = divemasterValue[i].firstName;
       divemaster.lastName = divemasterValue[i].lastName;
       divemaster.level = divemasterValue[i].level;
+      divemaster.documents.add(divemasterValue[i].documents[0]);
+      divemaster.documents.add(divemasterValue[i].documents[1]);
       var divemasterRequest = AddDiveMasterRequest();
       divemasterRequest.diveMaster = divemaster;
       print('test master');

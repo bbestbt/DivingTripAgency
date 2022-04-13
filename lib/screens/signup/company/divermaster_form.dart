@@ -115,6 +115,9 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
         CardFile = io.File(ca.path);
       });
     }
+    if (CardFile == null) {
+      addError(error: "Please upload image");
+    }
   }
 
   _getCardBack() async {
@@ -135,6 +138,9 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       setState(() {
         CardFileBack = io.File(cb.path);
       });
+    }
+    if (CardFileBack == null) {
+      addError(error: "Please upload image");
     }
     //setState(() {
     //CardFileBack = io.File(pickedFile.path);

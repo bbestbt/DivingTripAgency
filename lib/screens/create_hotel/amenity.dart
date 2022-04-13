@@ -149,7 +149,7 @@ class _amenityFormState extends State<amenityForm> {
                         // print(amenityMap[element]);
                         // print(amenitySelected);
                         if (element == amenitySelected) {
-                          print(amenityMap[element]);
+                          // print(amenityMap[element]);
                           blueValue[pinkcount - 1][bluecount - 1].name =
                               amenitySelected;
                           blueValue[pinkcount - 1][bluecount - 1].id =
@@ -157,7 +157,7 @@ class _amenityFormState extends State<amenityForm> {
                         }
                       });
 
-                      print(blueValue);
+                      // print(blueValue);
                       // print('------');
                       // print(value);
                     });

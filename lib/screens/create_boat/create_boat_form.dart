@@ -243,14 +243,22 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-                  AddBoat(),
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => MainCompanyScreen(),
-                    ),
-                    (route) => false,
-                  )
+                  if (boatimg == null)
+                    {
+                      addError(error: "Please upload image"),
+                    }
+                  else
+                    {
+                      AddBoat(),
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              MainCompanyScreen(),
+                        ),
+                        (route) => false,
+                      )
+                    }
                 },
             },
             color: Color(0xfff75BDFF),

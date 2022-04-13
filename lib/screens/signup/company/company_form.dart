@@ -321,11 +321,17 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-                  sendCompany(),
+                    if (docFile==null||imageFile==null){
+                       addError(error: "Please upload image"),
+                    }
+
+                 else{
+                    sendCompany(),
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => MainCompanyScreen())),
+                 }
                 }
             },
             color: Color(0xfff75BDFF),

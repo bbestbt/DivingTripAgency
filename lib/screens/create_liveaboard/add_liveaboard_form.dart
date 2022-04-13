@@ -293,6 +293,11 @@ class _addLiveaboardState extends State<addLiveaboard> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
+                  if (liveaboardimg == null)
+                    {
+                      addError(error: "Please upload image"),
+                    }
+                 else{
                   sendLiveaboard(),
                   Navigator.pushAndRemoveUntil(
                     context,
@@ -301,6 +306,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                     ),
                     (route) => false,
                   )
+                 }
                 }
             },
             color: Color(0xfff75BDFF),

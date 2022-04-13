@@ -347,7 +347,12 @@ class _addHotelState extends State<addHotel> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-                  sendHotel(),
+                  if (hotelimg == null)
+                    {
+                      addError(error: "Please upload image"),
+                    }
+                 else{
+                    sendHotel(),
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
@@ -355,6 +360,7 @@ class _addHotelState extends State<addHotel> {
                     ),
                     (route) => false,
                   )
+                 }
                 }
             },
             color: Color(0xfff75BDFF),
