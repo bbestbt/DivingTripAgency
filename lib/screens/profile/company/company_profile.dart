@@ -96,166 +96,195 @@ class _CompanyProfileState extends State<CompanyProfile> {
           SizedBox(
             height: 50,
           ),
+
           SizedBox(
+            width: 1110,
             child: FutureBuilder(
               future: getProfile(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Center(
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            'Company name : ' +
-                                user_profile.agency.name.toString(),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'E-mail : ' +
-                                user_profile.agency.account.email.toString(),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Phone number : ' +
-                                user_profile.agency.phone.toString(),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Address1 : ' +
-                                user_profile.agency.address.addressLine1
-                                    .toString(),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Address2 : ' +
-                                user_profile.agency.address.addressLine2
-                                    .toString(),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'City : ' +
-                                    user_profile.agency.address.city.toString(),
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                'Country : ' +
-                                    user_profile.agency.address.country
-                                        .toString(),
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Region : ' +
-                                    user_profile.agency.address.region
-                                        .toString(),
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                'Postal code : ' +
-                                    user_profile.agency.address.postcode
-                                        .toString(),
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: RaisedButton(
-                                color: Colors.blue[300],
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Text(
-                                  'Edit',
+                  return Column(
+                    children: [
+                      SizedBox(
+                        child: FutureBuilder(
+                          future: getProfile(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Center(
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Company name : ' +
+                                            user_profile.agency.name.toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        'E-mail : ' +
+                                            user_profile.agency.account.email
+                                                .toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        'Phone number : ' +
+                                            user_profile.agency.phone
+                                                .toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        'Address1 : ' +
+                                            user_profile
+                                                .agency.address.addressLine1
+                                                .toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        'Address2 : ' +
+                                            user_profile
+                                                .agency.address.addressLine2
+                                                .toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'City : ' +
+                                                user_profile.agency.address.city
+                                                    .toString(),
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text(
+                                            'Country : ' +
+                                                user_profile
+                                                    .agency.address.country
+                                                    .toString(),
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Region : ' +
+                                                user_profile
+                                                    .agency.address.region
+                                                    .toString(),
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Text(
+                                            'Postal code : ' +
+                                                user_profile
+                                                    .agency.address.postcode
+                                                    .toString(),
+                                            style: TextStyle(fontSize: 18),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: RaisedButton(
+                                            color: Colors.blue[300],
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Text(
+                                              'Edit',
+                                            ),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EditCompanyScreen()));
+                                            }),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditCompanyScreen()));
-                                }),
-                          ),
-                        ],
+                              );
+                            } else {
+                              return Text('User is not logged in.');
+                            }
+                          },
+                        ),
                       ),
-                    ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Trip history',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: 1110,
+                        child: FutureBuilder(
+                          future: getData(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Center(
+                                  child: Container(
+                                      child: Wrap(
+                                          spacing: 20,
+                                          runSpacing: 40,
+                                          children: List.generate(
+                                            trips.length,
+                                            (index) => Center(
+                                              child: InfoCard(
+                                                index: index,
+                                              ),
+                                            ),
+                                          ))));
+                            } else {
+                              return Align(
+                                  alignment: Alignment.center,
+                                  child: Text('No data'));
+                            }
+                          },
+                        ),
+                      ),
+                    ],
                   );
                 } else {
-                  return Text('User is not logged in.');
+                  return Center(child: Text('User is not logged in'));
                 }
               },
             ),
           ),
 
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Trip history',
-            style: TextStyle(fontSize: 18),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: 1110,
-            child: FutureBuilder(
-              future: getData(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Center(
-                      child: Container(
-                          child: Wrap(
-                              spacing: 20,
-                              runSpacing: 40,
-                              children: List.generate(
-                                trips.length,
-                                (index) => Center(
-                                  child: InfoCard(
-                                    index: index,
-                                  ),
-                                ),
-                              ))));
-                } else {
-                  return Align(
-                      alignment: Alignment.center, child: Text('No data'));
-                }
-              },
-            ),
-          ),
           SizedBox(
             height: 50,
           ),
@@ -327,8 +356,9 @@ class _InfoCardState extends State<InfoCard> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text('End date : ' +  DateFormat("dd/MM/yyyy").format(
-                            trips[widget.index].toDate.toDateTime())),
+                        Text('End date : ' +
+                            DateFormat("dd/MM/yyyy").format(
+                                trips[widget.index].toDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),

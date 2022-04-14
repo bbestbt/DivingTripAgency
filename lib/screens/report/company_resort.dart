@@ -54,7 +54,7 @@ class CompanyResort extends StatefulWidget {
 }
 
 class _CompanyResortState extends State<CompanyResort> {
-  final MenuController _controller = Get.put(MenuController());
+  // final MenuController _controller = Get.put(MenuController());
   int index;
   List<ReportTrip> details;
   _CompanyResortState(int index, List<ReportTrip> details) {
@@ -65,7 +65,7 @@ class _CompanyResortState extends State<CompanyResort> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _controller.scaffoldkey,
+        // key: _controller.scaffoldkey,
         drawer: SideMenu(),
         body: SingleChildScrollView(
           child: Center(

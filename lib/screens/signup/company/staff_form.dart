@@ -7,12 +7,15 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 class StaffForm extends StatefulWidget {
   int count;
   List<Staff> staffValue;
-  StaffForm(int count, List<Staff> staffValue) {
+  List<String> errors = [];
+  StaffForm(int count, List<Staff> staffValue, List<String> errors) {
     this.count = count;
     this.staffValue = staffValue;
+    this.errors = errors;
   }
   @override
-  _StaffFormState createState() => _StaffFormState(this.count, this.staffValue);
+  _StaffFormState createState() =>
+      _StaffFormState(this.count, this.staffValue, this.errors);
 }
 
 class _StaffFormState extends State<StaffForm> {
@@ -25,12 +28,13 @@ class _StaffFormState extends State<StaffForm> {
   Map<String, int> genderTypeMap = {};
   List<DropdownMenuItem<String>> listGender = [];
   List<GenderType> gender = [GenderType.MALE, GenderType.FEMALE];
-  _StaffFormState(int count, List<Staff> staffValue) {
+  List<String> errors = [];
+  _StaffFormState(int count, List<Staff> staffValue, List<String> errors) {
     this.count = count;
     this.staffValue = staffValue;
+    this.errors = errors;
   }
 
-  final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerLastname = TextEditingController();
   final TextEditingController _controllerPosition = TextEditingController();
@@ -66,7 +70,7 @@ class _StaffFormState extends State<StaffForm> {
       genderTypeMap[value] = i;
     }
 
-    print(genderTypeMap);
+    // print(genderTypeMap);
   }
 
   @override
@@ -88,23 +92,33 @@ class _StaffFormState extends State<StaffForm> {
             color: Colors.white,
             //color: Color(0xFFFd0efff),
             child: Center(
-              child: DropdownButton(
+              child: DropdownButtonFormField(
                 isExpanded: true,
                 value: levelSelected,
                 items: listGender,
                 hint: Text('  Select gender'),
                 iconSize: 40,
+                validator: (value) {
+                  if (value == null) {
+                    addError(error: "Please select gender");
+                    return "";
+                  }
+                  return null;
+                },
                 onChanged: (value) {
-                  setState(() {
-                    levelSelected = value;
-                    GenderType.values.forEach((genderType) {
-                      if (genderTypeMap[genderType.toString()] ==
-                          int.parse(levelSelected)) {
-                        staffValue[count - 1].gender = genderType;
-                      }
+                  if (value != null) {
+                    removeError(error: "Please select gender");
+                    setState(() {
+                      levelSelected = value;
+                      GenderType.values.forEach((genderType) {
+                        if (genderTypeMap[genderType.toString()] ==
+                            int.parse(levelSelected)) {
+                          staffValue[count - 1].gender = genderType;
+                        }
+                      });
+                      print(value);
                     });
-                    print(value);
-                  });
+                  }
                 },
               ),
             ),
@@ -123,11 +137,11 @@ class _StaffFormState extends State<StaffForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
-        print('name  start');
-        print(count);
-        print('name end');
+        // print('name  start');
+        // print(count);
+        // print('name end');
         staffValue[count - 1].firstName = value;
-        print(value);
+        // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your name");
         }
@@ -157,11 +171,11 @@ class _StaffFormState extends State<StaffForm> {
       keyboardType: TextInputType.name,
       onSaved: (newValue) => lastname = newValue,
       onChanged: (value) {
-        print('lname  start');
-        print(count);
-        print('lname  end');
+        // print('lname  start');
+        // print(count);
+        // print('lname  end');
         staffValue[count - 1].lastName = value;
-        print(value);
+        // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your lastname");
         }
@@ -190,11 +204,11 @@ class _StaffFormState extends State<StaffForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => position = newValue,
       onChanged: (value) {
-        print('pos  start');
-        print(count);
-        print('pos  end');
+        // print('pos  start');
+        // print(count);
+        // print('pos  end');
         staffValue[count - 1].position = value;
-        print(value);
+        // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter staff position");
         }

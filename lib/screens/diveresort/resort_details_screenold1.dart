@@ -8,7 +8,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 
 
 class DiveResortDetailScreen extends StatelessWidget {
-  final MenuController _controller = Get.put(MenuController());
+  // final MenuController _controller = Get.put(MenuController());
   double latc, lonc;
   int index;
   List<TripWithTemplate> details;
@@ -19,7 +19,7 @@ class DiveResortDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _controller.scaffoldkey,
+      // key: _controller.scaffoldkey,
       drawer: SideMenu(),
       body: SingleChildScrollView(
         child: Column(

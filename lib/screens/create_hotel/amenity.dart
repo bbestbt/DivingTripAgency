@@ -10,15 +10,18 @@ class amenityForm extends StatefulWidget {
   int bluecount;
   int pinkcount;
   List<List<Amenity>> blueValue;
+  List<String> errors = [];
 
-  amenityForm(int blue, int pinkcount, List<List<Amenity>> blueValue) {
+  amenityForm(int blue, int pinkcount, List<List<Amenity>> blueValue,
+      List<String> errors) {
     this.bluecount = blue;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.errors = errors;
   }
   @override
-  _amenityFormState createState() =>
-      _amenityFormState(this.bluecount, this.pinkcount, this.blueValue);
+  _amenityFormState createState() => _amenityFormState(
+      this.bluecount, this.pinkcount, this.blueValue, this.errors);
 }
 
 class _amenityFormState extends State<amenityForm> {
@@ -32,15 +35,15 @@ class _amenityFormState extends State<amenityForm> {
   List<String> amenity = [];
   String amenitySelected;
   Map<String, dynamic> amenityMap = {};
-
-  _amenityFormState(
-      int bluecount, int pinkcount, List<List<Amenity>> blueValue) {
+  List<String> errors = [];
+  _amenityFormState(int bluecount, int pinkcount, List<List<Amenity>> blueValue,
+      List<String> errors) {
     this.bluecount = bluecount;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.errors = errors;
   }
 
-  final List<String> errors = [];
   final TextEditingController _controllerAmenityName = TextEditingController();
   final TextEditingController _controllerAmenityDescription =
       TextEditingController();
@@ -118,35 +121,47 @@ class _amenityFormState extends State<amenityForm> {
             color: Color(0xfffd4f0f0),
             //color: Color(0xFFFd0efff),
             child: Center(
-              child: DropdownButton(
+              child: DropdownButtonFormField(
                 isExpanded: true,
                 value: amenitySelected,
                 items: listAmenity,
                 dropdownColor: Color(0xfffd4f0f0),
                 hint: Text('  Select amenity'),
                 iconSize: 40,
+                validator: (value) {
+                  if (value == null) {
+                    addError(error: "Please select amenity");
+                    return "";
+                  }
+                  return null;
+                },
                 onChanged: (value) {
-                  setState(() {
-                    amenitySelected = value;
-                    // print(amenitySelected);
-                    // print(amenity);
-                    amenity.forEach((element) {
-                      // print(amenity);
-                      // print('d');
-                      // print(element);
-                      // print(amenityMap[element]);
+                  if (value != null) {
+                    removeError(error: "Please select amenity");
+                    setState(() {
+                      amenitySelected = value;
                       // print(amenitySelected);
-                      if (element == amenitySelected) {
-                         print(amenityMap[element]);
-                        blueValue[pinkcount - 1][bluecount - 1].name =
-                            amenitySelected;
-                        blueValue[pinkcount - 1][bluecount - 1].id=  amenityMap[element];
-                      }
+                      // print(amenity);
+                      amenity.forEach((element) {
+                        // print(amenity);
+                        // print('d');
+                        // print(element);
+                        // print(amenityMap[element]);
+                        // print(amenitySelected);
+                        if (element == amenitySelected) {
+                          // print(amenityMap[element]);
+                          blueValue[pinkcount - 1][bluecount - 1].name =
+                              amenitySelected;
+                          blueValue[pinkcount - 1][bluecount - 1].id =
+                              amenityMap[element];
+                        }
+                      });
+
+                      // print(blueValue);
+                      // print('------');
+                      // print(value);
                     });
-                    print(blueValue);
-                    // print('------');
-                    // print(value);
-                  });
+                  }
                 },
               ),
             ),
@@ -166,13 +181,13 @@ class _amenityFormState extends State<amenityForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => amenity_name = newValue,
       onChanged: (value) {
-        print(' amenity name start');
-        print(bluecount);
-        print(pinkcount);
-        print(' amnity name end');
+        // print(' amenity name start');
+        // print(bluecount);
+        // print(pinkcount);
+        // print(' amnity name end');
         blueValue[pinkcount - 1][bluecount - 1].name = value;
-        print(value);
-        print("===");
+        // print(value);
+        // print("===");
         if (value.isNotEmpty) {
           removeError(error: "Please enter amenity name");
         }
@@ -200,13 +215,13 @@ class _amenityFormState extends State<amenityForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => amenity_descption = newValue,
       onChanged: (value) {
-        print(' amenity desc start');
-        print(bluecount);
-        print(pinkcount);
-        print(' amnity desc end');
+        // print(' amenity desc start');
+        // print(bluecount);
+        // print(pinkcount);
+        // print(' amnity desc end');
         blueValue[pinkcount - 1][bluecount - 1].description = value;
-        print(value);
-        print("===");
+        // print(value);
+        // print("===");
         if (value.isNotEmpty) {
           removeError(error: "Please enter amenity description");
         }

@@ -46,13 +46,13 @@ class _CompanyLiveaboardState extends State<CompanyLiveaboard> {
     this.index = index;
     this.details = details;
   }
-  final MenuController _controller = Get.put(MenuController());
+  // final MenuController _controller = Get.put(MenuController());
 
   @override
   Widget build(BuildContext context) {
     // print('build'+index.toString());
     return Scaffold(
-        key: _controller.scaffoldkey,
+        // key: _controller.scaffoldkey,
         drawer: SideMenu(),
         body: SingleChildScrollView(
           child: Center(

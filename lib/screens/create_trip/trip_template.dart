@@ -19,13 +19,16 @@ class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
-  Triptemplate(TripTemplate triptemplate) {
+  List<String> errors = [];
+  Triptemplate(TripTemplate triptemplate, List<String> errors) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
+    this.errors = errors;
   }
   @override
-  _TriptemplateState createState() => _TriptemplateState(this.triptemplate);
+  _TriptemplateState createState() =>
+      _TriptemplateState(this.triptemplate, this.errors);
 }
 
 class _TriptemplateState extends State<Triptemplate> {
@@ -41,7 +44,6 @@ class _TriptemplateState extends State<Triptemplate> {
   io.File Pictrip8;
   io.File Boatpic;
   io.File Schedule;
-
 
   XFile pt;
   XFile bt;
@@ -106,16 +108,17 @@ class _TriptemplateState extends State<Triptemplate> {
     // print(tripTypeMap);
   }
 
-  final List<String> errors = [];
+  List<String> errors = [];
   String triptype = '';
   String boatname;
   TripTemplate triptemplate;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
-  _TriptemplateState(TripTemplate triptemplate) {
+  _TriptemplateState(TripTemplate triptemplate, List<String> errors) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
+    this.errors = errors;
   }
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
@@ -133,7 +136,6 @@ class _TriptemplateState extends State<Triptemplate> {
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
-
     );
 
     var f = File();
@@ -146,19 +148,18 @@ class _TriptemplateState extends State<Triptemplate> {
 
     if (pt != null) {
       setState(() {
-       // imagelist.add(io.File(pt.path));
-        if (num==1) Pictrip = io.File(pt.path);
-        if (num==2) Pictrip2 = io.File(pt.path);
-        if (num==3) Pictrip3 = io.File(pt.path);
-        if (num==4) Pictrip4 = io.File(pt.path);
-        if (num==5) Pictrip5 = io.File(pt.path);
-        if (num==6) Pictrip6 = io.File(pt.path);
-        if (num==7) Pictrip7 = io.File(pt.path);
-        if (num==8) Pictrip8 = io.File(pt.path);
+        // imagelist.add(io.File(pt.path));
+        if (num == 1) Pictrip = io.File(pt.path);
+        if (num == 2) Pictrip2 = io.File(pt.path);
+        if (num == 3) Pictrip3 = io.File(pt.path);
+        if (num == 4) Pictrip4 = io.File(pt.path);
+        if (num == 5) Pictrip5 = io.File(pt.path);
+        if (num == 6) Pictrip6 = io.File(pt.path);
+        if (num == 7) Pictrip7 = io.File(pt.path);
+        if (num == 8) Pictrip8 = io.File(pt.path);
       });
     }
   }
-
 
   _getBoatpic() async {
     bt = await ImagePicker().pickImage(
@@ -182,35 +183,30 @@ class _TriptemplateState extends State<Triptemplate> {
     }
   }
 
+  // Widget buildGridView() {
+  // return Column(
+  // children:[
+  // Text("Gallery here:"),
+  //Container(
+  //height:100,
+  //width:400,
+  //             child:
+  //  GridView.count(
+  //  crossAxisCount: 3,
+  //children: List.generate(imagelist.length, (index) {
+  //Asset asset = imagelist[index];
+  //return AssetThumb(
+  // asset: asset,
+  //width: 20,
+  //height: 20,
+  //);
+  //}),
+  //)
+  //),
 
-   // Widget buildGridView() {
-     // return Column(
-       // children:[
-         // Text("Gallery here:"),
-          //Container(
-          //height:100,
-        //width:400,
-          //             child:
-            //  GridView.count(
-              //  crossAxisCount: 3,
-                //children: List.generate(imagelist.length, (index) {
-                  //Asset asset = imagelist[index];
-                  //return AssetThumb(
-                   // asset: asset,
-                    //width: 20,
-                    //height: 20,
-                  //);
-                //}),
-          //)
-      //),
-
-       // ]
-      //) ;
-    //}
-
-
-
-
+  // ]
+  //) ;
+  //}
 
   _getSchedule() async {
     sc = await ImagePicker().pickImage(
@@ -339,7 +335,7 @@ class _TriptemplateState extends State<Triptemplate> {
           Container(
             //color: Colors.white,
             child: Center(
-              child: DropdownButton(
+              child: DropdownButtonFormField(
                 isExpanded: true,
                 value: boatSelected,
                 items: listBoat,
@@ -352,17 +348,27 @@ class _TriptemplateState extends State<Triptemplate> {
 
                 hint: Text('  Select boat'),
                 iconSize: 40,
+                validator: (value) {
+                  if (value == null) {
+                    addError(error: "Please select boat");
+                    return "";
+                  }
+                  return null;
+                },
                 onChanged: (value) {
-                  setState(() {
-                    boatSelected = value;
-                    print(value);
-                    //  hotelandboatID.boatId = boatMap[boatSelected];
+                  if (value != null) {
+                    removeError(error: "Please select boat");
+                    setState(() {
+                      boatSelected = value;
+                      print(value);
+                      //  hotelandboatID.boatId = boatMap[boatSelected];
 
-                    triptemplate.boatId = boatMap[boatSelected];
+                      triptemplate.boatId = boatMap[boatSelected];
 
-                    // triptemplate.hotelAndBoatId=hotelandboatID;
-                    //   triptemplate.divingBoatId=boatMap[boatSelected];
-                  });
+                      // triptemplate.hotelAndBoatId=hotelandboatID;
+                      //   triptemplate.divingBoatId=boatMap[boatSelected];
+                    });
+                  }
                 },
               ),
             ),
@@ -431,12 +437,44 @@ class _TriptemplateState extends State<Triptemplate> {
           //   ),
           // ),
 
-          DropdownButton(
+          DropdownButtonFormField(
             hint: Text('Trip type'),
             value: selectedTriptype,
             isExpanded: true,
             items: listTrip,
+            validator: (value) {
+              if (value == null) {
+                addError(error: "Please select trip type");
+                return "";
+              }
+              return null;
+            },
             onChanged: (trip_type) {
+              if (trip_type != null) {
+                removeError(error: "Please select trip type");
+                if (trip_type == '0') {
+                  triptypee = hotel;
+                } else if (trip_type == '1') {
+                  triptypee = liveaboard;
+                } else {
+                  // print('x');
+                  // print(trip_type);
+                  // print(trip_type.runtimeType);
+                  triptypee = [];
+                }
+                setState(() {
+                  // print(triptypee);
+                  // print('--');
+                  selectedTriptype = trip_type;
+                  selectedsleep = null;
+                  TripType.values.forEach((tripType) {
+                    if (tripTypeMap[tripType.toString()] ==
+                        int.parse(selectedTriptype)) {
+                      triptemplate.tripType = tripType;
+                    }
+                  });
+                });
+              }
               // print('*');
               // print(trip_type);
               // print('*');
@@ -448,32 +486,10 @@ class _TriptemplateState extends State<Triptemplate> {
               // else {
               //   triptypee = [];
               // }
-              if (trip_type == '0') {
-                triptypee = hotel;
-              } else if (trip_type == '1') {
-                triptypee = liveaboard;
-              } else {
-                // print('x');
-                // print(trip_type);
-                // print(trip_type.runtimeType);
-                triptypee = [];
-              }
-              setState(() {
-                // print(triptypee);
-                // print('--');
-                selectedTriptype = trip_type;
-                selectedsleep = null;
-                TripType.values.forEach((tripType) {
-                  if (tripTypeMap[tripType.toString()] ==
-                      int.parse(selectedTriptype)) {
-                    triptemplate.tripType = tripType;
-                  }
-                });
-              });
             },
           ),
           SizedBox(height: 20),
-          DropdownButton<String>(
+          DropdownButtonFormField<String>(
             value: selectedsleep,
             // hint: Text('Sleep'),
             isExpanded: true,
@@ -483,38 +499,49 @@ class _TriptemplateState extends State<Triptemplate> {
                 child: Text(value),
               );
             }).toList(),
+            validator: (value) {
+              if (value == null) {
+                addError(error: "Please select name");
+                return "";
+              }
+              return null;
+            },
             onChanged: (sleep) {
-              setState(() {
-                selectedsleep = sleep;
-                if (triptypee == liveaboard) {
-                  // print('liveabaord');
-                  // print(liveaboardTypeMap[selectedsleep]);
-                  triptemplate.liveaboardId = liveaboardTypeMap[selectedsleep];
-                  // print('keep');
-                  // print( triptemplate.liveaboardId);
-                } else if (triptypee == hotel) {
-                  // print('hotel');
-                  // print(hotelTypeMap[selectedsleep]);
+              if (sleep != null) {
+                removeError(error: "Please select name");
+                setState(() {
+                  selectedsleep = sleep;
+                  if (triptypee == liveaboard) {
+                    // print('liveabaord');
+                    // print(liveaboardTypeMap[selectedsleep]);
+                    triptemplate.liveaboardId =
+                        liveaboardTypeMap[selectedsleep];
+                    // print('keep');
+                    // print( triptemplate.liveaboardId);
+                  } else if (triptypee == hotel) {
+                    // print('hotel');
+                    // print(hotelTypeMap[selectedsleep]);
 
-                  triptemplate.hotelId =
-                      hotelTypeMap[selectedsleep];
+                    triptemplate.hotelId = hotelTypeMap[selectedsleep];
 
-                  // hotelandboatID.hotelId = hotelTypeMap[selectedsleep];
-                  //  triptemplate.hotelAndBoatId=hotelandboatID;
-                  //   triptemplate.hotelAndBoatId.hotelId= hotelTypeMap[selectedsleep];
-                }
-              });
+                    // hotelandboatID.hotelId = hotelTypeMap[selectedsleep];
+                    //  triptemplate.hotelAndBoatId=hotelandboatID;
+                    //   triptemplate.hotelAndBoatId.hotelId= hotelTypeMap[selectedsleep];
+                  }
+                });
+              }
             },
           ),
           SizedBox(height: 20),
-          Row( //Pic1
+          Row(
+            //Pic1
             children: [
               Center(
                   child: Pictrip == null
                       ? Text('Trip image')
                       : kIsWeb
                           ? Image.network(
-                            Pictrip.path,
+                              Pictrip.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -534,26 +561,26 @@ class _TriptemplateState extends State<Triptemplate> {
                   _getPictrip(1);
                 },
               ),
-                          ],
+            ],
           ),
 
-              SizedBox(height: 20),
+          SizedBox(height: 20),
           Row(
             children: [
               Center(
                   child: Pictrip2 == null
                       ? Text('Trip image')
                       : kIsWeb
-                      ? Image.network(
-                    Pictrip2.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(Pictrip2.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              Pictrip2.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(Pictrip2.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 color: Color(0xfffa2c8ff),
@@ -575,16 +602,16 @@ class _TriptemplateState extends State<Triptemplate> {
                   child: Pictrip3 == null
                       ? Text('Trip image')
                       : kIsWeb
-                      ? Image.network(
-                    Pictrip3.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(Pictrip3.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              Pictrip3.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(Pictrip3.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 color: Color(0xfffa2c8ff),
@@ -606,16 +633,16 @@ class _TriptemplateState extends State<Triptemplate> {
                   child: Pictrip4 == null
                       ? Text('Trip image')
                       : kIsWeb
-                      ? Image.network(
-                    Pictrip4.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(Pictrip4.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              Pictrip4.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(Pictrip4.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 color: Color(0xfffa2c8ff),
@@ -637,16 +664,16 @@ class _TriptemplateState extends State<Triptemplate> {
                   child: Pictrip5 == null
                       ? Text('Trip image')
                       : kIsWeb
-                      ? Image.network(
-                    Pictrip5.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(Pictrip5.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              Pictrip5.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(Pictrip5.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 color: Color(0xfffa2c8ff),
@@ -730,11 +757,11 @@ class _TriptemplateState extends State<Triptemplate> {
           SizedBox(height: 20),
 
           //Container(
-           // child:
+          // child:
 
           //buildGridView(),
-                      
-         // )
+
+          // )
 
           //  FlatButton(onPressed: getData, child: Text('check')),
         ]),

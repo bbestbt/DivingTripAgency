@@ -76,8 +76,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       levelTypeMap[value] = i;
     }
 
-    print("LevelType-----------------");
-    print(levelTypeMap);
+    // print("LevelType-----------------");
+    // print(levelTypeMap);
   }
 
   void addError({String error}) {
@@ -157,7 +157,6 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       box.put('login', true);
       String token = box.get('token');
       print("login ja");
-
     } catch (e) {
       print(e);
       box.put('login', false);
@@ -216,17 +215,27 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
             color: Colors.white,
             //color: Color(0xFFFd0efff),
             child: Center(
-              child: DropdownButton(
+              child: DropdownButtonFormField(
                 isExpanded: true,
                 value: selected,
                 items: listDrop,
                 hint: Text('  Select level'),
                 iconSize: 40,
+                validator: (value) {
+                  if (value == null) {
+                    addError(error: "Please select level");
+                    return "";
+                  }
+                  return null;
+                },
                 onChanged: (value) {
-                  setState(() {
-                    selected = value;
-                    print(value);
-                  });
+                  if (value != null) {
+                    removeError(error: "Please select level");
+                    setState(() {
+                      selected = value;
+                      print(value);
+                    });
+                  }
                 },
               ),
             ),
@@ -257,11 +266,19 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now())
                         .then((date) => {
-                              setState(() {
-                                var timeStamp =
-                                    print(Timestamp.fromDateTime(date));
-                                _dateTime = date;
-                              })
+                              if (date != null)
+                                {
+                                  removeError(error: "Please select date"),
+                                  setState(() {
+                                    var timeStamp =
+                                        print(Timestamp.fromDateTime(date));
+                                    _dateTime = date;
+                                  })
+                                }
+                              else if (date == null)
+                                {
+                                  addError(error: "Please select date"),
+                                }
                             });
                   }),
             ],
@@ -346,13 +363,23 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-                  //_formKey.currentState.save()
-                  //  print(_controllerUsername.text),
-                  //   print( _dateTime.toString()),
-                  sendDiver(),
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainScreen()))
+                  if (_dateTime == null)
+                    {
+                      addError(error: "Please select date"),
+                    }
+                    else if (DiverImage==null||DiveBack==null){
+                       addError(error: "Please upload image"),
+                    }
+                  else
+                    {
+                      sendDiver(),
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MainScreen()))
+                    }
                 }
+              //_formKey.currentState.save()
+              //  print(_controllerUsername.text),
+              //   print( _dateTime.toString()),
             },
             color: Color(0xfff75BDFF),
             child: Text(

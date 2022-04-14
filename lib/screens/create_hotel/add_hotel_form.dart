@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
@@ -16,8 +17,12 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 
 class addHotel extends StatefulWidget {
+  List<String> errors = [];
+  addHotel(List<String> errors) {
+    this.errors = errors;
+  }
   @override
-  _addHotelState createState() => _addHotelState();
+  _addHotelState createState() => _addHotelState(this.errors);
 }
 
 class _addHotelState extends State<addHotel> {
@@ -34,7 +39,7 @@ class _addHotelState extends State<addHotel> {
   io.File hotelimg7;
   io.File hotelimg8;
   io.File hotelimg9;
-  
+
   String address1;
   String address2;
   String postalCode;
@@ -53,7 +58,8 @@ class _addHotelState extends State<addHotel> {
   List<String> star = ['1', '2', '3', '4', '5'];
   String starSelected;
 
-  final List<String> errors = [];
+  List<String> errors = [];
+  _addHotelState(this.errors);
   final TextEditingController _controllerHotelname = TextEditingController();
   final TextEditingController _controllerHoteldescription =
       TextEditingController();
@@ -65,6 +71,7 @@ class _addHotelState extends State<addHotel> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   void loadData() {
     listStar = [];
@@ -101,10 +108,9 @@ class _addHotelState extends State<addHotel> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var hotel = Hotel();
     hotel.name = _controllerHotelname.text;
-    hotel.description= _controllerHoteldescription.text;
+    hotel.description = _controllerHoteldescription.text;
     hotel.phone = _controllerPhone.text;
     hotel.stars = int.parse(starSelected);
-
 
     var address = Address();
     address.addressLine1 = _controllerAddress.text;
@@ -136,7 +142,7 @@ class _addHotelState extends State<addHotel> {
       var room = RoomType();
       for (int j = 0; j < blueValue[i].length; j++) {
         var amenity = Amenity();
-        amenity.id=blueValue[i][j].id;
+        amenity.id = blueValue[i][j].id;
         amenity.name = blueValue[i][j].name;
         // amenity.description = blueValue[i][j].description;
         room.amenities.add(amenity);
@@ -153,9 +159,9 @@ class _addHotelState extends State<addHotel> {
       }
       hotel.roomTypes.add(room);
     }
-for (int i=0;i<hotel.roomTypes.length;i++){
-   print(hotel.roomTypes[i]);
-}
+    for (int i = 0; i < hotel.roomTypes.length; i++) {
+      print(hotel.roomTypes[i]);
+    }
     var hotelRequest = AddHotelRequest();
     hotelRequest.hotel = hotel;
 
@@ -178,7 +184,6 @@ for (int i=0;i<hotel.roomTypes.length;i++){
 
   // get hotel image
   _gethotelimg(int num) async {
-    
     hhotel = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
@@ -186,14 +191,14 @@ for (int i=0;i<hotel.roomTypes.length;i++){
     );
     if (hhotel != null) {
       setState(() {
-      if (num==1) hotelimg = io.File(hhotel.path);
-      if (num==2) hotelimg2 = io.File(hhotel.path);
-      if (num==3) hotelimg3 = io.File(hhotel.path);
-      if (num==4) hotelimg4 = io.File(hhotel.path);
-      if (num==5) hotelimg5 = io.File(hhotel.path);
-      if (num==6) hotelimg6 = io.File(hhotel.path);
-      if (num==7) hotelimg7 = io.File(hhotel.path);
-      if (num==8) hotelimg8 = io.File(hhotel.path);
+        if (num == 1) hotelimg = io.File(hhotel.path);
+        if (num == 2) hotelimg2 = io.File(hhotel.path);
+        if (num == 3) hotelimg3 = io.File(hhotel.path);
+        if (num == 4) hotelimg4 = io.File(hhotel.path);
+        if (num == 5) hotelimg5 = io.File(hhotel.path);
+        if (num == 6) hotelimg6 = io.File(hhotel.path);
+        if (num == 7) hotelimg7 = io.File(hhotel.path);
+        if (num == 8) hotelimg8 = io.File(hhotel.path);
       });
     }
   }
@@ -202,7 +207,8 @@ for (int i=0;i<hotel.roomTypes.length;i++){
   Widget build(BuildContext context) {
     loadData();
     double screenwidth = MediaQuery.of(context).size.width;
-    return Container(
+    return Form(
+      key: _formKey,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
@@ -269,12 +275,11 @@ for (int i=0;i<hotel.roomTypes.length;i++){
                               width: screenwidth * 0.05,
                             )),
               Spacer(),
-
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
                     child: Container(
-                        color:Color(0xfffa2c8ff),
+                        color: Color(0xfffa2c8ff),
                         constraints: const BoxConstraints(
                             minWidth: 88.0, minHeight: 36.0),
                         alignment: Alignment.center,
@@ -293,17 +298,27 @@ for (int i=0;i<hotel.roomTypes.length;i++){
           Container(
             color: Colors.white,
             child: Center(
-              child: DropdownButton(
+              child: DropdownButtonFormField(
                 isExpanded: true,
                 value: starSelected,
                 items: listStar,
                 hint: Text('  Select star'),
                 iconSize: 40,
+                validator: (value) {
+                  if (value == null) {
+                    addError(error: "Please select star");
+                    return "";
+                  }
+                  return null;
+                },
                 onChanged: (value) {
-                  setState(() {
-                    starSelected = value;
-                    print(value);
-                  });
+                  if (value != null) {
+                    removeError(error: "Please select star");
+                    setState(() {
+                      starSelected = value;
+                      print(value);
+                    });
+                  }
                 },
               ),
             ),
@@ -324,21 +339,29 @@ for (int i=0;i<hotel.roomTypes.length;i++){
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreRoom(this.pinkValue,
-             this.blueValue
-             ),
+            child: AddMoreRoom(this.pinkValue, this.blueValue, this.errors),
           ),
           SizedBox(height: 30),
+          FormError(errors: errors),
           FlatButton(
             onPressed: () => {
-              sendHotel(),
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
+              if (_formKey.currentState.validate())
+                {
+                  if (hotelimg == null)
+                    {
+                      addError(error: "Please upload image"),
+                    }
+                 else{
+                    sendHotel(),
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => MainCompanyScreen(),
+                    ),
+                    (route) => false,
+                  )
+                 }
+                }
             },
             color: Color(0xfff75BDFF),
             child: Text(

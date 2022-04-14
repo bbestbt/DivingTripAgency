@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 
@@ -18,10 +19,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
-//img
 class addLiveaboard extends StatefulWidget {
+  List<String> errors = [];
+  addLiveaboard(List<String> errors) {
+    this.errors = errors;
+  }
   @override
-  _addLiveaboardState createState() => _addLiveaboardState();
+  _addLiveaboardState createState() => _addLiveaboardState(this.errors);
 }
 
 class _addLiveaboardState extends State<addLiveaboard> {
@@ -48,8 +52,8 @@ class _addLiveaboardState extends State<addLiveaboard> {
   List<List<Amenity>> blueValue = [
     [new Amenity()]
   ];
-
-  final List<String> errors = [];
+  _addLiveaboardState(this.errors);
+  List<String> errors = [];
   final TextEditingController _controllerLiveaboardname =
       TextEditingController();
   final TextEditingController _controllerLiveaboarddescription =
@@ -66,6 +70,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -178,7 +183,8 @@ class _addLiveaboardState extends State<addLiveaboard> {
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
-    return Container(
+    return Form(
+      key: _formKey,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
@@ -279,19 +285,29 @@ class _addLiveaboardState extends State<addLiveaboard> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreRoom(this.pinkValue, this.blueValue),
+            child: AddMoreRoom(this.pinkValue, this.blueValue, this.errors),
           ),
           SizedBox(height: 30),
+          FormError(errors: errors),
           FlatButton(
             onPressed: () => {
-              sendLiveaboard(),
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
+              if (_formKey.currentState.validate())
+                {
+                  if (liveaboardimg == null)
+                    {
+                      addError(error: "Please upload image"),
+                    }
+                 else{
+                  sendLiveaboard(),
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => MainCompanyScreen(),
+                    ),
+                    (route) => false,
+                  )
+                 }
+                }
             },
             color: Color(0xfff75BDFF),
             child: Text(
@@ -377,6 +393,10 @@ class _addLiveaboardState extends State<addLiveaboard> {
   TextFormField buildLengthFormField() {
     return TextFormField(
       controller: _controllerLength,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => length = newValue,
       onChanged: (value) {
@@ -404,6 +424,10 @@ class _addLiveaboardState extends State<addLiveaboard> {
   TextFormField buildWidthFormField() {
     return TextFormField(
       controller: _controllerWidth,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => liveaboard_description = newValue,
       onChanged: (value) {
@@ -431,6 +455,10 @@ class _addLiveaboardState extends State<addLiveaboard> {
   TextFormField buildStaffRoomFormField() {
     return TextFormField(
       controller: _controllerStaffroom,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => staff_room = newValue,
       onChanged: (value) {
@@ -458,6 +486,10 @@ class _addLiveaboardState extends State<addLiveaboard> {
   TextFormField buildDiverRoomFormField() {
     return TextFormField(
       controller: _controllerDiverroom,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => diver_room = newValue,
       onChanged: (value) {
@@ -485,6 +517,10 @@ class _addLiveaboardState extends State<addLiveaboard> {
   TextFormField buildTotalCapacityFormField() {
     return TextFormField(
       controller: _controllerTotalcapacity,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => total_capacity = newValue,
       onChanged: (value) {

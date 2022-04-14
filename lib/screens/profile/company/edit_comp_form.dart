@@ -332,8 +332,8 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                       ),
                       SizedBox(width: 30),
                       Container(
-                          width: 200,
-                          height: 200,
+                          width: MediaQuery.of(context).size.width/10,
+                          height: MediaQuery.of(context).size.width/10,
                           child: user_profile.agency.documents.length == 0
                               ? new Container(
                                   color: Colors.pink,
@@ -385,8 +385,8 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                       ),
                       SizedBox(width: 30),
                       Container(
-                          width: 200,
-                          height: 200,
+                          width: MediaQuery.of(context).size.width/10,
+                          height: MediaQuery.of(context).size.width/10,
                           child: user_profile.agency.documents.length == 0
                               ? new Container(
                                   color: Colors.green,

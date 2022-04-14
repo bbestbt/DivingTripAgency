@@ -100,133 +100,157 @@ class _UserProfileState extends State<UserProfile> {
           SizedBox(
             height: 50,
           ),
+
           SizedBox(
+            width: 1110,
             child: FutureBuilder(
               future: getProfile(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Center(
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            'Firstname : ' +
-                                user_profile.diver.firstName.toString(),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Lastname : ' +
-                                user_profile.diver.lastName.toString(),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Level : ' + user_profile.diver.level.toString(),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'E-mail : ' +
-                                user_profile.diver.account.email.toString(),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Phone number : ' +
-                                user_profile.diver.phone.toString(),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Birthday : ' +
-                                DateFormat("dd/MM/yyyy").format(
-                                    user_profile.diver.birthDate.toDateTime()),
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: RaisedButton(
-                                // color: Colors.yellow,
-
-                                color: Colors.blue[300],
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Text(
-                                  'Edit',
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditDiverScreen()));
-                                }),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                } else {
-                  return Text('User is not logged in.');
-                }
-              },
-            ),
-          ),
-
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            'Trip history',
-            style: TextStyle(fontSize: 18),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: 1110,
-            child: FutureBuilder(
-              future: getData(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
                   return Column(
                     children: [
-                      Center(
-                          child: Container(
-                              child: Wrap(
-                                  spacing: 20,
-                                  runSpacing: 40,
-                                  children: List.generate(
-                                    trips.length,
-                                    (index) => Center(
-                                      child: InfoCard(
-                                        index: index,
+                      SizedBox(
+                        child: FutureBuilder(
+                          future: getProfile(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Center(
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Firstname : ' +
+                                            user_profile.diver.firstName
+                                                .toString(),
+                                        style: TextStyle(fontSize: 18),
                                       ),
-                                    ),
-                                  )))),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        'Lastname : ' +
+                                            user_profile.diver.lastName
+                                                .toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        'Level : ' +
+                                            user_profile.diver.level.toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        'E-mail : ' +
+                                            user_profile.diver.account.email
+                                                .toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        'Phone number : ' +
+                                            user_profile.diver.phone.toString(),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        'Birthday : ' +
+                                            DateFormat("dd/MM/yyyy").format(
+                                                user_profile.diver.birthDate
+                                                    .toDateTime()),
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: RaisedButton(
+                                            // color: Colors.yellow,
+
+                                            color: Colors.blue[300],
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Text(
+                                              'Edit',
+                                            ),
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EditDiverScreen()));
+                                            }),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return Text('User is not logged in.');
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Trip history',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: 1110,
+                        child: FutureBuilder(
+                          future: getData(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Column(
+                                children: [
+                                  Center(
+                                      child: Container(
+                                          child: Wrap(
+                                              spacing: 20,
+                                              runSpacing: 40,
+                                              children: List.generate(
+                                                trips.length,
+                                                (index) => Center(
+                                                  child: InfoCard(
+                                                    index: index,
+                                                  ),
+                                                ),
+                                              )))),
+                                ],
+                              );
+                            } else {
+                              return Align(
+                                  alignment: Alignment.center,
+                                  child: Text('No data'));
+                            }
+                          },
+                        ),
+                      ),
                     ],
                   );
                 } else {
-                  return Align(
-                      alignment: Alignment.center, child: Text('No data'));
+                  return Center(child: Text('User is not logged in'));
                 }
               },
             ),
           ),
+
           SizedBox(
             height: 50,
           ),
@@ -255,18 +279,14 @@ class _InfoCardState extends State<InfoCard> {
     // getData();
     return InkWell(
       onTap: () {
-
-
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => ReviewTripScreen(
-                    int.parse(reservation[widget.index].id.toString()),
-                    double.parse(reservation[widget.index].price.toString()),
-                    trips[widget.index],
-
+                      int.parse(reservation[widget.index].id.toString()),
+                      double.parse(reservation[widget.index].price.toString()),
+                      trips[widget.index],
                     )));
-
       },
       child: Container(
         height: 320,

@@ -79,7 +79,7 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
   WeatherFactory ws;
 
   List<Weather> _data = [];
-  final MenuController _controller = Get.put(MenuController());
+  // final MenuController _controller = Get.put(MenuController());
   int index;
   List<TripWithTemplate> details;
   _DiveResortDetailScreenState(int index, List<TripWithTemplate> details) {
@@ -90,7 +90,7 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _controller.scaffoldkey,
+        // key: _controller.scaffoldkey,
         drawer: SideMenu(),
         body: SingleChildScrollView(
           child: Center(
@@ -877,7 +877,15 @@ class _InfoCardState extends State<InfoCard> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       Cartlist.add([
-                        "5.jpg",
+                       details[indexDetail].tripTemplate.images.length == 0
+                            ? new Container(
+                                color: Colors.pink,
+                              )
+                            : Image.network(details[indexDetail]
+                                .tripTemplate
+                                .images[0]
+                                .link
+                                .toString()),
                         details[indexDetail].tripTemplate.name,
                         hotelDetial.hotel.name,
                         roomtypes[indexRoom].name,

@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/create_trip/trip_template.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
@@ -53,6 +54,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -152,7 +154,8 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
-    return Container(
+    return Form(
+      key: _formKey,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
@@ -183,7 +186,6 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                   child: buildCityFormField()),
             ],
           ),
-
           SizedBox(height: 20),
           Row(
             children: [
@@ -197,8 +199,6 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
             ],
           ),
           SizedBox(height: 20),
-
-          //   FormError(errors: errors),
           Row(
             children: [
               Text('Image'),
@@ -237,17 +237,29 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
             ],
           ),
           SizedBox(height: 20),
+          FormError(errors: errors),
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () => {
-              AddBoat(),
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
+              if (_formKey.currentState.validate())
+                {
+                  if (boatimg == null)
+                    {
+                      addError(error: "Please upload image"),
+                    }
+                  else
+                    {
+                      AddBoat(),
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              MainCompanyScreen(),
+                        ),
+                        (route) => false,
+                      )
+                    }
+                },
             },
             color: Color(0xfff75BDFF),
             child: Text(
@@ -291,6 +303,10 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   TextFormField buildBoatCapacityFormField() {
     return TextFormField(
       controller: _controllerCapacity,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => boat_capacity = newValue,
       onChanged: (value) {
@@ -345,6 +361,10 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   TextFormField buildDiverCapacityFormField() {
     return TextFormField(
       controller: _controllerDivercapacity,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => diver_capacity = newValue,
       onChanged: (value) {
@@ -372,6 +392,10 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   TextFormField buildStaffCapacityFormField() {
     return TextFormField(
       controller: _controllerStaffcapacity,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => staff_capacity = newValue,
       onChanged: (value) {

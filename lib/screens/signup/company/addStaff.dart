@@ -4,19 +4,24 @@ import 'package:diving_trip_agency/screens/signup/company/staff_form.dart';
 import 'package:flutter/material.dart';
 
 class AddMoreStaff extends StatefulWidget {
-   List<Staff> staffValue;
-    AddMoreStaff( List<Staff> staffValue) {
-    this.staffValue=staffValue;
+  List<Staff> staffValue;
+  List<String> errors = [];
+  AddMoreStaff(List<Staff> staffValue, List<String> errors) {
+    this.staffValue = staffValue;
+    this.errors = errors;
   }
   @override
-  _AddMoreStaffState createState() => _AddMoreStaffState(this.staffValue);
+  _AddMoreStaffState createState() =>
+      _AddMoreStaffState(this.staffValue, this.errors);
 }
 
 class _AddMoreStaffState extends State<AddMoreStaff> {
   int count = 1;
-  List<Staff> staffValue=[];
-    _AddMoreStaffState(List<Staff> staffValue) {
-      this.staffValue=staffValue;
+  List<Staff> staffValue = [];
+  List<String> errors = [];
+  _AddMoreStaffState(List<Staff> staffValue, List<String> errors) {
+    this.staffValue = staffValue;
+    this.errors = errors;
   }
   @override
   Widget build(BuildContext context) {
@@ -29,23 +34,44 @@ class _AddMoreStaffState extends State<AddMoreStaff> {
             shrinkWrap: true,
             itemCount: count,
             itemBuilder: (BuildContext context, int index) {
-              return StaffForm(count,this.staffValue);
+              return StaffForm(count, this.staffValue, this.errors);
             }),
-        MaterialButton(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  count += 1;
+                  staffValue.add(new Staff());
+                });
+              },
+              color: Colors.blue,
+              textColor: Colors.white,
+              child: Icon(
+                Icons.add,
+                size: 20,
+              ),
+            ),
+             SizedBox(width: 30),
+            MaterialButton(
           onPressed: () {
             setState(() {
-              count += 1;
-               staffValue.add(new Staff());
+              count -= 1;
+               staffValue.remove(new Staff());
             });
           },
-          color: Colors.blue,
+          color: Colors.red,
           textColor: Colors.white,
           child: Icon(
-            Icons.add,
+            Icons.remove,
             size: 20,
           ),
         ),
-         SizedBox(height: 30),
+          ],
+        ),
+        
+        SizedBox(height: 30),
       ])),
     );
   }

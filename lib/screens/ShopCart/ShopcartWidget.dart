@@ -64,6 +64,7 @@ class _CartState extends State<CartWidget> {
 
   void bookTrips() async {
     await getProfile();
+    print('length' + Cartlist.length.toString());
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -89,7 +90,7 @@ class _CartState extends State<CartWidget> {
     reservation.diverId = user_profile.diver.id;
     reservation.price =
         (roomtypes[indexRoom].price * quantity) + details[indexDetail].price;
-    reservation.totalDivers = Int64(roomtypes[indexRoom].maxGuest);
+    reservation.totalDivers = Int64(quantity);
 
     var bookRequest = CreateReservationRequest()..reservation = reservation;
     try {
@@ -109,61 +110,65 @@ class _CartState extends State<CartWidget> {
     // print(quantity);
     // print(diver);
     return Container(
-      width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.all(20),
+        width: 800,
+        // width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.all(20),
         child: Column(children: [
           SectionTitle(
             title: "Trips in cart",
             color: Color(0xFFFF78a2cc),
           ),
           SizedBox(height: 40),
-      ListView.builder(
-        itemCount: Cartlist.length,
-        shrinkWrap: true,
+          ListView.builder(
+            itemCount: Cartlist.length,
+            shrinkWrap: true,
+            itemBuilder: (context, position) {
+              return Card(
+                  child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  width: 200,
+                                  height: 200,
+                                  child: Cartlist[position][0]),
 
-        itemBuilder: (context, position) {
-          return Card(
-              child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child:
-              Container(
-                  width: MediaQuery.of(context).size.width,
-                child:
-
-              Row(
-                children: [
-                  Flexible(
-                  child:
-                    Container(
-                      child:
-                      Image(
-                          image: NetworkImage(
-                              'https://media.tacdn.com/media/attractions-splice-spp-674x446/07/2d/d7/09.jpg')),
-              )
-          ),
-                      SizedBox(width: 30),
-              Flexible(child:
-              Column(children: [
-                Text(
-                  "Trip Name: " + Cartlist[position][1].toString(),
-                  style: TextStyle(fontSize: 22.0),
-                ),
-                Text(
-                  "Hotel Name: " + Cartlist[position][2].toString(),
-                  style: TextStyle(fontSize: 22.0),
-                ),
-                Text(
-                  "Room Name: " + Cartlist[position][3].toString(),
-                  style: TextStyle(fontSize: 22.0),
-                ),
-                Text(
-                  "Total price: " + Cartlist[position][4].toString(),
-                  style: TextStyle(fontSize: 22.0),
-                ),
-              ])
-              ),
-              SizedBox(width: 30),
-              /*TextButton(
+                              // Flexible(
+                              //     child: Container(
+                              //   child: Image(
+                              //       image: NetworkImage(
+                              //          Cartlist[position][0])),
+                              // )),
+                              SizedBox(width: 30),
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Trip Name: " +
+                                          Cartlist[position][1].toString(),
+                                      // style: TextStyle(fontSize: 22.0),
+                                    ),
+                                    Text(
+                                      "Hotel Name: " +
+                                          Cartlist[position][2].toString(),
+                                      // style: TextStyle(fontSize: 22.0),
+                                    ),
+                                    Text(
+                                      "Room Name: " +
+                                          Cartlist[position][3].toString(),
+                                      // style: TextStyle(fontSize: 22.0),
+                                    ),
+                                    Text(
+                                      "Total price: " +
+                                          Cartlist[position][4].toString(),
+                                      // style: TextStyle(fontSize: 22.0),
+                                    ),
+                                  ]),
+                              SizedBox(width: 30),
+                              /*TextButton(
                             child: Text(
                               "Edit",
                               style: TextStyle(fontSize: 25),
@@ -174,58 +179,59 @@ class _CartState extends State<CartWidget> {
                                 elevation: 2,
                                 backgroundColor: Colors.amber),
                           ),*/
-              TextButton(
-                child: Text(
-                  "Remove",
-                  style: TextStyle(fontSize: 25),
-                ),
-                onPressed: () {
-                  setState(() {
-                    print("deleted");
+                              TextButton(
+                                child: Text(
+                                  "Remove",
+                                  // style: TextStyle(fontSize: 25),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    print("deleted");
 
-                    Cartlist.removeAt(position);
-                    print(Cartlist);
-                  });
-                },
-                style: TextButton.styleFrom(
-                    primary: Colors.red,
-                    elevation: 2,
-                    backgroundColor: Colors.amber),
-              ),
-            ]),
-          )
-              )
-          );
-        },
-      ),
-        SizedBox(height: 30),
-      TextButton(
-        child: Text(
-          "Book",
-          style: TextStyle(fontSize: 25),
-
-        ),
-        onPressed: () async {
-          await bookTrips();
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("Booking"),
-                  content: Text("done"),
-                  actions: <Widget>[
-                    // FlatButton(
-                    //   child: Text("OK"),
-                    // ),
-                  ],
-                );
-              });
-        },
-        style: TextButton.styleFrom(
-            primary: Colors.white, elevation: 2, backgroundColor: Colors.indigo),
-      ),
-      SizedBox(height: 30),
-    ]));
+                                    Cartlist.removeAt(position);
+                                    print(Cartlist);
+                                  });
+                                },
+                                style: TextButton.styleFrom(
+                                    primary: Colors.red,
+                                    elevation: 2,
+                                    backgroundColor: Colors.amber),
+                              ),
+                            ]),
+                      )));
+            },
+          ),
+          SizedBox(height: 30),
+          Cartlist.length != 0
+              ? TextButton(
+                  child: Text(
+                    "Book",
+                    // style: TextStyle(fontSize: 25),
+                  ),
+                  onPressed: () async {
+                    await bookTrips();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Booking"),
+                            content: Text("done"),
+                            actions: <Widget>[
+                              // FlatButton(
+                              //   child: Text("OK"),
+                              // ),
+                            ],
+                          );
+                        });
+                  },
+                  style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      elevation: 2,
+                      backgroundColor: Colors.indigo),
+                )
+              : Text('No trip'),
+          SizedBox(height: 30),
+        ]));
 
     /*Container(
       color: const Color(0xFFFFE306),

@@ -1,3 +1,4 @@
+import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_trip/addDiveSite.dart';
@@ -48,6 +49,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   DateTime to;
   DateTime last;
   List<DiveSite> pinkValue = [new DiveSite()];
+  final _formKey = GlobalKey<FormState>();
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -184,7 +186,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
   @override
   Widget build(BuildContext context) {
     //loadData();
-    return Container(
+    return Form(
+      key: _formKey,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
@@ -194,9 +197,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
               Text('From'),
               Spacer(),
               //  Text(from == null ? '' : from.toString()),
-              Text(from == null
-                          ? ''
-                          : DateFormat("dd/MM/yyyy").format(from)),
+              Text(from == null ? '' : DateFormat("dd/MM/yyyy").format(from)),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
@@ -208,11 +209,19 @@ class _CreateTripFormState extends State<CreateTripForm> {
                             firstDate: DateTime.now(),
                             lastDate: DateTime(2023))
                         .then((date) => {
-                              setState(() {
-                                var timeStamp =
-                                    print(Timestamp.fromDateTime(date));
-                                from = date;
-                              })
+                              if (date != null)
+                                {
+                                  removeError(error: "Please select from date"),
+                                  setState(() {
+                                    var timeStamp =
+                                        print(Timestamp.fromDateTime(date));
+                                    from = date;
+                                  })
+                                }
+                              else if (date == null)
+                                {
+                                  addError(error: "Please select from date"),
+                                }
                             });
                   }),
             ],
@@ -223,9 +232,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
               Text('To'),
               Spacer(),
               // Text(to == null ? '' : to.toString()),
-              Text(to == null
-                          ? ''
-                          : DateFormat("dd/MM/yyyy").format(to)),
+              Text(to == null ? '' : DateFormat("dd/MM/yyyy").format(to)),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
@@ -237,11 +244,19 @@ class _CreateTripFormState extends State<CreateTripForm> {
                             firstDate: from,
                             lastDate: DateTime(2023))
                         .then((date) => {
-                              setState(() {
-                                var timeStamp =
-                                    print(Timestamp.fromDateTime(date));
-                                to = date;
-                              })
+                              if (date != null)
+                                {
+                                  removeError(error: "Please select to date"),
+                                  setState(() {
+                                    var timeStamp =
+                                        print(Timestamp.fromDateTime(date));
+                                    to = date;
+                                  })
+                                }
+                              else if (date == null)
+                                {
+                                  addError(error: "Please select to date"),
+                                }
                             });
                   }),
             ],
@@ -257,9 +272,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
               ),
               Spacer(),
               // Text(to == null ? '' : to.toString()),
-              Text(last == null
-                          ? ''
-                          : DateFormat("dd/MM/yyyy").format(last)),
+              Text(last == null ? '' : DateFormat("dd/MM/yyyy").format(last)),
               Spacer(),
               RaisedButton(
                   color: Color(0xfff8dd9cc),
@@ -275,11 +288,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
                             firstDate: DateTime.now(),
                             lastDate: from.subtract(Duration(days: 1)))
                         .then((date) => {
-                              setState(() {
-                                var timeStamp =
-                                    print(Timestamp.fromDateTime(date));
-                                last = date;
-                              })
+                              if (date != null)
+                                {
+                                  removeError(
+                                      error:
+                                          "Please select last reservation date"),
+                                  setState(() {
+                                    var timeStamp =
+                                        print(Timestamp.fromDateTime(date));
+                                    last = date;
+                                  })
+                                }
+                              else if (date == null)
+                                {
+                                  addError(
+                                      error:
+                                          "Please select last reservation date"),
+                                }
                             });
                   }),
             ],
@@ -289,17 +314,27 @@ class _CreateTripFormState extends State<CreateTripForm> {
           Container(
             color: Colors.white,
             child: Center(
-              child: DropdownButton(
+              child: DropdownButtonFormField(
                 isExpanded: true,
                 value: divemasterSelected,
                 items: listDivemaster,
                 hint: Text('  Select dive master'),
                 iconSize: 40,
+                validator: (value) {
+                  if (value == null) {
+                    addError(error: "Please select dive master");
+                    return "";
+                  }
+                  return null;
+                },
                 onChanged: (value) {
-                  setState(() {
-                    divemasterSelected = value;
-                    print(value);
-                  });
+                  if (value != null) {
+                    removeError(error: "Please select dive master");
+                    setState(() {
+                      divemasterSelected = value;
+                      print(value);
+                    });
+                  }
                 },
               ),
             ),
@@ -310,35 +345,52 @@ class _CreateTripFormState extends State<CreateTripForm> {
           SizedBox(height: 20),
           buildTotalPeopleFormField(),
           SizedBox(height: 20),
-           Container(
+          Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreDiveSite(this.pinkValue,
-      
-             ),
+            child: AddMoreDiveSite(this.pinkValue, this.errors),
           ),
-           SizedBox(height: 20),
+          SizedBox(height: 20),
           Container(
               width: MediaQuery.of(context).size.width / 1.5,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Triptemplate(this.triptemplate)),
+              child: Triptemplate(this.triptemplate, this.errors)),
 
           SizedBox(height: 20),
-          //   FormError(errors: errors),
+          FormError(errors: errors),
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () => {
-              AddTrip(),
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
+              if (_formKey.currentState.validate())
+                {
+                  if (from == null)
+                    {
+                      addError(error: "Please select from date"),
+                    }
+                  else if (to == null)
+                    {
+                      addError(error: "Please select to date"),
+                    }
+                  else if (last == null)
+                    {
+                      addError(error: "Please select last reservation date"),
+                    }
+                  else
+                    {
+                      AddTrip(),
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              MainCompanyScreen(),
+                        ),
+                        (route) => false,
+                      )
+                    }
+                }
             },
             color: Color(0xfff75BDFF),
             child: Text(
