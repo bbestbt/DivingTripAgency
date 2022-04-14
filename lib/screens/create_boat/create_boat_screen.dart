@@ -16,7 +16,8 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 
 class CreateBoat extends StatelessWidget {
-  // final MenuCompany _controller = Get.put(MenuCompany());
+
+  final MenuCompany _controller = Get.put(MenuCompany());
   GetProfileResponse user_profile = new GetProfileResponse();
   var profile;
   getProfile() async {
@@ -42,7 +43,7 @@ class CreateBoat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // key: _controller.scaffoldkey,
+      key: _controller.scaffoldkey,
       drawer: CompanyHamburger(),
       body: SingleChildScrollView(
         child: Container(

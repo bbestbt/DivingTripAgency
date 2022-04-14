@@ -211,18 +211,7 @@ class _CompanyReportState extends State<CompanyReport> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Column(children: [
-                    user_profile.hasAgency()
-                        ? Container(
-                            margin: EdgeInsets.symmetric(vertical: 20),
-                            constraints: BoxConstraints(maxWidth: 1110),
-                            child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Incoming Trips',
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                          )
-                        : Text('No data'),
+
                     SizedBox(
                       width: 1110,
                       child: FutureBuilder(
@@ -230,18 +219,40 @@ class _CompanyReportState extends State<CompanyReport> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Center(
-                                child: Container(
-                                    child: Wrap(
-                                        spacing: 20,
-                                        runSpacing: 40,
-                                        children: List.generate(
-                                          incomingTrips.length,
-                                          (indexIncoming) => Center(
-                                            child: IncomingCard(
-                                              indexIncoming,
-                                            ),
+
+                                child: user_profile.hasAgency() &&
+                                        incomingTrips.length != 0
+                                    ? Column(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 20),
+                                            constraints:
+                                                BoxConstraints(maxWidth: 1110),
+                                            child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  'Incoming Trips',
+                                                  style:
+                                                      TextStyle(fontSize: 20),
+                                                )),
                                           ),
-                                        ))));
+                                          Container(
+                                              child: Wrap(
+                                                  spacing: 20,
+                                                  runSpacing: 40,
+                                                  children: List.generate(
+                                                    incomingTrips.length,
+                                                    (indexIncoming) => Center(
+                                                      child: IncomingCard(
+                                                        indexIncoming,
+                                                      ),
+                                                    ),
+                                                  ))),
+                                        ],
+                                      )
+                                    : Text('No incoming trip'));
+
                           } else {
                             return Text('No data');
                           }
@@ -251,18 +262,7 @@ class _CompanyReportState extends State<CompanyReport> {
                     SizedBox(
                       height: 100,
                     ),
-                    user_profile.hasAgency()
-                        ? Container(
-                            margin: EdgeInsets.symmetric(vertical: 20),
-                            constraints: BoxConstraints(maxWidth: 1110),
-                            child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Trips',
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                          )
-                        : Text(''),
+
                     SizedBox(
                       width: 1110,
                       child: FutureBuilder(
@@ -270,18 +270,39 @@ class _CompanyReportState extends State<CompanyReport> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Center(
-                                child: Container(
-                                    child: Wrap(
-                                        spacing: 20,
-                                        runSpacing: 40,
-                                        children: List.generate(
-                                          trips.length,
-                                          (indexTrip) => Center(
-                                            child: InfoCard(
-                                              indexTrip,
-                                            ),
-                                          ),
-                                        ))));
+
+                              child: user_profile.hasAgency() &&
+                                      trips.length != 0
+                                  ? Column(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 20),
+                                          constraints:
+                                              BoxConstraints(maxWidth: 1110),
+                                          child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                'Trips',
+                                                style: TextStyle(fontSize: 20),
+                                              )),
+                                        ),
+                                        Container(
+                                            child: Wrap(
+                                                spacing: 20,
+                                                runSpacing: 40,
+                                                children: List.generate(
+                                                  trips.length,
+                                                  (indexTrip) => Center(
+                                                    child: InfoCard(
+                                                      indexTrip,
+                                                    ),
+                                                  ),
+                                                ))),
+                                      ],
+                                    )
+                                  : Text('No trip'),
+                            );
                           } else {
                             return Text('No data');
                           }
@@ -291,18 +312,8 @@ class _CompanyReportState extends State<CompanyReport> {
                     SizedBox(
                       height: 100,
                     ),
-                    user_profile.hasAgency()
-                        ? Container(
-                            margin: EdgeInsets.symmetric(vertical: 20),
-                            constraints: BoxConstraints(maxWidth: 1110),
-                            child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Ended trips',
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                          )
-                        : Text(''),
+
+
                     SizedBox(
                       width: 1110,
                       child: FutureBuilder(
@@ -310,19 +321,40 @@ class _CompanyReportState extends State<CompanyReport> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Center(
-                                // child: Text('test'),
-                                child: Container(
-                                    child: Wrap(
-                                        spacing: 20,
-                                        runSpacing: 40,
-                                        children: List.generate(
-                                          endedTrips.length,
-                                          (indexEndedTrip) => Center(
-                                            child: InfoCardEnded(
-                                              indexEndedTrip,
-                                            ),
-                                          ),
-                                        ))));
+
+                              // child: Text('test'),
+                              child: user_profile.hasAgency() &&
+                                      endedTrips.length != 0
+                                  ? Column(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.symmetric(
+                                              vertical: 20),
+                                          constraints:
+                                              BoxConstraints(maxWidth: 1110),
+                                          child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                'Ended trips',
+                                                style: TextStyle(fontSize: 20),
+                                              )),
+                                        ),
+                                        Container(
+                                            child: Wrap(
+                                                spacing: 20,
+                                                runSpacing: 40,
+                                                children: List.generate(
+                                                  endedTrips.length,
+                                                  (indexEndedTrip) => Center(
+                                                    child: InfoCardEnded(
+                                                      indexEndedTrip,
+                                                    ),
+                                                  ),
+                                                ))),
+                                      ],
+                                    )
+                                  : Text('No ended trip'),
+                            );
                           } else {
                             return Text('No data');
                           }

@@ -242,32 +242,46 @@ class _CompanyProfileState extends State<CompanyProfile> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        'Trip history',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
+
+
                       SizedBox(
                         width: 1110,
                         child: FutureBuilder(
                           future: getData(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              return Center(
-                                  child: Container(
-                                      child: Wrap(
-                                          spacing: 20,
-                                          runSpacing: 40,
-                                          children: List.generate(
-                                            trips.length,
-                                            (index) => Center(
-                                              child: InfoCard(
-                                                index: index,
-                                              ),
+
+                              return trips.length != 0
+                                  ? Column(
+                                      children: [
+                                        Center(
+                                            child: Column(
+                                          children: [
+                                            Text(
+                                              'Trip history',
+                                              style: TextStyle(fontSize: 18),
                                             ),
-                                          ))));
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Container(
+                                                child: Wrap(
+                                                    spacing: 20,
+                                                    runSpacing: 40,
+                                                    children: List.generate(
+                                                      trips.length,
+                                                      (index) => Center(
+                                                        child: InfoCard(
+                                                          index: index,
+                                                        ),
+                                                      ),
+                                                    ))),
+                                          ],
+                                        )),
+                                      ],
+                                    )
+                                  : Text('');
+
                             } else {
                               return Align(
                                   alignment: Alignment.center,

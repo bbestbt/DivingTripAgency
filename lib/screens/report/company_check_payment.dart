@@ -1,4 +1,4 @@
-import 'package:diving_trip_agency/controllers/menuController.dart';
+import 'package:diving_trip_agency/controllers/menuCompany.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
@@ -9,6 +9,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/payment.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
+import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/components/side_menu.dart';
@@ -52,6 +53,7 @@ class CompanyCheckpayment extends StatefulWidget {
 }
 
 class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
+  final MenuCompany _controller = Get.put(MenuCompany());
   List<Diver> diver = [];
   int index;
   List<Reservation> reservation = [];
@@ -98,7 +100,8 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: SideMenu(),
+        key: _controller.scaffoldkey,
+        drawer: CompanyHamburger(),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -125,12 +128,15 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                                 children: List.generate(
                                   trips[index].divers.length,
                                   (indexDiver) => Center(
-                                    child: InfoCard(
-                                      index,
-                                      diver,
-                                      reservation,
-                                      indexDiver,
-                                      trips,
+                                    child: SingleChildScrollView(
+                                       scrollDirection: Axis.horizontal,
+                                      child: InfoCard(
+                                        index,
+                                        diver,
+                                        reservation,
+                                        indexDiver,
+                                        trips,
+                                      ),
                                     ),
                                   ),
                                 )),
@@ -156,20 +162,21 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                               'Confirm',
                               style: TextStyle(fontSize: 15),
                             ),
-                          ),SizedBox(
-                        height: 20,
-                      ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
                         ],
                       )
                     : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(child: Text('No diver')),
-                        SizedBox(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(child: Text('No diver')),
+                          SizedBox(
                             height: 20,
                           ),
-                      ],
-                    ),
+                        ],
+                      ),
               ],
             ),
           ),
@@ -274,6 +281,7 @@ class _InfoCardState extends State<InfoCard> {
                   'Diver',
                   style: TextStyle(fontSize: 20),
                 ),
+
                 SizedBox(width: 50),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

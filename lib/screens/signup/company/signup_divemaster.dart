@@ -30,7 +30,9 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
   List<String> errors = [];
   final _formKey = GlobalKey<FormState>();
   _SignupDiveMasterState(this.errors);
-  // final MenuCompany _controller = Get.put(MenuCompany());'
+
+  final MenuCompany _controller = Get.put(MenuCompany());
+
   GetProfileResponse user_profile = new GetProfileResponse();
   var profile;
   getProfile() async {
