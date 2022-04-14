@@ -1,5 +1,3 @@
-
-
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbjson.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
@@ -17,6 +15,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+
 
 // This list holds the data for the list view
 List<TripWithTemplate> _foundtrip = [];
@@ -360,11 +359,11 @@ class _TripDetailState extends State<TripDetail> {
                       Align(
                           alignment: Alignment.topLeft,
                           child: Text("Price (per person/trip)")),
+
                       Container(
                           child: Wrap(
                         children: <Widget>[
                           ListTile(
-                            title: const Text('all'),
                             leading: Radio<Cost>(
                               value: Cost.all,
                               groupValue: tripcost,
@@ -375,8 +374,9 @@ class _TripDetailState extends State<TripDetail> {
                               },
                             ),
                           ),
+                          Text('all',overflow: TextOverflow.ellipsis,),
                           ListTile(
-                            title: const Text('0 - 1,000'),
+
                             leading: Radio<Cost>(
                               value: Cost.one,
                               groupValue: tripcost,
@@ -387,8 +387,10 @@ class _TripDetailState extends State<TripDetail> {
                               },
                             ),
                           ),
+                          Text('0 - 1,000'),
+
                           ListTile(
-                            title: const Text('1,000 - 2,000'),
+
                             leading: Radio<Cost>(
                               value: Cost.two,
                               groupValue: tripcost,
@@ -399,8 +401,9 @@ class _TripDetailState extends State<TripDetail> {
                               },
                             ),
                           ),
+                          Text('1,000 - 2,000'),
                           ListTile(
-                            title: const Text('2,000 - 3,000'),
+
                             leading: Radio<Cost>(
                               value: Cost.three,
                               groupValue: tripcost,
@@ -411,8 +414,10 @@ class _TripDetailState extends State<TripDetail> {
                               },
                             ),
                           ),
+                          Text('2,000 - 3,000'),
+
+
                           ListTile(
-                            title: const Text('3,000 +'),
                             leading: Radio<Cost>(
                               value: Cost.more,
                               groupValue: tripcost,
@@ -422,11 +427,14 @@ class _TripDetailState extends State<TripDetail> {
                                 });
                               },
                             ),
+
                           ),
+                          Text('3,000 +'),
                         ],
                       ))
                     ] //Container of left side
                         ))),
+
         Expanded(
             flex: 6,
             child: Container(

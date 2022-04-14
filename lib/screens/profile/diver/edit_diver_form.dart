@@ -316,8 +316,8 @@ class _EditDiverFormState extends State<EditDiverForm> {
                       Text('Front Image'),
                       SizedBox(width: 30),
                       Container(
-                          width: 200,
-                          height: 200,
+                          width: MediaQuery.of(context).size.width/10,
+                          height: MediaQuery.of(context).size.width/10,
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
                                   color: Colors.blue,
@@ -333,7 +333,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
                                 ? Image.network(
                                     DiverImage.path,
                                     fit: BoxFit.cover,
-                                    width: screenwidth * 0.2,
+                                    width: MediaQuery.of(context).size.width/10,
                                   )
                                 : Image.file(
                                     io.File(DiverImage.path),
@@ -366,8 +366,8 @@ class _EditDiverFormState extends State<EditDiverForm> {
                       Text('Back image'),
                       SizedBox(width: 30),
                       Container(
-                          width: 200,
-                          height: 200,
+                          width: MediaQuery.of(context).size.width/10,
+                          height: MediaQuery.of(context).size.width/10,
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
                                   color: Colors.green,
@@ -384,7 +384,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
                                   ? Image.network(
                                       DiveBack.path,
                                       fit: BoxFit.cover,
-                                      width: screenwidth * 0.2,
+                                      width: MediaQuery.of(context).size.width/10,
                                     )
                                   : Image.file(
                                       io.File(DiveBack.path),

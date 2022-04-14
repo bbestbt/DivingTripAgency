@@ -54,6 +54,7 @@ dependencies:
 dev_dependencies:
   hive_generator: ^1.1.0
   build_runner: ^2.1.2
+  group_radio_button: ^1.2.0
   flutter_test:
     sdk: flutter
 

@@ -332,8 +332,8 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                       ),
                       SizedBox(width: 30),
                       Container(
-                          width: 200,
-                          height: 200,
+                          width: MediaQuery.of(context).size.width/10,
+                          height: MediaQuery.of(context).size.width/10,
                           child: user_profile.agency.documents.length == 0
                               ? new Container(
                                   color: Colors.pink,
@@ -351,7 +351,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                                   ? Image.network(
                                       docFile.path,
                                       fit: BoxFit.cover,
-                                      width: screenwidth * 0.2,
+                                      width: MediaQuery.of(context).size.width/10,
                                     )
                                   : Image.file(
                                       io.File(docFile.path),
@@ -385,8 +385,8 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                       ),
                       SizedBox(width: 30),
                       Container(
-                          width: 200,
-                          height: 200,
+                          width: MediaQuery.of(context).size.width/10,
+                          height: MediaQuery.of(context).size.width/10,
                           child: user_profile.agency.documents.length == 0
                               ? new Container(
                                   color: Colors.green,
@@ -402,7 +402,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                                   ? Image.network(
                                       imageFile.path,
                                       fit: BoxFit.cover,
-                                      width: screenwidth * 0.2,
+                                      width: MediaQuery.of(context).size.width/10,
                                     )
                                   : Image.file(
                                       io.File(imageFile.path),
@@ -417,6 +417,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                           style: TextStyle(fontSize: 15),
                         ),
                         onPressed: () {
+
                           _getFromGallery();
                         },
                       ),
