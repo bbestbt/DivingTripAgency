@@ -12,11 +12,11 @@ import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/ShopCart/ShopcartWidget.dart';
 
 class ShopCart extends StatelessWidget {
-  // final MenuController _controller = Get.put(MenuController());
+  final MenuController _controller = Get.put(MenuController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // key: _controller.scaffoldkey,
+      key: _controller.scaffoldkey,
       drawer: SideMenu(),
       body: SingleChildScrollView(
         child: Column(

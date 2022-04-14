@@ -79,7 +79,7 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
   WeatherFactory ws;
 
   List<Weather> _data = [];
-  // final MenuController _controller = Get.put(MenuController());
+  final MenuController _controller = Get.put(MenuController());
   int index;
   List<TripWithTemplate> details;
   _DiveResortDetailScreenState(int index, List<TripWithTemplate> details) {
@@ -90,7 +90,7 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // key: _controller.scaffoldkey,
+        key: _controller.scaffoldkey,
         drawer: SideMenu(),
         body: SingleChildScrollView(
           child: Center(

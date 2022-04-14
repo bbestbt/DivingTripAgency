@@ -25,7 +25,7 @@ class SignupStaff extends StatefulWidget {
 }
 
 class _SignupStaffState extends State<SignupStaff> {
-  // final MenuCompany _controller = Get.put(MenuCompany());
+  final MenuCompany _controller = Get.put(MenuCompany());
   List<Staff> staffValue = [new Staff()];
   List<String> errors = [];
   final _formKey = GlobalKey<FormState>();
@@ -86,7 +86,7 @@ class _SignupStaffState extends State<SignupStaff> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // key: _controller.scaffoldkey,
+      key: _controller.scaffoldkey,
       drawer: CompanyHamburger(),
       body: SingleChildScrollView(
         child: Form(
