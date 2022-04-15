@@ -53,7 +53,7 @@ class CompanyCheckpayment extends StatefulWidget {
 }
 
 class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
-  final MenuCompany _controller = Get.put(MenuCompany());
+  // final MenuCompany _controller = Get.put(MenuCompany());
   List<Diver> diver = [];
   int index;
   List<Reservation> reservation = [];
@@ -100,7 +100,7 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _controller.scaffoldkey,
+        // key: _controller.scaffoldkey,
         drawer: CompanyHamburger(),
         body: SingleChildScrollView(
           child: Center(
