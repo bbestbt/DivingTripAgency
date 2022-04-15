@@ -51,6 +51,13 @@ class HeaderCompany extends StatelessWidget {
             Row(
               children: [
                 NavItem(
+                  title: 'Home',
+                  tapEvent: () {
+                     Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => MainCompanyScreen()));
+                  },
+                ),
+                NavItem(
                   title: 'Create trip',
                   tapEvent: () {
                      Navigator.push(context,
