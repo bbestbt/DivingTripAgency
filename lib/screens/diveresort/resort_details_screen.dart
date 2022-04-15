@@ -689,7 +689,7 @@ class _detailState extends State<detail> {
         Container(
             decoration: BoxDecoration(
                 // color: Colors.white,
-                color: Color(0xFFFF89cfef),
+                color: Color(0xFFFdaf0ff),
                 borderRadius: BorderRadius.circular(10)),
             width: MediaQuery.of(context).size.width,
             child: Expanded(
@@ -1017,7 +1017,7 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
-                  onPressed: () async {
+                  onPressed: roomtypes[widget.indexRoom].quantity==0? null: () async {
                     // print('bf');
                     // bookTrips();
                     // print('af');
@@ -1027,7 +1027,7 @@ class _InfoCardState extends State<InfoCard> {
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  child: Text("Book the trip"),
+                  child: Text("Book room"),
                 ),
               ],
             ),

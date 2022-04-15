@@ -16,7 +16,6 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-
 // This list holds the data for the list view
 List<TripWithTemplate> _foundtrip = [];
 List costchecklist = [];
@@ -155,9 +154,9 @@ class _TripDetailState extends State<TripDetail> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-        Expanded(
-            flex: 2,
-            child:  Container(
+            Expanded(
+                flex: 2,
+                child: Container(
                     margin: EdgeInsets.all(10.0),
                     padding: EdgeInsets.all(10.0),
                     //height: 1080,
@@ -359,147 +358,169 @@ class _TripDetailState extends State<TripDetail> {
                       Align(
                           alignment: Alignment.topLeft,
                           child: Text("Price (per person/trip)")),
-
                       Container(
                           child: Wrap(
                         children: <Widget>[
                           ListTile(
-                            leading: Radio<Cost>(
-                              value: Cost.all,
-                              groupValue: tripcost,
-                              onChanged: (Cost value) {
-                                setState(() {
-                                  tripcost = value;
-                                });
-                              },
-                            ),
-                          ),
-                          Text('all',overflow: TextOverflow.ellipsis,),
+                              contentPadding: EdgeInsets.only(left: 0),
+                              title: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    Radio<Cost>(
+                                      value: Cost.all,
+                                      groupValue: tripcost,
+                                      onChanged: (Cost value) {
+                                        setState(() {
+                                          tripcost = value;
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                      'all',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              )),
                           ListTile(
-
-                            leading: Radio<Cost>(
-                              value: Cost.one,
-                              groupValue: tripcost,
-                              onChanged: (Cost value) {
-                                setState(() {
-                                  tripcost = value;
-                                });
-                              },
-                            ),
-                          ),
-                          Text('0 - 1,000'),
-
+                              contentPadding: EdgeInsets.only(left: 0),
+                              title: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    Radio<Cost>(
+                                      value: Cost.one,
+                                      groupValue: tripcost,
+                                      onChanged: (Cost value) {
+                                        setState(() {
+                                          tripcost = value;
+                                        });
+                                      },
+                                    ),
+                                    Text('0 - 1,000'),
+                                  ],
+                                ),
+                              )),
                           ListTile(
-
-                            leading: Radio<Cost>(
-                              value: Cost.two,
-                              groupValue: tripcost,
-                              onChanged: (Cost value) {
-                                setState(() {
-                                  tripcost = value;
-                                });
-                              },
-                            ),
+                            contentPadding: EdgeInsets.only(left: 0),
+                            title: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(children: [
+                                  Radio<Cost>(
+                                    value: Cost.two,
+                                    groupValue: tripcost,
+                                    onChanged: (Cost value) {
+                                      setState(() {
+                                        tripcost = value;
+                                      });
+                                    },
+                                  ),
+                                  Text('1,000 - 2,000'),
+                                ])),
                           ),
-                          Text('1,000 - 2,000'),
                           ListTile(
-
-                            leading: Radio<Cost>(
-                              value: Cost.three,
-                              groupValue: tripcost,
-                              onChanged: (Cost value) {
-                                setState(() {
-                                  tripcost = value;
-                                });
-                              },
-                            ),
+                            contentPadding: EdgeInsets.only(left: 0),
+                            title: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(children: [
+                                  Radio<Cost>(
+                                    value: Cost.three,
+                                    groupValue: tripcost,
+                                    onChanged: (Cost value) {
+                                      setState(() {
+                                        tripcost = value;
+                                      });
+                                    },
+                                  ),
+                                  Text('2,000 - 3,000'),
+                                ])),
                           ),
-                          Text('2,000 - 3,000'),
-
-
                           ListTile(
-                            leading: Radio<Cost>(
-                              value: Cost.more,
-                              groupValue: tripcost,
-                              onChanged: (Cost value) {
-                                setState(() {
-                                  tripcost = value;
-                                });
-                              },
-                            ),
-
-                          ),
-                          Text('3,000 +'),
+                              contentPadding: EdgeInsets.only(left: 0),
+                              title: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(children: [
+                                    Radio<Cost>(
+                                      value: Cost.more,
+                                      groupValue: tripcost,
+                                      onChanged: (Cost value) {
+                                        setState(() {
+                                          tripcost = value;
+                                        });
+                                      },
+                                    ),
+                                    Text('3,000 +'),
+                                  ]))),
                         ],
                       ))
                     ] //Container of left side
                         ))),
+            Expanded(
+                flex: 6,
+                child: Container(
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: SingleChildScrollView(
+                            child: Container(
+                              // margin: EdgeInsetsDirectional.only(top:120),
 
-        Expanded(
-            flex: 6,
-            child: Container(
-                child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Material(
-                      type: MaterialType.transparency,
-                      child: SingleChildScrollView(
-                        child: Container(
-                          // margin: EdgeInsetsDirectional.only(top:120),
-
-                          decoration: BoxDecoration(
-                              color: Color(0xfffd4f0f7).withOpacity(0.3)),
-                          child: Wrap(
-                            children: [
-                              SectionTitle(
-                                title: "All Trips",
-                                color: Color(0xFFFF78a2cc),
+                              decoration: BoxDecoration(
+                                  color: Color(0xfffd4f0f7).withOpacity(0.3)),
+                              child: Wrap(
+                                children: [
+                                  SectionTitle(
+                                    title: "All Trips",
+                                    color: Color(0xFFFF78a2cc),
+                                  ),
+                                  SizedBox(height: 40),
+                                  // Text(trips.length.toString()),
+                                  SizedBox(
+                                    child: FutureBuilder(
+                                      future: getTrip(),
+                                      // searchData(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          // debugPrint(
+                                          //     'Step 3, build widget: ${snapshot.data}');
+                                          // Build the widget with data.
+                                          if (_foundtrip.length == 0) {
+                                            return Text("No Data Available");
+                                          } else {
+                                            return ListView.builder(
+                                                scrollDirection: Axis.vertical,
+                                                shrinkWrap: true,
+                                                itemCount: _foundtrip.length,
+                                                itemBuilder: (context, index) {
+                                                  return InfoCard(
+                                                    index: index,
+                                                  );
+                                                });
+                                          }
+                                        } else {
+                                          // We can show the loading view until the data comes back.
+                                          return CircularProgressIndicator();
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  // Text(trips[trips.length].diveMasters.toString()),
+                                  SizedBox(
+                                    height: 100,
+                                  )
+                                ],
                               ),
-                              SizedBox(height: 40),
-                              // Text(trips.length.toString()),
-                              SizedBox(
-                                child: FutureBuilder(
-                                  future: getTrip(),
-                                  // searchData(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      // debugPrint(
-                                      //     'Step 3, build widget: ${snapshot.data}');
-                                      // Build the widget with data.
-                                      if (_foundtrip.length == 0){
-                                        return Text("No Data Available");
-                                      } else {
-                                        return ListView.builder(
-                                            scrollDirection: Axis.vertical,
-                                            shrinkWrap: true,
-                                            itemCount: _foundtrip.length,
-                                            itemBuilder: (context, index) {
-                                              return InfoCard(
-                                                index: index,
-                                              );
-                                            });
-                                      }
-                                    } else {
-                                      // We can show the loading view until the data comes back.
-                                      return CircularProgressIndicator();
-                                    }
-                                  },
-                                ),
-                              ),
-                              // Text(trips[trips.length].diveMasters.toString()),
-                              SizedBox(
-                                height: 100,
-                              )
-                            ],
+                            ),
                           ),
-                        ),
-                      ),
-                    )))),
-      ]),
+                        )))),
+          ]),
     );
   }
 
   void _runFilter() {
-    print("Date diff: " + _diff);
+    // print("Date diff: " + _diff);
     // print("Dropdownvalue2:"+dropdownValue2);
     // print("Dropdownvalue:"+dropdownValue);
     List<TripWithTemplate> results = [];
@@ -522,7 +543,6 @@ class _TripDetailState extends State<TripDetail> {
         _foundtrip = results;
       });
     } else {
-
       //print("Guestvalue" + guestvalue.toString());
       results = trips;
       setState(() {
@@ -552,7 +572,9 @@ class _TripDetailState extends State<TripDetail> {
 
       if (guestvalue != null) {
         //results = results.where((trip) => trip.maxGuest >= guestvalue).toList();
-        results = results.where((trip) => trip.maxGuest - trip.curentGuest >= guestvalue).toList();
+        results = results
+            .where((trip) => trip.maxGuest - trip.curentGuest >= guestvalue)
+            .toList();
         //print(results[0].maxGuest);
       }
       if (dropdownValue2 != "All") {
@@ -566,9 +588,8 @@ class _TripDetailState extends State<TripDetail> {
               .toList();
           print("TripType");
           print(results[0].tripTemplate.tripType.toString());
-        }
-        else if (dropdownValue2 == "Offshore"){
-          print("dropdownValue 2 (Should be Offshore):"+dropdownValue2);
+        } else if (dropdownValue2 == "Offshore") {
+          print("dropdownValue 2 (Should be Offshore):" + dropdownValue2);
           results = results
               .where(
                   (trip) => trip.tripTemplate.tripType.toString() == "OFFSHORE")
