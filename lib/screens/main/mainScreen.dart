@@ -28,10 +28,8 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       // key: _controller.scaffoldkey,
       // drawer: SideMenu(),
-        endDrawer: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: 300
-        ),
+      endDrawer: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 300),
         child: SideMenu(),
       ),
 
@@ -40,13 +38,17 @@ class MainScreen extends StatelessWidget {
           children: [
             Header(),
             TopSection(),
-           // CenterSection(),
-            SizedBox(height: 20,),
+            // CenterSection(),
+            SizedBox(
+              height: 20,
+            ),
             Text('Recommended Trip'),
             CarouselWithDotsPage(imgList: imgList),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
-
       ),
     );
   }

@@ -35,79 +35,180 @@ class _CenterCompanySectionState extends State<CenterCompanySection> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-        child: Container(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 50, left: 150),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              child: FutureBuilder(
-                future: getProfile(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Center(
-                      child: Container(
-                        child: Column(
-                          children: [
-                            Text(
-                                'Welcome ' +
-                                    user_profile.agency.name +
-                                    ' agency',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
-                                    color: Colors.black)),
-                          ],
+    return Container(
+        padding: const EdgeInsets.only(left: 30),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height / 2,
+        decoration: BoxDecoration(
+            //color: Color(0xfffdcfffb)
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+              Color(0xfffcfecd0),
+              Color(0xfffffc5ca),
+            ])),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          // child: ConstrainedBox(
+          //     constraints: BoxConstraints(
+          //       maxWidth: MediaQuery.of(context).size.width,
+          //     ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Text(
+                    "Diving trip".toUpperCase(),
+                    style: Theme.of(context).textTheme.headline2.copyWith(
+                          fontWeight: FontWeight.bold,
                         ),
-                      ),
-                    );
-                  } else {
-                    return Text('Welcome');
-                  }
-                },
+                  ),
+                  SizedBox(
+                    child: FutureBuilder(
+                      future: getProfile(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Center(
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Text('Welcome ' + user_profile.agency.name,
+                                      // +
+                                      // ' agency',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30,
+                                          color: Colors.black)),
+                                ],
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Text('Welcome');
+                        }
+                      },
+                    ),
+                  ),
+                  // Text(
+                  //   "Lorem ipsum dolor sit amet, consectetur \nadipiscing elit, sed do eiusmod tempor \nincididunt ut labor",
+                  //   style: TextStyle(
+                  //     fontSize: 21,
+                  //   ),
+                  // ),
+                ],
               ),
-            ),
+              // Spacer(
+              // flex: 2,
+              // ),
+              SizedBox(width: MediaQuery.of(context).size.width / 5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    // width: 400,
+                    // height:350,
+                    width: MediaQuery.of(context).size.width / 2,
+                    height: MediaQuery.of(context).size.height / 2.2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/scuba-diving.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 20),
+            ],
+          ),
+        )
+        // )
+        );
+    // Size size = MediaQuery.of(context).size;
+    //   return SingleChildScrollView(
+    //       child: Container(
+    //     child: Padding(
+    //       padding: const EdgeInsets.only(top: 50, left: 150),
+    //       child: Column(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         children: [
+    //           Column(
+    //             crossAxisAlignment: CrossAxisAlignment.start,
+    //             children: [
+    //               SizedBox(
+    //                 child: FutureBuilder(
+    //                   future: getProfile(),
+    //                   builder: (context, snapshot) {
+    //                     if (snapshot.hasData) {
+    //                       return Center(
+    //                         child: Container(
+    //                           child: Column(
+    //                             children: [
+    //                               Text(
+    //                                   'Welcome ' +
+    //                                       user_profile.agency.name +
+    //                                       ' agency',
+    //                                   style: TextStyle(
+    //                                       fontWeight: FontWeight.bold,
+    //                                       fontSize: 30,
+    //                                       color: Colors.black)),
+    //                             ],
+    //                           ),
+    //                         ),
+    //                       );
+    //                     } else {
+    //                       return Text('Welcome');
+    //                     }
+    //                   },
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
 
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 20),
-            //   child: Text(
-            //     'Plan with us',
-            //     style: TextStyle(fontSize: 16),
-            //   ),
-            // ),
-            SizedBox(height: 20),
-            // MaterialButton(
-            //   color: Colors.white,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.all(Radius.circular(20)),
-            //   ),
-            //   onPressed: () {},
-            //   child: Padding(
-            //     padding:
-            //         const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            //     child: Text(
-            //       'All Detail',
-            //       style: TextStyle(color: Colors.green, fontSize: 12),
-            //     ),
-            //   ),
-            // )
-          ],
-        ),
-      ),
-      constraints: BoxConstraints(maxHeight: 300, minHeight: 100),
-      width: double.infinity,
-      decoration: BoxDecoration(
-          //color: Color(0xfffdcfffb)
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-            Color(0xfffcfecd0),
-            Color(0xfffffc5ca),
-          ])),
-    ));
+    //           // Padding(
+    //           //   padding: const EdgeInsets.symmetric(vertical: 20),
+    //           //   child: Text(
+    //           //     'Plan with us',
+    //           //     style: TextStyle(fontSize: 16),
+    //           //   ),
+    //           // ),
+    //           SizedBox(height: 20),
+    //           // MaterialButton(
+    //           //   color: Colors.white,
+    //           //   shape: RoundedRectangleBorder(
+    //           //     borderRadius: BorderRadius.all(Radius.circular(20)),
+    //           //   ),
+    //           //   onPressed: () {},
+    //           //   child: Padding(
+    //           //     padding:
+    //           //         const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+    //           //     child: Text(
+    //           //       'All Detail',
+    //           //       style: TextStyle(color: Colors.green, fontSize: 12),
+    //           //     ),
+    //           //   ),
+    //           // )
+    //         ],
+    //       ),
+    //     ),
+    //     constraints: BoxConstraints(maxHeight: 300, minHeight: 100),
+    //     width: double.infinity,
+    //     decoration: BoxDecoration(
+    //         //color: Color(0xfffdcfffb)
+    //         gradient: LinearGradient(
+    //             begin: Alignment.topLeft,
+    //             end: Alignment.bottomRight,
+    //             colors: [
+    //           Color(0xfffcfecd0),
+    //           Color(0xfffffc5ca),
+    //         ])),
+    //   ));
   }
 }

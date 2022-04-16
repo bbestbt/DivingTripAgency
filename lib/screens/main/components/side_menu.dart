@@ -22,7 +22,8 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: double.infinity,
-      color: Colors.white,
+      // color: Colors.white,
+       color: Color(0xfffb9deed),
       child: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20),

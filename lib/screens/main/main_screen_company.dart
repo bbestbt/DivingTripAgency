@@ -35,6 +35,9 @@ class MainCompanyScreen extends StatelessWidget {
               height: 20,
             ),
             CarouselWithDotsPage(imgList: imgList),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
