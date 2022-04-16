@@ -5,6 +5,7 @@ import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_screen.dart';
 import 'package:diving_trip_agency/screens/main/components/navitem.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
+import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/profile/company/company_profile_screen.dart';
 import 'package:diving_trip_agency/screens/report/company_report.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
@@ -20,12 +21,24 @@ class CompanyHamburger extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: double.infinity,
-      color: Colors.white,
+      // color: Colors.white,
+      color: Color(0xfffcfecd0),
       child: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20),
           child: Column(
             children: [
+              SizedBox(height: 20),
+              NavItem(
+                title: 'Home',
+                tapEvent: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MainCompanyScreen()));
+                },
+              ),
+              SizedBox(height: 20),
               NavItem(
                 title: 'Create trip',
                 tapEvent: () {
@@ -33,6 +46,7 @@ class CompanyHamburger extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => CreateTrip()));
                 },
               ),
+              SizedBox(height: 20),
               NavItem(
                 title: 'Create hotel',
                 tapEvent: () {
@@ -40,6 +54,7 @@ class CompanyHamburger extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => HotelScreen()));
                 },
               ),
+              SizedBox(height: 20),
               NavItem(
                 title: 'Create liveaboard',
                 tapEvent: () {
@@ -49,6 +64,7 @@ class CompanyHamburger extends StatelessWidget {
                           builder: (context) => CreateLiveaboardScreen()));
                 },
               ),
+              SizedBox(height: 20),
               NavItem(
                 title: 'Create boat',
                 tapEvent: () {
@@ -56,6 +72,7 @@ class CompanyHamburger extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => CreateBoat()));
                 },
               ),
+              SizedBox(height: 20),
               NavItem(
                 title: 'Create dive master',
                 tapEvent: () {
@@ -65,6 +82,7 @@ class CompanyHamburger extends StatelessWidget {
                           builder: (context) => SignupDiveMaster()));
                 },
               ),
+              SizedBox(height: 20),
               NavItem(
                 title: 'Create staff',
                 tapEvent: () {
@@ -72,6 +90,7 @@ class CompanyHamburger extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => SignupStaff()));
                 },
               ),
+              SizedBox(height: 20),
               NavItem(
                 title: 'Profile',
                 tapEvent: () {
@@ -81,6 +100,7 @@ class CompanyHamburger extends StatelessWidget {
                           builder: (context) => CompanyProfileScreen()));
                 },
               ),
+              SizedBox(height: 20),
               NavItem(
                 title: 'Report',
                 tapEvent: () {

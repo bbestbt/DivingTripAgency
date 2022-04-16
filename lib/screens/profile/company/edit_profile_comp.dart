@@ -13,7 +13,10 @@ class EditCompanyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
        // key: _controller.scaffoldkey,
-      drawer: CompanyHamburger(),
+      endDrawer: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 300),
+        child: CompanyHamburger(),
+      ),
       body: SingleChildScrollView(
          child: Container(
            width: double.infinity,

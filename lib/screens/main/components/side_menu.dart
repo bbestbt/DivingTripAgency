@@ -20,7 +20,7 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return Container(
+    return Container(
       height: double.infinity,
       color: Colors.white,
       child: SafeArea(
@@ -28,50 +28,53 @@ class SideMenu extends StatelessWidget {
           padding: EdgeInsets.all(20),
           child: Column(
             children: [
+              SizedBox(height: 20),
               NavItem(
-                    title: 'Home',
-                    tapEvent: () {
-                        Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MainScreen()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Trips',
-                    tapEvent: () {
-                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => TripDetailScreen()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Weather Forecast',
-                    tapEvent: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => WForecastScreen()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Profile',
-                    tapEvent: () {
-                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UserProfileScreen()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Cart',
-                    tapEvent: () {
-                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ShopCart()));
-                    },
-                  ),
+                title: 'Home',
+                tapEvent: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MainScreen()));
+                },
+              ),
+              SizedBox(height: 20),
+              NavItem(
+                title: 'Trips',
+                tapEvent: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TripDetailScreen()));
+                },
+              ),
+              SizedBox(height: 20),
+              NavItem(
+                title: 'Weather Forecast',
+                tapEvent: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => WForecastScreen()));
+                },
+              ),
+              SizedBox(height: 20),
+              NavItem(
+                title: 'Profile',
+                tapEvent: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserProfileScreen()));
+                },
+              ),
+              SizedBox(height: 20),
+              NavItem(
+                title: 'Cart',
+                tapEvent: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ShopCart()));
+                },
+              ),
+              SizedBox(height: 20),
             ],
           ),
         ),
@@ -149,7 +152,7 @@ class SideMenu extends StatelessWidget {
     //                                   builder: (context) =>
     //                                       ShopCart()));
     //                         }
-                            
+
     //                         // if (_controller.selectedIndex == 5) {
     //                         //   Navigator.push(
     //                         //       context,

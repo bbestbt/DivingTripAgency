@@ -228,10 +228,10 @@ class HeaderCompany extends StatelessWidget {
       String token = box.get('token');
       bool login = box.get('login');
       if (login == true) {
-        // print(login);
+        print(login);
         return true;
       } else {
-        // print(login);
+        print(login);
         return false;
       }
     } on GrpcError catch (e) {

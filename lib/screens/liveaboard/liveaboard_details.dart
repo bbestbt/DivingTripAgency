@@ -76,7 +76,12 @@ class _LiveaboardDetailScreenState extends State<LiveaboardDetailScreen> {
     // print('build'+index.toString());
     return Scaffold(
         // key: _controller.scaffoldkey,
-        drawer: SideMenu(),
+          endDrawer: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: 300
+        ),
+        child: SideMenu(),
+      ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(

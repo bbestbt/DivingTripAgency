@@ -101,7 +101,10 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
   Widget build(BuildContext context) {
     return Scaffold(
         // key: _controller.scaffoldkey,
-        drawer: CompanyHamburger(),
+        endDrawer: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 300),
+        child: CompanyHamburger(),
+      ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
