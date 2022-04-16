@@ -40,6 +40,8 @@ final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 int reservation_id;
 double total_price;
+GetProfileResponse user_profile = new GetProfileResponse();
+var profile;
 
 class _ChartData {
   _ChartData(this.day, this.temp);
@@ -76,12 +78,7 @@ class _LiveaboardDetailScreenState extends State<LiveaboardDetailScreen> {
     // print('build'+index.toString());
     return Scaffold(
         // key: _controller.scaffoldkey,
-          endDrawer: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: 300
-        ),
-        child: SideMenu(),
-      ),
+        drawer: SideMenu(),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
