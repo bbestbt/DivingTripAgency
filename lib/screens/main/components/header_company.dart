@@ -45,11 +45,8 @@ class HeaderCompany extends StatelessWidget {
             Color(0xfffcfecd0),
             Color(0xfffffc5ca),
           ])),
-      child: FutureBuilder(
-        future: getProfile(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Row(
+      child: 
+            Row(
               children: <Widget>[
                 SizedBox(width: 10),
                 Text(
@@ -156,7 +153,7 @@ class HeaderCompany extends StatelessWidget {
                                 backgroundColor: Color(0xfffff8fab),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 20 * 1.5, vertical: 20)),
-                            child: (checkLogin() && user_profile.hasAgency())
+                            child: (checkLogin())
                                 ? Text(
                                     "Log out",
                                     style: TextStyle(color: Colors.black),
@@ -178,13 +175,11 @@ class HeaderCompany extends StatelessWidget {
                         Scaffold.of(context).openEndDrawer();
                       })
               ],
-            );
-          } else {
-            return Center(child: Text(''));
-          }
-        },
-      ),
-    );
+            ));
+          } 
+        
+      
+    
     //  SafeArea(
     //   child: Column(
     //     children: [
@@ -282,4 +277,4 @@ class HeaderCompany extends StatelessWidget {
       print('Exception: $e');
     }
   }
-}
+
