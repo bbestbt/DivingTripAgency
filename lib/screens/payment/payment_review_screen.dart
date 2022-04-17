@@ -39,7 +39,12 @@ class _ReviewTripScreenState extends State<ReviewTripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // key: _controller.scaffoldkey,
-      drawer: SideMenu(),
+        endDrawer: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: 300
+        ),
+        child: SideMenu(),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [

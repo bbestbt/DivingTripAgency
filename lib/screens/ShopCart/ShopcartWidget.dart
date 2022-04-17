@@ -109,9 +109,10 @@ class _CartState extends State<CartWidget> {
     // print(indexDetail);
     // print(quantity);
     // print(diver);
+
     return Container(
-        width: 800,
-        // width: MediaQuery.of(context).size.width,
+        //width: 800,
+        width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.all(20),
         child: Column(children: [
           SectionTitle(
@@ -128,12 +129,13 @@ class _CartState extends State<CartWidget> {
                       padding: const EdgeInsets.all(20.0),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                            //mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                  width: 200,
-                                  height: 200,
+                                  width: MediaQuery.of(context).size.width/15,
+                                  height: MediaQuery.of(context).size.width/15,
                                   child: Cartlist[position][0]),
 
                               // Flexible(
@@ -143,8 +145,9 @@ class _CartState extends State<CartWidget> {
                               //          Cartlist[position][0])),
                               // )),
                               SizedBox(width: 30),
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              Wrap(
+                                direction: Axis.vertical,
+                                  //crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Trip Name: " +
@@ -223,6 +226,7 @@ class _CartState extends State<CartWidget> {
                             ],
                           );
                         });
+                    print(Cartlist);
                   },
                   style: TextButton.styleFrom(
                       primary: Colors.white,

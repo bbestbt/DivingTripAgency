@@ -211,7 +211,6 @@ class _CompanyReportState extends State<CompanyReport> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Column(children: [
-
                     SizedBox(
                       width: 1110,
                       child: FutureBuilder(
@@ -219,7 +218,6 @@ class _CompanyReportState extends State<CompanyReport> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Center(
-
                                 child: user_profile.hasAgency() &&
                                         incomingTrips.length != 0
                                     ? Column(
@@ -252,7 +250,6 @@ class _CompanyReportState extends State<CompanyReport> {
                                         ],
                                       )
                                     : Text('No incoming trip'));
-
                           } else {
                             return Text('No data');
                           }
@@ -262,7 +259,6 @@ class _CompanyReportState extends State<CompanyReport> {
                     SizedBox(
                       height: 100,
                     ),
-
                     SizedBox(
                       width: 1110,
                       child: FutureBuilder(
@@ -270,7 +266,6 @@ class _CompanyReportState extends State<CompanyReport> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Center(
-
                               child: user_profile.hasAgency() &&
                                       trips.length != 0
                                   ? Column(
@@ -312,8 +307,6 @@ class _CompanyReportState extends State<CompanyReport> {
                     SizedBox(
                       height: 100,
                     ),
-
-
                     SizedBox(
                       width: 1110,
                       child: FutureBuilder(
@@ -321,7 +314,6 @@ class _CompanyReportState extends State<CompanyReport> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Center(
-
                               // child: Text('test'),
                               child: user_profile.hasAgency() &&
                                       endedTrips.length != 0

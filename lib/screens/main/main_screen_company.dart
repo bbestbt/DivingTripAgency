@@ -21,7 +21,11 @@ class MainCompanyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // key: _controller.scaffoldkey,
-      drawer: CompanyHamburger(),
+      // drawer: CompanyHamburger(),
+      endDrawer: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 300),
+        child: CompanyHamburger(),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -30,7 +34,10 @@ class MainCompanyScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-              CarouselWithDotsPage(imgList: imgList),
+            CarouselWithDotsPage(imgList: imgList),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),

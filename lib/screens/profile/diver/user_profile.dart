@@ -132,12 +132,10 @@ class _UserProfileState extends State<UserProfile> {
                                             user_profile.diver.lastName
                                                 .toString(),
                                         style: TextStyle(fontSize: 18),
-
                                       ),
                                       SizedBox(
                                         height: 20,
                                       ),
-
                                       Text(
                                         'Level : ' +
                                             user_profile.diver.level.toString(),
@@ -206,15 +204,12 @@ class _UserProfileState extends State<UserProfile> {
                       SizedBox(
                         height: 20,
                       ),
-
-
                       SizedBox(
                         width: 1110,
                         child: FutureBuilder(
                           future: getData(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-
                               return trips.length != 0
                                   ? Column(
                                       children: [
@@ -245,7 +240,6 @@ class _UserProfileState extends State<UserProfile> {
                                       ],
                                     )
                                   : Text('');
-
                             } else {
                               return Align(
                                   alignment: Alignment.center,

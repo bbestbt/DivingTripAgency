@@ -242,15 +242,12 @@ class _CompanyProfileState extends State<CompanyProfile> {
                       SizedBox(
                         height: 20,
                       ),
-
-
                       SizedBox(
                         width: 1110,
                         child: FutureBuilder(
                           future: getData(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-
                               return trips.length != 0
                                   ? Column(
                                       children: [
@@ -281,7 +278,6 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                       ],
                                     )
                                   : Text('');
-
                             } else {
                               return Align(
                                   alignment: Alignment.center,

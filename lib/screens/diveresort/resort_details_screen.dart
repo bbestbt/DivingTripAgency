@@ -91,7 +91,12 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         // key: _controller.scaffoldkey,
-        drawer: SideMenu(),
+          endDrawer: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: 300
+        ),
+        child: SideMenu(),
+      ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -689,7 +694,7 @@ class _detailState extends State<detail> {
         Container(
             decoration: BoxDecoration(
                 // color: Colors.white,
-                color: Color(0xFFFF89cfef),
+                color: Color(0xFFFdaf0ff),
                 borderRadius: BorderRadius.circular(10)),
             width: MediaQuery.of(context).size.width,
             child: Expanded(
@@ -899,7 +904,12 @@ class _InfoCardState extends State<InfoCard> {
                         int.parse(_textEditingQuantity.text),
                         int.parse(_textEditingDiver.text)
                       ]);
-
+                     // print("Cartlist: ");
+                      //print(Cartlist);
+                      //print("Cartlist[0][2]: ");
+                      //print(Cartlist[0][2]);
+                      //print("Cartlist[0][1]: ");
+                      //print(Cartlist[0][1]);
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
                     }
@@ -1017,7 +1027,7 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
-                  onPressed: () async {
+                  onPressed: roomtypes[widget.indexRoom].quantity==0? null: () async {
                     // print('bf');
                     // bookTrips();
                     // print('af');
@@ -1027,7 +1037,7 @@ class _InfoCardState extends State<InfoCard> {
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  child: Text("Book the trip"),
+                  child: Text("Book room"),
                 ),
               ],
             ),

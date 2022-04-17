@@ -87,7 +87,10 @@ class _SignupStaffState extends State<SignupStaff> {
   Widget build(BuildContext context) {
     return Scaffold(
       // key: _controller.scaffoldkey,
-      drawer: CompanyHamburger(),
+      endDrawer: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 300),
+        child: CompanyHamburger(),
+      ),
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,

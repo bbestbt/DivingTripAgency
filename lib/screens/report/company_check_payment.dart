@@ -53,7 +53,7 @@ class CompanyCheckpayment extends StatefulWidget {
 }
 
 class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
-  final MenuCompany _controller = Get.put(MenuCompany());
+  // final MenuCompany _controller = Get.put(MenuCompany());
   List<Diver> diver = [];
   int index;
   List<Reservation> reservation = [];
@@ -100,8 +100,11 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _controller.scaffoldkey,
-        drawer: CompanyHamburger(),
+        // key: _controller.scaffoldkey,
+        endDrawer: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 300),
+        child: CompanyHamburger(),
+      ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -281,7 +284,6 @@ class _InfoCardState extends State<InfoCard> {
                   'Diver',
                   style: TextStyle(fontSize: 20),
                 ),
-
                 SizedBox(width: 50),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
