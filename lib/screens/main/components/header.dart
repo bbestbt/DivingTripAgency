@@ -90,28 +90,43 @@ class Header extends StatelessWidget {
                 Container(
                   height: 45,
                   child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()));
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                    },
+                    style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20 * 1.5, vertical: 20)),
+                    // child: Text("Login",
+                    // style: TextStyle(
+                    // color: Colors.black,
+                    // ))
+                    child: FutureBuilder(
+                      future: getProfile(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return (checkLogin()&&user_profile.hasDiver())
+                              ? Text(
+                                  "Log out",
+                                  style: TextStyle(color: Colors.black),
+                                )
+                              : Text(
+                                  "Log in",
+                                  style: TextStyle(color: Colors.black),
+                                );
+                        } else {
+                          return Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Log in',
+                                style: TextStyle(color: Colors.black),
+                              ));
+                        }
                       },
-                      style: TextButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20 * 1.5, vertical: 20)),
-                      // child: Text("Login",
-                      // style: TextStyle(
-                      // color: Colors.black,
-                      // ))
-                      child: (checkLogin())
-                          ? Text(
-                              "Log out",
-                              style: TextStyle(color: Colors.black),
-                            )
-                          : Text(
-                              "Log in",
-                              style: TextStyle(color: Colors.black),
-                            )),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   width: 10,

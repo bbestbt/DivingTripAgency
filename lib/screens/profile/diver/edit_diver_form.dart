@@ -83,7 +83,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
     profile = await pf.getProfile(new Empty());
     // print(profile);
     user_profile = profile;
- print(user_profile.diver.level.toString());
+    print(user_profile.diver.level.toString());
     return user_profile;
   }
 
@@ -103,7 +103,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
       value = LevelType.valueOf(i).toString();
       levelTypeMap[value] = i;
     }
-  
+
     // print("LevelType-----------------");
     // print(levelTypeMap);
   }
@@ -316,8 +316,8 @@ class _EditDiverFormState extends State<EditDiverForm> {
                       Text('Front Image'),
                       SizedBox(width: 30),
                       Container(
-                          width: MediaQuery.of(context).size.width/10,
-                          height: MediaQuery.of(context).size.width/10,
+                          width: MediaQuery.of(context).size.width / 10,
+                          height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
                                   color: Colors.blue,
@@ -333,7 +333,8 @@ class _EditDiverFormState extends State<EditDiverForm> {
                                 ? Image.network(
                                     DiverImage.path,
                                     fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width/10,
+                                    width:
+                                        MediaQuery.of(context).size.width / 10,
                                   )
                                 : Image.file(
                                     io.File(DiverImage.path),
@@ -366,8 +367,8 @@ class _EditDiverFormState extends State<EditDiverForm> {
                       Text('Back image'),
                       SizedBox(width: 30),
                       Container(
-                          width: MediaQuery.of(context).size.width/10,
-                          height: MediaQuery.of(context).size.width/10,
+                          width: MediaQuery.of(context).size.width / 10,
+                          height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
                                   color: Colors.green,
@@ -384,7 +385,8 @@ class _EditDiverFormState extends State<EditDiverForm> {
                                   ? Image.network(
                                       DiveBack.path,
                                       fit: BoxFit.cover,
-                                      width: MediaQuery.of(context).size.width/10,
+                                      width: MediaQuery.of(context).size.width /
+                                          10,
                                     )
                                   : Image.file(
                                       io.File(DiveBack.path),
@@ -411,6 +413,22 @@ class _EditDiverFormState extends State<EditDiverForm> {
                     onPressed: () => {
                       // if (_formKey.currentState.validate())
                       //   {
+                      // if (_dateTime == null)
+                      //   {
+                      //     setState(() {
+                      //       _dateTime =
+                      //           user_profile.diver.birthDate.toDateTime();
+                      //     })
+                      //   }
+                      // else if (selected == null)
+                      //   {
+                      //     setState(() {
+                      //       selected = (levelTypeMap[
+                      //               user_profile.diver.level.toString()])
+                      //           .toString();
+                      //     })
+                      //   },
+
                       sendDiverEdit(),
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => MainScreen()))
