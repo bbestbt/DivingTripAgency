@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'dart:core';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
@@ -12,12 +15,19 @@ import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../nautilus/proto/dart/model.pb.dart';
+
 
 List Cartlist = [];
 
 List<RoomType> roomtypes;
 List<TripWithTemplate> details;
+//TODO: Get RoomType object as String or JSON
+//TODO: Ditto with the TripWithTemplate Object
 int indexRoom;
 int indexDetail;
 int quantity;
@@ -25,14 +35,18 @@ int diver;
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 
+
 class CartWidget extends StatefulWidget {
   @override
   _CartState createState() => _CartState();
 }
 
 class _CartState extends State<CartWidget> {
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+
   @override
   void initState() {
+
     for (int i = 0; i < Cartlist.length; i++) {
       roomtypes = Cartlist[i][6];
       details = Cartlist[i][5];
@@ -43,6 +57,54 @@ class _CartState extends State<CartWidget> {
     }
     // TODO: implement initState
     super.initState();
+  }
+
+  void persCarthive(int cartind) async{ //Test Hive
+
+    var box = await Hive.openBox('testBox');
+    print(Cartlist[cartind][6]);
+    var json = jsonEncode((Cartlist[cartind][6]
+    as List<RoomType>).map((e) => e.toProto3Json()).toList());
+    box.put('roomtype', json.toString());
+    print("-------------------");
+    print(box.get('roomtype'));
+
+    //Hive.openBox('roomtype');
+       /* Cartlist[cartind][5],
+        Cartlist[cartind][7],
+        Cartlist[cartind][8],
+        Cartlist[cartind][9],
+        Cartlist[cartind][10]);*/
+  }
+
+  void persCart(int cartind) async{ //Test Sharedpreference
+    /*Map<String,dynamic> roomtypeJSON =
+    {
+      'roomtype':Cartlist[cartind][6]['room_type'],
+      'reservationid': Cartlist[cartind][6]['reservation_id']
+    };*/
+
+    print("roomstypeJSON");
+    print(Cartlist[cartind][6][0]);
+    print("Length of hotel list");
+    print(Cartlist[cartind][6][0]);
+
+    //print(roomtypeJSON);
+    Map<String, dynamic> cartitem =
+    {'roomtypes': "Test",
+    'details':Cartlist[cartind][5],
+    'indexRoom':Cartlist[cartind][7],
+    'indexDetail' : Cartlist[cartind][8],
+    'quantity' : Cartlist[cartind][9],
+    'diver' : Cartlist[cartind][10],
+    };
+    print("Cartitem here");
+    //var jsonstring = jsonEncode(cartitem);
+
+    //print(jsonstring);
+    //prefs.setStringList('cartkey', [roomtypes, details, indexRoom]);
+    //bool result = await prefs.setString('cartitem', jsonEncode(cartitem));
+    //print(result);
   }
 
   getProfile() async {
@@ -99,19 +161,26 @@ class _CartState extends State<CartWidget> {
     } catch (e) {
       print(e);
     }
+
+
   }
 
   @override
   Widget build(BuildContext context) {
-    // print(roomtypes);
-    // print(details);
-    // print(indexRoom);
-    // print(indexDetail);
-    // print(quantity);
-    // print(diver);
+    /* print("Roomtypes here.");
+     print(roomtypes);
+     print("details here.");
+     print(details);
+     print("indexroom here.");
+     print(indexRoom);
+     print(indexDetail);
+     print(quantity);
+     print(diver);*/
+
+
     return Container(
-        width: 800,
-        // width: MediaQuery.of(context).size.width,
+        //width: 800,
+        width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.all(20),
         child: Column(children: [
           SectionTitle(
@@ -128,12 +197,13 @@ class _CartState extends State<CartWidget> {
                       padding: const EdgeInsets.all(20.0),
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                            //mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                  width: 200,
-                                  height: 200,
+                                  width: MediaQuery.of(context).size.width/15,
+                                  height: MediaQuery.of(context).size.width/15,
                                   child: Cartlist[position][0]),
 
                               // Flexible(
@@ -143,8 +213,9 @@ class _CartState extends State<CartWidget> {
                               //          Cartlist[position][0])),
                               // )),
                               SizedBox(width: 30),
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              Wrap(
+                                direction: Axis.vertical,
+                                  //crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Trip Name: " +
@@ -179,6 +250,26 @@ class _CartState extends State<CartWidget> {
                                 elevation: 2,
                                 backgroundColor: Colors.amber),
                           ),*/
+                              TextButton(
+                                child: Text(
+                                  "Check JSON",
+                                  // style: TextStyle(fontSize: 25),
+                                ),
+                                onPressed: () {
+
+                                  setState(() {
+                                    print("Checked");
+                                    persCarthive(position);
+                                    //persCart(position);
+                                  });
+                                },
+                                style: TextButton.styleFrom(
+                                    primary: Colors.red,
+                                    elevation: 2,
+                                    backgroundColor: Colors.amber),
+                              ),
+
+                              SizedBox(width: 30),
                               TextButton(
                                 child: Text(
                                   "Remove",
@@ -223,6 +314,7 @@ class _CartState extends State<CartWidget> {
                             ],
                           );
                         });
+                    //print(Cartlist);
                   },
                   style: TextButton.styleFrom(
                       primary: Colors.white,

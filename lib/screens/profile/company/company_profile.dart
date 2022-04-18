@@ -327,15 +327,15 @@ class _InfoCardState extends State<InfoCard> {
     return InkWell(
       child: Container(
         height: 320,
-        width: 1000,
+        width: MediaQuery.of(context).size.width*0.9,
         decoration: BoxDecoration(
           color: Colors.white,
         ),
         child: Row(
           children: [
             Container(
-                width: 300,
-                height: 300,
+                width: MediaQuery.of(context).size.width/10,
+                height: MediaQuery.of(context).size.width/10,
                 child: trips[widget.index].tripTemplate.images.length == 0
                     ? new Container(
                         color: Colors.pink,

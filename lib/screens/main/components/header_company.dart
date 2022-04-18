@@ -32,6 +32,7 @@ class HeaderCompany extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+
         width: double.infinity,
         height: 100,
         // color: Color(0xfff96dfd8),
@@ -277,9 +278,10 @@ bool checkLogin() {
     } else {
       print(login);
       return false;
+
     }
   } on GrpcError catch (e) {
   } catch (e) {
     print('Exception: $e');
   }
-}
+

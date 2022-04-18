@@ -472,7 +472,9 @@ class _TripDetailState extends State<TripDetail> {
                               child: Wrap(
                                 children: [
                                   SectionTitle(
-                                    title: "All Trips",
+
+                                    title: "Upcoming Trips",
+
                                     color: Color(0xFFFF78a2cc),
                                   ),
                                   SizedBox(height: 40),

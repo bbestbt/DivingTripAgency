@@ -9,16 +9,22 @@ import 'package:diving_trip_agency/screens/diveresort/dive_resort_screen.dart';
 import 'package:diving_trip_agency/screens/diveresort/diveresort.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_data.dart';
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard_screen.dart';
+
 import 'package:diving_trip_agency/screens/login/login.dart';
+
 import 'package:diving_trip_agency/screens/main/components/navitem.dart';
 import 'package:diving_trip_agency/screens/profile/diver/profile_screen.dart';
+import 'package:diving_trip_agency/screens/review/Reviewscreen.dart';
 import 'package:diving_trip_agency/screens/weatherforecast/forecast_screen.dart';
 import 'package:diving_trip_agency/screens/ShopCart/ShopcartScreen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
+
 
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
@@ -56,6 +62,18 @@ class SideMenu extends StatelessWidget {
               ),
               SizedBox(height: 20),
               NavItem(
+
+                title: 'Reviews',
+                tapEvent: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ReviewScreen()));
+                },
+              ),
+              SizedBox(height: 20),
+              NavItem(
+
                 title: 'Weather Forecast',
                 tapEvent: () {
                   Navigator.push(
@@ -83,9 +101,12 @@ class SideMenu extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-               Container(
-                  height: 45,
-                  child: ElevatedButton(
+
+              Container(
+                height: 45,
+                child: ElevatedButton(
+
+
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -95,6 +116,7 @@ class SideMenu extends StatelessWidget {
                     style: TextButton.styleFrom(
                         padding: EdgeInsets.symmetric(
                             horizontal: 20 * 1.5, vertical: 20)),
+
                     child: FutureBuilder(
                       future: getProfile(),
                       builder: (context, snapshot) {
@@ -123,11 +145,13 @@ class SideMenu extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
+
             ],
           ),
         ),
       ),
     );
+
     // return Drawer(
     //   child: Container(
     //       color: Color(0xfffb9deed),
@@ -220,6 +244,7 @@ class SideMenu extends StatelessWidget {
     //         ),
     //       )),
     // );
+
   }
   
   getProfile() async {
@@ -239,6 +264,7 @@ class SideMenu extends StatelessWidget {
     return user_profile;
   }
 
+
   bool checkLogin() {
     try {
       var box = Hive.box('userInfo');
@@ -252,6 +278,7 @@ class SideMenu extends StatelessWidget {
         print(login);
         return false;
       }
+
     } on GrpcError catch (e) {
     } catch (e) {
       print('Exception: $e');

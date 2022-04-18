@@ -5,7 +5,9 @@ import 'package:diving_trip_agency/screens/create_boat/create_boat_screen.dart';
 import 'package:diving_trip_agency/screens/create_liveaboard/add_liveabord_screen.dart';
 import 'package:diving_trip_agency/screens/create_trip/create_trip_screen.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_screen.dart';
+
 import 'package:diving_trip_agency/screens/login/login.dart';
+
 import 'package:diving_trip_agency/screens/main/components/navitem.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
@@ -16,11 +18,13 @@ import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
 import 'package:diving_trip_agency/screens/ShopCart/ShopcartScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
+
 
 class CompanyHamburger extends StatelessWidget {
   // final MenuCompany _controller = Get.put(MenuCompany());
@@ -120,8 +124,10 @@ class CompanyHamburger extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Container(
+
                   height: 45,
                   child: ElevatedButton(
+
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -129,6 +135,7 @@ class CompanyHamburger extends StatelessWidget {
                               builder: (context) => LoginScreen()));
                     },
                     style: TextButton.styleFrom(
+
                         backgroundColor: Color(0xfffff8fab),
                         padding: EdgeInsets.symmetric(
                             horizontal: 20 * 1.5, vertical: 20)),
@@ -235,6 +242,7 @@ class CompanyHamburger extends StatelessWidget {
     //                                       CompanyReportScreen()));
     //                         }
 
+
     //                       },
     //                     ))
     //           ],
@@ -242,6 +250,7 @@ class CompanyHamburger extends StatelessWidget {
     //       )),
     // );
   }
+
 
   getProfile() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -260,6 +269,7 @@ class CompanyHamburger extends StatelessWidget {
     return user_profile;
   }
 
+
   bool checkLogin() {
     try {
       var box = Hive.box('userInfo');
@@ -273,8 +283,10 @@ class CompanyHamburger extends StatelessWidget {
         print(login);
         return false;
       }
+
     } on GrpcError catch (e) {
     } catch (e) {
+
       print('Exception: $e');
     }
   }

@@ -18,6 +18,9 @@ import 'package:get/get.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 
+import '../../review/Reviewscreen.dart';
+
+
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 
@@ -63,6 +66,17 @@ class Header extends StatelessWidget {
                   },
                 ),
                 NavItem(
+
+                  title: 'Reviews',
+                  tapEvent: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ReviewScreen()));
+                  },
+                ),
+                NavItem(
+
                   title: 'Weather Forecast',
                   tapEvent: () {
                     Navigator.push(
@@ -90,6 +104,7 @@ class Header extends StatelessWidget {
                 Container(
                   height: 45,
                   child: ElevatedButton(
+
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -127,6 +142,7 @@ class Header extends StatelessWidget {
                       },
                     ),
                   ),
+
                 ),
                 SizedBox(
                   width: 10,

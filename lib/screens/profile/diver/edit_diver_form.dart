@@ -311,13 +311,16 @@ class _EditDiverFormState extends State<EditDiverForm> {
                   SizedBox(height: 20),
                   buildPasswordFormField(),
                   SizedBox(height: 20),
+                  Text('Front Image'),
                   Row(
                     children: [
-                      Text('Front Image'),
+
                       SizedBox(width: 30),
                       Container(
-                          width: MediaQuery.of(context).size.width / 10,
-                          height: MediaQuery.of(context).size.width / 10,
+
+                          width: MediaQuery.of(context).size.width/10,
+                          height: MediaQuery.of(context).size.width/10,
+
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
                                   color: Colors.blue,
@@ -333,8 +336,9 @@ class _EditDiverFormState extends State<EditDiverForm> {
                                 ? Image.network(
                                     DiverImage.path,
                                     fit: BoxFit.cover,
-                                    width:
-                                        MediaQuery.of(context).size.width / 10,
+
+                                    width: MediaQuery.of(context).size.width/10,
+
                                   )
                                 : Image.file(
                                     io.File(DiverImage.path),
@@ -362,13 +366,16 @@ class _EditDiverFormState extends State<EditDiverForm> {
                     ],
                   ),
                   SizedBox(height: 20),
+                  Text('Back image'),
                   Row(
                     children: [
-                      Text('Back image'),
+
                       SizedBox(width: 30),
                       Container(
-                          width: MediaQuery.of(context).size.width / 10,
-                          height: MediaQuery.of(context).size.width / 10,
+
+                          width: MediaQuery.of(context).size.width/10,
+                          height: MediaQuery.of(context).size.width/10,
+
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
                                   color: Colors.green,
@@ -385,8 +392,9 @@ class _EditDiverFormState extends State<EditDiverForm> {
                                   ? Image.network(
                                       DiveBack.path,
                                       fit: BoxFit.cover,
-                                      width: MediaQuery.of(context).size.width /
-                                          10,
+
+                                      width: MediaQuery.of(context).size.width/10,
+
                                     )
                                   : Image.file(
                                       io.File(DiveBack.path),

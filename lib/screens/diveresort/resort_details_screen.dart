@@ -88,10 +88,12 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         // key: _controller.scaffoldkey,
+
         endDrawer: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: 300),
           child: SideMenu(),
         ),
+
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -943,7 +945,12 @@ class _InfoCardState extends State<InfoCard> {
                         int.parse(_textEditingQuantity.text),
                         int.parse(_textEditingDiver.text)
                       ]);
-
+                     // print("Cartlist: ");
+                      //print(Cartlist);
+                      //print("Cartlist[0][2]: ");
+                      //print(Cartlist[0][2]);
+                      //print("Cartlist[0][1]: ");
+                      //print(Cartlist[0][1]);
                       // Do something like updating SharedPreferences or User Settings etc.
                       Navigator.of(context).pop();
                     }
@@ -1063,6 +1070,7 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
+
                   onPressed: roomtypes[widget.indexRoom].quantity == 0
                       ? null
                       : () async {
@@ -1072,6 +1080,7 @@ class _InfoCardState extends State<InfoCard> {
 
                           await showInformationDialog(context);
                         },
+
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
