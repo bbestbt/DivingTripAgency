@@ -50,6 +50,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   DateTime last;
   List<DiveSite> pinkValue = [new DiveSite()];
   final _formKey = GlobalKey<FormState>();
+  String boatUsed = '';
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -126,14 +127,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     tripRequest.tripTemplate = triptemplate;
     //tripRequest.tripTemplate.images.add(value);
 
-    //try {
-    //var response = stub.addTrip(tripRequest);
-    //print('response: ${response}');
-    //} catch (e) {
-    //print(e);
-    //}
-    //}
-    print(tripRequest);
+    // print(tripRequest);
     try {
       var response = await stub.addTrip(tripRequest);
       // print(token);
@@ -141,10 +135,18 @@ class _CreateTripFormState extends State<CreateTripForm> {
     } on GrpcError catch (e) {
       // Handle exception of type GrpcError
       print('codeName: ${e.codeName}');
-      print('details: ${e.details}');
-      print('message: ${e.message}');
-      print('rawResponse: ${e.rawResponse}');
-      print('trailers: ${e.trailers}');
+      // print('details: ${e.details}');
+      // print('message: ${e.message}');
+      // print('rawResponse: ${e.rawResponse}');
+      // print('trailers: ${e.trailers}');
+      // if (e.codeName == 'UNAVAILABLE') {
+      //   // boatUsed = 'UNAVAILABLE';
+      //   showError();
+      //   print("this boat is already use");
+      // }
+      // else{
+      //   print('good');
+      // }
     } catch (e) {
       // Handle all other exceptions
       print('Exception: $e');
@@ -181,6 +183,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
     } catch (e) {
       print('ERROR: $e');
     }
+  }
+
+  showError() async {
+    await Future.delayed(Duration(microseconds: 1));
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Boat is already used"),
+            actions: <Widget>[
+              FlatButton(
+                  //child: Text("OK"),
+                  ),
+            ],
+          );
+        });
   }
 
   @override
@@ -363,7 +382,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
           FormError(errors: errors),
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
-            onPressed: () => {
+            onPressed: () async => {
               if (_formKey.currentState.validate())
                 {
                   if (from == null)
@@ -380,7 +399,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
                     }
                   else
                     {
-                      AddTrip(),
+                      await AddTrip(),
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(

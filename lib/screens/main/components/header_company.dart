@@ -32,249 +32,256 @@ class HeaderCompany extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: 100,
-      // color: Color(0xfff96dfd8),
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-            // Color(0xfffaea4e3),
-            // Color(0xfffd3ffe8),
-            Color(0xfffcfecd0),
-            Color(0xfffffc5ca),
-          ])),
-      child: 
-            Row(
-              children: <Widget>[
-                SizedBox(width: 10),
-                Text(
-                  "DivingTripAgency",
-                ),
-                Spacer(),
-                if (!isMobile(context))
-                  Row(
-                    children: [
-                      NavItem(
-                        title: 'Home',
-                        tapEvent: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MainCompanyScreen()));
-                        },
-                      ),
-                      NavItem(
-                        title: 'Create trip',
-                        tapEvent: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CreateTrip()));
-                        },
-                      ),
-                      NavItem(
-                        title: 'Create hotel',
-                        tapEvent: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HotelScreen()));
-                        },
-                      ),
-                      NavItem(
-                        title: 'Create liveaboard',
-                        tapEvent: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CreateLiveaboardScreen()));
-                        },
-                      ),
-                      NavItem(
-                        title: 'Create boat',
-                        tapEvent: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CreateBoat()));
-                        },
-                      ),
-                      NavItem(
-                        title: 'Create dive master',
-                        tapEvent: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignupDiveMaster()));
-                        },
-                      ),
-                      NavItem(
-                        title: 'Create staff',
-                        tapEvent: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignupStaff()));
-                        },
-                      ),
-                      NavItem(
-                        title: 'Profile',
-                        tapEvent: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CompanyProfileScreen()));
-                        },
-                      ),
-                      NavItem(
-                        title: 'Report',
-                        tapEvent: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CompanyReportScreen()));
-                        },
-                      ),
-                      Container(
-                        height: 45,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              //checkLogin();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginScreen()));
-                            },
-                            style: TextButton.styleFrom(
-                                backgroundColor: Color(0xfffff8fab),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20 * 1.5, vertical: 20)),
-                            child: (checkLogin())
-                                ? Text(
-                                    "Log out",
-                                    style: TextStyle(color: Colors.black),
-                                  )
-                                : Text(
-                                    "Log in",
-                                    style: TextStyle(color: Colors.black),
-                                  )),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                    ],
+
+        width: double.infinity,
+        height: 100,
+        // color: Color(0xfff96dfd8),
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+              // Color(0xfffaea4e3),
+              // Color(0xfffd3ffe8),
+              Color(0xfffcfecd0),
+              Color(0xfffffc5ca),
+            ])),
+        child: Row(
+          children: <Widget>[
+            SizedBox(width: 10),
+            Text(
+              "DivingTripAgency",
+            ),
+            Spacer(),
+            if (!isMobile(context))
+              Row(
+                children: [
+                  NavItem(
+                    title: 'Home',
+                    tapEvent: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MainCompanyScreen()));
+                    },
                   ),
-                if (isMobile(context))
-                  IconButton(
-                      icon: Icon(Icons.menu),
-                      onPressed: () {
-                        Scaffold.of(context).openEndDrawer();
-                      })
-              ],
-            ));
-          } 
-        
-      
-    
-    //  SafeArea(
-    //   child: Column(
-    //     children: [
-    //       Container(
-    //         padding: EdgeInsets.all(20),
-    //         constraints: BoxConstraints(maxWidth: 1232),
-    //         child: Column(
-    //           children: [
-    //             Row(
-    //               children: [
-    //                 //if (!Responsive.isDesktop(context))
-    //                 if (!Responsive.isDesktop(context) || MediaQuery.of(context).size.width <1232)
-    //                   IconButton(
-    //                       icon: Icon(Icons.menu),
-    //                       onPressed: () {
-    //                         _controller.openOrCloseDrawer();
-    //                       }),
-    //                 FlatButton(
-    //                     onPressed: () {
-    //                       Navigator.push(
-    //                           context,
-    //                           MaterialPageRoute(
-    //                               builder: (context) => MainCompanyScreen()));
-    //                     },
-    //                     child: Text('DivingTripAgency')),
-    //                 Spacer(),
-    //                // if (Responsive.isDesktop(context)) WebMenuCompany(),
-    //                 if (Responsive.isDesktop(context) && MediaQuery.of(context).size.width >1232) WebMenuCompany(),
-    //                 Spacer(),
-    //                 SizedBox(
-    //                   width: 20,
-    //                 ),
-    //                 ElevatedButton(
-    //                     onPressed: () {
-    //                       //checkLogin();
-    //                       Navigator.push(
-    //                           context,
-    //                           MaterialPageRoute(
-    //                               builder: (context) => LoginScreen()));
-    //                     },
-    //                     style: TextButton.styleFrom(
-    //                         backgroundColor: Color(0xfffff8fab),
-    //                         padding: EdgeInsets.symmetric(
-    //                             horizontal: 20 * 1.5, vertical: 20)),
-    //                     child: (checkLogin())
-    //                         ? Text("Log out",style: TextStyle(color:Colors.black),)
-    //                         : Text("Log in",style: TextStyle(color:Colors.black),)),
-    //                 //  (checkLogin()) ? FlatButton(child: Text("Log out")) : FlatButton(child: Text("Log in"))
-    //               ],
-    //             ),
-    //             SizedBox(
-    //               height: 40,
-    //             ),
-    //           ],
-    //         ),
-    //       )
-    //     ],
-    //   ),
-    // ),
-    // );
+                  NavItem(
+                    title: 'Create trip',
+                    tapEvent: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateTrip()));
+                    },
+                  ),
+                  NavItem(
+                    title: 'Create hotel',
+                    tapEvent: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HotelScreen()));
+                    },
+                  ),
+                  NavItem(
+                    title: 'Create liveaboard',
+                    tapEvent: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateLiveaboardScreen()));
+                    },
+                  ),
+                  NavItem(
+                    title: 'Create boat',
+                    tapEvent: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateBoat()));
+                    },
+                  ),
+                  NavItem(
+                    title: 'Create dive master',
+                    tapEvent: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignupDiveMaster()));
+                    },
+                  ),
+                  NavItem(
+                    title: 'Create staff',
+                    tapEvent: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignupStaff()));
+                    },
+                  ),
+                  NavItem(
+                    title: 'Profile',
+                    tapEvent: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CompanyProfileScreen()));
+                    },
+                  ),
+                  NavItem(
+                    title: 'Report',
+                    tapEvent: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CompanyReportScreen()));
+                    },
+                  ),
+                  Container(
+                      height: 45,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //checkLogin();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                        },
+                        style: TextButton.styleFrom(
+                            backgroundColor: Color(0xfffff8fab),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20 * 1.5, vertical: 20)),
+                        child: FutureBuilder(
+                          future: getProfile(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return (checkLogin()&&user_profile.hasAgency())
+                                  ? Text(
+                                      "Log out",
+                                      style: TextStyle(color: Colors.black),
+                                    )
+                                  : Text(
+                                      "Log in",
+                                      style: TextStyle(color: Colors.black),
+                                    );
+                            } else {
+                              return Align(
+                                  alignment: Alignment.center,
+                                  child: Text('Log in', style: TextStyle(color: Colors.black),));
+                            }
+                          },
+                        ),
+                      )),
+                  SizedBox(
+                    width: 10,
+                  ),
+                ],
+              ),
+            if (isMobile(context))
+              IconButton(
+                  icon: Icon(Icons.menu),
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+                  })
+          ],
+        ));
   }
 
-  getProfile() async {
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-    final box = Hive.box('userInfo');
+  //  SafeArea(
+  //   child: Column(
+  //     children: [
+  //       Container(
+  //         padding: EdgeInsets.all(20),
+  //         constraints: BoxConstraints(maxWidth: 1232),
+  //         child: Column(
+  //           children: [
+  //             Row(
+  //               children: [
+  //                 //if (!Responsive.isDesktop(context))
+  //                 if (!Responsive.isDesktop(context) || MediaQuery.of(context).size.width <1232)
+  //                   IconButton(
+  //                       icon: Icon(Icons.menu),
+  //                       onPressed: () {
+  //                         _controller.openOrCloseDrawer();
+  //                       }),
+  //                 FlatButton(
+  //                     onPressed: () {
+  //                       Navigator.push(
+  //                           context,
+  //                           MaterialPageRoute(
+  //                               builder: (context) => MainCompanyScreen()));
+  //                     },
+  //                     child: Text('DivingTripAgency')),
+  //                 Spacer(),
+  //                // if (Responsive.isDesktop(context)) WebMenuCompany(),
+  //                 if (Responsive.isDesktop(context) && MediaQuery.of(context).size.width >1232) WebMenuCompany(),
+  //                 Spacer(),
+  //                 SizedBox(
+  //                   width: 20,
+  //                 ),
+  //                 ElevatedButton(
+  //                     onPressed: () {
+  //                       //checkLogin();
+  //                       Navigator.push(
+  //                           context,
+  //                           MaterialPageRoute(
+  //                               builder: (context) => LoginScreen()));
+  //                     },
+  //                     style: TextButton.styleFrom(
+  //                         backgroundColor: Color(0xfffff8fab),
+  //                         padding: EdgeInsets.symmetric(
+  //                             horizontal: 20 * 1.5, vertical: 20)),
+  //                     child: (checkLogin())
+  //                         ? Text("Log out",style: TextStyle(color:Colors.black),)
+  //                         : Text("Log in",style: TextStyle(color:Colors.black),)),
+  //                 //  (checkLogin()) ? FlatButton(child: Text("Log out")) : FlatButton(child: Text("Log in"))
+  //               ],
+  //             ),
+  //             SizedBox(
+  //               height: 40,
+  //             ),
+  //           ],
+  //         ),
+  //       )
+  //     ],
+  //   ),
+  // ),
+  // );
+}
+
+getProfile() async {
+  final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+      host: '139.59.101.136',
+      grpcPort: 50051,
+      grpcTransportSecure: false,
+      grpcWebPort: 8080,
+      grpcWebTransportSecure: false);
+  final box = Hive.box('userInfo');
+  String token = box.get('token');
+  final pf = AccountClient(channel,
+      options: CallOptions(metadata: {'Authorization': '$token'}));
+  profile = await pf.getProfile(new Empty());
+  // print(profile);
+  user_profile = profile;
+  return user_profile;
+}
+
+bool checkLogin() {
+  try {
+    var box = Hive.box('userInfo');
+    Hive.openBox('userInfo');
     String token = box.get('token');
-    final pf = AccountClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
-    profile = await pf.getProfile(new Empty());
-    // print(profile);
-    user_profile = profile;
-    return user_profile;
-  }
+    bool login = box.get('login');
+    if (login == true) {
+      print(login);
+      return true;
+    } else {
+      print(login);
+      return false;
 
-  bool checkLogin() {
-    try {
-      var box = Hive.box('userInfo');
-      Hive.openBox('userInfo');
-      String token = box.get('token');
-      bool login = box.get('login');
-      if (login == true) {
-        print(login);
-        return true;
-      } else {
-        print(login);
-        return false;
-      }
-    } on GrpcError catch (e) {
-    } catch (e) {
-      print('Exception: $e');
     }
+  } on GrpcError catch (e) {
+  } catch (e) {
+    print('Exception: $e');
   }
 
