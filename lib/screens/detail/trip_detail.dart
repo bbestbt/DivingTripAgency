@@ -191,12 +191,12 @@ class _TripDetailState extends State<TripDetail> {
                         spacing: 10,
                         children: [
                           Text('Start Date'),
-                          Spacer(),
+                          //Spacer(),
                           // Text(_dateFrom == null ? '' : _dateFrom.toString()),
                           AutoSizeText(_dateFrom == null
                               ? ''
                               : DateFormat("dd/MM/yyyy").format(_dateFrom)),
-                          Spacer(),
+                          //Spacer(),
                           RaisedButton(
                               color: Color(0xfff8dd9cc),
                               child: AutoSizeText('Pick a date'),
@@ -221,12 +221,12 @@ class _TripDetailState extends State<TripDetail> {
                         spacing: 10,
                         children: [
                           Text('To'),
-                          Spacer(),
+                         // Spacer(),
                           // Text(_dateTo == null ? '' : _dateTo.toString()),
                           Text(_dateTo == null
                               ? ''
                               : DateFormat("dd/MM/yyyy").format(_dateTo)),
-                          Spacer(),
+                          //Spacer(),
                           RaisedButton(
                               color: Color(0xfff8dd9cc),
                               child: Text('Pick a date'),
@@ -251,7 +251,7 @@ class _TripDetailState extends State<TripDetail> {
                         spacing: 10,
                         children: [
                           Text('Location'),
-                          Spacer(),
+                         // Spacer(),
                           DropdownButton<String>(
                             value: dropdownValue,
                             icon: const Icon(Icons.arrow_downward),
@@ -288,7 +288,7 @@ class _TripDetailState extends State<TripDetail> {
                         spacing: 10,
                         children: [
                           Text('Number of customers'),
-                          Spacer(),
+                          //Spacer(),
                           TextField(
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
@@ -308,7 +308,7 @@ class _TripDetailState extends State<TripDetail> {
                         spacing: 10,
                         children: [
                           AutoSizeText('Trip Duration (days)'),
-                          Spacer(),
+                         // Spacer(),
                           TextField(
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
@@ -327,7 +327,7 @@ class _TripDetailState extends State<TripDetail> {
                         spacing: 10,
                         children: [
                           AutoSizeText('Trip type'),
-                          Spacer(),
+                          //Spacer(),
                           DropdownButton<String>(
                             value: dropdownValue2,
                             icon: const Icon(Icons.arrow_downward),
@@ -472,9 +472,7 @@ class _TripDetailState extends State<TripDetail> {
                               child: Wrap(
                                 children: [
                                   SectionTitle(
-
                                     title: "Upcoming Trips",
-
                                     color: Color(0xFFFF78a2cc),
                                   ),
                                   SizedBox(height: 40),
