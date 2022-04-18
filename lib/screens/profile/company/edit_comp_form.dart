@@ -322,14 +322,15 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                   SizedBox(height: 20),
                   buildPasswordFormField(),
                   SizedBox(height: 20),
+                  Column(
+                    children: [
+                      Text('Verified'),
+                      Text('Document'),
+                    ],
+                  ),
                   Row(
                     children: [
-                      Column(
-                        children: [
-                          Text('Verified'),
-                          Text('Document'),
-                        ],
-                      ),
+
                       SizedBox(width: 30),
                       Container(
                           width: MediaQuery.of(context).size.width/10,
@@ -375,14 +376,15 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
 
                   //Center(child:imageFile == null ? Text('No image selected'):Text("You have an image")),
                   //Center(child:imageFile == null ? Text('No image selected'):Image.file(imageFile,fit:BoxFit.cover,)),
+                  Column(
+                    children: [
+                      Text('Company'),
+                      Text('Image'),
+                    ],
+                  ),
                   Row(
                     children: [
-                      Column(
-                        children: [
-                          Text('Company'),
-                          Text('Image'),
-                        ],
-                      ),
+
                       SizedBox(width: 30),
                       Container(
                           width: MediaQuery.of(context).size.width/10,

@@ -13,8 +13,14 @@ import 'package:diving_trip_agency/screens/review/Reviewscreen.dart';
 import 'package:diving_trip_agency/screens/weatherforecast/forecast_screen.dart';
 import 'package:diving_trip_agency/screens/ShopCart/ShopcartScreen.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grpc/grpc.dart';
+import 'package:hive/hive.dart';
+
+import '../../login/login.dart';
+
 
 class SideMenu extends StatelessWidget {
   // final MenuController _controller = Get.put(MenuController());
@@ -87,11 +93,42 @@ class SideMenu extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
+              Container(
+                height: 45,
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                    },
+                    style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20 * 1.5, vertical: 20)),
+                    // child: Text("Login",
+                    // style: TextStyle(
+                    // color: Colors.black,
+                    // ))
+                    child: (checkLogin())
+                        ? Text(
+                      "Log out",
+                      style: TextStyle(color: Colors.black),
+                    )
+                        : Text(
+                      "Log in",
+                      style: TextStyle(color: Colors.black),
+                    )),
+              ),
+
+
+
             ],
           ),
         ),
       ),
     );
+
+
     // return Drawer(
     //   child: Container(
     //       color: Color(0xfffb9deed),
@@ -184,5 +221,24 @@ class SideMenu extends StatelessWidget {
     //         ),
     //       )),
     // );
+
+
+  }
+  bool checkLogin() {
+    try {
+      var box = Hive.box('userInfo');
+      Hive.openBox('userInfo');
+      String token = box.get('token');
+      bool login = box.get('login');
+      if (login == true) {
+        print(login);
+        return true;
+      } else {
+        print(login);
+        return false;
+      }
+    } on GrpcError catch (e) {} catch (e) {
+      print('Exception: $e');
+    }
   }
 }

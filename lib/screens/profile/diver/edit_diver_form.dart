@@ -311,9 +311,10 @@ class _EditDiverFormState extends State<EditDiverForm> {
                   SizedBox(height: 20),
                   buildPasswordFormField(),
                   SizedBox(height: 20),
+                  Text('Front Image'),
                   Row(
                     children: [
-                      Text('Front Image'),
+
                       SizedBox(width: 30),
                       Container(
                           width: MediaQuery.of(context).size.width/10,
@@ -361,9 +362,10 @@ class _EditDiverFormState extends State<EditDiverForm> {
                     ],
                   ),
                   SizedBox(height: 20),
+                  Text('Back image'),
                   Row(
                     children: [
-                      Text('Back image'),
+
                       SizedBox(width: 30),
                       Container(
                           width: MediaQuery.of(context).size.width/10,
