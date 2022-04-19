@@ -130,23 +130,28 @@ class _CreateTripFormState extends State<CreateTripForm> {
     // print(tripRequest);
     try {
       var response = await stub.addTrip(tripRequest);
+      print('ok');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MainCompanyScreen(),
+        ),
+        (route) => false,
+      );
       // print(token);
       // print(response);
     } on GrpcError catch (e) {
       // Handle exception of type GrpcError
       print('codeName: ${e.codeName}');
-      // print('details: ${e.details}');
-      // print('message: ${e.message}');
-      // print('rawResponse: ${e.rawResponse}');
-      // print('trailers: ${e.trailers}');
-      // if (e.codeName == 'UNAVAILABLE') {
-      //   // boatUsed = 'UNAVAILABLE';
-      //   showError();
-      //   print("this boat is already use");
-      // }
-      // else{
-      //   print('good');
-      // }
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+      if (e.codeName == 'UNAVAILABLE') {
+        // boatUsed = 'UNAVAILABLE';
+        showError();
+        print("this boat is already use");
+      }
     } catch (e) {
       // Handle all other exceptions
       print('Exception: $e');
@@ -400,14 +405,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
                   else
                     {
                       await AddTrip(),
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              MainCompanyScreen(),
-                        ),
-                        (route) => false,
-                      )
                     }
                 }
             },
