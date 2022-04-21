@@ -46,144 +46,148 @@ class HeaderCompany extends StatelessWidget {
               Color(0xfffcfecd0),
               Color(0xfffffc5ca),
             ])),
-        child: Row(
-          children: <Widget>[
-            SizedBox(width: 10),
-            Text(
-              "DivingTripAgency",
-            ),
-            Spacer(),
-            if (!isMobile(context))
-              Row(
-                children: [
-                  NavItem(
-                    title: 'Home',
-                    tapEvent: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MainCompanyScreen()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Create trip',
-                    tapEvent: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateTrip()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Create hotel',
-                    tapEvent: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HotelScreen()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Create liveaboard',
-                    tapEvent: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateLiveaboardScreen()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Create boat',
-                    tapEvent: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CreateBoat()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Create dive master',
-                    tapEvent: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignupDiveMaster()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Create staff',
-                    tapEvent: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignupStaff()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Profile',
-                    tapEvent: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CompanyProfileScreen()));
-                    },
-                  ),
-                  NavItem(
-                    title: 'Report',
-                    tapEvent: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CompanyReportScreen()));
-                    },
-                  ),
-                  Container(
-                      height: 45,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          //checkLogin();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
-                        },
-                        style: TextButton.styleFrom(
-                            backgroundColor: Color(0xfffff8fab),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20 * 1.5, vertical: 20)),
-                        child: FutureBuilder(
-                          future: getProfile(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return (checkLogin()&&user_profile.hasAgency())
-                                  ? Text(
-                                      "Log out",
-                                      style: TextStyle(color: Colors.black),
-                                    )
-                                  : Text(
-                                      "Log in",
-                                      style: TextStyle(color: Colors.black),
-                                    );
-                            } else {
-                              return Align(
-                                  alignment: Alignment.center,
-                                  child: Text('Log in', style: TextStyle(color: Colors.black),));
-                            }
-                          },
-                        ),
-                      )),
-                  SizedBox(
-                    width: 10,
-                  ),
-                ],
+        child: SingleChildScrollView(
+          scrollDirection:Axis.horizontal,
+          child: Row(
+            children: <Widget>[
+              SizedBox(width: 10),
+              Text(
+                "DivingTripAgency",
               ),
-            if (isMobile(context))
-              IconButton(
-                  icon: Icon(Icons.menu),
-                  onPressed: () {
-                    Scaffold.of(context).openEndDrawer();
-                  })
-          ],
+              // Spacer(),
+              SizedBox(width:MediaQuery.of(context).size.width /3.75 ,),
+              if (!isMobile(context))
+                Row(
+                  children: [
+                    NavItem(
+                      title: 'Home',
+                      tapEvent: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MainCompanyScreen()));
+                      },
+                    ),
+                    NavItem(
+                      title: 'Create trip',
+                      tapEvent: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateTrip()));
+                      },
+                    ),
+                    NavItem(
+                      title: 'Create hotel',
+                      tapEvent: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HotelScreen()));
+                      },
+                    ),
+                    NavItem(
+                      title: 'Create liveaboard',
+                      tapEvent: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateLiveaboardScreen()));
+                      },
+                    ),
+                    NavItem(
+                      title: 'Create boat',
+                      tapEvent: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateBoat()));
+                      },
+                    ),
+                    NavItem(
+                      title: 'Create dive master',
+                      tapEvent: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignupDiveMaster()));
+                      },
+                    ),
+                    NavItem(
+                      title: 'Create staff',
+                      tapEvent: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignupStaff()));
+                      },
+                    ),
+                    NavItem(
+                      title: 'Profile',
+                      tapEvent: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CompanyProfileScreen()));
+                      },
+                    ),
+                    NavItem(
+                      title: 'Report',
+                      tapEvent: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CompanyReportScreen()));
+                      },
+                    ),
+                    Container(
+                        height: 45,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            //checkLogin();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
+                          },
+                          style: TextButton.styleFrom(
+                              backgroundColor: Color(0xfffff8fab),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20 * 1.5, vertical: 20)),
+                          child: FutureBuilder(
+                            future: getProfile(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return (checkLogin()&&user_profile.hasAgency())
+                                    ? Text(
+                                        "Log out",
+                                        style: TextStyle(color: Colors.black),
+                                      )
+                                    : Text(
+                                        "Log in",
+                                        style: TextStyle(color: Colors.black),
+                                      );
+                              } else {
+                                return Align(
+                                    alignment: Alignment.center,
+                                    child: Text('Log in', style: TextStyle(color: Colors.black),));
+                              }
+                            },
+                          ),
+                        )),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                ),
+              if (isMobile(context))
+                IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      Scaffold.of(context).openEndDrawer();
+                    })
+            ],
+          ),
         ));
   }
 
