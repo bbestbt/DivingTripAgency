@@ -20,6 +20,7 @@ import 'package:hive/hive.dart';
 
 import '../../review/Reviewscreen.dart';
 
+
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 
@@ -65,6 +66,7 @@ class Header extends StatelessWidget {
                   },
                 ),
                 NavItem(
+
                   title: 'Reviews',
                   tapEvent: () {
                     Navigator.push(
@@ -74,6 +76,7 @@ class Header extends StatelessWidget {
                   },
                 ),
                 NavItem(
+
                   title: 'Weather Forecast',
                   tapEvent: () {
                     Navigator.push(
@@ -101,28 +104,46 @@ class Header extends StatelessWidget {
                 Container(
                   height: 45,
                   child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()));
+
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
+                    },
+                    style: TextButton.styleFrom(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20 * 1.5, vertical: 20)),
+                    // child: Text("Login",
+                    // style: TextStyle(
+                    // color: Colors.black,
+                    // ))
+                    child: FutureBuilder(
+                      future: getProfile(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return (checkLogin()&&user_profile.hasDiver())
+                          //return (checkLogin())
+                              ? Text(
+                                  "Log out",
+                                  style: TextStyle(color: Colors.black),
+                                )
+                              : Text(
+                                  "Log in",
+                                  style: TextStyle(color: Colors.black),
+                                );
+                        } else {
+                          return Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Log in',
+                                style: TextStyle(color: Colors.black),
+                              ));
+                        }
                       },
-                      style: TextButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20 * 1.5, vertical: 20)),
-                      // child: Text("Login",
-                      // style: TextStyle(
-                      // color: Colors.black,
-                      // ))
-                      child: (checkLogin())
-                          ? Text(
-                              "Log out",
-                              style: TextStyle(color: Colors.black),
-                            )
-                          : Text(
-                              "Log in",
-                              style: TextStyle(color: Colors.black),
-                            )),
+                    ),
+                  ),
+
                 ),
                 SizedBox(
                   width: 10,
@@ -152,8 +173,11 @@ class Header extends StatelessWidget {
     final pf = AccountClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     profile = await pf.getProfile(new Empty());
-    // print(profile);
+    print("Profile");
+    print("-----------------------");
+     print(profile);
     user_profile = profile;
+
     return user_profile;
   }
 
