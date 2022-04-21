@@ -204,7 +204,6 @@ class _detailState extends State<detail> {
   void queryWeather() async {
     /// Removes keyboard
     ///
-
     cityname = details[widget.index].tripTemplate.address.city;
 
     FocusScope.of(context).requestFocus(FocusNode());
@@ -738,8 +737,7 @@ class _detailState extends State<detail> {
                 color: Color(0xFFFdaf0ff),
                 borderRadius: BorderRadius.circular(10)),
             width: MediaQuery.of(context).size.width,
-            child: Expanded(
-                child: Container(
+            child: Container(
               child: Column(children: [
                 Text("5-day weather forecast"),
                 Text("Weather example"),
@@ -760,7 +758,7 @@ class _detailState extends State<detail> {
                   child: _resultView(),
                 )
               ]),
-            )))
+            ))
       ],
     );
   }

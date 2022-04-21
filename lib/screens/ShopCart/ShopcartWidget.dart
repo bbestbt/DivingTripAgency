@@ -8,6 +8,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
+import 'package:diving_trip_agency/screens/detail/trip_detail(bak).dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/profile/diver/edit_profile_diver.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
@@ -54,6 +55,7 @@ class _CartState extends State<CartWidget> {
       indexDetail = Cartlist[i][8];
       quantity = Cartlist[i][9];
       diver = Cartlist[i][10];
+      persCarthive(i);
     }
     // TODO: implement initState
     super.initState();
@@ -63,18 +65,21 @@ class _CartState extends State<CartWidget> {
 
     var box = await Hive.openBox('testBox');
     print(Cartlist[cartind][6]);
-    var json = jsonEncode((Cartlist[cartind][6]
+    var jsonroomtype = jsonEncode((Cartlist[cartind][6]
     as List<RoomType>).map((e) => e.toProto3Json()).toList());
-    box.put('roomtype', json.toString());
+    box.put('roomtype', jsonroomtype.toString());
     print("-------------------");
     print(box.get('roomtype'));
 
-    //Hive.openBox('roomtype');
-       /* Cartlist[cartind][5],
-        Cartlist[cartind][7],
-        Cartlist[cartind][8],
-        Cartlist[cartind][9],
-        Cartlist[cartind][10]);*/
+    var jsondetails = jsonEncode((Cartlist[cartind][5]
+    as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
+
+    box.put('tripdetail', jsondetails.toString());
+    print("-------------------");
+    print(box.get('tripdetail'));
+    print("-------------------");
+    print(box.toMap());
+
   }
 
   void persCart(int cartind) async{ //Test Sharedpreference
@@ -328,7 +333,6 @@ class _CartState extends State<CartWidget> {
     /*Container(
       color: const Color(0xFFFFE306),
       child: Column(
-
         children:[
           Text("Shopping Cart"),
         ]

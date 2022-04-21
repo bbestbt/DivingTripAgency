@@ -274,6 +274,8 @@ class _TripDetailState extends State<TripDetail> {
                               'Chumphon',
                               'Chanthaburi',
                               'Surat Thani',
+                              'Koh Tao',
+                              'Krabi'
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -578,24 +580,22 @@ class _TripDetailState extends State<TripDetail> {
         //print(results[0].maxGuest);
       }
       if (dropdownValue2 != "All") {
-        print("DropdownValue2");
-        print(dropdownValue2);
+      //  print("DropdownValue2");
+      //  print(dropdownValue2);
         if (dropdownValue2 == "Onshore") {
           // print("dropdownValue 2 (Should be onshore):"+dropdownValue2);
           results = results
               .where(
                   (trip) => trip.tripTemplate.tripType.toString() == "ONSHORE")
               .toList();
-          print("TripType");
-          print(results[0].tripTemplate.tripType.toString());
+
         } else if (dropdownValue2 == "Offshore") {
           print("dropdownValue 2 (Should be Offshore):" + dropdownValue2);
           results = results
               .where(
                   (trip) => trip.tripTemplate.tripType.toString() == "OFFSHORE")
               .toList();
-          print("TripType");
-          print(results[0].tripTemplate.tripType.toString());
+
         }
       }
       if (_diff != "") {
