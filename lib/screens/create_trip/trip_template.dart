@@ -332,48 +332,7 @@ class _TriptemplateState extends State<Triptemplate> {
             ],
           ),
           SizedBox(height: 20),
-          Container(
-            //color: Colors.white,
-            child: Center(
-              child: DropdownButtonFormField(
-                isExpanded: true,
-                value: boatSelected,
-                items: listBoat,
-                //     boat.map((String value) {
-                //   return DropdownMenuItem<String>(
-                //     value: value,
-                //     child: Text(value),
-                //   );
-                // }).toList(),
-
-                hint: Text('  Select boat'),
-                iconSize: 40,
-                validator: (value) {
-                  if (value == null) {
-                    addError(error: "Please select boat");
-                    return "";
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  if (value != null) {
-                    removeError(error: "Please select boat");
-                    setState(() {
-                      boatSelected = value;
-                      print(value);
-                      //  hotelandboatID.boatId = boatMap[boatSelected];
-
-                      triptemplate.boatId = boatMap[boatSelected];
-
-                      // triptemplate.hotelAndBoatId=hotelandboatID;
-                      //   triptemplate.divingBoatId=boatMap[boatSelected];
-                    });
-                  }
-                },
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
+       
           // buildBoatNameFormField(),
           // SizedBox(height: 20),
           //radio
@@ -531,6 +490,48 @@ class _TriptemplateState extends State<Triptemplate> {
                 });
               }
             },
+          ),
+          SizedBox(height: 20),
+             Container(
+            //color: Colors.white,
+            child: Center(
+              child: DropdownButtonFormField(
+                isExpanded: true,
+                value: boatSelected,
+                items: listBoat,
+                //     boat.map((String value) {
+                //   return DropdownMenuItem<String>(
+                //     value: value,
+                //     child: Text(value),
+                //   );
+                // }).toList(),
+
+                hint: Text('  Select boat (ONSHORE)'),
+                iconSize: 40,
+                // validator: (value) {
+                //   if (value == null) {
+                //     addError(error: "Please select boat");
+                //     return "";
+                //   }
+                //   return null;
+                // },
+                onChanged: (value) {
+                  // if (value != null) {
+                  //   removeError(error: "Please select boat");
+                    setState(() {
+                      boatSelected = value;
+                      print(value);
+                      //  hotelandboatID.boatId = boatMap[boatSelected];
+
+                      triptemplate.boatId = boatMap[boatSelected];
+
+                      // triptemplate.hotelAndBoatId=hotelandboatID;
+                      //   triptemplate.divingBoatId=boatMap[boatSelected];
+                    });
+                  }
+                // },
+              ),
+            ),
           ),
           SizedBox(height: 20),
           Row(

@@ -204,7 +204,6 @@ class _detailState extends State<detail> {
   void queryWeather() async {
     /// Removes keyboard
     ///
-
     cityname = details[widget.index].tripTemplate.address.city;
 
     FocusScope.of(context).requestFocus(FocusNode());

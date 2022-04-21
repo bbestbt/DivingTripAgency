@@ -123,7 +123,6 @@ class Header extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return (checkLogin()&&user_profile.hasDiver())
-                          //return (checkLogin())
                               ? Text(
                                   "Log out",
                                   style: TextStyle(color: Colors.black),
@@ -173,11 +172,8 @@ class Header extends StatelessWidget {
     final pf = AccountClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     profile = await pf.getProfile(new Empty());
-    print("Profile");
-    print("-----------------------");
-     print(profile);
+    // print(profile);
     user_profile = profile;
-
     return user_profile;
   }
 

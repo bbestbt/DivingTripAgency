@@ -101,47 +101,8 @@ class SideMenu extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              FutureBuilder(
-              future: getProfile(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  print("about to checkLogin\n--------------");
 
-                  //return (checkLogin()&&user_profile.hasDiver())
-                  return checkLogin() == true ?
-                  ElevatedButton(
-
-
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()));
-                      },
-                      style: TextButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20 * 1.5, vertical: 20)),
-                      child: Text("Sign out")
-                  )
-                      :
-                  ElevatedButton(
-
-
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()));
-                      },
-                      style: TextButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20 * 1.5, vertical: 20)),
-                      child: Text("Sign in")
-                  );
-                }
-              }
-              ),
-              /*Container(
+              Container(
                 height: 45,
                 child: ElevatedButton(
 
@@ -160,12 +121,8 @@ class SideMenu extends StatelessWidget {
                       future: getProfile(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          print("about to checkLogin\n--------------");
-
-                          //return (checkLogin()&&user_profile.hasDiver())
-                          return checkLogin() == true ?
-
-                               Text(
+                          return (checkLogin()&&user_profile.hasDiver())
+                              ? Text(
                                   "Log out",
                                   style: TextStyle(color: Colors.black),
                                 )
@@ -184,7 +141,7 @@ class SideMenu extends StatelessWidget {
                       },
                     ),
                   ),
-                ),*/
+                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -195,6 +152,98 @@ class SideMenu extends StatelessWidget {
       ),
     );
 
+    // return Drawer(
+    //   child: Container(
+    //       color: Color(0xfffb9deed),
+    //       child: Obx(
+    //         () => ListView(
+    //           children: [
+    //             DrawerHeader(
+    //                 child: Padding(
+    //               padding: const EdgeInsets.all(8),
+    //               child: Text("DivingTrip"),
+    //             )),
+    //             //  DrawerItem()
+    //             ...List.generate(
+    //                 _controller.menuItems.length,
+    //                 (index) => DrawerItem(
+    //                       isActive: index == _controller.selectedIndex,
+    //                       title: _controller.menuItems[index],
+    //                       press: () {
+    //                         _controller.setMenuIndex(index);
+    //                         if (_controller.selectedIndex == 0) {
+    //                           Navigator.push(
+    //                               context,
+    //                               MaterialPageRoute(
+    //                                   builder: (context) => MainScreen()));
+    //                         }
+    //                                if (_controller.selectedIndex == 1) {
+    //                           Navigator.push(
+    //                               context,
+    //                               MaterialPageRoute(
+    //                                   builder: (context) =>
+    //                                       TripDetailScreen()));
+    //                         }
+    //                         // if (_controller.selectedIndex == 1) {
+    //                         //   Navigator.push(
+    //                         //       context,
+    //                         //       MaterialPageRoute(
+    //                         //           builder: (context) =>
+    //                         //               LiveaboardScreen()));
+    //                         // }
+    //                         // if (_controller.selectedIndex == 2) {
+    //                         //   Navigator.push(
+    //                         //       context,
+    //                         //       MaterialPageRoute(
+    //                         //           builder: (context) =>
+    //                         //               DiveResortScreen()));
+    //                         // }
+    //                         // if (_controller.selectedIndex == 3) {
+    //                         //   Navigator.push(
+    //                         //       context,
+    //                         //       MaterialPageRoute(
+    //                         //           builder: (context) => PackageScreen()));
+    //                         // }
+    //                         if (_controller.selectedIndex == 2) {
+    //                           Navigator.push(
+    //                               context,
+    //                               MaterialPageRoute(
+    //                                   builder: (context) => WForecastScreen()));
+    //                         }
+    //                          if (_controller.selectedIndex == 3) {
+    //                           Navigator.push(
+    //                               context,
+    //                               MaterialPageRoute(
+    //                                   builder: (context) => UserProfileScreen()));
+    //                         }
+    //                         if (_controller.selectedIndex == 4) {
+    //                           print("Shopping cart");
+    //                           Navigator.push(
+    //                               context,
+    //                               MaterialPageRoute(
+    //                                   builder: (context) =>
+    //                                       ShopCart()));
+    //                         }
+
+    //                         // if (_controller.selectedIndex == 5) {
+    //                         //   Navigator.push(
+    //                         //       context,
+    //                         //       MaterialPageRoute(
+    //                         //           builder: (context) => AboutusScreen()));
+    //                         // }
+    //                         // if (_controller.selectedIndex == 6) {
+    //                         //   Navigator.push(
+    //                         //       context,
+    //                         //       MaterialPageRoute(
+    //                         //           builder: (context) =>
+    //                         //               DivingshopScreen()));
+    //                         // }
+    //                       },
+    //                     ))
+    //           ],
+    //         ),
+    //       )),
+    // );
 
   }
   
@@ -210,9 +259,7 @@ class SideMenu extends StatelessWidget {
     final pf = AccountClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     profile = await pf.getProfile(new Empty());
-    print("getProfile Check");
-     print(profile);
-    print("------------");
+    // print(profile);
     user_profile = profile;
     return user_profile;
   }
@@ -224,8 +271,6 @@ class SideMenu extends StatelessWidget {
       Hive.openBox('userInfo');
       String token = box.get('token');
       bool login = box.get('login');
-      print("login");
-      print("-----------");
       if (login == true) {
         print(login);
         return true;

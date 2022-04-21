@@ -20,9 +20,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 import '../../nautilus/proto/dart/model.pb.dart';
 
-
+var cartwid = null;
 List Cartlist = [];
 
 List<RoomType> roomtypes;
@@ -35,7 +36,7 @@ int quantity;
 int diver;
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
-
+final CartBox = Hive.box('CartBox');
 
 class CartWidget extends StatefulWidget {
   @override
@@ -49,37 +50,62 @@ class _CartState extends State<CartWidget> {
   void initState() {
 
     for (int i = 0; i < Cartlist.length; i++) {
+      cartwid = Cartlist[i][0];
+      print(cartwid);
       roomtypes = Cartlist[i][6];
       details = Cartlist[i][5];
       indexRoom = Cartlist[i][7];
       indexDetail = Cartlist[i][8];
       quantity = Cartlist[i][9];
       diver = Cartlist[i][10];
+
       persCarthive(i);
     }
     // TODO: implement initState
     super.initState();
   }
 
+  void populateCartlist(){
+    print(jsonDecode(CartBox.get('roomtype')));
+    Cartlist.add([
+      jsonDecode(CartBox.get('roomtype')),
+      CartBox.get('tripdetail'),
+      CartBox.get('indexroom'),
+      CartBox.get('indexDetail'),
+      CartBox.get('quantity'),
+      CartBox.get('diver'),
+      //CartBox.get('roomtype'),
+    ]);
+  }
   void persCarthive(int cartind) async{ //Test Hive
-
-    var box = await Hive.openBox('testBox');
-    print(Cartlist[cartind][6]);
+    //print(Cartlist[cartind][6]);
     var jsonroomtype = jsonEncode((Cartlist[cartind][6]
     as List<RoomType>).map((e) => e.toProto3Json()).toList());
-    box.put('roomtype', jsonroomtype.toString());
+    CartBox.put('indexroom', Cartlist[cartind][7]);
+    CartBox.put('indexDetail', Cartlist[cartind][8]);
+    CartBox.put('quantity',Cartlist[cartind][9]);
+    CartBox.put('diver', Cartlist[cartind][10]);
+    CartBox.put('roomtype', jsonroomtype.toString());
     print("-------------------");
-    print(box.get('roomtype'));
+    print(CartBox.get('roomtype'));
 
     var jsondetails = jsonEncode((Cartlist[cartind][5]
     as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
-
-    box.put('tripdetail', jsondetails.toString());
+    CartBox.put('tripdetail', jsondetails.toString());
     print("-------------------");
-    print(box.get('tripdetail'));
+    print(CartBox.get('tripdetail'));
     print("-------------------");
-    print(box.toMap());
+    print(CartBox.toMap());
+  }
 
+  void printCartHive(){
+    print("-------------------");
+    print(CartBox.get('tripdetail'));
+    print("-------------------");
+    print(CartBox.toMap());
+    print("CartList: \n");
+    print("----------------");
+    print(Cartlist);
   }
 
   void persCart(int cartind) async{ //Test Sharedpreference
@@ -172,15 +198,7 @@ class _CartState extends State<CartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    /* print("Roomtypes here.");
-     print(roomtypes);
-     print("details here.");
-     print(details);
-     print("indexroom here.");
-     print(indexRoom);
-     print(indexDetail);
-     print(quantity);
-     print(diver);*/
+
 
 
     return Container(
@@ -191,6 +209,26 @@ class _CartState extends State<CartWidget> {
           SectionTitle(
             title: "Trips in cart",
             color: Color(0xFFFF78a2cc),
+          ),
+          TextButton(
+            child: Text(
+              "Check JSON",
+              // style: TextStyle(fontSize: 25),
+            ),
+            onPressed: () {
+
+              setState(() {
+                print("Checked");
+                printCartHive();
+                populateCartlist();
+                //persCarthive(position);
+                //persCart(position);
+              });
+            },
+            style: TextButton.styleFrom(
+                primary: Colors.red,
+                elevation: 2,
+                backgroundColor: Colors.amber),
           ),
           SizedBox(height: 40),
           ListView.builder(
@@ -209,7 +247,7 @@ class _CartState extends State<CartWidget> {
                               Container(
                                   width: MediaQuery.of(context).size.width/15,
                                   height: MediaQuery.of(context).size.width/15,
-                                  child: Cartlist[position][0]),
+                                  child: Cartlist[position][0]),//TODO: Check the type of this.
 
                               // Flexible(
                               //     child: Container(
@@ -255,24 +293,7 @@ class _CartState extends State<CartWidget> {
                                 elevation: 2,
                                 backgroundColor: Colors.amber),
                           ),*/
-                              TextButton(
-                                child: Text(
-                                  "Check JSON",
-                                  // style: TextStyle(fontSize: 25),
-                                ),
-                                onPressed: () {
 
-                                  setState(() {
-                                    print("Checked");
-                                    persCarthive(position);
-                                    //persCart(position);
-                                  });
-                                },
-                                style: TextButton.styleFrom(
-                                    primary: Colors.red,
-                                    elevation: 2,
-                                    backgroundColor: Colors.amber),
-                              ),
 
                               SizedBox(width: 30),
                               TextButton(
@@ -333,7 +354,6 @@ class _CartState extends State<CartWidget> {
     /*Container(
       color: const Color(0xFFFFE306),
       child: Column(
-
         children:[
           Text("Shopping Cart"),
         ]

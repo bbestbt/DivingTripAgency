@@ -143,8 +143,7 @@ class CompanyHamburger extends StatelessWidget {
                       future: getProfile(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          //return (checkLogin() && user_profile.hasAgency())
-                          return (checkLogin())
+                          return (checkLogin() && user_profile.hasAgency())
                               ? Text(
                                   "Log out",
                                   style: TextStyle(color: Colors.black),
@@ -277,8 +276,6 @@ class CompanyHamburger extends StatelessWidget {
       Hive.openBox('userInfo');
       String token = box.get('token');
       bool login = box.get('login');
-      print("Checklogin");
-      print(login);
       if (login == true) {
         print(login);
         return true;

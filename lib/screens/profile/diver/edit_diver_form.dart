@@ -148,28 +148,35 @@ class _EditDiverFormState extends State<EditDiverForm> {
     user_profile.diver.lastName = _controllerLastname.text;
     user_profile.diver.phone = _controllerPhone.text;
     // diver.account = account;
-    user_profile.diver.birthDate = Timestamp.fromDateTime(_dateTime);
+    if (_dateTime != null) {
+      user_profile.diver.birthDate = Timestamp.fromDateTime(_dateTime);
+    }
 
     var f = File();
     f.filename = 'Image.jpg';
     //var t = await imageFile.readAsBytes();
     //f.file = new List<int>.from(t);
-    List<int> b = await divfront.readAsBytes();
-    f.file = b;
-    user_profile.diver.documents.add(f);
+    if (divfront != null) {
+      List<int> b = await divfront.readAsBytes();
+      f.file = b;
+      user_profile.diver.documents.add(f);
+    }
 
     var f2 = File();
     f2.filename = 'Image.jpg';
-    List<int> a = await card.readAsBytes();
-    f2.file = a;
-    user_profile.diver.documents.add(f2);
+    if (card != null) {
+      List<int> a = await card.readAsBytes();
+      f2.file = a;
+      user_profile.diver.documents.add(f2);
+    }
 
-    LevelType.values.forEach((levelType) {
-      if (levelTypeMap[levelType.toString()] == int.parse(selected)) {
-        user_profile.diver.level = levelType;
-      }
-    });
-
+    if (selected != null) {
+      LevelType.values.forEach((levelType) {
+        if (levelTypeMap[levelType.toString()] == int.parse(selected)) {
+          user_profile.diver.level = levelType;
+        }
+      });
+    }
     var account = Account();
     account.username = user_profile.diver.account.username;
     account.password = _controllerPassword.text;
@@ -314,13 +321,10 @@ class _EditDiverFormState extends State<EditDiverForm> {
                   Text('Front Image'),
                   Row(
                     children: [
-
                       SizedBox(width: 30),
                       Container(
-
-                          width: MediaQuery.of(context).size.width/10,
-                          height: MediaQuery.of(context).size.width/10,
-
+                          width: MediaQuery.of(context).size.width / 10,
+                          height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
                                   color: Colors.blue,
@@ -336,9 +340,8 @@ class _EditDiverFormState extends State<EditDiverForm> {
                                 ? Image.network(
                                     DiverImage.path,
                                     fit: BoxFit.cover,
-
-                                    width: MediaQuery.of(context).size.width/10,
-
+                                    width:
+                                        MediaQuery.of(context).size.width / 10,
                                   )
                                 : Image.file(
                                     io.File(DiverImage.path),
@@ -369,13 +372,10 @@ class _EditDiverFormState extends State<EditDiverForm> {
                   Text('Back image'),
                   Row(
                     children: [
-
                       SizedBox(width: 30),
                       Container(
-
-                          width: MediaQuery.of(context).size.width/10,
-                          height: MediaQuery.of(context).size.width/10,
-
+                          width: MediaQuery.of(context).size.width / 10,
+                          height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
                                   color: Colors.green,
@@ -392,9 +392,8 @@ class _EditDiverFormState extends State<EditDiverForm> {
                                   ? Image.network(
                                       DiveBack.path,
                                       fit: BoxFit.cover,
-
-                                      width: MediaQuery.of(context).size.width/10,
-
+                                      width: MediaQuery.of(context).size.width /
+                                          10,
                                     )
                                   : Image.file(
                                       io.File(DiveBack.path),
@@ -419,8 +418,6 @@ class _EditDiverFormState extends State<EditDiverForm> {
                   SizedBox(height: 20),
                   FlatButton(
                     onPressed: () => {
-                      // if (_formKey.currentState.validate())
-                      //   {
                       // if (_dateTime == null)
                       //   {
                       //     setState(() {
@@ -436,11 +433,9 @@ class _EditDiverFormState extends State<EditDiverForm> {
                       //           .toString();
                       //     })
                       //   },
-
                       sendDiverEdit(),
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => MainScreen()))
-                      // }
                     },
                     color: Color(0xfff75BDFF),
                     child: Text(
@@ -466,19 +461,19 @@ class _EditDiverFormState extends State<EditDiverForm> {
       cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter name");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter name");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter name");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter name");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
           hintText: user_profile.diver.firstName,
           labelText: "First Name",
@@ -496,19 +491,19 @@ class _EditDiverFormState extends State<EditDiverForm> {
       cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => lastname = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter lastname");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter lastname");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter lastname");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter lastname");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
           hintText: user_profile.diver.lastName,
           labelText: "Last Name",
@@ -524,19 +519,19 @@ class _EditDiverFormState extends State<EditDiverForm> {
       controller: _controllerUsername,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => username = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter username");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter username");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter username");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter username");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
           hintText: user_profile.diver.account.username,
           labelText: "Username",
@@ -552,21 +547,21 @@ class _EditDiverFormState extends State<EditDiverForm> {
       controller: _controllerOldPassword,
       obscureText: _isObscure,
       onSaved: (newValue) => oldpassword = newValue,
-      onChanged: (value) {
-        if (password == oldpassword) {
-          removeError(error: "Password doesn't match");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          return "";
-        } else if (password != value) {
-          addError(error: "Password doesn't match");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      // if (password == oldpassword) {
+      //   // removeError(error: "Password doesn't match");
+      // }
+      // return null;
+      // },
+      // validator: (value) {
+      // if (value.isEmpty) {
+      //   return "";
+      // } else if (password != value) {
+      //   // addError(error: "Password doesn't match");
+      //   // return "";
+      // }
+      // return null;
+      // },
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
@@ -588,34 +583,34 @@ class _EditDiverFormState extends State<EditDiverForm> {
       controller: _controllerPassword,
       obscureText: _isObscure,
       onSaved: (newValue) => password = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter password");
-        } else if (value.length >= 8) {
-          removeError(error: "Password is too short");
-        } else if (RegExp(
-                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-            .hasMatch(value)) {
-          removeError(error: "Please enter valid Password");
-        }
-        password = value;
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter password");
-          return "";
-        } else if (value.length < 8) {
-          addError(error: "Password is too short");
-          return "";
-        } else if (!(RegExp(
-                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'))
-            .hasMatch(value)) {
-          addError(error: "Please enter valid Password");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      // if (value.isNotEmpty) {
+      //   removeError(error: "Please enter password");
+      // } else if (value.length >= 8) {
+      //   removeError(error: "Password is too short");
+      // } else if (RegExp(
+      //         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+      //     .hasMatch(value)) {
+      //   removeError(error: "Please enter valid Password");
+      // }
+      // password = value;
+      // return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter password");
+      //     return "";
+      //   } else if (value.length < 8) {
+      //     addError(error: "Password is too short");
+      //     return "";
+      //   } else if (!(RegExp(
+      //           r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'))
+      //       .hasMatch(value)) {
+      //     addError(error: "Please enter valid Password");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
           labelText: "New password",
           //  hintText: "Password",
@@ -637,27 +632,27 @@ class _EditDiverFormState extends State<EditDiverForm> {
       controller: _controllerEmail,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => email = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter email");
-        } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            .hasMatch(value)) {
-          removeError(error: "Please enter valid Email");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter email");
-          return "";
-        } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
-            .hasMatch(value)) {
-          addError(error: "Please enter valid Email");
-          return "";
-        }
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter email");
+      //   } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      //       .hasMatch(value)) {
+      //     removeError(error: "Please enter valid Email");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter email");
+      //     return "";
+      //   } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
+      //       .hasMatch(value)) {
+      //     addError(error: "Please enter valid Email");
+      //     return "";
+      //   }
 
-        return null;
-      },
+      //   return null;
+      // },
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
@@ -677,19 +672,19 @@ class _EditDiverFormState extends State<EditDiverForm> {
         FilteringTextInputFormatter.digitsOnly,
       ],
       onSaved: (newValue) => phoneNumber = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter phone");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter phone");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter phone");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter phone");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
