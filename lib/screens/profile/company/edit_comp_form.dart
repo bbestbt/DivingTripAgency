@@ -177,25 +177,30 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
 
     user_profile.agency.name = _controllerName.text;
     user_profile.agency.phone = _controllerPhone.text;
+
+    // user_profile.agency.documents[0]=  user_profile.agency.documents[0];
+    // user_profile.agency.documents[1]=  user_profile.agency.documents[1];
     //agency.documents.add(imageFile);
 
     //final pngByteData = await imageFile.toByteData(format: ImageByteFormat.png);
-
-    //ns file
 
     var f = File();
     f.filename = 'Image.jpg';
     //var t = await imageFile.readAsBytes();
     //f.file = new List<int>.from(t);
-    List<int> b = await doc.readAsBytes();
-    f.file = b;
-    user_profile.agency.documents.add(f);
+    if (doc != null) {
+      List<int> b = await doc.readAsBytes();
+      f.file = b;
+      user_profile.agency.documents.add(f);
+    }
 
     var f2 = File();
     f2.filename = 'Image.jpg';
-    List<int> a = await Img.readAsBytes();
-    f2.file = a;
-    user_profile.agency.documents.add(f2);
+    if (Img != null) {
+      List<int> a = await Img.readAsBytes();
+      f2.file = a;
+      user_profile.agency.documents.add(f2);
+    }
 
     var account = Account();
     account.username = user_profile.agency.account.username;
@@ -330,11 +335,10 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                   ),
                   Row(
                     children: [
-
                       SizedBox(width: 30),
                       Container(
-                          width: MediaQuery.of(context).size.width/10,
-                          height: MediaQuery.of(context).size.width/10,
+                          width: MediaQuery.of(context).size.width / 10,
+                          height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.agency.documents.length == 0
                               ? new Container(
                                   color: Colors.pink,
@@ -352,7 +356,8 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                                   ? Image.network(
                                       docFile.path,
                                       fit: BoxFit.cover,
-                                      width: MediaQuery.of(context).size.width/10,
+                                      width: MediaQuery.of(context).size.width /
+                                          10,
                                     )
                                   : Image.file(
                                       io.File(docFile.path),
@@ -384,11 +389,10 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                   ),
                   Row(
                     children: [
-
                       SizedBox(width: 30),
                       Container(
-                          width: MediaQuery.of(context).size.width/10,
-                          height: MediaQuery.of(context).size.width/10,
+                          width: MediaQuery.of(context).size.width / 10,
+                          height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.agency.documents.length == 0
                               ? new Container(
                                   color: Colors.green,
@@ -404,7 +408,8 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                                   ? Image.network(
                                       imageFile.path,
                                       fit: BoxFit.cover,
-                                      width: MediaQuery.of(context).size.width/10,
+                                      width: MediaQuery.of(context).size.width /
+                                          10,
                                     )
                                   : Image.file(
                                       io.File(imageFile.path),
@@ -419,7 +424,6 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                           style: TextStyle(fontSize: 15),
                         ),
                         onPressed: () {
-
                           _getFromGallery();
                         },
                       ),
@@ -427,13 +431,13 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                   ),
                   //Center(child:imageFile == null ? Text('No image selected'):Text(imageFile.path.split('/').last)),
 
-                  SizedBox(height: 20),
+                  // SizedBox(height: 20),
                   SizedBox(height: 20),
                   FormError(errors: errors),
                   SizedBox(height: 20),
                   FlatButton(
-                    onPressed: () => {
-                      sendCompanyEdit(),
+                    onPressed: () async => {
+                      await sendCompanyEdit(),
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -463,19 +467,19 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => name = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter name");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter name");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter name");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter name");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
           hintText: user_profile.agency.name,
           labelText: "First Name",
@@ -492,19 +496,19 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       cursorColor: Color(0xFFf5579c6),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => username = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter username");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter username");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter username");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter username");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
           hintText: user_profile.agency.account.username,
           labelText: "Username",
@@ -520,19 +524,19 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       controller: _controllerAddress,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => address1 = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter address");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter address");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter address");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter address");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
           hintText: user_profile.agency.address.addressLine1,
           labelText: "Address 1",
@@ -548,21 +552,21 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       controller: _controlleroldpassword,
       obscureText: _isObscure,
       onSaved: (newValue) => oldpassword = newValue,
-      onChanged: (value) {
-        if (password == oldpassword) {
-          removeError(error: "Password doesn't match");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          return "";
-        } else if (password != value) {
-          addError(error: "Password doesn't match");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+        // if (password == oldpassword) {
+        //   removeError(error: "Password doesn't match");
+        // }
+        // return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     return "";
+      //   } else if (password != value) {
+      //     addError(error: "Password doesn't match");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
@@ -584,34 +588,34 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       controller: _controllerPassword,
       obscureText: _isObscure,
       onSaved: (newValue) => password = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter password");
-        } else if (value.length >= 6) {
-          removeError(error: "Password is too short");
-        } else if (RegExp(
-                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-            .hasMatch(value)) {
-          removeError(error: "Please enter valid password");
-        }
-        password = value;
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter password");
-          return "";
-        } else if (value.length < 6) {
-          addError(error: "Password is too short");
-          return "";
-        } else if (!(RegExp(
-                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'))
-            .hasMatch(value)) {
-          addError(error: "Please enter valid password");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter password");
+      //   } else if (value.length >= 6) {
+      //     removeError(error: "Password is too short");
+      //   } else if (RegExp(
+      //           r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+      //       .hasMatch(value)) {
+      //     removeError(error: "Please enter valid password");
+      //   }
+      //   password = value;
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter password");
+      //     return "";
+      //   } else if (value.length < 6) {
+      //     addError(error: "Password is too short");
+      //     return "";
+      //   } else if (!(RegExp(
+      //           r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'))
+      //       .hasMatch(value)) {
+      //     addError(error: "Please enter valid password");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
           hintText: user_profile.agency.account.password,
           labelText: "New password",
@@ -633,27 +637,27 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       controller: _controllerCompanyemail,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => companyEmail = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter email");
-        } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            .hasMatch(value)) {
-          removeError(error: "Please enter valid Email");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter email");
-          return "";
-        } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
-            .hasMatch(value)) {
-          addError(error: "Please enter valid Email");
-          return "";
-        }
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter email");
+      //   } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      //       .hasMatch(value)) {
+      //     removeError(error: "Please enter valid Email");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter email");
+      //     return "";
+      //   } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+"))
+      //       .hasMatch(value)) {
+      //     addError(error: "Please enter valid Email");
+      //     return "";
+      //   }
 
-        return null;
-      },
+      //   return null;
+      // },
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
@@ -673,19 +677,19 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
         FilteringTextInputFormatter.digitsOnly,
       ],
       onSaved: (newValue) => phoneNumber = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter phone");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter phone");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter phone");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter phone");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
@@ -702,19 +706,19 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       controller: _controllerAddress2,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => address2 = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter address");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter address");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter address");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter address");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
           hintText: user_profile.agency.address.addressLine2,
           labelText: "Address 2",
@@ -730,19 +734,19 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       controller: _controllerCountry,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => country = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter country");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter country");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter country");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter country");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
         hintText: user_profile.agency.address.country,
         labelText: "Country",
@@ -758,19 +762,19 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       controller: _controllerCity,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => city = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter city");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter city");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter city");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter city");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
         hintText: user_profile.agency.address.city,
         labelText: "City",
@@ -786,19 +790,19 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       controller: _controllerRegion,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => region = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter region");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter region");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter region");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter region");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
         hintText: user_profile.agency.address.region,
         labelText: "Region",
@@ -818,19 +822,19 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => postalCode = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter postal code");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter postal code");
-          return "";
-        }
-        return null;
-      },
+      // onChanged: (value) {
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter postal code");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter postal code");
+      //     return "";
+      //   }
+      //   return null;
+      // },
       decoration: InputDecoration(
         hintText: user_profile.agency.address.postcode,
         labelText: "Postal code",
