@@ -148,6 +148,13 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
+    bboat2 = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 5000,
+      maxHeight: 5000,
+    );
+
+
     if (bboat != null) {
       setState(() {
         if (num == 1) boatimg = io.File(bboat.path);
@@ -251,16 +258,16 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
             children: [
               Text('Image'),
               Center(
-                child: boatimg == null
+                child: boatimg2 == null
                     ? Text('')
                     : kIsWeb
                     ? Image.network(
-                  boatimg.path,
+                  boatimg2.path,
                   fit: BoxFit.cover,
                   width: screenwidth * 0.2,
                 )
                     : Image.file(
-                  io.File(boatimg.path),
+                  io.File(boatimg2.path),
                   fit: BoxFit.cover,
                   width: screenwidth * 0.05,
                 ),
@@ -289,16 +296,16 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
             children: [
               Text('Image'),
               Center(
-                child: boatimg == null
+                child: boatimg3 == null
                     ? Text('')
                     : kIsWeb
                     ? Image.network(
-                  boatimg.path,
+                  boatimg3.path,
                   fit: BoxFit.cover,
                   width: screenwidth * 0.2,
                 )
                     : Image.file(
-                  io.File(boatimg.path),
+                  io.File(boatimg3.path),
                   fit: BoxFit.cover,
                   width: screenwidth * 0.05,
                 ),
@@ -327,16 +334,16 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
             children: [
               Text('Image'),
               Center(
-                child: boatimg == null
+                child: boatimg4 == null
                     ? Text('')
                     : kIsWeb
                     ? Image.network(
-                  boatimg.path,
+                  boatimg4.path,
                   fit: BoxFit.cover,
                   width: screenwidth * 0.2,
                 )
                     : Image.file(
-                  io.File(boatimg.path),
+                  io.File(boatimg4.path),
                   fit: BoxFit.cover,
                   width: screenwidth * 0.05,
                 ),
@@ -365,16 +372,16 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
             children: [
               Text('Image'),
               Center(
-                child: boatimg == null
+                child: boatimg5 == null
                     ? Text('')
                     : kIsWeb
                     ? Image.network(
-                  boatimg.path,
+                  boatimg5.path,
                   fit: BoxFit.cover,
                   width: screenwidth * 0.2,
                 )
                     : Image.file(
-                  io.File(boatimg.path),
+                  io.File(boatimg5.path),
                   fit: BoxFit.cover,
                   width: screenwidth * 0.05,
                 ),
@@ -473,19 +480,19 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       onSaved: (newValue) => boat_capacity = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter boat capacty");
+          removeError(error: "Please Enter total capacty");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter boat capacty");
+          addError(error: "Please Enter total capacty");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Boat capacity",
+        labelText: "total capacity",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,

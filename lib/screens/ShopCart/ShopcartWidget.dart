@@ -51,6 +51,8 @@ class _CartState extends State<CartWidget> {
 
     for (int i = 0; i < Cartlist.length; i++) {
       cartwid = Cartlist[i][0];
+      print("CartWID");
+      print("----------------");
       print(cartwid);
       roomtypes = Cartlist[i][6];
       details = Cartlist[i][5];
@@ -66,8 +68,12 @@ class _CartState extends State<CartWidget> {
   }
 
   void populateCartlist(){
-    print(jsonDecode(CartBox.get('roomtype')));
+    //print(jsonDecode(CartBox.get('roomtype')));
+    print("CartBoxImg: ");
+    print(CartBox.get('img'));
+    print("---------------------");
     Cartlist.add([
+      jsonDecode(CartBox.get('img')),
       jsonDecode(CartBox.get('roomtype')),
       CartBox.get('tripdetail'),
       CartBox.get('indexroom'),
@@ -79,8 +85,14 @@ class _CartState extends State<CartWidget> {
   }
   void persCarthive(int cartind) async{ //Test Hive
     //print(Cartlist[cartind][6]);
+    var jsonimg = jsonEncode((Cartlist[cartind][0]
+    as Widget<image.network>).map((e) => e.toProto3Json()).toList());
+
+    CartBox.put('img',jsonimg);
+
     var jsonroomtype = jsonEncode((Cartlist[cartind][6]
     as List<RoomType>).map((e) => e.toProto3Json()).toList());
+
     CartBox.put('indexroom', Cartlist[cartind][7]);
     CartBox.put('indexDetail', Cartlist[cartind][8]);
     CartBox.put('quantity',Cartlist[cartind][9]);
@@ -107,7 +119,7 @@ class _CartState extends State<CartWidget> {
     print("----------------");
     print(Cartlist);
   }
-
+/*
   void persCart(int cartind) async{ //Test Sharedpreference
     /*Map<String,dynamic> roomtypeJSON =
     {
@@ -137,7 +149,7 @@ class _CartState extends State<CartWidget> {
     //bool result = await prefs.setString('cartitem', jsonEncode(cartitem));
     //print(result);
   }
-
+*/
   getProfile() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',

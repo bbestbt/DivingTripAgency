@@ -12,8 +12,6 @@ import 'package:diving_trip_agency/screens/main/CarouselTest.dart';
 import 'CarouselTest.dart';
 import 'components/header.dart';
 
-
-
 final List<String> imgList = [
   'assets/images/S__83271685.jpg',
   'assets/images/S__77250562.jpg',
@@ -23,10 +21,8 @@ final List<String> imgList = [
   'assets/images/S__83271688.jpg',
 ];
 
-
 class MainScreen extends StatelessWidget {
   // final MenuController _controller = Get.put(MenuController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

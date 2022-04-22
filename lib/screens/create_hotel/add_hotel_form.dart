@@ -303,7 +303,7 @@ class _addHotelState extends State<addHotel> {
                 children: [Text("image")],
               ),
               Center(
-                  child: hotelimg == null
+                  child: hotelimg2 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -312,12 +312,12 @@ class _addHotelState extends State<addHotel> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    hotelimg.path,
+                    hotelimg2.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(hotelimg.path),
+                    io.File(hotelimg2.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -347,7 +347,7 @@ class _addHotelState extends State<addHotel> {
                 children: [Text("image")],
               ),
               Center(
-                  child: hotelimg == null
+                  child: hotelimg3 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -356,12 +356,12 @@ class _addHotelState extends State<addHotel> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    hotelimg.path,
+                    hotelimg3.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(hotelimg.path),
+                    io.File(hotelimg3.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -390,7 +390,7 @@ class _addHotelState extends State<addHotel> {
                 children: [Text("image")],
               ),
               Center(
-                  child: hotelimg == null
+                  child: hotelimg4 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -399,12 +399,12 @@ class _addHotelState extends State<addHotel> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    hotelimg.path,
+                    hotelimg4.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(hotelimg.path),
+                    io.File(hotelimg4.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -434,7 +434,7 @@ class _addHotelState extends State<addHotel> {
                 children: [Text("image")],
               ),
               Center(
-                  child: hotelimg == null
+                  child: hotelimg5 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -443,12 +443,12 @@ class _addHotelState extends State<addHotel> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    hotelimg.path,
+                    hotelimg5.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(hotelimg.path),
+                    io.File(hotelimg5.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -478,7 +478,7 @@ class _addHotelState extends State<addHotel> {
                 children: [Text("image")],
               ),
               Center(
-                  child: hotelimg == null
+                  child: hotelimg6 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -487,12 +487,12 @@ class _addHotelState extends State<addHotel> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    hotelimg.path,
+                    hotelimg6.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(hotelimg.path),
+                    io.File(hotelimg6.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -522,7 +522,7 @@ class _addHotelState extends State<addHotel> {
                 children: [Text("image")],
               ),
               Center(
-                  child: hotelimg == null
+                  child: hotelimg7 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -531,12 +531,12 @@ class _addHotelState extends State<addHotel> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    hotelimg.path,
+                    hotelimg7.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(hotelimg.path),
+                    io.File(hotelimg7.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -566,7 +566,7 @@ class _addHotelState extends State<addHotel> {
                 children: [Text("image")],
               ),
               Center(
-                  child: hotelimg == null
+                  child: hotelimg8 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -575,12 +575,12 @@ class _addHotelState extends State<addHotel> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    hotelimg.path,
+                    hotelimg8.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(hotelimg.path),
+                    io.File(hotelimg8.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -610,7 +610,7 @@ class _addHotelState extends State<addHotel> {
                 children: [Text("image")],
               ),
               Center(
-                  child: hotelimg == null
+                  child: hotelimg9 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -619,12 +619,12 @@ class _addHotelState extends State<addHotel> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    hotelimg.path,
+                    hotelimg9.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(hotelimg.path),
+                    io.File(hotelimg9.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -653,7 +653,7 @@ class _addHotelState extends State<addHotel> {
                 children: [Text("image")],
               ),
               Center(
-                  child: hotelimg == null
+                  child: hotelimg10 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -662,12 +662,12 @@ class _addHotelState extends State<addHotel> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    hotelimg.path,
+                    hotelimg10.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(hotelimg.path),
+                    io.File(hotelimg10.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),

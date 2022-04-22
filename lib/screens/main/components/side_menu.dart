@@ -25,9 +25,9 @@ import 'package:get/get.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 
-
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
+
 class SideMenu extends StatelessWidget {
   // final MenuController _controller = Get.put(MenuController());
 
@@ -36,7 +36,7 @@ class SideMenu extends StatelessWidget {
     return Container(
       height: double.infinity,
       // color: Colors.white,
-       color: Color(0xfffb9deed),
+      color: Color(0xfffb9deed),
       child: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20),
@@ -62,18 +62,14 @@ class SideMenu extends StatelessWidget {
               ),
               SizedBox(height: 20),
               NavItem(
-
                 title: 'Reviews',
                 tapEvent: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ReviewScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ReviewScreen()));
                 },
               ),
               SizedBox(height: 20),
               NavItem(
-
                 title: 'Weather Forecast',
                 tapEvent: () {
                   Navigator.push(
@@ -102,50 +98,90 @@ class SideMenu extends StatelessWidget {
               ),
               SizedBox(height: 20),
 
-              Container(
-                height: 45,
-                child: ElevatedButton(
+              // Container(
+              //   height: 45,
+              //   child: ElevatedButton(
 
+              //       onPressed: () {
+              //         Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //                 builder: (context) => LoginScreen()));
+              //       },
+              //       style: TextButton.styleFrom(
+              //           padding: EdgeInsets.symmetric(
+              //               horizontal: 20 * 1.5, vertical: 20)),
 
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
-                    },
-                    style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20 * 1.5, vertical: 20)),
+              //       child: FutureBuilder(
+              //         future: getProfile(),
+              //         builder: (context, snapshot) {
+              //           if (snapshot.hasData) {
+              //             return (checkLogin()&&user_profile.hasDiver())
+              //                 ? Text(
+              //                     "Log out",
+              //                     style: TextStyle(color: Colors.black),
+              //                   )
+              //                 : Text(
+              //                     "Log in",
+              //                     style: TextStyle(color: Colors.black),
+              //                   );
+              //           } else {
+              //             return Align(
+              //                 alignment: Alignment.center,
+              //                 child: Text(
+              //                   'Log in',
+              //                   style: TextStyle(color: Colors.black),
+              //                 ));
+              //           }
+              //         },
+              //       ),
+              //     ),
+              //   ),
 
-                    child: FutureBuilder(
-                      future: getProfile(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return (checkLogin()&&user_profile.hasDiver())
-                              ? Text(
-                                  "Log out",
-                                  style: TextStyle(color: Colors.black),
-                                )
-                              : Text(
-                                  "Log in",
-                                  style: TextStyle(color: Colors.black),
-                                );
-                        } else {
-                          return Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Log in',
-                                style: TextStyle(color: Colors.black),
-                              ));
-                        }
-                      },
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
+              FutureBuilder(
+                future: getProfile(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    print("about to checkLogin\n--------------");
 
+                    //return (checkLogin()&&user_profile.hasDiver())
+                    return checkLogin() == true &&user_profile.hasDiver()
+                        ? ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            },
+                            style: TextButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20 * 1.5, vertical: 20)),
+                            child: Text("Log out"))
+                        : ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            },
+                            style: TextButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20 * 1.5, vertical: 20)),
+                            child: Text("Log in"));
+                  } else {
+                    return Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Log in',
+                          style: TextStyle(color: Colors.black),
+                        ));
+                  }
+                },
+              ),
+
+              SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),
@@ -244,9 +280,8 @@ class SideMenu extends StatelessWidget {
     //         ),
     //       )),
     // );
-
   }
-  
+
   getProfile() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -264,7 +299,6 @@ class SideMenu extends StatelessWidget {
     return user_profile;
   }
 
-
   bool checkLogin() {
     try {
       var box = Hive.box('userInfo');
@@ -278,7 +312,6 @@ class SideMenu extends StatelessWidget {
         print(login);
         return false;
       }
-
     } on GrpcError catch (e) {
     } catch (e) {
       print('Exception: $e');

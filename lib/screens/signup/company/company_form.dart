@@ -238,9 +238,10 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           Row(
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Verified'),
-                  Text('Document'),
+                  Text('Verified Document'),
+                  Text('(อาจเป็นเอกสารยืนยันบริษัท)'),
                 ],
               ),
               Center(
@@ -279,9 +280,10 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           Row(
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Company'),
-                  Text('Image'),
+                  Text('Company Image'),
+                  // Text('Image'),
                 ],
               ),
               Center(
@@ -367,7 +369,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       },
       decoration: InputDecoration(
           //   hintText: "Name",
-          labelText: "First Name",
+          labelText: "Company Name",
           filled: true,
           fillColor: Colors.white,
           floatingLabelBehavior: FloatingLabelBehavior.always,

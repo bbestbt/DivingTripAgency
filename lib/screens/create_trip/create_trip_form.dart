@@ -289,9 +289,10 @@ class _CreateTripFormState extends State<CreateTripForm> {
           Row(
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Last reservation'),
-                  Text('date'),
+                  Text('Last reservation date'),
+                  Text('(last date is before trip one day)'),
                 ],
               ),
               Spacer(),

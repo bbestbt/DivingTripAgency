@@ -25,7 +25,6 @@ import 'package:hive/hive.dart';
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 
-
 class CompanyHamburger extends StatelessWidget {
   // final MenuCompany _controller = Get.put(MenuCompany());
 
@@ -123,46 +122,88 @@ class CompanyHamburger extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              Container(
+              // Container(
 
-                  height: 45,
-                  child: ElevatedButton(
+              //     height: 45,
+              //     child: ElevatedButton(
 
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()));
-                    },
-                    style: TextButton.styleFrom(
+              //       onPressed: () {
+              //         Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //                 builder: (context) => LoginScreen()));
+              //       },
+              //       style: TextButton.styleFrom(
 
-                        backgroundColor: Color(0xfffff8fab),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20 * 1.5, vertical: 20)),
-                    child: FutureBuilder(
-                      future: getProfile(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return (checkLogin() && user_profile.hasAgency())
-                              ? Text(
-                                  "Log out",
-                                  style: TextStyle(color: Colors.black),
-                                )
-                              : Text(
-                                  "Log in",
-                                  style: TextStyle(color: Colors.black),
-                                );
-                        } else {
-                          return Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Log in',
-                                style: TextStyle(color: Colors.black),
-                              ));
-                        }
-                      },
-                    ),
-                  )),
+              //           backgroundColor: Color(0xfffff8fab),
+              //           padding: EdgeInsets.symmetric(
+              //               horizontal: 20 * 1.5, vertical: 20)),
+              //       child: FutureBuilder(
+              //         future: getProfile(),
+              //         builder: (context, snapshot) {
+              //           if (snapshot.hasData) {
+              //             return (checkLogin() && user_profile.hasAgency())
+              //                 ? Text(
+              //                     "Log out",
+              //                     style: TextStyle(color: Colors.black),
+              //                   )
+              //                 : Text(
+              //                     "Log in",
+              //                     style: TextStyle(color: Colors.black),
+              //                   );
+              //           } else {
+              //             return Align(
+              //                 alignment: Alignment.center,
+              //                 child: Text(
+              //                   'Log in',
+              //                   style: TextStyle(color: Colors.black),
+              //                 ));
+              //           }
+              //         },
+              //       ),
+              //     )),
+
+              FutureBuilder(
+                future: getProfile(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    print("about to checkLogin\n--------------");
+
+                    //return (checkLogin()&&user_profile.hasDiver())
+                    return checkLogin() == true &&user_profile.hasAgency()
+                        ? ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            },
+                            style: TextButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20 * 1.5, vertical: 20)),
+                            child: Text("Log out"))
+                        : ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            },
+                            style: TextButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20 * 1.5, vertical: 20)),
+                            child: Text("Log in"));
+                  } else {
+                    return Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Log in',
+                          style: TextStyle(color: Colors.black),
+                        ));
+                  }
+                },
+              ),
+
               SizedBox(height: 20),
             ],
           ),
@@ -242,7 +283,6 @@ class CompanyHamburger extends StatelessWidget {
     //                                       CompanyReportScreen()));
     //                         }
 
-
     //                       },
     //                     ))
     //           ],
@@ -250,7 +290,6 @@ class CompanyHamburger extends StatelessWidget {
     //       )),
     // );
   }
-
 
   getProfile() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -269,7 +308,6 @@ class CompanyHamburger extends StatelessWidget {
     return user_profile;
   }
 
-
   bool checkLogin() {
     try {
       var box = Hive.box('userInfo');
@@ -283,10 +321,8 @@ class CompanyHamburger extends StatelessWidget {
         print(login);
         return false;
       }
-
     } on GrpcError catch (e) {
     } catch (e) {
-
       print('Exception: $e');
     }
   }
