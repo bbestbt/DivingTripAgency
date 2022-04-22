@@ -311,19 +311,19 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       onSaved: (newValue) => boat_capacity = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: "Please Enter boat capacty");
+          removeError(error: "Please Enter total capacty");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please Enter boat capacty");
+          addError(error: "Please Enter total capacty");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Boat capacity",
+        labelText: "Total capacity",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,

@@ -171,6 +171,58 @@ class _UserProfileState extends State<UserProfile> {
                                       SizedBox(
                                         height: 20,
                                       ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  10,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  10,
+                                              child: user_profile.agency
+                                                          .documents.length ==
+                                                      0
+                                                  ? new Container(
+                                                      color: Colors.pink,
+                                                    )
+                                                  : Image.network(
+                                                      // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                                      user_profile.diver
+                                                          .documents[0].link
+                                                          .toString())),
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  10,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  10,
+                                              child: user_profile.agency
+                                                          .documents.length ==
+                                                      0
+                                                  ? new Container(
+                                                      color: Colors.pink,
+                                                    )
+                                                  : Image.network(
+                                                      // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                                      user_profile.diver
+                                                          .documents[1].link
+                                                          .toString())),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
                                       Align(
                                         alignment: Alignment.center,
                                         child: RaisedButton(
@@ -296,15 +348,15 @@ class _InfoCardState extends State<InfoCard> {
       },
       child: Container(
         height: 320,
-        width: MediaQuery.of(context).size.width/1.2,
+        width: MediaQuery.of(context).size.width / 1.2,
         decoration: BoxDecoration(
           color: Colors.white,
         ),
         child: Row(
           children: [
             Container(
-                width: MediaQuery.of(context).size.width/10,
-                height: MediaQuery.of(context).size.width/10,
+                width: MediaQuery.of(context).size.width / 10,
+                height: MediaQuery.of(context).size.width / 10,
                 child: trips[widget.index].tripTemplate.images.length == 0
                     ? new Container(
                         color: Colors.pink,
