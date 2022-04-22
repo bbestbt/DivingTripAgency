@@ -27,6 +27,11 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   String boatname;
 
   io.File boatimg;
+  io.File boatimg2;
+  io.File boatimg3;
+  io.File boatimg4;
+  io.File boatimg5;
+
   XFile bboat;
   String boat_capacity;
   String description;
@@ -137,7 +142,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   }
 
   /// Get from gallery
-  _getPicBoat() async {
+  _getPicBoat(int num ) async {
     bboat = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
@@ -145,7 +150,12 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     );
     if (bboat != null) {
       setState(() {
-        boatimg = io.File(bboat.path);
+        if (num == 1) boatimg = io.File(bboat.path);
+        if (num == 2) boatimg2 = io.File(bboat.path);
+        if (num == 3) boatimg3 = io.File(bboat.path);
+        if (num == 4) boatimg4 = io.File(bboat.path);
+        if (num == 5) boatimg5 = io.File(bboat.path);
+        //boatimg = io.File(bboat.path);
         //card = pickedFile;
       });
     }
@@ -231,7 +241,159 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
-                  _getPicBoat();
+                  _getPicBoat(1);
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Text('Image'),
+              Center(
+                child: boatimg == null
+                    ? Text('')
+                    : kIsWeb
+                    ? Image.network(
+                  boatimg.path,
+                  fit: BoxFit.cover,
+                  width: screenwidth * 0.2,
+                )
+                    : Image.file(
+                  io.File(boatimg.path),
+                  fit: BoxFit.cover,
+                  width: screenwidth * 0.05,
+                ),
+              ),
+              /* Spacer(),
+              DiverImage == null
+                  ? Text('')
+                  :
+                  print(DiverImage.path)
+              ,*/
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPicBoat(2);
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Text('Image'),
+              Center(
+                child: boatimg == null
+                    ? Text('')
+                    : kIsWeb
+                    ? Image.network(
+                  boatimg.path,
+                  fit: BoxFit.cover,
+                  width: screenwidth * 0.2,
+                )
+                    : Image.file(
+                  io.File(boatimg.path),
+                  fit: BoxFit.cover,
+                  width: screenwidth * 0.05,
+                ),
+              ),
+              /* Spacer(),
+              DiverImage == null
+                  ? Text('')
+                  :
+                  print(DiverImage.path)
+              ,*/
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPicBoat(3);
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Text('Image'),
+              Center(
+                child: boatimg == null
+                    ? Text('')
+                    : kIsWeb
+                    ? Image.network(
+                  boatimg.path,
+                  fit: BoxFit.cover,
+                  width: screenwidth * 0.2,
+                )
+                    : Image.file(
+                  io.File(boatimg.path),
+                  fit: BoxFit.cover,
+                  width: screenwidth * 0.05,
+                ),
+              ),
+              /* Spacer(),
+              DiverImage == null
+                  ? Text('')
+                  :
+                  print(DiverImage.path)
+              ,*/
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPicBoat(4);
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Text('Image'),
+              Center(
+                child: boatimg == null
+                    ? Text('')
+                    : kIsWeb
+                    ? Image.network(
+                  boatimg.path,
+                  fit: BoxFit.cover,
+                  width: screenwidth * 0.2,
+                )
+                    : Image.file(
+                  io.File(boatimg.path),
+                  fit: BoxFit.cover,
+                  width: screenwidth * 0.05,
+                ),
+              ),
+              /* Spacer(),
+              DiverImage == null
+                  ? Text('')
+                  :
+                  print(DiverImage.path)
+              ,*/
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Text(
+                  'Upload',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () {
+                  _getPicBoat(5);
                 },
               ),
             ],
@@ -323,7 +485,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Total capacity",
+        labelText: "total capacity",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
