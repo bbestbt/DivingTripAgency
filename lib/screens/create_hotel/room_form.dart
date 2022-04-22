@@ -202,7 +202,7 @@ class _RoomFormState extends State<RoomForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: roomimg == null
+                  child: roomimg2 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -211,12 +211,12 @@ class _RoomFormState extends State<RoomForm> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    roomimg.path,
+                    roomimg2.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(roomimg.path),
+                    io.File(roomimg2.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -245,7 +245,7 @@ class _RoomFormState extends State<RoomForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: roomimg == null
+                  child: roomimg3 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -254,12 +254,12 @@ class _RoomFormState extends State<RoomForm> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    roomimg.path,
+                    roomimg3.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(roomimg.path),
+                    io.File(roomimg3.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),

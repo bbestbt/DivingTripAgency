@@ -303,7 +303,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: liveaboardimg2 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -312,12 +312,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    liveaboardimg.path,
+                    liveaboardimg2.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(liveaboardimg.path),
+                    io.File(liveaboardimg2.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -346,7 +346,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: liveaboardimg3 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -355,12 +355,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    liveaboardimg.path,
+                    liveaboardimg3.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(liveaboardimg.path),
+                    io.File(liveaboardimg3.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -389,7 +389,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: liveaboardimg4 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -398,12 +398,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    liveaboardimg.path,
+                    liveaboardimg4.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(liveaboardimg.path),
+                    io.File(liveaboardimg4.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -432,7 +432,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: liveaboardimg5 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -441,12 +441,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    liveaboardimg.path,
+                    liveaboardimg5.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(liveaboardimg.path),
+                    io.File(liveaboardimg5.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -475,7 +475,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: liveaboardimg6 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -484,12 +484,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    liveaboardimg.path,
+                    liveaboardimg6.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(liveaboardimg.path),
+                    io.File(liveaboardimg6.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -518,7 +518,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: liveaboardimg7 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -527,12 +527,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    liveaboardimg.path,
+                    liveaboardimg7.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(liveaboardimg.path),
+                    io.File(liveaboardimg7.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -561,7 +561,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: liveaboardimg8 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -570,12 +570,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    liveaboardimg.path,
+                    liveaboardimg8.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(liveaboardimg.path),
+                    io.File(liveaboardimg8.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
@@ -604,7 +604,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: liveaboardimg9 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -613,12 +613,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                   )
                       : kIsWeb
                       ? Image.network(
-                    liveaboardimg.path,
+                    liveaboardimg9.path,
                     fit: BoxFit.cover,
                     width: screenwidth * 0.2,
                   )
                       : Image.file(
-                    io.File(liveaboardimg.path),
+                    io.File(liveaboardimg9.path),
                     fit: BoxFit.cover,
                     width: screenwidth * 0.05,
                   )),
