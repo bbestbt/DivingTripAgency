@@ -612,105 +612,105 @@ class _detailState extends State<detail> {
               SizedBox(
                 width: 10,
               ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.width / 4,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[1]
-                              .link
-                              .toString())),
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.width / 4,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[2]
-                              .link
-                              .toString())),
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.width / 4,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[3]
-                              .link
-                              .toString())),
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.width / 4,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[4]
-                              .link
-                              .toString())),
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.width / 4,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[5]
-                              .link
-                              .toString())),
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.width / 4,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[6]
-                              .link
-                              .toString())),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images.length == 0
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[1]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images.length == 0
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[2]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images.length == 0
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[3]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images.length == 0
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[4]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images.length == 0
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[5]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images.length == 0
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[6]
+              //                 .link
+              //                 .toString())),
             ],
           ),
         ),
