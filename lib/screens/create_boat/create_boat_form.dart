@@ -148,11 +148,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
-    bboat2 = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 5000,
-      maxHeight: 5000,
-    );
+
 
 
     if (bboat != null) {
