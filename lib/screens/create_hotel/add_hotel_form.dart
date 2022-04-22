@@ -39,6 +39,7 @@ class _addHotelState extends State<addHotel> {
   io.File hotelimg7;
   io.File hotelimg8;
   io.File hotelimg9;
+  io.File hotelimg10;
 
   String address1;
   String address2;
@@ -199,6 +200,8 @@ class _addHotelState extends State<addHotel> {
         if (num == 6) hotelimg6 = io.File(hhotel.path);
         if (num == 7) hotelimg7 = io.File(hhotel.path);
         if (num == 8) hotelimg8 = io.File(hhotel.path);
+        if (num == 9) hotelimg9 = io.File(hhotel.path);
+        if (num == 10) hotelimg10 = io.File(hhotel.path);
       });
     }
   }
@@ -289,6 +292,400 @@ class _addHotelState extends State<addHotel> {
                         ))),
                 onPressed: () {
                   _gethotelimg(1);
+                },
+              ),
+            ],
+          ),
+
+          Row(
+            children: [
+              Column(
+                children: [Text("image")],
+              ),
+              Center(
+                  child: hotelimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    hotelimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(hotelimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _gethotelimg(2);
+                },
+              ),
+            ],
+          ),
+
+          Row(
+            children: [
+              Column(
+                children: [Text("image")],
+              ),
+              Center(
+                  child: hotelimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    hotelimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(hotelimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _gethotelimg(3);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("image")],
+              ),
+              Center(
+                  child: hotelimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    hotelimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(hotelimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _gethotelimg(4);
+                },
+              ),
+            ],
+          ),
+
+          Row(
+            children: [
+              Column(
+                children: [Text("image")],
+              ),
+              Center(
+                  child: hotelimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    hotelimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(hotelimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _gethotelimg(5);
+                },
+              ),
+            ],
+          ),
+
+          Row(
+            children: [
+              Column(
+                children: [Text("image")],
+              ),
+              Center(
+                  child: hotelimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    hotelimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(hotelimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _gethotelimg(6);
+                },
+              ),
+            ],
+          ),
+
+          Row(
+            children: [
+              Column(
+                children: [Text("image")],
+              ),
+              Center(
+                  child: hotelimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    hotelimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(hotelimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _gethotelimg(7);
+                },
+              ),
+            ],
+          ),
+
+          Row(
+            children: [
+              Column(
+                children: [Text("image")],
+              ),
+              Center(
+                  child: hotelimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    hotelimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(hotelimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _gethotelimg(8);
+                },
+              ),
+            ],
+          ),
+
+          Row(
+            children: [
+              Column(
+                children: [Text("image")],
+              ),
+              Center(
+                  child: hotelimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    hotelimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(hotelimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _gethotelimg(9);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("image")],
+              ),
+              Center(
+                  child: hotelimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    hotelimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(hotelimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _gethotelimg(10);
                 },
               ),
             ],

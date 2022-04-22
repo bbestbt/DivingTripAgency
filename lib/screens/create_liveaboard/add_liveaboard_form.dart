@@ -44,6 +44,15 @@ class _addLiveaboardState extends State<addLiveaboard> {
   String city;
 
   io.File liveaboardimg;
+  io.File liveaboardimg2;
+  io.File liveaboardimg3;
+  io.File liveaboardimg4;
+  io.File liveaboardimg5;
+  io.File liveaboardimg6;
+  io.File liveaboardimg7;
+  io.File liveaboardimg8;
+  io.File liveaboardimg9;
+  io.File liveaboardimg10;
 
   XFile lvb;
   XFile rroom;
@@ -167,15 +176,25 @@ class _addLiveaboardState extends State<addLiveaboard> {
   }
 
   // get hotel image
-  _getliveaboard() async {
+  _getliveaboard(int num) async {
     lvb = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
       maxHeight: 5000,
+
     );
     if (lvb != null) {
       setState(() {
-        liveaboardimg = io.File(lvb.path);
+        if (num == 1) liveaboardimg = io.File(lvb.path);
+        if (num == 2) liveaboardimg2 = io.File(lvb.path);
+        if (num == 3) liveaboardimg3 = io.File(lvb.path);
+        if (num == 4) liveaboardimg4 = io.File(lvb.path);
+        if (num == 5) liveaboardimg5 = io.File(lvb.path);
+        if (num == 6) liveaboardimg6 = io.File(lvb.path);
+        if (num == 7) liveaboardimg7 = io.File(lvb.path);
+        if (num == 8) liveaboardimg8 = io.File(lvb.path);
+        if (num == 9) liveaboardimg9 = io.File(lvb.path);
+        //liveaboardimg = io.File(lvb.path);
       });
     }
   }
@@ -273,7 +292,394 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           style: TextStyle(fontSize: 15),
                         ))),
                 onPressed: () {
-                  _getliveaboard();
+                  _getliveaboard(1);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: liveaboardimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    liveaboardimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(liveaboardimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getliveaboard(2);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: liveaboardimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    liveaboardimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(liveaboardimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getliveaboard(3);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: liveaboardimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    liveaboardimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(liveaboardimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getliveaboard(4);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: liveaboardimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    liveaboardimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(liveaboardimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getliveaboard(5);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: liveaboardimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    liveaboardimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(liveaboardimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getliveaboard(6);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: liveaboardimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    liveaboardimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(liveaboardimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getliveaboard(7);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: liveaboardimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    liveaboardimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(liveaboardimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getliveaboard(8);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: liveaboardimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    liveaboardimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(liveaboardimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getliveaboard(9);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: liveaboardimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    liveaboardimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(liveaboardimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getliveaboard(10);
                 },
               ),
             ],

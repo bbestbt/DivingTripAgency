@@ -39,6 +39,8 @@ class _RoomFormState extends State<RoomForm> {
   // String amenity;
   String selected = null;
   io.File roomimg;
+  io.File roomimg2;
+  io.File roomimg3;
   String room_type;
   String room_name;
   String quantity;
@@ -64,6 +66,7 @@ class _RoomFormState extends State<RoomForm> {
   final TextEditingController _controllerRoomname = TextEditingController();
   final TextEditingController _controllerQuantity = TextEditingController();
 
+
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -78,7 +81,7 @@ class _RoomFormState extends State<RoomForm> {
       });
   }
 
-  _getroomimg() async {
+  _getroomimg(int num) async {
     rroom = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
@@ -94,7 +97,10 @@ class _RoomFormState extends State<RoomForm> {
 
     if (rroom != null) {
       setState(() {
-        roomimg = io.File(rroom.path);
+        if (num == 1) roomimg = io.File(rroom.path);
+        if (num == 2) roomimg2 = io.File(rroom.path);
+        if (num == 3) roomimg3 = io.File(rroom.path);
+        //roomimg = io.File(rroom.path);
         // rroom = pickedFile;
       });
     }
@@ -185,7 +191,93 @@ class _RoomFormState extends State<RoomForm> {
                           style: TextStyle(fontSize: 15),
                         ))),
                 onPressed: () {
-                  _getroomimg();
+                  _getroomimg(1);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: roomimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    roomimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(roomimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+             Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 70.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getroomimg(2);
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Column(
+                children: [Text("Image")],
+              ),
+              Center(
+                  child: roomimg == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    roomimg.path,
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(roomimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 70.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getroomimg(3);
                 },
               ),
             ],
