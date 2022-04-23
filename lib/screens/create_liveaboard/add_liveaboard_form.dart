@@ -53,7 +53,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
   io.File liveaboardimg8;
   io.File liveaboardimg9;
   io.File liveaboardimg10;
-
+  var liveaboard = Liveaboard();
   XFile lvb;
   XFile rroom;
 
@@ -80,6 +80,37 @@ class _addLiveaboardState extends State<addLiveaboard> {
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  List<String> countryName = [
+    'Thailand',
+    'Korea',
+    'Japan',
+    'England',
+    'Hongkong'
+  ];
+  String countrySelected;
+  List<DropdownMenuItem<String>> listCountry = [];
+
+  List<String> regionName = [
+    'Asia',
+    'Americas',
+    'Africa',
+    'Western Europe',
+    'Central and Eastern Europe',
+    'Mediterranean and Middle East'
+  ];
+  String regionSelected;
+  List<DropdownMenuItem<String>> listRegion = [];
+  void listDetail() {
+    listCountry = [];
+    listCountry = countryName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+
+    listRegion = [];
+    listRegion = regionName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -107,7 +138,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var liveaboard = Liveaboard();
+
     liveaboard.name = _controllerLiveaboardname.text;
     liveaboard.description = _controllerLiveaboarddescription.text;
     liveaboard.width = double.parse(_controllerWidth.text);
@@ -121,17 +152,11 @@ class _addLiveaboardState extends State<addLiveaboard> {
     address.addressLine2 = _controllerAddress2.text;
     address.city = _controllerCity.text;
     address.postcode = _controllerPostalcode.text;
-    address.region = _controllerRegion.text;
-    address.country = _controllerCountry.text;
+    address.region = regionSelected;
+    address.country = countrySelected;
     liveaboard.address = address;
 
-    var f = File();
-    f.filename = lvb.name;
-    //var t = await imageFile.readAsBytes();
-    //f.file = new List<int>.from(t);
-    List<int> b = await lvb.readAsBytes();
-    f.file = b;
-    liveaboard.images.add(f);
+
 
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
@@ -181,8 +206,15 @@ class _addLiveaboardState extends State<addLiveaboard> {
       source: ImageSource.gallery,
       maxWidth: 5000,
       maxHeight: 5000,
-
     );
+    var f = File();
+    f.filename = lvb.name;
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    List<int> b = await lvb.readAsBytes();
+    f.file = b;
+    liveaboard.images.add(f);
+
     if (lvb != null) {
       setState(() {
         if (num == 1) liveaboardimg = io.File(lvb.path);
@@ -201,6 +233,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
 
   @override
   Widget build(BuildContext context) {
+    listDetail();
     double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       key: _formKey,
@@ -223,8 +256,37 @@ class _addLiveaboardState extends State<addLiveaboard> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildCountryFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: countrySelected,
+                    items: listCountry,
+                    hint: Text('  Select country'),
+                    iconSize: 40,
+                    validator: (value) {
+                      if (value == null) {
+                        addError(error: "Please select country");
+                        return "";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      if (value != null) {
+                        removeError(error: "Please select country");
+                        setState(() {
+                          countrySelected = value;
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 3.6,
+              //     child: buildCountryFormField()),
               Spacer(),
               // Spacer(flex: 1,),
               Container(
@@ -237,8 +299,34 @@ class _addLiveaboardState extends State<addLiveaboard> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildRegionFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: regionSelected,
+                    items: listRegion,
+                    hint: Text('  Select region'),
+                    iconSize: 40,
+                    validator: (value) {
+                      if (value == null) {
+                        addError(error: "Please select region");
+                        return "";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      if (value != null) {
+                        removeError(error: "Please select region");
+                        setState(() {
+                          regionSelected = value;
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
               Spacer(),
               Container(
                   width: MediaQuery.of(context).size.width / 3.6,
@@ -305,22 +393,22 @@ class _addLiveaboardState extends State<addLiveaboard> {
               Center(
                   child: liveaboardimg2 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    liveaboardimg2.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(liveaboardimg2.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              liveaboardimg2.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(liveaboardimg2.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -348,22 +436,22 @@ class _addLiveaboardState extends State<addLiveaboard> {
               Center(
                   child: liveaboardimg3 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    liveaboardimg3.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(liveaboardimg3.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              liveaboardimg3.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(liveaboardimg3.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -391,22 +479,22 @@ class _addLiveaboardState extends State<addLiveaboard> {
               Center(
                   child: liveaboardimg4 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    liveaboardimg4.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(liveaboardimg4.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              liveaboardimg4.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(liveaboardimg4.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -434,22 +522,22 @@ class _addLiveaboardState extends State<addLiveaboard> {
               Center(
                   child: liveaboardimg5 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    liveaboardimg5.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(liveaboardimg5.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              liveaboardimg5.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(liveaboardimg5.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -477,22 +565,22 @@ class _addLiveaboardState extends State<addLiveaboard> {
               Center(
                   child: liveaboardimg6 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    liveaboardimg6.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(liveaboardimg6.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              liveaboardimg6.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(liveaboardimg6.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -520,22 +608,22 @@ class _addLiveaboardState extends State<addLiveaboard> {
               Center(
                   child: liveaboardimg7 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    liveaboardimg7.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(liveaboardimg7.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              liveaboardimg7.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(liveaboardimg7.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -563,22 +651,22 @@ class _addLiveaboardState extends State<addLiveaboard> {
               Center(
                   child: liveaboardimg8 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    liveaboardimg8.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(liveaboardimg8.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              liveaboardimg8.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(liveaboardimg8.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -606,22 +694,22 @@ class _addLiveaboardState extends State<addLiveaboard> {
               Center(
                   child: liveaboardimg9 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    liveaboardimg9.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(liveaboardimg9.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              liveaboardimg9.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(liveaboardimg9.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -649,22 +737,22 @@ class _addLiveaboardState extends State<addLiveaboard> {
               Center(
                   child: liveaboardimg == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    liveaboardimg.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(liveaboardimg.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              liveaboardimg.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(liveaboardimg.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -703,16 +791,18 @@ class _addLiveaboardState extends State<addLiveaboard> {
                     {
                       addError(error: "Please upload image"),
                     }
-                 else{
-                  sendLiveaboard(),
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => MainCompanyScreen(),
-                    ),
-                    (route) => false,
-                  )
-                 }
+                  else
+                    {
+                      sendLiveaboard(),
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              MainCompanyScreen(),
+                        ),
+                        (route) => false,
+                      )
+                    }
                 }
             },
             color: Color(0xfff75BDFF),

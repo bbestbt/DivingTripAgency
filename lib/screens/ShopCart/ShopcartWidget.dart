@@ -25,11 +25,10 @@ import '../../nautilus/proto/dart/model.pb.dart';
 
 var cartwid = null;
 List Cartlist = [];
-
+//TODO: How about turn everything in Cartlist into JSON
 List<RoomType> roomtypes;
 List<TripWithTemplate> details;
-//TODO: Get RoomType object as String or JSON
-//TODO: Ditto with the TripWithTemplate Object
+
 int indexRoom;
 int indexDetail;
 int quantity;
@@ -37,14 +36,13 @@ int diver;
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 final CartBox = Hive.box('CartBox');
-
+int Checked=0;
 class CartWidget extends StatefulWidget {
   @override
   _CartState createState() => _CartState();
 }
 
 class _CartState extends State<CartWidget> {
-  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   @override
   void initState() {
@@ -58,6 +56,17 @@ class _CartState extends State<CartWidget> {
       indexDetail = Cartlist[i][8];
       quantity = Cartlist[i][9];
       diver = Cartlist[i][10];
+     /* print("Cartlist Everything");
+      print("--------");
+      //print(Cartlist);
+      print("Room Types");
+      print("----------");
+      print(roomtypes);
+      print("Details Trip");
+      print("----------");
+      print(details);*/
+
+
 
       persCarthive(i);
     }
@@ -66,24 +75,38 @@ class _CartState extends State<CartWidget> {
   }
 
   void populateCartlist(){
-    //print(jsonDecode(CartBox.get('roomtype')));
     print("------");
+    int i;
 
-    var roomname = jsonDecode(CartBox.get('roomtype'));
-    var tripname = jsonDecode(CartBox.get('tripdetail'));
-    print(tripname[0]['tripTemplate']['name']);
-    print("KohTaoPrice");
-    print("-------");
-    print(tripname[0]['price']);
+    if (Checked==0) {
+      for (i = 0; i <= 1; i++) {
+        var roomname = jsonDecode(CartBox.get('roomtype'));
+        var tripname = jsonDecode(CartBox.get('tripdetail'));
 
-    Cartlist.add([
-      Image.network('https://a.cdn-hotels.com/gdcs/production28/d1325/b26d214f-9a4b-4f47-97bc-65496fa15872.jpg'),
-      tripname[0]['tripTemplate']['name'],
-      CartBox.get('hotelname'),
-      roomname[0]['name'],
-      tripname[0]['price'],
-      //CartBox.get('roomtype'),
-    ]);
+        //print(tripname[i]['tripTemplate']['name']);
+       // print("KohTaoPrice");
+        print("-------");
+       // print(tripname[i]['price']);
+
+        Cartlist.add([
+          Image.network(
+              'https://a.cdn-hotels.com/gdcs/production28/d1325/b26d214f-9a4b-4f47-97bc-65496fa15872.jpg'),
+          tripname[0]['tripTemplate']['name'],
+          //"Tripname",
+          CartBox.get('hotelname'),
+          roomname[0]['name'],
+          tripname[0]['price'],
+          //tripname[0]['tripdetail'],
+          "TripName",
+          roomname,
+          i,
+          CartBox.get("quantity"),
+          CartBox.get("diver"),
+          //CartBox.get('roomtype'),
+        ]);
+      }
+      Checked=1;
+    }
   }
   void persCarthive(int cartind) async{ //Test Hive
     //print(Cartlist[cartind][6]);
@@ -107,51 +130,11 @@ class _CartState extends State<CartWidget> {
     //print("-------------------");
     //print(CartBox.get('tripdetail'));
     //print("-------------------");
-    //print(CartBox.toMap());
-  }
-
-  void printCartHive(){
-    print("Hotel Name:");
-    print(CartBox.get('hotelname'));
-    /*print('TripDetail');
-    print("-------------------");
-  //  print(CartBox.get('tripdetail'));
-    print("-------------------");
     print(CartBox.toMap());
-    print("CartList: \n");
-    print("----------------");
-   // print(Cartlist);*/
   }
 
-  void persCart(int cartind) async{ //Test Sharedpreference
-    /*Map<String,dynamic> roomtypeJSON =
-    {
-      'roomtype':Cartlist[cartind][6]['room_type'],
-      'reservationid': Cartlist[cartind][6]['reservation_id']
-    };*/
 
-    print("roomstypeJSON");
-    print(Cartlist[cartind][6][0]);
-    print("Length of hotel list");
-    print(Cartlist[cartind][6][0]);
 
-    //print(roomtypeJSON);
-    Map<String, dynamic> cartitem =
-    {'roomtypes': "Test",
-    'details':Cartlist[cartind][5],
-    'indexRoom':Cartlist[cartind][7],
-    'indexDetail' : Cartlist[cartind][8],
-    'quantity' : Cartlist[cartind][9],
-    'diver' : Cartlist[cartind][10],
-    };
-    print("Cartitem here");
-    //var jsonstring = jsonEncode(cartitem);
-
-    //print(jsonstring);
-    //prefs.setStringList('cartkey', [roomtypes, details, indexRoom]);
-    //bool result = await prefs.setString('cartitem', jsonEncode(cartitem));
-    //print(result);
-  }
 
   getProfile() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -234,7 +217,6 @@ class _CartState extends State<CartWidget> {
 
               setState(() {
                 print("Checked");
-                printCartHive();
                 populateCartlist();
                 //persCarthive(position);
                 //persCart(position);
