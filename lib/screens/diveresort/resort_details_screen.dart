@@ -93,7 +93,6 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
           constraints: BoxConstraints(maxWidth: 300),
           child: SideMenu(),
         ),
-
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -450,6 +449,7 @@ class _detailState extends State<detail> {
 
   @override
   Widget build(BuildContext context) {
+    print(details[widget.index].tripTemplate.images);
     return Column(
       children: [
         SectionTitle(
@@ -538,7 +538,12 @@ class _detailState extends State<detail> {
         SizedBox(
           height: 10,
         ),
-        Text("Description : " + details[widget.index].tripTemplate.description),
+        Container(
+            width: MediaQuery.of(context).size.width / 2,
+            child: Text(
+                "Description : " +
+                    details[widget.index].tripTemplate.description,
+                textAlign: TextAlign.center)),
         SizedBox(
           height: 10,
         ),
@@ -555,122 +560,150 @@ class _detailState extends State<detail> {
               SizedBox(
                 width: 10,
               ),
+
               Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.width / 4,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[0]
-                              .link
-                              .toString())),
-              SizedBox(
-                width: 10,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 5,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext ctx, int each) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width / 5,
+                            height: MediaQuery.of(context).size.height / 5,
+                            child: Image.network(details[widget.index]
+                                .tripTemplate
+                                .images[each]
+                                .link
+                                .toString()),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: details[widget.index].tripTemplate.images.length,
+                ),
               ),
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 4,
-          //         height: MediaQuery.of(context).size.width / 4,
-          //         child: details[widget.index].tripTemplate.images.length == 0
-          //             ? new Container(
-          //                 color: Colors.pink,
-          //               )
-          //             : Image.network(
-          //                 // 'http://139.59.101.136/static/'+
-          //                 details[widget.index]
-          //                     .tripTemplate
-          //                     .images[1]
-          //                     .link
-          //                     .toString())),
-          //     SizedBox(
-          //       width: 10,
-          //     ),
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 4,
-          //         height: MediaQuery.of(context).size.width / 4,
-          //         child: details[widget.index].tripTemplate.images.length == 0
-          //             ? new Container(
-          //                 color: Colors.pink,
-          //               )
-          //             : Image.network(
-          //                 // 'http://139.59.101.136/static/'+
-          //                 details[widget.index]
-          //                     .tripTemplate
-          //                     .images[2]
-          //                     .link
-          //                     .toString())),
-          //     SizedBox(
-          //       width: 10,
-          //     ),
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 4,
-          //         height: MediaQuery.of(context).size.width / 4,
-          //         child: details[widget.index].tripTemplate.images.length == 0
-          //             ? new Container(
-          //                 color: Colors.pink,
-          //               )
-          //             : Image.network(
-          //                 // 'http://139.59.101.136/static/'+
-          //                 details[widget.index]
-          //                     .tripTemplate
-          //                     .images[3]
-          //                     .link
-          //                     .toString())),
-          //     SizedBox(
-          //       width: 10,
-          //     ),
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 4,
-          //         height: MediaQuery.of(context).size.width / 4,
-          //         child: details[widget.index].tripTemplate.images.length == 0
-          //             ? new Container(
-          //                 color: Colors.pink,
-          //               )
-          //             : Image.network(
-          //                 // 'http://139.59.101.136/static/'+
-          //                 details[widget.index]
-          //                     .tripTemplate
-          //                     .images[4]
-          //                     .link
-          //                     .toString())),
-          //     SizedBox(
-          //       width: 10,
-          //     ),
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 4,
-          //         height: MediaQuery.of(context).size.width / 4,
-          //         child: details[widget.index].tripTemplate.images.length == 0
-          //             ? new Container(
-          //                 color: Colors.pink,
-          //               )
-          //             : Image.network(
-          //                 // 'http://139.59.101.136/static/'+
-          //                 details[widget.index]
-          //                     .tripTemplate
-          //                     .images[5]
-          //                     .link
-          //                     .toString())),
-          //     SizedBox(
-          //       width: 10,
-          //     ),
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 4,
-          //         height: MediaQuery.of(context).size.width / 4,
-          //         child: details[widget.index].tripTemplate.images.length == 0
-          //             ? new Container(
-          //                 color: Colors.pink,
-          //               )
-          //             : Image.network(
-          //                 // 'http://139.59.101.136/static/'+
-          //                 details[widget.index]
-          //                     .tripTemplate
-          //                     .images[6]
-          //                     .link
-          //                     .toString())),
+
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images[0] == null
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[0]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images[1] == null
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[1]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images[2] == null
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[2]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images[3] == null
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[3]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images[4] == null
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[4]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images[5] == null
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[5]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images[6] == null
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[6]
+              //                 .link
+              //                 .toString())),
             ],
           ),
         ),
@@ -943,7 +976,7 @@ class _InfoCardState extends State<InfoCard> {
                         int.parse(_textEditingQuantity.text),
                         int.parse(_textEditingDiver.text)
                       ]);
-                     // print("Cartlist: ");
+                      // print("Cartlist: ");
                       //print(Cartlist);
                       //print("Cartlist[0][2]: ");
                       //print(Cartlist[0][2]);
@@ -1068,7 +1101,6 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
-
                   onPressed: roomtypes[widget.indexRoom].quantity == 0
                       ? null
                       : () async {
@@ -1078,7 +1110,6 @@ class _InfoCardState extends State<InfoCard> {
 
                           await showInformationDialog(context);
                         },
-
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),

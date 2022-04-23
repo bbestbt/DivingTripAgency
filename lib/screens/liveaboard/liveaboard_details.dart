@@ -522,7 +522,12 @@ class _detailState extends State<detail> {
         SizedBox(
           height: 10,
         ),
-        Text("Description : " + details[widget.index].tripTemplate.description),
+        Container(
+            width: MediaQuery.of(context).size.width / 2,
+            child: Text(
+                "Description : " +
+                    details[widget.index].tripTemplate.description,
+                textAlign: TextAlign.center)),
         SizedBox(
           height: 10,
         ),
@@ -587,7 +592,7 @@ class _detailState extends State<detail> {
         //                     .toString())),
         //   ],
         // ),
-         SingleChildScrollView(
+        SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -596,22 +601,49 @@ class _detailState extends State<detail> {
                 width: 10,
               ),
               Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.width / 4,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[0]
-                              .link
-                              .toString())),
-              SizedBox(
-                width: 10,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 5,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext ctx, int each) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width / 5,
+                            height: MediaQuery.of(context).size.height / 5,
+                            child: Image.network(details[widget.index]
+                                .tripTemplate
+                                .images[each]
+                                .link
+                                .toString()),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: details[widget.index].tripTemplate.images.length,
+                ),
               ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 4,
+              //     height: MediaQuery.of(context).size.width / 4,
+              //     child: details[widget.index].tripTemplate.images.length == 0
+              //         ? new Container(
+              //             color: Colors.pink,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             details[widget.index]
+              //                 .tripTemplate
+              //                 .images[0]
+              //                 .link
+              //                 .toString())),
+              // SizedBox(
+              //   width: 10,
+              // ),
               // Container(
               //     width: MediaQuery.of(context).size.width / 4,
               //     height: MediaQuery.of(context).size.width / 4,
@@ -765,7 +797,7 @@ class _detailState extends State<detail> {
         Container(
             decoration: BoxDecoration(
                 // color: Colors.white,
-               color: Color(0xFFFdaf0ff),
+                color: Color(0xFFFdaf0ff),
                 borderRadius: BorderRadius.circular(10)),
             width: MediaQuery.of(context).size.width,
             child: Expanded(
@@ -1090,7 +1122,8 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
-                  onPressed: roomtypes[widget.indexRoom].quantity==0? null:  () {},
+                  onPressed:
+                      roomtypes[widget.indexRoom].quantity == 0 ? null : () {},
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),

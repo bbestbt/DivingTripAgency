@@ -112,9 +112,9 @@ class UpdateBoatForm extends StatefulWidget {
 }
 
 class _UpdateBoatFormState extends State<UpdateBoatForm> {
-  _UpdateBoatFormState(Boat eachBoat){
-    this.eachBoat=eachBoat;
-    
+  Boat eachBoat;
+  _UpdateBoatFormState(Boat eachBoat) {
+    this.eachBoat = eachBoat;
   }
   String boatname;
 
@@ -135,7 +135,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
   String country;
   String region;
   String city;
-  Boat eachBoat;
 
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
@@ -306,6 +305,18 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
           Row(
             children: [
               Text('Image'),
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
+                  child: eachBoat.images[0] == null
+                      ? new Container(
+                          color: Colors.blue,
+                        )
+                      : Image.network(
+                          // 'http://139.59.101.136/static/'+
+                          eachBoat.images[0].link.toString())),
+              SizedBox(width: 30),
               Center(
                 child: boatimg == null
                     ? Text('')
@@ -344,6 +355,18 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
           Row(
             children: [
               Text('Image'),
+              SizedBox(width: 30),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 10,
+              //     height: MediaQuery.of(context).size.width / 10,
+              //     child: eachBoat.images[1] == null
+              //         ? new Container(
+              //             color: Colors.blue,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             eachBoat.images[1].link.toString())),
+              SizedBox(width: 30),
               Center(
                 child: boatimg2 == null
                     ? Text('')
@@ -382,6 +405,18 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
           Row(
             children: [
               Text('Image'),
+              SizedBox(width: 30),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 10,
+              //     height: MediaQuery.of(context).size.width / 10,
+              //     child: eachBoat.images[2] == null
+              //         ? new Container(
+              //             color: Colors.blue,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             eachBoat.images[2].link.toString())),
+              SizedBox(width: 30),
               Center(
                 child: boatimg3 == null
                     ? Text('')
@@ -420,6 +455,18 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
           Row(
             children: [
               Text('Image'),
+              SizedBox(width: 30),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 10,
+              //     height: MediaQuery.of(context).size.width / 10,
+              //     child: eachBoat.images[3] == null
+              //         ? new Container(
+              //             color: Colors.blue,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             eachBoat.images[3].link.toString())),
+              SizedBox(width: 30),
               Center(
                 child: boatimg4 == null
                     ? Text('')
@@ -458,6 +505,18 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
           Row(
             children: [
               Text('Image'),
+              SizedBox(width: 30),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 10,
+              //     height: MediaQuery.of(context).size.width / 10,
+              //     child: eachBoat.images[4] == null
+              //         ? new Container(
+              //             color: Colors.blue,
+              //           )
+              //         : Image.network(
+              //             // 'http://139.59.101.136/static/'+
+              //             eachBoat.images[4].link.toString())),
+              SizedBox(width: 30),
               Center(
                 child: boatimg5 == null
                     ? Text('')
