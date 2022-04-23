@@ -12,6 +12,7 @@ import 'package:diving_trip_agency/screens/main/components/navitem.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/profile/company/company_profile_screen.dart';
+import 'package:diving_trip_agency/screens/profile/company/update/update.dart';
 import 'package:diving_trip_agency/screens/report/company_report.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
@@ -99,6 +100,14 @@ class CompanyHamburger extends StatelessWidget {
                 tapEvent: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => SignupStaff()));
+                },
+              ),
+              SizedBox(height: 20),
+              NavItem(
+                title: 'Update',
+                tapEvent: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => updateScreen()));
                 },
               ),
               SizedBox(height: 20),

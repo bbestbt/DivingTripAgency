@@ -14,6 +14,7 @@ import 'package:diving_trip_agency/screens/login/login.dart';
 import 'package:diving_trip_agency/screens/main/components/web_menu_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/profile/company/company_profile_screen.dart';
+import 'package:diving_trip_agency/screens/profile/company/update/update.dart';
 import 'package:diving_trip_agency/screens/report/company_report.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
@@ -32,7 +33,6 @@ class HeaderCompany extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
         width: double.infinity,
         height: 100,
         // color: Color(0xfff96dfd8),
@@ -47,7 +47,7 @@ class HeaderCompany extends StatelessWidget {
               Color(0xfffffc5ca),
             ])),
         child: SingleChildScrollView(
-          scrollDirection:Axis.horizontal,
+          scrollDirection: Axis.horizontal,
           child: Row(
             children: <Widget>[
               SizedBox(width: 10),
@@ -55,7 +55,9 @@ class HeaderCompany extends StatelessWidget {
                 "DivingTripAgency",
               ),
               // Spacer(),
-              SizedBox(width:MediaQuery.of(context).size.width /3.75 ,),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 3.75,
+              ),
               if (!isMobile(context))
                 Row(
                   children: [
@@ -92,7 +94,8 @@ class HeaderCompany extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CreateLiveaboardScreen()));
+                                builder: (context) =>
+                                    CreateLiveaboardScreen()));
                       },
                     ),
                     NavItem(
@@ -122,6 +125,16 @@ class HeaderCompany extends StatelessWidget {
                                 builder: (context) => SignupStaff()));
                       },
                     ),
+                    NavItem(
+                      title: 'Update',
+                      tapEvent: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => updateScreen()));
+                      },
+                    ),
+                    SizedBox(height: 20),
                     NavItem(
                       title: 'Profile',
                       tapEvent: () {
@@ -158,7 +171,8 @@ class HeaderCompany extends StatelessWidget {
                             future: getProfile(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return (checkLogin()&&user_profile.hasAgency())
+                                return (checkLogin() &&
+                                        user_profile.hasAgency())
                                     ? Text(
                                         "Log out",
                                         style: TextStyle(color: Colors.black),
@@ -170,7 +184,10 @@ class HeaderCompany extends StatelessWidget {
                               } else {
                                 return Align(
                                     alignment: Alignment.center,
-                                    child: Text('Log in', style: TextStyle(color: Colors.black),));
+                                    child: Text(
+                                      'Log in',
+                                      style: TextStyle(color: Colors.black),
+                                    ));
                               }
                             },
                           ),
@@ -190,6 +207,7 @@ class HeaderCompany extends StatelessWidget {
           ),
         ));
   }
+
 
   //  SafeArea(
   //   child: Column(
@@ -282,11 +300,9 @@ bool checkLogin() {
     } else {
       print(login);
       return false;
-
     }
   } on GrpcError catch (e) {
   } catch (e) {
     print('Exception: $e');
   }
-
 }
