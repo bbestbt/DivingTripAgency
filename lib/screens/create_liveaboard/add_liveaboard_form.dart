@@ -226,6 +226,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
         if (num == 7) liveaboardimg7 = io.File(lvb.path);
         if (num == 8) liveaboardimg8 = io.File(lvb.path);
         if (num == 9) liveaboardimg9 = io.File(lvb.path);
+        if (num == 10) liveaboardimg10 = io.File(lvb.path);
         //liveaboardimg = io.File(lvb.path);
       });
     }
@@ -735,7 +736,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: liveaboardimg10 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -744,12 +745,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg.path,
+                              liveaboardimg10.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
                           : Image.file(
-                              io.File(liveaboardimg.path),
+                              io.File(liveaboardimg10.path),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.05,
                             )),
