@@ -557,59 +557,169 @@ class _detailState extends State<detail> {
                     SizedBox(
                       height: 10,
                     ),
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       SizedBox(
+                    //         width: 10,
+                    //       ),
+                    //       Container(
+                    //         width: MediaQuery.of(context).size.width,
+                    //         height: MediaQuery.of(context).size.height / 5,
+                    //         child: ListView.builder(
+                    //           scrollDirection: Axis.horizontal,
+                    //           itemBuilder: (BuildContext ctx, int each) {
+                    //             return SingleChildScrollView(
+                    //               scrollDirection: Axis.horizontal,
+                    //               child: Row(
+                    //                 children: [
+                    //                   Container(
+                    //                     width:
+                    //                         MediaQuery.of(context).size.width /
+                    //                             5,
+                    //                     height:
+                    //                         MediaQuery.of(context).size.height /
+                    //                             5,
+                    //                     child: Image.network(
+                    //                         details[widget.index]
+                    //                             .tripTemplate
+                    //                             .images[each]
+                    //                             .link
+                    //                             .toString()),
+                    //                   ),
+                    //                 ],
+                    //               ),
+                    //             );
+                    //           },
+                    //           itemCount: details[widget.index]
+                    //               .tripTemplate
+                    //               .images
+                    //               .length,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+
+                    Text(
+                      "Trip images",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(height: 20),
                     SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height / 5,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (BuildContext ctx, int each) {
-                                return SingleChildScrollView(
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 16.0, vertical: 24.0),
+                                height:
+                                    MediaQuery.of(context).size.height * 0.50,
+                                child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                5,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                5,
-                                        child: Image.network(
-                                            details[widget.index]
-                                                .tripTemplate
-                                                .images[each]
-                                                .link
-                                                .toString()),
+                                  itemCount: details[widget.index]
+                                      .tripTemplate
+                                      .images
+                                      .length,
+                                  itemBuilder: (context, each) {
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.5,
+                                      child: Card(
+                                        child: Container(
+                                          child: Image.network(
+                                              details[widget.index]
+                                                  .tripTemplate
+                                                  .images[each]
+                                                  .link
+                                                  .toString()),
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              itemCount: details[widget.index]
-                                  .tripTemplate
-                                  .images
-                                  .length,
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
+                    SizedBox(height: 20),
+                    Text(
+                      "Divesites",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(height: 20),
+                    SingleChildScrollView(
+                        child: Container(
+                            child: Column(children: <Widget>[
+                      Container(
+                          child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 24.0),
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: details[widget.index].diveSites.length,
+                          itemBuilder: (context, each) {
+                            return Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: SingleChildScrollView(
+                                child: Card(
+                                  color: Colors.deepPurple[100],
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                  elevation: 8,
+                                  child: Container(
+                                    child: Column(
+                                      children: [
+                                        SizedBox(height: 20),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Name : " +
+                                                details[widget.index]
+                                                    .diveSites[each]
+                                                    .name),
+                                            Text("Description : " +
+                                                details[widget.index]
+                                                    .diveSites[each]
+                                                    .description),
+                                            Text("Max Dept : " +
+                                                details[widget.index]
+                                                    .diveSites[each]
+                                                    .maxDepth
+                                                    .toString()),
+                                            Text("Min Dept : " +
+                                                details[widget.index]
+                                                    .diveSites[each]
+                                                    .minDepth
+                                                    .toString()),
+                                          ],
+                                        ),
+                                        SizedBox(height: 20),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ))
+                    ]))),
                     SizedBox(
                       height: 10,
                     ),
                   ],
                 );
               } else {
-                return Align(
-                    alignment: Alignment.center, child: Text(' '));
+                return Align(alignment: Alignment.center, child: Text(' '));
               }
             },
           ),
@@ -741,6 +851,11 @@ class _detailState extends State<detail> {
         //               borderRadius: BorderRadius.circular(10)),
         //           child: Text("get hotel"),
         //         ),
+        Text(
+          "Room types",
+          style: TextStyle(fontSize: 20),
+        ),
+        SizedBox(height: 20),
         Container(
           // decoration: BoxDecoration(
           //     color: Color(0xFFFF89cfef),
@@ -749,34 +864,32 @@ class _detailState extends State<detail> {
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                SizedBox(
-                  width: 1110,
-                  child: FutureBuilder(
-                    future: getData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Center(
-                            child: Container(
-                                child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Wrap(
-                              spacing: 20,
-                              runSpacing: 40,
-                              children: List.generate(
-                                roomtypes.length,
-                                (candy) => Center(
-                                  child: InfoCard(candy, details, index),
-                                ),
-                              )),
-                        )));
-                      } else {
-                        return Center(child: CircularProgressIndicator(strokeWidth: 10));
-                        //  Align(
-                        //     alignment: Alignment.center,
-                        //     child: Text(' '));
-                      }
-                    },
-                  ),
+                FutureBuilder(
+                  future: getData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Center(
+                          child: Container(
+                              child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Wrap(
+                            spacing: 20,
+                            runSpacing: 40,
+                            children: List.generate(
+                              roomtypes.length,
+                              (candy) => Center(
+                                child: InfoCard(candy, details, index),
+                              ),
+                            )),
+                      )));
+                    } else {
+                      return Center(
+                          child: CircularProgressIndicator(strokeWidth: 10));
+                      //  Align(
+                      //     alignment: Alignment.center,
+                      //     child: Text(' '));
+                    }
+                  },
                 ),
               ],
             ),
