@@ -53,7 +53,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
   io.File liveaboardimg8;
   io.File liveaboardimg9;
   io.File liveaboardimg10;
-
+  var liveaboard = Liveaboard();
   XFile lvb;
   XFile rroom;
 
@@ -138,7 +138,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var liveaboard = Liveaboard();
+
     liveaboard.name = _controllerLiveaboardname.text;
     liveaboard.description = _controllerLiveaboarddescription.text;
     liveaboard.width = double.parse(_controllerWidth.text);
@@ -156,13 +156,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
     address.country = countrySelected;
     liveaboard.address = address;
 
-    var f = File();
-    f.filename = lvb.name;
-    //var t = await imageFile.readAsBytes();
-    //f.file = new List<int>.from(t);
-    List<int> b = await lvb.readAsBytes();
-    f.file = b;
-    liveaboard.images.add(f);
+
 
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
@@ -176,14 +170,14 @@ class _addLiveaboardState extends State<addLiveaboard> {
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
-      room.price = pinkValue[i].price;
+      // room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
       //room.roomImages.add(f2);
       //pinkValue[i].roomImages.add(value);
       for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
         room.roomImages.add(pinkValue[i].roomImages[j]);
       }
-      liveaboard.roomTypes.add(room);
+      // liveaboard.roomTypes.add(room);
     }
 
     var liveaboardRequest = AddLiveaboardRequest();
@@ -213,6 +207,14 @@ class _addLiveaboardState extends State<addLiveaboard> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
+    var f = File();
+    f.filename = lvb.name;
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    List<int> b = await lvb.readAsBytes();
+    f.file = b;
+    liveaboard.images.add(f);
+
     if (lvb != null) {
       setState(() {
         if (num == 1) liveaboardimg = io.File(lvb.path);
@@ -224,6 +226,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
         if (num == 7) liveaboardimg7 = io.File(lvb.path);
         if (num == 8) liveaboardimg8 = io.File(lvb.path);
         if (num == 9) liveaboardimg9 = io.File(lvb.path);
+        if (num == 10) liveaboardimg10 = io.File(lvb.path);
         //liveaboardimg = io.File(lvb.path);
       });
     }
@@ -733,7 +736,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: liveaboardimg10 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -742,12 +745,12 @@ class _addLiveaboardState extends State<addLiveaboard> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg.path,
+                              liveaboardimg10.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
                           : Image.file(
-                              io.File(liveaboardimg.path),
+                              io.File(liveaboardimg10.path),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.05,
                             )),

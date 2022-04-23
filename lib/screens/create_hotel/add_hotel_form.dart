@@ -50,7 +50,7 @@ class _addHotelState extends State<addHotel> {
 
   XFile hhotel;
   XFile rroom;
-
+  var hotel = Hotel();
   List<RoomType> pinkValue = [new RoomType()];
   List<List<Amenity>> blueValue = [
     [new Amenity()]
@@ -137,7 +137,7 @@ class _addHotelState extends State<addHotel> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var hotel = Hotel();
+
     hotel.name = _controllerHotelname.text;
     hotel.description = _controllerHoteldescription.text;
     hotel.phone = _controllerPhone.text;
@@ -153,20 +153,7 @@ class _addHotelState extends State<addHotel> {
 
     hotel.address = address;
 
-    var f = File();
-    f.filename = hhotel.name;
-    //var t = await imageFile.readAsBytes();
-    //f.file = new List<int>.from(t);
-    List<int> b = await hhotel.readAsBytes();
-    f.file = b;
-    hotel.images.add(f);
 
-    //var f2 = File();
-    //f2.filename = rroom.name;
-    //f2.filename = 'image.jpg';
-    //List<int> a = await rroom.readAsBytes();
-    //f2.file = a;
-    //hotel.images.add(f2);
 
     //var room = RoomType();
     //var amenity = Amenity();
@@ -182,7 +169,7 @@ class _addHotelState extends State<addHotel> {
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
-      room.price = pinkValue[i].price;
+      // room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
       //room.roomImages.add(f2);
       //pinkValue[i].roomImages.add(value);
@@ -221,6 +208,14 @@ class _addHotelState extends State<addHotel> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
+    var f = File();
+    f.filename = hhotel.name;
+    //f2.filename = 'image.jpg';
+    List<int> a = await hhotel.readAsBytes();
+    f.file = a;
+    //this.imagelist.add(f);
+    hotel.images.add(f);
+
     if (hhotel != null) {
       setState(() {
         if (num == 1) hotelimg = io.File(hhotel.path);

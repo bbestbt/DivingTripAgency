@@ -43,7 +43,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   String country;
   String region;
   String city;
-
+  var boat = Boat();
   final List<String> errors = [];
   // List<File> boatImg = new List<File>();
   final TextEditingController _controllerName = TextEditingController();
@@ -119,7 +119,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var boat = Boat();
+
     boat.name = _controllerName.text;
     boat.description = _controllerDescription.text;
     boat.totalCapacity = int.parse(_controllerCapacity.text);
@@ -140,13 +140,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     boatRequest.divingBoat = boat;
     //  boatRequest.agencyId= boatRequest.agencyId+4;
 
-    var f = File();
-    f.filename = bboat.name;
-    //var t = await imageFile.readAsBytes();
-    //f.file = new List<int>.from(t);
-    List<int> b = await bboat.readAsBytes();
-    f.file = b;
-    boat.images.add(f);
+
 
     // try {
     //  var response = stub.addDivingBoat(boatRequest);
@@ -180,7 +174,13 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
-
+    var f = File();
+    f.filename = bboat.name;
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    List<int> b = await bboat.readAsBytes();
+    f.file = b;
+    boat.images.add(f);
     if (bboat != null) {
       setState(() {
         if (num == 1) boatimg = io.File(bboat.path);

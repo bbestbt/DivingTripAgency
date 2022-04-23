@@ -151,8 +151,8 @@ class _RoomFormState extends State<RoomForm> {
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
-          buildPriceFormField(),
-          SizedBox(height: 20),
+          // buildPriceFormField(),
+          // SizedBox(height: 20),
           Row(
             children: [
               Column(

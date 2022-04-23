@@ -151,6 +151,55 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  List<String> countryName = [
+    'Thailand',
+    'Korea',
+    'Japan',
+    'England',
+    'Hongkong'
+  ];
+  String countrySelected;
+  List<DropdownMenuItem<String>> listCountry = [];
+
+  List<String> regionName = [
+    'Asia',
+    'Americas',
+    'Africa',
+    'Western Europe',
+    'Central and Eastern Europe',
+    'Mediterranean and Middle East'
+  ];
+  String regionSelected;
+  List<DropdownMenuItem<String>> listRegion = [];
+
+  void listDetail() {
+    listCountry = [];
+    listCountry = countryName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+
+    listRegion = [];
+    listRegion = regionName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      _controllerName.text = eachBoat.name;
+      _controllerCapacity.text = eachBoat.totalCapacity.toString();
+      _controllerDescription.text = eachBoat.description;
+      _controllerDivercapacity.text = eachBoat.diverCapacity.toString();
+      _controllerStaffcapacity.text = eachBoat.staffCapacity.toString();
+      _controllerAddress.text = eachBoat.address.addressLine1;
+      _controllerAddress2.text = eachBoat.address.addressLine2;
+      _controllerPostalcode.text = eachBoat.address.postcode;
+      _controllerCountry.text = eachBoat.address.country;
+      _controllerRegion.text = eachBoat.address.region;
+      _controllerCity.text = eachBoat.address.city;
+    });
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -164,72 +213,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       setState(() {
         errors.remove(error);
       });
-  }
-
-  void AddBoat() async {
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-    final box = Hive.box('userInfo');
-    String token = box.get('token');
-
-    final stub = AgencyServiceClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
-    var boat = Boat();
-    boat.name = _controllerName.text;
-    boat.description = _controllerDescription.text;
-    boat.totalCapacity = int.parse(_controllerCapacity.text);
-    boat.diverCapacity = int.parse(_controllerDivercapacity.text);
-    boat.staffCapacity = int.parse(_controllerStaffcapacity.text);
-
-    var address = Address();
-    address.addressLine1 = _controllerAddress.text;
-    address.addressLine2 = _controllerAddress2.text;
-    address.city = _controllerCity.text;
-    address.postcode = _controllerPostalcode.text;
-    address.region = _controllerRegion.text;
-    address.country = _controllerCountry.text;
-    boat.address = address;
-    //boat.boatImages.add();
-
-    var boatRequest = AddDivingBoatRequest();
-    boatRequest.divingBoat = boat;
-    //  boatRequest.agencyId= boatRequest.agencyId+4;
-
-    var f = File();
-    f.filename = bboat.name;
-    //var t = await imageFile.readAsBytes();
-    //f.file = new List<int>.from(t);
-    List<int> b = await bboat.readAsBytes();
-    f.file = b;
-    boat.images.add(f);
-
-    // try {
-    //  var response = stub.addDivingBoat(boatRequest);
-    //  print('response: ${response}');
-    // } catch (e) {
-    //  print(e);
-    //}
-    // }
-
-    try {
-      var response = await stub.addDivingBoat(boatRequest);
-      print(token);
-      print(response);
-    } on GrpcError catch (e) {
-      // Handle exception of type GrpcError
-      print('codeName: ${e.codeName}');
-      print('details: ${e.details}');
-      print('message: ${e.message}');
-      print('rawResponse: ${e.rawResponse}');
-      print('trailers: ${e.trailers}');
-    } catch (e) {
-      // Handle all other exceptions
-      print('Exception: $e');
-    }
   }
 
   /// Get from gallery
@@ -255,7 +238,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
 
   @override
   Widget build(BuildContext context) {
-    // print(eachBoat.name);
+    listDetail();
     double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       key: _formKey,
@@ -280,8 +263,29 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildCountryFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: countrySelected,
+                    items: listCountry,
+                    hint: Text('  Select country'),
+                    iconSize: 40,
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          countrySelected = value;
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 3.6,
+              //     child: buildCountryFormField()),
               Spacer(),
               // Spacer(flex: 1,),
               Container(
@@ -293,8 +297,29 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildRegionFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: regionSelected,
+                    items: listRegion,
+                    hint: Text('  Select region'),
+                    iconSize: 40,
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          regionSelected = value;
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 3.6,
+              //     child: buildRegionFormField()),
               Spacer(),
               Container(
                   width: MediaQuery.of(context).size.width / 3.6,
@@ -313,9 +338,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                       ? new Container(
                           color: Colors.blue,
                         )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          eachBoat.images[0].link.toString())),
+                      : Image.network(eachBoat.images[0].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg == null
@@ -555,7 +578,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () => {
-              AddBoat(),
+              // AddBoat(),
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
@@ -581,19 +604,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       controller: _controllerName,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => boatname = newValue,
-      // onChanged: (value) {
-      //   if (value.isNotEmpty) {
-      //     removeError(error: "Please Enter boat name");
-      //   }
-      //   return null;
-      // },
-      // validator: (value) {
-      //   if (value.isEmpty) {
-      //     addError(error: "Please Enter boat name");
-      //     return "";
-      //   }
-      //   return null;
-      // },
       decoration: InputDecoration(
         labelText: "Boat name",
         filled: true,
@@ -612,19 +622,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => boat_capacity = newValue,
-      // onChanged: (value) {
-      //   if (value.isNotEmpty) {
-      //     removeError(error: "Please Enter total capacty");
-      //   }
-      //   return null;
-      // },
-      // validator: (value) {
-      //   if (value.isEmpty) {
-      //     addError(error: "Please Enter total capacty");
-      //     return "";
-      //   }
-      //   return null;
-      // },
       decoration: InputDecoration(
         labelText: "total capacity",
         filled: true,
@@ -639,19 +636,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       controller: _controllerDescription,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => description = newValue,
-      // onChanged: (value) {
-      //   if (value.isNotEmpty) {
-      //     removeError(error: "Please Enter description");
-      //   }
-      //   return null;
-      // },
-      // validator: (value) {
-      //   if (value.isEmpty) {
-      //     addError(error: "Please Enter description");
-      //     return "";
-      //   }
-      //   return null;
-      // },
       decoration: InputDecoration(
         labelText: "Description",
         filled: true,
@@ -670,19 +654,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => diver_capacity = newValue,
-      // onChanged: (value) {
-      //   if (value.isNotEmpty) {
-      //     removeError(error: "Please Enter diver capacity");
-      //   }
-      //   return null;
-      // },
-      // validator: (value) {
-      //   if (value.isEmpty) {
-      //     addError(error: "Please Enter diver capacity");
-      //     return "";
-      //   }
-      //   return null;
-      // },
       decoration: InputDecoration(
         labelText: "Diver capacity",
         filled: true,
@@ -701,19 +672,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => staff_capacity = newValue,
-      // onChanged: (value) {
-      //   if (value.isNotEmpty) {
-      //     removeError(error: "Please Enter staff capacity");
-      //   }
-      //   return null;
-      // },
-      // validator: (value) {
-      //   if (value.isEmpty) {
-      //     addError(error: "Please Enter staff capacity");
-      //     return "";
-      //   }
-      //   return null;
-      // },
       decoration: InputDecoration(
         labelText: "Staff capacity",
         filled: true,
@@ -728,19 +686,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       controller: _controllerAddress,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => address1 = newValue,
-      // onChanged: (value) {
-      //   if (value.isNotEmpty) {
-      //     removeError(error: "Please enter address");
-      //   }
-      //   return null;
-      // },
-      // validator: (value) {
-      //   if (value.isEmpty) {
-      //     addError(error: "Please enter address");
-      //     return "";
-      //   }
-      //   return null;
-      // },
       decoration: InputDecoration(
           //    hintText: "Address1",
           labelText: "Address 1",
@@ -756,19 +701,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       controller: _controllerAddress2,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => address2 = newValue,
-      // onChanged: (value) {
-      //   if (value.isNotEmpty) {
-      //     removeError(error: "Please enter address");
-      //   }
-      //   return null;
-      // },
-      // validator: (value) {
-      //   if (value.isEmpty) {
-      //     addError(error: "Please enter address");
-      //     return "";
-      //   }
-      //   return null;
-      // },
       decoration: InputDecoration(
           //   hintText: "Address2",
           labelText: "Address 2",
@@ -784,19 +716,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       controller: _controllerCountry,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => country = newValue,
-      // onChanged: (value) {
-      //   if (value.isNotEmpty) {
-      //     removeError(error: "Please enter country");
-      //   }
-      //   return null;
-      // },
-      // validator: (value) {
-      //   if (value.isEmpty) {
-      //     addError(error: "Please enter country");
-      //     return "";
-      //   }
-      //   return null;
-      // },
       decoration: InputDecoration(
         //   hintText: "Country",
         labelText: "Country",
@@ -812,19 +731,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       controller: _controllerCity,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => city = newValue,
-      // onChanged: (value) {
-      //   if (value.isNotEmpty) {
-      //     removeError(error: "Please enter city");
-      //   }
-      //   return null;
-      // },
-      // validator: (value) {
-      //   if (value.isEmpty) {
-      //     addError(error: "Please enter city");
-      //     return "";
-      //   }
-      //   return null;
-      // },
       decoration: InputDecoration(
         //   hintText: "City",
         labelText: "City",
@@ -840,19 +746,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       controller: _controllerRegion,
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => region = newValue,
-      // onChanged: (value) {
-      //   if (value.isNotEmpty) {
-      //     removeError(error: "Please enter region");
-      //   }
-      //   return null;
-      // },
-      // validator: (value) {
-      //   if (value.isEmpty) {
-      //     addError(error: "Please enter region");
-      //     return "";
-      //   }
-      //   return null;
-      // },
       decoration: InputDecoration(
         //    hintText: "Region",
         labelText: "Region",
@@ -872,19 +765,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       ],
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => postalCode = newValue,
-      // onChanged: (value) {
-      //   if (value.isNotEmpty) {
-      //     removeError(error: "Please enter postal code");
-      //   }
-      //   return null;
-      // },
-      // validator: (value) {
-      //   if (value.isEmpty) {
-      //     addError(error: "Please enter postal code");
-      //     return "";
-      //   }
-      //   return null;
-      // },
       decoration: InputDecoration(
         //   hintText: "Postal code",
         labelText: "Postal code",
