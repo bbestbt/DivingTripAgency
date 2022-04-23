@@ -10,6 +10,7 @@ import 'package:diving_trip_agency/screens/create_boat/create_boat_form.dart';
 import 'package:diving_trip_agency/screens/create_trip/create_trip_form.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
+import 'package:diving_trip_agency/screens/profile/company/update/update_divemaster_form.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -156,7 +157,13 @@ class _listDiveMasterCardState extends State<listDiveMasterCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    updateEachDiveMaster(divemasters[widget.index])));
+      },
       child: Container(
         height: 200,
         width: 200,
@@ -168,7 +175,9 @@ class _listDiveMasterCardState extends State<listDiveMasterCard> {
           children: [
             Align(
                 alignment: Alignment.center,
-                child: Text(divemasters[widget.index].firstName+" "+divemasters[widget.index].lastName)),
+                child: Text(divemasters[widget.index].firstName +
+                    " " +
+                    divemasters[widget.index].lastName)),
           ],
         ),
       ),

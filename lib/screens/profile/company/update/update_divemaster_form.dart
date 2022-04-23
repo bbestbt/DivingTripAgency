@@ -17,24 +17,28 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
+import 'dart:io' as io;
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-class updateEachStaff extends StatefulWidget {
-  Staff staffName;
-  updateEachStaff(Staff staffName) {
-    this.staffName = staffName;
+class updateEachDiveMaster extends StatefulWidget {
+  DiveMaster DiveMasterName;
+  updateEachDiveMaster(DiveMaster DiveMasterName) {
+    this.DiveMasterName = DiveMasterName;
   }
 
   @override
-  State<updateEachStaff> createState() => _updateEachStaffState(this.staffName);
+  State<updateEachDiveMaster> createState() =>
+      _updateEachDiveMasterState(this.DiveMasterName);
 }
 
-class _updateEachStaffState extends State<updateEachStaff> {
-  Staff staffName;
+class _updateEachDiveMasterState extends State<updateEachDiveMaster> {
+  DiveMaster DiveMasterName;
   final _formKey = GlobalKey<FormState>();
-  _updateEachStaffState(this.staffName);
+  _updateEachDiveMasterState(this.DiveMasterName);
   GetProfileResponse user_profile = new GetProfileResponse();
   var profile;
-  Map<String, int> genderTypeMap = {};
+  Map<String, int> levelTypeMap = {};
 
   getProfile() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -73,7 +77,7 @@ class _updateEachStaffState extends State<updateEachStaff> {
                 HeaderCompany(),
                 SizedBox(height: 50),
                 SectionTitle(
-                  title: "Update staff",
+                  title: "Update Dive Master",
                   color: Color(0xFFFF78a2cc),
                 ),
                 SizedBox(
@@ -92,7 +96,7 @@ class _updateEachStaffState extends State<updateEachStaff> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10)),
-                              child: StaffForm(this.staffName),
+                              child: DiveMasterForm(this.DiveMasterName),
                             ),
                           ],
                         );
@@ -112,33 +116,42 @@ class _updateEachStaffState extends State<updateEachStaff> {
   }
 }
 
-class StaffForm extends StatefulWidget {
-  Staff staffValue;
-  StaffForm(Staff staffValue) {
-    this.staffValue = staffValue;
+class DiveMasterForm extends StatefulWidget {
+  DiveMaster divemasterValue;
+  DiveMasterForm(DiveMaster divemasterValue) {
+    this.divemasterValue = divemasterValue;
   }
   @override
-  _StaffFormState createState() => _StaffFormState(this.staffValue);
+  _StaffFormState createState() => _StaffFormState(this.divemasterValue);
 }
 
-class _StaffFormState extends State<StaffForm> {
+class _StaffFormState extends State<DiveMasterForm> {
   String name;
   String lastname;
-  String position;
-  int count;
-  Staff staffValue;
-  String genderSelected = null;
-  Map<String, int> genderTypeMap = {};
-  List<DropdownMenuItem<String>> listGender = [];
-  List<GenderType> gender = [GenderType.MALE, GenderType.FEMALE];
+  DiveMaster divemasterValue;
+  String levelSelected = null;
+  Map<String, int> levelTypeMap = {};
+  List<DropdownMenuItem<String>> listLevel = [];
+  List<LevelType> level = [
+    LevelType.MASTER,
+    LevelType.OPEN_WATER,
+    LevelType.RESCUE,
+    LevelType.INSTRUCTOR,
+    LevelType.ADVANCED_OPEN_WATER
+  ];
+
   List<String> errors = [];
-  _StaffFormState(Staff staffValue) {
-    this.staffValue = staffValue;
+  _StaffFormState(DiveMaster divemasterValue) {
+    this.divemasterValue = divemasterValue;
   }
 
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerLastname = TextEditingController();
-  final TextEditingController _controllerPosition = TextEditingController();
+
+  io.File CardFile;
+  XFile cb;
+  io.File CardFileBack;
+  XFile ca;
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -155,23 +168,23 @@ class _StaffFormState extends State<StaffForm> {
   }
 
   void loadData() async {
-    gender.forEach((element) {
+    level.forEach((element) {
       // print(element);
     });
-    listGender = gender
+    listLevel = level
         .map((val) => DropdownMenuItem<String>(
             child: Text(val.toString()), value: val.value.toString()))
         .toList();
 
     String value;
 
-    for (var i = 0; i < GenderType.values.length; i++) {
-      value = GenderType.valueOf(i).toString();
-      genderTypeMap[value] = i;
+    for (var i = 0; i < LevelType.values.length; i++) {
+      value = LevelType.valueOf(i).toString();
+      levelTypeMap[value] = i;
     }
   }
 
-  void sendUpdateStaff() async {
+  void sendUpdateDivemaster() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -183,30 +196,49 @@ class _StaffFormState extends State<StaffForm> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    staffValue.firstName = _controllerName.text;
-    staffValue.lastName = _controllerLastname.text;
-    staffValue.position = _controllerPosition.text;
+    divemasterValue.firstName = _controllerName.text;
+    divemasterValue.lastName = _controllerLastname.text;
 
-    if (genderSelected != null) {
-      GenderType.values.forEach((genderType) {
-        if (genderTypeMap[genderType.toString()] == int.parse(genderSelected)) {
-          staffValue.gender = genderType;
+    var f = File();
+    f.filename = 'Image.jpg';
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    if (CardFile != null) {
+      List<int> b = await CardFile.readAsBytes();
+      f.file = b;
+      divemasterValue.documents.add(f);
+    }
+
+    var f2 = File();
+    f2.filename = 'Image.jpg';
+    if (CardFileBack != null) {
+      List<int> a = await CardFileBack.readAsBytes();
+      f2.file = a;
+      divemasterValue.documents.add(f2);
+    }
+
+    if (levelSelected != null) {
+      LevelType.values.forEach((levelType) {
+        if (levelTypeMap[levelType.toString()] == int.parse(levelSelected)) {
+          divemasterValue.level = levelType;
         }
       });
     }
 
-    var staff = Staff();
-    staff.firstName = staffValue.firstName;
-    staff.lastName = staffValue.lastName;
-    staff.position = staffValue.position;
-    if (genderSelected != null) {
-      staff.gender = staffValue.gender;
+    var divemaster = DiveMaster();
+    divemaster.firstName = divemasterValue.firstName;
+    divemaster.lastName = divemasterValue.lastName;
+    if (levelSelected != null) {
+      divemaster.level = divemasterValue.level;
+    }
+    for (int i = 0; i < divemaster.documents.length; i++) {
+      divemasterValue.documents.add(divemaster.documents[i]);
     }
 
-    final updateRequest = UpdateStaffRequest()..staff = staff;
+    final updateRequest = UpdateDiveMasterRequest()..diveMaster = divemaster;
     print(updateRequest);
     try {
-      var response = stub.updateStaff(updateRequest);
+      var response = stub.updateDiveMaster(updateRequest);
       print('response: ${response}');
     } catch (e) {
       print(e);
@@ -216,15 +248,57 @@ class _StaffFormState extends State<StaffForm> {
   @override
   void initState() {
     setState(() {
-      _controllerName.text = staffValue.firstName;
-      _controllerLastname.text = staffValue.lastName;
-      _controllerPosition.text = staffValue.position;
+      _controllerName.text = divemasterValue.firstName;
+      _controllerLastname.text = divemasterValue.lastName;
     });
+  }
+
+  _getCard() async {
+    ca = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 5000,
+      maxHeight: 5000,
+    );
+    var f2 = File();
+    f2.filename = ca.name;
+    //f2.filename = 'image.jpg';
+    List<int> b = await ca.readAsBytes();
+    f2.file = b;
+    //this.imagelist.add(f);
+    this.divemasterValue.documents.add(f2);
+
+    if (ca != null) {
+      setState(() {
+        CardFile = io.File(ca.path);
+      });
+    }
+  }
+
+  _getCardBack() async {
+    cb = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 5000,
+      maxHeight: 5000,
+    );
+    var f = File();
+    f.filename = cb.name;
+    //f2.filename = 'image.jpg';
+    List<int> a = await cb.readAsBytes();
+    f.file = a;
+    //this.imagelist.add(f);
+    this.divemasterValue.documents.add(f);
+
+    if (cb != null) {
+      setState(() {
+        CardFileBack = io.File(cb.path);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     loadData();
+    double screenwidth = MediaQuery.of(context).size.width;
     return Container(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
@@ -234,22 +308,20 @@ class _StaffFormState extends State<StaffForm> {
           SizedBox(height: 20),
           buildLastnameFormField(),
           SizedBox(height: 20),
-          buildPositionFormField(),
-          SizedBox(height: 20),
           Container(
             color: Colors.white,
             //color: Color(0xFFFd0efff),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
-                value: genderSelected,
-                items: listGender,
-                hint: Text(staffValue.gender.toString()),
+                value: levelSelected,
+                items: listLevel,
+                hint: Text(divemasterValue.level.toString()),
                 iconSize: 40,
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
-                      genderSelected = value;
+                      levelSelected = value;
 
                       print(value);
                     });
@@ -259,9 +331,93 @@ class _StaffFormState extends State<StaffForm> {
             ),
           ),
           SizedBox(height: 20),
+          Row(
+            children: [
+              Column(
+                children: [Text("Divemaster"), Text('Card'), Text('(Front)')],
+              ),
+              Center(
+                  child: CardFile == null
+                      ? Column(
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
+                      : kIsWeb
+                          ? Image.network(
+                              CardFile.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(CardFile.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Container(
+                  constraints:
+                      const BoxConstraints(minWidth: 20.0, minHeight: 10.0),
+                  child: Text(
+                    'Upload',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                onPressed: () {
+                  _getCard();
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Column(
+                children: [Text("Divemaster"), Text('Card'), Text("(Back)")],
+              ),
+              Center(
+                  child: CardFileBack == null
+                      ? Column(
+                          children: [
+                            //Text('Divemaster Card '),
+                            // Text('(Back)')
+                          ],
+                        )
+                      : kIsWeb
+                          ? Image.network(
+                              CardFileBack.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(CardFileBack.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
+              Spacer(),
+              FlatButton(
+                color: Color(0xfffa2c8ff),
+                child: Container(
+                  constraints:
+                      const BoxConstraints(minWidth: 20.0, minHeight: 10.0),
+                  child: Text(
+                    'Upload',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ),
+                onPressed: () {
+                  _getCardBack();
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
           FlatButton(
             onPressed: () async {
-              await sendUpdateStaff();
+              await sendUpdateDivemaster();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => MainCompanyScreen()));
             },
@@ -306,20 +462,5 @@ class _StaffFormState extends State<StaffForm> {
             fillColor: Colors.white,
             floatingLabelBehavior: FloatingLabelBehavior.always,
             suffixIcon: Icon(Icons.person)));
-  }
-
-  TextFormField buildPositionFormField() {
-    return TextFormField(
-      controller: _controllerPosition,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => position = newValue,
-      decoration: InputDecoration(
-        //   hintText: "Position",
-        labelText: "Position",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
   }
 }
