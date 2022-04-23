@@ -60,6 +60,26 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  List<String> countryName = [
+    'Thailand',
+    'Korea',
+    'Japan',
+    'England',
+    'Hongkong'
+  ];
+  String countrySelected;
+  List<DropdownMenuItem<String>> listCountry = [];
+
+  List<String> regionName = [
+    'Asia',
+    'Americas',
+    'Africa',
+    'Western Europe',
+    'Central and Eastern Europe',
+    'Mediterranean and Middle East'
+  ];
+  String regionSelected;
+  List<DropdownMenuItem<String>> listRegion = [];
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -73,6 +93,18 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       setState(() {
         errors.remove(error);
       });
+  }
+
+  void listDetail() {
+    listCountry = [];
+    listCountry = countryName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+
+    listRegion = [];
+    listRegion = regionName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
   }
 
   void AddBoat() async {
@@ -99,8 +131,8 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     address.addressLine2 = _controllerAddress2.text;
     address.city = _controllerCity.text;
     address.postcode = _controllerPostalcode.text;
-    address.region = _controllerRegion.text;
-    address.country = _controllerCountry.text;
+    address.region = regionSelected;
+    address.country = countrySelected;
     boat.address = address;
     //boat.boatImages.add();
 
@@ -142,14 +174,12 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
   }
 
   /// Get from gallery
-  _getPicBoat(int num ) async {
+  _getPicBoat(int num) async {
     bboat = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
       maxHeight: 5000,
     );
-
-
 
     if (bboat != null) {
       setState(() {
@@ -166,6 +196,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
 
   @override
   Widget build(BuildContext context) {
+    listDetail();
     double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       key: _formKey,
@@ -190,8 +221,37 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildCountryFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: countrySelected,
+                    items: listCountry,
+                    hint: Text('  Select country'),
+                    iconSize: 40,
+                    validator: (value) {
+                      if (value == null) {
+                        addError(error: "Please select country");
+                        return "";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      if (value != null) {
+                        removeError(error: "Please select country");
+                        setState(() {
+                          countrySelected = value;
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 3.6,
+              //     child: buildCountryFormField()),
               Spacer(),
               // Spacer(flex: 1,),
               Container(
@@ -203,8 +263,37 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildRegionFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: regionSelected,
+                    items: listRegion,
+                    hint: Text('  Select region'),
+                    iconSize: 40,
+                    validator: (value) {
+                      if (value == null) {
+                        addError(error: "Please select region");
+                        return "";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      if (value != null) {
+                        removeError(error: "Please select region");
+                        setState(() {
+                          regionSelected = value;
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 3.6,
+              //     child: buildRegionFormField()),
               Spacer(),
               Container(
                   width: MediaQuery.of(context).size.width / 3.6,
@@ -257,16 +346,16 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                 child: boatimg2 == null
                     ? Text('')
                     : kIsWeb
-                    ? Image.network(
-                  boatimg2.path,
-                  fit: BoxFit.cover,
-                  width: screenwidth * 0.2,
-                )
-                    : Image.file(
-                  io.File(boatimg2.path),
-                  fit: BoxFit.cover,
-                  width: screenwidth * 0.05,
-                ),
+                        ? Image.network(
+                            boatimg2.path,
+                            fit: BoxFit.cover,
+                            width: screenwidth * 0.2,
+                          )
+                        : Image.file(
+                            io.File(boatimg2.path),
+                            fit: BoxFit.cover,
+                            width: screenwidth * 0.05,
+                          ),
               ),
               /* Spacer(),
               DiverImage == null
@@ -295,16 +384,16 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                 child: boatimg3 == null
                     ? Text('')
                     : kIsWeb
-                    ? Image.network(
-                  boatimg3.path,
-                  fit: BoxFit.cover,
-                  width: screenwidth * 0.2,
-                )
-                    : Image.file(
-                  io.File(boatimg3.path),
-                  fit: BoxFit.cover,
-                  width: screenwidth * 0.05,
-                ),
+                        ? Image.network(
+                            boatimg3.path,
+                            fit: BoxFit.cover,
+                            width: screenwidth * 0.2,
+                          )
+                        : Image.file(
+                            io.File(boatimg3.path),
+                            fit: BoxFit.cover,
+                            width: screenwidth * 0.05,
+                          ),
               ),
               /* Spacer(),
               DiverImage == null
@@ -333,16 +422,16 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                 child: boatimg4 == null
                     ? Text('')
                     : kIsWeb
-                    ? Image.network(
-                  boatimg4.path,
-                  fit: BoxFit.cover,
-                  width: screenwidth * 0.2,
-                )
-                    : Image.file(
-                  io.File(boatimg4.path),
-                  fit: BoxFit.cover,
-                  width: screenwidth * 0.05,
-                ),
+                        ? Image.network(
+                            boatimg4.path,
+                            fit: BoxFit.cover,
+                            width: screenwidth * 0.2,
+                          )
+                        : Image.file(
+                            io.File(boatimg4.path),
+                            fit: BoxFit.cover,
+                            width: screenwidth * 0.05,
+                          ),
               ),
               /* Spacer(),
               DiverImage == null
@@ -371,16 +460,16 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                 child: boatimg5 == null
                     ? Text('')
                     : kIsWeb
-                    ? Image.network(
-                  boatimg5.path,
-                  fit: BoxFit.cover,
-                  width: screenwidth * 0.2,
-                )
-                    : Image.file(
-                  io.File(boatimg5.path),
-                  fit: BoxFit.cover,
-                  width: screenwidth * 0.05,
-                ),
+                        ? Image.network(
+                            boatimg5.path,
+                            fit: BoxFit.cover,
+                            width: screenwidth * 0.2,
+                          )
+                        : Image.file(
+                            io.File(boatimg5.path),
+                            fit: BoxFit.cover,
+                            width: screenwidth * 0.05,
+                          ),
               ),
               /* Spacer(),
               DiverImage == null

@@ -74,6 +74,27 @@ class _TriptemplateState extends State<Triptemplate> {
   String region;
   String city;
 
+  List<String> countryName = [
+    'Thailand',
+    'Korea',
+    'Japan',
+    'England',
+    'Hongkong'
+  ];
+  String countrySelected;
+  List<DropdownMenuItem<String>> listCountry = [];
+
+  List<String> regionName = [
+    'Asia',
+    'Americas',
+    'Africa',
+    'Western Europe',
+    'Central and Eastern Europe',
+    'Mediterranean and Middle East'
+  ];
+  String regionSelected;
+  List<DropdownMenuItem<String>> listRegion = [];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -82,6 +103,16 @@ class _TriptemplateState extends State<Triptemplate> {
   }
 
   void loadData() async {
+    listCountry = [];
+    listCountry = countryName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+
+    listRegion = [];
+    listRegion = regionName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+
     trip.forEach((element) {
       // print(element);
     });
@@ -309,8 +340,38 @@ class _TriptemplateState extends State<Triptemplate> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildCountryFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                // color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: countrySelected,
+                    items: listCountry,
+                    hint: Text('  Select country'),
+                    iconSize: 40,
+                    validator: (value) {
+                      if (value == null) {
+                        addError(error: "Please select country");
+                        return "";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      if (value != null) {
+                        removeError(error: "Please select country");
+                        setState(() {
+                          countrySelected = value;
+                          triptemplate.address.country = countrySelected;
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 3.6,
+              //     child: buildCountryFormField()),
               Spacer(),
               // Spacer(flex: 1,),
               Container(
@@ -323,8 +384,36 @@ class _TriptemplateState extends State<Triptemplate> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildRegionFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                // color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: regionSelected,
+                    items: listRegion,
+                    hint: Text('  Select region'),
+                    iconSize: 40,
+                    validator: (value) {
+                      if (value == null) {
+                        addError(error: "Please select region");
+                        return "";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      if (value != null) {
+                        removeError(error: "Please select region");
+                        setState(() {
+                          regionSelected = value;
+                          triptemplate.address.region = regionSelected;
+
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
               Spacer(),
               Container(
                   width: MediaQuery.of(context).size.width / 3.6,
@@ -332,7 +421,7 @@ class _TriptemplateState extends State<Triptemplate> {
             ],
           ),
           SizedBox(height: 20),
-       
+
           // buildBoatNameFormField(),
           // SizedBox(height: 20),
           //radio
@@ -492,32 +581,32 @@ class _TriptemplateState extends State<Triptemplate> {
             },
           ),
           SizedBox(height: 20),
-             Container(
+          Container(
             //color: Colors.white,
             child: Center(
               child: DropdownButtonFormField(
-                isExpanded: true,
-                value: boatSelected,
-                items: listBoat,
-                //     boat.map((String value) {
-                //   return DropdownMenuItem<String>(
-                //     value: value,
-                //     child: Text(value),
-                //   );
-                // }).toList(),
+                  isExpanded: true,
+                  value: boatSelected,
+                  items: listBoat,
+                  //     boat.map((String value) {
+                  //   return DropdownMenuItem<String>(
+                  //     value: value,
+                  //     child: Text(value),
+                  //   );
+                  // }).toList(),
 
-                hint: Text('  Select boat (ONSHORE)'),
-                iconSize: 40,
-                // validator: (value) {
-                //   if (value == null) {
-                //     addError(error: "Please select boat");
-                //     return "";
-                //   }
-                //   return null;
-                // },
-                onChanged: (value) {
-                  // if (value != null) {
-                  //   removeError(error: "Please select boat");
+                  hint: Text('  Select boat (ONSHORE)'),
+                  iconSize: 40,
+                  // validator: (value) {
+                  //   if (value == null) {
+                  //     addError(error: "Please select boat");
+                  //     return "";
+                  //   }
+                  //   return null;
+                  // },
+                  onChanged: (value) {
+                    // if (value != null) {
+                    //   removeError(error: "Please select boat");
                     setState(() {
                       boatSelected = value;
                       print(value);
@@ -529,8 +618,8 @@ class _TriptemplateState extends State<Triptemplate> {
                       //   triptemplate.divingBoatId=boatMap[boatSelected];
                     });
                   }
-                // },
-              ),
+                  // },
+                  ),
             ),
           ),
           SizedBox(height: 20),

@@ -106,6 +106,27 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
   PickedFile Img;
   PickedFile doc;
 
+  List<String> countryName = [
+    'Thailand',
+    'Korea',
+    'Japan',
+    'England',
+    'Hongkong'
+  ];
+  String countrySelected;
+  List<DropdownMenuItem<String>> listCountry = [];
+
+  List<String> regionName = [
+    'Asia',
+    'Americas',
+    'Africa',
+    'Western Europe',
+    'Central and Eastern Europe',
+    'Mediterranean and Middle East'
+  ];
+  String regionSelected;
+  List<DropdownMenuItem<String>> listRegion = [];
+
   /// Get from gallery
   _getFromGallery() async {
     PickedFile pickedFile = await ImagePicker().getImage(
@@ -220,9 +241,15 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     address.addressLine1 = user_profile.agency.address.addressLine1;
     address.addressLine2 = user_profile.agency.address.addressLine2;
     address.city = user_profile.agency.address.city;
-    address.country = user_profile.agency.address.country;
+    // address.country = user_profile.agency.address.country;
     address.postcode = user_profile.agency.address.postcode;
-    address.region = user_profile.agency.address.region;
+    // address.region = user_profile.agency.address.region;
+    if (countrySelected != null) {
+      address.country = countrySelected;
+    }
+    if (regionSelected != null) {
+      address.region = regionSelected;
+    }
 
     var agency = Agency()..address = address;
     agency.name = user_profile.agency.name;
@@ -268,10 +295,22 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     }
   }
 
+  void listDetail() {
+    listCountry = [];
+    listCountry = countryName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+
+    listRegion = [];
+    listRegion = regionName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
-
+    listDetail();
     return SizedBox(
       child: FutureBuilder(
         future: getData(),
@@ -300,8 +339,37 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                   Row(
                     children: [
                       Container(
-                          width: MediaQuery.of(context).size.width / 3.6,
-                          child: buildCountryFormField()),
+                        width: MediaQuery.of(context).size.width / 3.6,
+                        color: Colors.white,
+                        child: Center(
+                          child: DropdownButtonFormField(
+                            isExpanded: true,
+                            value: countrySelected,
+                            items: listCountry,
+                            hint: Text(user_profile.agency.address.country),
+                            iconSize: 40,
+                            validator: (value) {
+                              if (value == null) {
+                                addError(error: "Please select country");
+                                return "";
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              if (value != null) {
+                                removeError(error: "Please select country");
+                                setState(() {
+                                  countrySelected = value;
+                                  print(value);
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                      // Container(
+                      //     width: MediaQuery.of(context).size.width / 3.6,
+                      //     child: buildCountryFormField()),
                       Spacer(),
                       // Spacer(flex: 1,),
                       Container(
@@ -314,8 +382,34 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                   Row(
                     children: [
                       Container(
-                          width: MediaQuery.of(context).size.width / 3.6,
-                          child: buildRegionFormField()),
+                        width: MediaQuery.of(context).size.width / 3.6,
+                        color: Colors.white,
+                        child: Center(
+                          child: DropdownButtonFormField(
+                            isExpanded: true,
+                            value: regionSelected,
+                            items: listRegion,
+                            hint: Text(user_profile.agency.address.region),
+                            iconSize: 40,
+                            validator: (value) {
+                              if (value == null) {
+                                addError(error: "Please select region");
+                                return "";
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              if (value != null) {
+                                removeError(error: "Please select region");
+                                setState(() {
+                                  regionSelected = value;
+                                  print(value);
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                      ),
                       Spacer(),
                       Container(
                           width: MediaQuery.of(context).size.width / 3.6,
@@ -553,10 +647,10 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       obscureText: _isObscure,
       onSaved: (newValue) => oldpassword = newValue,
       // onChanged: (value) {
-        // if (password == oldpassword) {
-        //   removeError(error: "Password doesn't match");
-        // }
-        // return null;
+      // if (password == oldpassword) {
+      //   removeError(error: "Password doesn't match");
+      // }
+      // return null;
       // },
       // validator: (value) {
       //   if (value.isEmpty) {

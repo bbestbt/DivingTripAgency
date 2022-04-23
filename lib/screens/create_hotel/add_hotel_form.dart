@@ -74,9 +74,39 @@ class _addHotelState extends State<addHotel> {
   final TextEditingController _controllerCity = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  List<String> countryName = [
+    'Thailand',
+    'Korea',
+    'Japan',
+    'England',
+    'Hongkong'
+  ];
+  String countrySelected;
+  List<DropdownMenuItem<String>> listCountry = [];
+
+  List<String> regionName = [
+    'Asia',
+    'Americas',
+    'Africa',
+    'Western Europe',
+    'Central and Eastern Europe',
+    'Mediterranean and Middle East'
+  ];
+  String regionSelected;
+  List<DropdownMenuItem<String>> listRegion = [];
+
   void loadData() {
     listStar = [];
     listStar = star
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+    listCountry = [];
+    listCountry = countryName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+
+    listRegion = [];
+    listRegion = regionName
         .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
         .toList();
   }
@@ -118,8 +148,9 @@ class _addHotelState extends State<addHotel> {
     address.addressLine2 = _controllerAddress2.text;
     address.city = _controllerCity.text;
     address.postcode = _controllerPostalcode.text;
-    address.region = _controllerRegion.text;
-    address.country = _controllerCountry.text;
+    address.region = regionSelected;
+    address.country = countrySelected;
+
     hotel.address = address;
 
     var f = File();
@@ -229,8 +260,37 @@ class _addHotelState extends State<addHotel> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildCountryFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: countrySelected,
+                    items: listCountry,
+                    hint: Text('  Select country'),
+                    iconSize: 40,
+                    validator: (value) {
+                      if (value == null) {
+                        addError(error: "Please select country");
+                        return "";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      if (value != null) {
+                        removeError(error: "Please select country");
+                        setState(() {
+                          countrySelected = value;
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 3.6,
+              //     child: buildCountryFormField()),
               Spacer(),
               // Spacer(flex: 1,),
               Container(
@@ -243,8 +303,34 @@ class _addHotelState extends State<addHotel> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildRegionFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: regionSelected,
+                    items: listRegion,
+                    hint: Text('  Select region'),
+                    iconSize: 40,
+                    validator: (value) {
+                      if (value == null) {
+                        addError(error: "Please select region");
+                        return "";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      if (value != null) {
+                        removeError(error: "Please select region");
+                        setState(() {
+                          regionSelected = value;
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
               Spacer(),
               Container(
                   width: MediaQuery.of(context).size.width / 3.6,
@@ -305,22 +391,22 @@ class _addHotelState extends State<addHotel> {
               Center(
                   child: hotelimg2 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    hotelimg2.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(hotelimg2.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              hotelimg2.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(hotelimg2.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -349,22 +435,22 @@ class _addHotelState extends State<addHotel> {
               Center(
                   child: hotelimg3 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    hotelimg3.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(hotelimg3.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              hotelimg3.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(hotelimg3.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -392,22 +478,22 @@ class _addHotelState extends State<addHotel> {
               Center(
                   child: hotelimg4 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    hotelimg4.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(hotelimg4.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              hotelimg4.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(hotelimg4.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -436,22 +522,22 @@ class _addHotelState extends State<addHotel> {
               Center(
                   child: hotelimg5 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    hotelimg5.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(hotelimg5.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              hotelimg5.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(hotelimg5.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -480,22 +566,22 @@ class _addHotelState extends State<addHotel> {
               Center(
                   child: hotelimg6 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    hotelimg6.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(hotelimg6.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              hotelimg6.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(hotelimg6.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -524,22 +610,22 @@ class _addHotelState extends State<addHotel> {
               Center(
                   child: hotelimg7 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    hotelimg7.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(hotelimg7.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              hotelimg7.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(hotelimg7.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -568,22 +654,22 @@ class _addHotelState extends State<addHotel> {
               Center(
                   child: hotelimg8 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    hotelimg8.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(hotelimg8.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              hotelimg8.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(hotelimg8.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -612,22 +698,22 @@ class _addHotelState extends State<addHotel> {
               Center(
                   child: hotelimg9 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    hotelimg9.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(hotelimg9.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              hotelimg9.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(hotelimg9.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -655,22 +741,22 @@ class _addHotelState extends State<addHotel> {
               Center(
                   child: hotelimg10 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    hotelimg10.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(hotelimg10.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              hotelimg10.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.2,
+                            )
+                          : Image.file(
+                              io.File(hotelimg10.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -748,16 +834,18 @@ class _addHotelState extends State<addHotel> {
                     {
                       addError(error: "Please upload image"),
                     }
-                 else{
-                    sendHotel(),
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => MainCompanyScreen(),
-                    ),
-                    (route) => false,
-                  )
-                 }
+                  else
+                    {
+                      sendHotel(),
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              MainCompanyScreen(),
+                        ),
+                        (route) => false,
+                      )
+                    }
                 }
             },
             color: Color(0xfff75BDFF),
