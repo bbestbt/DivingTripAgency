@@ -10,17 +10,17 @@ import 'package:diving_trip_agency/screens/create_boat/create_boat_form.dart';
 import 'package:diving_trip_agency/screens/create_trip/create_trip_form.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
-import 'package:diving_trip_agency/screens/profile/company/update/update_divemaster_form.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:diving_trip_agency/screens/update/update_staff_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 
-List<DiveMaster> divemasters = [];
+List<Staff> staffs = [];
 
-class updateDivemaster extends StatelessWidget {
+class updateStaff extends StatelessWidget {
   GetProfileResponse user_profile = new GetProfileResponse();
   var profile;
   getProfile() async {
@@ -43,7 +43,7 @@ class updateDivemaster extends StatelessWidget {
     }
   }
 
-  getDiveMaster() async {
+  getStaff() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -55,20 +55,20 @@ class updateDivemaster extends StatelessWidget {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var listdivemasterrequest = ListDiveMastersRequest();
+    var liststaffrequest = ListStaffsRequest();
 
-    divemasters.clear();
+    staffs.clear();
     try {
-      await for (var feature in stub.listDiveMasters(listdivemasterrequest)) {
-        divemasters.add(feature.diveMaster);
+      await for (var feature in stub.listStaffs(liststaffrequest)) {
+        staffs.add(feature.staff);
         // print(trips);
       }
     } catch (e) {
       print('ERROR: $e');
     }
     print('--');
-    print(divemasters);
-    return divemasters;
+    print(staffs);
+    return staffs;
   }
 
   @override
@@ -87,7 +87,7 @@ class updateDivemaster extends StatelessWidget {
               HeaderCompany(),
               SizedBox(height: 50),
               SectionTitle(
-                title: "Update Dive Master",
+                title: "Update Staff",
                 color: Color(0xFFFF78a2cc),
               ),
               SizedBox(
@@ -101,14 +101,14 @@ class updateDivemaster extends StatelessWidget {
               //         runSpacing: 40,
               //         children: List.generate(
               //           boats.length,
-              //           (index) => listDiveMasterCard(
+              //           (index) => listStaffCard(
               //             index: index,
               //           ),
               //         ))),
               SizedBox(
                 width: 1110,
                 child: FutureBuilder(
-                  future: getDiveMaster(),
+                  future: getStaff(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return SingleChildScrollView(
@@ -119,8 +119,8 @@ class updateDivemaster extends StatelessWidget {
                                 spacing: 20,
                                 runSpacing: 40,
                                 children: List.generate(
-                                  divemasters.length,
-                                  (index) => listDiveMasterCard(
+                                  staffs.length,
+                                  (index) => listStaffCard(
                                     index,
                                   ),
                                 ))),
@@ -142,18 +142,18 @@ class updateDivemaster extends StatelessWidget {
   }
 }
 
-class listDiveMasterCard extends StatefulWidget {
+class listStaffCard extends StatefulWidget {
   int index;
 
-  listDiveMasterCard(int index) {
+  listStaffCard(int index) {
     this.index = index;
   }
 
   @override
-  State<listDiveMasterCard> createState() => _listDiveMasterCardState();
+  State<listStaffCard> createState() => _listStaffCardState();
 }
 
-class _listDiveMasterCardState extends State<listDiveMasterCard> {
+class _listStaffCardState extends State<listStaffCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -161,8 +161,7 @@ class _listDiveMasterCardState extends State<listDiveMasterCard> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    updateEachDiveMaster(divemasters[widget.index])));
+                builder: (context) => updateEachStaff(staffs[widget.index])));
       },
       child: Container(
         height: 200,
@@ -175,9 +174,9 @@ class _listDiveMasterCardState extends State<listDiveMasterCard> {
           children: [
             Align(
                 alignment: Alignment.center,
-                child: Text(divemasters[widget.index].firstName +
+                child: Text(staffs[widget.index].firstName +
                     " " +
-                    divemasters[widget.index].lastName)),
+                    staffs[widget.index].lastName)),
           ],
         ),
       ),

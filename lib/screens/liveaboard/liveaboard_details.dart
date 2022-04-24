@@ -1255,8 +1255,11 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
-                  onPressed:
-                      roomtypes[widget.indexRoom].quantity == 0 ? null : () {},
+                  onPressed: roomtypes[widget.indexRoom].quantity == 0
+                      ? null
+                      : () async {
+                          await showInformationDialog(context);
+                        },
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),

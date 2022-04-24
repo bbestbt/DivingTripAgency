@@ -10,8 +10,8 @@ import 'package:diving_trip_agency/screens/create_boat/create_boat_form.dart';
 import 'package:diving_trip_agency/screens/create_trip/create_trip_form.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
-import 'package:diving_trip_agency/screens/profile/company/update/update_boat_form.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:diving_trip_agency/screens/update/update_boat_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -121,7 +121,7 @@ class updateBoat extends StatelessWidget {
                                 children: List.generate(
                                   boats.length,
                                   (index) => listBoatCard(
-                                     index,
+                                    index,
                                   ),
                                 ))),
                       );
@@ -145,11 +145,9 @@ class updateBoat extends StatelessWidget {
 class listBoatCard extends StatefulWidget {
   int index;
 
- listBoatCard(int index){
-   this.index=index;
- }
-  
-
+  listBoatCard(int index) {
+    this.index = index;
+  }
 
   @override
   State<listBoatCard> createState() => _listBoatCardState();
@@ -161,7 +159,9 @@ class _listBoatCardState extends State<listBoatCard> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => updateEachBoat(boats[widget.index])));
+            context,
+            MaterialPageRoute(
+                builder: (context) => updateEachBoat(boats[widget.index])));
       },
       child: Container(
         height: 200,

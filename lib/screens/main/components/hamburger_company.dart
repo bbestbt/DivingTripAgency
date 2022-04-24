@@ -12,11 +12,11 @@ import 'package:diving_trip_agency/screens/main/components/navitem.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/profile/company/company_profile_screen.dart';
-import 'package:diving_trip_agency/screens/profile/company/update/update.dart';
 import 'package:diving_trip_agency/screens/report/company_report.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
 import 'package:diving_trip_agency/screens/ShopCart/ShopcartScreen.dart';
+import 'package:diving_trip_agency/screens/update/update.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

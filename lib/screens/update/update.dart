@@ -7,16 +7,15 @@ import 'package:diving_trip_agency/screens/main/components/hamburger_company.dar
 import 'package:diving_trip_agency/screens/main/components/header.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/components/side_menu.dart';
-import 'package:diving_trip_agency/screens/profile/company/update/menu_data.dart';
-
-import 'package:diving_trip_agency/screens/profile/company/update/update_boat.dart';
-import 'package:diving_trip_agency/screens/profile/company/update/update_divemaster.dart';
-import 'package:diving_trip_agency/screens/profile/company/update/update_hotel.dart';
-import 'package:diving_trip_agency/screens/profile/company/update/update_liveaboard.dart';
-import 'package:diving_trip_agency/screens/profile/company/update/update_staff.dart';
-import 'package:diving_trip_agency/screens/profile/company/update/update_trip.dart';
 
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:diving_trip_agency/screens/update/menu_data.dart';
+import 'package:diving_trip_agency/screens/update/update_boat.dart';
+import 'package:diving_trip_agency/screens/update/update_divemaster.dart';
+import 'package:diving_trip_agency/screens/update/update_hotel.dart';
+import 'package:diving_trip_agency/screens/update/update_liveaboard.dart';
+import 'package:diving_trip_agency/screens/update/update_staff.dart';
+import 'package:diving_trip_agency/screens/update/update_trip.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -188,12 +187,11 @@ class Update extends StatelessWidget {
                               height: 20,
                             ),
                             InkWell(
-                                onTap: () {
+                              onTap: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            updateTrip()));
+                                        builder: (context) => updateTrip()));
                               },
                               child: Container(
                                 height: 200,
@@ -273,12 +271,11 @@ class Update extends StatelessWidget {
                               height: 20,
                             ),
                             InkWell(
-                                      onTap: () {
+                              onTap: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            updateStaff()));
+                                        builder: (context) => updateStaff()));
                               },
                               child: Container(
                                 height: 200,
@@ -316,7 +313,7 @@ class Update extends StatelessWidget {
                               height: 20,
                             ),
                             InkWell(
-                                     onTap: () {
+                              onTap: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

@@ -248,18 +248,26 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       eachBoat.images.add(f);
     }
 
-    var boat = Boat();
+    var address = Address();
+    address.addressLine1 = eachBoat.address.addressLine1;
+    address.addressLine2 = eachBoat.address.addressLine2;
+    address.city = eachBoat.address.city;
+
+    address.postcode = eachBoat.address.postcode;
+
+    if (countrySelected != null) {
+      address.country = countrySelected;
+    }
+    if (regionSelected != null) {
+      address.region = regionSelected;
+    }
+
+    var boat = Boat()..address = address;
     boat.name = eachBoat.name;
     boat.totalCapacity = eachBoat.totalCapacity;
     boat.description = eachBoat.description;
     boat.diverCapacity = eachBoat.diverCapacity;
     boat.staffCapacity = eachBoat.staffCapacity;
-    boat.address.addressLine1 = eachBoat.address.addressLine1;
-    boat.address.addressLine2 = eachBoat.address.addressLine2;
-    boat.address.postcode = eachBoat.address.postcode;
-    boat.address.country = eachBoat.address.country;
-    boat.address.region = eachBoat.address.region;
-    boat.address.city = eachBoat.address.city;
     for (int i = 0; i < boat.images.length; i++) {
       eachBoat.images.add(boat.images[i]);
     }
@@ -335,7 +343,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                     isExpanded: true,
                     value: countrySelected,
                     items: listCountry,
-                    hint: Text('  Select country'),
+                    hint: Text(eachBoat.address.country),
                     iconSize: 40,
                     onChanged: (value) {
                       if (value != null) {
@@ -369,7 +377,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                     isExpanded: true,
                     value: regionSelected,
                     items: listRegion,
-                    hint: Text('  Select region'),
+                    hint: Text(eachBoat.address.region),
                     iconSize: 40,
                     onChanged: (value) {
                       if (value != null) {
@@ -444,14 +452,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              Container(
-                  width: MediaQuery.of(context).size.width / 10,
-                  height: MediaQuery.of(context).size.width / 10,
-                  child: eachBoat.images[1] == null
-                      ? new Container(
-                          color: Colors.blue,
-                        )
-                      : Image.network(eachBoat.images[1].link.toString())),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 10,
+              //     height: MediaQuery.of(context).size.width / 10,
+              //     child: eachBoat.images[1] == null
+              //         ? new Container(
+              //             color: Colors.blue,
+              //           )
+              //         : Image.network(eachBoat.images[1].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg2 == null
@@ -492,14 +500,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              Container(
-                  width: MediaQuery.of(context).size.width / 10,
-                  height: MediaQuery.of(context).size.width / 10,
-                  child: eachBoat.images[2] == null
-                      ? new Container(
-                          color: Colors.blue,
-                        )
-                      : Image.network(eachBoat.images[2].link.toString())),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 10,
+              //     height: MediaQuery.of(context).size.width / 10,
+              //     child: eachBoat.images[2] == null
+              //         ? new Container(
+              //             color: Colors.blue,
+              //           )
+              //         : Image.network(eachBoat.images[2].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg3 == null
@@ -540,14 +548,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              Container(
-                  width: MediaQuery.of(context).size.width / 10,
-                  height: MediaQuery.of(context).size.width / 10,
-                  child: eachBoat.images[3] == null
-                      ? new Container(
-                          color: Colors.blue,
-                        )
-                      : Image.network(eachBoat.images[3].link.toString())),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 10,
+              //     height: MediaQuery.of(context).size.width / 10,
+              //     child: eachBoat.images[3] == null
+              //         ? new Container(
+              //             color: Colors.blue,
+              //           )
+              //         : Image.network(eachBoat.images[3].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg4 == null
@@ -588,14 +596,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              Container(
-                  width: MediaQuery.of(context).size.width / 10,
-                  height: MediaQuery.of(context).size.width / 10,
-                  child: eachBoat.images[4] == null
-                      ? new Container(
-                          color: Colors.blue,
-                        )
-                      : Image.network(eachBoat.images[4].link.toString())),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 10,
+              //     height: MediaQuery.of(context).size.width / 10,
+              //     child: eachBoat.images[4] == null
+              //         ? new Container(
+              //             color: Colors.blue,
+              //           )
+              //         : Image.network(eachBoat.images[4].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg5 == null
