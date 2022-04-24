@@ -15,6 +15,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async{
   await Hive.initFlutter();
   await Hive.openBox('userInfo');
+  await Hive.openBox('CartBox');
   runApp(MyApp());
 }
 
@@ -31,8 +32,8 @@ class MyApp extends StatelessWidget {
             style: TextButton.styleFrom(backgroundColor: Color(0xFFF52B2Bf)),
           ),
           fontFamily: 'Poppins'),
-  // home: MainCompanyScreen(),
-     home: MainScreen(), //Original
+  //home: MainCompanyScreen(),
+      home: MainScreen(), //Original
   //  home: PaymentScreen(),
     );
   }
