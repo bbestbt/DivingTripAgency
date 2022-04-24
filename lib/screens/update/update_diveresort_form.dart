@@ -9,6 +9,7 @@ import 'package:diving_trip_agency/screens/main/components/hamburger_company.dar
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:diving_trip_agency/screens/update/update_room_hotel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -955,13 +956,13 @@ class _editHotelFormState extends State<editHotelForm> {
           ),
           SizedBox(height: 20),
 
-          // Container(
-          //   width: MediaQuery.of(context).size.width / 1.5,
-          //   decoration: BoxDecoration(
-          //       color: Color(0xffffee1e8),
-          //       borderRadius: BorderRadius.circular(10)),
-          //   child: AddMoreRoom(this.pinkValue, this.blueValue, this.errors),
-          // ),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xffffee1e8),
+                borderRadius: BorderRadius.circular(10)),
+            child: RoomFormHotelUpdate(this.eachHotel),
+          ),
           SizedBox(height: 30),
 
           FlatButton(

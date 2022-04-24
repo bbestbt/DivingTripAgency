@@ -39,15 +39,18 @@ class _CenterCompanySectionState extends State<CenterCompanySection> {
         padding: const EdgeInsets.only(left: 30),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height / 2,
-        decoration: BoxDecoration(
-            //color: Color(0xfffdcfffb)
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-              Color(0xfffcfecd0),
-              Color(0xfffffc5ca),
-            ])),
+        color: Color(0xfff96b1d2),
+        // decoration: BoxDecoration(
+        //     //color: Color(0xfffdcfffb)
+        //     gradient: LinearGradient(
+        //         begin: Alignment.topLeft,
+        //         end: Alignment.bottomRight,
+        //         colors: [
+        //       // Color(0xfffcfecd0),
+        //       // Color(0xfffffc5ca),
+        //         Color(0xfff69b7eb),
+        //       Color(0xfffb3dbd3),
+        //     ])),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           // child: ConstrainedBox(
@@ -110,6 +113,9 @@ class _CenterCompanySectionState extends State<CenterCompanySection> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
                     // width: 400,
                     // height:350,

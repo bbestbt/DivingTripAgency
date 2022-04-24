@@ -35,17 +35,16 @@ class HeaderCompany extends StatelessWidget {
     return Container(
         width: double.infinity,
         height: 100,
-        // color: Color(0xfff96dfd8),
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-              // Color(0xfffaea4e3),
-              // Color(0xfffd3ffe8),
-              Color(0xfffcfecd0),
-              Color(0xfffffc5ca),
-            ])),
+        color: Color(0xfff96b1d2),
+        // decoration: BoxDecoration(
+        //     gradient: LinearGradient(
+        //         begin: Alignment.topLeft,
+        //         end: Alignment.bottomRight,
+        //         colors: [
+        //       Color(0xfff69b7eb),
+        //       Color(0xfffb3dbd3),
+        //       // Color(0xffff4d6db),
+        //     ])),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -56,7 +55,7 @@ class HeaderCompany extends StatelessWidget {
               ),
               // Spacer(),
               SizedBox(
-                width: MediaQuery.of(context).size.width / 3.75,
+                width: MediaQuery.of(context).size.width / 4.5,
               ),
               if (!isMobile(context))
                 Row(
@@ -164,7 +163,8 @@ class HeaderCompany extends StatelessWidget {
                                     builder: (context) => LoginScreen()));
                           },
                           style: TextButton.styleFrom(
-                              backgroundColor: Color(0xfffff8fab),
+                              backgroundColor: Color(0xfff4771a5),
+                              // Color(0xfffff8fab),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20 * 1.5, vertical: 20)),
                           child: FutureBuilder(
@@ -207,7 +207,6 @@ class HeaderCompany extends StatelessWidget {
           ),
         ));
   }
-
 
   //  SafeArea(
   //   child: Column(

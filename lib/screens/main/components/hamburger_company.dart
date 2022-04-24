@@ -34,7 +34,8 @@ class CompanyHamburger extends StatelessWidget {
     return Container(
       height: double.infinity,
       // color: Colors.white,
-      color: Color(0xfffcfecd0),
+      color: Color(0xfff96b1d2),
+      // Color(0xfffcfecd0),
       child: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20),
@@ -179,7 +180,7 @@ class CompanyHamburger extends StatelessWidget {
                     print("about to checkLogin\n--------------");
 
                     //return (checkLogin()&&user_profile.hasDiver())
-                    return checkLogin() == true &&user_profile.hasAgency()
+                    return checkLogin() == true && user_profile.hasAgency()
                         ? ElevatedButton(
                             onPressed: () {
                               Navigator.push(
@@ -188,6 +189,7 @@ class CompanyHamburger extends StatelessWidget {
                                       builder: (context) => LoginScreen()));
                             },
                             style: TextButton.styleFrom(
+                                backgroundColor: Color(0xfff4771a5),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 20 * 1.5, vertical: 20)),
                             child: Text("Log out"))

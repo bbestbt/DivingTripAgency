@@ -12,6 +12,7 @@ import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
+import 'package:diving_trip_agency/screens/update/update_room_liveaboard.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 
@@ -50,6 +51,7 @@ class updateEachLiveaboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(eachLiveaboard.id);
     return Scaffold(
       endDrawer: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 300),
@@ -103,6 +105,7 @@ class editLiveaboardForm extends StatefulWidget {
   Liveaboard eachLiveaboard;
   editLiveaboardForm(Liveaboard eachLiveaboard) {
     this.eachLiveaboard = eachLiveaboard;
+    // print('id'+eachLiveaboard.id.toString());
   }
   @override
   _editLiveaboardFormState createState() =>
@@ -843,13 +846,13 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
           ),
           SizedBox(height: 20),
 
-          // Container(
-          //   width: MediaQuery.of(context).size.width / 1.5,
-          //   decoration: BoxDecoration(
-          //       color: Color(0xffffee1e8),
-          //       borderRadius: BorderRadius.circular(10)),
-          //   child: AddMoreRoom(this.pinkValue, this.blueValue, this.errors),
-          // ),
+         Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xffffee1e8),
+                borderRadius: BorderRadius.circular(10)),
+            child: RoomFormLiveaboardUpdate(this.eachLiveaboard),
+          ),
           SizedBox(height: 30),
 
           FlatButton(
