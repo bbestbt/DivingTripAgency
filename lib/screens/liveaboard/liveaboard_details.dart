@@ -103,6 +103,9 @@ class detail extends StatefulWidget {
     // print(details);
     // print("index");
     // print(index.toString());
+    for (int i = 0; i < details[index].diveSites.length; i++) {
+      print(details[index].diveSites[i].name);
+    }
   }
   @override
   State<detail> createState() => _detailState(this.index, this.details);
@@ -156,7 +159,7 @@ class _detailState extends State<detail> {
     try {
       await for (var feature in stub.listRoomTypesByTrip(listroomrequest)) {
         roomtypes.add(feature.roomType);
-        print(roomtypes);
+        // print(roomtypes);
       }
     } catch (e) {
       print('ERROR: $e');
@@ -442,98 +445,266 @@ class _detailState extends State<detail> {
           title: "Liveaboard",
           color: Color(0xFFFF78a2cc),
         ),
-        Text("Trip name : " + details[widget.index].tripTemplate.name),
-        SizedBox(
-          height: 10,
-        ),
+
         SizedBox(
           width: MediaQuery.of(context).size.width,
           child: FutureBuilder(
             future: getLiveaboardDetail(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Center(
-                  child:
-                      Text("Liveaboard : " + liveaboardDetial.liveaboard.name),
-                );
+                return Column(children: [
+                  Text(
+                      "Trip name : " + details[widget.index].tripTemplate.name),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: Text(
+                        "Liveaboard : " + liveaboardDetial.liveaboard.name),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("From : " +
+                          DateFormat("dd/MM/yyyy").format(
+                              details[widget.index].fromDate.toDateTime())),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("To : " +
+                          DateFormat("dd/MM/yyyy").format(
+                              details[widget.index].toDate.toDateTime())),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Address : " +
+                      details[widget.index].tripTemplate.address.addressLine1),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Address2 : " +
+                      details[widget.index].tripTemplate.address.addressLine2),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('City : ' +
+                          details[widget.index].tripTemplate.address.city),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Country : " +
+                          details[widget.index].tripTemplate.address.country),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Region : ' +
+                          details[widget.index].tripTemplate.address.region),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text('Postcode : ' +
+                          details[widget.index].tripTemplate.address.postcode),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: Text(
+                          "Description : " +
+                              details[widget.index].tripTemplate.description,
+                          textAlign: TextAlign.center)),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("Price : " + details[widget.index].price.toString()),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Total capacity : ' +
+                      details[widget.index].maxGuest.toString()),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  // SingleChildScrollView(
+                  //   scrollDirection: Axis.horizontal,
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       SizedBox(
+                  //         width: 10,
+                  //       ),
+                  //       Container(
+                  //         width: MediaQuery.of(context).size.width,
+                  //         height: MediaQuery.of(context).size.height / 5,
+                  //         child: ListView.builder(
+                  //           scrollDirection: Axis.horizontal,
+                  //           itemBuilder: (BuildContext ctx, int each) {
+                  //             return SingleChildScrollView(
+                  //               scrollDirection: Axis.horizontal,
+                  //               child: Row(
+                  //                 // mainAxisAlignment: MainAxisAlignment.center,
+                  //                 children: [
+                  //                   Container(
+                  //                     width:
+                  //                         MediaQuery.of(context).size.width / 5,
+                  //                     height:
+                  //                         MediaQuery.of(context).size.height /
+                  //                             5,
+                  //                     child: Image.network(details[widget.index]
+                  //                         .tripTemplate
+                  //                         .images[each]
+                  //                         .link
+                  //                         .toString()),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             );
+                  //           },
+                  //           itemCount: details[widget.index]
+                  //               .tripTemplate
+                  //               .images
+                  //               .length,
+                  //         ),
+                  //       ),
+                  //       // SizedBox(
+                  //       //   width: 10,
+                  //       // ),
+                  //     ],
+                  //   ),
+                  // ),
+
+                  SizedBox(height: 20),
+                  Text(
+                    "Trip images",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  SingleChildScrollView(
+                    child: Container(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 24.0),
+                              height: MediaQuery.of(context).size.height * 0.50,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: details[widget.index]
+                                    .tripTemplate
+                                    .images
+                                    .length,
+                                itemBuilder: (context, each) {
+                                  return Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    child: Card(
+                                      child: Container(
+                                        child: Image.network(
+                                            details[widget.index]
+                                                .tripTemplate
+                                                .images[each]
+                                                .link
+                                                .toString()),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Divesites",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  SizedBox(height: 20),
+                  SingleChildScrollView(
+                      child: Container(
+                          child: Column(children: <Widget>[
+                    Container(
+                        child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 24.0),
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: details[widget.index].diveSites.length,
+                        itemBuilder: (context, each) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: SingleChildScrollView(
+                              child: Card(
+                                color: Colors.deepPurple[100],
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                elevation: 8,
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 20),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text("Name : " +
+                                              details[widget.index]
+                                                  .diveSites[each]
+                                                  .name),
+                                          Text("Description : " +
+                                              details[widget.index]
+                                                  .diveSites[each]
+                                                  .description),
+                                          Text("Max Dept : " +
+                                              details[widget.index]
+                                                  .diveSites[each]
+                                                  .maxDepth
+                                                  .toString()),
+                                          Text("Min Dept : " +
+                                              details[widget.index]
+                                                  .diveSites[each]
+                                                  .minDepth
+                                                  .toString()),
+                                        ],
+                                      ),
+                                      SizedBox(height: 20),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ))
+                  ])))
+                ]);
               } else {
-                return Align(
-                    alignment: Alignment.center, child: Text('No name'));
+                return Align(alignment: Alignment.center, child: Text(' '));
               }
             },
           ),
         ),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("From : " +
-                DateFormat("dd/MM/yyyy")
-                    .format(details[widget.index].fromDate.toDateTime())),
-            SizedBox(
-              width: 10,
-            ),
-            Text("To : " +
-                DateFormat("dd/MM/yyyy")
-                    .format(details[widget.index].toDate.toDateTime())),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text("Address : " +
-            details[widget.index].tripTemplate.address.addressLine1),
-        SizedBox(
-          height: 10,
-        ),
-        Text("Address2 : " +
-            details[widget.index].tripTemplate.address.addressLine2),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('City : ' + details[widget.index].tripTemplate.address.city),
-            SizedBox(
-              width: 20,
-            ),
-            Text("Country : " +
-                details[widget.index].tripTemplate.address.country),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Region : ' +
-                details[widget.index].tripTemplate.address.region),
-            SizedBox(
-              width: 20,
-            ),
-            Text('Postcode : ' +
-                details[widget.index].tripTemplate.address.postcode),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text("Description : " + details[widget.index].tripTemplate.description),
-        SizedBox(
-          height: 10,
-        ),
-        Text("Price : " + details[widget.index].price.toString()),
-        SizedBox(
-          height: 10,
-        ),
-        Text('Total capacity : ' + details[widget.index].maxGuest.toString()),
-        SizedBox(
-          height: 10,
-        ),
+
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.center,
         //   children: [
@@ -587,137 +758,132 @@ class _detailState extends State<detail> {
         //                     .toString())),
         //   ],
         // ),
-         SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: MediaQuery.of(context).size.width / 4,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[0]
-                              .link
-                              .toString())),
-              SizedBox(
-                width: 10,
-              ),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 4,
-              //     height: MediaQuery.of(context).size.width / 4,
-              //     child: details[widget.index].tripTemplate.images.length == 0
-              //         ? new Container(
-              //             color: Colors.pink,
-              //           )
-              //         : Image.network(
-              //             // 'http://139.59.101.136/static/'+
-              //             details[widget.index]
-              //                 .tripTemplate
-              //                 .images[1]
-              //                 .link
-              //                 .toString())),
-              // SizedBox(
-              //   width: 10,
-              // ),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 4,
-              //     height: MediaQuery.of(context).size.width / 4,
-              //     child: details[widget.index].tripTemplate.images.length == 0
-              //         ? new Container(
-              //             color: Colors.pink,
-              //           )
-              //         : Image.network(
-              //             // 'http://139.59.101.136/static/'+
-              //             details[widget.index]
-              //                 .tripTemplate
-              //                 .images[2]
-              //                 .link
-              //                 .toString())),
-              // SizedBox(
-              //   width: 10,
-              // ),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 4,
-              //     height: MediaQuery.of(context).size.width / 4,
-              //     child: details[widget.index].tripTemplate.images.length == 0
-              //         ? new Container(
-              //             color: Colors.pink,
-              //           )
-              //         : Image.network(
-              //             // 'http://139.59.101.136/static/'+
-              //             details[widget.index]
-              //                 .tripTemplate
-              //                 .images[3]
-              //                 .link
-              //                 .toString())),
-              // SizedBox(
-              //   width: 10,
-              // ),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 4,
-              //     height: MediaQuery.of(context).size.width / 4,
-              //     child: details[widget.index].tripTemplate.images.length == 0
-              //         ? new Container(
-              //             color: Colors.pink,
-              //           )
-              //         : Image.network(
-              //             // 'http://139.59.101.136/static/'+
-              //             details[widget.index]
-              //                 .tripTemplate
-              //                 .images[4]
-              //                 .link
-              //                 .toString())),
-              // SizedBox(
-              //   width: 10,
-              // ),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 4,
-              //     height: MediaQuery.of(context).size.width / 4,
-              //     child: details[widget.index].tripTemplate.images.length == 0
-              //         ? new Container(
-              //             color: Colors.pink,
-              //           )
-              //         : Image.network(
-              //             // 'http://139.59.101.136/static/'+
-              //             details[widget.index]
-              //                 .tripTemplate
-              //                 .images[5]
-              //                 .link
-              //                 .toString())),
-              // SizedBox(
-              //   width: 10,
-              // ),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 4,
-              //     height: MediaQuery.of(context).size.width / 4,
-              //     child: details[widget.index].tripTemplate.images.length == 0
-              //         ? new Container(
-              //             color: Colors.pink,
-              //           )
-              //         : Image.network(
-              //             // 'http://139.59.101.136/static/'+
-              //             details[widget.index]
-              //                 .tripTemplate
-              //                 .images[6]
-              //                 .link
-              //                 .toString())),
-            ],
-          ),
-        ),
+
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images.length == 0
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[0]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images.length == 0
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[1]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images.length == 0
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[2]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images.length == 0
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[3]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images.length == 0
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[4]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images.length == 0
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[5]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images.length == 0
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[6]
+        //                 .link
+        //                 .toString())),
 
         SizedBox(
           height: 20,
         ),
+        Text(
+          "Room types",
+          style: TextStyle(fontSize: 20),
+        ),
+        SizedBox(height: 20),
         Container(
           // decoration: BoxDecoration(
           //     color: Color(0xFFFF89cfef),
@@ -726,34 +892,33 @@ class _detailState extends State<detail> {
             padding: const EdgeInsets.all(10),
             child: Column(
               children: [
-                SizedBox(
-                  width: 1110,
-                  child: FutureBuilder(
-                    future: getData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Center(
-                            child: Container(
-                                child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Wrap(
-                              spacing: 20,
-                              runSpacing: 40,
-                              children: List.generate(
-                                roomtypes.length,
-                                (candy) => Center(
-                                  child: InfoCard(candy, details, index),
-                                ),
-                              )),
-                        )));
-                      } else {
-                        // getLiveaboardDetail();
-                        return Align(
-                            alignment: Alignment.center,
-                            child: Text('No data'));
-                      }
-                    },
-                  ),
+                FutureBuilder(
+                  future: getData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Center(
+                          child: Container(
+                              child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Wrap(
+                            spacing: 20,
+                            runSpacing: 40,
+                            children: List.generate(
+                              roomtypes.length,
+                              (candy) => Center(
+                                child: InfoCard(candy, details, index),
+                              ),
+                            )),
+                      )));
+                    } else {
+                      // getLiveaboardDetail();
+                      return Center(
+                          child: CircularProgressIndicator(strokeWidth: 10));
+                      // Align(
+                      //     alignment: Alignment.center,
+                      //     child: Text('No data'));
+                    }
+                  },
                 ),
               ],
             ),
@@ -765,7 +930,7 @@ class _detailState extends State<detail> {
         Container(
             decoration: BoxDecoration(
                 // color: Colors.white,
-               color: Color(0xFFFdaf0ff),
+                color: Color(0xFFFdaf0ff),
                 borderRadius: BorderRadius.circular(10)),
             width: MediaQuery.of(context).size.width,
             child: Expanded(
@@ -1090,7 +1255,8 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
-                  onPressed: roomtypes[widget.indexRoom].quantity==0? null:  () {},
+                  onPressed:
+                      roomtypes[widget.indexRoom].quantity == 0 ? null : () {},
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),

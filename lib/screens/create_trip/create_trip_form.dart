@@ -366,8 +366,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
           ),
           SizedBox(height: 20),
 
-          buildPriceFormField(),
-          SizedBox(height: 20),
+          // buildPriceFormField(),
+          // SizedBox(height: 20),
           buildTotalPeopleFormField(),
           SizedBox(height: 20),
           Container(

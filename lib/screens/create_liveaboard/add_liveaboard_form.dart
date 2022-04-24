@@ -170,14 +170,14 @@ class _addLiveaboardState extends State<addLiveaboard> {
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
-      room.price = pinkValue[i].price;
+      // room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
       //room.roomImages.add(f2);
       //pinkValue[i].roomImages.add(value);
       for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
         room.roomImages.add(pinkValue[i].roomImages[j]);
       }
-      liveaboard.roomTypes.add(room);
+      // liveaboard.roomTypes.add(room);
     }
 
     var liveaboardRequest = AddLiveaboardRequest();
