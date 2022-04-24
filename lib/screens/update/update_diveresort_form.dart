@@ -63,7 +63,7 @@ class updateEachHotel extends StatelessWidget {
               HeaderCompany(),
               SizedBox(height: 50),
               SectionTitle(
-                title: "Create Hotel",
+                title: "Update Hotel",
                 color: Color(0xFFFF78a2cc),
               ),
               SizedBox(

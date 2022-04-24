@@ -18,7 +18,7 @@ class RoomForm extends StatefulWidget {
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
   List<String> errors = [];
-
+  var f2 = File();
   RoomForm(int pinkcount, List<RoomType> pinkValue,
       List<List<Amenity>> blueValue, List<String> errors) {
     this.pinkcount = pinkcount;
@@ -84,8 +84,8 @@ class _RoomFormState extends State<RoomForm> {
   _getroomimg(int num) async {
     rroom = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxWidth: 5000,
-      maxHeight: 5000,
+      maxWidth: 1800,
+      maxHeight: 1800,
     );
     var f2 = File();
     f2.filename = rroom.name;
@@ -94,6 +94,8 @@ class _RoomFormState extends State<RoomForm> {
     f2.file = a;
 
     this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
+    print("RoomImages");
+    print(this.pinkValue[this.pinkcount - 1].roomImages);
 
     if (rroom != null) {
       setState(() {

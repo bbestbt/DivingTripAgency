@@ -176,6 +176,8 @@ class _TriptemplateState extends State<Triptemplate> {
     f.file = a;
     //this.imagelist.add(f);
     this.triptemplate.images.add(f);
+    print("TripImages");
+    print(this.triptemplate.images);
 
     if (pt != null) {
       setState(() {

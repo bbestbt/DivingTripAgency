@@ -25,9 +25,12 @@ import '../../nautilus/proto/dart/model.pb.dart';
 
 var cartwid = null;
 List Cartlist = [];
+int clength = Cartlist.length;
 //TODO: How about turn everything in Cartlist into JSON
 List<RoomType> roomtypes;
+String roomtypeJSON;
 List<TripWithTemplate> details;
+String detailJSON;
 
 int indexRoom;
 int indexDetail;
@@ -50,21 +53,29 @@ class _CartState extends State<CartWidget> {
     for (int i = 0; i < Cartlist.length; i++) {
       //cartwid = Cartlist[i][0];
       //print(cartwid);
-      roomtypes = Cartlist[i][6];
-      details = Cartlist[i][5];
+      //roomtypes = Cartlist[i][6];
+      roomtypeJSON = jsonEncode((Cartlist[i][6]
+      as List<RoomType>).map((e) => e.toProto3Json()).toList());
+
+      //details = Cartlist[i][5];
+      detailJSON = jsonEncode((Cartlist[i][5]
+      as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
       indexRoom = Cartlist[i][7];
       indexDetail = Cartlist[i][8];
       quantity = Cartlist[i][9];
       diver = Cartlist[i][10];
-     /* print("Cartlist Everything");
+     print("Cartlist Everything");
       print("--------");
       //print(Cartlist);
       print("Room Types");
       print("----------");
-      print(roomtypes);
-      print("Details Trip");
-      print("----------");
-      print(details);*/
+      print(Cartlist[i][3]);
+      print("hotel name");
+      print("------------");
+      print(Cartlist[i][2]);
+      //print("Details Trip");
+      //print("----------");
+      //print(details);
 
 
 
@@ -76,61 +87,68 @@ class _CartState extends State<CartWidget> {
 
   void populateCartlist(){
     print("------");
+    print("clength: "+clength.toString());
+
     int i;
+    bool checked=false;
+    for(i=0;i<3;i++) {
+      if(checked==false) {
+        //var roomname = jsonDecode(CartBox.get('roomtype'));
+        var tripname = jsonDecode(CartBox.get('tripdetail'+i.toString()));
 
-    if (Checked==0) {
-      for (i = 0; i <= 1; i++) {
-        var roomname = jsonDecode(CartBox.get('roomtype'));
-        var tripname = jsonDecode(CartBox.get('tripdetail'));
-
+        print("Roomtype");
+        print(CartBox.get('roomtype'+i.toString()));
         //print(tripname[i]['tripTemplate']['name']);
-       // print("KohTaoPrice");
+        // print("KohTaoPrice");
         print("-------");
-       // print(tripname[i]['price']);
+        // print(tripname[i]['price']);
 
         Cartlist.add([
           Image.network(
               'https://a.cdn-hotels.com/gdcs/production28/d1325/b26d214f-9a4b-4f47-97bc-65496fa15872.jpg'),
-          tripname[0]['tripTemplate']['name'],
+          CartBox.get('tripname'+i.toString()), //1
           //"Tripname",
-          CartBox.get('hotelname'),
-          roomname[0]['name'],
-          tripname[0]['price'],
+          CartBox.get('hotelname'+i.toString()), //2
+          CartBox.get('roomtype'+i.toString()), //3
+          CartBox.get('price'+i.toString()) * CartBox.get("quantity"+i.toString()), //4
           //tripname[0]['tripdetail'],
-          "TripName",
-          roomname,
-          i,
-          CartBox.get("quantity"),
-          CartBox.get("diver"),
+          "TripName", //5
+          "roomname", //6
+          0, //7
+          1, //8
+          CartBox.get("quantity"+i.toString()), //9
+          CartBox.get("diver"+i.toString()), //10
           //CartBox.get('roomtype'),
         ]);
-      }
-      Checked=1;
+
+        }
+
+
     }
+    checked=true;
+
+
   }
   void persCarthive(int cartind) async{ //Test Hive
-    //print(Cartlist[cartind][6]);
+    CartBox.put('hotelname'+cartind.toString(),Cartlist[cartind][2]);
+    CartBox.put('roomtype'+cartind.toString(), Cartlist[cartind][3]);
+    CartBox.put('price'+cartind.toString(), Cartlist[cartind][4]);
+    CartBox.put('tripname'+cartind.toString(), Cartlist[cartind][1]);
+    CartBox.put('indexroom'+cartind.toString(), Cartlist[cartind][7]);
+    CartBox.put('indexDetail'+cartind.toString(), Cartlist[cartind][8]);
+    CartBox.put('quantity'+cartind.toString(),Cartlist[cartind][9]);
+    CartBox.put('diver'+cartind.toString(), Cartlist[cartind][10]);
 
-    var jsonroomtype = jsonEncode((Cartlist[cartind][6]
-    as List<RoomType>).map((e) => e.toProto3Json()).toList());
-    CartBox.put('hotelname',Cartlist[cartind][2]);
-    CartBox.put('indexroom', Cartlist[cartind][7]);
-    CartBox.put('indexDetail', Cartlist[cartind][8]);
-    CartBox.put('quantity',Cartlist[cartind][9]);
-    CartBox.put('diver', Cartlist[cartind][10]);
-    CartBox.put('roomtype', jsonroomtype.toString());
-    //print("Roomtype");
-    //print("-------------------");
-
-    //print(CartBox.get('roomtype'));
 
     var jsondetails = jsonEncode((Cartlist[cartind][5]
     as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
-    CartBox.put('tripdetail', jsondetails.toString());
+    CartBox.put('tripdetail'+cartind.toString(), jsondetails.toString());
     //print("-------------------");
     //print(CartBox.get('tripdetail'));
-    //print("-------------------");
+    print("Current Cartbox");
+    print("-------------------");
     print(CartBox.toMap());
+
   }
 
 

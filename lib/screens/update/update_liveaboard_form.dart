@@ -1,12 +1,16 @@
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_hotel/addRoom.dart';
 
 import 'package:diving_trip_agency/screens/liveaboard/liveaboard.dart';
+import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
+import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
+import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:diving_trip_agency/screens/signup/diver/levelDropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -19,17 +23,93 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
-class updateEachLiveaboard extends StatefulWidget {
+class updateEachLiveaboard extends StatelessWidget {
   Liveaboard eachLiveaboard;
   updateEachLiveaboard(Liveaboard eachLiveaboard) {
     this.eachLiveaboard = eachLiveaboard;
   }
+  GetProfileResponse user_profile = new GetProfileResponse();
+  var profile;
+  getProfile() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final pf = AccountClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    profile = await pf.getProfile(new Empty());
+    if (profile.hasAgency()) {
+      user_profile = profile;
+      return user_profile;
+    }
+  }
+
   @override
-  _updateEachLiveaboardState createState() =>
-      _updateEachLiveaboardState(this.eachLiveaboard);
+  Widget build(BuildContext context) {
+    return Scaffold(
+      endDrawer: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 300),
+        child: CompanyHamburger(),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
+          child: Column(
+            children: [
+              HeaderCompany(),
+              SizedBox(height: 50),
+              SectionTitle(
+                title: "Update Liveaboard",
+                color: Color(0xFFFF78a2cc),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              SizedBox(
+                width: 1110,
+                child: FutureBuilder(
+                  future: getProfile(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Container(
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: editLiveaboardForm(this.eachLiveaboard));
+                    } else {
+                      return Center(child: Text('User is not logged in'));
+                    }
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-class _updateEachLiveaboardState extends State<updateEachLiveaboard> {
+class editLiveaboardForm extends StatefulWidget {
+  Liveaboard eachLiveaboard;
+  editLiveaboardForm(Liveaboard eachLiveaboard) {
+    this.eachLiveaboard = eachLiveaboard;
+  }
+  @override
+  _editLiveaboardFormState createState() =>
+      _editLiveaboardFormState(this.eachLiveaboard);
+}
+
+class _editLiveaboardFormState extends State<editLiveaboardForm> {
   String liveaboard_name;
   String liveaboard_description;
   String length;
@@ -62,7 +142,7 @@ class _updateEachLiveaboardState extends State<updateEachLiveaboard> {
   // List<List<Amenity>> blueValue = [
   //   [new Amenity()]
   // ];
-  _updateEachLiveaboardState(this.eachLiveaboard);
+  _editLiveaboardFormState(this.eachLiveaboard);
 
   final TextEditingController _controllerLiveaboardname =
       TextEditingController();
@@ -142,6 +222,78 @@ class _updateEachLiveaboardState extends State<updateEachLiveaboard> {
         if (num == 10) liveaboardimg10 = io.File(lvb.path);
         //liveaboardimg = io.File(lvb.path);
       });
+    }
+  }
+
+  void sendUpdateLiveaboard() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    eachLiveaboard.name = _controllerLiveaboardname.text;
+    eachLiveaboard.description = _controllerLiveaboarddescription.text;
+
+    eachLiveaboard.width = double.parse(_controllerWidth.text);
+
+    eachLiveaboard.length = double.parse(_controllerLength.text);
+    eachLiveaboard.staffRooms = int.parse(_controllerStaffroom.text);
+    eachLiveaboard.diverRooms = int.parse(_controllerDiverroom.text);
+    eachLiveaboard.totalCapacity = int.parse(_controllerTotalcapacity.text);
+
+    eachLiveaboard.address.addressLine1 = _controllerAddress.text;
+    eachLiveaboard.address.addressLine2 = _controllerAddress2.text;
+    eachLiveaboard.address.postcode = _controllerPostalcode.text;
+
+    eachLiveaboard.address.city = _controllerCity.text;
+
+    if (countrySelected != null) {
+      eachLiveaboard.address.country = countrySelected;
+    }
+    if (regionSelected != null) {
+      eachLiveaboard.address.region = regionSelected;
+    }
+
+    var address = Address();
+    address.addressLine1 = eachLiveaboard.address.addressLine1;
+    address.addressLine2 = eachLiveaboard.address.addressLine2;
+    address.city = eachLiveaboard.address.city;
+
+    address.postcode = eachLiveaboard.address.postcode;
+
+    if (countrySelected != null) {
+      address.country = countrySelected;
+    }
+    if (regionSelected != null) {
+      address.region = regionSelected;
+    }
+
+    var liveaboard = Liveaboard()..address = address;
+    liveaboard.name = eachLiveaboard.name;
+    liveaboard.description = eachLiveaboard.description;
+    liveaboard.diverRooms = eachLiveaboard.diverRooms;
+    liveaboard.staffRooms = eachLiveaboard.staffRooms;
+    liveaboard.totalCapacity = eachLiveaboard.totalCapacity;
+    liveaboard.length = eachLiveaboard.length;
+    liveaboard.width = eachLiveaboard.width;
+
+    for (int i = 0; i < liveaboard.images.length; i++) {
+      eachLiveaboard.images.add(liveaboard.images[i]);
+    }
+
+    final updateRequest = UpdateLiveaboardRequest()..liveaboard = liveaboard;
+    print(updateRequest);
+    try {
+      var response = stub.updateLiveaboard(updateRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -702,6 +854,7 @@ class _updateEachLiveaboardState extends State<updateEachLiveaboard> {
 
           FlatButton(
             onPressed: () => {
+              sendUpdateLiveaboard(),
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(

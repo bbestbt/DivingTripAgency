@@ -175,6 +175,9 @@ class _addHotelState extends State<addHotel> {
       //pinkValue[i].roomImages.add(value);
       for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
         room.roomImages.add(pinkValue[i].roomImages[j]);
+        print("room.roomImages");
+        print("-------------");
+        print(room.roomImages);
       }
       hotel.roomTypes.add(room);
     }
