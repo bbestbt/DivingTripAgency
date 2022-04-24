@@ -215,6 +215,65 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       });
   }
 
+  void sendBoatEdit() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    eachBoat.name = _controllerName.text;
+    eachBoat.totalCapacity = int.parse(_controllerCapacity.text);
+    eachBoat.description = _controllerDescription.text;
+
+    eachBoat.diverCapacity = int.parse(_controllerDivercapacity.text);
+    eachBoat.staffCapacity = int.parse(_controllerStaffcapacity.text);
+    eachBoat.address.addressLine1 = _controllerAddress.text;
+    eachBoat.address.addressLine2 = _controllerAddress2.text;
+    eachBoat.address.postcode = _controllerPostalcode.text;
+    eachBoat.address.country = _controllerCountry.text;
+    eachBoat.address.region = _controllerRegion.text;
+    eachBoat.address.city = _controllerCity.text;
+
+    var f = File();
+    f.filename = 'Image.jpg';
+    if (bboat != null) {
+      List<int> b = await bboat.readAsBytes();
+      f.file = b;
+      eachBoat.images.add(f);
+    }
+
+    var boat = Boat();
+    boat.name = eachBoat.name;
+    boat.totalCapacity = eachBoat.totalCapacity;
+    boat.description = eachBoat.description;
+    boat.diverCapacity = eachBoat.diverCapacity;
+    boat.staffCapacity = eachBoat.staffCapacity;
+    boat.address.addressLine1 = eachBoat.address.addressLine1;
+    boat.address.addressLine2 = eachBoat.address.addressLine2;
+    boat.address.postcode = eachBoat.address.postcode;
+    boat.address.country = eachBoat.address.country;
+    boat.address.region = eachBoat.address.region;
+    boat.address.city = eachBoat.address.city;
+    for (int i = 0; i < boat.images.length; i++) {
+      eachBoat.images.add(boat.images[i]);
+    }
+
+    final updateRequest = UpdateBoatRequest()..boat = boat;
+    print(updateRequest);
+    try {
+      var response = stub.updateBoat(updateRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   /// Get from gallery
   _getPicBoat(int num) async {
     bboat = await ImagePicker().pickImage(
@@ -222,7 +281,13 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
-
+    var f = File();
+    f.filename = bboat.name;
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    List<int> b = await bboat.readAsBytes();
+    f.file = b;
+    eachBoat.images.add(f);
     if (bboat != null) {
       setState(() {
         if (num == 1) boatimg = io.File(bboat.path);
@@ -379,16 +444,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 10,
-              //     height: MediaQuery.of(context).size.width / 10,
-              //     child: eachBoat.images[1] == null
-              //         ? new Container(
-              //             color: Colors.blue,
-              //           )
-              //         : Image.network(
-              //             // 'http://139.59.101.136/static/'+
-              //             eachBoat.images[1].link.toString())),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
+                  child: eachBoat.images[1] == null
+                      ? new Container(
+                          color: Colors.blue,
+                        )
+                      : Image.network(eachBoat.images[1].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg2 == null
@@ -429,16 +492,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 10,
-              //     height: MediaQuery.of(context).size.width / 10,
-              //     child: eachBoat.images[2] == null
-              //         ? new Container(
-              //             color: Colors.blue,
-              //           )
-              //         : Image.network(
-              //             // 'http://139.59.101.136/static/'+
-              //             eachBoat.images[2].link.toString())),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
+                  child: eachBoat.images[2] == null
+                      ? new Container(
+                          color: Colors.blue,
+                        )
+                      : Image.network(eachBoat.images[2].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg3 == null
@@ -479,16 +540,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 10,
-              //     height: MediaQuery.of(context).size.width / 10,
-              //     child: eachBoat.images[3] == null
-              //         ? new Container(
-              //             color: Colors.blue,
-              //           )
-              //         : Image.network(
-              //             // 'http://139.59.101.136/static/'+
-              //             eachBoat.images[3].link.toString())),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
+                  child: eachBoat.images[3] == null
+                      ? new Container(
+                          color: Colors.blue,
+                        )
+                      : Image.network(eachBoat.images[3].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg4 == null
@@ -529,16 +588,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 10,
-              //     height: MediaQuery.of(context).size.width / 10,
-              //     child: eachBoat.images[4] == null
-              //         ? new Container(
-              //             color: Colors.blue,
-              //           )
-              //         : Image.network(
-              //             // 'http://139.59.101.136/static/'+
-              //             eachBoat.images[4].link.toString())),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
+                  child: eachBoat.images[4] == null
+                      ? new Container(
+                          color: Colors.blue,
+                        )
+                      : Image.network(eachBoat.images[4].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg5 == null
@@ -576,9 +633,8 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
           ),
           SizedBox(height: 20),
           FlatButton(
-            //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () => {
-              // AddBoat(),
+              sendBoatEdit(),
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
