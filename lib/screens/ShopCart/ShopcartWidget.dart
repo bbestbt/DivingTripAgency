@@ -25,13 +25,13 @@ import '../../nautilus/proto/dart/model.pb.dart';
 
 var cartwid = null;
 List Cartlist = [];
-int clength = Cartlist.length;
+
 //TODO: How about turn everything in Cartlist into JSON
 List<RoomType> roomtypes;
-String roomtypeJSON;
+String roomtypestr;
 List<TripWithTemplate> details;
 String detailJSON;
-
+int clength;
 int indexRoom;
 int indexDetail;
 int quantity;
@@ -49,17 +49,21 @@ class _CartState extends State<CartWidget> {
 
   @override
   void initState() {
-
+    print("Cartbox at init");
+    print("-------");
+    print(CartBox.toMap());
+    clength = Cartlist.length;
     for (int i = 0; i < Cartlist.length; i++) {
-      //cartwid = Cartlist[i][0];
+      String roomimage = Cartlist[i][0];
       //print(cartwid);
+      String tripname = Cartlist[i][1];
       //roomtypes = Cartlist[i][6];
-      roomtypeJSON = jsonEncode((Cartlist[i][6]
-      as List<RoomType>).map((e) => e.toProto3Json()).toList());
+      roomtypestr = Cartlist[i][6];
 
-      //details = Cartlist[i][5];
-      detailJSON = jsonEncode((Cartlist[i][5]
-      as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
+
+      detailJSON = Cartlist[i][5];
+      //detailJSON = jsonEncode((Cartlist[i][5]
+      //as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
       indexRoom = Cartlist[i][7];
       indexDetail = Cartlist[i][8];
       quantity = Cartlist[i][9];
@@ -80,7 +84,9 @@ class _CartState extends State<CartWidget> {
 
 
       persCarthive(i);
+
     }
+
     // TODO: implement initState
     super.initState();
   }
@@ -89,9 +95,12 @@ class _CartState extends State<CartWidget> {
     print("------");
     print("clength: "+clength.toString());
 
+    print("Cartbox at populateCartlist");
+    print("-------");
+    print(CartBox.toMap());
     int i;
     bool checked=false;
-    for(i=0;i<3;i++) {
+    for(i=0;i<CartBox.get('clength');i++) {
       if(checked==false) {
         //var roomname = jsonDecode(CartBox.get('roomtype'));
         var tripname = jsonDecode(CartBox.get('tripdetail'+i.toString()));
@@ -104,8 +113,7 @@ class _CartState extends State<CartWidget> {
         // print(tripname[i]['price']);
 
         Cartlist.add([
-          Image.network(
-              'https://a.cdn-hotels.com/gdcs/production28/d1325/b26d214f-9a4b-4f47-97bc-65496fa15872.jpg'),
+          CartBox.get('image'+i.toString()),//0
           CartBox.get('tripname'+i.toString()), //1
           //"Tripname",
           CartBox.get('hotelname'+i.toString()), //2
@@ -130,19 +138,23 @@ class _CartState extends State<CartWidget> {
 
   }
   void persCarthive(int cartind) async{ //Test Hive
+    CartBox.put('image'+cartind.toString(),Cartlist[cartind][0]);
+    CartBox.put('tripname'+cartind.toString(), Cartlist[cartind][1]);
+    CartBox.put('clength', clength);
     CartBox.put('hotelname'+cartind.toString(),Cartlist[cartind][2]);
     CartBox.put('roomtype'+cartind.toString(), Cartlist[cartind][3]);
     CartBox.put('price'+cartind.toString(), Cartlist[cartind][4]);
-    CartBox.put('tripname'+cartind.toString(), Cartlist[cartind][1]);
+    CartBox.put('tripdetail'+cartind.toString(), Cartlist[cartind][5]);
+    CartBox.put('Roomlist'+cartind.toString(), Cartlist[cartind][6]);
+
     CartBox.put('indexroom'+cartind.toString(), Cartlist[cartind][7]);
     CartBox.put('indexDetail'+cartind.toString(), Cartlist[cartind][8]);
     CartBox.put('quantity'+cartind.toString(),Cartlist[cartind][9]);
     CartBox.put('diver'+cartind.toString(), Cartlist[cartind][10]);
 
 
-    var jsondetails = jsonEncode((Cartlist[cartind][5]
-    as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
-    CartBox.put('tripdetail'+cartind.toString(), jsondetails.toString());
+    //var jsondetails = jsonEncode((Cartlist[cartind][5]
+    //as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
     //print("-------------------");
     //print(CartBox.get('tripdetail'));
     print("Current Cartbox");
@@ -262,7 +274,7 @@ class _CartState extends State<CartWidget> {
                               Container(
                                   width: MediaQuery.of(context).size.width/15,
                                   height: MediaQuery.of(context).size.width/15,
-                                  child: Cartlist[position][0]),//TODO: Check the type of this.
+                                  child: Image.network(Cartlist[position][0])),//TODO: Check the type of this.
 
                               // Flexible(
                               //     child: Container(

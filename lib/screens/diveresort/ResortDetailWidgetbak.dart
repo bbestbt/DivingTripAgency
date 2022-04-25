@@ -472,13 +472,13 @@ class _HotelState extends State<HotelDetail> {
             children: [
               Text("From : " +
                   DateFormat("dd/MM/yyyy")
-                      .format(details[widget.index].fromDate.toDateTime())),
+                      .format(details[widget.index].startDate.toDateTime())),
               SizedBox(
                 width: 10,
               ),
               Text("To : " +
                   DateFormat("dd/MM/yyyy")
-                      .format(details[widget.index].toDate.toDateTime())),
+                      .format(details[widget.index].endDate.toDateTime())),
             ],
           ),
           SizedBox(
