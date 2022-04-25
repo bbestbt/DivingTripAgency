@@ -470,13 +470,13 @@ class _detailState extends State<detail> {
                     children: [
                       Text("From : " +
                           DateFormat("dd/MM/yyyy").format(
-                              details[widget.index].fromDate.toDateTime())),
+                              details[widget.index].startDate.toDateTime())),
                       SizedBox(
                         width: 10,
                       ),
                       Text("To : " +
                           DateFormat("dd/MM/yyyy").format(
-                              details[widget.index].toDate.toDateTime())),
+                              details[widget.index].endDate.toDateTime())),
                     ],
                   ),
                   SizedBox(
@@ -1115,7 +1115,7 @@ class _InfoCardState extends State<InfoCard> {
                   child: Text('Add room to cart'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      Cartlist.add([
+                      Cartlist.add([/*
                         details[indexDetail].tripTemplate.images.length == 0
                             ? new Container(
                                 color: Colors.pink,
@@ -1124,19 +1124,46 @@ class _InfoCardState extends State<InfoCard> {
                                 .tripTemplate
                                 .images[0]
                                 .link
-                                .toString()),
-                        details[indexDetail].tripTemplate.name,
-                        liveaboardDetial.liveaboard.name,
-                        roomtypes[indexRoom].name,
+                                .toString()), //0
+                        details[indexDetail].tripTemplate.name,//1
+                        liveaboardDetial.liveaboard.name,//2
+                        roomtypes[indexRoom].name,//3
                         (roomtypes[indexRoom].price *
-                                int.parse(_textEditingQuantity.text)) +
-                            details[indexDetail].price,
-                        details,
+                                int.parse(_textEditingQuantity.text)) +//4
+                            details[indexDetail].price,//5
+                        //details,//6
+                    jsonEncode((details
+                    as List<RoomType>).map((e) => e.toProto3Json()).toList()),
                         roomtypes,
                         indexRoom,
                         indexDetail,
                         int.parse(_textEditingQuantity.text),
-                        int.parse(_textEditingDiver.text)
+                        int.parse(_textEditingDiver.text)*/
+                        details[indexDetail].tripTemplate.images.length == 0
+                            ?
+                        "":
+                        details[indexDetail]
+                            .tripTemplate
+                            .images[0]
+                            .link
+                            .toString(),//0
+                        details[indexDetail].tripTemplate.name,//1
+                        liveaboardDetial.liveaboard.name,//2
+                        roomtypes[indexRoom].name,//3
+                        (roomtypes[indexRoom].price *
+                            int.parse(_textEditingQuantity.text)) +
+                            details[indexDetail].price,//4
+                        //details,
+                        jsonEncode((details
+                        as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList()),//5
+                        //roomtypes,
+                        jsonEncode((roomtypes
+                        as List<RoomType>).map((e) => e.toProto3Json()).toList()),//6
+
+                        indexRoom,//7
+                        indexDetail,//8
+                        int.parse(_textEditingQuantity.text),//9
+                        int.parse(_textEditingDiver.text)//10
                       ]);
 
                       // Do something like updating SharedPreferences or User Settings etc.
@@ -1255,8 +1282,11 @@ class _InfoCardState extends State<InfoCard> {
                   height: 20,
                 ),
                 RaisedButton(
-                  onPressed:
-                      roomtypes[widget.indexRoom].quantity == 0 ? null : () {},
+                  onPressed: roomtypes[widget.indexRoom].quantity == 0
+                      ? null
+                      : () async {
+                          await showInformationDialog(context);
+                        },
                   color: Colors.amber,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
