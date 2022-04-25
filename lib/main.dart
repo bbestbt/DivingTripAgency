@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           ),
           fontFamily: 'Poppins'),
   //home: MainCompanyScreen(),
-      home: MainScreen(), //Original
+       home: MainScreen(), //Original
   //  home: PaymentScreen(),
     );
   }
