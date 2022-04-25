@@ -1088,6 +1088,7 @@ class _InfoCardState extends State<InfoCard> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       Cartlist.add([
+                        /*
                         details[indexDetail].tripTemplate.images.length == 0
                             ? new Container(
                                 color: Colors.pink,
@@ -1096,19 +1097,34 @@ class _InfoCardState extends State<InfoCard> {
                                 .tripTemplate
                                 .images[0]
                                 .link
-                                .toString()),
-                        details[indexDetail].tripTemplate.name,
-                        hotelDetial.hotel.name,
-                        roomtypes[indexRoom].name,
+                                .toString()),//0*/
+
+                        details[indexDetail].tripTemplate.images.length == 0
+                            ? ""
+                            : details[indexDetail]
+                                .tripTemplate
+                                .images[0]
+                                .link
+                                .toString(), //0
+                        details[indexDetail].tripTemplate.name, //1
+                        hotelDetial.hotel.name, //2
+                        roomtypes[indexRoom].name, //3
                         (roomtypes[indexRoom].price *
                                 int.parse(_textEditingQuantity.text)) +
-                            details[indexDetail].price,
-                        details,
-                        roomtypes,
-                        indexRoom,
-                        indexDetail,
-                        int.parse(_textEditingQuantity.text),
-                        int.parse(_textEditingDiver.text)
+                            details[indexDetail].price, //4
+                        //details,
+                        jsonEncode((details as List<TripWithTemplate>)
+                            .map((e) => e.toProto3Json())
+                            .toList()), //5
+                        //roomtypes,
+                        jsonEncode((roomtypes as List<RoomType>)
+                            .map((e) => e.toProto3Json())
+                            .toList()), //6
+
+                        indexRoom, //7
+                        indexDetail, //8
+                        int.parse(_textEditingQuantity.text), //9
+                        int.parse(_textEditingDiver.text) //10
                       ]);
                       // print("Cartlist: ");
                       //print(Cartlist);
