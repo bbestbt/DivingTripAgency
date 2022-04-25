@@ -39,7 +39,8 @@ class _CenterCompanySectionState extends State<CenterCompanySection> {
         padding: const EdgeInsets.only(left: 30),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height / 2,
-        color: Color(0xfff96b1d2),
+        color: Color(0xfff97caef),
+        //  Color(0xfff96b1d2),
         // decoration: BoxDecoration(
         //     //color: Color(0xfffdcfffb)
         //     gradient: LinearGradient(

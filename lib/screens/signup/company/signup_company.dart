@@ -12,15 +12,17 @@ class SignupCompanyScreen extends StatelessWidget {
           child: Container(
                height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                  Color(0xffff598a8),
-                  Color(0xffff6edb2),
-                  Color(0xfffc5f7eb),
-                ])),
+            color: Color(0xfff97caef),
+            // Color(0xfff659dbd),
+            // decoration: BoxDecoration(
+            //     gradient: LinearGradient(
+            //         begin: Alignment.topLeft,
+            //         end: Alignment.bottomRight,
+            //         colors: [
+            //       Color(0xffff598a8),
+            //       Color(0xffff6edb2),
+            //       Color(0xfffc5f7eb),
+            //     ])),
                 
             child: SingleChildScrollView(
               child: Column(

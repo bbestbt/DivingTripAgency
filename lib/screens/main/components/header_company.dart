@@ -35,7 +35,8 @@ class HeaderCompany extends StatelessWidget {
     return Container(
         width: double.infinity,
         height: 100,
-        color: Color(0xfff96b1d2),
+        color: Color(0xfff97caef),
+        // Color(0xfff96b1d2),
         // decoration: BoxDecoration(
         //     gradient: LinearGradient(
         //         begin: Alignment.topLeft,
@@ -163,7 +164,8 @@ class HeaderCompany extends StatelessWidget {
                                     builder: (context) => LoginScreen()));
                           },
                           style: TextButton.styleFrom(
-                              backgroundColor: Color(0xfff4771a5),
+                              backgroundColor: Color(0xfff659dbd),
+                              // Color(0xfff4771a5),
                               // Color(0xfffff8fab),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20 * 1.5, vertical: 20)),

@@ -34,7 +34,8 @@ class CompanyHamburger extends StatelessWidget {
     return Container(
       height: double.infinity,
       // color: Colors.white,
-      color: Color(0xfff96b1d2),
+      color:  Color(0xfff97caef),
+      // Color(0xfff96b1d2),
       // Color(0xfffcfecd0),
       child: SafeArea(
         child: SingleChildScrollView(
