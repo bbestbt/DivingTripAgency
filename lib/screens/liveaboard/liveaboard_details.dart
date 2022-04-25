@@ -470,13 +470,13 @@ class _detailState extends State<detail> {
                     children: [
                       Text("From : " +
                           DateFormat("dd/MM/yyyy").format(
-                              details[widget.index].fromDate.toDateTime())),
+                              details[widget.index].startDate.toDateTime())),
                       SizedBox(
                         width: 10,
                       ),
                       Text("To : " +
                           DateFormat("dd/MM/yyyy").format(
-                              details[widget.index].toDate.toDateTime())),
+                              details[widget.index].endDate.toDateTime())),
                     ],
                   ),
                   SizedBox(

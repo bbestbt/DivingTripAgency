@@ -1,6 +1,7 @@
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/screens/create_trip/addDiveMaster.dart';
 import 'package:diving_trip_agency/screens/create_trip/addDiveSite.dart';
 import 'package:diving_trip_agency/screens/create_trip/trip_template.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
@@ -49,6 +50,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   DateTime to;
   DateTime last;
   List<DiveSite> pinkValue = [new DiveSite()];
+  List<DiveMaster> dmValue = [new DiveMaster()];
   final _formKey = GlobalKey<FormState>();
   String boatUsed = '';
 
@@ -102,13 +104,30 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var trip = Trip();
+    var trip = TripWithTemplate();
     trip.startDate = Timestamp.fromDateTime(from);
     trip.endDate = Timestamp.fromDateTime(to);
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
-    trip.price = double.parse(_controllerPrice.text);
-    trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
+    trip.tripTemplate.address.addressLine1 = triptemplate.address.addressLine1;
+    trip.tripTemplate.address.addressLine2 = triptemplate.address.addressLine2;
+    trip.tripTemplate.address.city = triptemplate.address.city;
+    trip.tripTemplate.address.country = triptemplate.address.country;
+    trip.tripTemplate.address.city = triptemplate.address.region;
+    trip.tripTemplate.address.country = triptemplate.address.postcode;
+    trip.tripTemplate.description = triptemplate.description;
+    trip.tripTemplate.name = triptemplate.name;
+    trip.tripTemplate.tripType = triptemplate.tripType;
+    trip.tripTemplate.boatId = triptemplate.boatId;
+    trip.tripTemplate.hotelId = triptemplate.hotelId;
+    trip.tripTemplate.liveaboardId = triptemplate.liveaboardId;
+
+    for (int j = 0; j < triptemplate.images.length; j++) {
+      trip.tripTemplate.images.add(triptemplate.images[j]);
+    }
+
+    // trip.price = double.parse(_controllerPrice.text);
+    // trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
 
     for (int i = 0; i < pinkValue.length; i++) {
       var divesite = DiveSite();
@@ -120,11 +139,18 @@ class _CreateTripFormState extends State<CreateTripForm> {
       trip.diveSites.add(divesite);
     }
 
+    for (int k = 0; k < dmValue.length; k++) {
+      var divemaster = DiveMaster();
+      divemaster.id = dmValue[k].id;
+
+      trip.diveMasters.add(divemaster);
+    }
+
     var hotelRequest = AddHotelRequest();
 
     var tripRequest = AddTripRequest();
     tripRequest.trip = trip;
-    tripRequest.tripTemplate = triptemplate;
+    // tripRequest.tripTemplate = triptemplate;
     //tripRequest.tripTemplate.images.add(value);
 
     // print(tripRequest);
@@ -335,35 +361,41 @@ class _CreateTripFormState extends State<CreateTripForm> {
             ],
           ),
           SizedBox(height: 20),
-          // buildDiveMasterNameFormField(),
           Container(
-            color: Colors.white,
-            child: Center(
-              child: DropdownButtonFormField(
-                isExpanded: true,
-                value: divemasterSelected,
-                items: listDivemaster,
-                hint: Text('  Select dive master'),
-                iconSize: 40,
-                validator: (value) {
-                  if (value == null) {
-                    addError(error: "Please select dive master");
-                    return "";
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  if (value != null) {
-                    removeError(error: "Please select dive master");
-                    setState(() {
-                      divemasterSelected = value;
-                      print(value);
-                    });
-                  }
-                },
-              ),
-            ),
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xfffcafafe),
+                borderRadius: BorderRadius.circular(10)),
+            child: AddMoreDiveMaster(this.dmValue, this.errors),
           ),
+          // Container(
+          //   color: Colors.white,
+          //   child: Center(
+          //     child: DropdownButtonFormField(
+          //       isExpanded: true,
+          //       value: divemasterSelected,
+          //       items: listDivemaster,
+          //       hint: Text('  Select dive master'),
+          //       iconSize: 40,
+          //       validator: (value) {
+          //         if (value == null) {
+          //           addError(error: "Please select dive master");
+          //           return "";
+          //         }
+          //         return null;
+          //       },
+          //       onChanged: (value) {
+          //         if (value != null) {
+          //           removeError(error: "Please select dive master");
+          //           setState(() {
+          //             divemasterSelected = value;
+          //             print(value);
+          //           });
+          //         }
+          //       },
+          //     ),
+          //   ),
+          // ),
           SizedBox(height: 20),
 
           // buildPriceFormField(),

@@ -11,6 +11,7 @@ import 'package:diving_trip_agency/screens/create_trip/create_trip_form.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:diving_trip_agency/screens/update/update_trip_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -156,7 +157,12 @@ class _listTripCardState extends State<listTripCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => updateEachTrip(trips[widget.index])));
+      },
       child: Container(
         height: 200,
         width: 200,
@@ -167,11 +173,12 @@ class _listTripCardState extends State<listTripCard> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Flexible(
-              child:
-                Align(
-                    alignment: Alignment.center,
-                    child: Text(trips[widget.index].tripTemplate.name,overflow: TextOverflow.ellipsis,)),
-              
+              child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    trips[widget.index].tripTemplate.name,
+                    overflow: TextOverflow.ellipsis,
+                  )),
             ),
           ],
         ),

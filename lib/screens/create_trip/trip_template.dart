@@ -541,7 +541,7 @@ class _TriptemplateState extends State<Triptemplate> {
           SizedBox(height: 20),
           DropdownButtonFormField<String>(
             value: selectedsleep,
-            // hint: Text('Sleep'),
+            hint: Text('Resident'),
             isExpanded: true,
             items: triptypee.map((String value) {
               return DropdownMenuItem<String>(
@@ -779,8 +779,6 @@ class _TriptemplateState extends State<Triptemplate> {
               ),
             ],
           ),
-
-          SizedBox(height: 20),
 
           SizedBox(height: 20),
           Row(
