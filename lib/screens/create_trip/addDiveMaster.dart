@@ -204,9 +204,18 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                     removeError(error: "Please select dive master");
                     setState(() {
                       divemasterSelected = value;
-                      print(value);
+                      divemaster.forEach((element) {
+                        if (element == divemasterSelected) {
+                          // print(amenityMap[element]);
+                          dmValue[dmcount - 1].firstName = divemasterSelected;
+                          dmValue[dmcount - 1].id = divemasterMap[element];
+                        }
+                      });
+
+                      // print(value);
                     });
                   }
+                  // print(dmValue);
                 },
               ),
             ),

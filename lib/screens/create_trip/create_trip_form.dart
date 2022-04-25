@@ -36,7 +36,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
   Map<String, dynamic> divemasterMap = {};
   TripTemplate triptemplate = new TripTemplate();
   Address addressform = new Address();
-
+  RoomTypeTripPrice roomPrice;
+  int count;
   //final TextEditingController _controllerPlace = TextEditingController();
   final TextEditingController _controllerFrom = TextEditingController();
   final TextEditingController _controllerTo = TextEditingController();
@@ -121,6 +122,11 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.tripTemplate.boatId = triptemplate.boatId;
     trip.tripTemplate.hotelId = triptemplate.hotelId;
     trip.tripTemplate.liveaboardId = triptemplate.liveaboardId;
+
+    var allPrice = RoomTypeTripPrice();
+    allPrice.price = roomPrice.price;
+
+    trip.tripRoomTypePrices.add(roomPrice);
 
     for (int j = 0; j < triptemplate.images.length; j++) {
       trip.tripTemplate.images.add(triptemplate.images[j]);
@@ -414,7 +420,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
               width: MediaQuery.of(context).size.width / 1.5,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Triptemplate(this.triptemplate, this.errors)),
+              child: Triptemplate(
+                  this.triptemplate, this.errors, this.roomPrice, this.count)),
 
           SizedBox(height: 20),
           FormError(errors: errors),
