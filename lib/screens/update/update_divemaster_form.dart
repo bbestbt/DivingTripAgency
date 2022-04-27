@@ -122,10 +122,10 @@ class DiveMasterForm extends StatefulWidget {
     this.divemasterValue = divemasterValue;
   }
   @override
-  _StaffFormState createState() => _StaffFormState(this.divemasterValue);
+  _DiveMasterFormState createState() => _DiveMasterFormState(this.divemasterValue);
 }
 
-class _StaffFormState extends State<DiveMasterForm> {
+class _DiveMasterFormState extends State<DiveMasterForm> {
   String name;
   String lastname;
   DiveMaster divemasterValue;
@@ -141,7 +141,7 @@ class _StaffFormState extends State<DiveMasterForm> {
   ];
 
   List<String> errors = [];
-  _StaffFormState(DiveMaster divemasterValue) {
+  _DiveMasterFormState(DiveMaster divemasterValue) {
     this.divemasterValue = divemasterValue;
   }
 
@@ -226,6 +226,7 @@ class _StaffFormState extends State<DiveMasterForm> {
     }
 
     var divemaster = DiveMaster();
+    divemaster.id = divemasterValue.id;
     divemaster.firstName = divemasterValue.firstName;
     divemaster.lastName = divemasterValue.lastName;
     if (levelSelected != null) {
@@ -336,6 +337,16 @@ class _StaffFormState extends State<DiveMasterForm> {
               Column(
                 children: [Text("Divemaster"), Text('Card'), Text('(Front)')],
               ),
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
+                  child: divemasterValue.documents[0] == null
+                      ? new Container(
+                          color: Colors.green,
+                        )
+                      : Image.network(
+                          divemasterValue.documents[0].link.toString())),
               Center(
                   child: CardFile == null
                       ? Column(
@@ -378,6 +389,16 @@ class _StaffFormState extends State<DiveMasterForm> {
               Column(
                 children: [Text("Divemaster"), Text('Card'), Text("(Back)")],
               ),
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
+                  child: divemasterValue.documents[1] == null
+                      ? new Container(
+                          color: Colors.green,
+                        )
+                      : Image.network(
+                          divemasterValue.documents[1].link.toString())),
               Center(
                   child: CardFileBack == null
                       ? Column(

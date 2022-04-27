@@ -263,6 +263,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
     }
 
     var boat = Boat()..address = address;
+    boat.id=eachBoat.id;
     boat.name = eachBoat.name;
     boat.totalCapacity = eachBoat.totalCapacity;
     boat.description = eachBoat.description;

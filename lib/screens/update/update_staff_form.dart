@@ -191,15 +191,18 @@ class _StaffFormState extends State<StaffForm> {
       GenderType.values.forEach((genderType) {
         if (genderTypeMap[genderType.toString()] == int.parse(genderSelected)) {
           staffValue.gender = genderType;
+          print(staffValue.gender);
         }
       });
     }
 
     var staff = Staff();
+    staff.id=staffValue.id;
     staff.firstName = staffValue.firstName;
     staff.lastName = staffValue.lastName;
     staff.position = staffValue.position;
     if (genderSelected != null) {
+      print('select'+genderSelected);
       staff.gender = staffValue.gender;
     }
 

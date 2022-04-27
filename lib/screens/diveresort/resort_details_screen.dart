@@ -1113,18 +1113,21 @@ class _InfoCardState extends State<InfoCard> {
                                 int.parse(_textEditingQuantity.text)) +
                             details[indexDetail].price, //4
                         //details,
-                        jsonEncode((details as List<TripWithTemplate>)
+                       /* jsonEncode((details as List<TripWithTemplate>)
                             .map((e) => e.toProto3Json())
-                            .toList()), //5
+                            .toList())*/ "", //5
                         //roomtypes,
-                        jsonEncode((roomtypes as List<RoomType>)
+                        /*jsonEncode((roomtypes as List<RoomType>)
                             .map((e) => e.toProto3Json())
-                            .toList()), //6
+                            .toList())*/"", //6
 
                         indexRoom, //7
                         indexDetail, //8
                         int.parse(_textEditingQuantity.text), //9
-                        int.parse(_textEditingDiver.text) //10
+                        int.parse(_textEditingDiver.text), //10
+                        roomtypes[indexRoom].id.toInt(), //11
+                        details[indexDetail].id.toInt(),//12
+
                       ]);
                       // print("Cartlist: ");
                       //print(Cartlist);

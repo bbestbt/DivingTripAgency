@@ -17,22 +17,23 @@ import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
-   RoomTypeTripPrice roomPrice;
+  RoomTypeTripPrice roomPrice;
   int count;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   List<String> errors = [];
-  Triptemplate(TripTemplate triptemplate, List<String> errors,  RoomTypeTripPrice roomPrice,int count) {
+  Triptemplate(TripTemplate triptemplate, List<String> errors,
+      RoomTypeTripPrice roomPrice, int count) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
     this.errors = errors;
-    this.roomPrice=roomPrice;
-    this.count=count;
+    this.roomPrice = roomPrice;
+    this.count = count;
   }
   @override
-  _TriptemplateState createState() =>
-      _TriptemplateState(this.triptemplate, this.errors,this.roomPrice,this.count);
+  _TriptemplateState createState() => _TriptemplateState(
+      this.triptemplate, this.errors, this.roomPrice, this.count);
 }
 
 class _TriptemplateState extends State<Triptemplate> {
@@ -49,8 +50,8 @@ class _TriptemplateState extends State<Triptemplate> {
   io.File Boatpic;
   io.File Schedule;
   String price;
- RoomTypeTripPrice roomPrice;
-int count;
+  RoomTypeTripPrice roomPrice;
+  int count;
   XFile pt;
   XFile bt;
   XFile sc;
@@ -134,6 +135,12 @@ int count;
           .map((val) => DropdownMenuItem<String>(
               child: Text(val.toString()), value: val.value.toString()))
           .toList();
+
+      listTriptemplate = [];
+      listTriptemplate = triptemplateData
+          .map((val) => DropdownMenuItem<String>(
+              child: Text(val.toString()), value: val.toString()))
+          .toList();
       String value;
 
       for (var i = 0; i < TripType.values.length; i++) {
@@ -151,13 +158,14 @@ int count;
   TripTemplate triptemplate;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
-  _TriptemplateState(TripTemplate triptemplate, List<String> errors,  RoomTypeTripPrice roomPrice,int count) {
+  _TriptemplateState(TripTemplate triptemplate, List<String> errors,
+      RoomTypeTripPrice roomPrice, int count) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
     this.errors = errors;
-    this.roomPrice=roomPrice;
-    this.count=count;
+    this.roomPrice = roomPrice;
+    this.count = count;
   }
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
@@ -301,6 +309,7 @@ int count;
     var hotelrequest = ListHotelsRequest();
     var liveaboardrequest = ListLiveaboardsRequest();
     var boatrequest = ListBoatsRequest();
+    var triptemplaterequest = ListTripTemplatesRequest();
 
     try {
       // var response = await stub.listBoats(boatrequest);
@@ -324,6 +333,12 @@ int count;
         //print(feature.liveaboard.name);
         liveaboard.add(feature.liveaboard.name);
         liveaboardTypeMap[feature.liveaboard.name] = feature.liveaboard.id;
+      }
+
+      await for (var feature in stub.listTripTemplates(triptemplaterequest)) {
+        print(feature.template.name);
+        triptemplateData.add(feature.template.name);
+        triptemplateTypeMap[feature.template.name] = feature.template.id;
       }
     } catch (e) {
       print('ERROR: $e');
@@ -367,597 +382,662 @@ int count;
 
   bool _showTextField = false;
   bool _showBoatField = false;
+  List<DropdownMenuItem<String>> listTriptemplate = [];
+  List<String> triptemplateData = [];
+  String triptemplateSelected;
+  Map<String, dynamic> triptemplateTypeMap = {};
+  bool isVisibleOld = false;
+  bool isVisibleNew = false;
 
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
     //loadData();
     // getData();
-    return Container(
-      color: Color(0xfffd4f0f0),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(children: [
-          SizedBox(height: 20),
-          buildTripNameFormField(),
-          SizedBox(height: 20),
-          buildDescriptionFormField(),
-          SizedBox(height: 20),
-          buildAddressFormField(),
-          SizedBox(height: 20),
-          buildAddress2FormField(),
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width / 3.6,
-                // color: Colors.white,
-                child: Center(
-                  child: DropdownButtonFormField(
-                    isExpanded: true,
-                    value: countrySelected,
-                    items: listCountry,
-                    hint: Text('  Select country'),
-                    iconSize: 40,
-                    validator: (value) {
-                      if (value == null) {
-                        addError(error: "Please select country");
-                        return "";
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      if (value != null) {
-                        removeError(error: "Please select country");
-                        setState(() {
-                          countrySelected = value;
-                          triptemplate.address.country = countrySelected;
-                          print(value);
-                        });
-                      }
-                    },
-                  ),
-                ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FlatButton(
+              onPressed: () => setState(() => isVisibleOld = !isVisibleOld),
+              color: Color(0xfffa2c8ff),
+              child: Text(
+                'Create from old triptemplate',
+                style: TextStyle(fontSize: 15),
               ),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 3.6,
-              //     child: buildCountryFormField()),
-              Spacer(),
-              // Spacer(flex: 1,),
-              Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildCityFormField()),
-            ],
-          ),
-
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width / 3.6,
-                // color: Colors.white,
-                child: Center(
-                  child: DropdownButtonFormField(
-                    isExpanded: true,
-                    value: regionSelected,
-                    items: listRegion,
-                    hint: Text('  Select region'),
-                    iconSize: 40,
-                    validator: (value) {
-                      if (value == null) {
-                        addError(error: "Please select region");
-                        return "";
-                      }
-                      return null;
-                    },
-                    onChanged: (value) {
-                      if (value != null) {
-                        removeError(error: "Please select region");
-                        setState(() {
-                          regionSelected = value;
-                          triptemplate.address.region = regionSelected;
-
-                          print(value);
-                        });
-                      }
-                    },
-                  ),
-                ),
+            ),
+            FlatButton(
+              onPressed: () => setState(() => isVisibleNew = !isVisibleNew),
+              color: Color(0xfffd4f0f0),
+              child: Text(
+                'Create new triptemplate',
+                style: TextStyle(fontSize: 15),
               ),
-              Spacer(),
-              Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildPostalCodeFormField()),
-            ],
-          ),
-          SizedBox(height: 20),
-
-          // buildBoatNameFormField(),
-          // SizedBox(height: 20),
-          //radio
-          // Row(children: [
-          //   Text('Trip Type '),
-          //   Spacer(),
-          // ]),
-          // Row(children: [
-          //   Radio(
-          //       value: 'On shore (Hotel)',
-          //       groupValue: triptype,
-          //       onChanged: (val) {
-          //         // triptype = val;
-          //         setState(() {
-          //            triptype = val;
-          //             print(val);
-
-          //         });
-          //       }),
-          //   Text('On shore (Hotel)'),
-          // ]),
-
-          // Row(
-          //   children: [
-          //     Radio(
-          //         value: 'Off shore (Live on boat)',
-          //         groupValue: triptype,
-          //         onChanged: (val) {
-          //           // triptype = val;
-          //           setState(() {
-          //              triptype = val;
-          //               print(val);
-          //           });
-          //         }),
-          //     Text('Off shore (Live on boat)'),
-          //   ],
-          // ),
-
-          // Container(
-          //   color: Color(0xfffd4f0f0),
-          //   child: Center(
-          //     child: DropdownButton(
-          //       isExpanded: true,
-          //       value: selected,
-          //       items: listTrip,
-          //       hint: Text('  Select trip type'),
-          //       iconSize: 40,
-          //       onChanged: (value) {
-          //         setState(() {
-          //           selected = value;
-          //           TripType.values.forEach((tripType) {
-          //             if (tripTypeMap[tripType.toString()] ==
-          //                 int.parse(selected)) {
-          //               triptemplate.tripType = tripType;
-          //             }
-          //           });
-          //           print(value);
-          //         });
-          //       },
-          //     ),
-          //   ),
-          // ),
-
-          DropdownButtonFormField(
-            hint: Text('Trip type'),
-            value: selectedTriptype,
-            isExpanded: true,
-            items: listTrip,
-            validator: (value) {
-              if (value == null) {
-                addError(error: "Please select trip type");
-                return "";
-              }
-              return null;
-            },
-            onChanged: (trip_type) {
-              if (trip_type != null) {
-                removeError(error: "Please select trip type");
-                if (trip_type == '0') {
-                  triptypee = hotel;
-                  _showBoatField = true;
-                } else if (trip_type == '1') {
-                  triptypee = liveaboard;
-                } else {
-                  // print('x');
-                  // print(trip_type);
-                  // print(trip_type.runtimeType);
-                  triptypee = [];
-                }
-                setState(() {
-                  // print(triptypee);
-                  // print('--');
-                  selectedTriptype = trip_type;
-                  selectedsleep = null;
-                  TripType.values.forEach((tripType) {
-                    if (tripTypeMap[tripType.toString()] ==
-                        int.parse(selectedTriptype)) {
-                      triptemplate.tripType = tripType;
-                    }
-                  });
-                });
-              }
-              // print('*');
-              // print(trip_type);
-              // print('*');
-              // if (trip_type ==0 ) {
-              //   triptypee = liveaboard;
-              // } else if (trip_type == 1) {
-              //   triptypee = hotel;
-              // }
-              // else {
-              //   triptypee = [];
-              // }
-            },
-          ),
-          SizedBox(height: 20),
-          DropdownButtonFormField<String>(
-            value: selectedsleep,
-            hint: Text('Resident'),
-            isExpanded: true,
-            items: triptypee.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            validator: (value) {
-              if (value == null) {
-                addError(error: "Please select name");
-                return "";
-              }
-              return null;
-            },
-            onChanged: (sleep) {
-              if (sleep != null) {
-                removeError(error: "Please select name");
-                setState(() {
-                  selectedsleep = sleep;
-                  if (triptypee == liveaboard) {
-                    // print('liveabaord');
-                    // print(liveaboardTypeMap[selectedsleep]);
-                    triptemplate.liveaboardId =
-                        liveaboardTypeMap[selectedsleep];
-                    // print('keep');
-                    // print( triptemplate.liveaboardId);
-                    _showTextField = true;
-                  } else if (triptypee == hotel) {
-                    // print('hotel');
-                    // print(hotelTypeMap[selectedsleep]);
-
-                    triptemplate.hotelId = hotelTypeMap[selectedsleep];
-                    _showTextField = true;
-
-                    // hotelandboatID.hotelId = hotelTypeMap[selectedsleep];
-                    //  triptemplate.hotelAndBoatId=hotelandboatID;
-                    //   triptemplate.hotelAndBoatId.hotelId= hotelTypeMap[selectedsleep];
+            ),
+          ],
+        ),
+        SizedBox(height: 20),
+        Visibility(
+          visible: isVisibleOld,
+          child: Container(
+            color: Color(0xfffa2c8ff),
+            child: Center(
+              child: DropdownButtonFormField(
+                isExpanded: true,
+                value: triptemplateSelected,
+                items: listTriptemplate,
+                hint: Text('  Select trip template'),
+                iconSize: 40,
+                icon: Icon(
+                  Icons.arrow_drop_down,
+                  color: Colors.black,
+                ),
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() {
+                      triptemplateSelected = value;
+                    });
                   }
-                  // showRoom(context);
-                  // getRoomType();
-                });
-              }
-            },
-          ),
-          Visibility(
-            visible: _showTextField,
-            child: FutureBuilder(
-              future: getRoomType(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return SizedBox(
-                      width: 1110,
-                      child: Wrap(
-                          spacing: 20,
-                          runSpacing: 40,
-                          children: List.generate(
-                              allRoom.length,
-                              (index) => Column(
-                                    children: [
-                                      // Text(allRoom.length.toString()),
-                                      SizedBox(height: 20),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            width: 200,
-                                            height: 200,
-                                            child: Image.network(allRoom[index]
-                                                .roomImages[0]
-                                                .link
-                                                .toString()),
-                                          ),
-                                          SizedBox(width: 20),
-                                          Text('Price : '),
-                                          SizedBox(width: 20),
-                                          Container(
-                                              width: 70,
-                                              child: buildPriceFormField()),
-                                        ],
-                                      )
-                                      // SizedBox(height: 20),
-                                    ],
-                                  ))));
-                } else {
-                  return Center(child: Text('No data'));
-                }
-              },
+                  print(triptemplateSelected);
+                },
+              ),
             ),
           ),
+        ),
+        SizedBox(height: 20),
+        Visibility(
+          visible: isVisibleNew,
+          child: Container(
+            color: Color(0xfffd4f0f0),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(children: [
+                SizedBox(height: 20),
+                buildTripNameFormField(),
+                SizedBox(height: 20),
+                buildDescriptionFormField(),
+                SizedBox(height: 20),
+                buildAddressFormField(),
+                SizedBox(height: 20),
+                buildAddress2FormField(),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3.6,
+                      // color: Colors.white,
+                      child: Center(
+                        child: DropdownButtonFormField(
+                          isExpanded: true,
+                          value: countrySelected,
+                          items: listCountry,
+                          hint: Text('  Select country'),
+                          iconSize: 40,
+                          validator: (value) {
+                            if (value == null) {
+                              addError(error: "Please select country");
+                              return "";
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != null) {
+                              removeError(error: "Please select country");
+                              setState(() {
+                                countrySelected = value;
+                                triptemplate.address.country = countrySelected;
+                                print(value);
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    // Container(
+                    //     width: MediaQuery.of(context).size.width / 3.6,
+                    //     child: buildCountryFormField()),
+                    Spacer(),
+                    // Spacer(flex: 1,),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3.6,
+                        child: buildCityFormField()),
+                  ],
+                ),
 
-          SizedBox(height: 20),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3.6,
+                      // color: Colors.white,
+                      child: Center(
+                        child: DropdownButtonFormField(
+                          isExpanded: true,
+                          value: regionSelected,
+                          items: listRegion,
+                          hint: Text('  Select region'),
+                          iconSize: 40,
+                          validator: (value) {
+                            if (value == null) {
+                              addError(error: "Please select region");
+                              return "";
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            if (value != null) {
+                              removeError(error: "Please select region");
+                              setState(() {
+                                regionSelected = value;
+                                triptemplate.address.region = regionSelected;
 
-          Visibility(
-            visible: _showBoatField,
-            child: Container(
-              //color: Colors.white,
-              child: Center(
-                child: DropdownButtonFormField(
-                    isExpanded: true,
-                    value: boatSelected,
-                    items: listBoat,
-                    //     boat.map((String value) {
-                    //   return DropdownMenuItem<String>(
-                    //     value: value,
-                    //     child: Text(value),
-                    //   );
-                    // }).toList(),
+                                print(value);
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3.6,
+                        child: buildPostalCodeFormField()),
+                  ],
+                ),
+                SizedBox(height: 20),
 
-                    hint: Text('  Select boat (ONSHORE)'),
-                    iconSize: 40,
-                    // validator: (value) {
-                    //   if (value == null) {
-                    //     addError(error: "Please select boat");
-                    //     return "";
-                    //   }
-                    //   return null;
-                    // },
-                    onChanged: (value) {
-                      // if (value != null) {
-                      //   removeError(error: "Please select boat");
+                // buildBoatNameFormField(),
+                // SizedBox(height: 20),
+                //radio
+                // Row(children: [
+                //   Text('Trip Type '),
+                //   Spacer(),
+                // ]),
+                // Row(children: [
+                //   Radio(
+                //       value: 'On shore (Hotel)',
+                //       groupValue: triptype,
+                //       onChanged: (val) {
+                //         // triptype = val;
+                //         setState(() {
+                //            triptype = val;
+                //             print(val);
+
+                //         });
+                //       }),
+                //   Text('On shore (Hotel)'),
+                // ]),
+
+                // Row(
+                //   children: [
+                //     Radio(
+                //         value: 'Off shore (Live on boat)',
+                //         groupValue: triptype,
+                //         onChanged: (val) {
+                //           // triptype = val;
+                //           setState(() {
+                //              triptype = val;
+                //               print(val);
+                //           });
+                //         }),
+                //     Text('Off shore (Live on boat)'),
+                //   ],
+                // ),
+
+                // Container(
+                //   color: Color(0xfffd4f0f0),
+                //   child: Center(
+                //     child: DropdownButton(
+                //       isExpanded: true,
+                //       value: selected,
+                //       items: listTrip,
+                //       hint: Text('  Select trip type'),
+                //       iconSize: 40,
+                //       onChanged: (value) {
+                //         setState(() {
+                //           selected = value;
+                //           TripType.values.forEach((tripType) {
+                //             if (tripTypeMap[tripType.toString()] ==
+                //                 int.parse(selected)) {
+                //               triptemplate.tripType = tripType;
+                //             }
+                //           });
+                //           print(value);
+                //         });
+                //       },
+                //     ),
+                //   ),
+                // ),
+
+                DropdownButtonFormField(
+                  hint: Text('Trip type'),
+                  value: selectedTriptype,
+                  isExpanded: true,
+                  items: listTrip,
+                  validator: (value) {
+                    if (value == null) {
+                      addError(error: "Please select trip type");
+                      return "";
+                    }
+                    return null;
+                  },
+                  onChanged: (trip_type) {
+                    if (trip_type != null) {
+                      removeError(error: "Please select trip type");
+                      if (trip_type == '0') {
+                        triptypee = hotel;
+                        _showBoatField = true;
+                      } else if (trip_type == '1') {
+                        triptypee = liveaboard;
+                      } else {
+                        // print('x');
+                        // print(trip_type);
+                        // print(trip_type.runtimeType);
+                        triptypee = [];
+                      }
                       setState(() {
-                        boatSelected = value;
-                        print(value);
-                        //  hotelandboatID.boatId = boatMap[boatSelected];
-
-                        triptemplate.boatId = boatMap[boatSelected];
-
-                        // triptemplate.hotelAndBoatId=hotelandboatID;
-                        //   triptemplate.divingBoatId=boatMap[boatSelected];
+                        // print(triptypee);
+                        // print('--');
+                        selectedTriptype = trip_type;
+                        selectedsleep = null;
+                        TripType.values.forEach((tripType) {
+                          if (tripTypeMap[tripType.toString()] ==
+                              int.parse(selectedTriptype)) {
+                            triptemplate.tripType = tripType;
+                          }
+                        });
                       });
                     }
-                    // },
+                    // print('*');
+                    // print(trip_type);
+                    // print('*');
+                    // if (trip_type ==0 ) {
+                    //   triptypee = liveaboard;
+                    // } else if (trip_type == 1) {
+                    //   triptypee = hotel;
+                    // }
+                    // else {
+                    //   triptypee = [];
+                    // }
+                  },
+                ),
+                SizedBox(height: 20),
+                DropdownButtonFormField<String>(
+                  value: selectedsleep,
+                  hint: Text('Resident'),
+                  isExpanded: true,
+                  items: triptypee.map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  validator: (value) {
+                    if (value == null) {
+                      addError(error: "Please select name");
+                      return "";
+                    }
+                    return null;
+                  },
+                  onChanged: (sleep) {
+                    if (sleep != null) {
+                      removeError(error: "Please select name");
+                      setState(() {
+                        selectedsleep = sleep;
+                        if (triptypee == liveaboard) {
+                          // print('liveabaord');
+                          // print(liveaboardTypeMap[selectedsleep]);
+                          triptemplate.liveaboardId =
+                              liveaboardTypeMap[selectedsleep];
+                          // print('keep');
+                          // print( triptemplate.liveaboardId);
+                          _showTextField = true;
+                        } else if (triptypee == hotel) {
+                          // print('hotel');
+                          // print(hotelTypeMap[selectedsleep]);
+
+                          triptemplate.hotelId = hotelTypeMap[selectedsleep];
+                          _showTextField = true;
+
+                          // hotelandboatID.hotelId = hotelTypeMap[selectedsleep];
+                          //  triptemplate.hotelAndBoatId=hotelandboatID;
+                          //   triptemplate.hotelAndBoatId.hotelId= hotelTypeMap[selectedsleep];
+                        }
+                        // showRoom(context);
+                        // getRoomType();
+                      });
+                    }
+                  },
+                ),
+                Visibility(
+                  visible: _showTextField,
+                  child: FutureBuilder(
+                    future: getRoomType(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                            width: 1110,
+                            child: Wrap(
+                                spacing: 20,
+                                runSpacing: 40,
+                                children: List.generate(
+                                    allRoom.length,
+                                    (index) => Column(
+                                          children: [
+                                            // Text(allRoom.length.toString()),
+                                            SizedBox(height: 20),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  width: 200,
+                                                  height: 200,
+                                                  child: Image.network(
+                                                      allRoom[index]
+                                                          .roomImages[0]
+                                                          .link
+                                                          .toString()),
+                                                ),
+                                                SizedBox(width: 20),
+                                                Text('Price : '),
+                                                SizedBox(width: 20),
+                                                Container(
+                                                    width: 70,
+                                                    child:
+                                                        buildPriceFormField()),
+                                              ],
+                                            )
+                                            // SizedBox(height: 20),
+                                          ],
+                                        ))));
+                      } else {
+                        return Center(child: Text('No data'));
+                      }
+                    },
+                  ),
+                ),
+
+                SizedBox(height: 20),
+
+                Visibility(
+                  visible: _showBoatField,
+                  child: Container(
+                    //color: Colors.white,
+                    child: Center(
+                      child: DropdownButtonFormField(
+                          isExpanded: true,
+                          value: boatSelected,
+                          items: listBoat,
+                          //     boat.map((String value) {
+                          //   return DropdownMenuItem<String>(
+                          //     value: value,
+                          //     child: Text(value),
+                          //   );
+                          // }).toList(),
+
+                          hint: Text('  Select boat (ONSHORE)'),
+                          iconSize: 40,
+                          // validator: (value) {
+                          //   if (value == null) {
+                          //     addError(error: "Please select boat");
+                          //     return "";
+                          //   }
+                          //   return null;
+                          // },
+                          onChanged: (value) {
+                            // if (value != null) {
+                            //   removeError(error: "Please select boat");
+                            setState(() {
+                              boatSelected = value;
+                              print(value);
+                              //  hotelandboatID.boatId = boatMap[boatSelected];
+
+                              triptemplate.boatId = boatMap[boatSelected];
+
+                              // triptemplate.hotelAndBoatId=hotelandboatID;
+                              //   triptemplate.divingBoatId=boatMap[boatSelected];
+                            });
+                          }
+                          // },
+                          ),
                     ),
-              ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  //Pic1
+                  children: [
+                    Center(
+                        child: Pictrip == null
+                            ? Text('Trip image')
+                            : kIsWeb
+                                ? Image.network(
+                                    Pictrip.path,
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.2,
+                                  )
+                                : Image.file(
+                                    io.File(Pictrip.path),
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.05,
+                                  )),
+                    Spacer(),
+                    FlatButton(
+                      color: Color(0xfffa2c8ff),
+                      child: Text(
+                        'Upload',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        _getPictrip(1);
+                      },
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Center(
+                        child: Pictrip2 == null
+                            ? Text('Trip image')
+                            : kIsWeb
+                                ? Image.network(
+                                    Pictrip2.path,
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.2,
+                                  )
+                                : Image.file(
+                                    io.File(Pictrip2.path),
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.05,
+                                  )),
+                    Spacer(),
+                    FlatButton(
+                      color: Color(0xfffa2c8ff),
+                      child: Text(
+                        'Upload',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        _getPictrip(2);
+                      },
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Center(
+                        child: Pictrip3 == null
+                            ? Text('Trip image')
+                            : kIsWeb
+                                ? Image.network(
+                                    Pictrip3.path,
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.2,
+                                  )
+                                : Image.file(
+                                    io.File(Pictrip3.path),
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.05,
+                                  )),
+                    Spacer(),
+                    FlatButton(
+                      color: Color(0xfffa2c8ff),
+                      child: Text(
+                        'Upload',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        _getPictrip(3);
+                      },
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Center(
+                        child: Pictrip4 == null
+                            ? Text('Trip image')
+                            : kIsWeb
+                                ? Image.network(
+                                    Pictrip4.path,
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.2,
+                                  )
+                                : Image.file(
+                                    io.File(Pictrip4.path),
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.05,
+                                  )),
+                    Spacer(),
+                    FlatButton(
+                      color: Color(0xfffa2c8ff),
+                      child: Text(
+                        'Upload',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        _getPictrip(4);
+                      },
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Center(
+                        child: Pictrip5 == null
+                            ? Text('Trip image')
+                            : kIsWeb
+                                ? Image.network(
+                                    Pictrip5.path,
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.2,
+                                  )
+                                : Image.file(
+                                    io.File(Pictrip5.path),
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.05,
+                                  )),
+                    Spacer(),
+                    FlatButton(
+                      color: Color(0xfffa2c8ff),
+                      child: Text(
+                        'Upload',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        _getPictrip(5);
+                      },
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Center(
+                        child: Boatpic == null
+                            ? Text('Boat image')
+                            : kIsWeb
+                                ? Image.network(
+                                    Boatpic.path,
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.2,
+                                  )
+                                : Image.file(
+                                    io.File(Boatpic.path),
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.05,
+                                  )),
+                    Spacer(),
+                    FlatButton(
+                      color: Color(0xfffa2c8ff),
+                      child: Text(
+                        'Upload',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        _getBoatpic();
+                      },
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Center(
+                        child: Schedule == null
+                            ? Text('Schedule')
+                            : kIsWeb
+                                ? Image.network(
+                                    Schedule.path,
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.2,
+                                  )
+                                : Image.file(
+                                    io.File(Schedule.path),
+                                    fit: BoxFit.cover,
+                                    width: screenwidth * 0.05,
+                                  )),
+                    Spacer(),
+                    FlatButton(
+                      color: Color(0xfffa2c8ff),
+                      child: Text(
+                        'Upload',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      onPressed: () {
+                        _getSchedule();
+                      },
+                    ),
+                  ],
+                ),
+
+                // FormError(errors: errors),
+
+                SizedBox(height: 20),
+
+                //Container(
+                // child:
+
+                //buildGridView(),
+
+                // )
+
+                //  FlatButton(onPressed: getData, child: Text('check')),
+              ]),
             ),
           ),
-          SizedBox(height: 20),
-          Row(
-            //Pic1
-            children: [
-              Center(
-                  child: Pictrip == null
-                      ? Text('Trip image')
-                      : kIsWeb
-                          ? Image.network(
-                              Pictrip.path,
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
-                            )
-                          : Image.file(
-                              io.File(Pictrip.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getPictrip(1);
-                },
-              ),
-            ],
-          ),
-
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Center(
-                  child: Pictrip2 == null
-                      ? Text('Trip image')
-                      : kIsWeb
-                          ? Image.network(
-                              Pictrip2.path,
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
-                            )
-                          : Image.file(
-                              io.File(Pictrip2.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getPictrip(2);
-                },
-              ),
-            ],
-          ),
-
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Center(
-                  child: Pictrip3 == null
-                      ? Text('Trip image')
-                      : kIsWeb
-                          ? Image.network(
-                              Pictrip3.path,
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
-                            )
-                          : Image.file(
-                              io.File(Pictrip3.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getPictrip(3);
-                },
-              ),
-            ],
-          ),
-
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Center(
-                  child: Pictrip4 == null
-                      ? Text('Trip image')
-                      : kIsWeb
-                          ? Image.network(
-                              Pictrip4.path,
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
-                            )
-                          : Image.file(
-                              io.File(Pictrip4.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getPictrip(4);
-                },
-              ),
-            ],
-          ),
-
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Center(
-                  child: Pictrip5 == null
-                      ? Text('Trip image')
-                      : kIsWeb
-                          ? Image.network(
-                              Pictrip5.path,
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
-                            )
-                          : Image.file(
-                              io.File(Pictrip5.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getPictrip(5);
-                },
-              ),
-            ],
-          ),
-
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Center(
-                  child: Boatpic == null
-                      ? Text('Boat image')
-                      : kIsWeb
-                          ? Image.network(
-                              Boatpic.path,
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
-                            )
-                          : Image.file(
-                              io.File(Boatpic.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getBoatpic();
-                },
-              ),
-            ],
-          ),
-
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Center(
-                  child: Schedule == null
-                      ? Text('Schedule')
-                      : kIsWeb
-                          ? Image.network(
-                              Schedule.path,
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
-                            )
-                          : Image.file(
-                              io.File(Schedule.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
-              Spacer(),
-              FlatButton(
-                color: Color(0xfffa2c8ff),
-                child: Text(
-                  'Upload',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () {
-                  _getSchedule();
-                },
-              ),
-            ],
-          ),
-
-          // FormError(errors: errors),
-
-          SizedBox(height: 20),
-
-          //Container(
-          // child:
-
-          //buildGridView(),
-
-          // )
-
-          //  FlatButton(onPressed: getData, child: Text('check')),
-        ]),
-      ),
+        ),
+      ],
     );
   }
 

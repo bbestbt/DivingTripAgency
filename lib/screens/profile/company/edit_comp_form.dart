@@ -193,8 +193,8 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     user_profile.agency.address.addressLine2 = _controllerAddress2.text;
     user_profile.agency.address.city = _controllerCity.text;
     user_profile.agency.address.postcode = _controllerPostalcode.text;
-    user_profile.agency.address.region = _controllerRegion.text;
-    user_profile.agency.address.country = _controllerCountry.text;
+    // user_profile.agency.address.region = _controllerRegion.text;
+    // user_profile.agency.address.country = _controllerCountry.text;
 
     user_profile.agency.name = _controllerName.text;
     user_profile.agency.phone = _controllerPhone.text;

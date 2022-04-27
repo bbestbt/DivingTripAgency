@@ -1165,7 +1165,9 @@ class _InfoCardState extends State<InfoCard> {
                         indexRoom, //7
                         indexDetail, //8
                         int.parse(_textEditingQuantity.text), //9
-                        int.parse(_textEditingDiver.text) //10
+                        int.parse(_textEditingDiver.text), //10
+                        roomtypes[indexRoom].id.toInt(), //11
+                        details[indexDetail].id.toInt(),//12
                       ]);
 
                       // Do something like updating SharedPreferences or User Settings etc.
