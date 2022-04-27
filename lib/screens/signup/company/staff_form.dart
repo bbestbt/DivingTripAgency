@@ -24,7 +24,7 @@ class _StaffFormState extends State<StaffForm> {
   String position;
   int count;
   List<Staff> staffValue;
-  String levelSelected = null;
+  String genderSelected = null;
   Map<String, int> genderTypeMap = {};
   List<DropdownMenuItem<String>> listGender = [];
   List<GenderType> gender = [GenderType.MALE, GenderType.FEMALE];
@@ -94,7 +94,7 @@ class _StaffFormState extends State<StaffForm> {
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
-                value: levelSelected,
+                value: genderSelected,
                 items: listGender,
                 hint: Text('  Select gender'),
                 iconSize: 40,
@@ -109,10 +109,10 @@ class _StaffFormState extends State<StaffForm> {
                   if (value != null) {
                     removeError(error: "Please select gender");
                     setState(() {
-                      levelSelected = value;
+                      genderSelected = value;
                       GenderType.values.forEach((genderType) {
                         if (genderTypeMap[genderType.toString()] ==
-                            int.parse(levelSelected)) {
+                            int.parse(genderSelected)) {
                           staffValue[count - 1].gender = genderType;
                         }
                       });

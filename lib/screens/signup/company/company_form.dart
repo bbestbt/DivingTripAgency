@@ -60,6 +60,27 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   PickedFile Img;
   PickedFile doc;
 
+  List<String> countryName = [
+    'Thailand',
+    'Korea',
+    'Japan',
+    'England',
+    'Hongkong'
+  ];
+  String countrySelected;
+  List<DropdownMenuItem<String>> listCountry = [];
+
+  List<String> regionName = [
+    'Asia',
+    'Americas',
+    'Africa',
+    'Western Europe',
+    'Central and Eastern Europe',
+    'Mediterranean and Middle East'
+  ];
+  String regionSelected;
+  List<DropdownMenuItem<String>> listRegion = [];
+
   //final ImagePicker _picker = ImagePicker();
   // Pick an image
   //PickedFile image = await _picker.getImage(source: ImageSource.gallery);
@@ -129,8 +150,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     address.addressLine2 = _controllerAddress2.text;
     address.city = _controllerCity.text;
     address.postcode = _controllerPostalcode.text;
-    address.region = _controllerRegion.text;
-    address.country = _controllerCountry.text;
+    address.region = regionSelected;
+    address.country = countrySelected;
     var agency = Agency();
     agency.name = _controllerName.text;
     agency.phone = _controllerPhone.text;
@@ -181,8 +202,21 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     }
   }
 
+  void listDetail() {
+    listCountry = [];
+    listCountry = countryName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+
+    listRegion = [];
+    listRegion = regionName
+        .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    listDetail();
     double screenwidth = MediaQuery.of(context).size.width;
     return Form(
       key: _formKey,
@@ -207,8 +241,37 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildCountryFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: countrySelected,
+                    items: listCountry,
+                    hint: Text('  Select country'),
+                    iconSize: 40,
+                    validator: (value) {
+                      if (value == null) {
+                        addError(error: "Please select country");
+                        return "";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      if (value != null) {
+                        removeError(error: "Please select country");
+                        setState(() {
+                          countrySelected = value;
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 3.6,
+              //     child: buildCountryFormField()),
               Spacer(),
               // Spacer(flex: 1,),
               Container(
@@ -221,8 +284,34 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           Row(
             children: [
               Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildRegionFormField()),
+                width: MediaQuery.of(context).size.width / 3.6,
+                color: Colors.white,
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: regionSelected,
+                    items: listRegion,
+                    hint: Text('  Select region'),
+                    iconSize: 40,
+                    validator: (value) {
+                      if (value == null) {
+                        addError(error: "Please select region");
+                        return "";
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      if (value != null) {
+                        removeError(error: "Please select region");
+                        setState(() {
+                          regionSelected = value;
+                          print(value);
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
               Spacer(),
               Container(
                   width: MediaQuery.of(context).size.width / 3.6,
@@ -323,17 +412,18 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
             onPressed: () => {
               if (_formKey.currentState.validate())
                 {
-                    if (docFile==null||imageFile==null){
-                       addError(error: "Please upload image"),
+                  if (docFile == null || imageFile == null)
+                    {
+                      addError(error: "Please upload image"),
                     }
-
-                 else{
-                    sendCompany(),
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MainCompanyScreen())),
-                 }
+                  else
+                    {
+                      sendCompany(),
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MainCompanyScreen())),
+                    }
                 }
             },
             color: Color(0xfff75BDFF),

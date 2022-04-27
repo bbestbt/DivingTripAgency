@@ -560,12 +560,12 @@ class _TripDetailState extends State<TripDetail> {
       }
       if (_dateFrom != null) {
         results = results
-            .where((trip) => trip.fromDate.toDateTime().isAfter(_dateFrom))
+            .where((trip) => trip.startDate.toDateTime().isAfter(_dateFrom))
             .toList();
       }
       if (_dateTo != null) {
         results = results
-            .where((trip) => trip.toDate
+            .where((trip) => trip.endDate
                 .toDateTime()
                 .subtract(Duration(days: 1))
                 .isBefore(_dateTo))
@@ -602,9 +602,9 @@ class _TripDetailState extends State<TripDetail> {
         print(_diff);
         results = results
             .where((trip) =>
-                (trip.fromDate
+                (trip.startDate
                         .toDateTime()
-                        .difference(trip.toDate.toDateTime())
+                        .difference(trip.endDate.toDateTime())
                         .inDays)
                     .abs() ==
                 int.parse(_diff))
@@ -719,13 +719,13 @@ class _InfoCardState extends State<InfoCard> {
                       ),
                       Text('Start date : ' +
                           DateFormat("dd/MM/yyyy").format(
-                              _foundtrip[widget.index].fromDate.toDateTime())),
+                              _foundtrip[widget.index].startDate.toDateTime())),
                       SizedBox(
                         height: 10,
                       ),
                       Text('End date : ' +
                           DateFormat("dd/MM/yyyy").format(
-                              _foundtrip[widget.index].toDate.toDateTime())),
+                              _foundtrip[widget.index].endDate.toDateTime())),
                       SizedBox(
                         height: 10,
                       ),

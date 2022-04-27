@@ -36,6 +36,7 @@ int indexRoom;
 int indexDetail;
 int quantity;
 int diver;
+int totalprice=0;
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 final CartBox = Hive.box('CartBox');
@@ -54,12 +55,10 @@ class _CartState extends State<CartWidget> {
     print(CartBox.toMap());
     clength = Cartlist.length;
     for (int i = 0; i < Cartlist.length; i++) {
+      totalprice += Cartlist[i][4];
       String roomimage = Cartlist[i][0];
-      //print(cartwid);
       String tripname = Cartlist[i][1];
-      //roomtypes = Cartlist[i][6];
       roomtypestr = Cartlist[i][6];
-
 
       detailJSON = Cartlist[i][5];
       //detailJSON = jsonEncode((Cartlist[i][5]
@@ -77,9 +76,18 @@ class _CartState extends State<CartWidget> {
       print("hotel name");
       print("------------");
       print(Cartlist[i][2]);
+      print("RoomtypeStr");
+      print("--------------");
+      print(roomtypestr);
       //print("Details Trip");
       //print("----------");
       //print(details);
+      print("RoomtypeID");
+      print("---------------------");
+      print(Cartlist[i][11]);
+      print("TripID");
+      print("---------");
+      print(Cartlist[i][12]);
 
 
 
@@ -92,12 +100,12 @@ class _CartState extends State<CartWidget> {
   }
 
   void populateCartlist(){
-    print("------");
+   /* print("------");
     print("clength: "+clength.toString());
 
     print("Cartbox at populateCartlist");
     print("-------");
-    print(CartBox.toMap());
+    print(CartBox.toMap());*/
     int i;
     bool checked=false;
     for(i=0;i<CartBox.get('clength');i++) {
@@ -105,11 +113,11 @@ class _CartState extends State<CartWidget> {
         //var roomname = jsonDecode(CartBox.get('roomtype'));
         var tripname = jsonDecode(CartBox.get('tripdetail'+i.toString()));
 
-        print("Roomtype");
-        print(CartBox.get('roomtype'+i.toString()));
+        //print("Roomtype");
+        //print(CartBox.get('roomtype'+i.toString()));
         //print(tripname[i]['tripTemplate']['name']);
         // print("KohTaoPrice");
-        print("-------");
+       // print("-------");
         // print(tripname[i]['price']);
 
         Cartlist.add([
@@ -123,9 +131,11 @@ class _CartState extends State<CartWidget> {
           "TripName", //5
           "roomname", //6
           0, //7
-          1, //8
+          CartBox.get("indexDetail"), //8
           CartBox.get("quantity"+i.toString()), //9
           CartBox.get("diver"+i.toString()), //10
+          CartBox.get("roomid"+i.toString()), //11
+          CartBox.get("tripid"+i.toString()), //12
           //CartBox.get('roomtype'),
         ]);
 
@@ -138,6 +148,7 @@ class _CartState extends State<CartWidget> {
 
   }
   void persCarthive(int cartind) async{ //Test Hive
+
     CartBox.put('image'+cartind.toString(),Cartlist[cartind][0]);
     CartBox.put('tripname'+cartind.toString(), Cartlist[cartind][1]);
     CartBox.put('clength', clength);
@@ -152,14 +163,16 @@ class _CartState extends State<CartWidget> {
     CartBox.put('quantity'+cartind.toString(),Cartlist[cartind][9]);
     CartBox.put('diver'+cartind.toString(), Cartlist[cartind][10]);
 
+    CartBox.put('roomid'+cartind.toString(),Cartlist[cartind][11]);
+    CartBox.put('tripid'+cartind.toString(), Cartlist[cartind][12]);
 
     //var jsondetails = jsonEncode((Cartlist[cartind][5]
     //as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
     //print("-------------------");
     //print(CartBox.get('tripdetail'));
-    print("Current Cartbox");
-    print("-------------------");
-    print(CartBox.toMap());
+    //print("Current Cartbox");
+    //print("-------------------");
+   // print(CartBox.toMap());
 
   }
 
@@ -200,18 +213,20 @@ class _CartState extends State<CartWidget> {
     var reservation;
 
     var room = Reservation_Room();
-    for (int i = 0; i < roomtypes.length; i++) {
-      room.quantity = quantity;
-      room.roomTypeId = roomtypes[indexRoom].id;
-      room.noDivers = diver;
+    for (int i = 0; i < CartBox.get('clength'); i++) {
+      room.quantity = CartBox.get('quantity'+i.toString());
+      room.roomTypeId = CartBox.get('roomid'+i.toString());
+      room.noDivers = CartBox.get('diver'+i.toString());
     }
 
     reservation = Reservation()..rooms.add(room);
-    reservation.tripId = details[indexDetail].id;
-    reservation.diverId = user_profile.diver.id;
-    reservation.price =
-        (roomtypes[indexRoom].price * quantity) + details[indexDetail].price;
-    reservation.totalDivers = Int64(quantity);
+    //reservation.tripId = details[indexDetail].id;
+    reservation.tripId = Int64(1);//Int64(CartBox.get('diver'+CartBox.get('indexDetail')));
+    //reservation.diverId = user_profile.diver.id;
+    /*reservation.price =
+        (roomtypes[indexRoom].price * quantity) + details[indexDetail].price;*/
+    reservation.price =  Int64(1);//Int64(CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt());
+    reservation.totalDivers =  Int64(1);//Int64(quantity);
 
     var bookRequest = CreateReservationRequest()..reservation = reservation;
     try {
@@ -238,6 +253,7 @@ class _CartState extends State<CartWidget> {
             title: "Trips in cart",
             color: Color(0xFFFF78a2cc),
           ),
+          Text("Total Cost: "+)
           TextButton(
             child: Text(
               "Check JSON",

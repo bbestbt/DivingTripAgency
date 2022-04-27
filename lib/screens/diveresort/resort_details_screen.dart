@@ -725,7 +725,132 @@ class _detailState extends State<detail> {
           ),
         ),
 
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images[0] == null
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[0]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images[1] == null
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[1]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images[2] == null
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[2]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images[3] == null
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[3]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images[4] == null
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[4]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images[5] == null
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[5]
+        //                 .link
+        //                 .toString())),
+        // SizedBox(
+        //   width: 10,
+        // ),
+        // Container(
+        //     width: MediaQuery.of(context).size.width / 4,
+        //     height: MediaQuery.of(context).size.width / 4,
+        //     child: details[widget.index].tripTemplate.images[6] == null
+        //         ? new Container(
+        //             color: Colors.pink,
+        //           )
+        //         : Image.network(
+        //             // 'http://139.59.101.136/static/'+
+        //             details[widget.index]
+        //                 .tripTemplate
+        //                 .images[6]
+        //                 .link
+        //                 .toString())),
 
+        //  RaisedButton(
+        //           onPressed: () {
+        //            getHotelDetail();
+        //           },
+        //           color: Colors.amber,
+        //           shape: RoundedRectangleBorder(
+        //               borderRadius: BorderRadius.circular(10)),
+        //           child: Text("get hotel"),
+        //         ),
         Text(
           "Room types",
           style: TextStyle(fontSize: 20),
@@ -962,7 +1087,8 @@ class _InfoCardState extends State<InfoCard> {
                   child: Text('Add room to cart'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      Cartlist.add([/*
+                      Cartlist.add([
+                        /*
                         details[indexDetail].tripTemplate.images.length == 0
                             ? new Container(
                                 color: Colors.pink,
@@ -972,31 +1098,36 @@ class _InfoCardState extends State<InfoCard> {
                                 .images[0]
                                 .link
                                 .toString()),//0*/
+
                         details[indexDetail].tripTemplate.images.length == 0
-                            ?
-                            "":
-                        details[indexDetail]
-                            .tripTemplate
-                            .images[0]
-                            .link
-                            .toString(),//0
-                        details[indexDetail].tripTemplate.name,//1
-                        hotelDetial.hotel.name,//2
-                        roomtypes[indexRoom].name,//3
+                            ? ""
+                            : details[indexDetail]
+                                .tripTemplate
+                                .images[0]
+                                .link
+                                .toString(), //0
+                        details[indexDetail].tripTemplate.name, //1
+                        hotelDetial.hotel.name, //2
+                        roomtypes[indexRoom].name, //3
                         (roomtypes[indexRoom].price *
                                 int.parse(_textEditingQuantity.text)) +
-                            details[indexDetail].price,//4
+                            details[indexDetail].price, //4
                         //details,
-                        jsonEncode((details
-                        as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList()),//5
+                       /* jsonEncode((details as List<TripWithTemplate>)
+                            .map((e) => e.toProto3Json())
+                            .toList())*/ "", //5
                         //roomtypes,
-                        jsonEncode((roomtypes
-                        as List<RoomType>).map((e) => e.toProto3Json()).toList()),//6
+                        /*jsonEncode((roomtypes as List<RoomType>)
+                            .map((e) => e.toProto3Json())
+                            .toList())*/"", //6
 
-                        indexRoom,//7
-                        indexDetail,//8
-                        int.parse(_textEditingQuantity.text),//9
-                        int.parse(_textEditingDiver.text)//10
+                        indexRoom, //7
+                        indexDetail, //8
+                        int.parse(_textEditingQuantity.text), //9
+                        int.parse(_textEditingDiver.text), //10
+                        roomtypes[indexRoom].id.toInt(), //11
+                        details[indexDetail].id.toInt(),//12
+
                       ]);
                       // print("Cartlist: ");
                       //print(Cartlist);

@@ -17,18 +17,22 @@ import 'package:multi_image_picker2/multi_image_picker2.dart';
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
+   RoomTypeTripPrice roomPrice;
+  int count;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   List<String> errors = [];
-  Triptemplate(TripTemplate triptemplate, List<String> errors) {
+  Triptemplate(TripTemplate triptemplate, List<String> errors,  RoomTypeTripPrice roomPrice,int count) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
     this.errors = errors;
+    this.roomPrice=roomPrice;
+    this.count=count;
   }
   @override
   _TriptemplateState createState() =>
-      _TriptemplateState(this.triptemplate, this.errors);
+      _TriptemplateState(this.triptemplate, this.errors,this.roomPrice,this.count);
 }
 
 class _TriptemplateState extends State<Triptemplate> {
@@ -44,7 +48,9 @@ class _TriptemplateState extends State<Triptemplate> {
   io.File Pictrip8;
   io.File Boatpic;
   io.File Schedule;
-
+  String price;
+ RoomTypeTripPrice roomPrice;
+int count;
   XFile pt;
   XFile bt;
   XFile sc;
@@ -145,11 +151,13 @@ class _TriptemplateState extends State<Triptemplate> {
   TripTemplate triptemplate;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
-  _TriptemplateState(TripTemplate triptemplate, List<String> errors) {
+  _TriptemplateState(TripTemplate triptemplate, List<String> errors,  RoomTypeTripPrice roomPrice,int count) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
     this.errors = errors;
+    this.roomPrice=roomPrice;
+    this.count=count;
   }
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
@@ -160,6 +168,8 @@ class _TriptemplateState extends State<Triptemplate> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
+  final TextEditingController _controllerPrice = TextEditingController();
+  List<RoomType> allRoom = [];
 
   /// Get from gallery
   _getPictrip(int num) async {
@@ -178,6 +188,7 @@ class _TriptemplateState extends State<Triptemplate> {
     this.triptemplate.images.add(f);
     print("TripImages");
     print(this.triptemplate.images);
+
     if (pt != null) {
       setState(() {
         // imagelist.add(io.File(pt.path));
@@ -318,6 +329,44 @@ class _TriptemplateState extends State<Triptemplate> {
       print('ERROR: $e');
     }
   }
+
+  getRoomType() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listroomrequest = ListRoomTypesRequest();
+
+    // print(selectedTriptype);
+    // print(triptemplate.tripType);
+    if (selectedTriptype == '0') {
+      listroomrequest.hotelId = hotelTypeMap[selectedsleep];
+    } else {
+      listroomrequest.liveaboardId = liveaboardTypeMap[selectedsleep];
+    }
+
+    allRoom.clear();
+    try {
+      await for (var feature in stub.listRoomTypes(listroomrequest)) {
+        allRoom.add(feature.roomType);
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+    print('--');
+    // print(allRoom);
+    return allRoom;
+  }
+
+  bool _showTextField = false;
+  bool _showBoatField = false;
 
   @override
   Widget build(BuildContext context) {
@@ -503,6 +552,7 @@ class _TriptemplateState extends State<Triptemplate> {
                 removeError(error: "Please select trip type");
                 if (trip_type == '0') {
                   triptypee = hotel;
+                  _showBoatField = true;
                 } else if (trip_type == '1') {
                   triptypee = liveaboard;
                 } else {
@@ -540,7 +590,7 @@ class _TriptemplateState extends State<Triptemplate> {
           SizedBox(height: 20),
           DropdownButtonFormField<String>(
             value: selectedsleep,
-            // hint: Text('Sleep'),
+            hint: Text('Resident'),
             isExpanded: true,
             items: triptypee.map((String value) {
               return DropdownMenuItem<String>(
@@ -567,60 +617,113 @@ class _TriptemplateState extends State<Triptemplate> {
                         liveaboardTypeMap[selectedsleep];
                     // print('keep');
                     // print( triptemplate.liveaboardId);
+                    _showTextField = true;
                   } else if (triptypee == hotel) {
                     // print('hotel');
                     // print(hotelTypeMap[selectedsleep]);
 
                     triptemplate.hotelId = hotelTypeMap[selectedsleep];
+                    _showTextField = true;
 
                     // hotelandboatID.hotelId = hotelTypeMap[selectedsleep];
                     //  triptemplate.hotelAndBoatId=hotelandboatID;
                     //   triptemplate.hotelAndBoatId.hotelId= hotelTypeMap[selectedsleep];
                   }
+                  // showRoom(context);
+                  // getRoomType();
                 });
               }
             },
           ),
+          Visibility(
+            visible: _showTextField,
+            child: FutureBuilder(
+              future: getRoomType(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return SizedBox(
+                      width: 1110,
+                      child: Wrap(
+                          spacing: 20,
+                          runSpacing: 40,
+                          children: List.generate(
+                              allRoom.length,
+                              (index) => Column(
+                                    children: [
+                                      // Text(allRoom.length.toString()),
+                                      SizedBox(height: 20),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: 200,
+                                            height: 200,
+                                            child: Image.network(allRoom[index]
+                                                .roomImages[0]
+                                                .link
+                                                .toString()),
+                                          ),
+                                          SizedBox(width: 20),
+                                          Text('Price : '),
+                                          SizedBox(width: 20),
+                                          Container(
+                                              width: 70,
+                                              child: buildPriceFormField()),
+                                        ],
+                                      )
+                                      // SizedBox(height: 20),
+                                    ],
+                                  ))));
+                } else {
+                  return Center(child: Text('No data'));
+                }
+              },
+            ),
+          ),
+
           SizedBox(height: 20),
-          Container(
-            //color: Colors.white,
-            child: Center(
-              child: DropdownButtonFormField(
-                  isExpanded: true,
-                  value: boatSelected,
-                  items: listBoat,
-                  //     boat.map((String value) {
-                  //   return DropdownMenuItem<String>(
-                  //     value: value,
-                  //     child: Text(value),
-                  //   );
-                  // }).toList(),
 
-                  hint: Text('  Select boat (ONSHORE)'),
-                  iconSize: 40,
-                  // validator: (value) {
-                  //   if (value == null) {
-                  //     addError(error: "Please select boat");
-                  //     return "";
-                  //   }
-                  //   return null;
-                  // },
-                  onChanged: (value) {
-                    // if (value != null) {
-                    //   removeError(error: "Please select boat");
-                    setState(() {
-                      boatSelected = value;
-                      print(value);
-                      //  hotelandboatID.boatId = boatMap[boatSelected];
+          Visibility(
+            visible: _showBoatField,
+            child: Container(
+              //color: Colors.white,
+              child: Center(
+                child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: boatSelected,
+                    items: listBoat,
+                    //     boat.map((String value) {
+                    //   return DropdownMenuItem<String>(
+                    //     value: value,
+                    //     child: Text(value),
+                    //   );
+                    // }).toList(),
 
-                      triptemplate.boatId = boatMap[boatSelected];
+                    hint: Text('  Select boat (ONSHORE)'),
+                    iconSize: 40,
+                    // validator: (value) {
+                    //   if (value == null) {
+                    //     addError(error: "Please select boat");
+                    //     return "";
+                    //   }
+                    //   return null;
+                    // },
+                    onChanged: (value) {
+                      // if (value != null) {
+                      //   removeError(error: "Please select boat");
+                      setState(() {
+                        boatSelected = value;
+                        print(value);
+                        //  hotelandboatID.boatId = boatMap[boatSelected];
 
-                      // triptemplate.hotelAndBoatId=hotelandboatID;
-                      //   triptemplate.divingBoatId=boatMap[boatSelected];
-                    });
-                  }
-                  // },
-                  ),
+                        triptemplate.boatId = boatMap[boatSelected];
+
+                        // triptemplate.hotelAndBoatId=hotelandboatID;
+                        //   triptemplate.divingBoatId=boatMap[boatSelected];
+                      });
+                    }
+                    // },
+                    ),
+              ),
             ),
           ),
           SizedBox(height: 20),
@@ -778,8 +881,6 @@ class _TriptemplateState extends State<Triptemplate> {
               ),
             ],
           ),
-
-          SizedBox(height: 20),
 
           SizedBox(height: 20),
           Row(
@@ -1127,6 +1228,39 @@ class _TriptemplateState extends State<Triptemplate> {
       decoration: InputDecoration(
         //   hintText: "Postal code",
         labelText: "Postal code",
+        filled: true,
+        fillColor: Color(0xfffd4f0f0),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildPriceFormField() {
+    return TextFormField(
+      controller: _controllerPrice,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => price = newValue,
+      onChanged: (value) {
+        // roomPrice.price=double.parse(value);
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter price");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter price");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Postal code",
+        // labelText: "Price",
         filled: true,
         fillColor: Color(0xfffd4f0f0),
         floatingLabelBehavior: FloatingLabelBehavior.always,

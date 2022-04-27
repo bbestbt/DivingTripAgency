@@ -1115,7 +1115,8 @@ class _InfoCardState extends State<InfoCard> {
                   child: Text('Add room to cart'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
-                      Cartlist.add([/*
+                      Cartlist.add([
+                        /*
                         details[indexDetail].tripTemplate.images.length == 0
                             ? new Container(
                                 color: Colors.pink,
@@ -1140,30 +1141,33 @@ class _InfoCardState extends State<InfoCard> {
                         int.parse(_textEditingQuantity.text),
                         int.parse(_textEditingDiver.text)*/
                         details[indexDetail].tripTemplate.images.length == 0
-                            ?
-                        "":
-                        details[indexDetail]
-                            .tripTemplate
-                            .images[0]
-                            .link
-                            .toString(),//0
-                        details[indexDetail].tripTemplate.name,//1
-                        liveaboardDetial.liveaboard.name,//2
-                        roomtypes[indexRoom].name,//3
+                            ? ""
+                            : details[indexDetail]
+                                .tripTemplate
+                                .images[0]
+                                .link
+                                .toString(), //0
+                        details[indexDetail].tripTemplate.name, //1
+                        liveaboardDetial.liveaboard.name, //2
+                        roomtypes[indexRoom].name, //3
                         (roomtypes[indexRoom].price *
-                            int.parse(_textEditingQuantity.text)) +
-                            details[indexDetail].price,//4
+                                int.parse(_textEditingQuantity.text)) +
+                            details[indexDetail].price, //4
                         //details,
-                        jsonEncode((details
-                        as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList()),//5
+                        jsonEncode((details as List<TripWithTemplate>)
+                            .map((e) => e.toProto3Json())
+                            .toList()), //5
                         //roomtypes,
-                        jsonEncode((roomtypes
-                        as List<RoomType>).map((e) => e.toProto3Json()).toList()),//6
+                        jsonEncode((roomtypes as List<RoomType>)
+                            .map((e) => e.toProto3Json())
+                            .toList()), //6
 
-                        indexRoom,//7
-                        indexDetail,//8
-                        int.parse(_textEditingQuantity.text),//9
-                        int.parse(_textEditingDiver.text)//10
+                        indexRoom, //7
+                        indexDetail, //8
+                        int.parse(_textEditingQuantity.text), //9
+                        int.parse(_textEditingDiver.text), //10
+                        roomtypes[indexRoom].id.toInt(), //11
+                        details[indexDetail].id.toInt(),//12
                       ]);
 
                       // Do something like updating SharedPreferences or User Settings etc.
