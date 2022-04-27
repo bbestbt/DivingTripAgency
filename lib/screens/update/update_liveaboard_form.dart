@@ -278,6 +278,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
     }
 
     var liveaboard = Liveaboard()..address = address;
+    liveaboard.id=eachLiveaboard.id;
     liveaboard.name = eachLiveaboard.name;
     liveaboard.description = eachLiveaboard.description;
     liveaboard.diverRooms = eachLiveaboard.diverRooms;

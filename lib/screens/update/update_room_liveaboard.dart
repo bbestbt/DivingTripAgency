@@ -21,6 +21,8 @@ import 'package:flutter/services.dart';
 import 'dart:io' as io;
 import 'package:fixnum/fixnum.dart';
 
+import 'update_amenity_liveaboard.dart';
+
 class RoomFormLiveaboardUpdate extends StatefulWidget {
   List<RoomType> allRoom = [];
   Liveaboard eachLiveaboard;
@@ -53,7 +55,7 @@ class _RoomFormLiveaboardUpdateState extends State<RoomFormLiveaboardUpdate> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var listroomrequest = ListRoomTypesRequest();
-    listroomrequest.liveaboardId = Int64(5);
+    listroomrequest.liveaboardId = eachLiveaboard.id;
 
     allRoom.clear();
     try {
@@ -82,7 +84,7 @@ class _RoomFormLiveaboardUpdateState extends State<RoomFormLiveaboardUpdate> {
                 runSpacing: 40,
                 children: List.generate(
                   allRoom.length,
-                  (index) => InfoCard(index, allRoom),
+                  (index) => InfoCard(index, allRoom, eachLiveaboard),
                 ));
           } else {
             return Center(child: Text('No room'));
@@ -99,12 +101,15 @@ class InfoCard extends StatefulWidget {
   int pinkcount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
-  InfoCard(int index, List<RoomType> allRoom) {
+  Liveaboard eachLiveaboard;
+  InfoCard(int index, List<RoomType> allRoom, Liveaboard eachLiveaboard) {
     this.index = index;
     this.allRoom = allRoom;
+    this.eachLiveaboard = eachLiveaboard;
   }
   @override
-  State<InfoCard> createState() => _InfoCardState(this.index, this.allRoom);
+  State<InfoCard> createState() =>
+      _InfoCardState(this.index, this.allRoom, this.eachLiveaboard);
 }
 
 class _InfoCardState extends State<InfoCard> {
@@ -123,10 +128,11 @@ class _InfoCardState extends State<InfoCard> {
   XFile rroom;
   Liveaboard eachLiveaboard;
   int pinkcount;
+  int bluecount;
 
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
-  _InfoCardState(this.index, this.allRoom);
+  _InfoCardState(this.index, this.allRoom, this.eachLiveaboard);
 
   final TextEditingController _controllerRoomdescription =
       TextEditingController();
@@ -188,14 +194,15 @@ class _InfoCardState extends State<InfoCard> {
           buildMaxCapacityFormField(),
           SizedBox(height: 20),
           // buildAmenityFormField(),
-          // Container(
-          //   width: MediaQuery.of(context).size.width / 1.5,
-          //   decoration: BoxDecoration(
-          //       color: Color(0xfffd4f0f0),
-          //       borderRadius: BorderRadius.circular(10)),
-          //   child: AddMoreAmenity(this.pinkcount, this.blueValue, this.errors),
-          // ),
-          // SizedBox(height: 20),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xfffd4f0f0),
+                borderRadius: BorderRadius.circular(10)),
+            child: updateAmenityLiveaboardForm(this.eachLiveaboard,
+                this.bluecount, this.index, this.blueValue),
+          ),
+          SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
           // buildPriceFormField(),
