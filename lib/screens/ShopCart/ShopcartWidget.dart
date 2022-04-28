@@ -214,22 +214,26 @@ class _CartState extends State<CartWidget> {
 
     var room = Reservation_Room();
     for (int i = 0; i < CartBox.get('clength'); i++) {
+      // print(CartBox.get('quantity' + i.toString()));
       room.quantity = CartBox.get('quantity' + i.toString());
-      room.roomTypeId = CartBox.get('roomid' + i.toString());
+      room.roomTypeId = Int64(CartBox.get('roomid' + i.toString()));
       room.noDivers = CartBox.get('diver' + i.toString());
 
 
       reservation = Reservation()
         ..rooms.add(room);
       //reservation.tripId = details[indexDetail].id;
-      reservation.tripId =
-          Int64(1); //Int64(CartBox.get('diver'+CartBox.get('indexDetail')));
+      print("CartBox get diverID");
+      print(CartBox.get('diver'+CartBox.get('indexDetail').toString()));
+      print(CartBox.get('indexDetail'));
+      print(CartBox.get('diver0'));
+      print(CartBox.get('diver1'));
+      reservation.tripId = Int64(CartBox.get('diver'+i.toString()));
       //reservation.diverId = user_profile.diver.id;
       /*reservation.price =
         (roomtypes[indexRoom].price * quantity) + details[indexDetail].price;*/
-      reservation.price = Int64(
-          1); //Int64(CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt());
-      reservation.totalDivers = Int64(1); //Int64(quantity);
+      reservation.price = 1000;//CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt();
+      reservation.totalDivers = Int64(quantity);
 
       var bookRequest = CreateReservationRequest()
         ..reservation = reservation;
@@ -246,8 +250,6 @@ class _CartState extends State<CartWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-
 
     return Container(
         //width: 800,
