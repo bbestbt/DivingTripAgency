@@ -212,7 +212,8 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         height: 20,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Container(
                                               width: MediaQuery.of(context)
@@ -413,13 +414,13 @@ class _InfoCardState extends State<InfoCard> {
                         ),
                         Text('Start date : ' +
                             DateFormat("dd/MM/yyyy").format(
-                                trips[widget.index].fromDate.toDateTime())),
+                                trips[widget.index].startDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),
                         Text('End date : ' +
                             DateFormat("dd/MM/yyyy").format(
-                                trips[widget.index].toDate.toDateTime())),
+                                trips[widget.index].endDate.toDateTime())),
                         SizedBox(
                           height: 10,
                         ),

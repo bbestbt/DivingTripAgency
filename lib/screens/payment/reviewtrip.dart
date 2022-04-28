@@ -255,12 +255,13 @@ class _PaymentReviewState extends State<PaymentReview> {
               children: [
                 Text("From : " +
                     DateFormat("dd/MM/yyyy")
-                        .format(trips.fromDate.toDateTime())),
+                        .format(trips.startDate.toDateTime())),
                 SizedBox(
                   width: 10,
                 ),
                 Text("To : " +
-                    DateFormat("dd/MM/yyyy").format(trips.toDate.toDateTime())),
+                    DateFormat("dd/MM/yyyy")
+                        .format(trips.endDate.toDateTime())),
               ],
             ),
             SizedBox(

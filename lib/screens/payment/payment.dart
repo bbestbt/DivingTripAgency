@@ -44,21 +44,23 @@ class PaymentUpload extends StatefulWidget {
   double total_price;
   TripWithTemplate trips;
 
-  PaymentUpload(int reservation_id,double total_price,TripWithTemplate trips) {
+  PaymentUpload(
+      int reservation_id, double total_price, TripWithTemplate trips) {
     this.reservation_id = reservation_id;
-    this.total_price=total_price;
-  this.trips=trips;
+    this.total_price = total_price;
+    this.trips = trips;
   }
   @override
-  _PaymentUploadState createState() => _PaymentUploadState(this.reservation_id,this.total_price,this.trips);
+  _PaymentUploadState createState() =>
+      _PaymentUploadState(this.reservation_id, this.total_price, this.trips);
 }
 
 class _PaymentUploadState extends State<PaymentUpload> {
   int reservation_id;
-   double total_price;
-   TripWithTemplate trips;
+  double total_price;
+  TripWithTemplate trips;
 
-  _PaymentUploadState(this.reservation_id,this.total_price,this.trips);
+  _PaymentUploadState(this.reservation_id, this.total_price, this.trips);
   makePayment() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -106,7 +108,8 @@ class _PaymentUploadState extends State<PaymentUpload> {
       print(pickedFile.path.split('/').last);
     }
   }
-getRoom() async {
+
+  getRoom() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -209,7 +212,7 @@ getRoom() async {
             SizedBox(
               height: 50,
             ),
-             Text(
+            Text(
               "Trip name : " + trips.tripTemplate.name,
               style: TextStyle(fontSize: 20),
             ),
@@ -221,12 +224,13 @@ getRoom() async {
               children: [
                 Text("From : " +
                     DateFormat("dd/MM/yyyy")
-                        .format(trips.fromDate.toDateTime())),
+                        .format(trips.startDate.toDateTime())),
                 SizedBox(
                   width: 10,
                 ),
                 Text("To : " +
-                    DateFormat("dd/MM/yyyy").format(trips.toDate.toDateTime())),
+                    DateFormat("dd/MM/yyyy")
+                        .format(trips.endDate.toDateTime())),
               ],
             ),
             SizedBox(
@@ -371,7 +375,7 @@ getRoom() async {
             SizedBox(
               height: 10,
             ),
-            Text("Total price :"+total_price.toString()),
+            Text("Total price :" + total_price.toString()),
             SizedBox(
               height: 50,
             ),
