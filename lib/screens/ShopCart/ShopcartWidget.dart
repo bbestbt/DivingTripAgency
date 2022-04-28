@@ -214,8 +214,9 @@ class _CartState extends State<CartWidget> {
 
     var room = Reservation_Room();
     for (int i = 0; i < CartBox.get('clength'); i++) {
+      // print(CartBox.get('quantity' + i.toString()));
       room.quantity = CartBox.get('quantity' + i.toString());
-      room.roomTypeId = CartBox.get('roomid' + i.toString());
+      room.roomTypeId = Int64(CartBox.get('roomid' + i.toString()));
       room.noDivers = CartBox.get('diver' + i.toString());
 
 
@@ -227,8 +228,7 @@ class _CartState extends State<CartWidget> {
       //reservation.diverId = user_profile.diver.id;
       /*reservation.price =
         (roomtypes[indexRoom].price * quantity) + details[indexDetail].price;*/
-      reservation.price = Int64(
-          1); //Int64(CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt());
+      reservation.price = 1; //Int64(CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt());
       reservation.totalDivers = Int64(1); //Int64(quantity);
 
       var bookRequest = CreateReservationRequest()
