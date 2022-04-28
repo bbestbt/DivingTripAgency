@@ -169,12 +169,17 @@ class SideMenu extends StatelessWidget {
                                     horizontal: 20 * 1.5, vertical: 20)),
                             child: Text("Log in"));
                   } else {
-                    return Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Log in',
-                          style: TextStyle(color: Colors.black),
-                        ));
+                    return ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
+                        },
+                        style: TextButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20 * 1.5, vertical: 20)),
+                        child: Text("Log in"));
                   }
                 },
               ),
