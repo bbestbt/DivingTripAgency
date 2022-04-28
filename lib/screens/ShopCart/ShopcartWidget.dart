@@ -102,7 +102,6 @@ class _CartState extends State<CartWidget> {
   void populateCartlist(){
    /* print("------");
     print("clength: "+clength.toString());
-
     print("Cartbox at populateCartlist");
     print("-------");
     print(CartBox.toMap());*/
@@ -253,7 +252,7 @@ class _CartState extends State<CartWidget> {
             title: "Trips in cart",
             color: Color(0xFFFF78a2cc),
           ),
-          Text("Total Cost: "+)
+          Text("Total Cost: "),
           TextButton(
             child: Text(
               "Check JSON",
