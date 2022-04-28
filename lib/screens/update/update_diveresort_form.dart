@@ -136,10 +136,8 @@ class _editHotelFormState extends State<editHotelForm> {
   var hotel = Hotel();
   Hotel eachHotel;
   _editHotelFormState(this.eachHotel);
-  // List<RoomType> pinkValue = [new RoomType()];
-  // List<List<Amenity>> blueValue = [
-  //   [new Amenity()]
-  // ];
+  List<RoomType> pinkValue = [];
+  List<List<Amenity>> blueValue = [[]];
   List<DropdownMenuItem<String>> listStar = [];
   List<String> star = ['1', '2', '3', '4', '5'];
   String starSelected;
@@ -236,7 +234,6 @@ class _editHotelFormState extends State<editHotelForm> {
     String token = box.get('token');
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-
     eachHotel.name = _controllerHotelname.text;
     eachHotel.description = _controllerHoteldescription.text;
 
@@ -275,6 +272,7 @@ class _editHotelFormState extends State<editHotelForm> {
     }
 
     var hotel = Hotel()..address = address;
+    hotel.id = eachHotel.id;
     hotel.name = eachHotel.name;
     hotel.description = eachHotel.description;
     hotel.phone = eachHotel.phone;
@@ -282,6 +280,31 @@ class _editHotelFormState extends State<editHotelForm> {
     hotel.stars = eachHotel.stars;
     for (int i = 0; i < hotel.images.length; i++) {
       eachHotel.images.add(hotel.images[i]);
+    }
+
+    for (int i = 0; i < pinkValue.length; i++) {
+      var room;
+      for (int j = 0; j < blueValue[i].length; j++) {
+        var amenity = Amenity();
+        amenity.id = blueValue[i][j].id;
+        amenity.name = blueValue[i][j].name;
+        room = RoomType()..amenities.add(amenity);
+        // room.amenities.add(amenity);
+      }
+
+      room.id = pinkValue[i].id;
+      room.name = pinkValue[i].name;
+      room.description = pinkValue[i].description;
+      room.maxGuest = pinkValue[i].maxGuest;
+      // room.price = pinkValue[i].price;
+      room.quantity = pinkValue[i].quantity;
+      //room.roomImages.add(f2);
+      //pinkValue[i].roomImages.add(value);
+      for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
+        room.roomImages.add(pinkValue[i].roomImages[j]);
+      }
+      hotel..roomTypes.add(room);
+      // .roomTypes.add(room);
     }
 
     final updateRequest = UpdateHotelRequest()..hotel = hotel;
@@ -961,7 +984,8 @@ class _editHotelFormState extends State<editHotelForm> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: RoomFormHotelUpdate(this.eachHotel),
+            child: RoomFormHotelUpdate(
+                this.eachHotel, this.pinkValue, this.blueValue),
           ),
           SizedBox(height: 30),
 

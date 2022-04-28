@@ -24,21 +24,28 @@ import 'dart:io' as io;
 class RoomFormHotelUpdate extends StatefulWidget {
   List<RoomType> allRoom = [];
   Hotel eachHotel;
+  List<RoomType> pinkValue;
+  List<List<Amenity>> blueValue;
 
   var f2 = File();
-  RoomFormHotelUpdate(Hotel eachHotel) {
+  RoomFormHotelUpdate(Hotel eachHotel, List<RoomType> allRoom,
+      List<List<Amenity>> blueValue) {
     this.eachHotel = eachHotel;
+    this.allRoom = allRoom;
+    this.blueValue = blueValue;
   }
   @override
   _RoomFormHotelUpdateState createState() =>
-      _RoomFormHotelUpdateState(this.eachHotel);
+      _RoomFormHotelUpdateState(this.eachHotel, this.pinkValue, this.blueValue);
 }
 
 class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
   List<RoomType> allRoom = [];
   Hotel eachHotel;
+  List<RoomType> pinkValue = [];
+  List<List<Amenity>> blueValue;
 
-  _RoomFormHotelUpdateState(this.eachHotel);
+  _RoomFormHotelUpdateState(this.eachHotel, this.pinkValue, this.blueValue);
   getRoomType() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -76,18 +83,31 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
         future: getRoomType(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Wrap(
-                spacing: 20,
-                runSpacing: 40,
-                children: List.generate(
-                  allRoom.length,
-                  (index) => InfoCard(index, allRoom,eachHotel),
-                ));
+            return ListView.separated(
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(
+                      thickness: 5,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                shrinkWrap: true,
+                itemCount: allRoom.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InfoCard(index, allRoom, eachHotel);
+                });
+            // return Wrap(
+            //     spacing: 20,
+            //     runSpacing: 40,
+            //     children: List.generate(
+            //       allRoom.length,
+            //       (index) => InfoCard(index, allRoom, eachHotel),
+            //     ));
           } else {
             return Center(child: Text('No room'));
           }
         },
       ),
+      
     );
   }
 }
@@ -98,16 +118,16 @@ class InfoCard extends StatefulWidget {
   int pinkcount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
-   Hotel eachHotel;
+  Hotel eachHotel;
 
   InfoCard(int index, List<RoomType> allRoom, Hotel eachHotel) {
     this.index = index;
     this.allRoom = allRoom;
-    this.eachHotel=eachHotel;
-
+    this.eachHotel = eachHotel;
   }
   @override
-  State<InfoCard> createState() => _InfoCardState(this.index, this.allRoom,this.eachHotel);
+  State<InfoCard> createState() =>
+      _InfoCardState(this.index, this.allRoom, this.eachHotel);
 }
 
 class _InfoCardState extends State<InfoCard> {
@@ -126,10 +146,10 @@ class _InfoCardState extends State<InfoCard> {
   XFile rroom;
   Hotel eachHotel;
   int pinkcount;
-   int bluecount;
+  int bluecount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
-  _InfoCardState(this.index, this.allRoom,this.eachHotel);
+  _InfoCardState(this.index, this.allRoom, this.eachHotel);
 
   final TextEditingController _controllerRoomdescription =
       TextEditingController();
@@ -176,6 +196,7 @@ class _InfoCardState extends State<InfoCard> {
 
   @override
   Widget build(BuildContext context) {
+    // print(index);
     double screenwidth = MediaQuery.of(context).size.width;
     return Container(
       child: Padding(
@@ -188,13 +209,14 @@ class _InfoCardState extends State<InfoCard> {
           SizedBox(height: 20),
           buildMaxCapacityFormField(),
           SizedBox(height: 20),
-         
+
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
-            child: updateAmenityHotelForm(this.eachHotel,this.bluecount,this.index, this.blueValue),
+            child: updateAmenityHotelForm(
+                this.eachHotel, this.bluecount, this.index, this.blueValue),
           ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
@@ -342,7 +364,7 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_description = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].description = value;
+        allRoom[index].description = value;
       },
       decoration: InputDecoration(
         labelText: "Room description",
@@ -363,7 +385,13 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].maxGuest = int.parse(value);
+        // print(value);
+        // print(index);
+
+        allRoom[index].maxGuest = int.parse(value);
+        // print(allRoom[index].maxGuest );
+
+        // print(pinkValue[index].maxGuest);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
@@ -380,7 +408,7 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].name = value;
+        allRoom[index].name = value;
       },
       decoration: InputDecoration(
         labelText: "Room type",
@@ -401,7 +429,7 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].quantity = int.parse(value);
+        allRoom[index].quantity = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",

@@ -173,7 +173,7 @@ class _InfoCardState extends State<InfoCard> {
           .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
           .toList();
     });
-    print(listAmenity);
+    // print(listAmenity);
   }
 
   @override
@@ -202,10 +202,11 @@ class _InfoCardState extends State<InfoCard> {
                     amenitySelected = value;
                     amenity.forEach((element) {
                       if (element == amenitySelected) {
-                        blueValue[pinkcount - 1][index - 1].name =
+                      hotelDetial.hotel.roomTypes[pinkcount].amenities[index].name =
                             amenitySelected;
-                        blueValue[pinkcount - 1][index - 1].id =
+                        hotelDetial.hotel.roomTypes[pinkcount].amenities[index].id =
                             amenityMap[element];
+                            print(hotelDetial);
                       }
                     });
                   });
