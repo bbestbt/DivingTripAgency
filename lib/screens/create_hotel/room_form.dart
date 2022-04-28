@@ -95,8 +95,8 @@ class _RoomFormState extends State<RoomForm> {
 
     this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
     print("RoomImages");
-    print(this.pinkValue[this.pinkcount - 1].roomImages);
-
+    //print(this.pinkValue[this.pinkcount - 1].roomImages);
+    print(this.pinkValue[this.pinkcount - 1].roomImages.length);
     if (rroom != null) {
       setState(() {
         if (num == 1) roomimg = io.File(rroom.path);
@@ -153,8 +153,8 @@ class _RoomFormState extends State<RoomForm> {
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
-          // buildPriceFormField(),
-          // SizedBox(height: 20),
+         // buildPriceFormField(),
+          //SizedBox(height: 20),
           Row(
             children: [
               Column(
