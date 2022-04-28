@@ -3,8 +3,10 @@ import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/hotel.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_form.dart';
+import 'package:diving_trip_agency/screens/diveresort/ResortDetailWidgetbak.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
@@ -25,27 +27,33 @@ class RoomFormHotelUpdate extends StatefulWidget {
   List<RoomType> allRoom = [];
   Hotel eachHotel;
   List<RoomType> pinkValue;
-  List<List<Amenity>> blueValue;
+  List<List<Amenity>> blueValue=[];
+  GetHotelResponse hotelDetial = new GetHotelResponse();
+  var hotel;
 
   var f2 = File();
   RoomFormHotelUpdate(Hotel eachHotel, List<RoomType> allRoom,
-      List<List<Amenity>> blueValue) {
+      List<List<Amenity>> blueValue, GetHotelResponse hotelDetial) {
     this.eachHotel = eachHotel;
     this.allRoom = allRoom;
     this.blueValue = blueValue;
+    this.hotelDetial = hotelDetial;
   }
   @override
-  _RoomFormHotelUpdateState createState() =>
-      _RoomFormHotelUpdateState(this.eachHotel, this.pinkValue, this.blueValue);
+  _RoomFormHotelUpdateState createState() => _RoomFormHotelUpdateState(
+      this.eachHotel, this.pinkValue, this.blueValue, this.hotelDetial);
 }
 
 class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
   List<RoomType> allRoom = [];
   Hotel eachHotel;
   List<RoomType> pinkValue = [];
-  List<List<Amenity>> blueValue;
+  List<List<Amenity>> blueValue=[];
+  GetHotelResponse hotelDetial = new GetHotelResponse();
+  var hotel;
 
-  _RoomFormHotelUpdateState(this.eachHotel, this.pinkValue, this.blueValue);
+  _RoomFormHotelUpdateState(
+      this.eachHotel, this.pinkValue, this.blueValue, this.hotelDetial);
   getRoomType() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -93,7 +101,7 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
                 shrinkWrap: true,
                 itemCount: allRoom.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return InfoCard(index, allRoom, eachHotel);
+                  return InfoCard(index, allRoom, eachHotel, hotelDetial);
                 });
             // return Wrap(
             //     spacing: 20,
@@ -107,7 +115,6 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
           }
         },
       ),
-      
     );
   }
 }
@@ -117,17 +124,21 @@ class InfoCard extends StatefulWidget {
   List<RoomType> allRoom = [];
   int pinkcount;
   List<RoomType> pinkValue;
-  List<List<Amenity>> blueValue;
+  List<List<Amenity>> blueValue=[];
   Hotel eachHotel;
+  GetHotelResponse hotelDetial = new GetHotelResponse();
+  var hotel;
 
-  InfoCard(int index, List<RoomType> allRoom, Hotel eachHotel) {
+  InfoCard(int index, List<RoomType> allRoom, Hotel eachHotel,
+      GetHotelResponse hotelDetial) {
     this.index = index;
     this.allRoom = allRoom;
     this.eachHotel = eachHotel;
+    this.hotelDetial = hotelDetial;
   }
   @override
-  State<InfoCard> createState() =>
-      _InfoCardState(this.index, this.allRoom, this.eachHotel);
+  State<InfoCard> createState() => _InfoCardState(
+      this.index, this.allRoom, this.eachHotel, this.hotelDetial);
 }
 
 class _InfoCardState extends State<InfoCard> {
@@ -148,8 +159,11 @@ class _InfoCardState extends State<InfoCard> {
   int pinkcount;
   int bluecount;
   List<RoomType> pinkValue;
-  List<List<Amenity>> blueValue;
-  _InfoCardState(this.index, this.allRoom, this.eachHotel);
+  List<List<Amenity>> blueValue=[];
+  GetHotelResponse hotelDetial = new GetHotelResponse();
+  var hotel;
+
+  _InfoCardState(this.index, this.allRoom, this.eachHotel, this.hotelDetial);
 
   final TextEditingController _controllerRoomdescription =
       TextEditingController();
@@ -215,8 +229,8 @@ class _InfoCardState extends State<InfoCard> {
             decoration: BoxDecoration(
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
-            child: updateAmenityHotelForm(
-                this.eachHotel, this.bluecount, this.index, this.blueValue),
+            child: updateAmenityHotelForm(this.eachHotel, this.bluecount,
+                this.index, this.blueValue, this.hotelDetial),
           ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
@@ -364,7 +378,9 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_description = newValue,
       onChanged: (value) {
-        allRoom[index].description = value;
+        hotelDetial.hotel.roomTypes[index].description = value;
+        // allRoom[index].description = value;
+        // print(allRoom);
       },
       decoration: InputDecoration(
         labelText: "Room description",
@@ -385,13 +401,10 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
-        // print(value);
-        // print(index);
-
-        allRoom[index].maxGuest = int.parse(value);
-        // print(allRoom[index].maxGuest );
-
-        // print(pinkValue[index].maxGuest);
+        // allRoom[index].maxGuest = int.parse(value);
+        // print(allRoom);
+        // print(blueValue);
+        hotelDetial.hotel.roomTypes[index].maxGuest = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
@@ -408,7 +421,11 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
-        allRoom[index].name = value;
+        // allRoom[index].name = value;
+        // print(allRoom);
+        print(index);
+        hotelDetial.hotel.roomTypes[index].name = value;
+        print(hotelDetial);
       },
       decoration: InputDecoration(
         labelText: "Room type",
@@ -429,7 +446,9 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
-        allRoom[index].quantity = int.parse(value);
+        hotelDetial.hotel.roomTypes[index].quantity = int.parse(value);
+        // allRoom[index].quantity = int.parse(value);
+        // print(allRoom);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",

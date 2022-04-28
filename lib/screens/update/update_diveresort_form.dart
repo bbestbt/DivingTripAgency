@@ -3,6 +3,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/hotel.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_form.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
@@ -175,6 +176,7 @@ class _editHotelFormState extends State<editHotelForm> {
   ];
   String regionSelected;
   List<DropdownMenuItem<String>> listRegion = [];
+  GetHotelResponse hotelDetial = new GetHotelResponse();
 
   void loadData() {
     listStar = [];
@@ -281,31 +283,33 @@ class _editHotelFormState extends State<editHotelForm> {
     for (int i = 0; i < hotel.images.length; i++) {
       eachHotel.images.add(hotel.images[i]);
     }
+    print('p');
+    print(pinkValue);
+    print('d');
+    // for (int i = 0; i < pinkValue.length; i++) {
+    //   // var room=RoomType();
+    //   for (int j = 0; j < blueValue[i].length; j++) {
+    //     // var amenity = Amenity();
+    //     eachHotel.roomTypes[i].amenities[j].id = blueValue[i][j].id;
+    //     eachHotel.roomTypes[i].amenities[j].name = blueValue[i][j].name;
+    //     // room = RoomType()..amenities.add(amenity);
+    //     eachHotel.roomTypes[i].amenities.add(blueValue[i][j]);
+    //   }
 
-    for (int i = 0; i < pinkValue.length; i++) {
-      var room;
-      for (int j = 0; j < blueValue[i].length; j++) {
-        var amenity = Amenity();
-        amenity.id = blueValue[i][j].id;
-        amenity.name = blueValue[i][j].name;
-        room = RoomType()..amenities.add(amenity);
-        // room.amenities.add(amenity);
-      }
-
-      room.id = pinkValue[i].id;
-      room.name = pinkValue[i].name;
-      room.description = pinkValue[i].description;
-      room.maxGuest = pinkValue[i].maxGuest;
-      // room.price = pinkValue[i].price;
-      room.quantity = pinkValue[i].quantity;
-      //room.roomImages.add(f2);
-      //pinkValue[i].roomImages.add(value);
-      for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
-        room.roomImages.add(pinkValue[i].roomImages[j]);
-      }
-      hotel..roomTypes.add(room);
-      // .roomTypes.add(room);
-    }
+    //   eachHotel.roomTypes[i].id = pinkValue[i].id;
+    //   eachHotel.roomTypes[i].name = pinkValue[i].name;
+    //   eachHotel.roomTypes[i].description = pinkValue[i].description;
+    //   eachHotel.roomTypes[i].maxGuest = pinkValue[i].maxGuest;
+    //   // room.price = pinkValue[i].price;
+    //   eachHotel.roomTypes[i].quantity = pinkValue[i].quantity;
+    //   //room.roomImages.add(f2);
+    //   //pinkValue[i].roomImages.add(value);
+    //   for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
+    //     eachHotel.roomTypes[i].roomImages.add(pinkValue[i].roomImages[j]);
+    //   }
+    //   // hotel..roomTypes.add(room);
+    //   hotel.roomTypes.add(pinkValue[i]);
+    // }
 
     final updateRequest = UpdateHotelRequest()..hotel = hotel;
     print(updateRequest);
@@ -984,8 +988,8 @@ class _editHotelFormState extends State<editHotelForm> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: RoomFormHotelUpdate(
-                this.eachHotel, this.pinkValue, this.blueValue),
+            child: RoomFormHotelUpdate(this.eachHotel, this.pinkValue,
+                this.blueValue, this.hotelDetial),
           ),
           SizedBox(height: 30),
 

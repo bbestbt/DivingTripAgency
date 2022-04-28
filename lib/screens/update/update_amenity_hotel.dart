@@ -8,48 +8,47 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
-GetHotelResponse hotelDetial = new GetHotelResponse();
-var hotel;
-
 class updateAmenityHotelForm extends StatefulWidget {
   int bluecount;
   int pinkcount;
-  List<List<Amenity>> blueValue;
+  List<List<Amenity>> blueValue = [[new Amenity()]];
   Hotel eachHotel;
+  GetHotelResponse hotelDetial = new GetHotelResponse();
+  var hotel;
 
-  updateAmenityHotelForm(
-    Hotel eachHotel,
-    int blue,
-    int pinkcount,
-    List<List<Amenity>> blueValue,
-  ) {
+  updateAmenityHotelForm(Hotel eachHotel, int blue, int pinkcount,
+      List<List<Amenity>> blueValue, GetHotelResponse hotelDetial) {
     this.eachHotel = eachHotel;
     this.bluecount = blue;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.hotelDetial = hotelDetial;
     // print(eachHotel.id);
   }
   @override
   _updateAmenityHotelFormState createState() => _updateAmenityHotelFormState(
-      this.eachHotel, this.bluecount, this.pinkcount, this.blueValue);
+      this.eachHotel,
+      this.bluecount,
+      this.pinkcount,
+      this.blueValue,
+      this.hotelDetial);
 }
 
 class _updateAmenityHotelFormState extends State<updateAmenityHotelForm> {
   int bluecount;
   int pinkcount;
-  List<List<Amenity>> blueValue;
+  List<List<Amenity>> blueValue =  [[new Amenity()]];
+  GetHotelResponse hotelDetial = new GetHotelResponse();
+  var hotel;
 
   Hotel eachHotel;
-  _updateAmenityHotelFormState(
-    Hotel eachHotel,
-    int bluecount,
-    int pinkcount,
-    List<List<Amenity>> blueValue,
-  ) {
+  _updateAmenityHotelFormState(Hotel eachHotel, int bluecount, int pinkcount,
+      List<List<Amenity>> blueValue, GetHotelResponse hotelDetial) {
     this.eachHotel = eachHotel;
     this.bluecount = bluecount;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.hotelDetial = hotelDetial;
     // print('pc  '+pinkcount.toString());
   }
 
@@ -90,7 +89,7 @@ class _updateAmenityHotelFormState extends State<updateAmenityHotelForm> {
                 runSpacing: 40,
                 children: List.generate(
                   hotelDetial.hotel.roomTypes[pinkcount].amenities.length,
-                  (index) => InfoCard(index, blueValue, pinkcount),
+                  (index) => InfoCard(index, blueValue, pinkcount, hotelDetial),
                 ));
           } else {
             return Center(child: Text('No amenity'));
@@ -106,30 +105,37 @@ class InfoCard extends StatefulWidget {
   List<RoomType> allRoom = [];
   int pinkcount;
   List<RoomType> pinkValue;
-  List<List<Amenity>> blueValue;
+  List<List<Amenity>> blueValue =  [[new Amenity()]];
   int bluecount;
+  GetHotelResponse hotelDetial = new GetHotelResponse();
+  var hotel;
 
-  InfoCard(int index, List<List<Amenity>> blueValue, int pinkcount) {
+  InfoCard(int index, List<List<Amenity>> blueValue, int pinkcount,
+      GetHotelResponse hotelDetial) {
     this.index = index;
     this.blueValue = blueValue;
     this.pinkcount = pinkcount;
+    this.hotelDetial = hotelDetial;
     // print("pc info "+pinkcount.toString());
   }
 
   @override
-  State<InfoCard> createState() =>
-      _InfoCardState(this.index, this.blueValue, this.pinkcount);
+  State<InfoCard> createState() => _InfoCardState(
+      this.index, this.blueValue, this.pinkcount, this.hotelDetial);
 }
 
 class _InfoCardState extends State<InfoCard> {
   int index;
   int pinkcount;
-  List<List<Amenity>> blueValue;
+  List<List<Amenity>> blueValue =  [[new Amenity()]];
   List<DropdownMenuItem<String>> listAmenity = [];
   List<String> amenity = [];
   String amenitySelected;
   Map<String, dynamic> amenityMap = {};
-  _InfoCardState(this.index, this.blueValue, this.pinkcount);
+  GetHotelResponse hotelDetial = new GetHotelResponse();
+  var hotel;
+
+  _InfoCardState(this.index, this.blueValue, this.pinkcount, this.hotelDetial);
 
   getAmenity() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -202,11 +208,18 @@ class _InfoCardState extends State<InfoCard> {
                     amenitySelected = value;
                     amenity.forEach((element) {
                       if (element == amenitySelected) {
-                      hotelDetial.hotel.roomTypes[pinkcount].amenities[index].name =
-                            amenitySelected;
-                        hotelDetial.hotel.roomTypes[pinkcount].amenities[index].id =
-                            amenityMap[element];
-                            print(hotelDetial);
+                        hotelDetial.hotel.roomTypes[pinkcount].amenities[index]
+                            .name = amenitySelected;
+                        hotelDetial.hotel.roomTypes[pinkcount].amenities[index]
+                            .id = amenityMap[element];
+                        // print(hotelDetial);
+                        
+
+                        blueValue[pinkcount][index].name = hotelDetial
+                            .hotel.roomTypes[pinkcount].amenities[index].name;
+                        // print(blueValue);
+                        // blueValue[pinkcount][index].id = hotelDetial
+                        //     .hotel.roomTypes[pinkcount].amenities[index].id;
                       }
                     });
                   });
