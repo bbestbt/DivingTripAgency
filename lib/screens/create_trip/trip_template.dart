@@ -18,26 +18,25 @@ import 'package:fixnum/fixnum.dart';
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
-  // List<RoomTypeTripPrice> roomPrice;
+  List<RoomTypeTripPrice> roomPrice=[];
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   List<String> errors = [];
   Triptemplate(
     TripTemplate triptemplate,
     List<String> errors,
-    // List<RoomTypeTripPrice> roomPrice
+    List<RoomTypeTripPrice> roomPrice
   ) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
     this.errors = errors;
-    // this.roomPrice = roomPrice;
+    this.roomPrice = roomPrice;
   }
   @override
   _TriptemplateState createState() =>
-      _TriptemplateState(this.triptemplate, this.errors);
-  // this.roomPrice
-
+      _TriptemplateState(this.triptemplate, this.errors,this.roomPrice);
+ 
 }
 
 class _TriptemplateState extends State<Triptemplate> {
@@ -164,13 +163,13 @@ class _TriptemplateState extends State<Triptemplate> {
   _TriptemplateState(
     TripTemplate triptemplate,
     List<String> errors,
-    // List<RoomTypeTripPrice> roomPrice
+    List<RoomTypeTripPrice> roomPrice
   ) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
     this.errors = errors;
-    // this.roomPrice = roomPrice;
+    this.roomPrice = roomPrice;
   }
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
@@ -789,7 +788,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                                   double.parse(value);
                                               roomPrice.add(roomprice2);
                                               // roomPrice.add(roomprice2);
-                                              print(roomPrice);
+                                              // print(roomPrice);
 
                                               if (value.isNotEmpty) {
                                                 removeError(

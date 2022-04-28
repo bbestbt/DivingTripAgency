@@ -35,8 +35,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   Map<String, dynamic> divemasterMap = {};
   TripTemplate triptemplate = new TripTemplate();
-  Address addressform = new Address();
-  List<RoomTypeTripPrice>  roomPrice;
+
+  List<RoomTypeTripPrice> roomPrice = [];
   //final TextEditingController _controllerPlace = TextEditingController();
   final TextEditingController _controllerFrom = TextEditingController();
   final TextEditingController _controllerTo = TextEditingController();
@@ -104,17 +104,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var trip = TripWithTemplate();
+
+    var address = Address();
+    address.addressLine1 = triptemplate.address.addressLine1;
+
+    address.addressLine2 = triptemplate.address.addressLine2;
+    address.city = triptemplate.address.city;
+    address.country = triptemplate.address.country;
+    address.city = triptemplate.address.region;
+    address.country = triptemplate.address.postcode;
+
+    var triptemp = TripTemplate()..address = address;
+
+    var trip = TripWithTemplate()..tripTemplate = triptemp;
     trip.startDate = Timestamp.fromDateTime(from);
     trip.endDate = Timestamp.fromDateTime(to);
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
-    trip.tripTemplate.address.addressLine1 = triptemplate.address.addressLine1;
-    trip.tripTemplate.address.addressLine2 = triptemplate.address.addressLine2;
-    trip.tripTemplate.address.city = triptemplate.address.city;
-    trip.tripTemplate.address.country = triptemplate.address.country;
-    trip.tripTemplate.address.city = triptemplate.address.region;
-    trip.tripTemplate.address.country = triptemplate.address.postcode;
     trip.tripTemplate.description = triptemplate.description;
     trip.tripTemplate.name = triptemplate.name;
     trip.tripTemplate.tripType = triptemplate.tripType;
@@ -122,16 +128,13 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.tripTemplate.hotelId = triptemplate.hotelId;
     trip.tripTemplate.liveaboardId = triptemplate.liveaboardId;
 
-    // var allPrice = List<RoomTypeTripPrice> ();
-    // allPrice.price = roomPrice.price;
-
-    // trip.tripRoomTypePrices.add(roomPrice);
+    // trip.tripRoomTypePrices=roomPrice;
 
     for (int j = 0; j < triptemplate.images.length; j++) {
       trip.tripTemplate.images.add(triptemplate.images[j]);
     }
 
-    // trip.price = double.parse(_controllerPrice.text);
+    trip.price = double.parse(_controllerPrice.text);
     // trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
 
     for (int i = 0; i < pinkValue.length; i++) {
@@ -178,10 +181,18 @@ class _CreateTripFormState extends State<CreateTripForm> {
       print('message: ${e.message}');
       print('rawResponse: ${e.rawResponse}');
       print('trailers: ${e.trailers}');
-      if (e.codeName == 'UNAVAILABLE') {
-        // boatUsed = 'UNAVAILABLE';
+      // if (e.codeName == 'UNAVAILABLE') {
+      //   // boatUsed = 'UNAVAILABLE';
+      //   showError();
+      //   print("this boat is already use");
+      // }
+      if (e.message == 'boat is being used by another trip') {
         showError();
         print("this boat is already use");
+      }
+      if (e.message == 'hotel is being used by another trip') {
+        showErrorHotel();
+        print("this hotel is already use");
       }
     } catch (e) {
       // Handle all other exceptions
@@ -229,6 +240,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
           return AlertDialog(
             title: Text("Error"),
             content: Text("Boat is already used"),
+            actions: <Widget>[
+              FlatButton(
+                  //child: Text("OK"),
+                  ),
+            ],
+          );
+        });
+  }
+
+  showErrorHotel() async {
+    await Future.delayed(Duration(microseconds: 1));
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Hotel is already used"),
             actions: <Widget>[
               FlatButton(
                   //child: Text("OK"),
@@ -403,8 +431,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
           // ),
           SizedBox(height: 20),
 
-          // buildPriceFormField(),
-          // SizedBox(height: 20),
+          buildPriceFormField(),
+          SizedBox(height: 20),
           buildTotalPeopleFormField(),
           SizedBox(height: 20),
           Container(
@@ -419,8 +447,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
               width: MediaQuery.of(context).size.width / 1.5,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Triptemplate(
-                  this.triptemplate, this.errors)),
+              child:
+                  Triptemplate(this.triptemplate, this.errors, this.roomPrice)),
 
           SizedBox(height: 20),
           FormError(errors: errors),
