@@ -199,22 +199,29 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     divemasterValue.firstName = _controllerName.text;
     divemasterValue.lastName = _controllerLastname.text;
 
-    var f = File();
+    /*var f = File();
     f.filename = 'Image.jpg';
     //var t = await imageFile.readAsBytes();
     //f.file = new List<int>.from(t);
     if (CardFile != null) {
       List<int> b = await CardFile.readAsBytes();
       f.file = b;
+      print("divemasterValue.documents before remove");
+      print(divemasterValue.documents);
       divemasterValue.documents.add(f);
+      print("divemasterValue.documents after remove");
+      print(divemasterValue.documents);
+    //  divemasterValue.documents.add(f);
     }
-
+                      */
     var f2 = File();
     f2.filename = 'Image.jpg';
     if (CardFileBack != null) {
       List<int> a = await CardFileBack.readAsBytes();
       f2.file = a;
-      divemasterValue.documents.add(f2);
+      //divemasterValue.documents.add(f2);
+        //divemasterValue.documents.removeAt(1);
+        divemasterValue.documents.add(f2);
     }
 
     if (levelSelected != null) {
@@ -261,11 +268,23 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       maxHeight: 5000,
     );
     var f2 = File();
+    var fbak;
     f2.filename = ca.name;
     //f2.filename = 'image.jpg';
     List<int> b = await ca.readAsBytes();
     f2.file = b;
     //this.imagelist.add(f);
+               print("documents list before mod: ");
+              print(this.divemasterValue.documents)     ;
+    //this.divemasterValue.documents[0] = f2;
+    //this.divemasterValue.documents.add(f2);
+    print("documents list: ");
+    print(this.divemasterValue.documents)     ;
+
+
+
+
+
     this.divemasterValue.documents.add(f2);
 
     if (ca != null) {
@@ -288,6 +307,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     f.file = a;
     //this.imagelist.add(f);
     this.divemasterValue.documents.add(f);
+    //this.divemasterValue.documents[1] = f;
 
     if (cb != null) {
       setState(() {

@@ -95,7 +95,8 @@ class _RoomFormState extends State<RoomForm> {
 
     this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
     print("RoomImages");
-    print(this.pinkValue[this.pinkcount - 1].roomImages);
+    // print(this.pinkValue[this.pinkcount - 1].roomImages);
+     print(this.pinkValue[this.pinkcount - 1].roomImages.length);
 
     if (rroom != null) {
       setState(() {

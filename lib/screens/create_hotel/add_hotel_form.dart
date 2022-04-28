@@ -178,6 +178,7 @@ class _addHotelState extends State<addHotel> {
         print("room.roomImages");
         print("-------------");
         print(room.roomImages);
+        print(pinkValue[i].roomImages.length);
       }
       hotel.roomTypes.add(room);
     }
