@@ -14,6 +14,7 @@ import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:multi_image_picker2/multi_image_picker2.dart';
+import 'package:fixnum/fixnum.dart';
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
@@ -21,21 +22,22 @@ class Triptemplate extends StatefulWidget {
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   List<String> errors = [];
-  Triptemplate(TripTemplate triptemplate, List<String> errors,
-      // List<RoomTypeTripPrice> roomPrice
-      ) {
+  Triptemplate(
+    TripTemplate triptemplate,
+    List<String> errors,
+    // List<RoomTypeTripPrice> roomPrice
+  ) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
     this.errors = errors;
     // this.roomPrice = roomPrice;
- 
   }
   @override
-  _TriptemplateState createState() => _TriptemplateState(
-      this.triptemplate, this.errors );
-      // this.roomPrice
-     
+  _TriptemplateState createState() =>
+      _TriptemplateState(this.triptemplate, this.errors);
+  // this.roomPrice
+
 }
 
 class _TriptemplateState extends State<Triptemplate> {
@@ -52,7 +54,7 @@ class _TriptemplateState extends State<Triptemplate> {
   io.File Boatpic;
   io.File Schedule;
   String price;
-  List<RoomTypeTripPrice> roomPrice;
+  List<RoomTypeTripPrice> roomPrice = [];
   XFile pt;
   XFile bt;
   XFile sc;
@@ -159,15 +161,16 @@ class _TriptemplateState extends State<Triptemplate> {
   TripTemplate triptemplate;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
-  _TriptemplateState(TripTemplate triptemplate, List<String> errors,
-      // List<RoomTypeTripPrice> roomPrice
-      ) {
+  _TriptemplateState(
+    TripTemplate triptemplate,
+    List<String> errors,
+    // List<RoomTypeTripPrice> roomPrice
+  ) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
     this.errors = errors;
     // this.roomPrice = roomPrice;
-   
   }
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
@@ -766,11 +769,28 @@ class _TriptemplateState extends State<Triptemplate> {
                                             onSaved: (newValue) =>
                                                 price = newValue,
                                             onChanged: (value) {
-                                              print(index);
-                                              print(value);
-                                               print(roomPrice);
-                                             roomPrice[index].price=double.parse(value);
-                                             print(roomPrice);
+                                              // print(index);
+                                              // print(value);
+                                              // print(roomPrice);
+
+                                              var roomprice2 =
+                                                  RoomTypeTripPrice();
+                                              if (selectedTriptype == '0') {
+                                                roomprice2.hotelId =
+                                                    hotelTypeMap[selectedsleep];
+                                              } else {
+                                                roomprice2.liveaboardId =
+                                                    liveaboardTypeMap[
+                                                        selectedsleep];
+                                              }
+                                              roomprice2.roomTypeId =
+                                                  allRoom[index].id;
+                                              roomprice2.price =
+                                                  double.parse(value);
+                                              roomPrice.add(roomprice2);
+                                              // roomPrice.add(roomprice2);
+                                              print(roomPrice);
+
                                               if (value.isNotEmpty) {
                                                 removeError(
                                                     error:
