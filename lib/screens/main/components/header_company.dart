@@ -17,6 +17,7 @@ import 'package:diving_trip_agency/screens/profile/company/company_profile_scree
 import 'package:diving_trip_agency/screens/report/company_report.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
+import 'package:diving_trip_agency/screens/update/update.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -32,22 +33,21 @@ class HeaderCompany extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-
         width: double.infinity,
         height: 100,
-        // color: Color(0xfff96dfd8),
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-              // Color(0xfffaea4e3),
-              // Color(0xfffd3ffe8),
-              Color(0xfffcfecd0),
-              Color(0xfffffc5ca),
-            ])),
+        color: Color(0xfff97caef),
+        // Color(0xfff96b1d2),
+        // decoration: BoxDecoration(
+        //     gradient: LinearGradient(
+        //         begin: Alignment.topLeft,
+        //         end: Alignment.bottomRight,
+        //         colors: [
+        //       Color(0xfff69b7eb),
+        //       Color(0xfffb3dbd3),
+        //       // Color(0xffff4d6db),
+        //     ])),
         child: SingleChildScrollView(
-          scrollDirection:Axis.horizontal,
+          scrollDirection: Axis.horizontal,
           child: Row(
             children: <Widget>[
               SizedBox(width: 10),
@@ -55,7 +55,9 @@ class HeaderCompany extends StatelessWidget {
                 "DivingTripAgency",
               ),
               // Spacer(),
-              SizedBox(width:MediaQuery.of(context).size.width /3.75 ,),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 4.5,
+              ),
               if (!isMobile(context))
                 Row(
                   children: [
@@ -92,7 +94,8 @@ class HeaderCompany extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CreateLiveaboardScreen()));
+                                builder: (context) =>
+                                    CreateLiveaboardScreen()));
                       },
                     ),
                     NavItem(
@@ -123,6 +126,16 @@ class HeaderCompany extends StatelessWidget {
                       },
                     ),
                     NavItem(
+                      title: 'Update',
+                      tapEvent: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => updateScreen()));
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    NavItem(
                       title: 'Profile',
                       tapEvent: () {
                         Navigator.push(
@@ -151,14 +164,17 @@ class HeaderCompany extends StatelessWidget {
                                     builder: (context) => LoginScreen()));
                           },
                           style: TextButton.styleFrom(
-                              backgroundColor: Color(0xfffff8fab),
+                              backgroundColor: Color(0xfff659dbd),
+                              // Color(0xfff4771a5),
+                              // Color(0xfffff8fab),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20 * 1.5, vertical: 20)),
                           child: FutureBuilder(
                             future: getProfile(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return (checkLogin()&&user_profile.hasAgency())
+                                return (checkLogin() &&
+                                        user_profile.hasAgency())
                                     ? Text(
                                         "Log out",
                                         style: TextStyle(color: Colors.black),
@@ -170,7 +186,10 @@ class HeaderCompany extends StatelessWidget {
                               } else {
                                 return Align(
                                     alignment: Alignment.center,
-                                    child: Text('Log in', style: TextStyle(color: Colors.black),));
+                                    child: Text(
+                                      'Log in',
+                                      style: TextStyle(color: Colors.black),
+                                    ));
                               }
                             },
                           ),
@@ -282,11 +301,9 @@ bool checkLogin() {
     } else {
       print(login);
       return false;
-
     }
   } on GrpcError catch (e) {
   } catch (e) {
     print('Exception: $e');
   }
-
 }

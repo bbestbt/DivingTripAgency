@@ -16,6 +16,7 @@ import 'package:diving_trip_agency/screens/report/company_report.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_divemaster.dart';
 import 'package:diving_trip_agency/screens/signup/company/signup_staff.dart';
 import 'package:diving_trip_agency/screens/ShopCart/ShopcartScreen.dart';
+import 'package:diving_trip_agency/screens/update/update.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -33,7 +34,9 @@ class CompanyHamburger extends StatelessWidget {
     return Container(
       height: double.infinity,
       // color: Colors.white,
-      color: Color(0xfffcfecd0),
+      color:  Color(0xfff97caef),
+      // Color(0xfff96b1d2),
+      // Color(0xfffcfecd0),
       child: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(20),
@@ -99,6 +102,14 @@ class CompanyHamburger extends StatelessWidget {
                 tapEvent: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => SignupStaff()));
+                },
+              ),
+              SizedBox(height: 20),
+              NavItem(
+                title: 'Update',
+                tapEvent: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => updateScreen()));
                 },
               ),
               SizedBox(height: 20),
@@ -170,7 +181,7 @@ class CompanyHamburger extends StatelessWidget {
                     print("about to checkLogin\n--------------");
 
                     //return (checkLogin()&&user_profile.hasDiver())
-                    return checkLogin() == true &&user_profile.hasAgency()
+                    return checkLogin() == true && user_profile.hasAgency()
                         ? ElevatedButton(
                             onPressed: () {
                               Navigator.push(
@@ -179,6 +190,7 @@ class CompanyHamburger extends StatelessWidget {
                                       builder: (context) => LoginScreen()));
                             },
                             style: TextButton.styleFrom(
+                                backgroundColor: Color(0xfff4771a5),
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 20 * 1.5, vertical: 20)),
                             child: Text("Log out"))
