@@ -36,7 +36,7 @@ int indexRoom;
 int indexDetail;
 int quantity;
 int diver;
-int totalprice=0;
+int totalprice;
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 final CartBox = Hive.box('CartBox');
@@ -50,6 +50,7 @@ class _CartState extends State<CartWidget> {
 
   @override
   void initState() {
+    totalprice=0;
     print("Cartbox at init");
     print("-------");
     print(CartBox.toMap());
@@ -213,26 +214,31 @@ class _CartState extends State<CartWidget> {
 
     var room = Reservation_Room();
     for (int i = 0; i < CartBox.get('clength'); i++) {
-      room.quantity = CartBox.get('quantity'+i.toString());
-      room.roomTypeId = CartBox.get('roomid'+i.toString());
-      room.noDivers = CartBox.get('diver'+i.toString());
-    }
+      room.quantity = CartBox.get('quantity' + i.toString());
+      room.roomTypeId = CartBox.get('roomid' + i.toString());
+      room.noDivers = CartBox.get('diver' + i.toString());
 
-    reservation = Reservation()..rooms.add(room);
-    //reservation.tripId = details[indexDetail].id;
-    reservation.tripId = Int64(1);//Int64(CartBox.get('diver'+CartBox.get('indexDetail')));
-    //reservation.diverId = user_profile.diver.id;
-    /*reservation.price =
+
+      reservation = Reservation()
+        ..rooms.add(room);
+      //reservation.tripId = details[indexDetail].id;
+      reservation.tripId =
+          Int64(1); //Int64(CartBox.get('diver'+CartBox.get('indexDetail')));
+      //reservation.diverId = user_profile.diver.id;
+      /*reservation.price =
         (roomtypes[indexRoom].price * quantity) + details[indexDetail].price;*/
-    reservation.price =  Int64(1);//Int64(CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt());
-    reservation.totalDivers =  Int64(1);//Int64(quantity);
+      reservation.price = Int64(
+          1); //Int64(CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt());
+      reservation.totalDivers = Int64(1); //Int64(quantity);
 
-    var bookRequest = CreateReservationRequest()..reservation = reservation;
-    try {
-      var response = stub.createReservation(bookRequest);
-      print('response: ${response}');
-    } catch (e) {
-      print(e);
+      var bookRequest = CreateReservationRequest()
+        ..reservation = reservation;
+      try {
+        var response = stub.createReservation(bookRequest);
+        print('response: ${response}');
+      } catch (e) {
+        print(e);
+      }
     }
 
 
@@ -253,6 +259,7 @@ class _CartState extends State<CartWidget> {
             color: Color(0xFFFF78a2cc),
           ),
           Text("Total Cost: "),
+          Text(totalprice.toString()),
           TextButton(
             child: Text(
               "Check JSON",
