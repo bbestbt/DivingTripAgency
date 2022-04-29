@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:typed_data';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
@@ -65,7 +66,7 @@ class _CartState extends State<CartWidget> {
       //detailJSON = jsonEncode((Cartlist[i][5]
       //as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
       indexRoom = Cartlist[i][7];
-      indexDetail = Cartlist[i][8];
+      indexDetail = Cartlist[i][12];
       quantity = Cartlist[i][9];
       diver = Cartlist[i][10];
      print("Cartlist Everything");
@@ -159,7 +160,7 @@ class _CartState extends State<CartWidget> {
     CartBox.put('Roomlist'+cartind.toString(), Cartlist[cartind][6]);
 
     CartBox.put('indexroom'+cartind.toString(), Cartlist[cartind][7]);
-    CartBox.put('indexDetail'+cartind.toString(), Cartlist[cartind][8]);
+    CartBox.put('indexDetail'+cartind.toString(), Cartlist[cartind][12]);
     CartBox.put('quantity'+cartind.toString(),Cartlist[cartind][9]);
     CartBox.put('diver'+cartind.toString(), Cartlist[cartind][10]);
 
@@ -226,14 +227,16 @@ class _CartState extends State<CartWidget> {
       print("CartBox get diverID");
       print(CartBox.get('diver'+CartBox.get('indexDetail').toString()));
       print(CartBox.get('indexDetail'));
-      print(CartBox.get('diver0'));
-      print(CartBox.get('diver1'));
-      reservation.tripId = Int64(CartBox.get('diver'+i.toString()));
-      //reservation.diverId = user_profile.diver.id;
+      //print(CartBox.get('diver0'));
+      //print(CartBox.get('diver1'));
+      reservation.tripId = Int64(CartBox.get('tripid'+i.toString()));
+      reservation.diverId = user_profile.diver.id;
       /*reservation.price =
         (roomtypes[indexRoom].price * quantity) + details[indexDetail].price;*/
-      reservation.price = 1000;//CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt();
+      //reservation.price = 1000;//CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt();
+      reservation.price = totalprice;
       reservation.totalDivers = Int64(quantity);
+      print(reservation);
 
       var bookRequest = CreateReservationRequest()
         ..reservation = reservation;
@@ -244,8 +247,6 @@ class _CartState extends State<CartWidget> {
         print(e);
       }
     }
-
-
   }
 
   @override
