@@ -9,6 +9,7 @@ import 'package:diving_trip_agency/screens/main/components/hamburger_company.dar
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:diving_trip_agency/screens/update/update_amenity_hotel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -62,7 +63,7 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
       print('ERROR: $e');
     }
     print('--');
-    print(allRoom);
+    // print(allRoom);
 
     return allRoom;
   }
@@ -80,7 +81,7 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
                 runSpacing: 40,
                 children: List.generate(
                   allRoom.length,
-                  (index) => InfoCard(index, allRoom),
+                  (index) => InfoCard(index, allRoom,eachHotel),
                 ));
           } else {
             return Center(child: Text('No room'));
@@ -97,12 +98,16 @@ class InfoCard extends StatefulWidget {
   int pinkcount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
-  InfoCard(int index, List<RoomType> allRoom) {
+   Hotel eachHotel;
+
+  InfoCard(int index, List<RoomType> allRoom, Hotel eachHotel) {
     this.index = index;
     this.allRoom = allRoom;
+    this.eachHotel=eachHotel;
+
   }
   @override
-  State<InfoCard> createState() => _InfoCardState(this.index, this.allRoom);
+  State<InfoCard> createState() => _InfoCardState(this.index, this.allRoom,this.eachHotel);
 }
 
 class _InfoCardState extends State<InfoCard> {
@@ -121,9 +126,10 @@ class _InfoCardState extends State<InfoCard> {
   XFile rroom;
   Hotel eachHotel;
   int pinkcount;
+   int bluecount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
-  _InfoCardState(this.index, this.allRoom);
+  _InfoCardState(this.index, this.allRoom,this.eachHotel);
 
   final TextEditingController _controllerRoomdescription =
       TextEditingController();
@@ -182,15 +188,15 @@ class _InfoCardState extends State<InfoCard> {
           SizedBox(height: 20),
           buildMaxCapacityFormField(),
           SizedBox(height: 20),
-          // buildAmenityFormField(),
-          // Container(
-          //   width: MediaQuery.of(context).size.width / 1.5,
-          //   decoration: BoxDecoration(
-          //       color: Color(0xfffd4f0f0),
-          //       borderRadius: BorderRadius.circular(10)),
-          //   child: AddMoreAmenity(this.pinkcount, this.blueValue, this.errors),
-          // ),
-          // SizedBox(height: 20),
+         
+          Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xfffd4f0f0),
+                borderRadius: BorderRadius.circular(10)),
+            child: updateAmenityHotelForm(this.eachHotel,this.bluecount,this.index, this.blueValue),
+          ),
+          SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
           // buildPriceFormField(),
