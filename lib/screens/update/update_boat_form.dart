@@ -239,7 +239,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
     eachBoat.address.country = _controllerCountry.text;
     eachBoat.address.region = _controllerRegion.text;
     eachBoat.address.city = _controllerCity.text;
-
+/*
     var f = File();
     f.filename = 'Image.jpg';
     if (bboat != null) {
@@ -247,7 +247,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       f.file = b;
       eachBoat.images.add(f);
     }
-
+*/
     var address = Address();
     address.addressLine1 = eachBoat.address.addressLine1;
     address.addressLine2 = eachBoat.address.addressLine2;
@@ -261,6 +261,13 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
     if (regionSelected != null) {
       address.region = regionSelected;
     }
+    var f = File();
+    f.filename = bboat.name;
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    List<int> b = await bboat.readAsBytes();
+    f.file = b;
+    eachBoat.images.add(f);
 
     var boat = Boat()..address = address;
     boat.id=eachBoat.id;
@@ -290,13 +297,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
-    var f = File();
-    f.filename = bboat.name;
-    //var t = await imageFile.readAsBytes();
-    //f.file = new List<int>.from(t);
-    List<int> b = await bboat.readAsBytes();
-    f.file = b;
-    eachBoat.images.add(f);
+
     if (bboat != null) {
       setState(() {
         if (num == 1) boatimg = io.File(bboat.path);

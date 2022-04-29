@@ -214,7 +214,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     //  divemasterValue.documents.add(f);
     }
                       */
-    var f2 = File();
+   /* var f2 = File();
     f2.filename = 'Image.jpg';
     if (CardFileBack != null) {
       List<int> a = await CardFileBack.readAsBytes();
@@ -222,7 +222,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       //divemasterValue.documents.add(f2);
         //divemasterValue.documents.removeAt(1);
         divemasterValue.documents.add(f2);
-    }
+    }*/
 
     if (levelSelected != null) {
       LevelType.values.forEach((levelType) {
@@ -231,6 +231,23 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
         }
       });
     }
+
+    var f = File();
+    f.filename = cb.name;
+    //f2.filename = 'image.jpg';
+    List<int> a = await cb.readAsBytes();
+    f.file = a;
+    //this.imagelist.add(f);
+    this.divemasterValue.documents.add(f);
+    //this.divemasterValue.documents[1] = f;
+
+    var f2 = File();
+    f2.filename = ca.name;
+    //f2.filename = 'image.jpg';
+    List<int> b = await ca.readAsBytes();
+    f2.file = b;
+    this.divemasterValue.documents.add(f2);
+
 
     var divemaster = DiveMaster();
     divemaster.id = divemasterValue.id;
@@ -267,25 +284,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
-    var f2 = File();
-    var fbak;
-    f2.filename = ca.name;
-    //f2.filename = 'image.jpg';
-    List<int> b = await ca.readAsBytes();
-    f2.file = b;
-    //this.imagelist.add(f);
-               print("documents list before mod: ");
-              print(this.divemasterValue.documents)     ;
-    //this.divemasterValue.documents[0] = f2;
-    //this.divemasterValue.documents.add(f2);
-    print("documents list: ");
-    print(this.divemasterValue.documents)     ;
-
-
-
-
-
-    this.divemasterValue.documents.add(f2);
 
     if (ca != null) {
       setState(() {
@@ -300,14 +298,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
-    var f = File();
-    f.filename = cb.name;
-    //f2.filename = 'image.jpg';
-    List<int> a = await cb.readAsBytes();
-    f.file = a;
-    //this.imagelist.add(f);
-    this.divemasterValue.documents.add(f);
-    //this.divemasterValue.documents[1] = f;
 
     if (cb != null) {
       setState(() {
@@ -361,12 +351,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: divemasterValue.documents[0] == null
+                  child: divemasterValue.documents[divemasterValue.documents.length-2] == null
                       ? new Container(
                           color: Colors.green,
                         )
                       : Image.network(
-                          divemasterValue.documents[0].link.toString())),
+                          divemasterValue.documents[divemasterValue.documents.length-2].link.toString())),
               Center(
                   child: CardFile == null
                       ? Column(
@@ -413,12 +403,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: divemasterValue.documents[1] == null
+                  child: divemasterValue.documents[divemasterValue.documents.length-1] == null
                       ? new Container(
                           color: Colors.green,
                         )
                       : Image.network(
-                          divemasterValue.documents[1].link.toString())),
+                          divemasterValue.documents[divemasterValue.documents.length-1].link.toString())),
               Center(
                   child: CardFileBack == null
                       ? Column(
