@@ -14,26 +14,29 @@ import 'dart:io' as io;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:multi_image_picker2/multi_image_picker2.dart';
+import 'package:fixnum/fixnum.dart';
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
-  RoomTypeTripPrice roomPrice;
-  int count;
+  List<RoomTypeTripPrice> roomPrice=[];
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   List<String> errors = [];
-  Triptemplate(TripTemplate triptemplate, List<String> errors,
-      RoomTypeTripPrice roomPrice, int count) {
+  Triptemplate(
+    TripTemplate triptemplate,
+    List<String> errors,
+    List<RoomTypeTripPrice> roomPrice
+  ) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
     this.errors = errors;
     this.roomPrice = roomPrice;
-    this.count = count;
   }
   @override
-  _TriptemplateState createState() => _TriptemplateState(
-      this.triptemplate, this.errors, this.roomPrice, this.count);
+  _TriptemplateState createState() =>
+      _TriptemplateState(this.triptemplate, this.errors,this.roomPrice);
+ 
 }
 
 class _TriptemplateState extends State<Triptemplate> {
@@ -50,8 +53,7 @@ class _TriptemplateState extends State<Triptemplate> {
   io.File Boatpic;
   io.File Schedule;
   String price;
-  RoomTypeTripPrice roomPrice;
-  int count;
+  List<RoomTypeTripPrice> roomPrice = [];
   XFile pt;
   XFile bt;
   XFile sc;
@@ -158,14 +160,16 @@ class _TriptemplateState extends State<Triptemplate> {
   TripTemplate triptemplate;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
-  _TriptemplateState(TripTemplate triptemplate, List<String> errors,
-      RoomTypeTripPrice roomPrice, int count) {
+  _TriptemplateState(
+    TripTemplate triptemplate,
+    List<String> errors,
+    List<RoomTypeTripPrice> roomPrice
+  ) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
     this.errors = errors;
     this.roomPrice = roomPrice;
-    this.count = count;
   }
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
@@ -176,7 +180,8 @@ class _TriptemplateState extends State<Triptemplate> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
-  final TextEditingController _controllerPrice = TextEditingController();
+  // final TextEditingController _controllerPrice = TextEditingController();
+  List<TextEditingController> _controllerPrice = new List();
   List<RoomType> allRoom = [];
 
   /// Get from gallery
@@ -345,6 +350,7 @@ class _TriptemplateState extends State<Triptemplate> {
     }
   }
 
+  // List<TextEditingController> _controllers = new List();
   getRoomType() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -718,38 +724,126 @@ class _TriptemplateState extends State<Triptemplate> {
                       if (snapshot.hasData) {
                         return SizedBox(
                             width: 1110,
-                            child: Wrap(
-                                spacing: 20,
-                                runSpacing: 40,
-                                children: List.generate(
-                                    allRoom.length,
-                                    (index) => Column(
-                                          children: [
-                                            // Text(allRoom.length.toString()),
-                                            SizedBox(height: 20),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  width: 200,
-                                                  height: 200,
-                                                  child: Image.network(
-                                                      allRoom[index]
-                                                          .roomImages[0]
-                                                          .link
-                                                          .toString()),
-                                                ),
-                                                SizedBox(width: 20),
-                                                Text('Price : '),
-                                                SizedBox(width: 20),
-                                                Container(
-                                                    width: 70,
-                                                    child:
-                                                        buildPriceFormField()),
-                                              ],
-                                            )
-                                            // SizedBox(height: 20),
-                                          ],
-                                        ))));
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: ScrollPhysics(),
+                                itemCount: allRoom.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  _controllerPrice
+                                      .add(new TextEditingController());
+                                  return Column(children: [
+                                    // Text(allRoom.length.toString()),
+                                    SizedBox(height: 20),
+                                    Row(
+                                      children: [
+                                        allRoom[index].roomImages.length == 0
+                                            ? new Container(
+                                                width: 200,
+                                                height: 200,
+                                                color: Colors.blue,
+                                              )
+                                            : Container(
+                                                width: 200,
+                                                height: 200,
+                                                child: Image.network(
+                                                    allRoom[index]
+                                                        .roomImages[0]
+                                                        .link
+                                                        .toString()),
+                                              ),
+                                        SizedBox(width: 20),
+                                        Text(allRoom[index].name),
+                                        SizedBox(width: 20),
+                                        Text('Price : '),
+                                        SizedBox(width: 20),
+                                        Container(
+                                          width: 50,
+                                          child: TextFormField(
+                                            controller: _controllerPrice[index],
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly,
+                                            ],
+                                            onSaved: (newValue) =>
+                                                price = newValue,
+                                            onChanged: (value) {
+                                              // print(index);
+                                              // print(value);
+                                              // print(roomPrice);
+
+                                              var roomprice2 =
+                                                  RoomTypeTripPrice();
+                                              if (selectedTriptype == '0') {
+                                                roomprice2.hotelId =
+                                                    hotelTypeMap[selectedsleep];
+                                              } else {
+                                                roomprice2.liveaboardId =
+                                                    liveaboardTypeMap[
+                                                        selectedsleep];
+                                              }
+                                              roomprice2.roomTypeId =
+                                                  allRoom[index].id;
+                                              roomprice2.price =
+                                                  double.parse(value);
+                                              roomPrice.add(roomprice2);
+                                              // roomPrice.add(roomprice2);
+                                              // print(roomPrice);
+
+                                              if (value.isNotEmpty) {
+                                                removeError(
+                                                    error:
+                                                        "Please enter price");
+                                              }
+                                              return null;
+                                            },
+                                            validator: (value) {
+                                              if (value.isEmpty) {
+                                                addError(
+                                                    error:
+                                                        "Please enter price");
+                                                return "";
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ]);
+                                })
+
+                            //  Wrap(
+                            //     spacing: 20,
+                            //     runSpacing: 40,
+                            //     children: List.generate(
+                            //         allRoom.length,
+                            //         (index) => Column(
+                            //               children: [
+                            //                 // Text(allRoom.length.toString()),
+                            //                 SizedBox(height: 20),
+                            //                 Row(
+                            //                   children: [
+                            //                     Container(
+                            //                       width: 200,
+                            //                       height: 200,
+                            //                       child: Image.network(
+                            //                           allRoom[index]
+                            //                               .roomImages[0]
+                            //                               .link
+                            //                               .toString()),
+                            //                     ),
+                            //                     SizedBox(width: 20),
+                            //                     Text('Price : '),
+                            //                     SizedBox(width: 20),
+
+                            //                             // buildPriceFormField()),
+                            //                   ],
+                            //                 )
+                            //                 // SizedBox(height: 20),
+                            //               ],
+                            //             )))
+                            );
                       } else {
                         return Center(child: Text('No data'));
                       }
@@ -1315,36 +1409,36 @@ class _TriptemplateState extends State<Triptemplate> {
     );
   }
 
-  TextFormField buildPriceFormField() {
-    return TextFormField(
-      controller: _controllerPrice,
-      keyboardType: TextInputType.number,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => price = newValue,
-      onChanged: (value) {
-        // roomPrice.price=double.parse(value);
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter price");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter price");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        //   hintText: "Postal code",
-        // labelText: "Price",
-        filled: true,
-        fillColor: Color(0xfffd4f0f0),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
+  // TextFormField buildPriceFormField() {
+  //   return TextFormField(
+  //     controller: _controllerPrice,
+  //     keyboardType: TextInputType.number,
+  //     inputFormatters: [
+  //       FilteringTextInputFormatter.digitsOnly,
+  //     ],
+  //     cursorColor: Color(0xFFf5579c6),
+  //     onSaved: (newValue) => price = newValue,
+  //     onChanged: (value) {
+  //       // roomPrice.price=double.parse(value);
+  //       if (value.isNotEmpty) {
+  //         removeError(error: "Please enter price");
+  //       }
+  //       return null;
+  //     },
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         addError(error: "Please enter price");
+  //         return "";
+  //       }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //       //   hintText: "Postal code",
+  //       // labelText: "Price",
+  //       filled: true,
+  //       fillColor: Color(0xfffd4f0f0),
+  //       floatingLabelBehavior: FloatingLabelBehavior.always,
+  //     ),
+  //   );
+  // }
 }
