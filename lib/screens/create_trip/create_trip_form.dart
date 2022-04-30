@@ -52,6 +52,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   List<DiveSite> pinkValue = [new DiveSite()];
   List<DiveMaster> dmValue = [new DiveMaster()];
   final _formKey = GlobalKey<FormState>();
+  bool switchValue = false;
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -104,7 +105,10 @@ class _CreateTripFormState extends State<CreateTripForm> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    var trip = TripWithTemplate()..tripTemplate.id=triptemplate.id;
+    var triptem = TripTemplate();
+    triptem.id = triptemplate.id;
+
+    var trip = TripWithTemplate()..tripTemplate = triptem;
     trip.startDate = Timestamp.fromDateTime(from);
     trip.endDate = Timestamp.fromDateTime(to);
     trip.lastReservationDate = Timestamp.fromDateTime(last);
@@ -537,34 +541,42 @@ class _CreateTripFormState extends State<CreateTripForm> {
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: Triptemplate(this.triptemplate, this.errors,
-                  this.roomPrice,)),
+                  this.roomPrice, this.switchValue)),
 
           SizedBox(height: 20),
           FormError(errors: errors),
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () async => {
-              // print(roomPrice),
-              print(triptemplate)
-              // if (_formKey.currentState.validate())
-              //   {
-              //     if (from == null)
-              //       {
-              //         addError(error: "Please select from date"),
-              //       }
-              //     else if (to == null)
-              //       {
-              //         addError(error: "Please select to date"),
-              //       }
-              //     else if (last == null)
-              //       {
-              //         addError(error: "Please select last reservation date"),
-              //       }
-              //     else
-              //       {
-              //         await AddTrip(),
-              //       }
-              //   }
+              print('va ' + switchValue.toString()),
+              // print(triptemplate)
+              if (switchValue == false)
+                {
+                  if (_formKey.currentState.validate())
+                    {
+                      if (from == null)
+                        {
+                          addError(error: "Please select from date"),
+                        }
+                      else if (to == null)
+                        {
+                          addError(error: "Please select to date"),
+                        }
+                      else if (last == null)
+                        {
+                          addError(
+                              error: "Please select last reservation date"),
+                        }
+                      else
+                        {
+                          await AddTrip(),
+                        }
+                    }
+                }
+              else
+                {
+                  await AddOldTriptemplate(),
+                }
             },
             color: Color(0xfff75BDFF),
             child: Text(

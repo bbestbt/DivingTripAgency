@@ -38,6 +38,7 @@ int indexDetail;
 int quantity;
 int diver;
 int totalprice;
+String usertoken;
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 final CartBox = Hive.box('CartBox');
@@ -90,6 +91,9 @@ class _CartState extends State<CartWidget> {
       print("TripID");
       print("---------");
       print(Cartlist[i][12]);
+      print("UserToken");
+      print("------");
+      // print(Cartlist[i][13]);
 
 
 
@@ -102,24 +106,18 @@ class _CartState extends State<CartWidget> {
   }
 
   void populateCartlist(){
-   /* print("------");
-    print("clength: "+clength.toString());
-    print("Cartbox at populateCartlist");
-    print("-------");
-    print(CartBox.toMap());*/
+
     int i;
     bool checked=false;
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    print("Token");
+    print("------------");
+    print(token);
     for(i=0;i<CartBox.get('clength');i++) {
+      //if(checked==false && CartBox.get("usertoken"+i.toString())==token) {
       if(checked==false) {
-        //var roomname = jsonDecode(CartBox.get('roomtype'));
-        var tripname = jsonDecode(CartBox.get('tripdetail'+i.toString()));
 
-        //print("Roomtype");
-        //print(CartBox.get('roomtype'+i.toString()));
-        //print(tripname[i]['tripTemplate']['name']);
-        // print("KohTaoPrice");
-       // print("-------");
-        // print(tripname[i]['price']);
 
         Cartlist.add([
           CartBox.get('image'+i.toString()),//0
@@ -137,10 +135,12 @@ class _CartState extends State<CartWidget> {
           CartBox.get("diver"+i.toString()), //10
           CartBox.get("roomid"+i.toString()), //11
           CartBox.get("tripid"+i.toString()), //12
+          CartBox.get("usertoken"+i.toString())//13
           //CartBox.get('roomtype'),
-        ]);
+          ]);
+        totalprice+=CartBox.get('price'+i.toString()) * CartBox.get("quantity"+i.toString());
 
-        }
+      }
 
 
     }
@@ -166,6 +166,8 @@ class _CartState extends State<CartWidget> {
 
     CartBox.put('roomid'+cartind.toString(),Cartlist[cartind][11]);
     CartBox.put('tripid'+cartind.toString(), Cartlist[cartind][12]);
+    CartBox.put('usertoken'+cartind.toString(), Cartlist[cartind][13]);
+
 
     //var jsondetails = jsonEncode((Cartlist[cartind][5]
     //as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
@@ -225,10 +227,9 @@ class _CartState extends State<CartWidget> {
         ..rooms.add(room);
       //reservation.tripId = details[indexDetail].id;
       print("CartBox get diverID");
-      print(CartBox.get('diver'+CartBox.get('indexDetail').toString()));
-      print(CartBox.get('indexDetail'));
-      //print(CartBox.get('diver0'));
-      //print(CartBox.get('diver1'));
+      print(CartBox.get('diver'+i.toString()));
+      print(CartBox.get('tripid'+i.toString()));
+      print(totalprice);
       reservation.tripId = Int64(CartBox.get('tripid'+i.toString()));
       reservation.diverId = user_profile.diver.id;
       /*reservation.price =
@@ -273,6 +274,29 @@ class _CartState extends State<CartWidget> {
               setState(() {
                 print("Checked");
                 populateCartlist();
+                //persCarthive(position);
+                //persCart(position);
+              });
+            },
+            style: TextButton.styleFrom(
+                primary: Colors.red,
+                elevation: 2,
+                backgroundColor: Colors.amber),
+          ),
+          SizedBox(height: 40),
+          TextButton(
+            child: Text(
+              "Get User Profile",
+              // style: TextStyle(fontSize: 25),
+            ),
+            onPressed: () {
+
+              setState(() {
+                print("Profile here!");
+                //var testprof = getProfile();
+                //print(testprof);
+                final box = Hive.box('userInfo');
+                print(box.toMap());
                 //persCarthive(position);
                 //persCart(position);
               });

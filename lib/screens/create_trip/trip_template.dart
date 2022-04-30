@@ -22,17 +22,19 @@ class Triptemplate extends StatefulWidget {
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   List<String> errors = [];
+  bool switchValue=false;
   Triptemplate(TripTemplate triptemplate, List<String> errors,
-      List<RoomTypeTripPrice> roomPrice) {
+      List<RoomTypeTripPrice> roomPrice, bool switchValue) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
     this.errors = errors;
     this.roomPrice = roomPrice;
+    this.switchValue = switchValue;
   }
   @override
-  _TriptemplateState createState() =>
-      _TriptemplateState(this.triptemplate, this.errors, this.roomPrice);
+  _TriptemplateState createState() => _TriptemplateState(
+      this.triptemplate, this.errors, this.roomPrice, this.switchValue);
 }
 
 class _TriptemplateState extends State<Triptemplate> {
@@ -157,12 +159,13 @@ class _TriptemplateState extends State<Triptemplate> {
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   _TriptemplateState(TripTemplate triptemplate, List<String> errors,
-      List<RoomTypeTripPrice> roomPrice) {
+      List<RoomTypeTripPrice> roomPrice, bool switchValue) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
     this.errors = errors;
     this.roomPrice = roomPrice;
+    this.switchValue = switchValue;
   }
   final TextEditingController _controllerTripname = TextEditingController();
   final TextEditingController _controllerDescription = TextEditingController();
@@ -176,6 +179,7 @@ class _TriptemplateState extends State<Triptemplate> {
   // final TextEditingController _controllerPrice = TextEditingController();
   List<TextEditingController> _controllerPrice = new List();
   List<RoomType> allRoom = [];
+  int count = 0;
 
   /// Get from gallery
   _getPictrip(int num) async {
@@ -343,7 +347,6 @@ class _TriptemplateState extends State<Triptemplate> {
     }
   }
 
-  // List<TextEditingController> _controllers = new List();
   getRoomType() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -375,7 +378,7 @@ class _TriptemplateState extends State<Triptemplate> {
       print('ERROR: $e');
     }
     print('--');
-    roomPrice = new List(allRoom.length);
+    // roomPrice = new List(allRoom.length);
     // print(allRoom);
     return [allRoom];
   }
@@ -471,6 +474,7 @@ class _TriptemplateState extends State<Triptemplate> {
             ),
           ),
         ),
+
         SizedBox(height: 20),
         Visibility(
           visible: isVisibleNew,
@@ -794,26 +798,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                               // for (int i = 0;
                                               //     i < allRoom.length;
                                               //     i++) {
-                                              var roomprice2 =
-                                                  RoomTypeTripPrice();
 
-                                              if (selectedTriptype == '0') {
-                                                roomprice2.hotelId =
-                                                    hotelTypeMap[selectedsleep];
-                                              } else {
-                                                roomprice2.liveaboardId =
-                                                    liveaboardTypeMap[
-                                                        selectedsleep];
-                                              }
-                                              roomprice2.roomTypeId =
-                                                  allRoom[index].id;
-                                              roomprice2.price =
-                                                  double.parse(value);
-                                              roomPrice[index] = roomprice2;
-                                              // }
-                                              // print(roomPrice);
-
-                                              //old
                                               // var roomprice2 =
                                               //     RoomTypeTripPrice();
 
@@ -829,9 +814,32 @@ class _TriptemplateState extends State<Triptemplate> {
                                               //     allRoom[index].id;
                                               // roomprice2.price =
                                               //     double.parse(value);
+                                              // roomPrice[index] = roomprice2;
 
-                                              // roomPrice.add(roomprice2);
+                                              // }
                                               // print(roomPrice);
+
+                                              var roomprice2 =
+                                                  RoomTypeTripPrice();
+
+                                              if (selectedTriptype == '0') {
+                                                roomprice2.hotelId =
+                                                    hotelTypeMap[selectedsleep];
+                                              } else {
+                                                roomprice2.liveaboardId =
+                                                    liveaboardTypeMap[
+                                                        selectedsleep];
+                                              }
+                                              roomprice2.roomTypeId =
+                                                  allRoom[index].id;
+                                              roomprice2.price =
+                                                  double.parse(value);
+                                              if (count < allRoom.length) {
+                                                roomPrice.add(roomprice2);
+                                                count++;
+                                              } else {
+                                                roomPrice[index] = roomprice2;
+                                              }
 
                                               if (value.isNotEmpty) {
                                                 removeError(
@@ -1169,9 +1177,9 @@ class _TriptemplateState extends State<Triptemplate> {
 
                 // )
 
-                FlatButton(onPressed: () {
-                  print(roomPrice);
-                }),
+                // FlatButton(onPressed: () {
+                //   print(switchValue);
+                // }),
               ]),
             ),
           ),
