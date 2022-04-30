@@ -36,7 +36,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   Map<String, dynamic> divemasterMap = {};
   TripTemplate triptemplate = new TripTemplate();
 
-  List<RoomTypeTripPrice> roomPrice=[] ;
+  List<RoomTypeTripPrice> roomPrice = [];
   //final TextEditingController _controllerPlace = TextEditingController();
   final TextEditingController _controllerFrom = TextEditingController();
   final TextEditingController _controllerTo = TextEditingController();
@@ -52,7 +52,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
   List<DiveSite> pinkValue = [new DiveSite()];
   List<DiveMaster> dmValue = [new DiveMaster()];
   final _formKey = GlobalKey<FormState>();
-  String boatUsed = '';
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -89,6 +88,89 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
     // print(listBoat);
     // print(boat);
+  }
+
+  void AddOldTriptemplate() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    var trip = TripWithTemplate()..tripTemplate.id=triptemplate.id;
+    trip.startDate = Timestamp.fromDateTime(from);
+    trip.endDate = Timestamp.fromDateTime(to);
+    trip.lastReservationDate = Timestamp.fromDateTime(last);
+    trip.maxGuest = int.parse(_controllerTotalpeople.text);
+    trip.price = double.parse(_controllerPrice.text);
+
+    for (int i = 0; i < pinkValue.length; i++) {
+      var divesite = DiveSite();
+      divesite.name = pinkValue[i].name;
+      divesite.description = pinkValue[i].description;
+      divesite.maxDepth = pinkValue[i].maxDepth;
+      divesite.minDepth = pinkValue[i].minDepth;
+
+      trip.diveSites.add(divesite);
+    }
+
+    for (int k = 0; k < dmValue.length; k++) {
+      var divemaster = DiveMaster();
+      divemaster.id = dmValue[k].id;
+
+      trip.diveMasters.add(divemaster);
+    }
+
+    var hotelRequest = AddHotelRequest();
+
+    var tripRequest = AddTripRequest();
+    tripRequest.trip = trip;
+    // tripRequest.tripTemplate = triptemplate;
+    //tripRequest.tripTemplate.images.add(value);
+
+    // print(tripRequest);
+    try {
+      var response = await stub.addTrip(tripRequest);
+      print('ok');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MainCompanyScreen(),
+        ),
+        (route) => false,
+      );
+      // print(token);
+      // print(response);
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+      // if (e.codeName == 'UNAVAILABLE') {
+      //   showError();
+      //   print("this boat is already use");
+      // }
+      if (e.message == 'boat is being used by another trip') {
+        showError();
+        print("this boat is already use");
+      }
+      if (e.message == 'hotel is being used by another trip') {
+        showErrorHotel();
+        print("this hotel is already use");
+      }
+    } catch (e) {
+      // Handle all other exceptions
+      print('Exception: $e');
+    }
   }
 
   void AddTrip() async {
@@ -190,7 +272,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
       print('rawResponse: ${e.rawResponse}');
       print('trailers: ${e.trailers}');
       // if (e.codeName == 'UNAVAILABLE') {
-      //   // boatUsed = 'UNAVAILABLE';
       //   showError();
       //   print("this boat is already use");
       // }
@@ -455,15 +536,16 @@ class _CreateTripFormState extends State<CreateTripForm> {
               width: MediaQuery.of(context).size.width / 1.5,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child:
-                  Triptemplate(this.triptemplate, this.errors, this.roomPrice)),
+              child: Triptemplate(this.triptemplate, this.errors,
+                  this.roomPrice,)),
 
           SizedBox(height: 20),
           FormError(errors: errors),
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () async => {
-              print(roomPrice)
+              // print(roomPrice),
+              print(triptemplate)
               // if (_formKey.currentState.validate())
               //   {
               //     if (from == null)

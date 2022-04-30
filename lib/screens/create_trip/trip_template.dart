@@ -18,7 +18,7 @@ import 'package:fixnum/fixnum.dart';
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
-  List<RoomTypeTripPrice> roomPrice=[] ;
+  List<RoomTypeTripPrice> roomPrice = [];
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   List<String> errors = [];
@@ -375,7 +375,7 @@ class _TriptemplateState extends State<Triptemplate> {
       print('ERROR: $e');
     }
     print('--');
-    // roomPrice = new List(allRoom.length);
+    roomPrice = new List(allRoom.length);
     // print(allRoom);
     return [allRoom];
   }
@@ -387,7 +387,8 @@ class _TriptemplateState extends State<Triptemplate> {
   String triptemplateSelected;
   Map<String, dynamic> triptemplateTypeMap = {};
   bool isVisibleOld = false;
-  bool isVisibleNew = false;
+  bool isVisibleNew = true;
+  bool switchValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -396,28 +397,45 @@ class _TriptemplateState extends State<Triptemplate> {
     // getData();
     return Column(
       children: [
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     FlatButton(
+        //       onPressed: () => setState(() => isVisibleOld = !isVisibleOld),
+        //       color: Color(0xfffa2c8ff),
+        //       child: Text(
+        //         'Create from old triptemplate',
+        //         style: TextStyle(fontSize: 15),
+        //       ),
+        //     ),
+        //     FlatButton(
+        //       onPressed: () => setState(() => isVisibleNew = !isVisibleNew),
+        //       color: Color(0xfffd4f0f0),
+        //       child: Text(
+        //         'Create new triptemplate',
+        //         style: TextStyle(fontSize: 15),
+        //       ),
+        //     ),
+        //   ],
+        // ),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FlatButton(
-              onPressed: () => setState(() => isVisibleOld = !isVisibleOld),
-              color: Color(0xfffa2c8ff),
-              child: Text(
-                'Create from old triptemplate',
-                style: TextStyle(fontSize: 15),
-              ),
+            Text('Create new triptemplate'),
+            Switch(
+              value: switchValue,
+              onChanged: (value) {
+                switchValue = value;
+                isVisibleNew = !isVisibleNew;
+                isVisibleOld = !isVisibleOld;
+                setState(() {});
+              },
             ),
-            FlatButton(
-              onPressed: () => setState(() => isVisibleNew = !isVisibleNew),
-              color: Color(0xfffd4f0f0),
-              child: Text(
-                'Create new triptemplate',
-                style: TextStyle(fontSize: 15),
-              ),
-            ),
+            Text('Create from old triptemplae'),
           ],
         ),
-        SizedBox(height: 20),
+        // SizedBox(height: 20),
         Visibility(
           visible: isVisibleOld,
           child: Container(
@@ -437,6 +455,14 @@ class _TriptemplateState extends State<Triptemplate> {
                   if (value != null) {
                     setState(() {
                       triptemplateSelected = value;
+                      print(triptemplateSelected);
+                      print(value);
+                      print(triptemplate);
+                      triptemplate.name = triptemplateSelected;
+                      triptemplate.id =
+                          triptemplateTypeMap[triptemplateSelected];
+                      print(triptemplate.name);
+                      print(triptemplate.id);
                     });
                   }
                   print(triptemplateSelected);
@@ -768,23 +794,22 @@ class _TriptemplateState extends State<Triptemplate> {
                                               // for (int i = 0;
                                               //     i < allRoom.length;
                                               //     i++) {
-                                                var roomprice2 =
-                                                    RoomTypeTripPrice();
+                                              var roomprice2 =
+                                                  RoomTypeTripPrice();
 
-                                                if (selectedTriptype == '0') {
-                                                  roomprice2.hotelId =
-                                                      hotelTypeMap[
-                                                          selectedsleep];
-                                                } else {
-                                                  roomprice2.liveaboardId =
-                                                      liveaboardTypeMap[
-                                                          selectedsleep];
-                                                }
-                                                roomprice2.roomTypeId =
-                                                    allRoom[index].id;
-                                                roomprice2.price =
-                                                    double.parse(value);
-                                                roomPrice[index] = roomprice2;
+                                              if (selectedTriptype == '0') {
+                                                roomprice2.hotelId =
+                                                    hotelTypeMap[selectedsleep];
+                                              } else {
+                                                roomprice2.liveaboardId =
+                                                    liveaboardTypeMap[
+                                                        selectedsleep];
+                                              }
+                                              roomprice2.roomTypeId =
+                                                  allRoom[index].id;
+                                              roomprice2.price =
+                                                  double.parse(value);
+                                              roomPrice[index] = roomprice2;
                                               // }
                                               // print(roomPrice);
 
