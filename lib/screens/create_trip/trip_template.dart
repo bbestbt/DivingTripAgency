@@ -18,15 +18,12 @@ import 'package:fixnum/fixnum.dart';
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
-  List<RoomTypeTripPrice> roomPrice=[];
+  List<RoomTypeTripPrice> roomPrice=[] ;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   List<String> errors = [];
-  Triptemplate(
-    TripTemplate triptemplate,
-    List<String> errors,
-    List<RoomTypeTripPrice> roomPrice
-  ) {
+  Triptemplate(TripTemplate triptemplate, List<String> errors,
+      List<RoomTypeTripPrice> roomPrice) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
@@ -35,8 +32,7 @@ class Triptemplate extends StatefulWidget {
   }
   @override
   _TriptemplateState createState() =>
-      _TriptemplateState(this.triptemplate, this.errors,this.roomPrice);
- 
+      _TriptemplateState(this.triptemplate, this.errors, this.roomPrice);
 }
 
 class _TriptemplateState extends State<Triptemplate> {
@@ -160,11 +156,8 @@ class _TriptemplateState extends State<Triptemplate> {
   TripTemplate triptemplate;
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
-  _TriptemplateState(
-    TripTemplate triptemplate,
-    List<String> errors,
-    List<RoomTypeTripPrice> roomPrice
-  ) {
+  _TriptemplateState(TripTemplate triptemplate, List<String> errors,
+      List<RoomTypeTripPrice> roomPrice) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
@@ -382,8 +375,9 @@ class _TriptemplateState extends State<Triptemplate> {
       print('ERROR: $e');
     }
     print('--');
+    // roomPrice = new List(allRoom.length);
     // print(allRoom);
-    return allRoom;
+    return [allRoom];
   }
 
   bool _showTextField = false;
@@ -771,22 +765,46 @@ class _TriptemplateState extends State<Triptemplate> {
                                               // print(index);
                                               // print(value);
                                               // print(roomPrice);
+                                              // for (int i = 0;
+                                              //     i < allRoom.length;
+                                              //     i++) {
+                                                var roomprice2 =
+                                                    RoomTypeTripPrice();
 
-                                              var roomprice2 =
-                                                  RoomTypeTripPrice();
-                                              if (selectedTriptype == '0') {
-                                                roomprice2.hotelId =
-                                                    hotelTypeMap[selectedsleep];
-                                              } else {
-                                                roomprice2.liveaboardId =
-                                                    liveaboardTypeMap[
-                                                        selectedsleep];
-                                              }
-                                              roomprice2.roomTypeId =
-                                                  allRoom[index].id;
-                                              roomprice2.price =
-                                                  double.parse(value);
-                                              roomPrice.add(roomprice2);
+                                                if (selectedTriptype == '0') {
+                                                  roomprice2.hotelId =
+                                                      hotelTypeMap[
+                                                          selectedsleep];
+                                                } else {
+                                                  roomprice2.liveaboardId =
+                                                      liveaboardTypeMap[
+                                                          selectedsleep];
+                                                }
+                                                roomprice2.roomTypeId =
+                                                    allRoom[index].id;
+                                                roomprice2.price =
+                                                    double.parse(value);
+                                                roomPrice[index] = roomprice2;
+                                              // }
+                                              // print(roomPrice);
+
+                                              //old
+                                              // var roomprice2 =
+                                              //     RoomTypeTripPrice();
+
+                                              // if (selectedTriptype == '0') {
+                                              //   roomprice2.hotelId =
+                                              //       hotelTypeMap[selectedsleep];
+                                              // } else {
+                                              //   roomprice2.liveaboardId =
+                                              //       liveaboardTypeMap[
+                                              //           selectedsleep];
+                                              // }
+                                              // roomprice2.roomTypeId =
+                                              //     allRoom[index].id;
+                                              // roomprice2.price =
+                                              //     double.parse(value);
+
                                               // roomPrice.add(roomprice2);
                                               // print(roomPrice);
 
@@ -1126,7 +1144,9 @@ class _TriptemplateState extends State<Triptemplate> {
 
                 // )
 
-                //  FlatButton(onPressed: getData, child: Text('check')),
+                FlatButton(onPressed: () {
+                  print(roomPrice);
+                }),
               ]),
             ),
           ),

@@ -239,7 +239,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
     eachBoat.address.country = _controllerCountry.text;
     eachBoat.address.region = _controllerRegion.text;
     eachBoat.address.city = _controllerCity.text;
-
+/*
     var f = File();
     f.filename = 'Image.jpg';
     if (bboat != null) {
@@ -247,7 +247,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       f.file = b;
       eachBoat.images.add(f);
     }
-
+*/
     var address = Address();
     address.addressLine1 = eachBoat.address.addressLine1;
     address.addressLine2 = eachBoat.address.addressLine2;
@@ -262,7 +262,15 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       address.region = regionSelected;
     }
 
-    var boat = Boat()..address = address;
+    var f = File();
+    f.filename = bboat.name;
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    List<int> a = await bboat.readAsBytes();
+    f.file = a;
+    eachBoat.images.add(f);
+    
+    /*var boat = Boat()..address = address;
     boat.id=eachBoat.id;
     boat.name = eachBoat.name;
     boat.totalCapacity = eachBoat.totalCapacity;
@@ -271,9 +279,9 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
     boat.staffCapacity = eachBoat.staffCapacity;
     for (int i = 0; i < boat.images.length; i++) {
       eachBoat.images.add(boat.images[i]);
-    }
+    }*/
 
-    final updateRequest = UpdateBoatRequest()..boat = boat;
+    final updateRequest = UpdateBoatRequest()..boat = eachBoat;
     print(updateRequest);
     try {
       var response = stub.updateBoat(updateRequest);
@@ -282,7 +290,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       print(e);
     }
   }
-
   /// Get from gallery
   _getPicBoat(int num) async {
     bboat = await ImagePicker().pickImage(
@@ -290,13 +297,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
-    var f = File();
-    f.filename = bboat.name;
-    //var t = await imageFile.readAsBytes();
-    //f.file = new List<int>.from(t);
-    List<int> b = await bboat.readAsBytes();
-    f.file = b;
-    eachBoat.images.add(f);
+
     if (bboat != null) {
       setState(() {
         if (num == 1) boatimg = io.File(bboat.path);
@@ -408,7 +409,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: eachBoat.images[0] == null
+                  child: eachBoat.images.length == 0
                       ? new Container(
                           color: Colors.blue,
                         )
@@ -453,14 +454,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 10,
-              //     height: MediaQuery.of(context).size.width / 10,
-              //     child: eachBoat.images[1] == null
-              //         ? new Container(
-              //             color: Colors.blue,
-              //           )
-              //         : Image.network(eachBoat.images[1].link.toString())),
+               Container(
+                   width: MediaQuery.of(context).size.width / 10,
+                   height: MediaQuery.of(context).size.width / 10,
+                   child: eachBoat.images.length == 0
+                       ? new Container(
+                           color: Colors.blue,
+                         )
+                      : Image.network(eachBoat.images[1].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg2 == null
@@ -501,14 +502,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 10,
-              //     height: MediaQuery.of(context).size.width / 10,
-              //     child: eachBoat.images[2] == null
-              //         ? new Container(
-              //             color: Colors.blue,
-              //           )
-              //         : Image.network(eachBoat.images[2].link.toString())),
+               Container(
+                   width: MediaQuery.of(context).size.width / 10,
+                   height: MediaQuery.of(context).size.width / 10,
+                   child: eachBoat.images.length == 0
+                       ? new Container(
+                           color: Colors.blue,
+                         )
+                       : Image.network(eachBoat.images[2].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg3 == null
@@ -549,14 +550,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 10,
-              //     height: MediaQuery.of(context).size.width / 10,
-              //     child: eachBoat.images[3] == null
-              //         ? new Container(
-              //             color: Colors.blue,
-              //           )
-              //         : Image.network(eachBoat.images[3].link.toString())),
+               Container(
+                   width: MediaQuery.of(context).size.width / 10,
+                   height: MediaQuery.of(context).size.width / 10,
+                   child: eachBoat.images.length == 0
+                       ? new Container(
+                           color: Colors.blue,
+                         )
+                       : Image.network(eachBoat.images[3].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg4 == null
@@ -597,14 +598,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
             children: [
               Text('Image'),
               SizedBox(width: 30),
-              // Container(
-              //     width: MediaQuery.of(context).size.width / 10,
-              //     height: MediaQuery.of(context).size.width / 10,
-              //     child: eachBoat.images[4] == null
-              //         ? new Container(
-              //             color: Colors.blue,
-              //           )
-              //         : Image.network(eachBoat.images[4].link.toString())),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
+                  child: eachBoat.images.length == 0
+                      ? new Container(
+                          color: Colors.blue,
+                        )
+                      : Image.network(eachBoat.images[4].link.toString())),
               SizedBox(width: 30),
               Center(
                 child: boatimg5 == null

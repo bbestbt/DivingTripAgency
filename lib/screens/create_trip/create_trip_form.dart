@@ -36,7 +36,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   Map<String, dynamic> divemasterMap = {};
   TripTemplate triptemplate = new TripTemplate();
 
-  List<RoomTypeTripPrice> roomPrice = [];
+  List<RoomTypeTripPrice> roomPrice=[] ;
   //final TextEditingController _controllerPlace = TextEditingController();
   final TextEditingController _controllerFrom = TextEditingController();
   final TextEditingController _controllerTo = TextEditingController();
@@ -128,7 +128,15 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.tripTemplate.hotelId = triptemplate.hotelId;
     trip.tripTemplate.liveaboardId = triptemplate.liveaboardId;
 
-    // trip.tripRoomTypePrices=roomPrice;
+    for (int m = 0; m < roomPrice.length; m++) {
+      var rp = RoomTypeTripPrice();
+      rp.hotelId = roomPrice[m].hotelId;
+      rp.price = roomPrice[m].price;
+      rp.roomTypeId = roomPrice[m].roomTypeId;
+      rp.liveaboardId = roomPrice[m].liveaboardId;
+
+      trip.tripRoomTypePrices.add(rp);
+    }
 
     for (int j = 0; j < triptemplate.images.length; j++) {
       trip.tripTemplate.images.add(triptemplate.images[j]);
@@ -455,25 +463,26 @@ class _CreateTripFormState extends State<CreateTripForm> {
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () async => {
-              if (_formKey.currentState.validate())
-                {
-                  if (from == null)
-                    {
-                      addError(error: "Please select from date"),
-                    }
-                  else if (to == null)
-                    {
-                      addError(error: "Please select to date"),
-                    }
-                  else if (last == null)
-                    {
-                      addError(error: "Please select last reservation date"),
-                    }
-                  else
-                    {
-                      await AddTrip(),
-                    }
-                }
+              print(roomPrice)
+              // if (_formKey.currentState.validate())
+              //   {
+              //     if (from == null)
+              //       {
+              //         addError(error: "Please select from date"),
+              //       }
+              //     else if (to == null)
+              //       {
+              //         addError(error: "Please select to date"),
+              //       }
+              //     else if (last == null)
+              //       {
+              //         addError(error: "Please select last reservation date"),
+              //       }
+              //     else
+              //       {
+              //         await AddTrip(),
+              //       }
+              //   }
             },
             color: Color(0xfff75BDFF),
             child: Text(
