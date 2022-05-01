@@ -52,7 +52,13 @@ class _CreateTripFormState extends State<CreateTripForm> {
   List<DiveSite> pinkValue = [new DiveSite()];
   List<DiveMaster> dmValue = [new DiveMaster()];
   final _formKey = GlobalKey<FormState>();
-  bool switchValue = false;
+  bool switchWhite = false;
+
+  void switchChange(sw) {
+    setState(() {
+      switchWhite = sw;
+    });
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -541,16 +547,16 @@ class _CreateTripFormState extends State<CreateTripForm> {
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: Triptemplate(this.triptemplate, this.errors,
-                  this.roomPrice, this.switchValue)),
+                  this.roomPrice, switchChange)),
 
           SizedBox(height: 20),
           FormError(errors: errors),
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () async => {
-              print('va ' + switchValue.toString()),
-              // print(triptemplate)
-              if (switchValue == false)
+              // print('va ' + switchWhite.toString()),
+              // print(roomPrice)
+              if (switchWhite == false)
                 {
                   if (_formKey.currentState.validate())
                     {

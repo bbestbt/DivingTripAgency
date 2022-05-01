@@ -22,19 +22,21 @@ class Triptemplate extends StatefulWidget {
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   List<String> errors = [];
-  bool switchValue=false;
+  bool switchVal=false;
+final customFunction;
   Triptemplate(TripTemplate triptemplate, List<String> errors,
-      List<RoomTypeTripPrice> roomPrice, bool switchValue) {
+      List<RoomTypeTripPrice> roomPrice, this.customFunction) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
     this.errors = errors;
     this.roomPrice = roomPrice;
-    this.switchValue = switchValue;
+    this.switchVal = switchVal;
+    // this.customFunction=customFunction;
   }
   @override
   _TriptemplateState createState() => _TriptemplateState(
-      this.triptemplate, this.errors, this.roomPrice, this.switchValue);
+      this.triptemplate, this.errors, this.roomPrice, this.switchVal);
 }
 
 class _TriptemplateState extends State<Triptemplate> {
@@ -159,7 +161,7 @@ class _TriptemplateState extends State<Triptemplate> {
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   _TriptemplateState(TripTemplate triptemplate, List<String> errors,
-      List<RoomTypeTripPrice> roomPrice, bool switchValue) {
+      List<RoomTypeTripPrice> roomPrice,this.switchValue) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
@@ -338,7 +340,7 @@ class _TriptemplateState extends State<Triptemplate> {
       }
 
       await for (var feature in stub.listTripTemplates(triptemplaterequest)) {
-        print(feature.template.name);
+        // print(feature.template.name);
         triptemplateData.add(feature.template.name);
         triptemplateTypeMap[feature.template.name] = feature.template.id;
       }
@@ -377,10 +379,10 @@ class _TriptemplateState extends State<Triptemplate> {
     } catch (e) {
       print('ERROR: $e');
     }
-    print('--');
+    // print('--');
     // roomPrice = new List(allRoom.length);
     // print(allRoom);
-    return [allRoom];
+    return allRoom;
   }
 
   bool _showTextField = false;
@@ -432,12 +434,19 @@ class _TriptemplateState extends State<Triptemplate> {
                 switchValue = value;
                 isVisibleNew = !isVisibleNew;
                 isVisibleOld = !isVisibleOld;
-                setState(() {});
+                setState(() {
+                     switchValue = value;
+                     print(switchValue);
+                     widget.customFunction(switchValue);
+                });
               },
             ),
             Text('Create from old triptemplae'),
           ],
         ),
+        FlatButton(onPressed: () {
+          print(switchValue);
+        }),
         // SizedBox(height: 20),
         Visibility(
           visible: isVisibleOld,
@@ -457,18 +466,18 @@ class _TriptemplateState extends State<Triptemplate> {
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
-                      triptemplateSelected = value;
-                      print(triptemplateSelected);
-                      print(value);
-                      print(triptemplate);
+                      // triptemplateSelected = value;
+                      // print(triptemplateSelected);
+                      // print(value);
+                      // print(triptemplate);
                       triptemplate.name = triptemplateSelected;
                       triptemplate.id =
                           triptemplateTypeMap[triptemplateSelected];
-                      print(triptemplate.name);
-                      print(triptemplate.id);
+                      // print(triptemplate.name);
+                      // print(triptemplate.id);
                     });
                   }
-                  print(triptemplateSelected);
+                  // print(triptemplateSelected);
                 },
               ),
             ),
@@ -517,7 +526,7 @@ class _TriptemplateState extends State<Triptemplate> {
                               setState(() {
                                 countrySelected = value;
                                 triptemplate.address.country = countrySelected;
-                                print(value);
+                                // print(value);
                               });
                             }
                           },
@@ -562,7 +571,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 regionSelected = value;
                                 triptemplate.address.region = regionSelected;
 
-                                print(value);
+                                // print(value);
                               });
                             }
                           },
@@ -710,6 +719,10 @@ class _TriptemplateState extends State<Triptemplate> {
                     }
                     return null;
                   },
+                  onTap: () {
+                    roomPrice.clear();
+                    count = 0;
+                  },
                   onChanged: (sleep) {
                     if (sleep != null) {
                       removeError(error: "Please select name");
@@ -840,6 +853,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                               } else {
                                                 roomPrice[index] = roomprice2;
                                               }
+                                              // print(roomPrice);
 
                                               if (value.isNotEmpty) {
                                                 removeError(
@@ -934,7 +948,7 @@ class _TriptemplateState extends State<Triptemplate> {
                             //   removeError(error: "Please select boat");
                             setState(() {
                               boatSelected = value;
-                              print(value);
+                              // print(value);
                               //  hotelandboatID.boatId = boatMap[boatSelected];
 
                               triptemplate.boatId = boatMap[boatSelected];
