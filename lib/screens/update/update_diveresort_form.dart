@@ -207,8 +207,9 @@ class _editHotelFormState extends State<editHotelForm> {
     List<int> a = await hhotel.readAsBytes();
     f.file = a;
     //this.imagelist.add(f);
-    hotel.images.add(f);
-
+    eachHotel.images.add(f);
+    print("eachhotelimages");
+    print(eachHotel.images);
     if (hhotel != null) {
       setState(() {
         if (num == 1) hotelimg = io.File(hhotel.path);
@@ -280,10 +281,11 @@ class _editHotelFormState extends State<editHotelForm> {
     hotel.phone = eachHotel.phone;
 
     hotel.stars = eachHotel.stars;
-    for (int i = 0; i < hotel.images.length; i++) {
-      eachHotel.images.add(hotel.images[i]);
+    for (int i = 0; i < eachHotel.images.length; i++) {
+      hotel.images.add(eachHotel.images[i]);
     }
-
+    print("hotel.images");
+    print(hotel.images);
     final updateRequest = UpdateHotelRequest()..hotel = hotel;
     print(updateRequest);
     try {
@@ -411,7 +413,7 @@ class _editHotelFormState extends State<editHotelForm> {
               //         : Image.network(hotel.images[0].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg == null
+                  child: eachHotel.images.length < 1
                       ? Column(
                           children: [
                             Text(''),
@@ -420,7 +422,9 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              hotelimg.path,
+                              //hotelimg.path,
+                              //eachHotel.images[0].link.toString(),
+                    eachHotel.images[eachHotel.images.length-1].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -465,7 +469,7 @@ class _editHotelFormState extends State<editHotelForm> {
               //         : Image.network(hotel.images[1].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg2 == null
+                  child: eachHotel.images.length < 2
                       ? Column(
                           children: [
                             Text(''),
@@ -474,7 +478,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              hotelimg2.path,
+                    //eachHotel.images[1].link.toString(),
+                    eachHotel.images[eachHotel.images.length-2].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -519,7 +524,7 @@ class _editHotelFormState extends State<editHotelForm> {
               //         : Image.network(hotel.images[2].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg3 == null
+                  child: eachHotel.images.length < 3
                       ? Column(
                           children: [
                             Text(''),
@@ -528,7 +533,9 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              hotelimg3.path,
+                    eachHotel.images[eachHotel.images.length-3].link.toString(),
+                    //hotelimg3.path,
+                    //hotel.images[hotel.images.length-2],
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -572,7 +579,7 @@ class _editHotelFormState extends State<editHotelForm> {
               //         : Image.network(hotel.images[3].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg4 == null
+                  child: eachHotel.images.length < 4
                       ? Column(
                           children: [
                             Text(''),
@@ -581,7 +588,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              hotelimg4.path,
+                    eachHotel.images[eachHotel.images.length-4].link.toString(),
+                              //hotelimg4.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -626,7 +634,7 @@ class _editHotelFormState extends State<editHotelForm> {
               //         : Image.network(hotel.images[4].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg5 == null
+                  child: eachHotel.images.length < 5
                       ? Column(
                           children: [
                             Text(''),
@@ -635,7 +643,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              hotelimg5.path,
+                    eachHotel.images[eachHotel.images.length-5].link.toString(),
+                              //hotelimg5.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -680,7 +689,7 @@ class _editHotelFormState extends State<editHotelForm> {
               //         : Image.network(hotel.images[5].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg6 == null
+                  child: eachHotel.images.length < 6
                       ? Column(
                           children: [
                             Text(''),
@@ -689,7 +698,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              hotelimg6.path,
+                    eachHotel.images[eachHotel.images.length-6].link.toString(),
+                              //hotelimg6.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -734,7 +744,7 @@ class _editHotelFormState extends State<editHotelForm> {
               //         : Image.network(hotel.images[6].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg7 == null
+                  child: eachHotel.images.length < 7
                       ? Column(
                           children: [
                             Text(''),
@@ -743,7 +753,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              hotelimg7.path,
+                              //hotelimg7.path,
+                    eachHotel.images[eachHotel.images.length-7].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -788,7 +799,7 @@ class _editHotelFormState extends State<editHotelForm> {
               //         : Image.network(hotel.images[7].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg8 == null
+                  child: eachHotel.images.length < 8
                       ? Column(
                           children: [
                             Text(''),
@@ -797,7 +808,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              hotelimg8.path,
+                    eachHotel.images[eachHotel.images.length-8].link.toString(),
+                              //hotelimg8.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -842,7 +854,7 @@ class _editHotelFormState extends State<editHotelForm> {
               //         : Image.network(hotel.images[8].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg9 == null
+                  child: eachHotel.images.length < 9
                       ? Column(
                           children: [
                             Text(''),
@@ -851,7 +863,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              hotelimg9.path,
+                    eachHotel.images[eachHotel.images.length-9].link.toString(),
+                              //hotelimg9.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -895,7 +908,7 @@ class _editHotelFormState extends State<editHotelForm> {
               //         : Image.network(hotel.images[9].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg10 == null
+                  child: eachHotel.images.length < 10
                       ? Column(
                           children: [
                             Text(''),
@@ -904,7 +917,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              hotelimg10.path,
+                    eachHotel.images[eachHotel.images.length-10].link.toString(),
+                              //hotelimg10.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -954,6 +968,7 @@ class _editHotelFormState extends State<editHotelForm> {
               ),
             ),
           ),
+
           SizedBox(height: 20),
 
           Container(

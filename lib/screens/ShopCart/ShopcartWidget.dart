@@ -91,9 +91,9 @@ class _CartState extends State<CartWidget> {
       print("TripID");
       print("---------");
       print(Cartlist[i][12]);
-      print("UserToken");
+      print("Username");
       print("------");
-      // print(Cartlist[i][13]);
+      print(Cartlist[i][13]);
 
 
 
@@ -110,13 +110,9 @@ class _CartState extends State<CartWidget> {
     int i;
     bool checked=false;
     final box = Hive.box('userInfo');
-    String token = box.get('token');
-    print("Token");
-    print("------------");
-    print(token);
     for(i=0;i<CartBox.get('clength');i++) {
       //if(checked==false && CartBox.get("usertoken"+i.toString())==token) {
-      if(checked==false) {
+      if(checked==false && CartBox.get("username"+i.toString())==box.get("username")) {
 
 
         Cartlist.add([
@@ -135,7 +131,7 @@ class _CartState extends State<CartWidget> {
           CartBox.get("diver"+i.toString()), //10
           CartBox.get("roomid"+i.toString()), //11
           CartBox.get("tripid"+i.toString()), //12
-          CartBox.get("usertoken"+i.toString())//13
+          CartBox.get("username"+i.toString())//13
           //CartBox.get('roomtype'),
           ]);
         totalprice+=CartBox.get('price'+i.toString()) * CartBox.get("quantity"+i.toString());
@@ -166,7 +162,7 @@ class _CartState extends State<CartWidget> {
 
     CartBox.put('roomid'+cartind.toString(),Cartlist[cartind][11]);
     CartBox.put('tripid'+cartind.toString(), Cartlist[cartind][12]);
-    CartBox.put('usertoken'+cartind.toString(), Cartlist[cartind][13]);
+    CartBox.put('username'+cartind.toString(), Cartlist[cartind][13]);
 
 
     //var jsondetails = jsonEncode((Cartlist[cartind][5]
@@ -296,7 +292,7 @@ class _CartState extends State<CartWidget> {
                 //var testprof = getProfile();
                 //print(testprof);
                 final box = Hive.box('userInfo');
-                print(box.toMap());
+                print(box.get('username'));
                 //persCarthive(position);
                 //persCart(position);
               });

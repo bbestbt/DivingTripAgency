@@ -421,7 +421,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg == null
+                  child: eachLiveaboard.images.length < 1
                       ? Column(
                           children: [
                             Text(''),
@@ -430,7 +430,8 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg.path,
+                              //liveaboardimg.path,
+                              eachLiveaboard.images[eachLiveaboard.images.length-1].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -464,7 +465,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg2 == null
+                  child: eachLiveaboard.images.length < 2
                       ? Column(
                           children: [
                             Text(''),
@@ -473,7 +474,8 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg2.path,
+                              //liveaboardimg2.path,
+                    eachLiveaboard.images[eachLiveaboard.images.length-2].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -507,7 +509,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg3 == null
+                  child: eachLiveaboard.images.length < 3
                       ? Column(
                           children: [
                             Text(''),
@@ -516,7 +518,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg3.path,
+                    eachLiveaboard.images[eachLiveaboard.images.length-3].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -550,7 +552,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg4 == null
+                  child: eachLiveaboard.images.length < 4
                       ? Column(
                           children: [
                             Text(''),
@@ -559,7 +561,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg4.path,
+                    eachLiveaboard.images[eachLiveaboard.images.length-4].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -593,7 +595,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg5 == null
+                  child: eachLiveaboard.images.length < 5
                       ? Column(
                           children: [
                             Text(''),
@@ -602,7 +604,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg5.path,
+                    eachLiveaboard.images[eachLiveaboard.images.length-5].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -636,7 +638,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg6 == null
+                  child: eachLiveaboard.images.length < 6
                       ? Column(
                           children: [
                             Text(''),
@@ -645,7 +647,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg6.path,
+                    eachLiveaboard.images[eachLiveaboard.images.length-6].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -679,7 +681,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg7 == null
+                  child: eachLiveaboard.images.length < 7
                       ? Column(
                           children: [
                             Text(''),
@@ -688,7 +690,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg7.path,
+                    eachLiveaboard.images[eachLiveaboard.images.length-7].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -722,7 +724,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg8 == null
+                  child: eachLiveaboard.images.length < 8
                       ? Column(
                           children: [
                             Text(''),
@@ -731,7 +733,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg8.path,
+                    eachLiveaboard.images[eachLiveaboard.images.length-8].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -765,7 +767,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg9 == null
+                  child: eachLiveaboard.images.length < 9
                       ? Column(
                           children: [
                             Text(''),
@@ -774,7 +776,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg9.path,
+                    eachLiveaboard.images[eachLiveaboard.images.length-9].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -808,7 +810,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: liveaboardimg10 == null
+                  child: eachLiveaboard.images.length < 10
                       ? Column(
                           children: [
                             Text(''),
@@ -817,7 +819,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              liveaboardimg10.path,
+                    eachLiveaboard.images[eachLiveaboard.images.length-10].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
