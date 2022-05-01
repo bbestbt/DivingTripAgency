@@ -11,6 +11,8 @@ import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:diving_trip_agency/screens/update/update_divemaster_in_trip.dart';
+import 'package:diving_trip_agency/screens/update/update_divesite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
@@ -139,6 +141,8 @@ class _updateTripFormState extends State<updateTripForm> {
   List<DiveSite> pinkValue = [new DiveSite()];
   final _formKey = GlobalKey<FormState>();
   String boatUsed = '';
+  List<DiveMaster> dmValue = [];
+  int pinkcount;
 
   @override
   void initState() {
@@ -211,6 +215,39 @@ class _updateTripFormState extends State<updateTripForm> {
             ],
           );
         });
+  }
+
+  void sendTripEdit() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    if (from != null) {
+      eachTrip.startDate = Timestamp.fromDateTime(from);
+    }
+
+    if (to != null) {
+      eachTrip.endDate = Timestamp.fromDateTime(to);
+    }
+    if (last != null) {
+      eachTrip.lastReservationDate = Timestamp.fromDateTime(last);
+    }
+    eachTrip.maxGuest = int.parse(_controllerTotalpeople.text);
+    final updateRequest = UpdateTripRequest()..trip = eachTrip;
+    print(updateRequest);
+    try {
+      var response = stub.updateTrip(updateRequest);
+      print('response: ${response}');
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -332,37 +369,49 @@ class _updateTripFormState extends State<updateTripForm> {
           ),
           SizedBox(height: 20),
 
+          // Container(
+          //   color: Colors.white,
+          //   child: Center(
+          //     child: DropdownButtonFormField(
+          //       isExpanded: true,
+          //       value: divemasterSelected,
+          //       items: listDivemaster,
+          //       hint: Text('eachTrip.diveMasters'),
+          //       iconSize: 40,
+          //       onChanged: (value) {
+          //         if (value != null) {
+          //           setState(() {
+          //             divemasterSelected = value;
+          //             print(value);
+          //           });
+          //         }
+          //       },
+          //     ),
+          //   ),
+          // ),
           Container(
-            color: Colors.white,
-            child: Center(
-              child: DropdownButtonFormField(
-                isExpanded: true,
-                value: divemasterSelected,
-                items: listDivemaster,
-                hint: Text('eachTrip.diveMasters'),
-                iconSize: 40,
-                onChanged: (value) {
-                  if (value != null) {
-                    setState(() {
-                      divemasterSelected = value;
-                      print(value);
-                    });
-                  }
-                },
-              ),
-            ),
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xfffd4f0f0),
+                borderRadius: BorderRadius.circular(10)),
+            child: AddMoreDiveMasterUpdate(
+                this.dmValue, this.eachTrip, this.divemaster),
           ),
+
           SizedBox(height: 20),
 
           buildTotalPeopleFormField(),
           SizedBox(height: 20),
-          // Container(
-          //   width: MediaQuery.of(context).size.width / 1.5,
-          //   decoration: BoxDecoration(
-          //       color: Color(0xffffee1e8),
-          //       borderRadius: BorderRadius.circular(10)),
-          //   child: AddMoreDiveSite(this.pinkValue, this.errors),
-          // ),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xffffee1e8),
+                borderRadius: BorderRadius.circular(10)),
+            child: DiveSiteFormUpdate(
+              this.pinkcount,
+              this.pinkValue,
+            ),
+          ),
           SizedBox(height: 20),
           // Container(
           //     width: MediaQuery.of(context).size.width / 1.5,
@@ -375,7 +424,7 @@ class _updateTripFormState extends State<updateTripForm> {
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () async => {
-              // await AddTrip(),
+              await sendTripEdit()
             },
             color: Color(0xfff75BDFF),
             child: Text(

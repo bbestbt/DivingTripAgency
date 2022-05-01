@@ -66,8 +66,8 @@ class updateHotel extends StatelessWidget {
     } catch (e) {
       print('ERROR: $e');
     }
-    print('--');
-    print(hotels);
+    // print('--');
+    // print(hotels);
     return hotels;
   }
 

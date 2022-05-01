@@ -66,8 +66,8 @@ class updateStaff extends StatelessWidget {
     } catch (e) {
       print('ERROR: $e');
     }
-    print('--');
-    print(staffs);
+    // print('--');
+    // print(staffs);
     return staffs;
   }
 

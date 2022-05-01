@@ -66,8 +66,8 @@ class updateDivemaster extends StatelessWidget {
     } catch (e) {
       print('ERROR: $e');
     }
-    print('--');
-    print(divemasters);
+    // print('--');
+    // print(divemasters);
     return divemasters;
   }
 
