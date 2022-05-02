@@ -145,7 +145,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     // tripRequest.tripTemplate = triptemplate;
     //tripRequest.tripTemplate.images.add(value);
 
-    // print(tripRequest);
+    print(tripRequest);
     try {
       var response = await stub.addTrip(tripRequest);
       print('ok');
@@ -554,7 +554,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () async => {
-              // print('va ' + switchWhite.toString()),
+              print('va ' + switchWhite.toString()),
               // print(roomPrice)
               if (switchWhite == false)
                 {
@@ -581,6 +581,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
                 }
               else
                 {
+                  // print(triptemplate),
                   await AddOldTriptemplate(),
                 }
             },

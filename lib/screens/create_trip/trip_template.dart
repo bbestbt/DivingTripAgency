@@ -444,9 +444,9 @@ class _TriptemplateState extends State<Triptemplate> {
             Text('Create from old triptemplae'),
           ],
         ),
-        FlatButton(onPressed: () {
-          print(switchValue);
-        }),
+        // FlatButton(onPressed: () {
+        //   print(switchValue);
+        // }),
         // SizedBox(height: 20),
         Visibility(
           visible: isVisibleOld,
@@ -466,7 +466,7 @@ class _TriptemplateState extends State<Triptemplate> {
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
-                      // triptemplateSelected = value;
+                      triptemplateSelected = value;
                       // print(triptemplateSelected);
                       // print(value);
                       // print(triptemplate);
