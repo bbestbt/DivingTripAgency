@@ -854,7 +854,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: RoomFormLiveaboardUpdate(this.eachLiveaboard),
+            child: AddMoreRoomUpdateLiveaboard(this.eachLiveaboard),
           ),
           SizedBox(height: 30),
 

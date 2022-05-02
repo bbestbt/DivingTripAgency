@@ -27,7 +27,7 @@ class AddMoreDiveMasterUpdate extends StatefulWidget {
 }
 
 class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
-  int dmcount = 1;
+  int dmcount = 0;
   TripWithTemplate eachTrip;
   List<String> divemaster = [];
   List<DiveMaster> dmValue = [];
@@ -45,6 +45,13 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
         SizedBox(
           height: 20,
         ),
+        DiveMasterFormUpdate(
+            dmcount, this.dmValue, this.eachTrip, this.divemaster),
+        Divider(
+          thickness: 5,
+          indent: 20,
+          endIndent: 20,
+        ),
         ListView.separated(
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(
@@ -55,44 +62,44 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
             shrinkWrap: true,
             itemCount: dmcount,
             itemBuilder: (BuildContext context, int index) {
-              return DiveMasterFormUpdate(
-                  dmcount, this.dmValue, this.eachTrip, this.divemaster);
+              return DiveMasterForm(
+                  dmcount, this.dmValue, this.divemaster, this.eachTrip);
             }),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     MaterialButton(
-        //       onPressed: () {
-        //         setState(() {
-        //           dmcount += 1;
-        //           dmValue.add(new DiveMaster());
-        //         });
-        //       },
-        //       color: Color(0xfff55bcc9),
-        //       textColor: Colors.white,
-        //       child: Icon(
-        //         Icons.add,
-        //         size: 20,
-        //       ),
-        //     ),
-        //     SizedBox(width: 30),
-        //     MaterialButton(
-        //       onPressed: () {
-        //         setState(() {
-        //           dmcount -= 1;
-        //           dmValue.remove(new DiveMaster());
-        //         });
-        //       },
-        //       color: Color(0xfff55bcc9),
-        //       textColor: Colors.white,
-        //       child: Icon(
-        //         Icons.remove,
-        //         size: 20,
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        // SizedBox(height: 30),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  dmcount += 1;
+                  dmValue.add(new DiveMaster());
+                });
+              },
+              color: Color(0xfff55bcc9),
+              textColor: Colors.white,
+              child: Icon(
+                Icons.add,
+                size: 20,
+              ),
+            ),
+            SizedBox(width: 30),
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  dmcount -= 1;
+                  dmValue.remove(new DiveMaster());
+                });
+              },
+              color: Color(0xfff55bcc9),
+              textColor: Colors.white,
+              child: Icon(
+                Icons.remove,
+                size: 20,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 30),
       ])),
     );
   }
@@ -131,13 +138,18 @@ class _DiveMasterFormUpdateState extends State<DiveMasterFormUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-        spacing: 20,
-        runSpacing: 40,
-        children: List.generate(
-          eachTrip.diveMasters.length,
-          (index) => InfoCard(index, dmcount, dmValue, eachTrip, divemaster),
-        ));
+    return Column(
+      children: [
+        Wrap(
+            spacing: 20,
+            runSpacing: 40,
+            children: List.generate(
+              eachTrip.diveMasters.length,
+              (index) =>
+                  InfoCard(index, dmcount, dmValue, eachTrip, divemaster),
+            )),
+      ],
+    );
   }
 }
 
@@ -176,7 +188,6 @@ class _InfoCardState extends State<InfoCard> {
       listDivemaster = divemaster
           .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
           .toList();
-      print(listDivemaster);
     });
   }
 
@@ -232,6 +243,128 @@ class _InfoCardState extends State<InfoCard> {
                 value: divemasterSelected,
                 items: listDivemaster,
                 hint: Text(eachTrip.diveMasters[index].firstName),
+                iconSize: 40,
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() {
+                      divemasterSelected = value;
+                      divemaster.forEach((element) {
+                        if (element == divemasterSelected) {
+                          // print(amenityMap[element]);
+                          dmValue[dmcount - 1].firstName = divemasterSelected;
+                          dmValue[dmcount - 1].id = divemasterMap[element];
+                        }
+                      });
+
+                      // print(value);
+                    });
+                  }
+                  // print(dmValue);
+                },
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+        ]),
+      ),
+    );
+  }
+}
+
+class DiveMasterForm extends StatefulWidget {
+  int dmcount;
+  List<DiveMaster> dmValue;
+  List<String> divemaster = [];
+  TripWithTemplate eachTrip;
+
+  DiveMasterForm(int dmcount, List<DiveMaster> dmValue, List<String> divemaster,
+      TripWithTemplate eachTrip) {
+    this.dmcount = dmcount;
+    this.dmValue = dmValue;
+    this.eachTrip = eachTrip;
+    this.divemaster = divemaster;
+  }
+  @override
+  _DiveMasterFormState createState() => _DiveMasterFormState(
+      this.dmcount, this.dmValue, this.divemaster, this.eachTrip);
+}
+
+class _DiveMasterFormState extends State<DiveMasterForm> {
+  int dmcount;
+
+  List<DiveMaster> dmValue;
+  List<String> divemaster = [];
+  TripWithTemplate eachTrip;
+  _DiveMasterFormState(int dmcount, List<DiveMaster> dmValue,
+      List<String> divemaster, TripWithTemplate eachTrip) {
+    this.dmcount = dmcount;
+    this.dmValue = dmValue;
+    this.eachTrip = eachTrip;
+    this.divemaster = divemaster;
+  }
+  List<DropdownMenuItem<String>> listDivemaster = [];
+
+  String divemasterSelected;
+  Map<String, dynamic> divemasterMap = {};
+
+  getData() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    var divemasterrequest = ListDiveMastersRequest();
+
+    try {
+      await for (var feature in stub.listDiveMasters(divemasterrequest)) {
+        divemaster.add(feature.diveMaster.firstName);
+        divemasterMap[feature.diveMaster.firstName] = feature.diveMaster.id;
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+  }
+
+  void loadData() async {
+    await getData();
+    setState(() {
+      listDivemaster = [];
+      listDivemaster = divemaster
+          .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+          .toList();
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double screenwidth = MediaQuery.of(context).size.width;
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(children: [
+          Container(
+            color: Color(0xfffcafafe),
+            // Colors.white,
+            child: Center(
+              child: DropdownButtonFormField(
+                isExpanded: true,
+                value: divemasterSelected,
+                items: listDivemaster,
+                hint: Text('  Select dive master'),
                 iconSize: 40,
                 onChanged: (value) {
                   if (value != null) {

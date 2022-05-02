@@ -11,22 +11,108 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
+class AddMoreDiveSiteUpdate extends StatefulWidget {
+  List<DiveSite> pinkValue = [];
+  TripWithTemplate eachTrip;
+
+  AddMoreDiveSiteUpdate(List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
+    this.pinkValue = pinkValue;
+    this.eachTrip = eachTrip;
+  }
+  @override
+  _AddMoreDiveSiteUpdateState createState() =>
+      _AddMoreDiveSiteUpdateState(this.pinkValue, this.eachTrip);
+}
+
+class _AddMoreDiveSiteUpdateState extends State<AddMoreDiveSiteUpdate> {
+  int pinkcount = 0;
+  List<DiveSite> pinkValue = [];
+  TripWithTemplate eachTrip;
+  _AddMoreDiveSiteUpdateState(
+      List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
+    this.pinkValue = pinkValue;
+    this.eachTrip = eachTrip;
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: SingleChildScrollView(
+          child: Column(children: [
+        SizedBox(
+          height: 20,
+        ),
+        Align(alignment: Alignment.topLeft, child: Text('  Divesite')),
+        DiveSiteFormUpdate(this.pinkcount, this.pinkValue, this.eachTrip),
+        Divider(
+          thickness: 5,
+          indent: 20,
+          endIndent: 20,
+        ),
+        ListView.separated(
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(
+                  thickness: 5,
+                  indent: 20,
+                  endIndent: 20,
+                ),
+            shrinkWrap: true,
+            itemCount: pinkcount,
+            itemBuilder: (BuildContext context, int index) {
+              return DiveSiteForm(pinkcount, this.pinkValue, this.eachTrip);
+            }),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  pinkcount += 1;
+                  pinkValue.add(new DiveSite());
+                });
+              },
+              color: Color(0xfffff968a),
+              textColor: Colors.white,
+              child: Icon(
+                Icons.add,
+                size: 20,
+              ),
+            ),
+            SizedBox(width: 30),
+            MaterialButton(
+              onPressed: () {
+                setState(() {
+                  pinkcount -= 1;
+                  pinkValue.remove(new DiveSite());
+                });
+              },
+              color: Color(0xfffff968a),
+              textColor: Colors.white,
+              child: Icon(
+                Icons.remove,
+                size: 20,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 30),
+      ])),
+    );
+  }
+}
+
 class DiveSiteFormUpdate extends StatefulWidget {
   int pinkcount;
   List<DiveSite> pinkValue;
- TripWithTemplate eachTrip;
+  TripWithTemplate eachTrip;
   DiveSiteFormUpdate(
-    int pinkcount,
-    List<DiveSite> pinkValue,
-     TripWithTemplate eachTrip
-  ) {
+      int pinkcount, List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
-    this.eachTrip=eachTrip;
+    this.eachTrip = eachTrip;
   }
   @override
   _DiveSiteFormUpdateState createState() =>
-      _DiveSiteFormUpdateState(this.pinkcount, this.pinkValue,this.eachTrip);
+      _DiveSiteFormUpdateState(this.pinkcount, this.pinkValue, this.eachTrip);
 }
 
 class _DiveSiteFormUpdateState extends State<DiveSiteFormUpdate> {
@@ -35,13 +121,14 @@ class _DiveSiteFormUpdateState extends State<DiveSiteFormUpdate> {
   String description;
   String min_depth;
   String max_depth;
- TripWithTemplate eachTrip;
+  TripWithTemplate eachTrip;
   List<DiveSite> pinkValue;
 
-  _DiveSiteFormUpdateState(int pinkcount, List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
+  _DiveSiteFormUpdateState(
+      int pinkcount, List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
-    this.eachTrip=eachTrip;
+    this.eachTrip = eachTrip;
   }
 
   @override
@@ -57,7 +144,7 @@ class _DiveSiteFormUpdateState extends State<DiveSiteFormUpdate> {
             runSpacing: 40,
             children: List.generate(
               eachTrip.diveSites.length,
-              (index) => InfoCard(index, pinkcount, pinkValue,eachTrip),
+              (index) => InfoCard(index, pinkcount, pinkValue, eachTrip),
             )),
       ],
     );
@@ -71,19 +158,20 @@ class InfoCard extends StatefulWidget {
   String min_depth;
   String max_depth;
   int index;
-   TripWithTemplate eachTrip;
+  TripWithTemplate eachTrip;
 
   List<DiveSite> pinkValue;
 
-  InfoCard(int index, int pinkcount, List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
+  InfoCard(int index, int pinkcount, List<DiveSite> pinkValue,
+      TripWithTemplate eachTrip) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.index = index;
-    this.eachTrip=eachTrip;
+    this.eachTrip = eachTrip;
   }
   @override
   State<InfoCard> createState() =>
-      _InfoCardState(this.pinkcount, this.pinkValue, this.index,this.eachTrip);
+      _InfoCardState(this.pinkcount, this.pinkValue, this.index, this.eachTrip);
 }
 
 class _InfoCardState extends State<InfoCard> {
@@ -98,9 +186,9 @@ class _InfoCardState extends State<InfoCard> {
   String min_depth;
   String max_depth;
   int index;
- TripWithTemplate eachTrip;
+  TripWithTemplate eachTrip;
   List<DiveSite> pinkValue;
-  _InfoCardState(this.pinkcount, this.pinkValue, this.index,this.eachTrip);
+  _InfoCardState(this.pinkcount, this.pinkValue, this.index, this.eachTrip);
   @override
   void initState() {
     // TODO: implement initState
@@ -187,6 +275,144 @@ class _InfoCardState extends State<InfoCard> {
         pinkValue[pinkcount - 1].maxDepth = int.parse(value);
         // print(value);
         // print("===");
+      },
+      decoration: InputDecoration(
+        labelText: "Max depth",
+        filled: true,
+        fillColor: Color(0xffffee1e8),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildNameFormField() {
+    return TextFormField(
+      controller: _controllerName,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => name = newValue,
+      onChanged: (value) {
+        pinkValue[pinkcount - 1].name = value;
+      },
+      decoration: InputDecoration(
+        labelText: "Name",
+        filled: true,
+        fillColor: Color(0xffffee1e8),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+}
+
+class DiveSiteForm extends StatefulWidget {
+  int pinkcount;
+  List<DiveSite> pinkValue;
+  TripWithTemplate eachTrip;
+  DiveSiteForm(
+      int pinkcount, List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
+    this.pinkcount = pinkcount;
+    this.pinkValue = pinkValue;
+    this.eachTrip = eachTrip;
+  }
+  @override
+  _DiveSiteFormState createState() =>
+      _DiveSiteFormState(this.pinkcount, this.pinkValue, this.eachTrip);
+}
+
+class _DiveSiteFormState extends State<DiveSiteForm> {
+  int pinkcount;
+  String name;
+  String description;
+  String min_depth;
+  String max_depth;
+  TripWithTemplate eachTrip;
+
+  List<DiveSite> pinkValue;
+
+  _DiveSiteFormState(
+      int pinkcount, List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
+    this.pinkcount = pinkcount;
+    this.pinkValue = pinkValue;
+    this.eachTrip = eachTrip;
+  }
+  final TextEditingController _controllerDescription = TextEditingController();
+  final TextEditingController _controllerMax = TextEditingController();
+  final TextEditingController _controllerMin = TextEditingController();
+
+  final TextEditingController _controllerName = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    double screenwidth = MediaQuery.of(context).size.width;
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(children: [
+          SizedBox(height: 20),
+          buildNameFormField(),
+          SizedBox(height: 20),
+          buildDescriptionFormField(),
+          SizedBox(height: 20),
+          buildMaxFormField(),
+          SizedBox(height: 20),
+          buildMinFormField(),
+          SizedBox(height: 20),
+        ]),
+      ),
+    );
+  }
+
+  TextFormField buildDescriptionFormField() {
+    return TextFormField(
+      controller: _controllerDescription,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => description = newValue,
+      onChanged: (value) {
+        pinkValue[pinkcount - 1].description = value;
+      },
+      decoration: InputDecoration(
+        labelText: "Description",
+        filled: true,
+        fillColor: Color(0xffffee1e8),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildMinFormField() {
+    return TextFormField(
+      controller: _controllerMin,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => min_depth = newValue,
+      onChanged: (value) {
+        pinkValue[pinkcount - 1].minDepth = int.parse(value);
+      },
+      decoration: InputDecoration(
+        labelText: "Min depth",
+        filled: true,
+        fillColor: Color(0xffffee1e8),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildMaxFormField() {
+    return TextFormField(
+      controller: _controllerMax,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => max_depth = newValue,
+      onChanged: (value) {
+        // print('room max start');
+        // print(pinkcount);
+        // print('room max end');
+        pinkValue[pinkcount - 1].maxDepth = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max depth",

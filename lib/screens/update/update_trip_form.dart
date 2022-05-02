@@ -465,7 +465,6 @@ class _updateTripFormState extends State<updateTripForm> {
           ),
 
           SizedBox(height: 20),
-
           buildTotalPeopleFormField(),
           SizedBox(height: 20),
           Container(
@@ -473,11 +472,8 @@ class _updateTripFormState extends State<updateTripForm> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: DiveSiteFormUpdate(
-              this.pinkcount,
-              this.pinkValue,
-              this.eachTrip
-            ),
+            child: AddMoreDiveSiteUpdate(
+                 this.pinkValue, this.eachTrip),
           ),
           SizedBox(height: 20),
           Container(

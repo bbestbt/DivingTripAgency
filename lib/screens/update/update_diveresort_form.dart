@@ -976,7 +976,7 @@ class _editHotelFormState extends State<editHotelForm> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: RoomFormHotelUpdate(this.eachHotel),
+            child: AddMoreRoomUpdateHotel(this.eachHotel),
           ),
           SizedBox(height: 30),
 
