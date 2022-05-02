@@ -135,7 +135,7 @@ class _DiveMasterFormUpdateState extends State<DiveMasterFormUpdate> {
         spacing: 20,
         runSpacing: 40,
         children: List.generate(
-         divemaster.length,
+          eachTrip.diveMasters.length,
           (index) => InfoCard(index, dmcount, dmValue, eachTrip, divemaster),
         ));
   }
@@ -166,18 +166,19 @@ class _InfoCardState extends State<InfoCard> {
   List<DiveMaster> dmValue;
   TripWithTemplate eachTrip;
   List<String> divemaster = [];
+  List<DropdownMenuItem<String>> listDivemaster = [];
   _InfoCardState(
       this.index, this.dmcount, this.dmValue, this.eachTrip, this.divemaster);
   void loadData() async {
+    await getData();
     setState(() {
       listDivemaster = [];
       listDivemaster = divemaster
           .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
           .toList();
+      print(listDivemaster);
     });
   }
-
-  List<DropdownMenuItem<String>> listDivemaster = [];
 
   String divemasterSelected;
   Map<String, dynamic> divemasterMap = {};
@@ -187,6 +188,32 @@ class _InfoCardState extends State<InfoCard> {
     // TODO: implement initState
     super.initState();
     loadData();
+  }
+
+  getData() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    var divemasterrequest = ListDiveMastersRequest();
+
+    try {
+      await for (var feature in stub.listDiveMasters(divemasterrequest)) {
+        //  print(feature.diveMaster.firstName);
+        divemaster.add(feature.diveMaster.firstName);
+        divemasterMap[feature.diveMaster.firstName] = feature.diveMaster.id;
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
   }
 
   @override
@@ -204,7 +231,7 @@ class _InfoCardState extends State<InfoCard> {
                 isExpanded: true,
                 value: divemasterSelected,
                 items: listDivemaster,
-                hint: Text(divemaster[index]),
+                hint: Text(eachTrip.diveMasters[index].firstName),
                 iconSize: 40,
                 onChanged: (value) {
                   if (value != null) {

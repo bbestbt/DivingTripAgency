@@ -14,17 +14,19 @@ import 'package:hive/hive.dart';
 class DiveSiteFormUpdate extends StatefulWidget {
   int pinkcount;
   List<DiveSite> pinkValue;
-
+ TripWithTemplate eachTrip;
   DiveSiteFormUpdate(
     int pinkcount,
     List<DiveSite> pinkValue,
+     TripWithTemplate eachTrip
   ) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
+    this.eachTrip=eachTrip;
   }
   @override
   _DiveSiteFormUpdateState createState() =>
-      _DiveSiteFormUpdateState(this.pinkcount, this.pinkValue);
+      _DiveSiteFormUpdateState(this.pinkcount, this.pinkValue,this.eachTrip);
 }
 
 class _DiveSiteFormUpdateState extends State<DiveSiteFormUpdate> {
@@ -33,12 +35,13 @@ class _DiveSiteFormUpdateState extends State<DiveSiteFormUpdate> {
   String description;
   String min_depth;
   String max_depth;
-
+ TripWithTemplate eachTrip;
   List<DiveSite> pinkValue;
 
-  _DiveSiteFormUpdateState(int pinkcount, List<DiveSite> pinkValue) {
+  _DiveSiteFormUpdateState(int pinkcount, List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
+    this.eachTrip=eachTrip;
   }
 
   @override
@@ -53,8 +56,8 @@ class _DiveSiteFormUpdateState extends State<DiveSiteFormUpdate> {
             spacing: 20,
             runSpacing: 40,
             children: List.generate(
-              1,
-              (index) => InfoCard(index, pinkcount, pinkValue),
+              eachTrip.diveSites.length,
+              (index) => InfoCard(index, pinkcount, pinkValue,eachTrip),
             )),
       ],
     );
@@ -68,17 +71,19 @@ class InfoCard extends StatefulWidget {
   String min_depth;
   String max_depth;
   int index;
+   TripWithTemplate eachTrip;
 
   List<DiveSite> pinkValue;
 
-  InfoCard(int index, int pinkcount, List<DiveSite> pinkValue) {
+  InfoCard(int index, int pinkcount, List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.index = index;
+    this.eachTrip=eachTrip;
   }
   @override
   State<InfoCard> createState() =>
-      _InfoCardState(this.pinkcount, this.pinkValue, this.index);
+      _InfoCardState(this.pinkcount, this.pinkValue, this.index,this.eachTrip);
 }
 
 class _InfoCardState extends State<InfoCard> {
@@ -93,17 +98,17 @@ class _InfoCardState extends State<InfoCard> {
   String min_depth;
   String max_depth;
   int index;
-
+ TripWithTemplate eachTrip;
   List<DiveSite> pinkValue;
-  _InfoCardState(this.pinkcount, this.pinkValue, this.index);
+  _InfoCardState(this.pinkcount, this.pinkValue, this.index,this.eachTrip);
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controllerDescription.text = '1';
-    _controllerMax.text = '3';
-    _controllerMin.text = '3';
-    _controllerName.text = '2';
+    _controllerDescription.text = eachTrip.diveSites[index].description;
+    _controllerMax.text = eachTrip.diveSites[index].maxDepth.toString();
+    _controllerMin.text = eachTrip.diveSites[index].minDepth.toString();
+    _controllerName.text = eachTrip.diveSites[index].name;
   }
 
   @override
