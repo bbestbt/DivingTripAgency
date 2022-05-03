@@ -8,15 +8,14 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
-
 class AddMoreAmenityUpdateLiveaboard extends StatefulWidget {
   List<List<Amenity>> blueValue;
- Liveaboard eachLiveaboard;
+  Liveaboard eachLiveaboard;
   int bluecount;
 
   int pinkcount;
   AddMoreAmenityUpdateLiveaboard(
-   Liveaboard eachLiveaboard,
+    Liveaboard eachLiveaboard,
     // int bluecount,
     int pinkcount,
     // List<List<Amenity>> blueValue,
@@ -28,18 +27,18 @@ class AddMoreAmenityUpdateLiveaboard extends StatefulWidget {
   }
   @override
   _AddMoreAmenityUpdateLiveaboardState createState() =>
-      _AddMoreAmenityUpdateLiveaboardState(
-          this.eachLiveaboard, this.pinkcount);
+      _AddMoreAmenityUpdateLiveaboardState(this.eachLiveaboard, this.pinkcount);
 }
 
-class _AddMoreAmenityUpdateLiveaboardState extends State<AddMoreAmenityUpdateLiveaboard> {
+class _AddMoreAmenityUpdateLiveaboardState
+    extends State<AddMoreAmenityUpdateLiveaboard> {
   int bluecount = 0;
   int pinkcount;
   List<List<Amenity>> blueValue;
- Liveaboard eachLiveaboard;
+  Liveaboard eachLiveaboard;
 
   _AddMoreAmenityUpdateLiveaboardState(
-   Liveaboard eachLiveaboard,
+    Liveaboard eachLiveaboard,
     // int bluecount,
     int pinkcount,
     // List<List<Amenity>> blueValue,
@@ -54,15 +53,21 @@ class _AddMoreAmenityUpdateLiveaboardState extends State<AddMoreAmenityUpdateLiv
     return Container(
       child: SingleChildScrollView(
           child: Column(children: [
-        updateAmenityLiveaboardForm(
-            this.eachLiveaboard, this.bluecount, this.pinkcount, this.blueValue),
+        updateAmenityLiveaboardForm(this.eachLiveaboard, this.bluecount,
+            this.pinkcount, this.blueValue),
         ListView.separated(
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
             shrinkWrap: true,
             itemCount: bluecount,
             itemBuilder: (BuildContext context, int index) {
-              return amenityForm(bluecount, pinkcount, this.blueValue);
+              return amenityForm(
+                  bluecount,
+                  pinkcount,
+                  this.blueValue,
+                  index +
+                      liveaboardDetial
+                          .liveaboard.roomTypes[pinkcount].amenities.length);
             }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -99,10 +104,14 @@ class _AddMoreAmenityUpdateLiveaboardState extends State<AddMoreAmenityUpdateLiv
           ],
         ),
         SizedBox(height: 30),
+        FlatButton(onPressed: () {
+          print(liveaboardDetial.liveaboard.roomTypes[pinkcount].amenities);
+        }),
       ])),
     );
   }
 }
+
 GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
 var liveaboard;
 
@@ -278,10 +287,10 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(index.toString()),
           SizedBox(height: 20),
           Container(
             color: Color(0xfffd4f0f0),
-            //color: Color(0xFFFd0efff),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
@@ -292,19 +301,17 @@ class _InfoCardState extends State<InfoCard> {
                     .liveaboard.roomTypes[pinkcount].amenities[index].name),
                 iconSize: 40,
                 onChanged: (value) {
-                  // if (value != null) {
                   setState(() {
                     amenitySelected = value;
                     amenity.forEach((element) {
                       if (element == amenitySelected) {
-                        blueValue[pinkcount - 1][index - 1].name =
-                            amenitySelected;
-                        blueValue[pinkcount - 1][index - 1].id =
-                            amenityMap[element];
+                        liveaboardDetial.liveaboard.roomTypes[pinkcount]
+                            .amenities[index].name = amenitySelected;
+                        liveaboardDetial.liveaboard.roomTypes[pinkcount]
+                            .amenities[index].id = amenityMap[element];
                       }
                     });
                   });
-                  // }
                 },
               ),
             ),
@@ -315,24 +322,22 @@ class _InfoCardState extends State<InfoCard> {
   }
 }
 
-
 class amenityForm extends StatefulWidget {
   int bluecount;
   int pinkcount;
   List<List<Amenity>> blueValue;
+  int indexForm;
 
   amenityForm(
-    int blue,
-    int pinkcount,
-    List<List<Amenity>> blueValue,
-  ) {
+      int blue, int pinkcount, List<List<Amenity>> blueValue, int indexForm) {
     this.bluecount = blue;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.indexForm = indexForm;
   }
   @override
-  _amenityFormState createState() =>
-      _amenityFormState(this.bluecount, this.pinkcount, this.blueValue);
+  _amenityFormState createState() => _amenityFormState(
+      this.bluecount, this.pinkcount, this.blueValue, this.indexForm);
 }
 
 class _amenityFormState extends State<amenityForm> {
@@ -341,25 +346,19 @@ class _amenityFormState extends State<amenityForm> {
   int bluecount;
   int pinkcount;
   List<List<Amenity>> blueValue;
-  //load
+  int indexForm;
   List<DropdownMenuItem<String>> listAmenity = [];
   List<String> amenity = [];
   String amenitySelected;
   Map<String, dynamic> amenityMap = {};
 
-  _amenityFormState(
-    int bluecount,
-    int pinkcount,
-    List<List<Amenity>> blueValue,
-  ) {
+  _amenityFormState(int bluecount, int pinkcount, List<List<Amenity>> blueValue,
+      int indexForm) {
     this.bluecount = bluecount;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.indexForm = indexForm;
   }
-
-  final TextEditingController _controllerAmenityName = TextEditingController();
-  final TextEditingController _controllerAmenityDescription =
-      TextEditingController();
 
   @override
   void initState() {
@@ -411,6 +410,7 @@ class _amenityFormState extends State<amenityForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(indexForm.toString()),
           SizedBox(height: 20),
           Container(
             color: Color(0xfffd4f0f0),
@@ -426,6 +426,7 @@ class _amenityFormState extends State<amenityForm> {
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
+                       //พัง
                       amenitySelected = value;
                       // print(amenitySelected);
                       // print(amenity);

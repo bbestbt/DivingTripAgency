@@ -162,10 +162,10 @@ class _updateTripFormState extends State<updateTripForm> {
     // });
     await getData();
     setState(() {
-      listDivemaster = [];
-      listDivemaster = divemaster
-          .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
-          .toList();
+      // listDivemaster = [];
+      // listDivemaster = divemaster
+      //     .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+      //     .toList();
       listTriptemplate = [];
       listTriptemplate = triptemplateData
           .map((val) => DropdownMenuItem<String>(
@@ -315,6 +315,11 @@ class _updateTripFormState extends State<updateTripForm> {
       print('Exception: $e');
     }
   }
+  void getDMValue(dm) {
+    setState(() {
+      dmValue = dm;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -458,10 +463,10 @@ class _updateTripFormState extends State<updateTripForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xfffd4f0f0),
+                color: Color(0xfffcafafe),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreDiveMasterUpdate(
-                this.dmValue, this.eachTrip, this.divemaster),
+                this.dmValue, this.eachTrip),
           ),
 
           SizedBox(height: 20),
@@ -472,8 +477,7 @@ class _updateTripFormState extends State<updateTripForm> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreDiveSiteUpdate(
-                 this.pinkValue, this.eachTrip),
+            child: AddMoreDiveSiteUpdate(this.pinkValue, this.eachTrip),
           ),
           SizedBox(height: 20),
           Container(
@@ -507,7 +511,12 @@ class _updateTripFormState extends State<updateTripForm> {
 
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
-            onPressed: () async => {await sendTripEdit()},
+            onPressed: () async => {
+              //พัง
+              print(dmValue),
+              print(pinkValue)
+              // await sendTripEdit()
+              },
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',

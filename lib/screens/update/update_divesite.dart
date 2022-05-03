@@ -58,7 +58,8 @@ class _AddMoreDiveSiteUpdateState extends State<AddMoreDiveSiteUpdate> {
             shrinkWrap: true,
             itemCount: pinkcount,
             itemBuilder: (BuildContext context, int index) {
-              return DiveSiteForm(pinkcount, this.pinkValue, this.eachTrip);
+              return DiveSiteForm(pinkcount, this.pinkValue, this.eachTrip,
+                  index + eachTrip.diveSites.length);
             }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -95,6 +96,9 @@ class _AddMoreDiveSiteUpdateState extends State<AddMoreDiveSiteUpdate> {
           ],
         ),
         SizedBox(height: 30),
+        FlatButton(onPressed: () {
+          print(eachTrip.diveSites);
+        }),
       ])),
     );
   }
@@ -138,7 +142,7 @@ class _DiveSiteFormUpdateState extends State<DiveSiteFormUpdate> {
         SizedBox(
           height: 20,
         ),
-        Align(alignment: Alignment.topLeft, child: Text('  Divesite')),
+        // Align(alignment: Alignment.topLeft, child: Text('  Divesite')),
         Wrap(
             spacing: 20,
             runSpacing: 40,
@@ -207,6 +211,7 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(index.toString()),
           SizedBox(height: 20),
           buildNameFormField(),
           SizedBox(height: 20),
@@ -227,7 +232,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => description = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].description = value;
+        print(value);
+        eachTrip.diveSites[index].description = value;
       },
       decoration: InputDecoration(
         labelText: "Description",
@@ -248,7 +254,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => min_depth = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].minDepth = int.parse(value);
+        print(value);
+        eachTrip.diveSites[index].minDepth = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Min depth",
@@ -269,12 +276,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_depth = newValue,
       onChanged: (value) {
-        // print('room max start');
-        // print(pinkcount);
-        // print('room max end');
-        pinkValue[pinkcount - 1].maxDepth = int.parse(value);
-        // print(value);
-        // print("===");
+        print(value);
+        eachTrip.diveSites[index].maxDepth = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max depth",
@@ -291,7 +294,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].name = value;
+        print(value);
+        eachTrip.diveSites[index].name = value;
       },
       decoration: InputDecoration(
         labelText: "Name",
@@ -307,15 +311,17 @@ class DiveSiteForm extends StatefulWidget {
   int pinkcount;
   List<DiveSite> pinkValue;
   TripWithTemplate eachTrip;
-  DiveSiteForm(
-      int pinkcount, List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
+  int indexForm;
+  DiveSiteForm(int pinkcount, List<DiveSite> pinkValue,
+      TripWithTemplate eachTrip, int indexForm) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.eachTrip = eachTrip;
+    this.indexForm = indexForm;
   }
   @override
-  _DiveSiteFormState createState() =>
-      _DiveSiteFormState(this.pinkcount, this.pinkValue, this.eachTrip);
+  _DiveSiteFormState createState() => _DiveSiteFormState(
+      this.pinkcount, this.pinkValue, this.eachTrip, this.indexForm);
 }
 
 class _DiveSiteFormState extends State<DiveSiteForm> {
@@ -327,12 +333,14 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
   TripWithTemplate eachTrip;
 
   List<DiveSite> pinkValue;
+  int indexForm;
 
-  _DiveSiteFormState(
-      int pinkcount, List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
+  _DiveSiteFormState(int pinkcount, List<DiveSite> pinkValue,
+      TripWithTemplate eachTrip, int indexForm) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.eachTrip = eachTrip;
+    this.indexForm = indexForm;
   }
   final TextEditingController _controllerDescription = TextEditingController();
   final TextEditingController _controllerMax = TextEditingController();
@@ -347,6 +355,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(indexForm.toString()),
           SizedBox(height: 20),
           buildNameFormField(),
           SizedBox(height: 20),
@@ -367,7 +376,9 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => description = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].description = value;
+        //พัง
+        print(value);
+        eachTrip.diveSites[indexForm].description = value;
       },
       decoration: InputDecoration(
         labelText: "Description",
@@ -388,7 +399,9 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => min_depth = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].minDepth = int.parse(value);
+        //พัง
+        print(value);
+        eachTrip.diveSites[indexForm].minDepth = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Min depth",
@@ -409,10 +422,9 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_depth = newValue,
       onChanged: (value) {
-        // print('room max start');
-        // print(pinkcount);
-        // print('room max end');
-        pinkValue[pinkcount - 1].maxDepth = int.parse(value);
+        //พัง
+        print(value);
+        eachTrip.diveSites[indexForm].maxDepth = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max depth",
@@ -429,7 +441,9 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].name = value;
+        //พัง
+        print(value);
+        eachTrip.diveSites[indexForm].name = value;
       },
       decoration: InputDecoration(
         labelText: "Name",

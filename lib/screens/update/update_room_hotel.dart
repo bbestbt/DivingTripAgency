@@ -4,6 +4,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/screens/create_hotel/addMoreAmenity.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_form.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
@@ -45,6 +46,7 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
   List<List<Amenity>> blueValue;
   List<RoomType> pinkValue = [];
   Hotel eachHotel;
+  List<RoomType> allRoom = [];
 
   _AddMoreRoomUpdateHotelState(
     Hotel eachHotel,
@@ -55,12 +57,13 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
     this.blueValue = blueValue;
     this.eachHotel = eachHotel;
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: SingleChildScrollView(
           child: Column(children: [
-        RoomFormHotelUpdate(this.eachHotel),
+        RoomFormHotelUpdate(this.eachHotel, this.allRoom),
         ListView.separated(
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(
@@ -71,7 +74,8 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
             shrinkWrap: true,
             itemCount: pinkcount,
             itemBuilder: (BuildContext context, int index) {
-              return RoomForm(pinkcount, this.pinkValue, this.blueValue);
+              return RoomForm(pinkcount, this.pinkValue, this.blueValue,
+                  index + allRoom.length);
             }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -110,6 +114,9 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
           ],
         ),
         SizedBox(height: 30),
+        FlatButton(onPressed: () {
+          print(allRoom);
+        }),
       ])),
     );
   }
@@ -120,19 +127,20 @@ class RoomFormHotelUpdate extends StatefulWidget {
   Hotel eachHotel;
 
   var f2 = File();
-  RoomFormHotelUpdate(Hotel eachHotel) {
+  RoomFormHotelUpdate(Hotel eachHotel, List<RoomType> allRoom) {
     this.eachHotel = eachHotel;
+    this.allRoom = allRoom;
   }
   @override
   _RoomFormHotelUpdateState createState() =>
-      _RoomFormHotelUpdateState(this.eachHotel);
+      _RoomFormHotelUpdateState(this.eachHotel, this.allRoom);
 }
 
 class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
   List<RoomType> allRoom = [];
   Hotel eachHotel;
 
-  _RoomFormHotelUpdateState(this.eachHotel);
+  _RoomFormHotelUpdateState(this.eachHotel, this.allRoom);
   getRoomType() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -275,6 +283,7 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(index.toString()),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
@@ -288,8 +297,7 @@ class _InfoCardState extends State<InfoCard> {
             decoration: BoxDecoration(
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreAmenityUpdateHotel(
-                this.eachHotel, this.index),
+            child: AddMoreAmenityUpdateHotel(this.eachHotel, this.index),
             // child: AddMoreAmenityUpdateHotel(this.eachHotel,this.bluecount,this.index, this.blueValue),
           ),
           SizedBox(height: 20),
@@ -438,7 +446,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_description = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].description = value;
+        print(value);
+        allRoom[index].description = value;
       },
       decoration: InputDecoration(
         labelText: "Room description",
@@ -459,7 +468,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].maxGuest = int.parse(value);
+        print(value);
+        allRoom[index].maxGuest = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
@@ -476,7 +486,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].name = value;
+        print(value);
+        allRoom[index].name = value;
       },
       decoration: InputDecoration(
         labelText: "Room type",
@@ -497,7 +508,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].quantity = int.parse(value);
+        print(value);
+        allRoom[index].quantity = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",
@@ -513,17 +525,19 @@ class RoomForm extends StatefulWidget {
   int pinkcount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
+  int indexForm;
 
   var f2 = File();
-  RoomForm(
-      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
+  RoomForm(int pinkcount, List<RoomType> pinkValue,
+      List<List<Amenity>> blueValue, int indexForm) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
+    indexForm = indexForm;
   }
   @override
-  _RoomFormState createState() =>
-      _RoomFormState(this.pinkcount, this.pinkValue, this.blueValue);
+  _RoomFormState createState() => _RoomFormState(
+      this.pinkcount, this.pinkValue, this.blueValue, this.indexForm);
 }
 
 class _RoomFormState extends State<RoomForm> {
@@ -541,13 +555,15 @@ class _RoomFormState extends State<RoomForm> {
   String quantity;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
+  int indexForm;
 
   XFile rroom;
-  _RoomFormState(
-      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
+  _RoomFormState(int pinkcount, List<RoomType> pinkValue,
+      List<List<Amenity>> blueValue, int indexForm) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
+    this.indexForm = indexForm;
   }
 
   final TextEditingController _controllerRoomdescription =
@@ -594,23 +610,22 @@ class _RoomFormState extends State<RoomForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(indexForm.toString()),
           SizedBox(height: 20),
-
           buildRoomNameFormField(),
           SizedBox(height: 20),
-
           buildRoomDescriptionFormField(),
           SizedBox(height: 20),
           buildMaxCapacityFormField(),
           SizedBox(height: 20),
 
-          // Container(
-          //   width: MediaQuery.of(context).size.width / 1.5,
-          //   decoration: BoxDecoration(
-          //       color: Color(0xfffd4f0f0),
-          //       borderRadius: BorderRadius.circular(10)),
-          //   child: AddMoreAmenity(this.pinkcount, this.blueValue, this.errors),
-          // ),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xfffd4f0f0),
+                borderRadius: BorderRadius.circular(10)),
+            child: AddMoreAmenity(this.pinkcount, this.blueValue, []),
+          ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
@@ -850,6 +865,7 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
+        
         // print('room quantity start');
         // print(pinkcount);
         // print('room quantity end');
