@@ -17,6 +17,7 @@ import 'package:intl/intl.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:flutter/services.dart';
 
+
 class CreateTripForm extends StatefulWidget {
   @override
   _CreateTripFormState createState() => _CreateTripFormState();
@@ -35,9 +36,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
   Map<String, dynamic> divemasterMap = {};
   TripTemplate triptemplate = new TripTemplate();
-  Address addressform = new Address();
-  RoomTypeTripPrice roomPrice;
-  int count;
+
+  List<RoomTypeTripPrice> roomPrice = [];
   //final TextEditingController _controllerPlace = TextEditingController();
   final TextEditingController _controllerFrom = TextEditingController();
   final TextEditingController _controllerTo = TextEditingController();
@@ -53,7 +53,13 @@ class _CreateTripFormState extends State<CreateTripForm> {
   List<DiveSite> pinkValue = [new DiveSite()];
   List<DiveMaster> dmValue = [new DiveMaster()];
   final _formKey = GlobalKey<FormState>();
-  String boatUsed = '';
+  bool switchWhite = false;
+
+  void switchChange(sw) {
+    setState(() {
+      switchWhite = sw;
+    });
+  }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -92,6 +98,92 @@ class _CreateTripFormState extends State<CreateTripForm> {
     // print(boat);
   }
 
+  void AddOldTriptemplate() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    var triptem = TripTemplate();
+    triptem.id = triptemplate.id;
+
+    var trip = TripWithTemplate()..tripTemplate = triptem;
+    trip.startDate = Timestamp.fromDateTime(from);
+    trip.endDate = Timestamp.fromDateTime(to);
+    trip.lastReservationDate = Timestamp.fromDateTime(last);
+    trip.maxGuest = int.parse(_controllerTotalpeople.text);
+    trip.price = double.parse(_controllerPrice.text);
+
+    for (int i = 0; i < pinkValue.length; i++) {
+      var divesite = DiveSite();
+      divesite.name = pinkValue[i].name;
+      divesite.description = pinkValue[i].description;
+      divesite.maxDepth = pinkValue[i].maxDepth;
+      divesite.minDepth = pinkValue[i].minDepth;
+
+      trip.diveSites.add(divesite);
+    }
+
+    for (int k = 0; k < dmValue.length; k++) {
+      var divemaster = DiveMaster();
+      divemaster.id = dmValue[k].id;
+
+      trip.diveMasters.add(divemaster);
+    }
+
+    var hotelRequest = AddHotelRequest();
+
+    var tripRequest = AddTripRequest();
+    tripRequest.trip = trip;
+    // tripRequest.tripTemplate = triptemplate;
+    //tripRequest.tripTemplate.images.add(value);
+
+    print(tripRequest);
+    try {
+      var response = await stub.addTrip(tripRequest);
+      print('ok');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MainCompanyScreen(),
+        ),
+        (route) => false,
+      );
+      // print(token);
+      // print(response);
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+      // if (e.codeName == 'UNAVAILABLE') {
+      //   showError();
+      //   print("this boat is already use");
+      // }
+      if (e.message == 'boat is being used by another trip') {
+        showError();
+        print("this boat is already use");
+      }
+      if (e.message == 'hotel is being used by another trip') {
+        showErrorHotel();
+        print("this hotel is already use");
+      }
+    } catch (e) {
+      // Handle all other exceptions
+      print('Exception: $e');
+    }
+  }
+
   void AddTrip() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -105,17 +197,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var trip = TripWithTemplate();
+
+    var address = Address();
+    address.addressLine1 = triptemplate.address.addressLine1;
+
+    address.addressLine2 = triptemplate.address.addressLine2;
+    address.city = triptemplate.address.city;
+    address.country = triptemplate.address.country;
+    address.city = triptemplate.address.region;
+    address.country = triptemplate.address.postcode;
+
+    var triptemp = TripTemplate()..address = address;
+
+    var trip = TripWithTemplate()..tripTemplate = triptemp;
     trip.startDate = Timestamp.fromDateTime(from);
     trip.endDate = Timestamp.fromDateTime(to);
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
-    trip.tripTemplate.address.addressLine1 = triptemplate.address.addressLine1;
-    trip.tripTemplate.address.addressLine2 = triptemplate.address.addressLine2;
-    trip.tripTemplate.address.city = triptemplate.address.city;
-    trip.tripTemplate.address.country = triptemplate.address.country;
-    trip.tripTemplate.address.city = triptemplate.address.region;
-    trip.tripTemplate.address.country = triptemplate.address.postcode;
     trip.tripTemplate.description = triptemplate.description;
     trip.tripTemplate.name = triptemplate.name;
     trip.tripTemplate.tripType = triptemplate.tripType;
@@ -123,16 +221,21 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.tripTemplate.hotelId = triptemplate.hotelId;
     trip.tripTemplate.liveaboardId = triptemplate.liveaboardId;
 
-    var allPrice = RoomTypeTripPrice();
-    allPrice.price = roomPrice.price;
+    for (int m = 0; m < roomPrice.length; m++) {
+      var rp = RoomTypeTripPrice();
+      rp.hotelId = roomPrice[m].hotelId;
+      rp.price = roomPrice[m].price;
+      rp.roomTypeId = roomPrice[m].roomTypeId;
+      rp.liveaboardId = roomPrice[m].liveaboardId;
 
-    trip.tripRoomTypePrices.add(roomPrice);
+      trip.tripRoomTypePrices.add(rp);
+    }
 
     for (int j = 0; j < triptemplate.images.length; j++) {
       trip.tripTemplate.images.add(triptemplate.images[j]);
     }
 
-    // trip.price = double.parse(_controllerPrice.text);
+    trip.price = double.parse(_controllerPrice.text);
     // trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
 
     for (int i = 0; i < pinkValue.length; i++) {
@@ -179,10 +282,17 @@ class _CreateTripFormState extends State<CreateTripForm> {
       print('message: ${e.message}');
       print('rawResponse: ${e.rawResponse}');
       print('trailers: ${e.trailers}');
-      if (e.codeName == 'UNAVAILABLE') {
-        // boatUsed = 'UNAVAILABLE';
+      // if (e.codeName == 'UNAVAILABLE') {
+      //   showError();
+      //   print("this boat is already use");
+      // }
+      if (e.message == 'boat is being used by another trip') {
         showError();
         print("this boat is already use");
+      }
+      if (e.message == 'hotel is being used by another trip') {
+        showErrorHotel();
+        print("this hotel is already use");
       }
     } catch (e) {
       // Handle all other exceptions
@@ -230,6 +340,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
           return AlertDialog(
             title: Text("Error"),
             content: Text("Boat is already used"),
+            actions: <Widget>[
+              FlatButton(
+                  //child: Text("OK"),
+                  ),
+            ],
+          );
+        });
+  }
+
+  showErrorHotel() async {
+    await Future.delayed(Duration(microseconds: 1));
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Hotel is already used"),
             actions: <Widget>[
               FlatButton(
                   //child: Text("OK"),
@@ -404,8 +531,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
           // ),
           SizedBox(height: 20),
 
-          // buildPriceFormField(),
-          // SizedBox(height: 20),
+          buildPriceFormField(),
+          SizedBox(height: 20),
           buildTotalPeopleFormField(),
           SizedBox(height: 20),
           Container(
@@ -420,32 +547,43 @@ class _CreateTripFormState extends State<CreateTripForm> {
               width: MediaQuery.of(context).size.width / 1.5,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Triptemplate(
-                  this.triptemplate, this.errors, this.roomPrice, this.count)),
+              child: Triptemplate(this.triptemplate, this.errors,
+                  this.roomPrice, switchChange)),
 
           SizedBox(height: 20),
           FormError(errors: errors),
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () async => {
-              if (_formKey.currentState.validate())
+              print('va ' + switchWhite.toString()),
+              // print(roomPrice)
+              if (switchWhite == false)
                 {
-                  if (from == null)
+                  if (_formKey.currentState.validate())
                     {
-                      addError(error: "Please select from date"),
+                      if (from == null)
+                        {
+                          addError(error: "Please select from date"),
+                        }
+                      else if (to == null)
+                        {
+                          addError(error: "Please select to date"),
+                        }
+                      else if (last == null)
+                        {
+                          addError(
+                              error: "Please select last reservation date"),
+                        }
+                      else
+                        {
+                          await AddTrip(),
+                        }
                     }
-                  else if (to == null)
-                    {
-                      addError(error: "Please select to date"),
-                    }
-                  else if (last == null)
-                    {
-                      addError(error: "Please select last reservation date"),
-                    }
-                  else
-                    {
-                      await AddTrip(),
-                    }
+                }
+              else
+                {
+                  // print(triptemplate),
+                  await AddOldTriptemplate(),
                 }
             },
             color: Color(0xfff75BDFF),
