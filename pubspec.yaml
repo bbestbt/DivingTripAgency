@@ -51,6 +51,7 @@ dependencies:
   form_field_validator: ^1.1.0
   auto_size_text: ^3.0.0
   shared_preferences: ^2.0.13
+  country_picker: ^1.0.4
 dev_dependencies:
   hive_generator: ^1.1.0
   build_runner: ^2.1.2
