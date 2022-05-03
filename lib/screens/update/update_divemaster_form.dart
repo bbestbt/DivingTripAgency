@@ -199,6 +199,30 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     divemasterValue.firstName = _controllerName.text;
     divemasterValue.lastName = _controllerLastname.text;
 
+    /*var f = File();
+    f.filename = 'Image.jpg';
+    //var t = await imageFile.readAsBytes();
+    //f.file = new List<int>.from(t);
+    if (CardFile != null) {
+      List<int> b = await CardFile.readAsBytes();
+      f.file = b;
+      print("divemasterValue.documents before remove");
+      print(divemasterValue.documents);
+      divemasterValue.documents.add(f);
+      print("divemasterValue.documents after remove");
+      print(divemasterValue.documents);
+    //  divemasterValue.documents.add(f);
+    }
+                      */
+   /* var f2 = File();
+    f2.filename = 'Image.jpg';
+    if (CardFileBack != null) {
+      List<int> a = await CardFileBack.readAsBytes();
+      f2.file = a;
+      //divemasterValue.documents.add(f2);
+        //divemasterValue.documents.removeAt(1);
+        divemasterValue.documents.add(f2);
+    }*/
 
     if (levelSelected != null) {
       LevelType.values.forEach((levelType) {

@@ -66,8 +66,8 @@ class updateBoat extends StatelessWidget {
     } catch (e) {
       print('ERROR: $e');
     }
-    print('--');
-    print(boats);
+    // print('--');
+    // print(boats);
     return boats;
   }
 

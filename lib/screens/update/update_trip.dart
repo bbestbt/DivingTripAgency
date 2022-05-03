@@ -66,8 +66,8 @@ class updateTrip extends StatelessWidget {
     } catch (e) {
       print('ERROR: $e');
     }
-    print('--');
-    print(trips);
+    // print('--');
+    // print(trips);
     return trips;
   }
 

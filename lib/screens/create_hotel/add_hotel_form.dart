@@ -169,11 +169,11 @@ class _addHotelState extends State<addHotel> {
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
-      //room.price = 0;
+      // room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
       //room.roomImages.add(f2);
       //pinkValue[i].roomImages.add(value);
-      for (int j = 0; j < 3; j++) {
+      for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
         room.roomImages.add(pinkValue[i].roomImages[j]);
         print("room.roomImages");
         print("-------------");

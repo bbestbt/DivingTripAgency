@@ -66,8 +66,8 @@ class updateLiveaboard extends StatelessWidget {
     } catch (e) {
       print('ERROR: $e');
     }
-    print('--');
-    print(liveaboards);
+    // print('--');
+    // print(liveaboards);
     return liveaboards;
   }
 
