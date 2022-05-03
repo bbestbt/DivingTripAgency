@@ -3,6 +3,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/hotel.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_hotel/addMoreAmenity.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_form.dart';
@@ -10,6 +11,7 @@ import 'package:diving_trip_agency/screens/main/components/hamburger_company.dar
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:diving_trip_agency/screens/update/add_new_amenity.dart';
 import 'package:diving_trip_agency/screens/update/update_amenity_hotel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -21,6 +23,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'dart:io' as io;
+
+GetHotelResponse hotelDetial = new GetHotelResponse();
+var hotel;
 
 class AddMoreRoomUpdateHotel extends StatefulWidget {
   List<RoomType> pinkValue = [];
@@ -57,6 +62,27 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
     this.blueValue = blueValue;
     this.eachHotel = eachHotel;
   }
+  getRoomLength() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = HotelServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listamenityhotelrequest = GetHotelRequest();
+
+    listamenityhotelrequest.id = eachHotel.id;
+
+    hotel = await stub.getHotel(listamenityhotelrequest);
+
+    hotelDetial = hotel;
+    return hotelDetial.hotel.roomTypes.length;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,19 +90,28 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
       child: SingleChildScrollView(
           child: Column(children: [
         RoomFormHotelUpdate(this.eachHotel, this.allRoom),
-        ListView.separated(
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(
-                  thickness: 5,
-                  indent: 20,
-                  endIndent: 20,
-                ),
-            shrinkWrap: true,
-            itemCount: pinkcount,
-            itemBuilder: (BuildContext context, int index) {
-              return RoomForm(pinkcount, this.pinkValue, this.blueValue,
-                  index + allRoom.length);
-            }),
+        FutureBuilder(
+          future: getRoomLength(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.separated(
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(
+                        thickness: 5,
+                        indent: 20,
+                        endIndent: 20,
+                      ),
+                  shrinkWrap: true,
+                  itemCount: pinkcount,
+                  itemBuilder: (BuildContext context, int index) {
+                    return RoomForm(pinkcount, this.pinkValue, this.blueValue,
+                      index+ hotelDetial.hotel.roomTypes.length);
+                  });
+            } else {
+              return Center(child: Text('No room'));
+            }
+          },
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -533,7 +568,8 @@ class RoomForm extends StatefulWidget {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
-    indexForm = indexForm;
+    this.indexForm = indexForm;
+  
   }
   @override
   _RoomFormState createState() => _RoomFormState(
@@ -564,6 +600,7 @@ class _RoomFormState extends State<RoomForm> {
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
     this.indexForm = indexForm;
+ 
   }
 
   final TextEditingController _controllerRoomdescription =
@@ -624,7 +661,7 @@ class _RoomFormState extends State<RoomForm> {
             decoration: BoxDecoration(
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreAmenity(this.pinkcount, this.blueValue, []),
+            child: AddMoreAmenityNew(this.indexForm, this.blueValue),
           ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
@@ -865,7 +902,6 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
-        
         // print('room quantity start');
         // print(pinkcount);
         // print('room quantity end');

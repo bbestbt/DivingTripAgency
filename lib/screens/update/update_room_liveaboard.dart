@@ -3,6 +3,8 @@ import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/liveaboard.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/liveaboard.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_hotel/addMoreAmenity.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_form.dart';
@@ -10,6 +12,7 @@ import 'package:diving_trip_agency/screens/main/components/hamburger_company.dar
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:diving_trip_agency/screens/update/add_new_amenity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -23,6 +26,9 @@ import 'dart:io' as io;
 import 'package:fixnum/fixnum.dart';
 
 import 'update_amenity_liveaboard.dart';
+
+GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
+var liveaboard;
 
 class AddMoreRoomUpdateLiveaboard extends StatefulWidget {
   List<RoomType> pinkValue = [];
@@ -60,25 +66,58 @@ class _AddMoreRoomUpdateLiveaboardState
     this.blueValue = blueValue;
     this.eachLiveaboard = eachLiveaboard;
   }
+
+  getRoomLength() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = LiveaboardServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listamenityliveaboardrequest = GetLiveaboardRequest();
+
+    listamenityliveaboardrequest.id = eachLiveaboard.id;
+
+    liveaboard = await stub.getLiveaboard(listamenityliveaboardrequest);
+
+    liveaboardDetial = liveaboard;
+
+    return liveaboardDetial.liveaboard.roomTypes.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: SingleChildScrollView(
           child: Column(children: [
         RoomFormLiveaboardUpdate(this.eachLiveaboard, this.allRoom),
-        ListView.separated(
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(
-                  thickness: 5,
-                  indent: 20,
-                  endIndent: 20,
-                ),
-            shrinkWrap: true,
-            itemCount: pinkcount,
-            itemBuilder: (BuildContext context, int index) {
-              return RoomForm(pinkcount, this.pinkValue, this.blueValue,
-                  index + allRoom.length);
-            }),
+        FutureBuilder(
+          future: getRoomLength(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.separated(
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(
+                        thickness: 5,
+                        indent: 20,
+                        endIndent: 20,
+                      ),
+                  shrinkWrap: true,
+                  itemCount: pinkcount,
+                  itemBuilder: (BuildContext context, int index) {
+                    return RoomForm(pinkcount, this.pinkValue, this.blueValue,
+                        index + liveaboardDetial.liveaboard.roomTypes.length);
+                  });
+            } else {
+              return Center(child: Text('No room'));
+            }
+          },
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -627,7 +666,7 @@ class _RoomFormState extends State<RoomForm> {
             decoration: BoxDecoration(
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreAmenity(this.pinkcount, this.blueValue, []),
+            child: AddMoreAmenityNew(this.indexForm, this.blueValue),
           ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
