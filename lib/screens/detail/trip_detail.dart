@@ -15,11 +15,13 @@ import 'package:fixnum/fixnum.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:country_picker/country_picker.dart';
 
 // This list holds the data for the list view
 List<TripWithTemplate> _foundtrip = [];
 List costchecklist = [];
 List durationchecklist = [];
+Country _country;
 
 String dropdownValue = "All";
 String dropdownValue2 = "All";
@@ -275,7 +277,8 @@ class _TripDetailState extends State<TripDetail> {
                               'Chanthaburi',
                               'Surat Thani',
                               'Koh Tao',
-                              'Krabi'
+                              'Krabi',
+                              'Trat'
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -284,6 +287,27 @@ class _TripDetailState extends State<TripDetail> {
                             }).toList(),
                           ),
                         ],
+                      ),
+                      SizedBox(height: 20),
+                      Container(child:
+                      InkWell(
+                        onTap: () {
+                          showCountryPicker(
+                            context: context,
+                            onSelect: (Country country) {
+                               setState(() => _country = country);
+                               print("_country");
+                               print(_country.name);
+                            },
+                          );
+                        },
+                        child: InputDecorator(
+                            decoration: InputDecoration(
+                              labelText: "Select country",
+                            ),
+                            child: _country != null ? Text(_country.name) : null,
+                          ),
+                        )
                       ),
                       SizedBox(height: 20),
                       Wrap(
@@ -455,9 +479,11 @@ class _TripDetailState extends State<TripDetail> {
                                     Text('3,000 +'),
                                   ]))),
                         ],
-                      ))
+                      )),
                     ] //Container of left side
-                        ))),
+                        )
+                )
+            ),
             Expanded(
                 flex: 6,
                 child: Container(
@@ -518,6 +544,7 @@ class _TripDetailState extends State<TripDetail> {
                           ),
                         )))),
           ]),
+
     );
   }
 
@@ -533,7 +560,8 @@ class _TripDetailState extends State<TripDetail> {
         _dateTo == null &&
         guestvalue == null &&
         _diff == "" &&
-        tripcost == Cost.all) {
+        tripcost == Cost.all
+        && _country == null) {
       // print("Filtering 1");
 
       // if the search field is empty or only contains white-space, we'll display all users
@@ -556,6 +584,14 @@ class _TripDetailState extends State<TripDetail> {
         results = results
             .where((trip) =>
                 trip.tripTemplate.address.city.contains(dropdownValue))
+            .toList();
+
+      }
+      if (_country !=null){
+        print(_country.displayNameNoCountryCode);
+        results = results
+            .where((trip) =>
+            trip.tripTemplate.address.country.contains(_country.name))
             .toList();
       }
       if (_dateFrom != null) {
@@ -764,22 +800,22 @@ class _InfoCardState extends State<InfoCard> {
                         alignment: Alignment.centerRight,
                         child: RaisedButton(
                           onPressed: () {
-                            // print(_foundtrip[widget.index]
+                             print(_foundtrip[widget.index]
 
-                            //   .tripTemplate
-                            //   .tripType
-                            //   .toString());
-                            if (_foundtrip[widget.index]
+                               .tripTemplate
+                               .tripType
+                               .toString());
+                           if (_foundtrip[widget.index]
                                     .tripTemplate
                                     .tripType
                                     .toString() ==
-                                "ONSHORE") {
+                               "ONSHORE") {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           DiveResortDetailScreen(
-                                              widget.index, trips)));
+                                              widget.index, _foundtrip)));
                             } else {
                               // print(_foundtrip[widget.index]);
                               // print('------------------');
@@ -790,7 +826,7 @@ class _InfoCardState extends State<InfoCard> {
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           LiveaboardDetailScreen(
-                                              widget.index, trips)));
+                                              widget.index, _foundtrip)));
                             }
                           },
                           color: Colors.amber,

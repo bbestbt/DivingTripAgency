@@ -404,12 +404,24 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                         if (element == divemasterSelected) {
                           print(eachTrip.diveMasters.length);
 
-                          eachTrip.diveMasters[indexForm].firstName =
-                              divemasterSelected;
-                          eachTrip.diveMasters[indexForm].id =
-                              divemasterMap[element];
+                          // var dm2 = DiveMaster();
+                          // dm2.firstName = divemasterSelected;
+                          // dm2.id = divemasterMap[element];
+                          // eachTrip.diveMasters[indexForm] = dm2;
+                          // eachTrip.diveMasters.add(dm2);
+                          //------
 
+                          // dmValue[0].id = divemasterMap[element];
+                          // dmValue[0].firstName = divemasterSelected;
                           // eachTrip.diveMasters.addAll(dmValue);
+                            //------
+
+                          // eachTrip.diveMasters[indexForm].firstName =
+                          //     divemasterSelected;
+                          // eachTrip.diveMasters[indexForm].id =
+                          //     divemasterMap[element];
+
+                        
 
                           print(eachTrip.diveMasters);
                         }

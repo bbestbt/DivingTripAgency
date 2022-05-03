@@ -15,6 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:fixnum/fixnum.dart';
+import 'package:country_picker/country_picker.dart';
 
 class Triptemplate extends StatefulWidget {
   TripTemplate triptemplate;
@@ -507,7 +508,30 @@ class _TriptemplateState extends State<Triptemplate> {
                       width: MediaQuery.of(context).size.width / 3.6,
                       // color: Colors.white,
                       child: Center(
-                        child: DropdownButtonFormField(
+                        child:
+                        InkWell(
+                          onTap: () {
+                            showCountryPicker(
+                              context: context,
+                              onSelect: (Country country) {
+                                setState(() {
+                                  countrySelected = country.name;
+                                  triptemplate.address.country = countrySelected;
+                                });
+                                //print("_country");
+                                //print(_country.name);
+                              },
+                            );
+                          },
+                          child: InputDecorator(
+                            decoration: InputDecoration(
+                              labelText: "Select country",
+                            ),
+                            child: countrySelected != null ? Text(countrySelected) : null,
+                          ),
+                        )
+
+                        /*DropdownButtonFormField(
                           isExpanded: true,
                           value: countrySelected,
                           items: listCountry,
@@ -530,7 +554,7 @@ class _TriptemplateState extends State<Triptemplate> {
                               });
                             }
                           },
-                        ),
+                        ),*/
                       ),
                     ),
                     // Container(

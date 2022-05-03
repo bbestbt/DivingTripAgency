@@ -1087,6 +1087,7 @@ class _InfoCardState extends State<InfoCard> {
                   child: Text('Add room to cart'),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
+                      final box = Hive.box('userInfo');
                       Cartlist.add([
                         /*
                         details[indexDetail].tripTemplate.images.length == 0
@@ -1127,6 +1128,7 @@ class _InfoCardState extends State<InfoCard> {
                         int.parse(_textEditingDiver.text), //10
                         roomtypes[indexRoom].id.toInt(), //11
                         details[indexDetail].id.toInt(),//12
+                        box.get("usernanme"), //13
 
                       ]);
                       // print("Cartlist: ");

@@ -1,3 +1,5 @@
+
+import 'package:country_picker/country_picker.dart';
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/create_trip/trip_template.dart';
@@ -224,7 +226,31 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                 width: MediaQuery.of(context).size.width / 3.6,
                 color: Colors.white,
                 child: Center(
-                  child: DropdownButtonFormField(
+                  child:
+                  InkWell(
+                    onTap: () {
+                      showCountryPicker(
+                        context: context,
+                        onSelect: (Country country) {
+                          setState(() {
+                            countrySelected = country.name;
+
+                          });
+                          //print("_country");
+                          //print(_country.name);
+                        },
+                      );
+                    },
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        labelText: "Select country",
+                      ),
+                      child: countrySelected != null ? Text(countrySelected) : null,
+                    ),
+                  )
+
+                  /*
+                  DropdownButtonFormField(
                     isExpanded: true,
                     value: countrySelected,
                     items: listCountry,
@@ -246,7 +272,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                         });
                       }
                     },
-                  ),
+                  ),*/
                 ),
               ),
               // Container(
