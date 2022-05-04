@@ -367,7 +367,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                       decoration: InputDecoration(
                         labelText: "Select country",
                       ),
-                      child: countrySelected != null ? Text(countrySelected) : null,
+                      child: countrySelected != null ? Text(countrySelected) :  Text(eachLiveaboard.address.country),
                     ),
                   )
                 ),

@@ -362,7 +362,7 @@ class _editHotelFormState extends State<editHotelForm> {
                       labelText: "Select country",
                     ),
                     child:
-                        countrySelected != null ? Text(countrySelected) : null,
+                        countrySelected != null ? Text(countrySelected) : Text(eachHotel.address.country),
                   ),
                 )
                     /*child: DropdownButtonFormField(

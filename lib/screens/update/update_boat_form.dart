@@ -360,7 +360,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                       decoration: InputDecoration(
                         labelText: "Select country",
                       ),
-                      child: countrySelected != null ? Text(countrySelected) : null,
+                      child: countrySelected != null ? Text(countrySelected) :  Text(eachBoat.address.country),
                     ),
                   )
                 ),
