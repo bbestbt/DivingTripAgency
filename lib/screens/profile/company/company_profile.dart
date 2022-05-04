@@ -212,8 +212,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         height: 20,
                                       ),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Container(
                                               width: MediaQuery.of(context)
