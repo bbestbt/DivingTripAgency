@@ -73,7 +73,7 @@ class _AddMoreDiveSiteUpdateState extends State<AddMoreDiveSiteUpdate> {
                   // pinkValue.add(new DiveSite());
                 });
               },
-              color: Color(0xfffff968a),
+              color: Color(0xfff45b6fe),
               textColor: Colors.white,
               child: Icon(
                 Icons.add,
@@ -94,7 +94,7 @@ class _AddMoreDiveSiteUpdateState extends State<AddMoreDiveSiteUpdate> {
                   }
                 });
               },
-              color: Color(0xfffff968a),
+              color: Color(0xfff45b6fe),
               textColor: Colors.white,
               child: Icon(
                 Icons.remove,
@@ -245,7 +245,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Description",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -267,7 +267,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Min depth",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -289,7 +289,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Max depth",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -307,7 +307,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Name",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -374,7 +374,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
           buildMinFormField(),
           SizedBox(height: 20),
           FlatButton(
-              color: Colors.pink,
+              color: Color(0xfff89cff0),
               child: Text(
                 'Please save before add new divesites',
               ),
@@ -408,7 +408,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       decoration: InputDecoration(
         labelText: "Description",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -432,7 +432,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       decoration: InputDecoration(
         labelText: "Min depth",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -456,7 +456,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       decoration: InputDecoration(
         labelText: "Max depth",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -476,7 +476,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       decoration: InputDecoration(
         labelText: "Name",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );

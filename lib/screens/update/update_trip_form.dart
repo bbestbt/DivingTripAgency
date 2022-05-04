@@ -488,14 +488,14 @@ class _updateTripFormState extends State<updateTripForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xffffee1e8),
+                color:  Color(0xfffb7e9f7),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreDiveSiteUpdate(
                 this.pinkValue, this.eachTrip, getDSValue),
           ),
           SizedBox(height: 20),
           Container(
-            color: Color(0xfffa2c8ff),
+            color: Color(0xfffabddfc),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,

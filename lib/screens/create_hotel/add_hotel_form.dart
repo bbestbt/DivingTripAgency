@@ -818,7 +818,8 @@ class _addHotelState extends State<addHotel> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xffffee1e8),
+                color: Color(0xfffabddfc),
+                // Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreRoom(this.pinkValue, this.blueValue, this.errors),
           ),

@@ -59,7 +59,8 @@ class _AddMoreRoomState extends State<AddMoreRoom> {
                   blueValue.add([new Amenity()]);
                 });
               },
-              color: Color(0xfffff968a),
+              color:  Color(0xfff45b6fe),
+              // Color(0xfffff968a),
               textColor: Colors.white,
               child: Icon(
                 Icons.add,
@@ -75,7 +76,8 @@ class _AddMoreRoomState extends State<AddMoreRoom> {
                   blueValue.remove([new Amenity()]);
                 });
               },
-              color: Color(0xfffff968a),
+              color:  Color(0xfff45b6fe),
+              // Color(0xfffff968a),
               textColor: Colors.white,
               child: Icon(
                 Icons.remove,

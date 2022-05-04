@@ -113,7 +113,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       decoration: InputDecoration(
         labelText: "Description",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor:  Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -146,7 +146,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       decoration: InputDecoration(
         labelText: "Min depth",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor:  Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -184,7 +184,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       decoration: InputDecoration(
         labelText: "Max depth",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor:  Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -213,7 +213,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       decoration: InputDecoration(
         labelText: "Name",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor:  Color(0xfffb7e9f7),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );

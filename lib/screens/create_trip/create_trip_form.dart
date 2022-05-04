@@ -537,7 +537,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xffffee1e8),
+                // color: Color(0xffffee1e8),
+                color: Color(0xfffb7e9f7),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreDiveSite(this.pinkValue, this.errors),
           ),

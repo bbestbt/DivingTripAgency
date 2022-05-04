@@ -455,7 +455,8 @@ class _TriptemplateState extends State<Triptemplate> {
         Visibility(
           visible: isVisibleOld,
           child: Container(
-            color: Color(0xfffa2c8ff),
+            color: Color(0xfffabddfc),
+            // Color(0xfffa2c8ff),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
