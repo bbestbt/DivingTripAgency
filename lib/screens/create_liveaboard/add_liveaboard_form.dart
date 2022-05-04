@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
@@ -260,29 +261,27 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 width: MediaQuery.of(context).size.width / 3.6,
                 color: Colors.white,
                 child: Center(
-                  child: DropdownButtonFormField(
-                    isExpanded: true,
-                    value: countrySelected,
-                    items: listCountry,
-                    hint: Text('  Select country'),
-                    iconSize: 40,
-                    validator: (value) {
-                      if (value == null) {
-                        addError(error: "Please select country");
-                        return "";
-                      }
-                      return null;
+                  child: InkWell(
+                    onTap: () {
+                      showCountryPicker(
+                        context: context,
+                        onSelect: (Country country) {
+                          setState(() {
+                            countrySelected = country.name;
+
+                          });
+                          //print("_country");
+                          //print(_country.name);
+                        },
+                      );
                     },
-                    onChanged: (value) {
-                      if (value != null) {
-                        removeError(error: "Please select country");
-                        setState(() {
-                          countrySelected = value;
-                          print(value);
-                        });
-                      }
-                    },
-                  ),
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        labelText: "Select country",
+                      ),
+                      child: countrySelected != null ? Text(countrySelected) : null,
+                    ),
+                  )
                 ),
               ),
               // Container(
