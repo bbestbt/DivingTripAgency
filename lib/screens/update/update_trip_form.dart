@@ -528,8 +528,8 @@ class _updateTripFormState extends State<updateTripForm> {
             onPressed: () async => {
               //พัง
               // print(dmValue),
-              print(pinkValue)
-              // await sendTripEdit()
+              // print(pinkValue)
+              await sendTripEdit()
             },
             color: Color(0xfff75BDFF),
             child: Text(

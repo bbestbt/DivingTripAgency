@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
@@ -136,10 +137,10 @@ class _editHotelFormState extends State<editHotelForm> {
   var hotel = Hotel();
   Hotel eachHotel;
   _editHotelFormState(this.eachHotel);
-  // List<RoomType> pinkValue = [new RoomType()];
-  // List<List<Amenity>> blueValue = [
-  //   [new Amenity()]
-  // ];
+  List<RoomType> pinkValue = [new RoomType()];
+  List<List<Amenity>> blueValue = [
+    [new Amenity()]
+  ];
   List<DropdownMenuItem<String>> listStar = [];
   List<String> star = ['1', '2', '3', '4', '5'];
   String starSelected;
@@ -311,6 +312,12 @@ class _editHotelFormState extends State<editHotelForm> {
     });
   }
 
+  void getRoomValue(r) {
+    setState(() {
+      pinkValue = r;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     loadData();
@@ -337,7 +344,28 @@ class _editHotelFormState extends State<editHotelForm> {
                 width: MediaQuery.of(context).size.width / 3.6,
                 color: Colors.white,
                 child: Center(
-                  child: DropdownButtonFormField(
+                    child: InkWell(
+                  onTap: () {
+                    showCountryPicker(
+                      context: context,
+                      onSelect: (Country country) {
+                        setState(() {
+                          countrySelected = country.name;
+                        });
+                        //print("_country");
+                        //print(_country.name);
+                      },
+                    );
+                  },
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: "Select country",
+                    ),
+                    child:
+                        countrySelected != null ? Text(countrySelected) : null,
+                  ),
+                )
+                    /*child: DropdownButtonFormField(
                     isExpanded: true,
                     value: countrySelected,
                     items: listCountry,
@@ -351,8 +379,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         });
                       }
                     },
-                  ),
-                ),
+                  ),*/
+                    ),
               ),
               // Container(
               //     width: MediaQuery.of(context).size.width / 3.6,
@@ -424,7 +452,8 @@ class _editHotelFormState extends State<editHotelForm> {
                           ? Image.network(
                               //hotelimg.path,
                               //eachHotel.images[0].link.toString(),
-                    eachHotel.images[eachHotel.images.length-1].link.toString(),
+                              eachHotel.images[eachHotel.images.length - 1].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -478,8 +507,9 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    //eachHotel.images[1].link.toString(),
-                    eachHotel.images[eachHotel.images.length-2].link.toString(),
+                              //eachHotel.images[1].link.toString(),
+                              eachHotel.images[eachHotel.images.length - 2].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -533,9 +563,10 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachHotel.images[eachHotel.images.length-3].link.toString(),
-                    //hotelimg3.path,
-                    //hotel.images[hotel.images.length-2],
+                              eachHotel.images[eachHotel.images.length - 3].link
+                                  .toString(),
+                              //hotelimg3.path,
+                              //hotel.images[hotel.images.length-2],
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -588,7 +619,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachHotel.images[eachHotel.images.length-4].link.toString(),
+                              eachHotel.images[eachHotel.images.length - 4].link
+                                  .toString(),
                               //hotelimg4.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
@@ -643,7 +675,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachHotel.images[eachHotel.images.length-5].link.toString(),
+                              eachHotel.images[eachHotel.images.length - 5].link
+                                  .toString(),
                               //hotelimg5.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
@@ -698,7 +731,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachHotel.images[eachHotel.images.length-6].link.toString(),
+                              eachHotel.images[eachHotel.images.length - 6].link
+                                  .toString(),
                               //hotelimg6.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
@@ -754,7 +788,8 @@ class _editHotelFormState extends State<editHotelForm> {
                       : kIsWeb
                           ? Image.network(
                               //hotelimg7.path,
-                    eachHotel.images[eachHotel.images.length-7].link.toString(),
+                              eachHotel.images[eachHotel.images.length - 7].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -808,7 +843,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachHotel.images[eachHotel.images.length-8].link.toString(),
+                              eachHotel.images[eachHotel.images.length - 8].link
+                                  .toString(),
                               //hotelimg8.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
@@ -863,7 +899,8 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachHotel.images[eachHotel.images.length-9].link.toString(),
+                              eachHotel.images[eachHotel.images.length - 9].link
+                                  .toString(),
                               //hotelimg9.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
@@ -917,7 +954,9 @@ class _editHotelFormState extends State<editHotelForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachHotel.images[eachHotel.images.length-10].link.toString(),
+                              eachHotel
+                                  .images[eachHotel.images.length - 10].link
+                                  .toString(),
                               //hotelimg10.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
@@ -976,20 +1015,21 @@ class _editHotelFormState extends State<editHotelForm> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreRoomUpdateHotel(this.eachHotel),
+            child: AddMoreRoomUpdateHotel(this.eachHotel, getRoomValue),
           ),
           SizedBox(height: 30),
 
           FlatButton(
             onPressed: () => {
-              sendUpdateHotel(),
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
+              // sendUpdateHotel(),
+              print(pinkValue),
+              // Navigator.pushAndRemoveUntil(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) => MainCompanyScreen(),
+              //   ),
+              //   (route) => false,
+              // )
             },
             color: Color(0xfff75BDFF),
             child: Text(

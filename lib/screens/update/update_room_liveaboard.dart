@@ -124,8 +124,8 @@ class _AddMoreRoomUpdateLiveaboardState
             MaterialButton(
               onPressed: () {
                 setState(() {
-                  pinkcount += 1;
-                  pinkValue.add(new RoomType());
+                  pinkcount = 1;
+                  // pinkValue.add(new RoomType());
                   // blueValue.add([new Amenity()]);
                 });
               },
@@ -140,8 +140,14 @@ class _AddMoreRoomUpdateLiveaboardState
             MaterialButton(
               onPressed: () {
                 setState(() {
-                  pinkcount -= 1;
-                  pinkValue.remove(new RoomType());
+                    if (eachLiveaboard.roomTypes.length > 1) {
+                    eachLiveaboard.roomTypes.removeLast();
+                    print(eachLiveaboard.roomTypes);
+                  } else {
+                    pinkcount = 0;
+                  }
+                  // pinkcount = 1;
+                  // pinkValue.remove(new RoomType());
                   // blueValue.remove([new Amenity()]);
                 });
               },
@@ -155,9 +161,9 @@ class _AddMoreRoomUpdateLiveaboardState
           ],
         ),
         SizedBox(height: 30),
-        FlatButton(onPressed: () {
-          print(allRoom);
-        }),
+        // FlatButton(onPressed: () {
+        //   print(allRoom);
+        // }),
       ])),
     );
   }
