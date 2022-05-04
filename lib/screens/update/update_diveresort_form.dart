@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
@@ -337,7 +338,28 @@ class _editHotelFormState extends State<editHotelForm> {
                 width: MediaQuery.of(context).size.width / 3.6,
                 color: Colors.white,
                 child: Center(
-                  child: DropdownButtonFormField(
+                    child: InkWell(
+                      onTap: () {
+                        showCountryPicker(
+                          context: context,
+                          onSelect: (Country country) {
+                            setState(() {
+                              countrySelected = country.name;
+
+                            });
+                            //print("_country");
+                            //print(_country.name);
+                          },
+                        );
+                      },
+                      child: InputDecorator(
+                        decoration: InputDecoration(
+                          labelText: "Select country",
+                        ),
+                        child: countrySelected != null ? Text(countrySelected) : null,
+                      ),
+                    )
+                  /*child: DropdownButtonFormField(
                     isExpanded: true,
                     value: countrySelected,
                     items: listCountry,
@@ -351,7 +373,7 @@ class _editHotelFormState extends State<editHotelForm> {
                         });
                       }
                     },
-                  ),
+                  ),*/
                 ),
               ),
               // Container(
