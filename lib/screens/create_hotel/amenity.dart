@@ -118,14 +118,16 @@ class _amenityFormState extends State<amenityForm> {
         child: Column(children: [
           SizedBox(height: 20),
           Container(
-            color: Color(0xfffd4f0f0),
+            color:  Color(0xfffa2b8f2),
+            // color: Color(0xfffd4f0f0),
             //color: Color(0xFFFd0efff),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
                 value: amenitySelected,
                 items: listAmenity,
-                dropdownColor: Color(0xfffd4f0f0),
+                dropdownColor: Color(0xfffc1cff7),
+                // Color(0xfffd4f0f0),
                 hint: Text('  Select amenity'),
                 iconSize: 40,
                 validator: (value) {

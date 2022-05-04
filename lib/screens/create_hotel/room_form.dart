@@ -146,9 +146,9 @@ class _RoomFormState extends State<RoomForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: 
+                color: Color(0xfffa2b8f2),
                 //  Color(0xfffc1cff7),
-                Color(0xfffd4f0f0),
+                // Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreAmenity(this.pinkcount, this.blueValue, this.errors),
           ),
