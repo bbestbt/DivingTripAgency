@@ -452,7 +452,8 @@ class _detailState extends State<detail> {
             future: getLiveaboardDetail(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Column(children: [
+                return Column(
+                  children: [
                   Text(
                       "Trip name : " + details[widget.index].tripTemplate.name),
                   SizedBox(
@@ -1168,7 +1169,7 @@ class _InfoCardState extends State<InfoCard> {
                         int.parse(_textEditingQuantity.text), //9
                         int.parse(_textEditingDiver.text), //10
                         roomtypes[indexRoom].id.toInt(), //11
-                        details[indexDetail].id.toInt(),//12
+                        details[indexDetail].id.toInt(), //12
                         box.get("username"), //13
                       ]);
 
@@ -1225,17 +1226,17 @@ class _InfoCardState extends State<InfoCard> {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        constraints: BoxConstraints(
-          maxHeight: double.infinity,
-          maxWidth: double.infinity,
-          minHeight: 320, //minimum height
-          minWidth: 500, // minimum width
-        ),
-        // height: 320,
-        // width: 500,
+        // constraints: BoxConstraints(
+        //   maxHeight: double.infinity,
+        //   maxWidth: double.infinity,
+        //   minHeight: 320, //minimum height
+        //   minWidth: 500, // minimum width
+        // ),
+        height: 320,
+        width: 800,
         decoration: BoxDecoration(
             // color: Colors.white,
-            color: Color(0xFFFF89cfef),
+            color: Color(0xfffd7e5f0),
             borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
@@ -1258,50 +1259,60 @@ class _InfoCardState extends State<InfoCard> {
             SizedBox(
               width: 20,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 40,
-                ),
-                Text('Room type : ' + roomtypes[widget.indexRoom].name),
-                SizedBox(
-                  height: 20,
-                ),
-                Text('Room description: ' +
-                    roomtypes[widget.indexRoom].description),
-                SizedBox(
-                  height: 20,
-                ),
-                Text('Max capacity : ' +
-                    roomtypes[widget.indexRoom].maxGuest.toString()),
-                SizedBox(
-                  height: 20,
-                ),
-                Text('Room quantity : ' +
-                    roomtypes[widget.indexRoom].quantity.toString()),
-                SizedBox(
-                  height: 20,
-                ),
-                Text('Price : ' + roomtypes[widget.indexRoom].price.toString()),
-                SizedBox(
-                  height: 20,
-                ),
-                RaisedButton(
-                  onPressed: roomtypes[widget.indexRoom].quantity == 0
-                      ? null
-                      : () async {
-                          await showInformationDialog(context);
-                        },
-                  color: Colors.amber,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Text("Book room"),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Text('Room type : ' + roomtypes[widget.indexRoom].name),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    // height: 320,
+                    width: 500,
+                    child: Text(
+                      'Room description: ' +
+                          roomtypes[widget.indexRoom].description,
+                      maxLines: 20,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text('Max capacity : ' +
+                      roomtypes[widget.indexRoom].maxGuest.toString()),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text('Room quantity : ' +
+                      roomtypes[widget.indexRoom].quantity.toString()),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text('Price : ' + roomtypes[widget.indexRoom].price.toString()),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  RaisedButton(
+                    onPressed: roomtypes[widget.indexRoom].quantity == 0
+                        ? null
+                        : () async {
+                            await showInformationDialog(context);
+                          },
+                    color: Colors.amber,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Text("Book room"),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

@@ -425,25 +425,28 @@ class _TriptemplateState extends State<Triptemplate> {
         //   ],
         // ),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Create new triptemplate'),
-            Switch(
-              value: switchValue,
-              onChanged: (value) {
-                switchValue = value;
-                isVisibleNew = !isVisibleNew;
-                isVisibleOld = !isVisibleOld;
-                setState(() {
-                     switchValue = value;
-                     print(switchValue);
-                     widget.customFunction(switchValue);
-                });
-              },
-            ),
-            Text('Create from old triptemplae'),
-          ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Create new triptemplate'),
+              Switch(
+                value: switchValue,
+                onChanged: (value) {
+                  switchValue = value;
+                  isVisibleNew = !isVisibleNew;
+                  isVisibleOld = !isVisibleOld;
+                  setState(() {
+                       switchValue = value;
+                       print(switchValue);
+                       widget.customFunction(switchValue);
+                  });
+                },
+              ),
+              Text('Create from old triptemplae'),
+            ],
+          ),
         ),
         // FlatButton(onPressed: () {
         //   print(switchValue);
