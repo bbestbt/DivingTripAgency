@@ -126,6 +126,11 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
   io.File boatimg5;
 
   XFile bboat;
+  XFile bboat2;
+  XFile bboat3;
+  XFile bboat4;
+  XFile bboat5;
+
   String boat_capacity;
   String description;
   String diver_capacity;
@@ -240,15 +245,43 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
     eachBoat.address.country = _controllerCountry.text;
     eachBoat.address.region = _controllerRegion.text;
     eachBoat.address.city = _controllerCity.text;
-/*
+
     var f = File();
     f.filename = 'Image.jpg';
     if (bboat != null) {
-      List<int> b = await bboat.readAsBytes();
-      f.file = b;
+      List<int> a = await bboat.readAsBytes();
+      f.file = a;
       eachBoat.images.add(f);
     }
-*/
+    var f2 = File();
+    f2.filename = 'Image.jpg';
+    if (bboat2 != null) {
+      List<int> b = await bboat2.readAsBytes();
+      f2.file = b;
+      eachBoat.images.add(f2);
+    }
+    var f3 = File();
+    f3.filename = 'Image.jpg';
+    if (bboat3 != null) {
+      List<int> c = await bboat3.readAsBytes();
+      f3.file = c;
+      eachBoat.images.add(f3);
+    }
+    var f4 = File();
+    f4.filename = 'Image.jpg';
+    if (bboat4 != null) {
+      List<int> d = await bboat4.readAsBytes();
+      f4.file = d;
+      eachBoat.images.add(f4);
+    }
+    var f5 = File();
+    f5.filename = 'Image.jpg';
+    if (bboat5 != null) {
+      List<int> e = await bboat5.readAsBytes();
+      f5.file = e;
+      eachBoat.images.add(f5);
+    }
+
     var address = Address();
     address.addressLine1 = eachBoat.address.addressLine1;
     address.addressLine2 = eachBoat.address.addressLine2;
@@ -263,13 +296,13 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       address.region = regionSelected;
     }
 
-    var f = File();
+    /*var f = File();
     f.filename = bboat.name;
     //var t = await imageFile.readAsBytes();
     //f.file = new List<int>.from(t);
     List<int> a = await bboat.readAsBytes();
     f.file = a;
-    eachBoat.images.add(f);
+    eachBoat.images.add(f);*/
     
     /*var boat = Boat()..address = address;
     boat.id=eachBoat.id;
@@ -292,7 +325,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
     }
   }
   /// Get from gallery
-  _getPicBoat(int num) async {
+ /* _getPicBoat(int num) async {
     bboat = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
@@ -310,7 +343,81 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
         //card = pickedFile;
       });
     }
+  }*/
+  _getPicBoat() async {
+    bboat = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 5000,
+      maxHeight: 5000,
+    );
+
+    if (bboat != null) {
+      setState(() {
+        boatimg = io.File(bboat.path);
+        // = pickedFile;
+      });
+    }
   }
+
+  _getPicBoat2() async {
+    bboat2 = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 5000,
+      maxHeight: 5000,
+    );
+
+    if (bboat2 != null) {
+      setState(() {
+        boatimg2 = io.File(bboat2.path);
+        // = pickedFile;
+      });
+    }
+  }
+
+  _getPicBoat3() async {
+    bboat3 = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 5000,
+      maxHeight: 5000,
+    );
+
+    if (bboat3 != null) {
+      setState(() {
+        boatimg3 = io.File(bboat3.path);
+        // = pickedFile;
+      });
+    }
+  }
+
+  _getPicBoat4() async {
+    bboat4 = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 5000,
+      maxHeight: 5000,
+    );
+
+    if (bboat4 != null) {
+      setState(() {
+        boatimg4 = io.File(bboat4.path);
+        // = pickedFile;
+      });
+    }
+  }
+  _getPicBoat5() async {
+    bboat5 = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 5000,
+      maxHeight: 5000,
+    );
+
+    if (bboat5 != null) {
+      setState(() {
+        boatimg5 = io.File(bboat5.path);
+        // = pickedFile;
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -360,7 +467,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                       decoration: InputDecoration(
                         labelText: "Select country",
                       ),
-                      child: countrySelected != null ? Text(countrySelected) : null,
+                      child: countrySelected != null ? Text(countrySelected) :  Text(eachBoat.address.country),
                     ),
                   )
                 ),
@@ -417,6 +524,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachBoat.images.length == 0
+
                       ? new Container(
                           color: Colors.blue,
                         )
@@ -451,7 +559,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
-                  _getPicBoat(1);
+                  _getPicBoat();
                 },
               ),
             ],
@@ -499,7 +607,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
-                  _getPicBoat(2);
+                  _getPicBoat2();
                 },
               ),
             ],
@@ -547,7 +655,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
-                  _getPicBoat(3);
+                  _getPicBoat3();
                 },
               ),
             ],
@@ -595,7 +703,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
-                  _getPicBoat(4);
+                  _getPicBoat4();
                 },
               ),
             ],
@@ -643,7 +751,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () {
-                  _getPicBoat(5);
+                  _getPicBoat5();
                 },
               ),
             ],
