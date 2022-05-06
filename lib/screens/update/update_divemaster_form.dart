@@ -231,23 +231,34 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
         }
       });
     }
-
-    var f = File();
-    f.filename = cb.name;
-    //f2.filename = 'image.jpg';
-    List<int> a = await cb.readAsBytes();
-    f.file = a;
-    //this.imagelist.add(f);
-    this.divemasterValue.documents.add(f);
-    //this.divemasterValue.documents[1] = f;
-
-    var f2 = File();
-    f2.filename = ca.name;
-    //f2.filename = 'image.jpg';
-    List<int> b = await ca.readAsBytes();
-    f2.file = b;
-    this.divemasterValue.documents.add(f2);
-
+    if (ca != null) {
+      var f = File();
+      f.filename = ca.name;
+      //f2.filename = 'image.jpg';
+      List<int> a = await ca.readAsBytes();
+      f.file = a;
+      //this.imagelist.add(f);
+      this.divemasterValue.documents.add(f);
+      //this.divemasterValue.documents[1] = f;
+    }
+   else if (ca == null) {
+      var f = File();
+      f.filename = divemasterValue.documents[0].filename;
+      this.divemasterValue.documents.add(f);
+    }
+    if (cb != null) {
+      var f2 = File();
+      f2.filename = cb.name;
+      //f2.filename = 'image.jpg';
+      List<int> b = await cb.readAsBytes();
+      f2.file = b;
+      this.divemasterValue.documents.add(f2);
+    }
+    else if (cb == null) {
+      var f2 = File();
+      f2.filename = divemasterValue.documents[1].filename;
+      this.divemasterValue.documents.add(f2);
+    }
 
     /*var divemaster = DiveMaster();
     divemaster.id = divemasterValue.id;
@@ -258,10 +269,15 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     }
     for (int i = 0; i < divemaster.documents.length; i++) {
       divemasterValue.documents.add(divemaster.documents[i]);
+      print(divemasterValue.documents);
     }*/
 
     final updateRequest = UpdateDiveMasterRequest()..diveMaster = divemasterValue;
     print(updateRequest);
+    print("Divemastervalue:");
+    print(divemasterValue.documents);
+    print("Divemastervalue.length");
+    print(divemasterValue.documents.length);
     try {
       var response = stub.updateDiveMaster(updateRequest);
       print('response: ${response}');
@@ -351,12 +367,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: divemasterValue.documents[divemasterValue.documents.length-1] == null
+                  child: divemasterValue.documents[divemasterValue.documents.length-2] == null
                       ? new Container(
                           color: Colors.green,
                         )
                       : Image.network(
-                          divemasterValue.documents[divemasterValue.documents.length-1].link.toString())),
+                          divemasterValue.documents[divemasterValue.documents.length-2].link.toString())),
               Center(
                   child: CardFile == null
                       ? Column(
@@ -403,12 +419,12 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: divemasterValue.documents[divemasterValue.documents.length-2] == null
+                  child: divemasterValue.documents.length < 2
                       ? new Container(
                           color: Colors.green,
                         )
                       : Image.network(
-                          divemasterValue.documents[divemasterValue.documents.length-2].link.toString())),
+                          divemasterValue.documents[divemasterValue.documents.length-1].link.toString())),
               Center(
                   child: CardFileBack == null
                       ? Column(

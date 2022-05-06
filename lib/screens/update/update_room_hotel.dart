@@ -28,7 +28,7 @@ class AddMoreRoomUpdateHotel extends StatefulWidget {
   List<List<Amenity>> blueValue;
   AddMoreRoomUpdateHotel(
     Hotel eachHotel,
-    // List<RoomType> pinkValue,
+    //List<RoomType> pinkValue,
     // List<List<Amenity>> blueValue,
   ) {
     this.pinkValue = pinkValue;
