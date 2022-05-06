@@ -246,63 +246,68 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
     eachBoat.address.region = _controllerRegion.text;
     eachBoat.address.city = _controllerCity.text;
 
-    var f = File();
-    f.filename = bboat.name;
+
     if (bboat != null) {
+      var f = File();
+      f.filename = bboat.name;
       List<int> a = await bboat.readAsBytes();
       f.file = a;
       eachBoat.images.add(f);
     }
     else{
       var f = File();
-      f.filename = eachBoat.images[0].filename;
+      f.filename = eachBoat.images[eachBoat.images.length-5].filename;
       this.eachBoat.images.add(f);
     }
-    var f2 = File();
-    f2.filename = bboat2.name;
+
     if (bboat2 != null) {
+      var f2 = File();
+      f2.filename = bboat2.name;
       List<int> b = await bboat2.readAsBytes();
       f2.file = b;
       eachBoat.images.add(f2);
     }else{
       var f2 = File();
-      f2.filename = eachBoat.images[1].filename;
+      f2.filename = eachBoat.images[eachBoat.images.length-4].filename;
       this.eachBoat.images.add(f2);
     }
 
-    var f3 = File();
-    f3.filename = bboat3.name;
+
     if (bboat3 != null) {
+      var f3 = File();
+      f3.filename = bboat3.name;
       List<int> c = await bboat3.readAsBytes();
       f3.file = c;
       eachBoat.images.add(f3);
     }else{
       var f3 = File();
-      f3.filename = eachBoat.images[2].filename;
+      f3.filename = eachBoat.images[eachBoat.images.length-3].filename;
       this.eachBoat.images.add(f3);
     }
 
-    var f4 = File();
-    f4.filename = bboat4.name;
+
     if (bboat4 != null) {
+      var f4 = File();
+      f4.filename = bboat4.name;
       List<int> d = await bboat4.readAsBytes();
       f4.file = d;
       eachBoat.images.add(f4);
     }else{
       var f4 = File();
-      f4.filename = eachBoat.images[3].filename;
+      f4.filename = eachBoat.images[eachBoat.images.length-2].filename;
       this.eachBoat.images.add(f4);
     }
 
-    var f5 = File();
-    f5.filename = bboat5.name;
+
     if (bboat5 != null) {
+      var f5 = File();
+      f5.filename = bboat5.name;
       List<int> e = await bboat5.readAsBytes();
       f5.file = e;
       eachBoat.images.add(f5);
     }else{
       var f5 = File();
-      f5.filename = eachBoat.images[4].filename;
+      f5.filename = eachBoat.images[eachBoat.images.length-1].filename;
       this.eachBoat.images.add(f5);
     }
 

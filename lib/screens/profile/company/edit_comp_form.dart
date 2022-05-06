@@ -207,12 +207,16 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     //final pngByteData = await imageFile.toByteData(format: ImageByteFormat.png);
 
     var f = File();
-    f.filename = 'Image.jpg';
+    f.filename = 'image.jpg';
     //var t = await imageFile.readAsBytes();
     //f.file = new List<int>.from(t);
     if (doc != null) {
       List<int> b = await doc.readAsBytes();
       f.file = b;
+      user_profile.agency.documents.add(f);
+    }else{
+      var f = File();
+      f.filename = user_profile.agency.documents[user_profile.agency.documents.length-2].filename;
       user_profile.agency.documents.add(f);
     }
 
@@ -221,6 +225,10 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     if (Img != null) {
       List<int> a = await Img.readAsBytes();
       f2.file = a;
+      user_profile.agency.documents.add(f2);
+    }else{
+      var f2 = File();
+      f2.filename = user_profile.agency.documents[user_profile.agency.documents.length-1].filename;
       user_profile.agency.documents.add(f2);
     }
 

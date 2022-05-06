@@ -152,19 +152,21 @@ class _EditDiverFormState extends State<EditDiverForm> {
       user_profile.diver.birthDate = Timestamp.fromDateTime(_dateTime);
     }
 
-    var f = File();
-    f.filename = 'Image.jpg';
+
     //var t = await imageFile.readAsBytes();
     //f.file = new List<int>.from(t);
     if (divfront != null) {
+      var f = File();
+      f.filename = 'Image.jpg';
       List<int> b = await divfront.readAsBytes();
       f.file = b;
       user_profile.diver.documents.add(f);
     }
 
-    var f2 = File();
-    f2.filename = 'Image.jpg';
+
     if (card != null) {
+      var f2 = File();
+      f2.filename = 'Image.jpg';
       List<int> a = await card.readAsBytes();
       f2.file = a;
       user_profile.diver.documents.add(f2);
