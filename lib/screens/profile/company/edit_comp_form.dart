@@ -369,7 +369,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                                 decoration: InputDecoration(
                                   labelText: "Select country",
                                 ),
-                                child: countrySelected != null ? Text(countrySelected) : null,
+                                child: countrySelected != null ? Text(countrySelected) : Text(user_profile.agency.address.country),
                               ),
                             )
                          /* child: DropdownButtonFormField(
