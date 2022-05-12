@@ -234,7 +234,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       trip.tripTemplate.images.add(triptemplate.images[j]);
     }
 
-    trip.price = double.parse(_controllerPrice.text);
+    // trip.price = double.parse(_controllerPrice.text);
     // trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
 
     for (int i = 0; i < pinkValue.length; i++) {
@@ -530,8 +530,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
           // ),
           SizedBox(height: 20),
 
-          buildPriceFormField(),
-          SizedBox(height: 20),
+          // buildPriceFormField(),
+          // SizedBox(height: 20),
           buildTotalPeopleFormField(),
           SizedBox(height: 20),
           Container(

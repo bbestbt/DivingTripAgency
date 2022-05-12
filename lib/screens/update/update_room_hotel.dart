@@ -161,7 +161,7 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
         ),
         SizedBox(height: 30),
         FlatButton(onPressed: () {
-          print(widget.customFunction(allRoom));
+          print(widget.customFunction(eachHotel.roomTypes));
         }),
       ])),
     );
@@ -838,6 +838,7 @@ class _RoomFormState extends State<RoomForm> {
                 'Please save before add new divesites',
               ),
               onPressed: () {
+                print('ff');
                 print(eachHotel.roomTypes);
                 var rt = RoomType();
                 rt.name = room_name;

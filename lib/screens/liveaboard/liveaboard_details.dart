@@ -452,8 +452,7 @@ class _detailState extends State<detail> {
             future: getLiveaboardDetail(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Column(
-                  children: [
+                return Column(children: [
                   Text(
                       "Trip name : " + details[widget.index].tripTemplate.name),
                   SizedBox(
@@ -651,30 +650,42 @@ class _detailState extends State<detail> {
                         itemCount: details[widget.index].diveSites.length,
                         itemBuilder: (context, each) {
                           return Container(
-                            width: MediaQuery.of(context).size.width * 0.5,
+                            width: MediaQuery.of(context).size.width * 0.25,
                             child: SingleChildScrollView(
                               child: Card(
                                 color: Colors.deepPurple[100],
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
-                                elevation: 8,
+                                // elevation: 8,
                                 child: Container(
                                   child: Column(
                                     children: [
                                       SizedBox(height: 20),
                                       Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            CrossAxisAlignment.center,
                                         children: [
                                           Text("Name : " +
                                               details[widget.index]
                                                   .diveSites[each]
                                                   .name),
-                                          Text("Description : " +
-                                              details[widget.index]
-                                                  .diveSites[each]
-                                                  .description),
+                                          // Text("Description : " +
+                                          //     details[widget.index]
+                                          //         .diveSites[each]
+                                          //         .description),
+                                             Container(
+                                              alignment: Alignment.center,
+                                              width: 500,
+                                              child: Text(
+                                                "Description : " +
+                                                    details[widget.index]
+                                                        .diveSites[each]
+                                                        .description,
+                                                maxLines: 20,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
                                           Text("Max Dept : " +
                                               details[widget.index]
                                                   .diveSites[each]
@@ -1037,9 +1048,9 @@ class _InfoCardState extends State<InfoCard> {
     reservation.tripId = details[indexDetail].id;
     // Int64(28);
     reservation.diverId = user_profile.diver.id;
-    reservation.price =
-        (roomtypes[indexRoom].price * int.parse(_textEditingQuantity.text)) +
-            details[indexDetail].price;
+    reservation.price = details[indexDetail].tripRoomTypePrices[indexRoom].price* int.parse(_textEditingQuantity.text);
+        // (roomtypes[indexRoom].price * int.parse(_textEditingQuantity.text)) +
+        //     details[indexDetail].price;
     reservation.totalDivers = Int64(int.parse(_textEditingDiver.text));
 
     var bookRequest = CreateReservationRequest()..reservation = reservation;
@@ -1152,9 +1163,10 @@ class _InfoCardState extends State<InfoCard> {
                         details[indexDetail].tripTemplate.name, //1
                         liveaboardDetial.liveaboard.name, //2
                         roomtypes[indexRoom].name, //3
-                        (roomtypes[indexRoom].price *
-                                int.parse(_textEditingQuantity.text)) +
-                            details[indexDetail].price, //4
+                        // (roomtypes[indexRoom].price *
+                        //         int.parse(_textEditingQuantity.text)) +
+                        //     details[indexDetail].price, 
+                          details[indexDetail].tripRoomTypePrices[indexRoom].price* int.parse(_textEditingQuantity.text),  //4
                         //details,
                         jsonEncode((details as List<TripWithTemplate>)
                             .map((e) => e.toProto3Json())
@@ -1293,7 +1305,15 @@ class _InfoCardState extends State<InfoCard> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text('Price : ' + roomtypes[widget.indexRoom].price.toString()),
+                  details[indexDetail].tripRoomTypePrices.length == 0
+                      ? Text('Price : no price')
+                      : Text('Price : ' +
+                          // roomtypes[widget.indexRoom].price.toString()
+                          details[indexDetail]
+                              .tripRoomTypePrices[widget.indexRoom]
+                              .price
+                              .toString()),
+                  // Text('Price : ' + roomtypes[widget.indexRoom].price.toString()),
                   SizedBox(
                     height: 20,
                   ),

@@ -472,7 +472,10 @@ class _TripDetailState extends State<TripDetail> {
                         // ),
                         ElevatedButton(
                             style: TextButton.styleFrom(
-                              textStyle: const TextStyle(fontSize: 20,),backgroundColor: Color(0xfff8dd9cc),
+                              textStyle: const TextStyle(
+                                fontSize: 20,
+                              ),
+                              backgroundColor: Color(0xfff8dd9cc),
                             ),
                             onPressed: () {
                               _runFilter();
@@ -736,7 +739,9 @@ class _InfoCardState extends State<InfoCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       // Text('Trip name : ' + _foundtrip[widget.index].name),
                       //LiveAboardDatas[widget.index].name),
                       Text('Trip name : ' +
@@ -793,8 +798,16 @@ class _InfoCardState extends State<InfoCard> {
                       ),
                       Align(
                           alignment: Alignment.centerRight,
-                          child: Text('Price : ' +
-                              _foundtrip[widget.index].price.toString())),
+                          child: _foundtrip[widget.index]
+                                      .tripRoomTypePrices
+                                      .length ==
+                                  0
+                              ? Text('no price')
+                              : Text('Price : ' +
+                                  // _foundtrip[widget.index].price.toString()
+                                  _foundtrip[widget.index]
+                                      .tripRoomTypePrices[0].price
+                                      .toString())),
                       SizedBox(
                         height: 20,
                       ),
