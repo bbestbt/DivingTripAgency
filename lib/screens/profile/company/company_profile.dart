@@ -445,7 +445,7 @@ class _InfoCardState extends State<InfoCard> {
                         Align(
                             alignment: Alignment.centerRight,
                             child: Text('Price : ' +
-                                trips[widget.index].price.toString())),
+                                trips[widget.index].tripRoomTypePrices[0].price.toString())),
                         SizedBox(
                           height: 20,
                         ),

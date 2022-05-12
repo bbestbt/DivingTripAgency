@@ -3,12 +3,16 @@ import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/liveaboard.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/liveaboard.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/screens/create_hotel/addMoreAmenity.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_form.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:diving_trip_agency/screens/update/add_new_amenity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -22,6 +26,9 @@ import 'dart:io' as io;
 import 'package:fixnum/fixnum.dart';
 
 import 'update_amenity_liveaboard.dart';
+
+GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
+var liveaboard;
 
 class AddMoreRoomUpdateLiveaboard extends StatefulWidget {
   List<RoomType> pinkValue = [];
@@ -48,6 +55,7 @@ class _AddMoreRoomUpdateLiveaboardState
   List<List<Amenity>> blueValue;
   List<RoomType> pinkValue = [];
   Liveaboard eachLiveaboard;
+  List<RoomType> allRoom = [];
 
   _AddMoreRoomUpdateLiveaboardState(
     Liveaboard eachLiveaboard,
@@ -58,32 +66,66 @@ class _AddMoreRoomUpdateLiveaboardState
     this.blueValue = blueValue;
     this.eachLiveaboard = eachLiveaboard;
   }
+
+  getRoomLength() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = LiveaboardServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listamenityliveaboardrequest = GetLiveaboardRequest();
+
+    listamenityliveaboardrequest.id = eachLiveaboard.id;
+
+    liveaboard = await stub.getLiveaboard(listamenityliveaboardrequest);
+
+    liveaboardDetial = liveaboard;
+
+    return liveaboardDetial.liveaboard.roomTypes.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: SingleChildScrollView(
           child: Column(children: [
-        RoomFormLiveaboardUpdate(this.eachLiveaboard),
-        ListView.separated(
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(
-                  thickness: 5,
-                  indent: 20,
-                  endIndent: 20,
-                ),
-            shrinkWrap: true,
-            itemCount: pinkcount,
-            itemBuilder: (BuildContext context, int index) {
-              return RoomForm(pinkcount, this.pinkValue, this.blueValue);
-            }),
+        RoomFormLiveaboardUpdate(this.eachLiveaboard, this.allRoom),
+        FutureBuilder(
+          future: getRoomLength(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.separated(
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(
+                        thickness: 5,
+                        indent: 20,
+                        endIndent: 20,
+                      ),
+                  shrinkWrap: true,
+                  itemCount: pinkcount,
+                  itemBuilder: (BuildContext context, int index) {
+                    return RoomForm(pinkcount, this.pinkValue, this.blueValue,
+                        index + liveaboardDetial.liveaboard.roomTypes.length);
+                  });
+            } else {
+              return Center(child: Text('No room'));
+            }
+          },
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             MaterialButton(
               onPressed: () {
                 setState(() {
-                  pinkcount += 1;
-                  pinkValue.add(new RoomType());
+                  pinkcount = 1;
+                  // pinkValue.add(new RoomType());
                   // blueValue.add([new Amenity()]);
                 });
               },
@@ -98,8 +140,14 @@ class _AddMoreRoomUpdateLiveaboardState
             MaterialButton(
               onPressed: () {
                 setState(() {
-                  pinkcount -= 1;
-                  pinkValue.remove(new RoomType());
+                    if (eachLiveaboard.roomTypes.length > 1) {
+                    eachLiveaboard.roomTypes.removeLast();
+                    print(eachLiveaboard.roomTypes);
+                  } else {
+                    pinkcount = 0;
+                  }
+                  // pinkcount = 1;
+                  // pinkValue.remove(new RoomType());
                   // blueValue.remove([new Amenity()]);
                 });
               },
@@ -113,6 +161,9 @@ class _AddMoreRoomUpdateLiveaboardState
           ],
         ),
         SizedBox(height: 30),
+        // FlatButton(onPressed: () {
+        //   print(allRoom);
+        // }),
       ])),
     );
   }
@@ -123,20 +174,21 @@ class RoomFormLiveaboardUpdate extends StatefulWidget {
   Liveaboard eachLiveaboard;
 
   var f2 = File();
-  RoomFormLiveaboardUpdate(Liveaboard eachLiveaboard) {
+  RoomFormLiveaboardUpdate(Liveaboard eachLiveaboard, List<RoomType> allRoom) {
     this.eachLiveaboard = eachLiveaboard;
+    this.allRoom = allRoom;
     // print('room'+eachLiveaboard.id.toString());
   }
   @override
   _RoomFormLiveaboardUpdateState createState() =>
-      _RoomFormLiveaboardUpdateState(this.eachLiveaboard);
+      _RoomFormLiveaboardUpdateState(this.eachLiveaboard, this.allRoom);
 }
 
 class _RoomFormLiveaboardUpdateState extends State<RoomFormLiveaboardUpdate> {
   List<RoomType> allRoom = [];
   Liveaboard eachLiveaboard;
 
-  _RoomFormLiveaboardUpdateState(this.eachLiveaboard);
+  _RoomFormLiveaboardUpdateState(this.eachLiveaboard, this.allRoom);
   getRoomType() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -281,6 +333,7 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(index.toString()),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
@@ -445,7 +498,7 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_description = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].description = value;
+        allRoom[index].description = value;
       },
       decoration: InputDecoration(
         labelText: "Room description",
@@ -466,7 +519,7 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].maxGuest = int.parse(value);
+        allRoom[index].maxGuest = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
@@ -483,7 +536,7 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
-        // pinkValue[pinkcount - 1].name = value;
+        allRoom[index].name = value;
       },
       decoration: InputDecoration(
         labelText: "Room type",
@@ -504,7 +557,7 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].quantity = int.parse(value);
+        allRoom[index].quantity = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",
@@ -520,17 +573,19 @@ class RoomForm extends StatefulWidget {
   int pinkcount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
+  int indexForm;
 
   var f2 = File();
-  RoomForm(
-      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
+  RoomForm(int pinkcount, List<RoomType> pinkValue,
+      List<List<Amenity>> blueValue, int indexForm) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
+    this.indexForm = indexForm;
   }
   @override
-  _RoomFormState createState() =>
-      _RoomFormState(this.pinkcount, this.pinkValue, this.blueValue);
+  _RoomFormState createState() => _RoomFormState(
+      this.pinkcount, this.pinkValue, this.blueValue, this.indexForm);
 }
 
 class _RoomFormState extends State<RoomForm> {
@@ -548,13 +603,15 @@ class _RoomFormState extends State<RoomForm> {
   String quantity;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
+  int indexForm;
 
   XFile rroom;
-  _RoomFormState(
-      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
+  _RoomFormState(int pinkcount, List<RoomType> pinkValue,
+      List<List<Amenity>> blueValue, int indexForm) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
+    this.indexForm = indexForm;
   }
 
   final TextEditingController _controllerRoomdescription =
@@ -601,23 +658,22 @@ class _RoomFormState extends State<RoomForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(indexForm.toString()),
           SizedBox(height: 20),
-
           buildRoomNameFormField(),
           SizedBox(height: 20),
-
           buildRoomDescriptionFormField(),
           SizedBox(height: 20),
           buildMaxCapacityFormField(),
           SizedBox(height: 20),
 
-          // Container(
-          //   width: MediaQuery.of(context).size.width / 1.5,
-          //   decoration: BoxDecoration(
-          //       color: Color(0xfffd4f0f0),
-          //       borderRadius: BorderRadius.circular(10)),
-          //   child: AddMoreAmenity(this.pinkcount, this.blueValue, this.errors),
-          // ),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xfffd4f0f0),
+                borderRadius: BorderRadius.circular(10)),
+            child: AddMoreAmenityNew(this.indexForm, this.blueValue),
+          ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),

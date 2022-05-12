@@ -27,8 +27,7 @@ class AddMoreAmenityUpdateHotel extends StatefulWidget {
   }
   @override
   _AddMoreAmenityUpdateHotelState createState() =>
-      _AddMoreAmenityUpdateHotelState(
-          this.eachHotel, this.pinkcount);
+      _AddMoreAmenityUpdateHotelState(this.eachHotel, this.pinkcount);
 }
 
 class _AddMoreAmenityUpdateHotelState extends State<AddMoreAmenityUpdateHotel> {
@@ -61,7 +60,12 @@ class _AddMoreAmenityUpdateHotelState extends State<AddMoreAmenityUpdateHotel> {
             shrinkWrap: true,
             itemCount: bluecount,
             itemBuilder: (BuildContext context, int index) {
-              return amenityForm(bluecount, pinkcount, this.blueValue);
+              return amenityForm(
+                  bluecount,
+                  pinkcount,
+                  this.blueValue,
+                  index +
+                      hotelDetial.hotel.roomTypes[pinkcount].amenities.length);
             }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -98,6 +102,9 @@ class _AddMoreAmenityUpdateHotelState extends State<AddMoreAmenityUpdateHotel> {
           ],
         ),
         SizedBox(height: 30),
+        FlatButton(onPressed: () {
+          print(hotelDetial.hotel.roomTypes[pinkcount].amenities);
+        }),
       ])),
     );
   }
@@ -278,10 +285,10 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(index.toString()),
           SizedBox(height: 20),
           Container(
             color: Color(0xfffd4f0f0),
-            //color: Color(0xFFFd0efff),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
@@ -292,27 +299,21 @@ class _InfoCardState extends State<InfoCard> {
                     .hotel.roomTypes[pinkcount].amenities[index].name),
                 iconSize: 40,
                 onChanged: (value) {
-                  // if (value != null) {
                   setState(() {
                     amenitySelected = value;
-                    // amenity.forEach((element) {
-                    //   if (element == amenitySelected) {
-                    //     blueValue[pinkcount - 1][index - 1].name =
-                    //         amenitySelected;
-                    //     blueValue[pinkcount - 1][index - 1].id =
-                    //         amenityMap[element];
-                    // }
-                    // });
+                    amenity.forEach((element) {
+                      if (element == amenitySelected) {
+                        hotelDetial.hotel.roomTypes[pinkcount].amenities[index]
+                            .name = amenitySelected;
+                        hotelDetial.hotel.roomTypes[pinkcount].amenities[index]
+                            .id = amenityMap[element];
+                      }
+                    });
                   });
-                  // }
                 },
               ),
             ),
           ),
-
-          // Text(pinkcount.toString()),
-          // Text(index.toString())
-          // SizedBox(height: 20),
         ]),
       ),
     );
@@ -322,20 +323,19 @@ class _InfoCardState extends State<InfoCard> {
 class amenityForm extends StatefulWidget {
   int bluecount;
   int pinkcount;
+  int indexForm;
   List<List<Amenity>> blueValue;
 
   amenityForm(
-    int blue,
-    int pinkcount,
-    List<List<Amenity>> blueValue,
-  ) {
+      int blue, int pinkcount, List<List<Amenity>> blueValue, int indexForm) {
     this.bluecount = blue;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.indexForm = indexForm;
   }
   @override
-  _amenityFormState createState() =>
-      _amenityFormState(this.bluecount, this.pinkcount, this.blueValue);
+  _amenityFormState createState() => _amenityFormState(
+      this.bluecount, this.pinkcount, this.blueValue, this.indexForm);
 }
 
 class _amenityFormState extends State<amenityForm> {
@@ -344,25 +344,19 @@ class _amenityFormState extends State<amenityForm> {
   int bluecount;
   int pinkcount;
   List<List<Amenity>> blueValue;
-  //load
+  int indexForm;
   List<DropdownMenuItem<String>> listAmenity = [];
   List<String> amenity = [];
   String amenitySelected;
   Map<String, dynamic> amenityMap = {};
 
-  _amenityFormState(
-    int bluecount,
-    int pinkcount,
-    List<List<Amenity>> blueValue,
-  ) {
+  _amenityFormState(int bluecount, int pinkcount, List<List<Amenity>> blueValue,
+      int indexForm) {
     this.bluecount = bluecount;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.indexForm = indexForm;
   }
-
-  final TextEditingController _controllerAmenityName = TextEditingController();
-  final TextEditingController _controllerAmenityDescription =
-      TextEditingController();
 
   @override
   void initState() {
@@ -414,10 +408,10 @@ class _amenityFormState extends State<amenityForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(indexForm.toString()),
           SizedBox(height: 20),
           Container(
             color: Color(0xfffd4f0f0),
-            //color: Color(0xFFFd0efff),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
@@ -439,11 +433,12 @@ class _amenityFormState extends State<amenityForm> {
                         // print(amenityMap[element]);
                         // print(amenitySelected);
                         if (element == amenitySelected) {
+                          //พัง
                           // print(amenityMap[element]);
-                          // blueValue[pinkcount - 1][bluecount - 1].name =
-                          //     amenitySelected;
-                          // blueValue[pinkcount - 1][bluecount - 1].id =
-                          //     amenityMap[element];
+                        //  hotelDetial.hotel.roomTypes[pinkcount].amenities[indexForm]
+                        //     .name = amenitySelected;
+                        // hotelDetial.hotel.roomTypes[pinkcount].amenities[indexForm]
+                        //     .id = amenityMap[element];
                         }
                       });
                     });

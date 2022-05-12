@@ -3,12 +3,15 @@ import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/hotel.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
+import 'package:diving_trip_agency/screens/create_hotel/addMoreAmenity.dart';
 import 'package:diving_trip_agency/screens/create_hotel/add_hotel_form.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
+import 'package:diving_trip_agency/screens/update/add_new_amenity.dart';
 import 'package:diving_trip_agency/screens/update/update_amenity_hotel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -21,16 +24,18 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'dart:io' as io;
 
+GetHotelResponse hotelDetial = new GetHotelResponse();
+var hotel;
+
 class AddMoreRoomUpdateHotel extends StatefulWidget {
   List<RoomType> pinkValue = [];
   Hotel eachHotel;
-
+  final customFunction;
   List<List<Amenity>> blueValue;
-  AddMoreRoomUpdateHotel(
-    Hotel eachHotel,
-    //List<RoomType> pinkValue,
-    // List<List<Amenity>> blueValue,
-  ) {
+  AddMoreRoomUpdateHotel(Hotel eachHotel, this.customFunction
+      // List<RoomType> pinkValue,
+      // List<List<Amenity>> blueValue,
+      ) {
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
     this.eachHotel = eachHotel;
@@ -45,6 +50,7 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
   List<List<Amenity>> blueValue;
   List<RoomType> pinkValue = [];
   Hotel eachHotel;
+  List<RoomType> allRoom = [];
 
   _AddMoreRoomUpdateHotelState(
     Hotel eachHotel,
@@ -55,24 +61,62 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
     this.blueValue = blueValue;
     this.eachHotel = eachHotel;
   }
+  getRoomLength() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = HotelServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listamenityhotelrequest = GetHotelRequest();
+
+    listamenityhotelrequest.id = eachHotel.id;
+
+    hotel = await stub.getHotel(listamenityhotelrequest);
+
+    hotelDetial = hotel;
+    return hotelDetial.hotel.roomTypes.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       child: SingleChildScrollView(
           child: Column(children: [
-        RoomFormHotelUpdate(this.eachHotel),
-        ListView.separated(
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(
-                  thickness: 5,
-                  indent: 20,
-                  endIndent: 20,
-                ),
-            shrinkWrap: true,
-            itemCount: pinkcount,
-            itemBuilder: (BuildContext context, int index) {
-              return RoomForm(pinkcount, this.pinkValue, this.blueValue);
-            }),
+        RoomFormHotelUpdate(this.eachHotel, this.allRoom),
+        FutureBuilder(
+          future: getRoomLength(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.separated(
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(
+                        thickness: 5,
+                        indent: 20,
+                        endIndent: 20,
+                      ),
+                  shrinkWrap: true,
+                  itemCount: pinkcount,
+                  itemBuilder: (BuildContext context, int index) {
+                    return RoomForm(
+                        pinkcount,
+                        this.pinkValue,
+                        this.blueValue,
+                        index + hotelDetial.hotel.roomTypes.length,
+                        eachHotel,
+                        widget.customFunction,
+                        this.allRoom);
+                  });
+            } else {
+              return Center(child: Text('No room'));
+            }
+          },
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -80,7 +124,7 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
               onPressed: () {
                 setState(() {
                   pinkcount += 1;
-                  pinkValue.add(new RoomType());
+                  // pinkValue.add(new RoomType());
                   // blueValue.add([new Amenity()]);
                 });
               },
@@ -95,8 +139,14 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
             MaterialButton(
               onPressed: () {
                 setState(() {
-                  pinkcount -= 1;
-                  pinkValue.remove(new RoomType());
+                  if (eachHotel.roomTypes.length > 1) {
+                    eachHotel.roomTypes.removeLast();
+                    print(eachHotel.roomTypes);
+                  } else {
+                    pinkcount = 0;
+                  }
+                  // pinkcount -= 1;
+                  // pinkValue.remove(new RoomType());
                   // blueValue.remove([new Amenity()]);
                 });
               },
@@ -110,6 +160,9 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
           ],
         ),
         SizedBox(height: 30),
+        FlatButton(onPressed: () {
+          print(widget.customFunction(eachHotel.roomTypes));
+        }),
       ])),
     );
   }
@@ -120,19 +173,20 @@ class RoomFormHotelUpdate extends StatefulWidget {
   Hotel eachHotel;
 
   var f2 = File();
-  RoomFormHotelUpdate(Hotel eachHotel) {
+  RoomFormHotelUpdate(Hotel eachHotel, List<RoomType> allRoom) {
     this.eachHotel = eachHotel;
+    this.allRoom = allRoom;
   }
   @override
   _RoomFormHotelUpdateState createState() =>
-      _RoomFormHotelUpdateState(this.eachHotel);
+      _RoomFormHotelUpdateState(this.eachHotel, this.allRoom);
 }
 
 class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
   List<RoomType> allRoom = [];
   Hotel eachHotel;
 
-  _RoomFormHotelUpdateState(this.eachHotel);
+  _RoomFormHotelUpdateState(this.eachHotel, this.allRoom);
   getRoomType() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -275,6 +329,7 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(index.toString()),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
@@ -288,8 +343,7 @@ class _InfoCardState extends State<InfoCard> {
             decoration: BoxDecoration(
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreAmenityUpdateHotel(
-                this.eachHotel, this.index),
+            child: AddMoreAmenityUpdateHotel(this.eachHotel, this.index),
             // child: AddMoreAmenityUpdateHotel(this.eachHotel,this.bluecount,this.index, this.blueValue),
           ),
           SizedBox(height: 20),
@@ -438,7 +492,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_description = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].description = value;
+        print(value);
+        allRoom[index].description = value;
       },
       decoration: InputDecoration(
         labelText: "Room description",
@@ -459,7 +514,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].maxGuest = int.parse(value);
+        print(value);
+        allRoom[index].maxGuest = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
@@ -476,7 +532,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].name = value;
+        print(value);
+        allRoom[index].name = value;
       },
       decoration: InputDecoration(
         labelText: "Room type",
@@ -497,7 +554,8 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
-        pinkValue[pinkcount - 1].quantity = int.parse(value);
+        print(value);
+        allRoom[index].quantity = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",
@@ -513,24 +571,42 @@ class RoomForm extends StatefulWidget {
   int pinkcount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
-
+  int indexForm;
+  Hotel eachHotel;
+  final customFunction;
+  List<RoomType> allRoom = [];
   var f2 = File();
   RoomForm(
-      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
+      int pinkcount,
+      List<RoomType> pinkValue,
+      List<List<Amenity>> blueValue,
+      int indexForm,
+      Hotel eachHotel,
+      this.customFunction,
+      List<RoomType> allRoom) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
+    this.indexForm = indexForm;
+    this.eachHotel = eachHotel;
+    this.allRoom = allRoom;
   }
   @override
-  _RoomFormState createState() =>
-      _RoomFormState(this.pinkcount, this.pinkValue, this.blueValue);
+  _RoomFormState createState() => _RoomFormState(
+      this.pinkcount,
+      this.pinkValue,
+      this.blueValue,
+      this.indexForm,
+      this.eachHotel,
+      this.customFunction,
+      this.allRoom);
 }
 
 class _RoomFormState extends State<RoomForm> {
   int pinkcount;
   String room_description;
-  String max_capa;
-  String price;
+  int max_capa;
+  double price;
   // String amenity;
   String selected = null;
   io.File roomimg;
@@ -538,16 +614,29 @@ class _RoomFormState extends State<RoomForm> {
   io.File roomimg3;
   String room_type;
   String room_name;
-  String quantity;
+  int quantity;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
-
+  int indexForm;
+  Hotel eachHotel;
+  List<RoomType> allRoom = [];
+  List<RoomType> newRoom = [];
   XFile rroom;
+  final customFunction;
   _RoomFormState(
-      int pinkcount, List<RoomType> pinkValue, List<List<Amenity>> blueValue) {
+      int pinkcount,
+      List<RoomType> pinkValue,
+      List<List<Amenity>> blueValue,
+      int indexForm,
+      Hotel eachHotel,
+      this.customFunction,
+      List<RoomType> allRoom) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
+    this.indexForm = indexForm;
+    this.eachHotel = eachHotel;
+    this.allRoom = allRoom;
   }
 
   final TextEditingController _controllerRoomdescription =
@@ -558,6 +647,7 @@ class _RoomFormState extends State<RoomForm> {
   final TextEditingController _controllerRoomtype = TextEditingController();
   final TextEditingController _controllerRoomname = TextEditingController();
   final TextEditingController _controllerQuantity = TextEditingController();
+  int count = 0;
 
   _getroomimg(int num) async {
     rroom = await ImagePicker().pickImage(
@@ -594,27 +684,24 @@ class _RoomFormState extends State<RoomForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          Text(indexForm.toString()),
           SizedBox(height: 20),
-
           buildRoomNameFormField(),
           SizedBox(height: 20),
-
           buildRoomDescriptionFormField(),
           SizedBox(height: 20),
           buildMaxCapacityFormField(),
           SizedBox(height: 20),
-
-          // Container(
-          //   width: MediaQuery.of(context).size.width / 1.5,
-          //   decoration: BoxDecoration(
-          //       color: Color(0xfffd4f0f0),
-          //       borderRadius: BorderRadius.circular(10)),
-          //   child: AddMoreAmenity(this.pinkcount, this.blueValue, this.errors),
-          // ),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.5,
+            decoration: BoxDecoration(
+                color: Color(0xfffd4f0f0),
+                borderRadius: BorderRadius.circular(10)),
+            child: AddMoreAmenityNew(this.indexForm, this.blueValue),
+          ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
-
           Row(
             children: [
               Column(
@@ -744,8 +831,28 @@ class _RoomFormState extends State<RoomForm> {
               ),
             ],
           ),
+          SizedBox(height: 20),
+          FlatButton(
+              color: Colors.pink,
+              child: Text(
+                'Please save before add new divesites',
+              ),
+              onPressed: () {
+                print('ff');
+                print(eachHotel.roomTypes);
+                var rt = RoomType();
+                rt.name = room_name;
+                rt.description = room_description;
+                rt.quantity = quantity;
+                rt.maxGuest = max_capa;
+                eachHotel.roomTypes.add(rt);
+                // allRoom.add(rt);
 
-          //   FormError(errors: errors),
+                // eachHotel.roomTypes.addAll(allRoom);
+                print(eachHotel.roomTypes);
+
+                widget.customFunction(eachHotel.roomTypes);
+              }),
           SizedBox(height: 20),
         ]),
       ),
@@ -756,12 +863,13 @@ class _RoomFormState extends State<RoomForm> {
     return TextFormField(
       controller: _controllerRoomdescription,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => room_description = newValue,
+      // onSaved: (newValue) => room_description = newValue,
       onChanged: (value) {
         // print('room des start');
         // print(pinkcount);
         // print('room des end');
-        pinkValue[pinkcount - 1].description = value;
+        room_description = value;
+        // newRoom[count].description = value;
       },
       decoration: InputDecoration(
         labelText: "Room description",
@@ -772,29 +880,30 @@ class _RoomFormState extends State<RoomForm> {
     );
   }
 
-  TextFormField buildPriceFormField() {
-    return TextFormField(
-      controller: _controllerPrice,
-      keyboardType: TextInputType.number,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => price = newValue,
-      onChanged: (value) {
-        // print('room price start');
-        // print(pinkcount);
-        // print('room price end');
-        pinkValue[pinkcount - 1].price = double.parse(value);
-      },
-      decoration: InputDecoration(
-        labelText: "Price",
-        filled: true,
-        fillColor: Color(0xffffee1e8),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
+  // TextFormField buildPriceFormField() {
+  //   return TextFormField(
+  //     controller: _controllerPrice,
+  //     keyboardType: TextInputType.number,
+  //     inputFormatters: [
+  //       FilteringTextInputFormatter.digitsOnly,
+  //     ],
+  //     cursorColor: Color(0xFFf5579c6),
+  //     // onSaved: (newValue) => price = newValue,
+  //     onChanged: (value) {
+  //       // print('room price start');
+  //       // print(pinkcount);
+  //       // print('room price end');
+  //       price = double.parse(value);
+  //       // pinkValue[pinkcount - 1].price = double.parse(value);
+  //     },
+  //     decoration: InputDecoration(
+  //       labelText: "Price",
+  //       filled: true,
+  //       fillColor: Color(0xffffee1e8),
+  //       floatingLabelBehavior: FloatingLabelBehavior.always,
+  //     ),
+  //   );
+  // }
 
   TextFormField buildMaxCapacityFormField() {
     return TextFormField(
@@ -804,12 +913,13 @@ class _RoomFormState extends State<RoomForm> {
         FilteringTextInputFormatter.digitsOnly,
       ],
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => max_capa = newValue,
+      // onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
         // print('room max start');
         // print(pinkcount);
         // print('room max end');
-        pinkValue[pinkcount - 1].maxGuest = int.parse(value);
+        max_capa = int.parse(value);
+        // newRoom[count].maxGuest = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
@@ -824,12 +934,13 @@ class _RoomFormState extends State<RoomForm> {
     return TextFormField(
       controller: _controllerRoomname,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => room_name = newValue,
+      // onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
         // print('room name start');
         // print(pinkcount);
         // print('room name end');
-        pinkValue[pinkcount - 1].name = value;
+        // newRoom[count].name = value;
+        room_name = value;
       },
       decoration: InputDecoration(
         labelText: "Room type",
@@ -848,13 +959,15 @@ class _RoomFormState extends State<RoomForm> {
         FilteringTextInputFormatter.digitsOnly,
       ],
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => quantity = newValue,
+      // onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
         // print('room quantity start');
         // print(pinkcount);
         // print('room quantity end');
-        pinkValue[pinkcount - 1].quantity = int.parse(value);
+        // newRoom[count].quantity = int.parse(value);
+
         // print(value);
+        quantity = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",

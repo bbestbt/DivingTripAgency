@@ -1,3 +1,4 @@
+
 import 'package:country_picker/country_picker.dart';
 import 'package:diving_trip_agency/controllers/menuCompany.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
@@ -435,7 +436,7 @@ class _editHotelFormState extends State<editHotelForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: eachHotel.images.length == 0
+                  child: eachHotel.images.length <1
                       ? new Container(
                           color: Colors.blue,
                         )
@@ -490,7 +491,7 @@ class _editHotelFormState extends State<editHotelForm> {
                Container(
                   width: MediaQuery.of(context).size.width / 10,
                    height: MediaQuery.of(context).size.width / 10,
-                   child: eachHotel.images.length == 0
+                   child: eachHotel.images.length <2
                        ? new Container(
                            color: Colors.blue,
                          )
@@ -546,7 +547,7 @@ class _editHotelFormState extends State<editHotelForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: eachHotel.images.length == 0
+                  child: eachHotel.images.length <3
                       ? new Container(
                           color: Colors.blue,
                         )
@@ -600,7 +601,7 @@ class _editHotelFormState extends State<editHotelForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: eachHotel.images.length == 0
+                  child: eachHotel.images.length <4
                       ? new Container(
                           color: Colors.blue,
                         )
@@ -654,7 +655,7 @@ class _editHotelFormState extends State<editHotelForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: eachHotel.images.length == 0
+                  child: eachHotel.images.length <5
                       ? new Container(
                           color: Colors.blue,
                         )
@@ -709,7 +710,7 @@ class _editHotelFormState extends State<editHotelForm> {
                Container(
                    width: MediaQuery.of(context).size.width / 10,
                    height: MediaQuery.of(context).size.width / 10,
-                   child: eachHotel.images.length == 0
+                   child: eachHotel.images.length <6
                        ? new Container(
                            color: Colors.blue,
                          )
@@ -763,7 +764,7 @@ class _editHotelFormState extends State<editHotelForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: eachHotel.images.length == 0
+                  child: eachHotel.images.length <7
                       ? new Container(
                           color: Colors.blue,
                         )
@@ -817,7 +818,7 @@ class _editHotelFormState extends State<editHotelForm> {
                Container(
                    width: MediaQuery.of(context).size.width / 10,
                    height: MediaQuery.of(context).size.width / 10,
-                   child: eachHotel.images.length == 0
+                   child: eachHotel.images.length <8
                        ? new Container(
                            color: Colors.blue,
                          )
@@ -871,8 +872,8 @@ class _editHotelFormState extends State<editHotelForm> {
                Container(
                    width: MediaQuery.of(context).size.width / 10,
                    height: MediaQuery.of(context).size.width / 10,
-                   child: eachHotel.images.length == 0
-                       ? new Container(
+                   child: eachHotel.images.length <9
+                 ? new Container(
                            color: Colors.blue,
                          )
                        : Image.network(eachHotel.images[8].link.toString())),
@@ -924,7 +925,7 @@ class _editHotelFormState extends State<editHotelForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: eachHotel.images.length == 0
+                  child: eachHotel.images.length <10
                       ? new Container(
                           color: Colors.blue,
                         )
@@ -998,8 +999,7 @@ class _editHotelFormState extends State<editHotelForm> {
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: //AddMoreRoomUpdateHotel(this.eachHotel, getRoomValue),
-            AddMoreRoomUpdateHotel(this.eachHotel),
+            child: AddMoreRoomUpdateHotel(this.eachHotel, getRoomValue),
           ),
           SizedBox(height: 30),
 

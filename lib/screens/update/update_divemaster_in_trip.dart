@@ -3,6 +3,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/screens/create_hotel/room_form.dart';
 import 'package:diving_trip_agency/screens/create_trip/divesite_form.dart';
+import 'package:diving_trip_agency/screens/update/update_divemaster.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
@@ -11,31 +12,31 @@ class AddMoreDiveMasterUpdate extends StatefulWidget {
   List<DiveMaster> dmValue = [];
   List<String> divemaster = [];
   TripWithTemplate eachTrip;
+  final customFunction;
 
-  AddMoreDiveMasterUpdate(List<DiveMaster> dmValue, TripWithTemplate eachTrip,
-      List<String> divemaster) {
-    this.dmValue = dmValue;
+  AddMoreDiveMasterUpdate(TripWithTemplate eachTrip, this.customFunction) {
+    // this.dmValue = dmValue;
     this.eachTrip = eachTrip;
-    this.divemaster = divemaster;
-    //  print('a');
-    // print(divemaster);
-    //  print('b');
+    // this.divemaster = divemaster;
   }
   @override
   _AddMoreDiveMasterUpdateState createState() => _AddMoreDiveMasterUpdateState(
-      this.dmValue, this.eachTrip, this.divemaster);
+        // this.dmValue,
+        this.eachTrip,
+        // this.customFunction,
+      );
 }
 
 class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
   int dmcount = 0;
   TripWithTemplate eachTrip;
-  List<String> divemaster = [];
+  // final customFunction;
+  // List<String> divemaster = [];
   List<DiveMaster> dmValue = [];
-  _AddMoreDiveMasterUpdateState(List<DiveMaster> dmValue,
-      TripWithTemplate eachTrip, List<String> divemaster) {
-    this.dmValue = dmValue;
+  _AddMoreDiveMasterUpdateState(TripWithTemplate eachTrip) {
+    // this.dmValue = dmValue;
     this.eachTrip = eachTrip;
-    this.divemaster = divemaster;
+    // this.divemaster = divemaster;
   }
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
           height: 20,
         ),
         DiveMasterFormUpdate(
-            dmcount, this.dmValue, this.eachTrip, this.divemaster),
+            dmcount, this.dmValue, this.eachTrip, widget.customFunction),
         Divider(
           thickness: 5,
           indent: 20,
@@ -62,8 +63,8 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
             shrinkWrap: true,
             itemCount: dmcount,
             itemBuilder: (BuildContext context, int index) {
-              return DiveMasterForm(
-                  dmcount, this.dmValue, this.divemaster, this.eachTrip);
+              return DiveMasterForm(this.dmValue, this.eachTrip,
+                  index + eachTrip.diveMasters.length, widget.customFunction);
             }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -71,8 +72,8 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
             MaterialButton(
               onPressed: () {
                 setState(() {
-                  dmcount += 1;
-                  dmValue.add(new DiveMaster());
+                  dmcount = 1;
+                  // eachTrip.diveMasters.add(new DiveMaster());
                 });
               },
               color: Color(0xfff55bcc9),
@@ -86,8 +87,13 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
             MaterialButton(
               onPressed: () {
                 setState(() {
-                  dmcount -= 1;
-                  dmValue.remove(new DiveMaster());
+                  if (eachTrip.diveMasters.length > 1) {
+                    // dmcount -= 1;
+                    eachTrip.diveMasters.removeLast();
+                    print(eachTrip.diveMasters);
+                  } else {
+                    dmcount = 0;
+                  }
                 });
               },
               color: Color(0xfff55bcc9),
@@ -100,6 +106,9 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
           ],
         ),
         SizedBox(height: 30),
+        // FlatButton(onPressed: () {
+        //   print(eachTrip.diveMasters);
+        // }),
       ])),
     );
   }
@@ -110,16 +119,21 @@ class DiveMasterFormUpdate extends StatefulWidget {
   List<DiveMaster> dmValue;
   TripWithTemplate eachTrip;
   List<String> divemaster = [];
+  final customFunction;
+
   DiveMasterFormUpdate(int dmcount, List<DiveMaster> dmValue,
-      TripWithTemplate eachTrip, List<String> divemaster) {
+      TripWithTemplate eachTrip, this.customFunction) {
     this.dmcount = dmcount;
     this.dmValue = dmValue;
     this.eachTrip = eachTrip;
-    this.divemaster = divemaster;
+    // this.divemaster = divemaster;
   }
   @override
   _DiveMasterFormUpdateState createState() => _DiveMasterFormUpdateState(
-      this.dmcount, this.dmValue, this.eachTrip, this.divemaster);
+        this.dmcount,
+        this.dmValue,
+        this.eachTrip,
+      );
 }
 
 class _DiveMasterFormUpdateState extends State<DiveMasterFormUpdate> {
@@ -128,12 +142,12 @@ class _DiveMasterFormUpdateState extends State<DiveMasterFormUpdate> {
   List<DiveMaster> dmValue;
   List<String> divemaster = [];
 
-  _DiveMasterFormUpdateState(int dmcount, List<DiveMaster> dmValue,
-      TripWithTemplate eachTrip, this.divemaster) {
+  _DiveMasterFormUpdateState(
+      int dmcount, List<DiveMaster> dmValue, TripWithTemplate eachTrip) {
     this.dmcount = dmcount;
     this.dmValue = dmValue;
     this.eachTrip = eachTrip;
-    this.divemaster = divemaster;
+    // this.divemaster = divemaster;
   }
 
   @override
@@ -145,8 +159,8 @@ class _DiveMasterFormUpdateState extends State<DiveMasterFormUpdate> {
             runSpacing: 40,
             children: List.generate(
               eachTrip.diveMasters.length,
-              (index) =>
-                  InfoCard(index, dmcount, dmValue, eachTrip, divemaster),
+              (index) => InfoCard(
+                  index, dmcount, dmValue, eachTrip, widget.customFunction),
             )),
       ],
     );
@@ -159,17 +173,23 @@ class InfoCard extends StatefulWidget {
   List<DiveMaster> dmValue;
   List<String> divemaster = [];
   TripWithTemplate eachTrip;
+  final customFunction;
+
   InfoCard(int index, int dmcount, List<DiveMaster> dmValue,
-      TripWithTemplate eachTrip, List<String> divemaster) {
+      TripWithTemplate eachTrip, this.customFunction) {
     this.dmcount = dmcount;
     this.dmValue = dmValue;
     this.eachTrip = eachTrip;
     this.index = index;
-    this.divemaster = divemaster;
+    // this.divemaster = divemaster;
   }
   @override
   State<InfoCard> createState() => _InfoCardState(
-      this.index, this.dmcount, this.dmValue, this.eachTrip, this.divemaster);
+        this.index,
+        this.dmcount,
+        this.dmValue,
+        this.eachTrip,
+      );
 }
 
 class _InfoCardState extends State<InfoCard> {
@@ -179,8 +199,8 @@ class _InfoCardState extends State<InfoCard> {
   TripWithTemplate eachTrip;
   List<String> divemaster = [];
   List<DropdownMenuItem<String>> listDivemaster = [];
-  _InfoCardState(
-      this.index, this.dmcount, this.dmValue, this.eachTrip, this.divemaster);
+  int count = 0;
+  _InfoCardState(this.index, this.dmcount, this.dmValue, this.eachTrip);
   void loadData() async {
     await getData();
     setState(() {
@@ -215,7 +235,7 @@ class _InfoCardState extends State<InfoCard> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
     var divemasterrequest = ListDiveMastersRequest();
-
+    // divemaster.clear();
     try {
       await for (var feature in stub.listDiveMasters(divemasterrequest)) {
         //  print(feature.diveMaster.firstName);
@@ -234,6 +254,7 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          // Text(index.toString()),
           Container(
             color: Color(0xfffcafafe),
             // Colors.white,
@@ -250,9 +271,12 @@ class _InfoCardState extends State<InfoCard> {
                       divemasterSelected = value;
                       divemaster.forEach((element) {
                         if (element == divemasterSelected) {
-                          // print(amenityMap[element]);
-                          dmValue[dmcount - 1].firstName = divemasterSelected;
-                          dmValue[dmcount - 1].id = divemasterMap[element];
+                          eachTrip.diveMasters[index].firstName =
+                              divemasterSelected;
+                          eachTrip.diveMasters[index].id =
+                              divemasterMap[element];
+                          widget.customFunction(eachTrip.diveMasters);
+                          // print(eachTrip.diveMasters);
                         }
                       });
 
@@ -276,34 +300,37 @@ class DiveMasterForm extends StatefulWidget {
   List<DiveMaster> dmValue;
   List<String> divemaster = [];
   TripWithTemplate eachTrip;
+  int indexForm;
+  final customFunction;
 
-  DiveMasterForm(int dmcount, List<DiveMaster> dmValue, List<String> divemaster,
-      TripWithTemplate eachTrip) {
-    this.dmcount = dmcount;
+  DiveMasterForm(List<DiveMaster> dmValue, TripWithTemplate eachTrip,
+      int indexForm, this.customFunction) {
+    // this.dmcount = dmcount;
     this.dmValue = dmValue;
     this.eachTrip = eachTrip;
-    this.divemaster = divemaster;
+    // this.divemaster = divemaster;
+    this.indexForm = indexForm;
   }
   @override
-  _DiveMasterFormState createState() => _DiveMasterFormState(
-      this.dmcount, this.dmValue, this.divemaster, this.eachTrip);
+  _DiveMasterFormState createState() =>
+      _DiveMasterFormState(this.dmValue, this.eachTrip, this.indexForm);
 }
 
 class _DiveMasterFormState extends State<DiveMasterForm> {
   int dmcount;
-
-  List<DiveMaster> dmValue;
+  int indexForm;
+  List<DiveMaster> dmValue = [];
   List<String> divemaster = [];
   TripWithTemplate eachTrip;
-  _DiveMasterFormState(int dmcount, List<DiveMaster> dmValue,
-      List<String> divemaster, TripWithTemplate eachTrip) {
-    this.dmcount = dmcount;
+  _DiveMasterFormState(
+      List<DiveMaster> dmValue, TripWithTemplate eachTrip, int indexForm) {
+    // this.dmcount = dmcount;
     this.dmValue = dmValue;
     this.eachTrip = eachTrip;
-    this.divemaster = divemaster;
+    // this.divemaster = divemaster;
+    this.indexForm = indexForm;
   }
   List<DropdownMenuItem<String>> listDivemaster = [];
-
   String divemasterSelected;
   Map<String, dynamic> divemasterMap = {};
 
@@ -356,9 +383,10 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          // Text(indexForm.toString()),
           Container(
             color: Color(0xfffcafafe),
-            // Colors.white,
+            // Colors.pink,
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
@@ -369,19 +397,38 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
+                      //พัง
                       divemasterSelected = value;
+                      // dmValue = eachTrip.diveMasters;
+                      // print(dmValue);
                       divemaster.forEach((element) {
                         if (element == divemasterSelected) {
-                          // print(amenityMap[element]);
-                          dmValue[dmcount - 1].firstName = divemasterSelected;
-                          dmValue[dmcount - 1].id = divemasterMap[element];
+                          print(eachTrip.diveMasters.length);
+
+                          var dm2 = DiveMaster();
+                          dm2.firstName = divemasterSelected;
+                          dm2.id = divemasterMap[element];
+                          // eachTrip.diveMasters[indexForm] = dm2;
+                          eachTrip.diveMasters.add(dm2);
+                          widget.customFunction(eachTrip.diveMasters);
+
+                          //------
+
+                          // dmValue[0].id = divemasterMap[element];
+                          // dmValue[0].firstName = divemasterSelected;
+                          // eachTrip.diveMasters.addAll(dmValue);
+                          //------
+
+                          // eachTrip.diveMasters[indexForm].firstName =
+                          //     divemasterSelected;
+                          // eachTrip.diveMasters[indexForm].id =
+                          //     divemasterMap[element];
+
+                          print(eachTrip.diveMasters);
                         }
                       });
-
-                      // print(value);
                     });
                   }
-                  // print(dmValue);
                 },
               ),
             ),

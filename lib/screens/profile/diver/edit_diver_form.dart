@@ -160,7 +160,14 @@ class _EditDiverFormState extends State<EditDiverForm> {
       f.filename = 'Image.jpg';
       List<int> b = await divfront.readAsBytes();
       f.file = b;
-      user_profile.diver.documents.add(f);
+      //user_profile.diver.documents.removeAt(0);
+      user_profile.diver.documents.insert(0, f);
+      print("user_profile after insert");
+      print(user_profile.diver.documents);
+    }
+    else if (divfront == null) {
+      var f = File();
+      f.filename = user_profile.diver.documents[0].filename;
     }
 
 
@@ -169,7 +176,12 @@ class _EditDiverFormState extends State<EditDiverForm> {
       f2.filename = 'Image.jpg';
       List<int> a = await card.readAsBytes();
       f2.file = a;
+      user_profile.diver.documents.removeAt(1);
       user_profile.diver.documents.add(f2);
+    }
+    else if (card == null) {
+      var f = File();
+      f.filename = user_profile.diver.documents[1].filename;
     }
 
     if (selected != null) {

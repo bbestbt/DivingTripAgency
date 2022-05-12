@@ -162,10 +162,10 @@ class _updateTripFormState extends State<updateTripForm> {
     // });
     await getData();
     setState(() {
-      listDivemaster = [];
-      listDivemaster = divemaster
-          .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
-          .toList();
+      // listDivemaster = [];
+      // listDivemaster = divemaster
+      //     .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+      //     .toList();
       listTriptemplate = [];
       listTriptemplate = triptemplateData
           .map((val) => DropdownMenuItem<String>(
@@ -275,6 +275,13 @@ class _updateTripFormState extends State<updateTripForm> {
       eachTrip.tripTemplate.name = triptemplateSelected;
       eachTrip.tripTemplate.id = triptemplateTypeMap[triptemplateSelected];
     }
+
+    for (int i = 0; i < dmValue.length; i++) {
+      eachTrip.diveMasters[i] = dmValue[i];
+    }
+    for (int j = 0; j < pinkValue.length; j++) {
+      eachTrip.diveSites[j] = pinkValue[j];
+    }
     eachTrip.maxGuest = int.parse(_controllerTotalpeople.text);
     final updateRequest = UpdateTripRequest()..trip = eachTrip;
     print(updateRequest);
@@ -314,6 +321,18 @@ class _updateTripFormState extends State<updateTripForm> {
       // Handle all other exceptions
       print('Exception: $e');
     }
+  }
+
+  void getDMValue(dm) {
+    setState(() {
+      dmValue = dm;
+    });
+  }
+
+  void getDSValue(ds) {
+    setState(() {
+      pinkValue = ds;
+    });
   }
 
   @override
@@ -458,10 +477,9 @@ class _updateTripFormState extends State<updateTripForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xfffd4f0f0),
+                color: Color(0xfffcafafe),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreDiveMasterUpdate(
-                this.dmValue, this.eachTrip, this.divemaster),
+            child: AddMoreDiveMasterUpdate(this.eachTrip, getDMValue),
           ),
 
           SizedBox(height: 20),
@@ -470,14 +488,14 @@ class _updateTripFormState extends State<updateTripForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xffffee1e8),
+                color:  Color(0xfffb7e9f7),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreDiveSiteUpdate(
-                 this.pinkValue, this.eachTrip),
+                this.pinkValue, this.eachTrip, getDSValue),
           ),
           SizedBox(height: 20),
           Container(
-            color: Color(0xfffa2c8ff),
+            color: Color(0xfffabddfc),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
@@ -507,7 +525,12 @@ class _updateTripFormState extends State<updateTripForm> {
 
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
-            onPressed: () async => {await sendTripEdit()},
+            onPressed: () async => {
+              //พัง
+              // print(dmValue),
+              // print(pinkValue)
+              await sendTripEdit()
+            },
             color: Color(0xfff75BDFF),
             child: Text(
               'Confirm',
