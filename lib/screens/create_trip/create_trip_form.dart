@@ -119,7 +119,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.endDate = Timestamp.fromDateTime(to);
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
-    trip.price = double.parse(_controllerPrice.text);
+    // trip.price = double.parse(_controllerPrice.text);
 
     for (int i = 0; i < pinkValue.length; i++) {
       var divesite = DiveSite();

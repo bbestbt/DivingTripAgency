@@ -553,10 +553,10 @@ class _detailState extends State<detail> {
                     SizedBox(
                       height: 10,
                     ),
-                    Text("Price : " + details[widget.index].price.toString()),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    // Text("Price : " + details[widget.index].price.toString()),
+                    // SizedBox(
+                    //   height: 10,
+                    // ),
                     // SingleChildScrollView(
                     //   scrollDirection: Axis.horizontal,
                     //   child: Row(

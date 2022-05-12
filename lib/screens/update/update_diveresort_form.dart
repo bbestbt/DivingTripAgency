@@ -138,9 +138,9 @@ class _editHotelFormState extends State<editHotelForm> {
   var hotel = Hotel();
   Hotel eachHotel;
   _editHotelFormState(this.eachHotel);
-  List<RoomType> pinkValue = [new RoomType()];
+  List<RoomType> pinkValue = [];
   List<List<Amenity>> blueValue = [
-    [new Amenity()]
+    []
   ];
   List<DropdownMenuItem<String>> listStar = [];
   List<String> star = ['1', '2', '3', '4', '5'];
@@ -1005,7 +1005,7 @@ class _editHotelFormState extends State<editHotelForm> {
 
           FlatButton(
             onPressed: () => {
-              sendUpdateHotel(),
+              // sendUpdateHotel(),
               print(pinkValue),
               // Navigator.pushAndRemoveUntil(
               //   context,

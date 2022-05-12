@@ -531,10 +531,10 @@ class _detailState extends State<detail> {
                   SizedBox(
                     height: 10,
                   ),
-                  Text("Price : " + details[widget.index].price.toString()),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  // Text("Price : " + details[widget.index].price.toString()),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
                   Text('Total capacity : ' +
                       details[widget.index].maxGuest.toString()),
                   SizedBox(

@@ -138,7 +138,7 @@ class _updateTripFormState extends State<updateTripForm> {
   DateTime from;
   DateTime to;
   DateTime last;
-  List<DiveSite> pinkValue = [new DiveSite()];
+  List<DiveSite> pinkValue = [];
   final _formKey = GlobalKey<FormState>();
   String boatUsed = '';
   List<DiveMaster> dmValue = [];
@@ -488,7 +488,7 @@ class _updateTripFormState extends State<updateTripForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color:  Color(0xfffb7e9f7),
+                color: Color(0xfffb7e9f7),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreDiveSiteUpdate(
                 this.pinkValue, this.eachTrip, getDSValue),

@@ -12,14 +12,15 @@ class AddMoreAmenityUpdateHotel extends StatefulWidget {
   List<List<Amenity>> blueValue;
   Hotel eachHotel;
   int bluecount;
-
+  final customFunction;
   int pinkcount;
   AddMoreAmenityUpdateHotel(
-    Hotel eachHotel,
-    // int bluecount,
-    int pinkcount,
-    // List<List<Amenity>> blueValue,
-  ) {
+      Hotel eachHotel,
+      // int bluecount,
+      int pinkcount,
+      this.customFunction
+      // List<List<Amenity>> blueValue,
+      ) {
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
     this.eachHotel = eachHotel;
@@ -52,8 +53,8 @@ class _AddMoreAmenityUpdateHotelState extends State<AddMoreAmenityUpdateHotel> {
     return Container(
       child: SingleChildScrollView(
           child: Column(children: [
-        updateAmenityHotelForm(
-            this.eachHotel, this.bluecount, this.pinkcount, this.blueValue),
+        updateAmenityHotelForm(this.eachHotel, this.bluecount, this.pinkcount,
+            this.blueValue, widget.customFunction),
         ListView.separated(
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
@@ -65,7 +66,9 @@ class _AddMoreAmenityUpdateHotelState extends State<AddMoreAmenityUpdateHotel> {
                   pinkcount,
                   this.blueValue,
                   index +
-                      hotelDetial.hotel.roomTypes[pinkcount].amenities.length);
+                      hotelDetial.hotel.roomTypes[pinkcount].amenities.length,
+                  this.eachHotel,
+                  widget.customFunction);
             }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -103,7 +106,8 @@ class _AddMoreAmenityUpdateHotelState extends State<AddMoreAmenityUpdateHotel> {
         ),
         SizedBox(height: 30),
         FlatButton(onPressed: () {
-          print(hotelDetial.hotel.roomTypes[pinkcount].amenities);
+          print(eachHotel.roomTypes[pinkcount].amenities);
+          // print(hotelDetial.hotel.roomTypes[pinkcount].amenities);
         }),
       ])),
     );
@@ -118,13 +122,10 @@ class updateAmenityHotelForm extends StatefulWidget {
   int pinkcount;
   List<List<Amenity>> blueValue;
   Hotel eachHotel;
+  final customFunction;
 
-  updateAmenityHotelForm(
-    Hotel eachHotel,
-    int blue,
-    int pinkcount,
-    List<List<Amenity>> blueValue,
-  ) {
+  updateAmenityHotelForm(Hotel eachHotel, int blue, int pinkcount,
+      List<List<Amenity>> blueValue, this.customFunction) {
     this.eachHotel = eachHotel;
     this.bluecount = blue;
     this.pinkcount = pinkcount;
@@ -192,7 +193,8 @@ class _updateAmenityHotelFormState extends State<updateAmenityHotelForm> {
                 runSpacing: 40,
                 children: List.generate(
                   hotelDetial.hotel.roomTypes[pinkcount].amenities.length,
-                  (index) => InfoCard(index, blueValue, pinkcount),
+                  (index) => InfoCard(index, blueValue, pinkcount, eachHotel,
+                      widget.customFunction),
                 ));
           } else {
             return Center(child: Text('No amenity'));
@@ -210,17 +212,21 @@ class InfoCard extends StatefulWidget {
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
   int bluecount;
+  Hotel eachHotel;
+  final customFunction;
 
-  InfoCard(int index, List<List<Amenity>> blueValue, int pinkcount) {
+  InfoCard(int index, List<List<Amenity>> blueValue, int pinkcount,
+      Hotel eachHotel, this.customFunction) {
     this.index = index;
     this.blueValue = blueValue;
     this.pinkcount = pinkcount;
+    this.eachHotel = eachHotel;
     // print("pc info "+pinkcount.toString());
   }
 
   @override
-  State<InfoCard> createState() =>
-      _InfoCardState(this.index, this.blueValue, this.pinkcount);
+  State<InfoCard> createState() => _InfoCardState(
+      this.index, this.blueValue, this.pinkcount, this.eachHotel);
 }
 
 class _InfoCardState extends State<InfoCard> {
@@ -231,7 +237,8 @@ class _InfoCardState extends State<InfoCard> {
   List<String> amenity = [];
   String amenitySelected;
   Map<String, dynamic> amenityMap = {};
-  _InfoCardState(this.index, this.blueValue, this.pinkcount);
+  Hotel eachHotel;
+  _InfoCardState(this.index, this.blueValue, this.pinkcount, this.eachHotel);
 
   getAmenity() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -303,10 +310,12 @@ class _InfoCardState extends State<InfoCard> {
                     amenitySelected = value;
                     amenity.forEach((element) {
                       if (element == amenitySelected) {
-                        hotelDetial.hotel.roomTypes[pinkcount].amenities[index]
-                            .name = amenitySelected;
-                        hotelDetial.hotel.roomTypes[pinkcount].amenities[index]
-                            .id = amenityMap[element];
+                        eachHotel.roomTypes[pinkcount].amenities[index].name =
+                            amenitySelected;
+                        eachHotel.roomTypes[pinkcount].amenities[index].id =
+                            amenityMap[element];
+                        widget.customFunction(
+                            eachHotel.roomTypes[pinkcount].amenities);
                       }
                     });
                   });
@@ -325,17 +334,20 @@ class amenityForm extends StatefulWidget {
   int pinkcount;
   int indexForm;
   List<List<Amenity>> blueValue;
+  Hotel eachHotel;
+  final customFunction;
 
-  amenityForm(
-      int blue, int pinkcount, List<List<Amenity>> blueValue, int indexForm) {
+  amenityForm(int blue, int pinkcount, List<List<Amenity>> blueValue,
+      int indexForm, Hotel eachHotel, this.customFunction) {
     this.bluecount = blue;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
     this.indexForm = indexForm;
+    this.eachHotel = eachHotel;
   }
   @override
-  _amenityFormState createState() => _amenityFormState(
-      this.bluecount, this.pinkcount, this.blueValue, this.indexForm);
+  _amenityFormState createState() => _amenityFormState(this.bluecount,
+      this.pinkcount, this.blueValue, this.indexForm, this.eachHotel);
 }
 
 class _amenityFormState extends State<amenityForm> {
@@ -349,13 +361,15 @@ class _amenityFormState extends State<amenityForm> {
   List<String> amenity = [];
   String amenitySelected;
   Map<String, dynamic> amenityMap = {};
+  Hotel eachHotel;
 
   _amenityFormState(int bluecount, int pinkcount, List<List<Amenity>> blueValue,
-      int indexForm) {
+      int indexForm, Hotel eachHotel) {
     this.bluecount = bluecount;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
     this.indexForm = indexForm;
+    this.eachHotel = eachHotel;
   }
 
   @override
@@ -435,10 +449,19 @@ class _amenityFormState extends State<amenityForm> {
                         if (element == amenitySelected) {
                           //พัง
                           // print(amenityMap[element]);
-                        //  hotelDetial.hotel.roomTypes[pinkcount].amenities[indexForm]
-                        //     .name = amenitySelected;
-                        // hotelDetial.hotel.roomTypes[pinkcount].amenities[indexForm]
-                        //     .id = amenityMap[element];
+                          print(
+                              eachHotel.roomTypes[pinkcount].amenities.length);
+
+                          var am = Amenity();
+                          am.name = amenitySelected;
+                          am.id = amenityMap[element];
+                          eachHotel.roomTypes[pinkcount].amenities.add(am);
+                          eachHotel.roomTypes[pinkcount].amenities[indexForm]
+                              .name = amenitySelected;
+                          eachHotel.roomTypes[pinkcount].amenities[indexForm]
+                              .id = amenityMap[element];
+                          widget.customFunction(
+                              eachHotel.roomTypes[pinkcount].amenities);
                         }
                       });
                     });

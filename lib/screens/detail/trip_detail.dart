@@ -652,24 +652,24 @@ class _TripDetailState extends State<TripDetail> {
         //print((results[1].fromDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays).abs());
         //print(_diff);
       }
-// Edit cost filter
-      if (tripcost != Cost.all) {
-        if (tripcost == Cost.one) {
-          results = results
-              .where((trip) => (trip.price > 0 && trip.price <= 1000))
-              .toList();
-        } else if (tripcost == Cost.two) {
-          results = results
-              .where((trip) => (trip.price > 1000 && trip.price <= 2000))
-              .toList();
-        } else if (tripcost == Cost.three) {
-          results = results
-              .where((trip) => (trip.price > 2000 && trip.price <= 3000))
-              .toList();
-        } else if (tripcost == Cost.more) {
-          results = results.where((trip) => (trip.price > 3000)).toList();
-        }
-      }
+// Edit cost filter erroe
+      // if (tripcost != Cost.all) {
+      //   if (tripcost == Cost.one) {
+      //     results = results
+      //         .where((trip) => (trip.price > 0 && trip.price <= 1000))
+      //         .toList();
+      //   } else if (tripcost == Cost.two) {
+      //     results = results
+      //         .where((trip) => (trip.price > 1000 && trip.price <= 2000))
+      //         .toList();
+      //   } else if (tripcost == Cost.three) {
+      //     results = results
+      //         .where((trip) => (trip.price > 2000 && trip.price <= 3000))
+      //         .toList();
+      //   } else if (tripcost == Cost.more) {
+      //     results = results.where((trip) => (trip.price > 3000)).toList();
+      //   }
+      // }
 
       setState(() {
         _foundtrip = results;

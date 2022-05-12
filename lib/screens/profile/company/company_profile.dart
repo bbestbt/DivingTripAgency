@@ -212,7 +212,8 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                         height: 20,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Container(
                                               width: MediaQuery.of(context)
@@ -444,8 +445,15 @@ class _InfoCardState extends State<InfoCard> {
                         ),
                         Align(
                             alignment: Alignment.centerRight,
-                            child: Text('Price : ' +
-                                trips[widget.index].price.toString())),
+                            child:
+                                trips[widget.index].tripRoomTypePrices.length ==
+                                        0
+                                    ? Text('no price')
+                                    : Text('Price : ' +
+                                        trips[widget.index]
+                                            .tripRoomTypePrices[0]
+                                            .price
+                                            .toString())),
                         SizedBox(
                           height: 20,
                         ),

@@ -279,7 +279,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
     }
 
     var liveaboard = Liveaboard()..address = address;
-    liveaboard.id=eachLiveaboard.id;
+    liveaboard.id = eachLiveaboard.id;
     liveaboard.name = eachLiveaboard.name;
     liveaboard.description = eachLiveaboard.description;
     liveaboard.diverRooms = eachLiveaboard.diverRooms;
@@ -321,6 +321,14 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
     });
   }
 
+  List<RoomType> pinkValue = [];
+  List<List<Amenity>> blueValue = [[]];
+  void getRoomValue(r) {
+    setState(() {
+      pinkValue = r;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     listDetail();
@@ -349,28 +357,28 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                 width: MediaQuery.of(context).size.width / 3.6,
                 color: Colors.white,
                 child: Center(
-                  child: InkWell(
-                    onTap: () {
-                      showCountryPicker(
-                        context: context,
-                        onSelect: (Country country) {
-                          setState(() {
-                            countrySelected = country.name;
-
-                          });
-                          //print("_country");
-                          //print(_country.name);
-                        },
-                      );
-                    },
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        labelText: "Select country",
-                      ),
-                      child: countrySelected != null ? Text(countrySelected) :  Text(eachLiveaboard.address.country),
+                    child: InkWell(
+                  onTap: () {
+                    showCountryPicker(
+                      context: context,
+                      onSelect: (Country country) {
+                        setState(() {
+                          countrySelected = country.name;
+                        });
+                        //print("_country");
+                        //print(_country.name);
+                      },
+                    );
+                  },
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: "Select country",
                     ),
-                  )
-                ),
+                    child: countrySelected != null
+                        ? Text(countrySelected)
+                        : Text(eachLiveaboard.address.country),
+                  ),
+                )),
               ),
               // Container(
               //     width: MediaQuery.of(context).size.width / 3.6,
@@ -438,7 +446,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                       : kIsWeb
                           ? Image.network(
                               //liveaboardimg.path,
-                              eachLiveaboard.images[eachLiveaboard.images.length-1].link.toString(),
+                              eachLiveaboard
+                                  .images[eachLiveaboard.images.length - 1].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -482,7 +492,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                       : kIsWeb
                           ? Image.network(
                               //liveaboardimg2.path,
-                    eachLiveaboard.images[eachLiveaboard.images.length-2].link.toString(),
+                              eachLiveaboard
+                                  .images[eachLiveaboard.images.length - 2].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -525,7 +537,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachLiveaboard.images[eachLiveaboard.images.length-3].link.toString(),
+                              eachLiveaboard
+                                  .images[eachLiveaboard.images.length - 3].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -568,7 +582,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachLiveaboard.images[eachLiveaboard.images.length-4].link.toString(),
+                              eachLiveaboard
+                                  .images[eachLiveaboard.images.length - 4].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -611,7 +627,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachLiveaboard.images[eachLiveaboard.images.length-5].link.toString(),
+                              eachLiveaboard
+                                  .images[eachLiveaboard.images.length - 5].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -654,7 +672,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachLiveaboard.images[eachLiveaboard.images.length-6].link.toString(),
+                              eachLiveaboard
+                                  .images[eachLiveaboard.images.length - 6].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -697,7 +717,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachLiveaboard.images[eachLiveaboard.images.length-7].link.toString(),
+                              eachLiveaboard
+                                  .images[eachLiveaboard.images.length - 7].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -740,7 +762,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachLiveaboard.images[eachLiveaboard.images.length-8].link.toString(),
+                              eachLiveaboard
+                                  .images[eachLiveaboard.images.length - 8].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -783,7 +807,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachLiveaboard.images[eachLiveaboard.images.length-9].link.toString(),
+                              eachLiveaboard
+                                  .images[eachLiveaboard.images.length - 9].link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -826,7 +852,10 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                    eachLiveaboard.images[eachLiveaboard.images.length-10].link.toString(),
+                              eachLiveaboard
+                                  .images[eachLiveaboard.images.length - 10]
+                                  .link
+                                  .toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
@@ -856,25 +885,27 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
           ),
           SizedBox(height: 20),
 
-         Container(
+          Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
                 color: Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreRoomUpdateLiveaboard(this.eachLiveaboard),
+            child:
+                AddMoreRoomUpdateLiveaboard(this.eachLiveaboard, getRoomValue),
           ),
           SizedBox(height: 30),
 
           FlatButton(
             onPressed: () => {
-              sendUpdateLiveaboard(),
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
+              print(pinkValue),
+              // sendUpdateLiveaboard(),
+              // Navigator.pushAndRemoveUntil(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) => MainCompanyScreen(),
+              //   ),
+              //   (route) => false,
+              // )
             },
             color: Color(0xfff75BDFF),
             child: Text(
