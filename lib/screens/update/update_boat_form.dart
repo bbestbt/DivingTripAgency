@@ -248,16 +248,27 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
 
 
     if (bboat != null) {
+      //var temp = eachBoat.images;
+      //temp.removeAt(0);
       var f = File();
       f.filename = bboat.name;
       List<int> a = await bboat.readAsBytes();
       f.file = a;
-      eachBoat.images.add(f);
+      print("doc before remove:");
+      print(eachBoat.images);
+      eachBoat.images.removeAt(0);
+      print("doc after remove:");
+      print(eachBoat.images);
+      eachBoat.images.insert(0, f);
+      print("doc after insert:");
+      print(eachBoat.images);
+      //eachBoat.images.add(f);
+
     }
     else{
       var f = File();
       f.filename = eachBoat.images[eachBoat.images.length-5].filename;
-      this.eachBoat.images.add(f);
+      //this.eachBoat.images.add(f);
     }
 
     if (bboat2 != null) {
@@ -265,24 +276,25 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       f2.filename = bboat2.name;
       List<int> b = await bboat2.readAsBytes();
       f2.file = b;
-      eachBoat.images.add(f2);
+      eachBoat.images.removeAt(1);
+      eachBoat.images.insert(1, f2);
     }else{
       var f2 = File();
       f2.filename = eachBoat.images[eachBoat.images.length-4].filename;
-      this.eachBoat.images.add(f2);
+    //  this.eachBoat.images.add(f2);
     }
-
 
     if (bboat3 != null) {
       var f3 = File();
       f3.filename = bboat3.name;
       List<int> c = await bboat3.readAsBytes();
       f3.file = c;
-      eachBoat.images.add(f3);
+      eachBoat.images.removeAt(2);
+      eachBoat.images.insert(2, f3);
     }else{
       var f3 = File();
       f3.filename = eachBoat.images[eachBoat.images.length-3].filename;
-      this.eachBoat.images.add(f3);
+     // this.eachBoat.images.add(f3);
     }
 
 
@@ -291,11 +303,12 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       f4.filename = bboat4.name;
       List<int> d = await bboat4.readAsBytes();
       f4.file = d;
-      eachBoat.images.add(f4);
+      eachBoat.images.removeAt(3);
+      eachBoat.images.insert(3, f4);
     }else{
       var f4 = File();
       f4.filename = eachBoat.images[eachBoat.images.length-2].filename;
-      this.eachBoat.images.add(f4);
+     // this.eachBoat.images.add(f4);
     }
 
 
@@ -304,11 +317,12 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       f5.filename = bboat5.name;
       List<int> e = await bboat5.readAsBytes();
       f5.file = e;
-      eachBoat.images.add(f5);
+      eachBoat.images.removeAt(4);
+      eachBoat.images.insert(4, f5);
     }else{
       var f5 = File();
       f5.filename = eachBoat.images[eachBoat.images.length-1].filename;
-      this.eachBoat.images.add(f5);
+    //  this.eachBoat.images.add(f5);
     }
 
     var address = Address();
@@ -353,25 +367,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       print(e);
     }
   }
-  /// Get from gallery
- /* _getPicBoat(int num) async {
-    bboat = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      maxWidth: 5000,
-      maxHeight: 5000,
-    );
-    if (bboat != null) {
-      setState(() {
-        if (num == 1) boatimg = io.File(bboat.path);
-        if (num == 2) boatimg2 = io.File(bboat.path);
-        if (num == 3) boatimg3 = io.File(bboat.path);
-        if (num == 4) boatimg4 = io.File(bboat.path);
-        if (num == 5) boatimg5 = io.File(bboat.path);
-        //boatimg = io.File(bboat.path);
-        //card = pickedFile;
-      });
-    }
-  }*/
+
   _getPicBoat() async {
     bboat = await ImagePicker().pickImage(
       source: ImageSource.gallery,
@@ -551,7 +547,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: eachBoat.images.length == 0
+                  child: eachBoat.images.length <1
 
                       ? new Container(
                           color: Colors.blue,
@@ -559,7 +555,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                       : Image.network(eachBoat.images[eachBoat.images.length-5].link.toString())),
               SizedBox(width: 30),
               Center(
-                child: boatimg == null
+                child: bboat == null
                     ? Text('')
                     : kIsWeb
                         ? Image.network(
@@ -600,7 +596,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                Container(
                    width: MediaQuery.of(context).size.width / 10,
                    height: MediaQuery.of(context).size.width / 10,
-                   child: eachBoat.images.length == 0
+                   child: eachBoat.images.length <2
                        ? new Container(
                            color: Colors.blue,
                          )
@@ -648,7 +644,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                Container(
                    width: MediaQuery.of(context).size.width / 10,
                    height: MediaQuery.of(context).size.width / 10,
-                   child: eachBoat.images.length == 0
+                   child: eachBoat.images.length <3
                        ? new Container(
                            color: Colors.blue,
                          )
@@ -696,14 +692,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
                Container(
                    width: MediaQuery.of(context).size.width / 10,
                    height: MediaQuery.of(context).size.width / 10,
-                   child: eachBoat.images.length == 0
+                   child: eachBoat.images.length <4
                        ? new Container(
                            color: Colors.blue,
                          )
                        : Image.network(eachBoat.images[eachBoat.images.length-2].link.toString())),
               SizedBox(width: 30),
               Center(
-                child: boatimg4 == null
+                child: bboat4 == null
                     ? Text('')
                     : kIsWeb
                         ? Image.network(
@@ -744,14 +740,14 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: eachBoat.images.length == 0
+                  child: eachBoat.images.length <5
                       ? new Container(
                           color: Colors.blue,
                         )
                       : Image.network(eachBoat.images[eachBoat.images.length-1].link.toString())),
               SizedBox(width: 30),
               Center(
-                child: boatimg5 == null
+                child: bboat5 == null
                     ? Text('')
                     : kIsWeb
                         ? Image.network(
