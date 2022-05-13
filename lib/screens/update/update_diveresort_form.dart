@@ -134,6 +134,16 @@ class _editHotelFormState extends State<editHotelForm> {
   String city;
 
   XFile hhotel;
+  XFile Xhotel1;
+  XFile Xhotel2;
+  XFile Xhotel3;
+  XFile Xhotel4;
+  XFile Xhotel5;
+  XFile Xhotel6;
+  XFile Xhotel7;
+  XFile Xhotel8;
+  XFile Xhotel9;
+  XFile Xhotel10;
   XFile rroom;
   var hotel = Hotel();
   Hotel eachHotel;
@@ -206,16 +216,16 @@ class _editHotelFormState extends State<editHotelForm> {
 
     if (hhotel != null) {
       setState(() {
-        if (num == 1) hotelimg = io.File(hhotel.path);
-        if (num == 2) hotelimg2 = io.File(hhotel.path);
-        if (num == 3) hotelimg3 = io.File(hhotel.path);
-        if (num == 4) hotelimg4 = io.File(hhotel.path);
-        if (num == 5) hotelimg5 = io.File(hhotel.path);
-        if (num == 6) hotelimg6 = io.File(hhotel.path);
-        if (num == 7) hotelimg7 = io.File(hhotel.path);
-        if (num == 8) hotelimg8 = io.File(hhotel.path);
-        if (num == 9) hotelimg9 = io.File(hhotel.path);
-        if (num == 10) hotelimg10 = io.File(hhotel.path);
+        if (num == 1) {hotelimg = io.File(hhotel.path);Xhotel1=hhotel;}
+        if (num == 2) {hotelimg2 = io.File(hhotel.path);Xhotel2=hhotel;}
+        if (num == 3) {hotelimg2 = io.File(hhotel.path);Xhotel3=hhotel;}
+        if (num == 4) {hotelimg4 = io.File(hhotel.path);Xhotel4=hhotel;}
+        if (num == 5) {hotelimg5 = io.File(hhotel.path);Xhotel5=hhotel;}
+        if (num == 6) {hotelimg6 = io.File(hhotel.path);Xhotel6=hhotel;}
+        if (num == 7) {hotelimg7 = io.File(hhotel.path);Xhotel7=hhotel;}
+        if (num == 8) {hotelimg8 = io.File(hhotel.path);Xhotel8=hhotel;}
+        if (num == 9) {hotelimg9 = io.File(hhotel.path);Xhotel9=hhotel;}
+        if (num == 10) {hotelimg10 = io.File(hhotel.path);Xhotel10=hhotel;}
       });
     }
   }
@@ -276,21 +286,154 @@ class _editHotelFormState extends State<editHotelForm> {
     hotel.phone = eachHotel.phone;
     hotel.stars = eachHotel.stars;
 
-    var f = File();
-    f.filename = hhotel.name;
-    //f2.filename = 'image.jpg';
-    List<int> a = await hhotel.readAsBytes();
-    f.file = a;
-    //this.imagelist.add(f);
-    eachHotel.images.add(f);
 
-    /*for (int i = 0; i < eachHotel.images.length; i++) {
+    if (Xhotel1 != null) {
+
+      var f = File();
+      f.filename = Xhotel1.name;
+      List<int> a = await Xhotel1.readAsBytes();
+      f.file = a;
+      eachHotel.images.removeAt(0);
+      eachHotel.images.insert(0, f);
+    }
+    else{
+      var f = File();
+      f.filename = eachHotel.images[0].filename;
+      //this.eachHotel.images.add(f);
+    }
+
+    if (Xhotel2 != null) {
+      var f2 = File();
+      f2.filename = Xhotel2.name;
+      List<int> b = await Xhotel2.readAsBytes();
+      f2.file = b;
+      eachHotel.images.removeAt(1);
+      eachHotel.images.insert(1, f2);
+    }else{
+      var f2 = File();
+      f2.filename = eachHotel.images[1].filename;
+      //  this.eachHotel.images.add(f2);
+    }
+
+    if (Xhotel3 != null) {
+      var f3 = File();
+      f3.filename = Xhotel3.name;
+      List<int> c = await Xhotel3.readAsBytes();
+      f3.file = c;
+      eachHotel.images.removeAt(2);
+      eachHotel.images.insert(2, f3);
+    }else{
+      var f3 = File();
+      f3.filename = eachHotel.images[2].filename;
+      // this.eachHotel.images.add(f3);
+    }
+
+
+    if (Xhotel4 != null) {
+      var f4 = File();
+      f4.filename = Xhotel4.name;
+      List<int> d = await Xhotel4.readAsBytes();
+      f4.file = d;
+      eachHotel.images.removeAt(3);
+      eachHotel.images.insert(3, f4);
+    }else{
+      var f4 = File();
+      f4.filename = eachHotel.images[3].filename;
+      // this.eachHotel.images.add(f4);
+    }
+
+
+    if (Xhotel5 != null) {
+      var f5 = File();
+      f5.filename = Xhotel5.name;
+      List<int> e = await Xhotel5.readAsBytes();
+      f5.file = e;
+      eachHotel.images.removeAt(4);
+      eachHotel.images.insert(4, f5);
+    }else{
+      var f5 = File();
+      f5.filename = eachHotel.images[4].filename;
+      //  this.eachHotel.images.add(f5);
+    }
+
+
+    if (Xhotel6 != null) {
+
+      var f6 = File();
+      f6.filename = Xhotel6.name;
+      List<int> a = await Xhotel6.readAsBytes();
+      f6.file = a;
+      eachHotel.images.removeAt(5);
+      eachHotel.images.insert(5, f6);
+    }
+    else{
+      var f = File();
+      f.filename = eachHotel.images[5].filename;
+      //this.eachHotel.images.add(f);
+    }
+
+    if (Xhotel7 != null) {
+      var f7 = File();
+      f7.filename = Xhotel7.name;
+      List<int> b = await Xhotel7.readAsBytes();
+      f7.file = b;
+      eachHotel.images.removeAt(6);
+      eachHotel.images.insert(6, f7);
+    }else{
+      var f7 = File();
+      f7.filename = eachHotel.images[6].filename;
+      //  this.eachHotel.images.add(f7);
+    }
+
+    if (Xhotel8 != null) {
+      var f8 = File();
+      f8.filename = Xhotel8.name;
+      List<int> c = await Xhotel8.readAsBytes();
+      f8.file = c;
+      eachHotel.images.removeAt(7);
+      eachHotel.images.insert(7, f8);
+    }else{
+      var f8 = File();
+      f8.filename = eachHotel.images[7].filename;
+      // this.eachHotel.images.add(f8);
+    }
+
+
+    if (Xhotel9 != null) {
+      var f9 = File();
+      f9.filename = Xhotel9.name;
+      List<int> d = await Xhotel9.readAsBytes();
+      f9.file = d;
+      eachHotel.images.removeAt(8);
+      eachHotel.images.insert(8, f9);
+    }else{
+      var f9 = File();
+      f9.filename = eachHotel.images[8].filename;
+      // this.eachHotel.images.add(f9);
+    }
+
+
+    if (Xhotel10 != null) {
+      var f10 = File();
+      f10.filename = Xhotel10.name;
+      List<int> e = await Xhotel10.readAsBytes();
+      f10.file = e;
+      eachHotel.images.removeAt(9);
+      eachHotel.images.insert(9, f10);
+    }else{
+      var f10 = File();
+      f10.filename = eachHotel.images[9].filename;
+      //  this.eachHotel.images.add(f5);
+    }
+
+
+    for (int i = 0; i < eachHotel.images.length; i++) {
       hotel.images.add(eachHotel.images[i]);
-    }*/
-    print("hotel.images");
-    print(hotel.images);
+    }
+    //print("hotel.images");
+    //print(hotel.images);
     final updateRequest = UpdateHotelRequest()..hotel = hotel;
-    print(updateRequest);
+    //print(updateRequest);
     try {
       var response = stub.updateHotel(updateRequest);
       print('response: ${response}');
@@ -443,7 +586,7 @@ class _editHotelFormState extends State<editHotelForm> {
                       : Image.network(eachHotel.images[0].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg == null
+                  child: Xhotel1 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -498,7 +641,7 @@ class _editHotelFormState extends State<editHotelForm> {
                        : Image.network(eachHotel.images[1].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg2 == null
+                  child: Xhotel2 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -554,7 +697,7 @@ class _editHotelFormState extends State<editHotelForm> {
                       : Image.network(eachHotel.images[2].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg3 == null
+                  child: Xhotel3 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -608,7 +751,7 @@ class _editHotelFormState extends State<editHotelForm> {
                       : Image.network(eachHotel.images[3].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg4 == null
+                  child: Xhotel4 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -662,7 +805,7 @@ class _editHotelFormState extends State<editHotelForm> {
                       : Image.network(eachHotel.images[4].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg5 == null
+                  child: Xhotel5 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -717,7 +860,7 @@ class _editHotelFormState extends State<editHotelForm> {
                        : Image.network(eachHotel.images[5].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg6 == null
+                  child: Xhotel6 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -771,7 +914,7 @@ class _editHotelFormState extends State<editHotelForm> {
                       : Image.network(eachHotel.images[6].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg7 == null
+                  child: Xhotel7 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -825,7 +968,7 @@ class _editHotelFormState extends State<editHotelForm> {
                        : Image.network(eachHotel.images[7].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg8 == null
+                  child: Xhotel8 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -879,7 +1022,7 @@ class _editHotelFormState extends State<editHotelForm> {
                        : Image.network(eachHotel.images[8].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg9 == null
+                  child: Xhotel9 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -932,7 +1075,7 @@ class _editHotelFormState extends State<editHotelForm> {
                       : Image.network(eachHotel.images[9].link.toString())),
               SizedBox(width: 30),
               Center(
-                  child: hotelimg10 == null
+                  child: Xhotel10 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -1007,13 +1150,13 @@ class _editHotelFormState extends State<editHotelForm> {
             onPressed: () => {
               sendUpdateHotel(),
               print(pinkValue),
-              // Navigator.pushAndRemoveUntil(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (BuildContext context) => MainCompanyScreen(),
-              //   ),
-              //   (route) => false,
-              // )
+               Navigator.pushAndRemoveUntil(
+                 context,
+                 MaterialPageRoute(
+                   builder: (BuildContext context) => MainCompanyScreen(),
+                 ),
+                 (route) => false,
+               )
             },
             color: Color(0xfff75BDFF),
             child: Text(
