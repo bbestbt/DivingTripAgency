@@ -267,7 +267,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
     }
     else{
       var f = File();
-      f.filename = eachBoat.images[eachBoat.images.length-5].filename;
+      f.filename = eachBoat.images[0].filename;
       //this.eachBoat.images.add(f);
     }
 
@@ -280,7 +280,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       eachBoat.images.insert(1, f2);
     }else{
       var f2 = File();
-      f2.filename = eachBoat.images[eachBoat.images.length-4].filename;
+      f2.filename = eachBoat.images[1].filename;
     //  this.eachBoat.images.add(f2);
     }
 
@@ -293,7 +293,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       eachBoat.images.insert(2, f3);
     }else{
       var f3 = File();
-      f3.filename = eachBoat.images[eachBoat.images.length-3].filename;
+      f3.filename = eachBoat.images[2].filename;
      // this.eachBoat.images.add(f3);
     }
 
@@ -307,7 +307,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       eachBoat.images.insert(3, f4);
     }else{
       var f4 = File();
-      f4.filename = eachBoat.images[eachBoat.images.length-2].filename;
+      f4.filename = eachBoat.images[3].filename;
      // this.eachBoat.images.add(f4);
     }
 
@@ -321,7 +321,7 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       eachBoat.images.insert(4, f5);
     }else{
       var f5 = File();
-      f5.filename = eachBoat.images[eachBoat.images.length-1].filename;
+      f5.filename = eachBoat.images[4].filename;
     //  this.eachBoat.images.add(f5);
     }
 
