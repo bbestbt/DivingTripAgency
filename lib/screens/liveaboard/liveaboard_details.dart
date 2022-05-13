@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:diving_trip_agency/controllers/menuController.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
@@ -1253,21 +1254,42 @@ class _InfoCardState extends State<InfoCard> {
         child: Row(
           children: [
             SizedBox(width: 20),
-            Container(
-                width: 200,
-                height: 200,
-                child: roomtypes[widget.indexRoom].roomImages.length == 0
-                    ? new Container(
-                        color: Colors.green,
-                      )
-                    : Image.network(
-                        // 'http://139.59.101.136/static/' +
-                        roomtypes[widget.indexRoom]
-                            .roomImages[0]
-                            .link
-                            .toString()
-                        // trips[widget.index].tripTemplate.images[0].toString()
-                        )),
+                 Container(
+              width: 200,
+              height: 200,
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: false,
+                  autoPlay: true,
+                ),
+                items: roomtypes[widget.indexRoom]
+                    .roomImages
+                    .map((e) =>
+                    //  Text(e.filename)
+                    Image.network(
+                      e.link.toString(),
+                      // fit: BoxFit.cover,
+                    )
+                    )
+                    .toList(),
+              ),
+            ),
+            // Container(
+            //     width: 200,
+            //     height: 200,
+            //     child: roomtypes[widget.indexRoom].roomImages.length == 0
+            //         ? new Container(
+            //             color: Colors.green,
+            //           )
+            //         : Image.network(
+            //             // 'http://139.59.101.136/static/' +
+            //             roomtypes[widget.indexRoom]
+            //                 .roomImages[0]
+            //                 .link
+            //                 .toString()
+            //             // trips[widget.index].tripTemplate.images[0].toString()
+            //             )),
             SizedBox(
               width: 20,
             ),
