@@ -335,9 +335,11 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f.filename = liveX1.name;
       List<int> a = await liveX1.readAsBytes();
       f.file = a;
-      eachLiveaboard.images.removeAt(0);
+      if (eachLiveaboard.images.length>=1) {
+        eachLiveaboard.images.removeAt(0);
+      }
       eachLiveaboard.images.insert(0, f);
-    } else {
+    } else if (eachLiveaboard.images.length>=1) {
       var f = File();
       f.filename = eachLiveaboard.images[0].filename;
       //this.eachLiveaboard.images.add(f);
@@ -348,9 +350,10 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f2.filename = liveX2.name;
       List<int> b = await liveX2.readAsBytes();
       f2.file = b;
-      eachLiveaboard.images.removeAt(1);
+      if (eachLiveaboard.images.length>=2)
+        eachLiveaboard.images.removeAt(1);
       eachLiveaboard.images.insert(1, f2);
-    } else {
+    } else  if (eachLiveaboard.images.length>=2) {
       var f2 = File();
       f2.filename = eachLiveaboard.images[1].filename;
       //  this.eachLiveaboard.images.add(f2);
@@ -361,9 +364,10 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f3.filename = liveX3.name;
       List<int> c = await liveX3.readAsBytes();
       f3.file = c;
-      eachLiveaboard.images.removeAt(2);
+      if (eachLiveaboard.images.length>=3)
+        eachLiveaboard.images.removeAt(2);
       eachLiveaboard.images.insert(2, f3);
-    } else {
+    } else  if (eachLiveaboard.images.length>=3) {
       var f3 = File();
       f3.filename = eachLiveaboard.images[2].filename;
       // this.eachLiveaboard.images.add(f3);
@@ -374,9 +378,10 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f4.filename = liveX4.name;
       List<int> d = await liveX4.readAsBytes();
       f4.file = d;
-      eachLiveaboard.images.removeAt(3);
+      if (eachLiveaboard.images.length>=4)
+        eachLiveaboard.images.removeAt(3);
       eachLiveaboard.images.insert(3, f4);
-    } else {
+    } else  if (eachLiveaboard.images.length>=4) {
       var f4 = File();
       f4.filename = eachLiveaboard.images[3].filename;
       // this.eachLiveaboard.images.add(f4);
@@ -387,9 +392,10 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f5.filename = liveX5.name;
       List<int> e = await liveX5.readAsBytes();
       f5.file = e;
-      eachLiveaboard.images.removeAt(4);
+      if (eachLiveaboard.images.length>=5)
+        eachLiveaboard.images.removeAt(4);
       eachLiveaboard.images.insert(4, f5);
-    } else {
+    } else  if (eachLiveaboard.images.length>=5) {
       var f5 = File();
       f5.filename = eachLiveaboard.images[4].filename;
       //  this.eachLiveaboard.images.add(f5);
@@ -400,9 +406,10 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f6.filename = liveX6.name;
       List<int> a = await liveX6.readAsBytes();
       f6.file = a;
-      eachLiveaboard.images.removeAt(5);
+      if (eachLiveaboard.images.length>=6)
+        eachLiveaboard.images.removeAt(5);
       eachLiveaboard.images.insert(5, f6);
-    } else {
+    } else  if (eachLiveaboard.images.length>=6) {
       var f = File();
       f.filename = eachLiveaboard.images[5].filename;
       //this.eachLiveaboard.images.add(f);
@@ -413,9 +420,10 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f7.filename = liveX7.name;
       List<int> b = await liveX7.readAsBytes();
       f7.file = b;
-      eachLiveaboard.images.removeAt(6);
+      if (eachLiveaboard.images.length>=7)
+        eachLiveaboard.images.removeAt(6);
       eachLiveaboard.images.insert(6, f7);
-    } else {
+    } else  if (eachLiveaboard.images.length>=7) {
       var f7 = File();
       f7.filename = eachLiveaboard.images[6].filename;
       //  this.eachLiveaboard.images.add(f7);
@@ -426,9 +434,10 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f8.filename = liveX8.name;
       List<int> c = await liveX8.readAsBytes();
       f8.file = c;
-      eachLiveaboard.images.removeAt(7);
+      if (eachLiveaboard.images.length>=8)
+        eachLiveaboard.images.removeAt(7);
       eachLiveaboard.images.insert(7, f8);
-    } else {
+    } else  if (eachLiveaboard.images.length>=8) {
       var f8 = File();
       f8.filename = eachLiveaboard.images[7].filename;
       // this.eachLiveaboard.images.add(f8);
@@ -439,9 +448,10 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f9.filename = liveX9.name;
       List<int> d = await liveX9.readAsBytes();
       f9.file = d;
-      eachLiveaboard.images.removeAt(8);
+      if (eachLiveaboard.images.length>=9)
+        eachLiveaboard.images.removeAt(8);
       eachLiveaboard.images.insert(8, f9);
-    } else {
+    } else  if (eachLiveaboard.images.length>=9) {
       var f9 = File();
       f9.filename = eachLiveaboard.images[8].filename;
       // this.eachLiveaboard.images.add(f9);
@@ -452,14 +462,17 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f10.filename = liveX10.name;
       List<int> e = await liveX10.readAsBytes();
       f10.file = e;
-      eachLiveaboard.images.removeAt(9);
+      if (eachLiveaboard.images.length>=10) {
+        eachLiveaboard.images.removeAt(9);
+      }
       eachLiveaboard.images.insert(9, f10);
-    } else {
+    } else  if (eachLiveaboard.images.length>=10) {
       var f10 = File();
       f10.filename = eachLiveaboard.images[9].filename;
       //  this.eachLiveaboard.images.add(f5);
     }
-
+    print("eachliveaboard images: ");
+    print(eachLiveaboard.images);
     for (int i = 0; i < eachLiveaboard.images.length; i++) {
       liveaboard.images.add(eachLiveaboard.images[i]);
     }
@@ -1201,15 +1214,15 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
 
           FlatButton(
             onPressed: () => {
-              print(pinkValue),
-              // sendUpdateLiveaboard(),
-              // Navigator.pushAndRemoveUntil(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (BuildContext context) => MainCompanyScreen(),
-              //   ),
-              //   (route) => false,
-              // )
+             // print(pinkValue),
+               sendUpdateLiveaboard(),
+               Navigator.pushAndRemoveUntil(
+                 context,
+                 MaterialPageRoute(
+                   builder: (BuildContext context) => MainCompanyScreen(),
+                 ),
+                 (route) => false,
+               )
             },
             color: Color(0xfff75BDFF),
             child: Text(

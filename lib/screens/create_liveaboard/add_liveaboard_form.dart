@@ -157,8 +157,6 @@ class _addLiveaboardState extends State<addLiveaboard> {
     address.country = countrySelected;
     liveaboard.address = address;
 
-
-
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
       for (int j = 0; j < blueValue[i].length; j++) {
@@ -178,11 +176,13 @@ class _addLiveaboardState extends State<addLiveaboard> {
       for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
         room.roomImages.add(pinkValue[i].roomImages[j]);
       }
-      // liveaboard.roomTypes.add(room);
+
+      liveaboard.roomTypes.add(room);
     }
 
     var liveaboardRequest = AddLiveaboardRequest();
     liveaboardRequest.liveaboard = liveaboard;
+    print(liveaboardRequest);
     try {
       var response = await stub.addLiveaboard(liveaboardRequest);
       print(token);
@@ -261,28 +261,27 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 width: MediaQuery.of(context).size.width / 3.6,
                 color: Colors.white,
                 child: Center(
-                  child: InkWell(
-                    onTap: () {
-                      showCountryPicker(
-                        context: context,
-                        onSelect: (Country country) {
-                          setState(() {
-                            countrySelected = country.name;
-
-                          });
-                          //print("_country");
-                          //print(_country.name);
-                        },
-                      );
-                    },
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        labelText: "Select country",
-                      ),
-                      child: countrySelected != null ? Text(countrySelected) : null,
+                    child: InkWell(
+                  onTap: () {
+                    showCountryPicker(
+                      context: context,
+                      onSelect: (Country country) {
+                        setState(() {
+                          countrySelected = country.name;
+                        });
+                        //print("_country");
+                        //print(_country.name);
+                      },
+                    );
+                  },
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: "Select country",
                     ),
-                  )
-                ),
+                    child:
+                        countrySelected != null ? Text(countrySelected) : null,
+                  ),
+                )),
               ),
               // Container(
               //     width: MediaQuery.of(context).size.width / 3.6,
