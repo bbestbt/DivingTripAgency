@@ -100,7 +100,9 @@ class _CartState extends State<CartWidget> {
       persCarthive(i);
 
     }
-
+    if (Cartlist.length == 0) {
+      populateCartlist();
+    }
     // TODO: implement initState
     super.initState();
   }
