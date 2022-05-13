@@ -33,13 +33,13 @@ var liveaboard;
 class AddMoreRoomUpdateLiveaboard extends StatefulWidget {
   List<RoomType> pinkValue = [];
   Liveaboard eachLiveaboard;
+  final customFunction;
 
   List<List<Amenity>> blueValue;
-  AddMoreRoomUpdateLiveaboard(
-    Liveaboard eachLiveaboard,
-    // List<RoomType> pinkValue,
-    // List<List<Amenity>> blueValue,
-  ) {
+  AddMoreRoomUpdateLiveaboard(Liveaboard eachLiveaboard, this.customFunction
+      // List<RoomType> pinkValue,
+      // List<List<Amenity>> blueValue,
+      ) {
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
     this.eachLiveaboard = eachLiveaboard;
@@ -95,7 +95,8 @@ class _AddMoreRoomUpdateLiveaboardState
     return Container(
       child: SingleChildScrollView(
           child: Column(children: [
-        RoomFormLiveaboardUpdate(this.eachLiveaboard, this.allRoom),
+        RoomFormLiveaboardUpdate(
+            this.eachLiveaboard, this.allRoom, widget.customFunction),
         FutureBuilder(
           future: getRoomLength(),
           builder: (context, snapshot) {
@@ -110,8 +111,13 @@ class _AddMoreRoomUpdateLiveaboardState
                   shrinkWrap: true,
                   itemCount: pinkcount,
                   itemBuilder: (BuildContext context, int index) {
-                    return RoomForm(pinkcount, this.pinkValue, this.blueValue,
-                        index + liveaboardDetial.liveaboard.roomTypes.length);
+                    return RoomForm(
+                        pinkcount,
+                        this.pinkValue,
+                        this.blueValue,
+                        index + liveaboardDetial.liveaboard.roomTypes.length,
+                        widget.customFunction,
+                        eachLiveaboard);
                   });
             } else {
               return Center(child: Text('No room'));
@@ -140,7 +146,7 @@ class _AddMoreRoomUpdateLiveaboardState
             MaterialButton(
               onPressed: () {
                 setState(() {
-                    if (eachLiveaboard.roomTypes.length > 1) {
+                  if (eachLiveaboard.roomTypes.length > 1) {
                     eachLiveaboard.roomTypes.removeLast();
                     print(eachLiveaboard.roomTypes);
                   } else {
@@ -161,9 +167,9 @@ class _AddMoreRoomUpdateLiveaboardState
           ],
         ),
         SizedBox(height: 30),
-        // FlatButton(onPressed: () {
-        //   print(allRoom);
-        // }),
+        FlatButton(onPressed: () {
+          print(eachLiveaboard.roomTypes);
+        }),
       ])),
     );
   }
@@ -172,9 +178,11 @@ class _AddMoreRoomUpdateLiveaboardState
 class RoomFormLiveaboardUpdate extends StatefulWidget {
   List<RoomType> allRoom = [];
   Liveaboard eachLiveaboard;
+  final customFunction;
 
   var f2 = File();
-  RoomFormLiveaboardUpdate(Liveaboard eachLiveaboard, List<RoomType> allRoom) {
+  RoomFormLiveaboardUpdate(
+      Liveaboard eachLiveaboard, List<RoomType> allRoom, this.customFunction) {
     this.eachLiveaboard = eachLiveaboard;
     this.allRoom = allRoom;
     // print('room'+eachLiveaboard.id.toString());
@@ -231,7 +239,8 @@ class _RoomFormLiveaboardUpdateState extends State<RoomFormLiveaboardUpdate> {
                 runSpacing: 40,
                 children: List.generate(
                   allRoom.length,
-                  (index) => InfoCard(index, allRoom, eachLiveaboard),
+                  (index) => InfoCard(
+                      index, allRoom, eachLiveaboard, widget.customFunction),
                 ));
           } else {
             return Center(child: Text('No room'));
@@ -249,7 +258,9 @@ class InfoCard extends StatefulWidget {
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
   Liveaboard eachLiveaboard;
-  InfoCard(int index, List<RoomType> allRoom, Liveaboard eachLiveaboard) {
+  final customFunction;
+  InfoCard(int index, List<RoomType> allRoom, Liveaboard eachLiveaboard,
+      this.customFunction) {
     this.index = index;
     this.allRoom = allRoom;
     this.eachLiveaboard = eachLiveaboard;
@@ -263,7 +274,7 @@ class _InfoCardState extends State<InfoCard> {
   int index;
   List<RoomType> allRoom = [];
   String room_description;
-  String max_capa;
+  int max_capa;
   String price;
   String selected = null;
   io.File roomimg;
@@ -271,7 +282,7 @@ class _InfoCardState extends State<InfoCard> {
   io.File roomimg3;
   String room_type;
   String room_name;
-  String quantity;
+  int quantity;
   XFile rroom;
   Liveaboard eachLiveaboard;
   int pinkcount;
@@ -333,7 +344,7 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          Text(index.toString()),
+          // Text(index.toString()),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
@@ -496,9 +507,9 @@ class _InfoCardState extends State<InfoCard> {
     return TextFormField(
       controller: _controllerRoomdescription,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => room_description = newValue,
+      // onSaved: (newValue) => room_description = newValue,
       onChanged: (value) {
-        allRoom[index].description = value;
+        eachLiveaboard.roomTypes[index].description = value;
       },
       decoration: InputDecoration(
         labelText: "Room description",
@@ -517,9 +528,8 @@ class _InfoCardState extends State<InfoCard> {
         FilteringTextInputFormatter.digitsOnly,
       ],
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
-        allRoom[index].maxGuest = int.parse(value);
+        eachLiveaboard.roomTypes[index].maxGuest = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
@@ -534,9 +544,9 @@ class _InfoCardState extends State<InfoCard> {
     return TextFormField(
       controller: _controllerRoomname,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => room_name = newValue,
+      // onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
-        allRoom[index].name = value;
+        eachLiveaboard.roomTypes[index].name = value;
       },
       decoration: InputDecoration(
         labelText: "Room type",
@@ -555,9 +565,9 @@ class _InfoCardState extends State<InfoCard> {
         FilteringTextInputFormatter.digitsOnly,
       ],
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => quantity = newValue,
+      // onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
-        allRoom[index].quantity = int.parse(value);
+        eachLiveaboard.roomTypes[index].quantity = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",
@@ -574,24 +584,31 @@ class RoomForm extends StatefulWidget {
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
   int indexForm;
-
+  final customFunction;
+  Liveaboard eachLiveaboard;
   var f2 = File();
-  RoomForm(int pinkcount, List<RoomType> pinkValue,
-      List<List<Amenity>> blueValue, int indexForm) {
+  RoomForm(
+      int pinkcount,
+      List<RoomType> pinkValue,
+      List<List<Amenity>> blueValue,
+      int indexForm,
+      this.customFunction,
+      Liveaboard eachLiveaboard) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
     this.indexForm = indexForm;
+    this.eachLiveaboard = eachLiveaboard;
   }
   @override
-  _RoomFormState createState() => _RoomFormState(
-      this.pinkcount, this.pinkValue, this.blueValue, this.indexForm);
+  _RoomFormState createState() => _RoomFormState(this.pinkcount, this.pinkValue,
+      this.blueValue, this.indexForm, this.eachLiveaboard);
 }
 
 class _RoomFormState extends State<RoomForm> {
   int pinkcount;
   String room_description;
-  String max_capa;
+  int max_capa;
   String price;
   // String amenity;
   String selected = null;
@@ -600,18 +617,20 @@ class _RoomFormState extends State<RoomForm> {
   io.File roomimg3;
   String room_type;
   String room_name;
-  String quantity;
+  int quantity;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
   int indexForm;
+  Liveaboard eachLiveaboard;
 
   XFile rroom;
   _RoomFormState(int pinkcount, List<RoomType> pinkValue,
-      List<List<Amenity>> blueValue, int indexForm) {
+      List<List<Amenity>> blueValue, int indexForm, Liveaboard eachLiveaboard) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
     this.indexForm = indexForm;
+    this.eachLiveaboard=eachLiveaboard;
   }
 
   final TextEditingController _controllerRoomdescription =
@@ -658,7 +677,7 @@ class _RoomFormState extends State<RoomForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          Text(indexForm.toString()),
+          // Text(indexForm.toString()),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
@@ -807,8 +826,27 @@ class _RoomFormState extends State<RoomForm> {
               ),
             ],
           ),
-
+          SizedBox(height: 20),
           //   FormError(errors: errors),
+          FlatButton(
+              color: Colors.pink,
+              child: Text(
+                'Please save before add new room',
+              ),
+              onPressed: () {
+                print('aa');
+                 print(eachLiveaboard.roomTypes);
+                var rt = RoomType();
+                rt.name = room_name;
+                rt.description = room_description;
+                rt.quantity = quantity;
+                rt.maxGuest = max_capa;
+                eachLiveaboard.roomTypes.add(rt);
+
+                print(eachLiveaboard.roomTypes);
+
+                widget.customFunction(eachLiveaboard.roomTypes);
+              }),
           SizedBox(height: 20),
         ]),
       ),
@@ -819,39 +857,11 @@ class _RoomFormState extends State<RoomForm> {
     return TextFormField(
       controller: _controllerRoomdescription,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => room_description = newValue,
       onChanged: (value) {
-        // print('room des start');
-        // print(pinkcount);
-        // print('room des end');
-        pinkValue[pinkcount - 1].description = value;
+        room_description = value;
       },
       decoration: InputDecoration(
         labelText: "Room description",
-        filled: true,
-        fillColor: Color(0xffffee1e8),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
-
-  TextFormField buildPriceFormField() {
-    return TextFormField(
-      controller: _controllerPrice,
-      keyboardType: TextInputType.number,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => price = newValue,
-      onChanged: (value) {
-        // print('room price start');
-        // print(pinkcount);
-        // print('room price end');
-        pinkValue[pinkcount - 1].price = double.parse(value);
-      },
-      decoration: InputDecoration(
-        labelText: "Price",
         filled: true,
         fillColor: Color(0xffffee1e8),
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -867,12 +877,11 @@ class _RoomFormState extends State<RoomForm> {
         FilteringTextInputFormatter.digitsOnly,
       ],
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => max_capa = newValue,
       onChanged: (value) {
         // print('room max start');
         // print(pinkcount);
         // print('room max end');
-        pinkValue[pinkcount - 1].maxGuest = int.parse(value);
+        max_capa = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
@@ -887,12 +896,8 @@ class _RoomFormState extends State<RoomForm> {
     return TextFormField(
       controller: _controllerRoomname,
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => room_name = newValue,
       onChanged: (value) {
-        // print('room name start');
-        // print(pinkcount);
-        // print('room name end');
-        pinkValue[pinkcount - 1].name = value;
+        room_name = value;
       },
       decoration: InputDecoration(
         labelText: "Room type",
@@ -911,13 +916,8 @@ class _RoomFormState extends State<RoomForm> {
         FilteringTextInputFormatter.digitsOnly,
       ],
       cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => quantity = newValue,
       onChanged: (value) {
-        // print('room quantity start');
-        // print(pinkcount);
-        // print('room quantity end');
-        pinkValue[pinkcount - 1].quantity = int.parse(value);
-        // print(value);
+        quantity = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",

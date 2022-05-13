@@ -248,26 +248,19 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
 
 
     if (bboat != null) {
-      //var temp = eachBoat.images;
-      //temp.removeAt(0);
+
       var f = File();
       f.filename = bboat.name;
       List<int> a = await bboat.readAsBytes();
       f.file = a;
-      print("doc before remove:");
-      print(eachBoat.images);
-      if (eachBoat.images.length>1) {
+      if (eachBoat.images.length >=1 ){
         eachBoat.images.removeAt(0);
       }
-      print("doc after remove:");
-      print(eachBoat.images);
       eachBoat.images.insert(0, f);
-      print("doc after insert:");
-      print(eachBoat.images);
-      //eachBoat.images.add(f);
+
 
     }
-    else if (eachBoat.images.length>=1){
+    else if (eachBoat.images.length >=1 ) {
       var f = File();
       f.filename = eachBoat.images[0].filename;
       //this.eachBoat.images.add(f);
@@ -278,11 +271,11 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       f2.filename = bboat2.name;
       List<int> b = await bboat2.readAsBytes();
       f2.file = b;
-      if (eachBoat.images.length>=2) {
+      if (eachBoat.images.length >=2 ) {
         eachBoat.images.removeAt(1);
       }
       eachBoat.images.insert(1, f2);
-    }else if (eachBoat.images.length>=2){
+    }else if (eachBoat.images.length >=2 ) {
       var f2 = File();
       f2.filename = eachBoat.images[1].filename;
     //  this.eachBoat.images.add(f2);
@@ -293,11 +286,11 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       f3.filename = bboat3.name;
       List<int> c = await bboat3.readAsBytes();
       f3.file = c;
-      if (eachBoat.images.length>=3) {
+      if (eachBoat.images.length >=3 ) {
         eachBoat.images.removeAt(2);
       }
       eachBoat.images.insert(2, f3);
-    }else if (eachBoat.images.length>=3){
+    }else if (eachBoat.images.length >=3 ) {
       var f3 = File();
       f3.filename = eachBoat.images[2].filename;
      // this.eachBoat.images.add(f3);
@@ -309,11 +302,11 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       f4.filename = bboat4.name;
       List<int> d = await bboat4.readAsBytes();
       f4.file = d;
-      if (eachBoat.images.length>=4) {
+      if (eachBoat.images.length >=4 ) {
         eachBoat.images.removeAt(3);
       }
       eachBoat.images.insert(3, f4);
-    }else if (eachBoat.images.length>=4){
+    }else if (eachBoat.images.length >=4 ) {
       var f4 = File();
       f4.filename = eachBoat.images[3].filename;
      // this.eachBoat.images.add(f4);
@@ -325,11 +318,11 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
       f5.filename = bboat5.name;
       List<int> e = await bboat5.readAsBytes();
       f5.file = e;
-      if (eachBoat.images.length>=5) {
+      if (eachBoat.images.length >=5 ) {
         eachBoat.images.removeAt(4);
       }
       eachBoat.images.insert(4, f5);
-    }else if (eachBoat.images.length>=5){
+    }else if (eachBoat.images.length >=5 ){
       var f5 = File();
       f5.filename = eachBoat.images[4].filename;
     //  this.eachBoat.images.add(f5);

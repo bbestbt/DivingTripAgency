@@ -215,7 +215,9 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       //f2.filename = 'image.jpg';
       List<int> a = await ca.readAsBytes();
       f.file = a;
-      this.divemasterValue.documents.removeAt(0);
+      if (divemasterValue.documents.length >1) {
+        this.divemasterValue.documents.removeAt(0);
+      }
       this.divemasterValue.documents.insert(0, f);
 
 
@@ -235,7 +237,10 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       f2.file = b;
 
       this.divemasterValue.documents.add(f2);
-      this.divemasterValue.documents.removeAt(1);
+      if (divemasterValue.documents.length >1) {
+        this.divemasterValue.documents.removeAt(1);
+      }
+
 
     }
     else if (cb == null) {
