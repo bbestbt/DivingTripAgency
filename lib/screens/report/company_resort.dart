@@ -66,12 +66,10 @@ class _CompanyResortState extends State<CompanyResort> {
   Widget build(BuildContext context) {
     return Scaffold(
         // key: _controller.scaffoldkey,
-          endDrawer: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: 300
+        endDrawer: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 300),
+          child: SideMenu(),
         ),
-        child: SideMenu(),
-      ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -123,7 +121,7 @@ class _detailState extends State<detail> {
     var listroomrequest = ListRoomTypesRequest();
     listroomrequest.limit = Int64(20);
     listroomrequest.offset = Int64(0);
-    listroomrequest.hotelId = details[widget.index].tripTemplate.hotelId;
+    listroomrequest.hotelId = details[widget.index].trip.tripTemplate.hotelId;
 
     roomtypes.clear();
 
@@ -151,7 +149,7 @@ class _detailState extends State<detail> {
     final stub = HotelServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var hotelrequest = GetHotelRequest();
-    hotelrequest.id = details[widget.index].tripTemplate.hotelId;
+    hotelrequest.id = details[widget.index].trip.tripTemplate.hotelId;
     // Int64(2);
     print(hotelrequest.id);
     hotel = await stub.getHotel(hotelrequest);
@@ -169,7 +167,7 @@ class _detailState extends State<detail> {
           title: "Dive resorts",
           color: Color(0xFFFF78a2cc),
         ),
-        Text("Trip name : " + details[widget.index].tripTemplate.name),
+        Text("Trip name : " + details[widget.index].trip.tripTemplate.name),
         SizedBox(
           height: 10,
         ),
@@ -181,7 +179,7 @@ class _detailState extends State<detail> {
               if (snapshot.hasData) {
                 return Center(
                   child: Text("Hotel : " +
-                      // details[widget.index].tripTemplate.hotelId.toString()),
+                      // details[widget.index].trip.tripTemplate.hotelId.toString()),
                       hotelDetial.hotel.name),
                 );
               } else {
@@ -199,37 +197,38 @@ class _detailState extends State<detail> {
           children: [
             Text("From : " +
                 DateFormat("dd/MM/yyyy")
-                    .format(details[widget.index].startDate.toDateTime())),
+                    .format(details[widget.index].trip.startDate.toDateTime())),
             SizedBox(
               width: 10,
             ),
             Text("From : " +
                 DateFormat("dd/MM/yyyy")
-                    .format(details[widget.index].endDate.toDateTime())),
+                    .format(details[widget.index].trip.endDate.toDateTime())),
           ],
         ),
         SizedBox(
           height: 10,
         ),
         Text("Address : " +
-            details[widget.index].tripTemplate.address.addressLine1),
+            details[widget.index].trip.tripTemplate.address.addressLine1),
         SizedBox(
           height: 10,
         ),
         Text("Address2 : " +
-            details[widget.index].tripTemplate.address.addressLine2),
+            details[widget.index].trip.tripTemplate.address.addressLine2),
         SizedBox(
           height: 10,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('City : ' + details[widget.index].tripTemplate.address.city),
+            Text('City : ' +
+                details[widget.index].trip.tripTemplate.address.city),
             SizedBox(
               width: 20,
             ),
             Text("Country : " +
-                details[widget.index].tripTemplate.address.country),
+                details[widget.index].trip.tripTemplate.address.country),
           ],
         ),
         SizedBox(
@@ -239,22 +238,30 @@ class _detailState extends State<detail> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Region : ' +
-                details[widget.index].tripTemplate.address.region),
+                details[widget.index].trip.tripTemplate.address.region),
             SizedBox(
               width: 20,
             ),
             Text('Postcode : ' +
-                details[widget.index].tripTemplate.address.postcode),
+                details[widget.index].trip.tripTemplate.address.postcode),
           ],
         ),
         SizedBox(
           height: 10,
         ),
-        Text("Description : " + details[widget.index].tripTemplate.description),
+        Text("Description : " +
+            details[widget.index].trip.tripTemplate.description),
         SizedBox(
           height: 10,
         ),
-        Text("Price : " + details[widget.index].price.toString()),
+        details[widget.index].trip.tripRoomTypePrices.length == 0
+            ? Text('no price')
+            : Text("Price : " +
+                details[widget.index]
+                    .trip
+                    .tripRoomTypePrices[0]
+                    .price
+                    .toString()),
         SizedBox(
           height: 10,
         ),
@@ -266,49 +273,55 @@ class _detailState extends State<detail> {
               Container(
                   width: MediaQuery.of(context).size.width / 3.5,
                   height: MediaQuery.of(context).size.width / 3.5,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[0]
-                              .link
-                              .toString())),
+                  child:
+                      details[widget.index].trip.tripTemplate.images.length == 0
+                          ? new Container(
+                              color: Colors.pink,
+                            )
+                          : Image.network(
+                              // 'http://139.59.101.136/static/'+
+                              details[widget.index]
+                                  .trip
+                                  .tripTemplate
+                                  .images[0]
+                                  .link
+                                  .toString())),
               SizedBox(
                 width: 10,
               ),
               Container(
                   width: MediaQuery.of(context).size.width / 3.5,
                   height: MediaQuery.of(context).size.width / 3.5,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(
-                          // 'http://139.59.101.136/static/'+
-                          details[widget.index]
-                              .tripTemplate
-                              .images[1]
-                              .link
-                              .toString())),
+                  child:
+                      details[widget.index].trip.tripTemplate.images.length == 0
+                          ? new Container(
+                              color: Colors.pink,
+                            )
+                          : Image.network(
+                              // 'http://139.59.101.136/static/'+
+                              details[widget.index]
+                                  .trip
+                                  .tripTemplate
+                                  .images[1]
+                                  .link
+                                  .toString())),
               SizedBox(
                 width: 10,
               ),
               Container(
                   width: MediaQuery.of(context).size.width / 3.5,
                   height: MediaQuery.of(context).size.width / 3.5,
-                  child: details[widget.index].tripTemplate.images.length == 0
-                      ? new Container(
-                          color: Colors.pink,
-                        )
-                      : Image.network(details[widget.index]
-                          .tripTemplate
-                          .images[2]
-                          .link
-                          .toString())),
+                  child:
+                      details[widget.index].trip.tripTemplate.images.length == 0
+                          ? new Container(
+                              color: Colors.pink,
+                            )
+                          : Image.network(details[widget.index]
+                              .trip
+                              .tripTemplate
+                              .images[2]
+                              .link
+                              .toString())),
             ],
           ),
         ),
@@ -431,10 +444,10 @@ class _InfoCardState extends State<InfoCard> {
                 SizedBox(
                   height: 20,
                 ),
-                Text('Price : ' + roomtypes[widget.indexRoom].price.toString()),
-                SizedBox(
-                  height: 20,
-                ),
+                // Text('Price : ' + roomtypes[widget.indexRoom].price.toString()),
+                // SizedBox(
+                //   height: 20,
+                // ),
               ],
             ),
             SizedBox(

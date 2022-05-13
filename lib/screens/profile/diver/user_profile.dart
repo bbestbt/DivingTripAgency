@@ -184,7 +184,7 @@ class _UserProfileState extends State<UserProfile> {
                                                       .size
                                                       .width /
                                                   10,
-                                              child: user_profile.agency
+                                              child: user_profile.diver
                                                           .documents.length ==
                                                       0
                                                   ? new Container(
@@ -207,11 +207,11 @@ class _UserProfileState extends State<UserProfile> {
                                                       .size
                                                       .width /
                                                   10,
-                                              child: user_profile.agency
+                                              child: user_profile.diver
                                                           .documents.length ==
                                                       0
                                                   ? new Container(
-                                                      color: Colors.pink,
+                                                      color: Colors.green,
                                                     )
                                                   : Image.network(
                                                       // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'

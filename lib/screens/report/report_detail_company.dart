@@ -400,7 +400,7 @@ class _InfoCardState extends State<InfoCard> {
                     trips[widget.indexTrip].reservations,
                     trips)));
 
-        // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
+        // if (trips[widget.index].trip.tripTemplate.tripType.toString() == "ONSHORE") {
         //   Navigator.push(
         //       context,
         //       MaterialPageRoute(
@@ -423,15 +423,17 @@ class _InfoCardState extends State<InfoCard> {
             Container(
                 width: 300,
                 height: 300,
-                child: trips[widget.indexTrip].tripTemplate.images.length == 0
-                    ? new Container(
-                        color: Colors.pink,
-                      )
-                    : Image.network(trips[widget.indexTrip]
-                        .tripTemplate
-                        .images[0]
-                        .link
-                        .toString())),
+                child:
+                    trips[widget.indexTrip].trip.tripTemplate.images.length == 0
+                        ? new Container(
+                            color: Colors.pink,
+                          )
+                        : Image.network(trips[widget.indexTrip]
+                            .trip
+                            .tripTemplate
+                            .images[0]
+                            .link
+                            .toString())),
             Expanded(
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
@@ -444,14 +446,19 @@ class _InfoCardState extends State<InfoCard> {
                           height: 20,
                         ),
                         Text('Trip name : ' +
-                            trips[widget.indexTrip].tripTemplate.name),
+                            trips[widget.indexTrip].trip.tripTemplate.name),
                         SizedBox(
                           height: 10,
                         ),
                         Text('Location : ' +
-                            trips[widget.indexTrip].tripTemplate.address.city +
+                            trips[widget.indexTrip]
+                                .trip
+                                .tripTemplate
+                                .address
+                                .city +
                             ', ' +
                             trips[widget.indexTrip]
+                                .trip
                                 .tripTemplate
                                 .address
                                 .country),
@@ -461,6 +468,7 @@ class _InfoCardState extends State<InfoCard> {
                         Text('Start date : ' +
                             DateFormat("dd/MM/yyyy").format(
                                 trips[widget.indexTrip]
+                                    .trip
                                     .startDate
                                     .toDateTime())),
 
@@ -469,13 +477,16 @@ class _InfoCardState extends State<InfoCard> {
                         ),
                         Text('End date : ' +
                             DateFormat("dd/MM/yyyy").format(
-                                trips[widget.indexTrip].endDate.toDateTime())),
+                                trips[widget.indexTrip]
+                                    .trip
+                                    .endDate
+                                    .toDateTime())),
 
                         SizedBox(
                           height: 10,
                         ),
                         Text('Total people : ' +
-                            trips[widget.indexTrip].maxGuest.toString()),
+                            trips[widget.indexTrip].trip.maxGuest.toString()),
                         SizedBox(
                           height: 10,
                         ),
@@ -486,6 +497,7 @@ class _InfoCardState extends State<InfoCard> {
                         ),
                         Text('Trip type : ' +
                             trips[widget.indexTrip]
+                                .trip
                                 .tripTemplate
                                 .tripType
                                 .toString()),
@@ -508,8 +520,18 @@ class _InfoCardState extends State<InfoCard> {
                         ),
                         Align(
                             alignment: Alignment.centerRight,
-                            child: Text('Price : ' +
-                                trips[widget.indexTrip].price.toString())),
+                            child: trips[widget.indexTrip]
+                                        .trip
+                                        .tripRoomTypePrices
+                                        .length ==
+                                    0
+                                ? Text('no price')
+                                : Text('Price : ' +
+                                    trips[widget.indexTrip]
+                                        .trip
+                                        .tripRoomTypePrices[0]
+                                        .price
+                                        .toString())),
                         SizedBox(
                           height: 20,
                         ),
@@ -552,7 +574,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
       //         builder: (context) =>
       //             CompanyCheckpayment(endedDiver, widget.indexEndedTrip)));
 
-      // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
+      // if (trips[widget.index].trip.tripTemplate.tripType.toString() == "ONSHORE") {
       //   Navigator.push(
       //       context,
       //       MaterialPageRoute(
@@ -578,6 +600,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                 width: 300,
                 height: 300,
                 child: endedTrips[widget.indexEndedTrip]
+                            .trip
                             .tripTemplate
                             .images
                             .length ==
@@ -586,6 +609,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         color: Colors.pink,
                       )
                     : Image.network(endedTrips[widget.indexEndedTrip]
+                        .trip
                         .tripTemplate
                         .images[0]
                         .link
@@ -603,6 +627,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         ),
                         Text('Trip name : ' +
                             endedTrips[widget.indexEndedTrip]
+                                .trip
                                 .tripTemplate
                                 .name),
                         SizedBox(
@@ -610,11 +635,13 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         ),
                         Text('Location : ' +
                             endedTrips[widget.indexEndedTrip]
+                                .trip
                                 .tripTemplate
                                 .address
                                 .city +
                             ', ' +
                             endedTrips[widget.indexEndedTrip]
+                                .trip
                                 .tripTemplate
                                 .address
                                 .country),
@@ -624,6 +651,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         Text('Start date : ' +
                             DateFormat("dd/MM/yyyy").format(
                                 endedTrips[widget.indexEndedTrip]
+                                    .trip
                                     .startDate
                                     .toDateTime())),
                         SizedBox(
@@ -632,6 +660,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         Text('End date : ' +
                             DateFormat("dd/MM/yyyy").format(
                                 endedTrips[widget.indexEndedTrip]
+                                    .trip
                                     .endDate
                                     .toDateTime())),
                         SizedBox(
@@ -639,6 +668,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         ),
                         Text('Total people : ' +
                             endedTrips[widget.indexEndedTrip]
+                                .trip
                                 .maxGuest
                                 .toString()),
                         SizedBox(
@@ -653,6 +683,7 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         ),
                         Text('Trip type : ' +
                             endedTrips[widget.indexEndedTrip]
+                                .trip
                                 .tripTemplate
                                 .tripType
                                 .toString()),
@@ -669,10 +700,18 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                         ),
                         Align(
                             alignment: Alignment.centerRight,
-                            child: Text('Price : ' +
-                                endedTrips[widget.indexEndedTrip]
-                                    .price
-                                    .toString())),
+                            child: endedTrips[widget.indexEndedTrip]
+                                        .trip
+                                        .tripRoomTypePrices
+                                        .length ==
+                                    0
+                                ? Text('no price')
+                                : Text('Price : ' +
+                                    endedTrips[widget.indexEndedTrip]
+                                        .trip
+                                        .tripRoomTypePrices[0]
+                                        .price
+                                        .toString())),
                         SizedBox(
                           height: 20,
                         ),
@@ -719,7 +758,7 @@ class _IncomingCardState extends State<IncomingCard> {
                     widget.indexIncoming,
                     incomingTrips[widget.indexIncoming].reservations,
                     incomingTrips)));
-        //   // if (trips[widget.index].tripTemplate.tripType.toString() == "ONSHORE") {
+        //   // if (trips[widget.index].trip.tripTemplate.tripType.toString() == "ONSHORE") {
         //   //   Navigator.push(
         //   //       context,
         //   //       MaterialPageRoute(
@@ -745,6 +784,7 @@ class _IncomingCardState extends State<IncomingCard> {
                 width: 300,
                 height: 300,
                 child: incomingTrips[widget.indexIncoming]
+                            .trip
                             .tripTemplate
                             .images
                             .length ==
@@ -753,6 +793,7 @@ class _IncomingCardState extends State<IncomingCard> {
                         color: Colors.pink,
                       )
                     : Image.network(incomingTrips[widget.indexIncoming]
+                        .trip
                         .tripTemplate
                         .images[0]
                         .link
@@ -770,6 +811,7 @@ class _IncomingCardState extends State<IncomingCard> {
                         ),
                         Text('Trip name : ' +
                             incomingTrips[widget.indexIncoming]
+                                .trip
                                 .tripTemplate
                                 .name),
                         SizedBox(
@@ -777,11 +819,13 @@ class _IncomingCardState extends State<IncomingCard> {
                         ),
                         Text('Location : ' +
                             incomingTrips[widget.indexIncoming]
+                                .trip
                                 .tripTemplate
                                 .address
                                 .city +
                             ', ' +
                             incomingTrips[widget.indexIncoming]
+                                .trip
                                 .tripTemplate
                                 .address
                                 .country),
@@ -791,6 +835,7 @@ class _IncomingCardState extends State<IncomingCard> {
                         Text('Start date : ' +
                             DateFormat("dd/MM/yyyy").format(
                                 incomingTrips[widget.indexIncoming]
+                                    .trip
                                     .startDate
                                     .toDateTime())),
                         SizedBox(
@@ -799,6 +844,7 @@ class _IncomingCardState extends State<IncomingCard> {
                         Text('End date : ' +
                             DateFormat("dd/MM/yyyy").format(
                                 incomingTrips[widget.indexIncoming]
+                                    .trip
                                     .endDate
                                     .toDateTime())),
                         SizedBox(
@@ -806,6 +852,7 @@ class _IncomingCardState extends State<IncomingCard> {
                         ),
                         Text('Total people : ' +
                             incomingTrips[widget.indexIncoming]
+                                .trip
                                 .maxGuest
                                 .toString()),
                         SizedBox(
@@ -820,6 +867,7 @@ class _IncomingCardState extends State<IncomingCard> {
                         ),
                         Text('Trip type : ' +
                             incomingTrips[widget.indexIncoming]
+                                .trip
                                 .tripTemplate
                                 .tripType
                                 .toString()),
@@ -843,10 +891,18 @@ class _IncomingCardState extends State<IncomingCard> {
                         ),
                         Align(
                             alignment: Alignment.centerRight,
-                            child: Text('Price : ' +
-                                incomingTrips[widget.indexIncoming]
-                                    .price
-                                    .toString())),
+                            child: incomingTrips[widget.indexIncoming]
+                                        .trip
+                                        .tripRoomTypePrices
+                                        .length ==
+                                    0
+                                ? Text('no price')
+                                : Text('Price : ' +
+                                    incomingTrips[widget.indexIncoming]
+                                        .trip
+                                        .tripRoomTypePrices[0]
+                                        .price
+                                        .toString())),
                         SizedBox(
                           height: 20,
                         ),

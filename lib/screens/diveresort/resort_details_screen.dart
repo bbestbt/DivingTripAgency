@@ -3,6 +3,8 @@ import 'package:diving_trip_agency/nautilus/proto/dart/account.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/account.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/boat.pb.dart';
+import 'package:diving_trip_agency/nautilus/proto/dart/boat.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/empty.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/hotel.pbgrpc.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
@@ -42,6 +44,8 @@ var profile;
 List<TripWithTemplate> details;
 GetHotelResponse hotelDetial = new GetHotelResponse();
 var hotel;
+var boat;
+GetBoatResponse boatDetial = new GetBoatResponse();
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final TextEditingController _textEditingQuantity = TextEditingController();
 final TextEditingController _textEditingDiver = TextEditingController();
@@ -198,6 +202,29 @@ class _detailState extends State<detail> {
 
     // print(hotelDetial.hotel.name);
     return hotelDetial.hotel.name;
+  }
+
+  getBoat() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = BoatServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+
+    var listboatrequest = GetBoatRequest();
+
+    listboatrequest.id = details[widget.index].tripTemplate.boatId;
+
+    boat = await stub.getBoat(listboatrequest);
+    boatDetial = boat;
+
+    return boatDetial;
   }
 
   void queryWeather() async {
@@ -646,6 +673,61 @@ class _detailState extends State<detail> {
                           ],
                         ),
                       ),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "Boat image",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    SizedBox(height: 20),
+
+                    FutureBuilder(
+                      future: getBoat(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SingleChildScrollView(
+                            child: Container(
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.0, vertical: 24.0),
+                                      height: MediaQuery.of(context)
+                                              .size
+                                              .height *
+                                          0.50,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount:
+                                            boatDetial.boat.images.length,
+                                        itemBuilder: (context, each) {
+                                          return Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                            child: Card(
+                                              child: Container(
+                                                child: Image.network(
+                                                    boatDetial.boat
+                                                        .images[each].link
+                                                        .toString()),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Center(child: Text('no boat'));
+                        }
+                      },
                     ),
                     SizedBox(height: 20),
                     Text(
