@@ -330,6 +330,34 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
     liveaboard.length = eachLiveaboard.length;
     liveaboard.width = eachLiveaboard.width;
 
+      print(pinkValue);
+    print(pinkValue.length);
+    for (int i = 0; i < pinkValue.length; i++) {
+      var room = RoomType();
+      // for (int j = 0; j < blueValue[i].length; j++) {
+      //   var amenity = Amenity();
+      //   amenity.id = blueValue[i][j].id;
+      //   amenity.name = blueValue[i][j].name;
+
+      //   room.amenities.add(amenity);
+      // }
+      room.name = pinkValue[i].name;
+      room.description = pinkValue[i].description;
+      room.maxGuest = pinkValue[i].maxGuest;
+      // room.price = pinkValue[i].price;
+      room.quantity = pinkValue[i].quantity;
+
+      // for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
+      //   room.roomImages.add(pinkValue[i].roomImages[j]);
+      //   print("room.roomImages");
+      //   print("-------------");
+      //   print(room.roomImages);
+      // print(pinkValue[i].roomImages.length);
+      // }
+      liveaboard.roomTypes.add(room);
+    }
+
+
     if (liveX1 != null) {
       var f = File();
       f.filename = liveX1.name;

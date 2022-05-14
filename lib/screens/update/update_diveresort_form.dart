@@ -312,20 +312,43 @@ class _editHotelFormState extends State<editHotelForm> {
     hotel.description = eachHotel.description;
     hotel.phone = eachHotel.phone;
     hotel.stars = eachHotel.stars;
+    print(pinkValue);
+    print(pinkValue.length);
+    for (int i = 0; i < pinkValue.length; i++) {
+      var room = RoomType();
+      // for (int j = 0; j < blueValue[i].length; j++) {
+      //   var amenity = Amenity();
+      //   amenity.id = blueValue[i][j].id;
+      //   amenity.name = blueValue[i][j].name;
 
-   
-     if (Xhotel1 != null) {
+      //   room.amenities.add(amenity);
+      // }
+      room.name = pinkValue[i].name;
+      room.description = pinkValue[i].description;
+      room.maxGuest = pinkValue[i].maxGuest;
+      // room.price = pinkValue[i].price;
+      room.quantity = pinkValue[i].quantity;
 
+      // for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
+      //   room.roomImages.add(pinkValue[i].roomImages[j]);
+      //   print("room.roomImages");
+      //   print("-------------");
+      //   print(room.roomImages);
+      // print(pinkValue[i].roomImages.length);
+      // }
+      hotel.roomTypes.add(room);
+    }
+
+    if (Xhotel1 != null) {
       var f = File();
       f.filename = Xhotel1.name;
       List<int> a = await Xhotel1.readAsBytes();
       f.file = a;
-      if (eachHotel.images.length >=1) {
+      if (eachHotel.images.length >= 1) {
         eachHotel.images.removeAt(0);
       }
       eachHotel.images.insert(0, f);
-    }
-    else if (eachHotel.images.length >=1){
+    } else if (eachHotel.images.length >= 1) {
       var f = File();
       f.filename = eachHotel.images[0].filename;
       //this.eachHotel.images.add(f);
@@ -336,11 +359,11 @@ class _editHotelFormState extends State<editHotelForm> {
       f2.filename = Xhotel2.name;
       List<int> b = await Xhotel2.readAsBytes();
       f2.file = b;
-      if (eachHotel.images.length >=2) {
+      if (eachHotel.images.length >= 2) {
         eachHotel.images.removeAt(1);
       }
       eachHotel.images.insert(1, f2);
-    }else if (eachHotel.images.length >=2){
+    } else if (eachHotel.images.length >= 2) {
       var f2 = File();
       f2.filename = eachHotel.images[1].filename;
       //  this.eachHotel.images.add(f2);
@@ -351,61 +374,56 @@ class _editHotelFormState extends State<editHotelForm> {
       f3.filename = Xhotel3.name;
       List<int> c = await Xhotel3.readAsBytes();
       f3.file = c;
-      if (eachHotel.images.length >=3) {
+      if (eachHotel.images.length >= 3) {
         eachHotel.images.removeAt(2);
       }
       eachHotel.images.insert(2, f3);
-    }else if (eachHotel.images.length >=3){
+    } else if (eachHotel.images.length >= 3) {
       var f3 = File();
       f3.filename = eachHotel.images[2].filename;
       // this.eachHotel.images.add(f3);
     }
-
 
     if (Xhotel4 != null) {
       var f4 = File();
       f4.filename = Xhotel4.name;
       List<int> d = await Xhotel4.readAsBytes();
       f4.file = d;
-      if (eachHotel.images.length >=4) {
+      if (eachHotel.images.length >= 4) {
         eachHotel.images.removeAt(3);
       }
       eachHotel.images.insert(3, f4);
-    }else  if (eachHotel.images.length >=4){
+    } else if (eachHotel.images.length >= 4) {
       var f4 = File();
       f4.filename = eachHotel.images[3].filename;
       // this.eachHotel.images.add(f4);
     }
-
 
     if (Xhotel5 != null) {
       var f5 = File();
       f5.filename = Xhotel5.name;
       List<int> e = await Xhotel5.readAsBytes();
       f5.file = e;
-      if (eachHotel.images.length >=5) {
+      if (eachHotel.images.length >= 5) {
         eachHotel.images.removeAt(4);
       }
       eachHotel.images.insert(4, f5);
-    }else  if (eachHotel.images.length >=5){
+    } else if (eachHotel.images.length >= 5) {
       var f5 = File();
       f5.filename = eachHotel.images[4].filename;
       //  this.eachHotel.images.add(f5);
     }
 
-
     if (Xhotel6 != null) {
-
       var f6 = File();
       f6.filename = Xhotel6.name;
       List<int> a = await Xhotel6.readAsBytes();
       f6.file = a;
-      if (eachHotel.images.length >=6) {
+      if (eachHotel.images.length >= 6) {
         eachHotel.images.removeAt(5);
       }
       eachHotel.images.insert(5, f6);
-    }
-    else  if (eachHotel.images.length >=6){
+    } else if (eachHotel.images.length >= 6) {
       var f = File();
       f.filename = eachHotel.images[5].filename;
       //this.eachHotel.images.add(f);
@@ -416,11 +434,11 @@ class _editHotelFormState extends State<editHotelForm> {
       f7.filename = Xhotel7.name;
       List<int> b = await Xhotel7.readAsBytes();
       f7.file = b;
-      if (eachHotel.images.length >=7) {
+      if (eachHotel.images.length >= 7) {
         eachHotel.images.removeAt(6);
       }
       eachHotel.images.insert(6, f7);
-    }else  if (eachHotel.images.length >=7){
+    } else if (eachHotel.images.length >= 7) {
       var f7 = File();
       f7.filename = eachHotel.images[6].filename;
       //  this.eachHotel.images.add(f7);
@@ -431,54 +449,51 @@ class _editHotelFormState extends State<editHotelForm> {
       f8.filename = Xhotel8.name;
       List<int> c = await Xhotel8.readAsBytes();
       f8.file = c;
-      if (eachHotel.images.length >=8) {
+      if (eachHotel.images.length >= 8) {
         eachHotel.images.removeAt(7);
       }
       eachHotel.images.insert(7, f8);
-    }else  if (eachHotel.images.length >=8){
+    } else if (eachHotel.images.length >= 8) {
       var f8 = File();
       f8.filename = eachHotel.images[7].filename;
       // this.eachHotel.images.add(f8);
     }
-
 
     if (Xhotel9 != null) {
       var f9 = File();
       f9.filename = Xhotel9.name;
       List<int> d = await Xhotel9.readAsBytes();
       f9.file = d;
-      if (eachHotel.images.length >=9) {
+      if (eachHotel.images.length >= 9) {
         eachHotel.images.removeAt(8);
       }
       eachHotel.images.insert(8, f9);
-    }else  if (eachHotel.images.length >=9){
+    } else if (eachHotel.images.length >= 9) {
       var f9 = File();
       f9.filename = eachHotel.images[8].filename;
       // this.eachHotel.images.add(f9);
     }
-
 
     if (Xhotel10 != null) {
       var f10 = File();
       f10.filename = Xhotel10.name;
       List<int> e = await Xhotel10.readAsBytes();
       f10.file = e;
-      if (eachHotel.images.length >=10) {
+      if (eachHotel.images.length >= 10) {
         eachHotel.images.removeAt(9);
       }
       eachHotel.images.insert(9, f10);
-    }else  if (eachHotel.images.length >=10){
+    } else if (eachHotel.images.length >= 10) {
       var f10 = File();
       f10.filename = eachHotel.images[9].filename;
       //  this.eachHotel.images.add(f5);
     }
 
-
     for (int i = 0; i < eachHotel.images.length; i++) {
       hotel.images.add(eachHotel.images[i]);
     }
-     print("hotel.images");
-     print(hotel.images);
+    print("hotel.images");
+    print(hotel.images);
     final updateRequest = UpdateHotelRequest()..hotel = hotel;
     print(updateRequest);
     try {
@@ -1195,8 +1210,8 @@ class _editHotelFormState extends State<editHotelForm> {
 
           FlatButton(
             onPressed: () => {
-              sendUpdateHotel(),
               print(pinkValue),
+              sendUpdateHotel(),
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
