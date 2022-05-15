@@ -146,6 +146,48 @@ class _CartState extends State<CartWidget> {
 
 
   }
+  deleteItem(int id) {
+    int clengthtemp =0;
+    var templist = [];
+    var pricetemp =  CartBox.get('price'+id.toString()) * CartBox.get("quantity"+id.toString());
+    templist.add([CartBox.get('image'+id.toString()),
+    CartBox.get('tripname'+id.toString()),
+    CartBox.get('hotelname'+id.toString()), //2
+    CartBox.get('roomtype'+id.toString()), //3
+    pricetemp, //4
+    //tripname[0]['tripdetail'],
+    "TripName", //5
+    "roomname", //6
+    0, //7
+    CartBox.get("indexDetail"), //8
+    CartBox.get("quantity"+id.toString()), //9
+    CartBox.get("diver"+id.toString()), //10
+    CartBox.get("roomid"+id.toString()), //11
+    CartBox.get("tripid"+id.toString()), //12
+    CartBox.get("username"+id.toString()),//13
+    ]);
+    //clengthtemp = CartBox.get(clength)-1;
+    CartBox.delete('Roomlist'+id.toString());
+    CartBox.delete('diver'+id.toString());
+    CartBox.delete('image'+id.toString());
+    CartBox.delete('indexDetail'+id.toString());
+    CartBox.delete('indexroom'+id.toString());
+    CartBox.delete('price'+id.toString());
+    CartBox.delete('quantity'+id.toString());
+    CartBox.delete('roomid'+id.toString());
+    CartBox.delete('roomtype'+id.toString());
+    CartBox.delete('tripdetail'+id.toString());
+    CartBox.delete('tripid'+id.toString());
+    CartBox.delete('clength');
+    CartBox.put('clength', clengthtemp);
+
+
+  }
+
+
+
+
+
   void persCarthive(int cartind) async{ //Test Hive
 
     CartBox.put('image'+cartind.toString(),Cartlist[cartind][0]);
@@ -262,7 +304,7 @@ class _CartState extends State<CartWidget> {
           ),
           Text("Total Cost: "),
           Text(totalprice.toString()),
-          TextButton(
+          /*TextButton(
             child: Text(
               "Check JSON",
               // style: TextStyle(fontSize: 25),
@@ -303,7 +345,7 @@ class _CartState extends State<CartWidget> {
                 primary: Colors.red,
                 elevation: 2,
                 backgroundColor: Colors.amber),
-          ),
+          ),*/
           SizedBox(height: 40),
           ListView.builder(
             itemCount: Cartlist.length,
@@ -378,7 +420,7 @@ class _CartState extends State<CartWidget> {
                                 onPressed: () {
                                   setState(() {
                                     print("deleted");
-
+                                    deleteItem(position);
                                     Cartlist.removeAt(position);
                                     print(Cartlist);
                                   });
