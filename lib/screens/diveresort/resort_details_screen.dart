@@ -503,39 +503,32 @@ class _detailState extends State<detail> {
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               return Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text("Trip name : " +
                                       details[widget.index].tripTemplate.name),
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Center(
-                                    child: Text("Hotel : " +
-                                        // details[widget.index].tripTemplate.hotelId.toString()),
-                                        hotelDetial.hotel.name),
-                                  ),
+                                  Text("Hotel : " +
+                                      // details[widget.index].tripTemplate.hotelId.toString()),
+                                      hotelDetial.hotel.name),
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("From : " +
-                                          DateFormat("dd/MM/yyyy").format(
-                                              details[widget.index]
-                                                  .startDate
-                                                  .toDateTime())),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text("To : " +
-                                          DateFormat("dd/MM/yyyy").format(
-                                              details[widget.index]
-                                                  .endDate
-                                                  .toDateTime())),
-                                    ],
+                                  Text("From : " +
+                                      DateFormat("dd/MM/yyyy").format(
+                                          details[widget.index]
+                                              .startDate
+                                              .toDateTime())),
+                                  SizedBox(
+                                    height: 10,
                                   ),
+                                  Text("To : " +
+                                      DateFormat("dd/MM/yyyy").format(
+                                          details[widget.index]
+                                              .endDate
+                                              .toDateTime())),
                                   SizedBox(
                                     height: 10,
                                   ),
@@ -555,45 +548,35 @@ class _detailState extends State<detail> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text('City : ' +
-                                          details[widget.index]
-                                              .tripTemplate
-                                              .address
-                                              .city),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Text("Country : " +
-                                          details[widget.index]
-                                              .tripTemplate
-                                              .address
-                                              .country),
-                                    ],
-                                  ),
+                                  Text('City : ' +
+                                      details[widget.index]
+                                          .tripTemplate
+                                          .address
+                                          .city),
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text('Region : ' +
-                                          details[widget.index]
-                                              .tripTemplate
-                                              .address
-                                              .region),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Text('Postcode : ' +
-                                          details[widget.index]
-                                              .tripTemplate
-                                              .address
-                                              .postcode),
-                                    ],
+                                  Text("Country : " +
+                                      details[widget.index]
+                                          .tripTemplate
+                                          .address
+                                          .country),
+                                  SizedBox(
+                                    height: 10,
                                   ),
+                                  Text('Region : ' +
+                                      details[widget.index]
+                                          .tripTemplate
+                                          .address
+                                          .region),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text('Postcode : ' +
+                                      details[widget.index]
+                                          .tripTemplate
+                                          .address
+                                          .postcode),
                                   SizedBox(
                                     height: 10,
                                   ),
@@ -604,7 +587,7 @@ class _detailState extends State<detail> {
                                             details[widget.index]
                                                 .tripTemplate
                                                 .description,
-                                        textAlign: TextAlign.center,
+                                        // textAlign: TextAlign.center,
                                         maxLines: 20,
                                         overflow: TextOverflow.ellipsis,
                                       )),
@@ -754,7 +737,7 @@ class _detailState extends State<detail> {
                             } else {
                               return Align(
                                   alignment: Alignment.center,
-                                  child: Text(' '));
+                                  child: Text('no divesites '));
                             }
                           },
                         ),
@@ -763,7 +746,7 @@ class _detailState extends State<detail> {
                   ),
                 ),
               ),
-              SizedBox(width:20),
+              SizedBox(width: 20),
               Expanded(
                 flex: 3,
                 child: LayoutBuilder(
@@ -927,7 +910,7 @@ class _detailState extends State<detail> {
                                         ),
                                       );
                                     } else {
-                                      return Center(child: Text('no boat'));
+                                      return Center(child: Text('no boat images'));
                                     }
                                   },
                                 ),

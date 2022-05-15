@@ -464,267 +464,264 @@ class _detailState extends State<detail> {
                           future: getLiveaboardDetail(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              return Column(children: [
-                                Text("Trip name : " +
-                                    details[widget.index].tripTemplate.name),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Center(
-                                  child: Text("Liveaboard : " +
-                                      liveaboardDetial.liveaboard.name),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                              return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Text("Trip name : " +
+                                        details[widget.index]
+                                            .tripTemplate
+                                            .name),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text("Liveaboard : " +
+                                        liveaboardDetial.liveaboard.name),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Text("From : " +
                                         DateFormat("dd/MM/yyyy").format(
                                             details[widget.index]
                                                 .startDate
                                                 .toDateTime())),
                                     SizedBox(
-                                      width: 10,
+                                      height: 10,
                                     ),
                                     Text("To : " +
                                         DateFormat("dd/MM/yyyy").format(
                                             details[widget.index]
                                                 .endDate
                                                 .toDateTime())),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text("Address : " +
-                                    details[widget.index]
-                                        .tripTemplate
-                                        .address
-                                        .addressLine1),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text("Address2 : " +
-                                    details[widget.index]
-                                        .tripTemplate
-                                        .address
-                                        .addressLine2),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text("Address : " +
+                                        details[widget.index]
+                                            .tripTemplate
+                                            .address
+                                            .addressLine1),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text("Address2 : " +
+                                        details[widget.index]
+                                            .tripTemplate
+                                            .address
+                                            .addressLine2),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Text('City : ' +
                                         details[widget.index]
                                             .tripTemplate
                                             .address
                                             .city),
                                     SizedBox(
-                                      width: 20,
+                                      height: 10,
                                     ),
                                     Text("Country : " +
                                         details[widget.index]
                                             .tripTemplate
                                             .address
                                             .country),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Text('Region : ' +
                                         details[widget.index]
                                             .tripTemplate
                                             .address
                                             .region),
                                     SizedBox(
-                                      width: 20,
+                                      height: 10,
                                     ),
                                     Text('Postcode : ' +
                                         details[widget.index]
                                             .tripTemplate
                                             .address
                                             .postcode),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2,
-                                    child: Text(
-                                        "Description : " +
-                                            details[widget.index]
-                                                .tripTemplate
-                                                .description,
-                                        textAlign: TextAlign.center)),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                // Text("Price : " + details[widget.index].price.toString()),
-                                // SizedBox(
-                                //   height: 10,
-                                // ),
-                                Text('Total capacity : ' +
-                                    details[widget.index].maxGuest.toString()),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                // SingleChildScrollView(
-                                //   scrollDirection: Axis.horizontal,
-                                //   child: Row(
-                                //     mainAxisAlignment: MainAxisAlignment.center,
-                                //     children: [
-                                //       SizedBox(
-                                //         width: 10,
-                                //       ),
-                                //       Container(
-                                //         width: MediaQuery.of(context).size.width,
-                                //         height: MediaQuery.of(context).size.height / 5,
-                                //         child: ListView.builder(
-                                //           scrollDirection: Axis.horizontal,
-                                //           itemBuilder: (BuildContext ctx, int each) {
-                                //             return SingleChildScrollView(
-                                //               scrollDirection: Axis.horizontal,
-                                //               child: Row(
-                                //                 // mainAxisAlignment: MainAxisAlignment.center,
-                                //                 children: [
-                                //                   Container(
-                                //                     width:
-                                //                         MediaQuery.of(context).size.width / 5,
-                                //                     height:
-                                //                         MediaQuery.of(context).size.height /
-                                //                             5,
-                                //                     child: Image.network(details[widget.index]
-                                //                         .tripTemplate
-                                //                         .images[each]
-                                //                         .link
-                                //                         .toString()),
-                                //                   ),
-                                //                 ],
-                                //               ),
-                                //             );
-                                //           },
-                                //           itemCount: details[widget.index]
-                                //               .tripTemplate
-                                //               .images
-                                //               .length,
-                                //         ),
-                                //       ),
-                                //       // SizedBox(
-                                //       //   width: 10,
-                                //       // ),
-                                //     ],
-                                //   ),
-                                // ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                        child: Text(
+                                            "Description : " +
+                                                details[widget.index]
+                                                    .tripTemplate
+                                                    .description,
+                                        maxLines: 20,
+                                        overflow: TextOverflow.ellipsis,)),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    // Text("Price : " + details[widget.index].price.toString()),
+                                    // SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    Text('Total capacity : ' +
+                                        details[widget.index]
+                                            .maxGuest
+                                            .toString()),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    // SingleChildScrollView(
+                                    //   scrollDirection: Axis.horizontal,
+                                    //   child: Row(
+                                    //     mainAxisAlignment: MainAxisAlignment.center,
+                                    //     children: [
+                                    //       SizedBox(
+                                    //         width: 10,
+                                    //       ),
+                                    //       Container(
+                                    //         width: MediaQuery.of(context).size.width,
+                                    //         height: MediaQuery.of(context).size.height / 5,
+                                    //         child: ListView.builder(
+                                    //           scrollDirection: Axis.horizontal,
+                                    //           itemBuilder: (BuildContext ctx, int each) {
+                                    //             return SingleChildScrollView(
+                                    //               scrollDirection: Axis.horizontal,
+                                    //               child: Row(
+                                    //                 // mainAxisAlignment: MainAxisAlignment.center,
+                                    //                 children: [
+                                    //                   Container(
+                                    //                     width:
+                                    //                         MediaQuery.of(context).size.width / 5,
+                                    //                     height:
+                                    //                         MediaQuery.of(context).size.height /
+                                    //                             5,
+                                    //                     child: Image.network(details[widget.index]
+                                    //                         .tripTemplate
+                                    //                         .images[each]
+                                    //                         .link
+                                    //                         .toString()),
+                                    //                   ),
+                                    //                 ],
+                                    //               ),
+                                    //             );
+                                    //           },
+                                    //           itemCount: details[widget.index]
+                                    //               .tripTemplate
+                                    //               .images
+                                    //               .length,
+                                    //         ),
+                                    //       ),
+                                    //       // SizedBox(
+                                    //       //   width: 10,
+                                    //       // ),
+                                    //     ],
+                                    //   ),
+                                    // ),
 
-                                SizedBox(height: 20),
+                                    SizedBox(height: 20),
 
-                                // Text(
-                                //   "Divesites",
-                                //   style: TextStyle(fontSize: 20),
-                                // ),
-                                // SizedBox(height: 20),
-                                SingleChildScrollView(
-                                    child: Container(
-                                        child: Column(children: <Widget>[
-                                  Container(
-                                      child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 16.0, vertical: 24.0),
-                                    height: MediaQuery.of(context).size.height *
-                                        0.25,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: details[widget.index]
-                                          .diveSites
-                                          .length,
-                                      itemBuilder: (context, each) {
-                                        return Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.25,
-                                          child: SingleChildScrollView(
-                                            child: Card(
-                                              color: Colors.deepPurple[100],
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(12.0),
-                                              ),
-                                              // elevation: 8,
-                                              child: Container(
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(height: 20),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
+                                    // Text(
+                                    //   "Divesites",
+                                    //   style: TextStyle(fontSize: 20),
+                                    // ),
+                                    // SizedBox(height: 20),
+                                    SingleChildScrollView(
+                                        child: Container(
+                                            child: Column(children: <Widget>[
+                                      Container(
+                                          child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16.0, vertical: 24.0),
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.25,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: details[widget.index]
+                                              .diveSites
+                                              .length,
+                                          itemBuilder: (context, each) {
+                                            return Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.25,
+                                              child: SingleChildScrollView(
+                                                child: Card(
+                                                  color: Colors.deepPurple[100],
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            12.0),
+                                                  ),
+                                                  // elevation: 8,
+                                                  child: Container(
+                                                    child: Column(
                                                       children: [
-                                                        Text("Name : " +
-                                                            details[widget
-                                                                    .index]
-                                                                .diveSites[each]
-                                                                .name),
-                                                        // Text("Description : " +
-                                                        //     details[widget.index]
-                                                        //         .diveSites[each]
-                                                        //         .description),
-                                                        Container(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          width: 500,
-                                                          child: Text(
-                                                            "Description : " +
+                                                        SizedBox(height: 20),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text("Name : " +
                                                                 details[widget
                                                                         .index]
                                                                     .diveSites[
                                                                         each]
-                                                                    .description,
-                                                            maxLines: 20,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                          ),
+                                                                    .name),
+                                                            // Text("Description : " +
+                                                            //     details[widget.index]
+                                                            //         .diveSites[each]
+                                                            //         .description),
+                                                            Container(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              width: 500,
+                                                              child: Text(
+                                                                "Description : " +
+                                                                    details[widget
+                                                                            .index]
+                                                                        .diveSites[
+                                                                            each]
+                                                                        .description,
+                                                                maxLines: 20,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ),
+                                                            Text("Max Dept : " +
+                                                                details[widget
+                                                                        .index]
+                                                                    .diveSites[
+                                                                        each]
+                                                                    .maxDepth
+                                                                    .toString()),
+                                                            Text("Min Dept : " +
+                                                                details[widget
+                                                                        .index]
+                                                                    .diveSites[
+                                                                        each]
+                                                                    .minDepth
+                                                                    .toString()),
+                                                          ],
                                                         ),
-                                                        Text("Max Dept : " +
-                                                            details[widget
-                                                                    .index]
-                                                                .diveSites[each]
-                                                                .maxDepth
-                                                                .toString()),
-                                                        Text("Min Dept : " +
-                                                            details[widget
-                                                                    .index]
-                                                                .diveSites[each]
-                                                                .minDepth
-                                                                .toString()),
+                                                        SizedBox(height: 20),
                                                       ],
                                                     ),
-                                                    SizedBox(height: 20),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ))
-                                ])))
-                              ]);
+                                            );
+                                          },
+                                        ),
+                                      ))
+                                    ])))
+                                  ]);
                             } else {
                               return Align(
                                   alignment: Alignment.center,
-                                  child: Text(' '));
+                                  child: Text('no divesites'));
                             }
                           },
                         ),
@@ -821,7 +818,7 @@ class _detailState extends State<detail> {
                               ),
                             );
                           } else {
-                            return Center(child: Text(' '));
+                            return Center(child: Text('no trip images'));
                           }
                         },
                       ),
