@@ -14,35 +14,33 @@ import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
 import 'package:fixnum/fixnum.dart';
 
-class AddMoreAmenityNew extends StatefulWidget {
+class AddMoreAmenityNewLiveAboard extends StatefulWidget {
   List<List<Amenity>> blueValue;
-
+  final customFunction;
   int pinkcount;
-  AddMoreAmenityNew(
-    int pinkcount,
-    List<List<Amenity>> blueValue,
-  ) {
+  Liveaboard eachLiveaboard;
+  AddMoreAmenityNewLiveAboard(int pinkcount, List<List<Amenity>> blueValue,
+      Liveaboard eachLiveaboard, this.customFunction) {
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.eachLiveaboard = eachLiveaboard;
   }
   @override
-  _AddMoreAmenityState createState() => _AddMoreAmenityState(
-        this.pinkcount,
-        this.blueValue,
-      );
+  _AddMoreAmenityState createState() =>
+      _AddMoreAmenityState(this.pinkcount, this.blueValue, this.eachLiveaboard);
 }
 
-class _AddMoreAmenityState extends State<AddMoreAmenityNew> {
+class _AddMoreAmenityState extends State<AddMoreAmenityNewLiveAboard> {
   int bluecount = 1;
   int pinkcount;
   List<List<Amenity>> blueValue;
   List<String> errors = [];
+  Liveaboard eachLiveaboard;
   _AddMoreAmenityState(
-    int pinkcount,
-    List<List<Amenity>> blueValue,
-  ) {
+      int pinkcount, List<List<Amenity>> blueValue, Liveaboard eachLiveaboard) {
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.eachLiveaboard = eachLiveaboard;
   }
   @override
   Widget build(BuildContext context) {
@@ -55,7 +53,8 @@ class _AddMoreAmenityState extends State<AddMoreAmenityNew> {
             shrinkWrap: true,
             itemCount: bluecount,
             itemBuilder: (BuildContext context, int index) {
-              return amenityFormNew(bluecount, pinkcount, this.blueValue);
+              return amenityFormNew(bluecount, pinkcount, this.blueValue,
+                  this.eachLiveaboard, widget.customFunction);
             }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -92,6 +91,10 @@ class _AddMoreAmenityState extends State<AddMoreAmenityNew> {
           ],
         ),
         SizedBox(height: 30),
+        FlatButton(onPressed: () {
+          print(eachLiveaboard.roomTypes[pinkcount].amenities);
+          // print(hotelDetial.hotel.roomTypes[pinkcount].amenities);
+        }),
       ])),
     );
   }
@@ -101,22 +104,19 @@ class amenityFormNew extends StatefulWidget {
   int bluecount;
   int pinkcount;
   List<List<Amenity>> blueValue;
+  final customFunction;
+  Liveaboard eachLiveaboard;
 
-  amenityFormNew(
-    int blue,
-    int pinkcount,
-    List<List<Amenity>> blueValue,
-  ) {
+  amenityFormNew(int blue, int pinkcount, List<List<Amenity>> blueValue,
+      Liveaboard eachLiveaboard, this.customFunction) {
     this.bluecount = blue;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.eachLiveaboard = eachLiveaboard;
   }
   @override
   _amenityFormState createState() => _amenityFormState(
-        this.bluecount,
-        this.pinkcount,
-        this.blueValue,
-      );
+      this.bluecount, this.pinkcount, this.blueValue, this.eachLiveaboard);
 }
 
 class _amenityFormState extends State<amenityFormNew> {
@@ -130,15 +130,18 @@ class _amenityFormState extends State<amenityFormNew> {
   List<String> amenity = [];
   String amenitySelected;
   Map<String, dynamic> amenityMap = {};
+  Liveaboard eachLiveaboard;
 
   _amenityFormState(
     int bluecount,
     int pinkcount,
     List<List<Amenity>> blueValue,
+    Liveaboard eachLiveaboard,
   ) {
     this.bluecount = bluecount;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
+    this.eachLiveaboard = eachLiveaboard;
   }
 
   @override
@@ -195,7 +198,7 @@ class _amenityFormState extends State<amenityFormNew> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          Text((bluecount-1).toString()),
+          Text((bluecount - 1).toString()),
           SizedBox(height: 20),
           Container(
             color: Color(0xfffd4f0f0),
@@ -212,20 +215,23 @@ class _amenityFormState extends State<amenityFormNew> {
                   if (value != null) {
                     setState(() {
                       amenitySelected = value;
-                      // print(amenitySelected);
-                      // print(amenity);
                       amenity.forEach((element) {
-                        // print(amenity);
-                        // print('d');
-                        // print(element);
-                        // print(amenityMap[element]);
-                        // print(amenitySelected);
                         if (element == amenitySelected) {
-                          // print(amenityMap[element]);
-                          blueValue[pinkcount][bluecount-1].name =
-                              amenitySelected;
-                          blueValue[pinkcount][bluecount-1].id =
-                              amenityMap[element];
+                          print(pinkcount);
+                          var am = Amenity();
+                          am.name = amenitySelected;
+                          am.id = amenityMap[element];
+                          print(am);
+                          // print(eachLiveaboard.roomTypes);
+                          eachLiveaboard.roomTypes[pinkcount].amenities.add(am);
+                          eachLiveaboard.roomTypes[pinkcount]
+                              .amenities[bluecount - 1].name = amenitySelected;
+                          eachLiveaboard
+                              .roomTypes[pinkcount]
+                              .amenities[bluecount - 1]
+                              .id = amenityMap[element];
+                          widget.customFunction(
+                              eachLiveaboard.roomTypes[pinkcount].amenities);
                         }
                       });
                     });

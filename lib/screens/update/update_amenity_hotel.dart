@@ -314,6 +314,8 @@ class _InfoCardState extends State<InfoCard> {
                             amenitySelected;
                         eachHotel.roomTypes[pinkcount].amenities[index].id =
                             amenityMap[element];
+                        // print('gg');
+                        // print( eachHotel.roomTypes[pinkcount].amenities[index]);
                         widget.customFunction(
                             eachHotel.roomTypes[pinkcount].amenities);
                       }

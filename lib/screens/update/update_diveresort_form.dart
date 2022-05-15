@@ -316,13 +316,13 @@ class _editHotelFormState extends State<editHotelForm> {
     print(pinkValue.length);
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
-      // for (int j = 0; j < blueValue[i].length; j++) {
-      //   var amenity = Amenity();
-      //   amenity.id = blueValue[i][j].id;
-      //   amenity.name = blueValue[i][j].name;
+      for (int j = 0; j < pinkValue[i].amenities.length; j++) {
+        var amenity = Amenity();
+        amenity.id = pinkValue[i].amenities[j].id;
+        amenity.name = pinkValue[i].amenities[j].name;
 
-      //   room.amenities.add(amenity);
-      // }
+        room.amenities.add(amenity);
+      }
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;

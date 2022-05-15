@@ -12,7 +12,8 @@ import 'package:diving_trip_agency/screens/main/components/hamburger_company.dar
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
-import 'package:diving_trip_agency/screens/update/add_new_amenity.dart';
+import 'package:diving_trip_agency/screens/update/add_new_amenity_hotel.dart';
+import 'package:diving_trip_agency/screens/update/add_new_amenity_liveaboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -337,6 +338,13 @@ class _InfoCardState extends State<InfoCard> {
     });
   }
 
+  List<Amenity> amValue = [];
+  void getAMValue(am) {
+    setState(() {
+      amValue = am;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -359,9 +367,7 @@ class _InfoCardState extends State<InfoCard> {
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreAmenityUpdateLiveaboard(
-              this.eachLiveaboard,
-              this.index,
-            ),
+                this.eachLiveaboard, this.index, getAMValue),
           ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
@@ -630,7 +636,7 @@ class _RoomFormState extends State<RoomForm> {
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
     this.indexForm = indexForm;
-    this.eachLiveaboard=eachLiveaboard;
+    this.eachLiveaboard = eachLiveaboard;
   }
 
   final TextEditingController _controllerRoomdescription =
@@ -670,6 +676,13 @@ class _RoomFormState extends State<RoomForm> {
     }
   }
 
+  List<Amenity> amValue = [];
+  void getAMValue(am) {
+    setState(() {
+      amValue = am;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -691,7 +704,8 @@ class _RoomFormState extends State<RoomForm> {
             decoration: BoxDecoration(
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreAmenityNew(this.indexForm, this.blueValue),
+            child: AddMoreAmenityNewLiveAboard(this.indexForm, this.blueValue,
+                this.eachLiveaboard, getAMValue),
           ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
@@ -835,7 +849,7 @@ class _RoomFormState extends State<RoomForm> {
               ),
               onPressed: () {
                 print('aa');
-                 print(eachLiveaboard.roomTypes);
+                print(eachLiveaboard.roomTypes);
                 var rt = RoomType();
                 rt.name = room_name;
                 rt.description = room_description;

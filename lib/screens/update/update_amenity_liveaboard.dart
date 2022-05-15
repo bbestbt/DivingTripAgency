@@ -12,14 +12,15 @@ class AddMoreAmenityUpdateLiveaboard extends StatefulWidget {
   List<List<Amenity>> blueValue;
   Liveaboard eachLiveaboard;
   int bluecount;
-
+  final customFunction;
   int pinkcount;
   AddMoreAmenityUpdateLiveaboard(
-    Liveaboard eachLiveaboard,
-    // int bluecount,
-    int pinkcount,
-    // List<List<Amenity>> blueValue,
-  ) {
+      Liveaboard eachLiveaboard,
+      // int bluecount,
+      int pinkcount,
+      this.customFunction
+      // List<List<Amenity>> blueValue,
+      ) {
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
     this.eachLiveaboard = eachLiveaboard;
@@ -54,7 +55,7 @@ class _AddMoreAmenityUpdateLiveaboardState
       child: SingleChildScrollView(
           child: Column(children: [
         updateAmenityLiveaboardForm(this.eachLiveaboard, this.bluecount,
-            this.pinkcount, this.blueValue),
+            this.pinkcount, this.blueValue, widget.customFunction),
         ListView.separated(
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
@@ -67,7 +68,9 @@ class _AddMoreAmenityUpdateLiveaboardState
                   this.blueValue,
                   index +
                       liveaboardDetial
-                          .liveaboard.roomTypes[pinkcount].amenities.length);
+                          .liveaboard.roomTypes[pinkcount].amenities.length,
+                  this.eachLiveaboard,
+                  widget.customFunction);
             }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +108,7 @@ class _AddMoreAmenityUpdateLiveaboardState
         ),
         SizedBox(height: 30),
         FlatButton(onPressed: () {
-          print(liveaboardDetial.liveaboard.roomTypes[pinkcount].amenities);
+          print(eachLiveaboard.roomTypes[pinkcount].amenities);
         }),
       ])),
     );
@@ -120,13 +123,9 @@ class updateAmenityLiveaboardForm extends StatefulWidget {
   int pinkcount;
   List<List<Amenity>> blueValue;
   Liveaboard eachLiveaboard;
-
-  updateAmenityLiveaboardForm(
-    Liveaboard eachLiveaboard,
-    int blue,
-    int pinkcount,
-    List<List<Amenity>> blueValue,
-  ) {
+  final customFunction;
+  updateAmenityLiveaboardForm(Liveaboard eachLiveaboard, int blue,
+      int pinkcount, List<List<Amenity>> blueValue, this.customFunction) {
     this.eachLiveaboard = eachLiveaboard;
     this.bluecount = blue;
     this.pinkcount = pinkcount;
@@ -195,7 +194,8 @@ class _updateAmenityLiveaboardFormState
                 children: List.generate(
                   liveaboardDetial
                       .liveaboard.roomTypes[pinkcount].amenities.length,
-                  (index) => InfoCard(index, blueValue, pinkcount),
+                  (index) => InfoCard(index, blueValue, pinkcount,
+                      eachLiveaboard, widget.customFunction),
                 ));
           } else {
             return Center(child: Text('No amenity'));
@@ -213,16 +213,19 @@ class InfoCard extends StatefulWidget {
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
   int bluecount;
-
-  InfoCard(int index, List<List<Amenity>> blueValue, int pinkcount) {
+  Liveaboard eachLiveaboard;
+  final customFunction;
+  InfoCard(int index, List<List<Amenity>> blueValue, int pinkcount,
+      Liveaboard eachLiveaboard, this.customFunction) {
     this.index = index;
     this.blueValue = blueValue;
     this.pinkcount = pinkcount;
+    this.eachLiveaboard = eachLiveaboard;
   }
 
   @override
-  State<InfoCard> createState() =>
-      _InfoCardState(this.index, this.blueValue, this.pinkcount);
+  State<InfoCard> createState() => _InfoCardState(
+      this.index, this.blueValue, this.pinkcount, this.eachLiveaboard);
 }
 
 class _InfoCardState extends State<InfoCard> {
@@ -233,7 +236,9 @@ class _InfoCardState extends State<InfoCard> {
   List<String> amenity = [];
   String amenitySelected;
   Map<String, dynamic> amenityMap = {};
-  _InfoCardState(this.index, this.blueValue, this.pinkcount);
+  Liveaboard eachLiveaboard;
+  _InfoCardState(
+      this.index, this.blueValue, this.pinkcount, this.eachLiveaboard);
 
   getAmenity() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -305,10 +310,13 @@ class _InfoCardState extends State<InfoCard> {
                     amenitySelected = value;
                     amenity.forEach((element) {
                       if (element == amenitySelected) {
-                        liveaboardDetial.liveaboard.roomTypes[pinkcount]
-                            .amenities[index].name = amenitySelected;
-                        liveaboardDetial.liveaboard.roomTypes[pinkcount]
-                            .amenities[index].id = amenityMap[element];
+                        eachLiveaboard.roomTypes[pinkcount].amenities[index]
+                            .name = amenitySelected;
+                        eachLiveaboard.roomTypes[pinkcount].amenities[index]
+                            .id = amenityMap[element];
+                        print(eachLiveaboard);
+                        widget.customFunction(
+                            eachLiveaboard.roomTypes[pinkcount].amenities);
                       }
                     });
                   });
@@ -327,17 +335,19 @@ class amenityForm extends StatefulWidget {
   int pinkcount;
   List<List<Amenity>> blueValue;
   int indexForm;
-
-  amenityForm(
-      int blue, int pinkcount, List<List<Amenity>> blueValue, int indexForm) {
+  Liveaboard eachLiveaboard;
+  final customFunction;
+  amenityForm(int blue, int pinkcount, List<List<Amenity>> blueValue,
+      int indexForm, Liveaboard eachLiveaboard, this.customFunction) {
     this.bluecount = blue;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
     this.indexForm = indexForm;
+    this.eachLiveaboard = eachLiveaboard;
   }
   @override
-  _amenityFormState createState() => _amenityFormState(
-      this.bluecount, this.pinkcount, this.blueValue, this.indexForm);
+  _amenityFormState createState() => _amenityFormState(this.bluecount,
+      this.pinkcount, this.blueValue, this.indexForm, this.eachLiveaboard);
 }
 
 class _amenityFormState extends State<amenityForm> {
@@ -351,13 +361,15 @@ class _amenityFormState extends State<amenityForm> {
   List<String> amenity = [];
   String amenitySelected;
   Map<String, dynamic> amenityMap = {};
+  Liveaboard eachLiveaboard;
 
   _amenityFormState(int bluecount, int pinkcount, List<List<Amenity>> blueValue,
-      int indexForm) {
+      int indexForm, Liveaboard eachLiveaboard) {
     this.bluecount = bluecount;
     this.pinkcount = pinkcount;
     this.blueValue = blueValue;
     this.indexForm = indexForm;
+    this.eachLiveaboard = eachLiveaboard;
   }
 
   @override
@@ -426,7 +438,7 @@ class _amenityFormState extends State<amenityForm> {
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
-                       //พัง
+                      //พัง
                       amenitySelected = value;
                       // print(amenitySelected);
                       // print(amenity);
@@ -437,11 +449,16 @@ class _amenityFormState extends State<amenityForm> {
                         // print(amenityMap[element]);
                         // print(amenitySelected);
                         if (element == amenitySelected) {
-                          // print(amenityMap[element]);
-                          // blueValue[pinkcount - 1][bluecount - 1].name =
-                          //     amenitySelected;
-                          // blueValue[pinkcount - 1][bluecount - 1].id =
-                          //     amenityMap[element];
+                          var am = Amenity();
+                          am.name = amenitySelected;
+                          am.id = amenityMap[element];
+                          eachLiveaboard.roomTypes[pinkcount].amenities.add(am);
+                          eachLiveaboard.roomTypes[pinkcount]
+                              .amenities[indexForm].name = amenitySelected;
+                          eachLiveaboard.roomTypes[pinkcount]
+                              .amenities[indexForm].id = amenityMap[element];
+                          widget.customFunction(
+                              eachLiveaboard.roomTypes[pinkcount].amenities);
                         }
                       });
                     });
