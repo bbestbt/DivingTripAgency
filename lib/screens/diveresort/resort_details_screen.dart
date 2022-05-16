@@ -103,7 +103,7 @@ class _DiveResortDetailScreenState extends State<DiveResortDetailScreen> {
             child: Column(
               children: [
                 Header(),
-                SizedBox(height: 30),
+                // SizedBox(height: 30),
                 detail(this.index, this.details),
               ],
             ),
@@ -474,15 +474,54 @@ class _detailState extends State<detail> {
       : _state == AppState.DOWNLOADING
           ? contentDownloading()
           : contentNotDownloaded();
+  CarouselController carouselController = new CarouselController();
 
   @override
   Widget build(BuildContext context) {
     // print(details[widget.index].tripTemplate.images);
     return Column(
       children: [
-        SectionTitle(
-          title: "Dive resorts",
-          color: Color(0xFFFF78a2cc),
+        // SectionTitle(
+        //   title: "Dive resorts",
+        //   color: Color(0xFFFF78a2cc),
+        // ),
+
+        FutureBuilder(
+          future: getHotelDetail(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Container(
+                  height: MediaQuery.of(context).size.height / 1.5,
+                  padding: EdgeInsets.only(top: 50),
+                  child: Stack(
+                    children: [
+                      CarouselSlider(
+                          items: details[widget.index]
+                              .tripTemplate
+                              .images
+                              .map((e) => Container(
+                                    child: ClipRRect(
+                                      child: Image.network(
+                                        e.link.toString(),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ))
+                              .toList(),
+                          options: CarouselOptions(
+                              enlargeCenterPage: true,
+                              autoPlay: true,
+                              aspectRatio: 18 / 8)),
+                      AspectRatio(
+                        aspectRatio: 18 / 8,
+                      )
+                    ],
+                  ));
+            } else {
+              return Center(child: Text('no trip images'));
+            }
+          },
         ),
 
         Container(
@@ -496,243 +535,161 @@ class _detailState extends State<detail> {
                 child: LayoutBuilder(
                   builder: (context, constraints) => Container(
                     child: Center(
-                      child: SizedBox(
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 2,
                         width: MediaQuery.of(context).size.width / 2,
                         child: FutureBuilder(
                           future: getHotelDetail(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("Trip name : " +
-                                      details[widget.index].tripTemplate.name),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text("Hotel : " +
-                                      // details[widget.index].tripTemplate.hotelId.toString()),
-                                      hotelDetial.hotel.name),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text("From : " +
-                                      DateFormat("dd/MM/yyyy").format(
-                                          details[widget.index]
-                                              .startDate
-                                              .toDateTime())),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text("To : " +
-                                      DateFormat("dd/MM/yyyy").format(
-                                          details[widget.index]
-                                              .endDate
-                                              .toDateTime())),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text("Address : " +
-                                      details[widget.index]
-                                          .tripTemplate
-                                          .address
-                                          .addressLine1),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text("Address2 : " +
-                                      details[widget.index]
-                                          .tripTemplate
-                                          .address
-                                          .addressLine2),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text('City : ' +
-                                      details[widget.index]
-                                          .tripTemplate
-                                          .address
-                                          .city),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text("Country : " +
-                                      details[widget.index]
-                                          .tripTemplate
-                                          .address
-                                          .country),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text('Region : ' +
-                                      details[widget.index]
-                                          .tripTemplate
-                                          .address
-                                          .region),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text('Postcode : ' +
-                                      details[widget.index]
-                                          .tripTemplate
-                                          .address
-                                          .postcode),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Text(
-                                        "Description : " +
+                              return SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Trip name : " +
+                                        details[widget.index]
+                                            .tripTemplate
+                                            .name),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text("Hotel : " +
+                                        // details[widget.index].tripTemplate.hotelId.toString()),
+                                        hotelDetial.hotel.name),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text("From : " +
+                                        DateFormat("dd/MM/yyyy").format(
                                             details[widget.index]
-                                                .tripTemplate
-                                                .description,
-                                        // textAlign: TextAlign.center,
-                                        maxLines: 20,
-                                        overflow: TextOverflow.ellipsis,
-                                      )),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SingleChildScrollView(
-                                      child: Container(
-                                          child: Column(children: <Widget>[
+                                                .startDate
+                                                .toDateTime())),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text("To : " +
+                                        DateFormat("dd/MM/yyyy").format(
+                                            details[widget.index]
+                                                .endDate
+                                                .toDateTime())),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text("Address : " +
+                                        details[widget.index]
+                                            .tripTemplate
+                                            .address
+                                            .addressLine1),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text("Address2 : " +
+                                        details[widget.index]
+                                            .tripTemplate
+                                            .address
+                                            .addressLine2),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text('City : ' +
+                                        details[widget.index]
+                                            .tripTemplate
+                                            .address
+                                            .city),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text("Country : " +
+                                        details[widget.index]
+                                            .tripTemplate
+                                            .address
+                                            .country),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text('Region : ' +
+                                        details[widget.index]
+                                            .tripTemplate
+                                            .address
+                                            .region),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text('Postcode : ' +
+                                        details[widget.index]
+                                            .tripTemplate
+                                            .address
+                                            .postcode),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
                                     Container(
-                                        child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.0, vertical: 24.0),
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.25,
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: details[widget.index]
-                                            .diveSites
-                                            .length,
-                                        itemBuilder: (context, each) {
-                                          return Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.25,
-                                            child: SingleChildScrollView(
-                                              child: Card(
-                                                color: Colors.deepPurple[100],
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          12.0),
-                                                ),
-                                                // elevation: 8,
-                                                child: Container(
-                                                  child: Column(
-                                                    children: [
-                                                      SizedBox(height: 20),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Text("Name : " +
-                                                              details[widget
-                                                                      .index]
-                                                                  .diveSites[
-                                                                      each]
-                                                                  .name),
-                                                          Container(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            width: 500,
-                                                            child: Text(
-                                                              "Description : " +
-                                                                  details[widget
-                                                                          .index]
-                                                                      .diveSites[
-                                                                          each]
-                                                                      .description,
-                                                              maxLines: 20,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                            ),
-                                                          ),
-                                                          Text("Max Dept : " +
-                                                              details[widget
-                                                                      .index]
-                                                                  .diveSites[
-                                                                      each]
-                                                                  .maxDepth
-                                                                  .toString()),
-                                                          Text("Min Dept : " +
-                                                              details[widget
-                                                                      .index]
-                                                                  .diveSites[
-                                                                      each]
-                                                                  .minDepth
-                                                                  .toString()),
-                                                        ],
-                                                      ),
-                                                      SizedBox(height: 20),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ))
-                                  ]))),
-                                  // Text("Price : " + details[widget.index].price.toString()),
-                                  // SizedBox(
-                                  //   height: 10,
-                                  // ),
-                                  // SingleChildScrollView(
-                                  //   scrollDirection: Axis.horizontal,
-                                  //   child: Row(
-                                  //     mainAxisAlignment: MainAxisAlignment.center,
-                                  //     children: [
-                                  //       SizedBox(
-                                  //         width: 10,
-                                  //       ),
-                                  //       Container(
-                                  //         width: MediaQuery.of(context).size.width,
-                                  //         height: MediaQuery.of(context).size.height / 5,
-                                  //         child: ListView.builder(
-                                  //           scrollDirection: Axis.horizontal,
-                                  //           itemBuilder: (BuildContext ctx, int each) {
-                                  //             return SingleChildScrollView(
-                                  //               scrollDirection: Axis.horizontal,
-                                  //               child: Row(
-                                  //                 children: [
-                                  //                   Container(
-                                  //                     width:
-                                  //                         MediaQuery.of(context).size.width /
-                                  //                             5,
-                                  //                     height:
-                                  //                         MediaQuery.of(context).size.height /
-                                  //                             5,
-                                  //                     child: Image.network(
-                                  //                         details[widget.index]
-                                  //                             .tripTemplate
-                                  //                             .images[each]
-                                  //                             .link
-                                  //                             .toString()),
-                                  //                   ),
-                                  //                 ],
-                                  //               ),
-                                  //             );
-                                  //           },
-                                  //           itemCount: details[widget.index]
-                                  //               .tripTemplate
-                                  //               .images
-                                  //               .length,
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                ],
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Text(
+                                          "Description : " +
+                                              details[widget.index]
+                                                  .tripTemplate
+                                                  .description,
+                                          // textAlign: TextAlign.center,
+                                          maxLines: 20,
+                                          overflow: TextOverflow.ellipsis,
+                                        )),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+
+                                    // Text("Price : " + details[widget.index].price.toString()),
+                                    // SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    // SingleChildScrollView(
+                                    //   scrollDirection: Axis.horizontal,
+                                    //   child: Row(
+                                    //     mainAxisAlignment: MainAxisAlignment.center,
+                                    //     children: [
+                                    //       SizedBox(
+                                    //         width: 10,
+                                    //       ),
+                                    //       Container(
+                                    //         width: MediaQuery.of(context).size.width,
+                                    //         height: MediaQuery.of(context).size.height / 5,
+                                    //         child: ListView.builder(
+                                    //           scrollDirection: Axis.horizontal,
+                                    //           itemBuilder: (BuildContext ctx, int each) {
+                                    //             return SingleChildScrollView(
+                                    //               scrollDirection: Axis.horizontal,
+                                    //               child: Row(
+                                    //                 children: [
+                                    //                   Container(
+                                    //                     width:
+                                    //                         MediaQuery.of(context).size.width /
+                                    //                             5,
+                                    //                     height:
+                                    //                         MediaQuery.of(context).size.height /
+                                    //                             5,
+                                    //                     child: Image.network(
+                                    //                         details[widget.index]
+                                    //                             .tripTemplate
+                                    //                             .images[each]
+                                    //                             .link
+                                    //                             .toString()),
+                                    //                   ),
+                                    //                 ],
+                                    //               ),
+                                    //             );
+                                    //           },
+                                    //           itemCount: details[widget.index]
+                                    //               .tripTemplate
+                                    //               .images
+                                    //               .length,
+                                    //         ),
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
                               );
                             } else {
                               return Align(
@@ -761,29 +718,121 @@ class _detailState extends State<detail> {
                             return Center(
                                 child: Column(
                               children: [
-                                Container(
-                                  child: CarouselSlider(
-                                    options: CarouselOptions(
-                                      enlargeCenterPage: true,
-                                      enableInfiniteScroll: false,
-                                      autoPlay: true,
-                                    ),
-                                    items: details[widget.index]
-                                        .tripTemplate
-                                        .images
-                                        .map((e) =>
-                                            //  Text(e.filename)
-                                            Container(
-                                              width: 500,
-                                              height: 500,
-                                              child: Image.network(
-                                                e.link.toString(),
-                                                // fit: BoxFit.cover,
-                                              ),
-                                            ))
-                                        .toList(),
-                                  ),
+                                Text(
+                                  "Divesites",
+                                  style: TextStyle(fontSize: 20),
                                 ),
+                                // SizedBox(height: 10),
+                                SingleChildScrollView(
+                                    child: Container(
+                                        child: Column(children: <Widget>[
+                                  Container(
+                                      child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 16.0, vertical: 24.0),
+                                    // height:
+                                    //     MediaQuery.of(context).size.height *
+                                    //         0.25,
+                                    height:
+                                        MediaQuery.of(context).size.height / 2,
+                                    child: ListView.builder(
+                                      // scrollDirection: Axis.horizontal,
+                                      itemCount: details[widget.index]
+                                          .diveSites
+                                          .length,
+                                      itemBuilder: (context, each) {
+                                        return Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.25,
+                                          child: SingleChildScrollView(
+                                            child: Card(
+                                              color: Colors.deepPurple[100],
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
+                                              ),
+                                              // elevation: 8,
+                                              child: Container(
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(height: 20),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Text("Name : " +
+                                                            details[widget
+                                                                    .index]
+                                                                .diveSites[each]
+                                                                .name),
+                                                        Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          width: 500,
+                                                          child: Text(
+                                                            "Description : " +
+                                                                details[widget
+                                                                        .index]
+                                                                    .diveSites[
+                                                                        each]
+                                                                    .description,
+                                                            maxLines: 20,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                          ),
+                                                        ),
+                                                        Text("Max Dept : " +
+                                                            details[widget
+                                                                    .index]
+                                                                .diveSites[each]
+                                                                .maxDepth
+                                                                .toString()),
+                                                        Text("Min Dept : " +
+                                                            details[widget
+                                                                    .index]
+                                                                .diveSites[each]
+                                                                .minDepth
+                                                                .toString()),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 20),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ))
+                                ]))),
+                                // Container(
+                                //   child: CarouselSlider(
+                                //     options: CarouselOptions(
+                                //       enlargeCenterPage: true,
+                                //       enableInfiniteScroll: false,
+                                //       autoPlay: true,
+                                //     ),
+                                //     items: details[widget.index]
+                                //         .tripTemplate
+                                //         .images
+                                //         .map((e) =>
+                                //             //  Text(e.filename)
+                                //             Container(
+                                //               width: 500,
+                                //               height: 500,
+                                //               child: Image.network(
+                                //                 e.link.toString(),
+                                //                 // fit: BoxFit.cover,
+                                //               ),
+                                //             ))
+                                //         .toList(),
+                                //   ),
+                                // ),
                                 // Text(
                                 //   "Trip images",
                                 //   style: TextStyle(fontSize: 20),
@@ -830,100 +879,10 @@ class _detailState extends State<detail> {
                                 //   ),
                                 // ),
                                 SizedBox(height: 20),
-                                // Text(
-                                //   "Boat image",
-                                //   style: TextStyle(fontSize: 20),
-                                // ),
-                                // SizedBox(height: 20),
-                                FutureBuilder(
-                                  future: getBoat(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      return SingleChildScrollView(
-                                        child: Container(
-                                          child: Column(
-                                            children: <Widget>[
-                                              Container(
-                                                child: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 16.0,
-                                                      vertical: 24.0),
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.50,
-                                                  child: Container(
-                                                    child: CarouselSlider(
-                                                      options: CarouselOptions(
-                                                        enlargeCenterPage: true,
-                                                        enableInfiniteScroll:
-                                                            false,
-                                                        autoPlay: true,
-                                                      ),
-                                                      items: boatDetial
-                                                          .boat.images
-                                                          .map((e) =>
-                                                              //  Text(e.filename)
-                                                              Container(
-                                                                width: 500,
-                                                                height: 500,
-                                                                child: Image
-                                                                    .network(
-                                                                  e.link
-                                                                      .toString(),
 
-                                                                  // fit: BoxFit.cover,
-                                                                ),
-                                                              ))
-                                                          .toList(),
-                                                    ),
-                                                  ),
-                                                  //  ListView.builder(
-                                                  //   scrollDirection:
-                                                  //       Axis.horizontal,
-                                                  //   itemCount: boatDetial
-                                                  //       .boat.images.length,
-                                                  //   itemBuilder: (context, each) {
-                                                  //     return Container(
-                                                  //       width:
-                                                  //           MediaQuery.of(context)
-                                                  //                   .size
-                                                  //                   .width *
-                                                  //               0.5,
-                                                  //       child: Card(
-                                                  //         child: Container(
-                                                  //           child: Image.network(
-                                                  //               boatDetial
-                                                  //                   .boat
-                                                  //                   .images[each]
-                                                  //                   .link
-                                                  //                   .toString()),
-                                                  //         ),
-                                                  //       ),
-                                                  //     );
-                                                  //   },
-                                                  // ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      return Center(child: Text('no boat images'));
-                                    }
-                                  },
+                                SizedBox(
+                                  height: 10,
                                 ),
-                                // SizedBox(height: 20),
-                                // Text(
-                                //   "Divesites",
-                                //   style: TextStyle(fontSize: 20),
-                                // ),
-                                SizedBox(height: 20),
-
-                                // SizedBox(
-                                //   height: 10,
-                                // ),
                               ],
                             ));
                           } else {
@@ -938,7 +897,111 @@ class _detailState extends State<detail> {
             ],
           ),
         ),
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 20),
+          constraints: BoxConstraints(maxWidth: 1110),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Boat images",
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+        ),
+        // SizedBox(height: 10),
+        Container(
+          // margin: EdgeInsets.symmetric(vertical: 20),
+          constraints: BoxConstraints(maxWidth: 1110),
+          child: FutureBuilder(
+            future: getBoat(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return SingleChildScrollView(
+                  child: Container(
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          child: Container(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 24.0),
+                              child: CarouselSlider(
+                                options: CarouselOptions(
+                                  enlargeCenterPage: false,
+                                ),
+                                carouselController: carouselController,
+                                items: boatDetial.boat.images
+                                    .map((e) => Container(
+                                          child: Image.network(
+                                            e.link.toString(),
 
+                                            // fit: BoxFit.cover,
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
+                            ),
+
+                            //  ListView.builder(
+                            //   scrollDirection:
+                            //       Axis.horizontal,
+                            //   itemCount: boatDetial
+                            //       .boat.images.length,
+                            //   itemBuilder: (context, each) {
+                            //     return Container(
+                            //       width:
+                            //           MediaQuery.of(context)
+                            //                   .size
+                            //                   .width *
+                            //               0.5,
+                            //       child: Card(
+                            //         child: Container(
+                            //           child: Image.network(
+                            //               boatDetial
+                            //                   .boat
+                            //                   .images[each]
+                            //                   .link
+                            //                   .toString()),
+                            //         ),
+                            //       ),
+                            //     );
+                            //   },
+                            // ),
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              RaisedButton(
+                                textColor: Colors.white,
+                                color: Colors.pink,
+                                child: Text("Previous"),
+                                onPressed: () {
+                                  carouselController.previousPage();
+                                },
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              RaisedButton(
+                                textColor: Colors.white,
+                                color: Colors.pink,
+                                child: Text("Next"),
+                                onPressed: () {
+                                  carouselController.nextPage();
+                                },
+                              ),
+                            ])
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                return Center(child: Text('no boat images'));
+              }
+            },
+          ),
+        ),
         // Container(
         //     width: MediaQuery.of(context).size.width / 4,
         //     height: MediaQuery.of(context).size.width / 4,
@@ -1065,9 +1128,16 @@ class _detailState extends State<detail> {
         //               borderRadius: BorderRadius.circular(10)),
         //           child: Text("get hotel"),
         //         ),
-        Text(
-          "Room types",
-          style: TextStyle(fontSize: 20),
+        Container(
+          // margin: EdgeInsets.symmetric(vertical: 20),
+          constraints: BoxConstraints(maxWidth: 1110),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Room types",
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
         ),
         SizedBox(height: 20),
         Container(
