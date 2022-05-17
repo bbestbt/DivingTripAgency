@@ -11,7 +11,7 @@ import 'package:diving_trip_agency/screens/main/components/hamburger_company.dar
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
-import 'package:diving_trip_agency/screens/update/add_new_amenity.dart';
+import 'package:diving_trip_agency/screens/update/add_new_amenity_hotel.dart';
 import 'package:diving_trip_agency/screens/update/update_amenity_hotel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -281,6 +281,11 @@ class _InfoCardState extends State<InfoCard> {
   String room_name;
   String quantity;
   XFile rroom;
+
+  XFile hroomX1;
+  XFile hroomX2;
+  XFile hroomX3;
+
   Hotel eachHotel;
   int pinkcount;
   int bluecount;
@@ -302,6 +307,52 @@ class _InfoCardState extends State<InfoCard> {
       maxWidth: 1800,
       maxHeight: 1800,
     );
+    if (hroomX1 != null) {
+      var f = File();
+      f.filename = Xhotel1.name;
+      List<int> a = await Xhotel1.readAsBytes();
+      f.file = a;
+      if (eachHotel.images.length >= 1) {
+        eachHotel.images.removeAt(0);
+      }
+      eachHotel.images.insert(0, f);
+    } else if (eachHotel.images.length >= 1) {
+      var f = File();
+      f.filename = eachHotel.images[0].filename;
+      //this.eachHotel.images.add(f);
+    }
+
+    if (hroomX2  != null) {
+      var f2 = File();
+      f2.filename = Xhotel2.name;
+      List<int> b = await Xhotel2.readAsBytes();
+      f2.file = b;
+      if (eachHotel.images.length >= 2) {
+        eachHotel.images.removeAt(1);
+      }
+      eachHotel.images.insert(1, f2);
+    } else if (eachHotel.images.length >= 2) {
+      var f2 = File();
+      f2.filename = eachHotel.images[1].filename;
+      //  this.eachHotel.images.add(f2);
+    }
+
+    if (hroomX3  != null) {
+      var f3 = File();
+      f3.filename = hroomX3.name;
+      List<int> c = await Xhotel3.readAsBytes();
+      f3.file = c;
+      if (eachHotel.images.length >= 3) {
+        eachHotel.images.removeAt(2);
+      }
+      eachHotel.images.insert(2, f3);
+    } else if (eachHotel.images.length >= 3) {
+      var f3 = File();
+      f3.filename = eachHotel.images[2].filename;
+      // this.eachHotel.images.add(f3);
+    }
+
+
     var f2 = File();
     f2.filename = rroom.name;
     //f2.filename = 'image.jpg';
@@ -312,9 +363,15 @@ class _InfoCardState extends State<InfoCard> {
 
     if (rroom != null) {
       setState(() {
-        if (num == 1) roomimg = io.File(rroom.path);
-        if (num == 2) roomimg2 = io.File(rroom.path);
-        if (num == 3) roomimg3 = io.File(rroom.path);
+        if (num == 1) {roomimg = io.File(rroom.path);
+        hroomX1 = rroom;
+        }
+        if (num == 2) {roomimg2 = io.File(rroom.path);
+        hroomX2 = rroom;
+        }
+        if (num == 3) {roomimg3 = io.File(rroom.path);
+        hroomX3 = rroom;
+        }
         //roomimg = io.File(rroom.path);
         // rroom = pickedFile;
       });
@@ -371,10 +428,122 @@ class _InfoCardState extends State<InfoCard> {
           Row(
             children: [
               Column(
+                children: [Text("image")],
+              ),
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
+                  child: eachHotel.images.length < 1
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachHotel.images[0].link.toString())),
+              SizedBox(width: 30),
+              Center(
+                  child: hroomX1 == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    roomimg.path,
+                    //eachHotel.images[0].link.toString(),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(roomimg.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getroomimg(1);
+                },
+              ),
+            ],
+          ),
+
+          Row(
+            children: [
+              Column(
+                children: [Text("image")],
+              ),
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
+                  child: eachHotel.images.length < 2
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachHotel.images[1].link.toString())),
+              SizedBox(width: 30),
+              Center(
+                  child: hroomX2 == null
+                      ? Column(
+                    children: [
+                      Text(''),
+                      Text(''),
+                    ],
+                  )
+                      : kIsWeb
+                      ? Image.network(
+                    roomimg2.path,
+                    //eachHotel.images[1].link.toString(),
+
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.2,
+                  )
+                      : Image.file(
+                    io.File(roomimg2.path),
+                    fit: BoxFit.cover,
+                    width: screenwidth * 0.05,
+                  )),
+              Spacer(),
+              FlatButton(
+                //color: Color(0xfffa2c8ff),
+                child: Ink(
+                    child: Container(
+                        color: Color(0xfffa2c8ff),
+                        constraints: const BoxConstraints(
+                            minWidth: 88.0, minHeight: 36.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Upload',
+                          style: TextStyle(fontSize: 15),
+                        ))),
+                onPressed: () {
+                  _getroomimg(2);
+                },
+              ),
+            ],
+          ),
+
+
+          Row(
+            children: [
+              Column(
                 children: [Text("Image")],
               ),
               Center(
-                  child: roomimg == null
+                  child: hroomX3 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -383,12 +552,12 @@ class _InfoCardState extends State<InfoCard> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              roomimg.path,
+                              roomimg3.path,
                               fit: BoxFit.cover,
                               width: screenwidth * 0.2,
                             )
                           : Image.file(
-                              io.File(roomimg.path),
+                              io.File(roomimg3.path),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.05,
                             )),
@@ -405,7 +574,7 @@ class _InfoCardState extends State<InfoCard> {
                           style: TextStyle(fontSize: 15),
                         ))),
                 onPressed: () {
-                  _getroomimg(1);
+                  _getroomimg(3);
                 },
               ),
             ],
@@ -690,6 +859,13 @@ class _RoomFormState extends State<RoomForm> {
     }
   }
 
+  List<Amenity> amValue = [];
+  void getAMValue(am) {
+    setState(() {
+      amValue = am;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -710,7 +886,8 @@ class _RoomFormState extends State<RoomForm> {
             decoration: BoxDecoration(
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreAmenityNew(this.indexForm, this.blueValue),
+            child: AddMoreAmenityNew(
+                this.indexForm, this.blueValue, this.eachHotel, getAMValue),
           ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),

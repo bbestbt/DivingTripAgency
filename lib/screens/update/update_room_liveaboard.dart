@@ -12,7 +12,8 @@ import 'package:diving_trip_agency/screens/main/components/hamburger_company.dar
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/main/main_screen_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
-import 'package:diving_trip_agency/screens/update/add_new_amenity.dart';
+import 'package:diving_trip_agency/screens/update/add_new_amenity_hotel.dart';
+import 'package:diving_trip_agency/screens/update/add_new_amenity_liveaboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -284,6 +285,9 @@ class _InfoCardState extends State<InfoCard> {
   String room_name;
   int quantity;
   XFile rroom;
+  XFile xlimg1;
+  XFile xlimg2;
+  XFile xlimg3;
   Liveaboard eachLiveaboard;
   int pinkcount;
   int bluecount;
@@ -318,9 +322,15 @@ class _InfoCardState extends State<InfoCard> {
 
     if (rroom != null) {
       setState(() {
-        if (num == 1) roomimg = io.File(rroom.path);
-        if (num == 2) roomimg2 = io.File(rroom.path);
-        if (num == 3) roomimg3 = io.File(rroom.path);
+        if (num == 1) {roomimg = io.File(rroom.path);
+        xlimg1 = rroom;
+        }
+        if (num == 2) {roomimg2 = io.File(rroom.path);
+        xlimg2 = rroom;
+        }
+        if (num == 3) {roomimg3 = io.File(rroom.path);
+        xlimg3 = rroom;
+        }
         //roomimg = io.File(rroom.path);
         // rroom = pickedFile;
       });
@@ -334,6 +344,13 @@ class _InfoCardState extends State<InfoCard> {
       _controllerMax.text = allRoom[index].maxGuest.toString();
       _controllerRoomname.text = allRoom[index].name;
       _controllerQuantity.text = allRoom[index].quantity.toString();
+    });
+  }
+
+  List<Amenity> amValue = [];
+  void getAMValue(am) {
+    setState(() {
+      amValue = am;
     });
   }
 
@@ -359,9 +376,7 @@ class _InfoCardState extends State<InfoCard> {
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreAmenityUpdateLiveaboard(
-              this.eachLiveaboard,
-              this.index,
-            ),
+                this.eachLiveaboard, this.index, getAMValue),
           ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
@@ -624,13 +639,17 @@ class _RoomFormState extends State<RoomForm> {
   Liveaboard eachLiveaboard;
 
   XFile rroom;
+  XFile Xrimg1;
+  XFile Xrimg2;
+  XFile Xrimg3;
+
   _RoomFormState(int pinkcount, List<RoomType> pinkValue,
       List<List<Amenity>> blueValue, int indexForm, Liveaboard eachLiveaboard) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.blueValue = blueValue;
     this.indexForm = indexForm;
-    this.eachLiveaboard=eachLiveaboard;
+    this.eachLiveaboard = eachLiveaboard;
   }
 
   final TextEditingController _controllerRoomdescription =
@@ -661,13 +680,26 @@ class _RoomFormState extends State<RoomForm> {
 
     if (rroom != null) {
       setState(() {
-        if (num == 1) roomimg = io.File(rroom.path);
-        if (num == 2) roomimg2 = io.File(rroom.path);
-        if (num == 3) roomimg3 = io.File(rroom.path);
+        if (num == 1) {roomimg = io.File(rroom.path);
+        Xrimg1 = rroom;
+        }
+        if (num == 2) {roomimg2 = io.File(rroom.path);
+        Xrimg2 = rroom;
+        }
+        if (num == 3) {roomimg3 = io.File(rroom.path);
+        Xrimg3 = rroom;
+        }
         //roomimg = io.File(rroom.path);
         // rroom = pickedFile;
       });
     }
+  }
+
+  List<Amenity> amValue = [];
+  void getAMValue(am) {
+    setState(() {
+      amValue = am;
+    });
   }
 
   @override
@@ -691,7 +723,8 @@ class _RoomFormState extends State<RoomForm> {
             decoration: BoxDecoration(
                 color: Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
-            child: AddMoreAmenityNew(this.indexForm, this.blueValue),
+            child: AddMoreAmenityNewLiveAboard(this.indexForm, this.blueValue,
+                this.eachLiveaboard, getAMValue),
           ),
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
@@ -835,7 +868,7 @@ class _RoomFormState extends State<RoomForm> {
               ),
               onPressed: () {
                 print('aa');
-                 print(eachLiveaboard.roomTypes);
+                print(eachLiveaboard.roomTypes);
                 var rt = RoomType();
                 rt.name = room_name;
                 rt.description = room_description;

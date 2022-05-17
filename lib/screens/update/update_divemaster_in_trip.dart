@@ -106,9 +106,9 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
           ],
         ),
         SizedBox(height: 30),
-        // FlatButton(onPressed: () {
-        //   print(eachTrip.diveMasters);
-        // }),
+        FlatButton(onPressed: () {
+          print(eachTrip.diveMasters);
+        }),
       ])),
     );
   }
