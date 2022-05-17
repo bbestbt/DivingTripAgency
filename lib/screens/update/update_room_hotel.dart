@@ -26,6 +26,7 @@ import 'dart:io' as io;
 
 GetHotelResponse hotelDetial = new GetHotelResponse();
 var hotel;
+var rt;
 
 class AddMoreRoomUpdateHotel extends StatefulWidget {
   List<RoomType> pinkValue = [];
@@ -128,6 +129,14 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
               onPressed: () {
                 setState(() {
                   pinkcount += 1;
+                  rt = RoomType();
+                  rt.name = '';
+                  rt.description = '';
+                  rt.quantity = 0;
+                  rt.maxGuest = 0;
+                  
+                  eachHotel.roomTypes.add(rt);
+                
                   // pinkValue.add(new RoomType());
                   // blueValue.add([new Amenity()]);
                 });
@@ -164,10 +173,10 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
           ],
         ),
         SizedBox(height: 30),
-        FlatButton(onPressed: () {
-          print(eachHotel.roomTypes);
-          // print(widget.customFunction(eachHotel.roomTypes));
-        }),
+        // FlatButton(onPressed: () {
+        //   print(eachHotel.roomTypes);
+        //   // print(widget.customFunction(eachHotel.roomTypes));
+        // }),
       ])),
     );
   }
@@ -346,6 +355,19 @@ class _InfoCardState extends State<InfoCard> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           // Text(index.toString()),
+          // IconButton(
+          //     icon: Icon(Icons.delete),
+          //     onPressed: () => {
+          //           // print(eachHotel.roomTypes[index]),
+          //           setState(() {
+          //             print('r');
+          //             print(eachHotel.roomTypes.length);
+          //             eachHotel.roomTypes.removeAt(index);
+
+          //             print('m');
+          //             print(eachHotel.roomTypes.length);
+          //           })
+          //         }),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
@@ -853,24 +875,23 @@ class _RoomFormState extends State<RoomForm> {
             ],
           ),
           SizedBox(height: 20),
-          FlatButton(
-              color: Colors.pink,
-              child: Text(
-                'Please save before add new room',
-              ),
-              onPressed: () {
-                var rt = RoomType();
-                rt.name = room_name;
-                rt.description = room_description;
-                rt.quantity = quantity;
-                rt.maxGuest = max_capa;
-                eachHotel.roomTypes.add(rt);
+          // FlatButton(
+          //     color: Colors.pink,
+          //     child: Text(
+          //       'Please save before add new room',
+          //     ),
+          //     onPressed: () {
+          //       rt.name = room_name;
+          //       rt.description = room_description;
+          //       rt.quantity = quantity;
+          //       rt.maxGuest = max_capa;
+          //       eachHotel.roomTypes[indexForm] = rt;
 
-                print(eachHotel.roomTypes);
+          //       print(eachHotel.roomTypes);
 
-                widget.customFunction(eachHotel.roomTypes);
-              }),
-          SizedBox(height: 20),
+          //       widget.customFunction(eachHotel.roomTypes);
+          //     }),
+          // SizedBox(height: 20),
         ]),
       ),
     );
@@ -886,6 +907,7 @@ class _RoomFormState extends State<RoomForm> {
         // print(pinkcount);
         // print('room des end');
         room_description = value;
+        eachHotel.roomTypes[indexForm].description = value;
       },
       decoration: InputDecoration(
         labelText: "Room description",
@@ -935,6 +957,7 @@ class _RoomFormState extends State<RoomForm> {
         // print(pinkcount);
         // print('room max end');
         max_capa = int.parse(value);
+        eachHotel.roomTypes[indexForm].maxGuest = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
@@ -956,6 +979,7 @@ class _RoomFormState extends State<RoomForm> {
         // print('room name end');
 
         room_name = value;
+        eachHotel.roomTypes[indexForm].name = value;
       },
       decoration: InputDecoration(
         labelText: "Room type",
@@ -982,6 +1006,7 @@ class _RoomFormState extends State<RoomForm> {
 
         // print(value);
         quantity = int.parse(value);
+        eachHotel.roomTypes[indexForm].quantity = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",

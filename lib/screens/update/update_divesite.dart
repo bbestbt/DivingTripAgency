@@ -11,6 +11,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
+var ds;
+
 class AddMoreDiveSiteUpdate extends StatefulWidget {
   List<DiveSite> pinkValue = [];
   TripWithTemplate eachTrip;
@@ -69,7 +71,15 @@ class _AddMoreDiveSiteUpdateState extends State<AddMoreDiveSiteUpdate> {
             MaterialButton(
               onPressed: () {
                 setState(() {
-                  pinkcount = 1;
+                  pinkcount += 1;
+                  ds = DiveSite();
+                  ds.name = '';
+                  ds.description = '';
+                  ds.maxDepth = 0;
+                  ds.minDepth = 0;
+                  print(eachTrip.diveSites.length);
+                  eachTrip.diveSites.add(ds);
+                  print(eachTrip.diveSites.length);
                   // pinkValue.add(new DiveSite());
                 });
               },
@@ -363,7 +373,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          // Text(indexForm.toString()),
+          Text(indexForm.toString()),
           SizedBox(height: 20),
           buildNameFormField(),
           SizedBox(height: 20),
@@ -373,22 +383,22 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
           SizedBox(height: 20),
           buildMinFormField(),
           SizedBox(height: 20),
-          FlatButton(
-              color: Color(0xfff89cff0),
-              child: Text(
-                'Please save before add new divesites',
-              ),
-              onPressed: () {
-                var ds = DiveSite();
-                ds.name = name;
-                ds.description = description;
-                ds.maxDepth = int.parse(max_depth);
-                ds.minDepth = int.parse(min_depth);
-                eachTrip.diveSites.add(ds);
-                print(eachTrip.diveSites);
-                widget.customFunction(eachTrip.diveSites);
-              }),
-          SizedBox(height: 20),
+          // FlatButton(
+          //     color: Color(0xfff89cff0),
+          //     child: Text(
+          //       'Please save before add new divesites',
+          //     ),
+          //     onPressed: () {
+          //       var ds = DiveSite();
+          //       ds.name = name;
+          //       ds.description = description;
+          //       ds.maxDepth = int.parse(max_depth);
+          //       ds.minDepth = int.parse(min_depth);
+          //       eachTrip.diveSites.add(ds);
+          //       print(eachTrip.diveSites);
+          //       widget.customFunction(eachTrip.diveSites);
+          //     }),
+          // SizedBox(height: 20),
         ]),
       ),
     );
@@ -403,7 +413,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
         //พัง
         print(value);
         description = value;
-        // eachTrip.diveSites[indexForm].description = value;
+        eachTrip.diveSites[indexForm].description = value;
       },
       decoration: InputDecoration(
         labelText: "Description",
@@ -427,7 +437,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
         //พัง
         print(value);
         min_depth = value;
-        // eachTrip.diveSites[indexForm].minDepth = int.parse(value);
+        eachTrip.diveSites[indexForm].minDepth = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Min depth",
@@ -451,7 +461,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
         //พัง
         print(value);
         max_depth = value;
-        // eachTrip.diveSites[indexForm].maxDepth = int.parse(value);
+        eachTrip.diveSites[indexForm].maxDepth = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max depth",
@@ -471,7 +481,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
         //พัง
         print(value);
         name = value;
-        // eachTrip.diveSites[indexForm].name = value;
+        eachTrip.diveSites[indexForm].name = value;
       },
       decoration: InputDecoration(
         labelText: "Name",

@@ -154,6 +154,8 @@ class _updateTripFormState extends State<updateTripForm> {
     super.initState();
     loadData();
     _controllerTotalpeople.text = eachTrip.maxGuest.toString();
+    dmValue = eachTrip.diveMasters;
+    pinkValue = eachTrip.diveSites;
   }
 
   void loadData() async {
@@ -526,9 +528,8 @@ class _updateTripFormState extends State<updateTripForm> {
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () async => {
-              //พัง
-              // print(dmValue),
-              // print(pinkValue)
+              print(dmValue),
+              print(pinkValue),
               await sendTripEdit()
             },
             color: Color(0xfff75BDFF),

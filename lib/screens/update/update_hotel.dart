@@ -154,6 +154,80 @@ class listHotelCard extends StatefulWidget {
 }
 
 class _listHotelCardState extends State<listHotelCard> {
+  void removeHotel() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var hotel = Hotel();
+    hotel.id = hotels[widget.index].id;
+    var deleteHotelRequest = DeleteHotelRequest();
+    deleteHotelRequest.hotel = hotel;
+    try {
+      var response = await stub.deleteHotel(deleteHotelRequest);
+      print(token);
+      print(response);
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+    } catch (e) {
+      // Handle all other exceptions
+      print('Exception: $e');
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () async {
+        await removeHotel();
+        print('delete');
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => updateHotel()),
+          (Route<dynamic> route) => false,
+        );
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      // title: Text("AlertDialog"),
+      content:
+          Text("Would you like to delete " + hotels[widget.index].name + "?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -175,6 +249,24 @@ class _listHotelCardState extends State<listHotelCard> {
             Align(
                 alignment: Alignment.center,
                 child: Text(hotels[widget.index].name)),
+            SizedBox(
+              width: 10,
+            ),
+            Container(
+              width: 30,
+              height: 30,
+              child: FloatingActionButton(
+                backgroundColor: Color(0xffFFA132),
+                onPressed: () async {
+                  showAlertDialog(context);
+                },
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.white,
+                  size: 15,
+                ),
+              ),
+            ),
           ],
         ),
       ),

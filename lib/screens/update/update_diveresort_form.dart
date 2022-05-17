@@ -516,6 +516,7 @@ class _editHotelFormState extends State<editHotelForm> {
       _controllerCountry.text = eachHotel.address.country;
       _controllerRegion.text = eachHotel.address.region;
       _controllerCity.text = eachHotel.address.city;
+      pinkValue=eachHotel.roomTypes;
     });
   }
 
@@ -1211,14 +1212,14 @@ class _editHotelFormState extends State<editHotelForm> {
           FlatButton(
             onPressed: () => {
               print(pinkValue),
-              sendUpdateHotel(),
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
+              // sendUpdateHotel(),
+              // Navigator.pushAndRemoveUntil(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) => MainCompanyScreen(),
+              //   ),
+              //   (route) => false,
+              // )
             },
             color: Color(0xfff75BDFF),
             child: Text(

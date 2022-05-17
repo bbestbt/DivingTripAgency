@@ -91,10 +91,10 @@ class _AddMoreAmenityState extends State<AddMoreAmenityNewLiveAboard> {
           ],
         ),
         SizedBox(height: 30),
-        FlatButton(onPressed: () {
-          print(eachLiveaboard.roomTypes[pinkcount].amenities);
-          // print(hotelDetial.hotel.roomTypes[pinkcount].amenities);
-        }),
+        // FlatButton(onPressed: () {
+        //   print(eachLiveaboard.roomTypes[pinkcount].amenities);
+        //   // print(hotelDetial.hotel.roomTypes[pinkcount].amenities);
+        // }),
       ])),
     );
   }
@@ -198,7 +198,7 @@ class _amenityFormState extends State<amenityFormNew> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          Text((bluecount - 1).toString()),
+          // Text((bluecount - 1).toString()),
           SizedBox(height: 20),
           Container(
             color: Color(0xfffd4f0f0),

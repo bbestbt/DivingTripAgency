@@ -107,9 +107,9 @@ class _AddMoreAmenityUpdateLiveaboardState
           ],
         ),
         SizedBox(height: 30),
-        FlatButton(onPressed: () {
-          print(eachLiveaboard.roomTypes[pinkcount].amenities);
-        }),
+        // FlatButton(onPressed: () {
+        //   print(eachLiveaboard.roomTypes[pinkcount].amenities);
+        // }),
       ])),
     );
   }
@@ -292,7 +292,7 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          Text(index.toString()),
+          // Text(index.toString()),
           SizedBox(height: 20),
           Container(
             color: Color(0xfffd4f0f0),
@@ -324,6 +324,7 @@ class _InfoCardState extends State<InfoCard> {
               ),
             ),
           ),
+          SizedBox(height: 20),
         ]),
       ),
     );
@@ -422,7 +423,7 @@ class _amenityFormState extends State<amenityForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          Text(indexForm.toString()),
+          // Text(indexForm.toString()),
           SizedBox(height: 20),
           Container(
             color: Color(0xfffd4f0f0),
@@ -438,7 +439,7 @@ class _amenityFormState extends State<amenityForm> {
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
-                      //พัง
+                   
                       amenitySelected = value;
                       // print(amenitySelected);
                       // print(amenity);

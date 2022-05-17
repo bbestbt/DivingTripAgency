@@ -105,10 +105,10 @@ class _AddMoreAmenityUpdateHotelState extends State<AddMoreAmenityUpdateHotel> {
           ],
         ),
         SizedBox(height: 30),
-        FlatButton(onPressed: () {
-          print(eachHotel.roomTypes[pinkcount].amenities);
-          // print(hotelDetial.hotel.roomTypes[pinkcount].amenities);
-        }),
+        // FlatButton(onPressed: () {
+        //   print(eachHotel.roomTypes[pinkcount].amenities);
+        //   // print(hotelDetial.hotel.roomTypes[pinkcount].amenities);
+        // }),
       ])),
     );
   }
@@ -292,7 +292,7 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          Text(index.toString()),
+          // Text(index.toString()),
           SizedBox(height: 20),
           Container(
             color: Color(0xfffd4f0f0),
@@ -325,6 +325,7 @@ class _InfoCardState extends State<InfoCard> {
               ),
             ),
           ),
+          SizedBox(height: 20),
         ]),
       ),
     );
@@ -424,7 +425,7 @@ class _amenityFormState extends State<amenityForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          Text(indexForm.toString()),
+          // Text(indexForm.toString()),
           SizedBox(height: 20),
           Container(
             color: Color(0xfffd4f0f0),
@@ -449,7 +450,7 @@ class _amenityFormState extends State<amenityForm> {
                         // print(amenityMap[element]);
                         // print(amenitySelected);
                         if (element == amenitySelected) {
-                          //พัง
+                          
                           // print(amenityMap[element]);
                           print(
                               eachHotel.roomTypes[pinkcount].amenities.length);

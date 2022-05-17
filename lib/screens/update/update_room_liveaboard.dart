@@ -30,6 +30,7 @@ import 'update_amenity_liveaboard.dart';
 
 GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
 var liveaboard;
+var rt;
 
 class AddMoreRoomUpdateLiveaboard extends StatefulWidget {
   List<RoomType> pinkValue = [];
@@ -132,6 +133,12 @@ class _AddMoreRoomUpdateLiveaboardState
               onPressed: () {
                 setState(() {
                   pinkcount = 1;
+                  rt = RoomType();
+                  rt.name = '';
+                  rt.description = '';
+                  rt.quantity = 0;
+                  rt.maxGuest = 0;
+                  eachLiveaboard.roomTypes.add(rt);
                   // pinkValue.add(new RoomType());
                   // blueValue.add([new Amenity()]);
                 });
@@ -168,9 +175,9 @@ class _AddMoreRoomUpdateLiveaboardState
           ],
         ),
         SizedBox(height: 30),
-        FlatButton(onPressed: () {
-          print(eachLiveaboard.roomTypes);
-        }),
+        // FlatButton(onPressed: () {
+        //   print(eachLiveaboard.roomTypes);
+        // }),
       ])),
     );
   }
@@ -842,26 +849,26 @@ class _RoomFormState extends State<RoomForm> {
           ),
           SizedBox(height: 20),
           //   FormError(errors: errors),
-          FlatButton(
-              color: Colors.pink,
-              child: Text(
-                'Please save before add new room',
-              ),
-              onPressed: () {
-                print('aa');
-                print(eachLiveaboard.roomTypes);
-                var rt = RoomType();
-                rt.name = room_name;
-                rt.description = room_description;
-                rt.quantity = quantity;
-                rt.maxGuest = max_capa;
-                eachLiveaboard.roomTypes.add(rt);
+          // FlatButton(
+          //     color: Colors.pink,
+          //     child: Text(
+          //       'Please save before add new room',
+          //     ),
+          //     onPressed: () {
+          //       print('aa');
+          //       print(eachLiveaboard.roomTypes);
+          //       // var rt = RoomType();
+          //       rt.name = room_name;
+          //       rt.description = room_description;
+          //       rt.quantity = quantity;
+          //       rt.maxGuest = max_capa;
+          //       eachLiveaboard.roomTypes[indexForm] = rt;
 
-                print(eachLiveaboard.roomTypes);
+          //       print(eachLiveaboard.roomTypes);
 
-                widget.customFunction(eachLiveaboard.roomTypes);
-              }),
-          SizedBox(height: 20),
+          //       widget.customFunction(eachLiveaboard.roomTypes);
+          //     }),
+          // SizedBox(height: 20),
         ]),
       ),
     );
@@ -873,6 +880,7 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onChanged: (value) {
         room_description = value;
+        eachLiveaboard.roomTypes[indexForm].description = value;
       },
       decoration: InputDecoration(
         labelText: "Room description",
@@ -896,6 +904,7 @@ class _RoomFormState extends State<RoomForm> {
         // print(pinkcount);
         // print('room max end');
         max_capa = int.parse(value);
+        eachLiveaboard.roomTypes[indexForm].maxGuest = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
@@ -912,6 +921,7 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onChanged: (value) {
         room_name = value;
+        eachLiveaboard.roomTypes[indexForm].name = value;
       },
       decoration: InputDecoration(
         labelText: "Room type",
@@ -932,6 +942,7 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onChanged: (value) {
         quantity = int.parse(value);
+        eachLiveaboard.roomTypes[indexForm].quantity = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",
