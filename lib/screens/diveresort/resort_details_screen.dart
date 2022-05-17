@@ -729,7 +729,8 @@ class _detailState extends State<detail> {
                                   Container(
                                       child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 16.0, vertical: 24.0),
+                                        horizontal: 16.0, ),
+                                        //vertical: 24.0
                                     // height:
                                     //     MediaQuery.of(context).size.height *
                                     //         0.25,
@@ -1141,7 +1142,7 @@ class _detailState extends State<detail> {
         ),
         SizedBox(height: 20),
         Container(
-          margin: EdgeInsets.symmetric(vertical: 20),
+          // margin: EdgeInsets.symmetric(vertical: 20),
           constraints: BoxConstraints(maxWidth: 1110),
           // decoration: BoxDecoration(
           //     color: Color(0xFFFF89cfef),

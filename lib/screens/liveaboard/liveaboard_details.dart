@@ -703,7 +703,8 @@ class _detailState extends State<detail> {
                                   Container(
                                       child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 16.0, vertical: 24.0),
+                                        horizontal: 16.0, ),
+                                        //vertical: 24.0
                                     // height:
                                     //     MediaQuery.of(context).size.height *
                                     //         0.25,
