@@ -235,12 +235,12 @@ class _listStaffCardState extends State<listStaffCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => updateEachStaff(staffs[widget.index])));
-      },
+      // onTap: () {
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => updateEachStaff(staffs[widget.index])));
+      // },
       child: Container(
         height: 200,
         width: 200,
@@ -250,29 +250,63 @@ class _listStaffCardState extends State<listStaffCard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Align(
-                alignment: Alignment.center,
-                child: Text(staffs[widget.index].firstName +
-                    " " +
-                    staffs[widget.index].lastName)),
-            SizedBox(
-              width: 10,
+            Flexible(
+              child: Align(
+                  alignment: Alignment.center,
+                  child: Text(staffs[widget.index].firstName +
+                      " " +
+                      staffs[widget.index].lastName)),
             ),
-            Container(
-              width: 30,
-              height: 30,
-              child: FloatingActionButton(
-                backgroundColor: Color(0xffFFA132),
-                onPressed: () async {
-                  showAlertDialog(context);
-                },
-                child: Icon(
-                  Icons.delete,
-                  color: Colors.white,
-                  size: 15,
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   width: 10,
+            // ),
+            PopupMenuButton(
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: Row(
+                          children: [
+                            Icon(Icons.edit),
+                            Text("Edit"),
+                          ],
+                        ),
+                        value: 1,
+                      ),
+                      PopupMenuItem(
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete),
+                            Text("Delete"),
+                          ],
+                        ),
+                        value: 2,
+                      )
+                    ],
+                onSelected: (int menu) {
+                  if (menu == 1) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                updateEachStaff(staffs[widget.index])));
+                  } else if (menu == 2) {
+                    showAlertDialog(context);
+                  }
+                })
+            // Container(
+            //   width: 30,
+            //   height: 30,
+            //   child: FloatingActionButton(
+            //     backgroundColor: Color(0xffFFA132),
+            //     onPressed: () async {
+            //       showAlertDialog(context);
+            //     },
+            //     child: Icon(
+            //       Icons.delete,
+            //       color: Colors.white,
+            //       size: 15,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

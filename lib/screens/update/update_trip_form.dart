@@ -226,9 +226,9 @@ class _updateTripFormState extends State<updateTripForm> {
             title: Text("Error"),
             content: Text("Hotel is already used"),
             actions: <Widget>[
-              FlatButton(
-                  //child: Text("OK"),
-                  ),
+              // FlatButton(
+                   //child: Text("OK"),
+              //     ),
             ],
           );
         });
@@ -243,9 +243,9 @@ class _updateTripFormState extends State<updateTripForm> {
             title: Text("Error"),
             content: Text("Boat is already used"),
             actions: <Widget>[
-              FlatButton(
+              // FlatButton(
                   //child: Text("OK"),
-                  ),
+              //     ),
             ],
           );
         });

@@ -232,12 +232,12 @@ class _listTripCardState extends State<listTripCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => updateEachTrip(trips[widget.index])));
-      },
+      // onTap: () {
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => updateEachTrip(trips[widget.index])));
+      // },
       child: Container(
         height: 200,
         width: 200,
@@ -255,24 +255,56 @@ class _listTripCardState extends State<listTripCard> {
                     overflow: TextOverflow.ellipsis,
                   )),
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Container(
-              width: 30,
-              height: 30,
-              child: FloatingActionButton(
-                backgroundColor: Color(0xffFFA132),
-                onPressed: () async {
-                  showAlertDialog(context);
-                },
-                child: Icon(
-                  Icons.delete,
-                  color: Colors.white,
-                  size: 15,
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   width: 10,
+            // ),
+            PopupMenuButton(
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: Row(
+                          children: [
+                            Icon(Icons.edit),
+                            Text("Edit"),
+                          ],
+                        ),
+                        value: 1,
+                      ),
+                      PopupMenuItem(
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete),
+                            Text("Delete"),
+                          ],
+                        ),
+                        value: 2,
+                      )
+                    ],
+                onSelected: (int menu) {
+                  if (menu == 1) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                updateEachTrip(trips[widget.index])));
+                  } else if (menu == 2) {
+                    showAlertDialog(context);
+                  }
+                })
+            // Container(
+            //   width: 30,
+            //   height: 30,
+            //   child: FloatingActionButton(
+            //     backgroundColor: Color(0xffFFA132),
+            //     onPressed: () async {
+            //       showAlertDialog(context);
+            //     },
+            //     child: Icon(
+            //       Icons.delete,
+            //       color: Colors.white,
+            //       size: 15,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
