@@ -526,11 +526,10 @@ class _updateTripFormState extends State<updateTripForm> {
           SizedBox(height: 20),
 
           FlatButton(
-            //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () async => {
-              print(dmValue),
-              print(pinkValue),
-              await sendTripEdit()
+              // print(dmValue),
+              // print(pinkValue),
+              await sendTripEdit(),
             },
             color: Color(0xfff75BDFF),
             child: Text(

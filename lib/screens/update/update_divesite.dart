@@ -31,11 +31,46 @@ class _AddMoreDiveSiteUpdateState extends State<AddMoreDiveSiteUpdate> {
   int pinkcount = 0;
   List<DiveSite> pinkValue = [];
   TripWithTemplate eachTrip;
+  List<DiveSite> allDivesite = [];
   _AddMoreDiveSiteUpdateState(
       List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
     this.pinkValue = pinkValue;
     this.eachTrip = eachTrip;
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDivesite();
+  }
+
+  getDivesite() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listdivesiterequest = ListDiveSitesByTripRequest();
+    listdivesiterequest.tripId = eachTrip.id;
+
+    allDivesite.clear();
+    try {
+      await for (var feature in stub.listDiveSitesByTrip(listdivesiterequest)) {
+        allDivesite.add(feature.diveSite);
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+    // print('list ' + allDivesite.length.toString());
+    return allDivesite.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -62,8 +97,10 @@ class _AddMoreDiveSiteUpdateState extends State<AddMoreDiveSiteUpdate> {
             shrinkWrap: true,
             itemCount: pinkcount,
             itemBuilder: (BuildContext context, int index) {
+              // print('new form' + index.toString());
+              // print('all dive form' + allDivesite.length.toString());
               return DiveSiteForm(pinkcount, this.pinkValue, this.eachTrip,
-                  index + eachTrip.diveSites.length, widget.customFunction);
+                  index + allDivesite.length, widget.customFunction);
             }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -77,9 +114,9 @@ class _AddMoreDiveSiteUpdateState extends State<AddMoreDiveSiteUpdate> {
                   ds.description = '';
                   ds.maxDepth = 0;
                   ds.minDepth = 0;
-                  print(eachTrip.diveSites.length);
+                  // print(eachTrip.diveSites.length);
                   eachTrip.diveSites.add(ds);
-                  print(eachTrip.diveSites.length);
+                  // print(eachTrip.diveSites.length);
                   // pinkValue.add(new DiveSite());
                 });
               },
@@ -114,6 +151,9 @@ class _AddMoreDiveSiteUpdateState extends State<AddMoreDiveSiteUpdate> {
           ],
         ),
         SizedBox(height: 30),
+        // FlatButton(onPressed: () {
+        //   print(eachTrip.diveSites);
+        // }),
       ])),
     );
   }
@@ -143,12 +183,39 @@ class _DiveSiteFormUpdateState extends State<DiveSiteFormUpdate> {
   String max_depth;
   TripWithTemplate eachTrip;
   List<DiveSite> pinkValue;
+  List<DiveSite> allDivesite = [];
 
   _DiveSiteFormUpdateState(
       int pinkcount, List<DiveSite> pinkValue, TripWithTemplate eachTrip) {
     this.pinkcount = pinkcount;
     this.pinkValue = pinkValue;
     this.eachTrip = eachTrip;
+  }
+  getDivesite() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listdivesiterequest = ListDiveSitesByTripRequest();
+    listdivesiterequest.tripId = eachTrip.id;
+
+    allDivesite.clear();
+    try {
+      await for (var feature in stub.listDiveSitesByTrip(listdivesiterequest)) {
+        allDivesite.add(feature.diveSite);
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+
+    return allDivesite;
   }
 
   @override
@@ -159,14 +226,23 @@ class _DiveSiteFormUpdateState extends State<DiveSiteFormUpdate> {
           height: 20,
         ),
         // Align(alignment: Alignment.topLeft, child: Text('  Divesite')),
-        Wrap(
-            spacing: 20,
-            runSpacing: 40,
-            children: List.generate(
-              eachTrip.diveSites.length,
-              (index) => InfoCard(
-                  index, pinkcount, pinkValue, eachTrip, widget.customFunction),
-            )),
+        FutureBuilder(
+          future: getDivesite(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Wrap(
+                  spacing: 20,
+                  runSpacing: 40,
+                  children: List.generate(
+                    allDivesite.length,
+                    (index) => InfoCard(index, pinkcount, pinkValue, eachTrip,
+                        widget.customFunction),
+                  ));
+            } else {
+              return Center(child: Text('No divesite'));
+            }
+          },
+        ),
       ],
     );
   }
@@ -249,7 +325,7 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => description = newValue,
       onChanged: (value) {
-        print(value);
+        // print(value);
         eachTrip.diveSites[index].description = value;
       },
       decoration: InputDecoration(
@@ -271,7 +347,7 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => min_depth = newValue,
       onChanged: (value) {
-        print(value);
+        // print(value);
         eachTrip.diveSites[index].minDepth = int.parse(value);
       },
       decoration: InputDecoration(
@@ -293,7 +369,7 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => max_depth = newValue,
       onChanged: (value) {
-        print(value);
+        // print(value);
         eachTrip.diveSites[index].maxDepth = int.parse(value);
       },
       decoration: InputDecoration(
@@ -311,7 +387,7 @@ class _InfoCardState extends State<InfoCard> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => name = newValue,
       onChanged: (value) {
-        print(value);
+        // print(value);
         eachTrip.diveSites[index].name = value;
       },
       decoration: InputDecoration(
@@ -373,7 +449,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          Text(indexForm.toString()),
+          // Text(indexForm.toString()),
           SizedBox(height: 20),
           buildNameFormField(),
           SizedBox(height: 20),
@@ -410,8 +486,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => description = newValue,
       onChanged: (value) {
-        //พัง
-        print(value);
+        // print(value);
         description = value;
         eachTrip.diveSites[indexForm].description = value;
       },
@@ -434,8 +509,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => min_depth = newValue,
       onChanged: (value) {
-        //พัง
-        print(value);
+        // print(value);
         min_depth = value;
         eachTrip.diveSites[indexForm].minDepth = int.parse(value);
       },
@@ -458,8 +532,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       cursorColor: Color(0xFFf5579c6),
       // onSaved: (newValue) => max_depth = newValue,
       onChanged: (value) {
-        //พัง
-        print(value);
+        // print(value);
         max_depth = value;
         eachTrip.diveSites[indexForm].maxDepth = int.parse(value);
       },
@@ -478,8 +551,7 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       cursorColor: Color(0xFFf5579c6),
       // onSaved: (newValue) => name = newValue,
       onChanged: (value) {
-        //พัง
-        print(value);
+        // print(value);
         name = value;
         eachTrip.diveSites[indexForm].name = value;
       },
