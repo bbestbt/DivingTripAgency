@@ -295,7 +295,7 @@ class _CartState extends State<CartWidget> {
 
     return Container(
         //width: 800,
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width*0.6,
         margin: EdgeInsets.all(20),
         child: Column(children: [
           SectionTitle(
@@ -310,7 +310,6 @@ class _CartState extends State<CartWidget> {
               // style: TextStyle(fontSize: 25),
             ),
             onPressed: () {
-
               setState(() {
                 print("Checked");
                 populateCartlist();
@@ -330,7 +329,6 @@ class _CartState extends State<CartWidget> {
               // style: TextStyle(fontSize: 25),
             ),
             onPressed: () {
-
               setState(() {
                 print("Profile here!");
                 //var testprof = getProfile();
@@ -355,7 +353,7 @@ class _CartState extends State<CartWidget> {
                   child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width,
+                        width: MediaQuery.of(context).size.width*0.6,
                         child: Wrap(
                           direction: Axis.horizontal,
                             //mainAxisAlignment: MainAxisAlignment.center,
