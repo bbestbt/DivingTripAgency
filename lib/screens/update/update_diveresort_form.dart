@@ -1211,15 +1211,15 @@ class _editHotelFormState extends State<editHotelForm> {
 
           FlatButton(
             onPressed: () => {
-              print(pinkValue),
-              // sendUpdateHotel(),
-              // Navigator.pushAndRemoveUntil(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (BuildContext context) => MainCompanyScreen(),
-              //   ),
-              //   (route) => false,
-              // )
+              // print(pinkValue),
+              sendUpdateHotel(),
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => MainCompanyScreen(),
+                ),
+                (route) => false,
+              )
             },
             color: Color(0xfff75BDFF),
             child: Text(

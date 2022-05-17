@@ -126,26 +126,26 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
                 size: 20,
               ),
             ),
-            SizedBox(width: 30),
-            MaterialButton(
-              onPressed: () {
-                setState(() {
-                  if (eachTrip.diveMasters.length > 1) {
-                    // dmcount -= 1;
-                    eachTrip.diveMasters.removeLast();
-                    print(eachTrip.diveMasters);
-                  } else {
-                    dmcount = 0;
-                  }
-                });
-              },
-              color: Color(0xfff55bcc9),
-              textColor: Colors.white,
-              child: Icon(
-                Icons.remove,
-                size: 20,
-              ),
-            ),
+            // SizedBox(width: 30),
+            // MaterialButton(
+            //   onPressed: () {
+            //     setState(() {
+            //       if (eachTrip.diveMasters.length > 1) {
+            //         // dmcount -= 1;
+            //         eachTrip.diveMasters.removeLast();
+            //         print(eachTrip.diveMasters);
+            //       } else {
+            //         dmcount = 0;
+            //       }
+            //     });
+            //   },
+            //   color: Color(0xfff55bcc9),
+            //   textColor: Colors.white,
+            //   child: Icon(
+            //     Icons.remove,
+            //     size: 20,
+            //   ),
+            // ),
           ],
         ),
         SizedBox(height: 30),

@@ -127,27 +127,27 @@ class _AddMoreDiveSiteUpdateState extends State<AddMoreDiveSiteUpdate> {
                 size: 20,
               ),
             ),
-            SizedBox(width: 30),
-            MaterialButton(
-              onPressed: () {
-                setState(() {
-                  // pinkcount -= 1;
-                  // pinkValue.remove(new DiveSite());
-                  if (eachTrip.diveSites.length > 1) {
-                    eachTrip.diveSites.removeLast();
-                    print(eachTrip.diveSites);
-                  } else {
-                    pinkcount = 0;
-                  }
-                });
-              },
-              color: Color(0xfff45b6fe),
-              textColor: Colors.white,
-              child: Icon(
-                Icons.remove,
-                size: 20,
-              ),
-            ),
+            // SizedBox(width: 30),
+            // MaterialButton(
+            //   onPressed: () {
+            //     setState(() {
+            //       // pinkcount -= 1;
+            //       // pinkValue.remove(new DiveSite());
+            //       if (eachTrip.diveSites.length > 1) {
+            //         eachTrip.diveSites.removeLast();
+            //         print(eachTrip.diveSites);
+            //       } else {
+            //         pinkcount = 0;
+            //       }
+            //     });
+            //   },
+            //   color: Color(0xfff45b6fe),
+            //   textColor: Colors.white,
+            //   child: Icon(
+            //     Icons.remove,
+            //     size: 20,
+            //   ),
+            // ),
           ],
         ),
         SizedBox(height: 30),

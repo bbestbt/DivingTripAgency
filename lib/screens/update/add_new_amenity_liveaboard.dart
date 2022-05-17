@@ -73,21 +73,21 @@ class _AddMoreAmenityState extends State<AddMoreAmenityNewLiveAboard> {
                 size: 20,
               ),
             ),
-            SizedBox(width: 30),
-            MaterialButton(
-              onPressed: () {
-                setState(() {
-                  bluecount -= 1;
-                  // blueValue[pinkcount - 1].remove(new Amenity());
-                });
-              },
-              color: Color(0xfff8fcaca),
-              textColor: Colors.white,
-              child: Icon(
-                Icons.remove,
-                size: 20,
-              ),
-            ),
+            // SizedBox(width: 30),
+            // MaterialButton(
+            //   onPressed: () {
+            //     setState(() {
+            //       bluecount -= 1;
+            //       // blueValue[pinkcount - 1].remove(new Amenity());
+            //     });
+            //   },
+            //   color: Color(0xfff8fcaca),
+            //   textColor: Colors.white,
+            //   child: Icon(
+            //     Icons.remove,
+            //     size: 20,
+            //   ),
+            // ),
           ],
         ),
         SizedBox(height: 30),

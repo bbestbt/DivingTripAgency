@@ -148,28 +148,28 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
                 size: 20,
               ),
             ),
-            SizedBox(width: 30),
-            MaterialButton(
-              onPressed: () {
-                setState(() {
-                  if (eachHotel.roomTypes.length > 1) {
-                    eachHotel.roomTypes.removeLast();
-                    print(eachHotel.roomTypes);
-                  } else {
-                    pinkcount = 0;
-                  }
-                  // pinkcount -= 1;
-                  // pinkValue.remove(new RoomType());
-                  // blueValue.remove([new Amenity()]);
-                });
-              },
-              color: Color(0xfffff968a),
-              textColor: Colors.white,
-              child: Icon(
-                Icons.remove,
-                size: 20,
-              ),
-            ),
+            // SizedBox(width: 30),
+            // MaterialButton(
+            //   onPressed: () {
+            //     setState(() {
+            //       if (eachHotel.roomTypes.length > 1) {
+            //         eachHotel.roomTypes.removeLast();
+            //         print(eachHotel.roomTypes);
+            //       } else {
+            //         pinkcount = 0;
+            //       }
+            //       // pinkcount -= 1;
+            //       // pinkValue.remove(new RoomType());
+            //       // blueValue.remove([new Amenity()]);
+            //     });
+            //   },
+            //   color: Color(0xfffff968a),
+            //   textColor: Colors.white,
+            //   child: Icon(
+            //     Icons.remove,
+            //     size: 20,
+            //   ),
+            // ),
           ],
         ),
         SizedBox(height: 30),
