@@ -474,6 +474,7 @@ class _TripDetailState extends State<TripDetail> {
                             style: TextButton.styleFrom(
                               textStyle: const TextStyle(
                                 fontSize: 20,
+                                fontFamily: 'Poppins'
                               ),
                               backgroundColor: Color(0xfff8dd9cc),
                             ),
