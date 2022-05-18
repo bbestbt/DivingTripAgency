@@ -112,7 +112,8 @@ class Update extends StatelessWidget {
                                 height: 200,
                                 width: 500,
                                 decoration: BoxDecoration(
-                                    color: Color(0xfffc1bbdd).withOpacity(0.3),
+                                    // color: Color(0xfffc1bbdd).withOpacity(0.3),
+                                    color: Colors.blue[100],
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Row(
                                   children: [
@@ -155,7 +156,7 @@ class Update extends StatelessWidget {
                                 height: 200,
                                 width: 500,
                                 decoration: BoxDecoration(
-                                    color: Color(0xfffc1bbdd).withOpacity(0.3),
+                                    color: Colors.blue[100],
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Row(
                                   children: [
@@ -197,7 +198,7 @@ class Update extends StatelessWidget {
                                 height: 200,
                                 width: 500,
                                 decoration: BoxDecoration(
-                                    color: Color(0xfffc1bbdd).withOpacity(0.3),
+                                    color: Colors.blue[100],
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Row(
                                   children: [
@@ -239,7 +240,7 @@ class Update extends StatelessWidget {
                                 height: 200,
                                 width: 500,
                                 decoration: BoxDecoration(
-                                    color: Color(0xfffc1bbdd).withOpacity(0.3),
+                                    color: Colors.blue[100],
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Row(
                                   children: [
@@ -281,7 +282,7 @@ class Update extends StatelessWidget {
                                 height: 200,
                                 width: 500,
                                 decoration: BoxDecoration(
-                                    color: Color(0xfffc1bbdd).withOpacity(0.3),
+                                    color: Colors.blue[100],
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Row(
                                   children: [
@@ -324,7 +325,7 @@ class Update extends StatelessWidget {
                                 height: 200,
                                 width: 500,
                                 decoration: BoxDecoration(
-                                    color: Color(0xfffc1bbdd).withOpacity(0.3),
+                                    color: Colors.blue[100],
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Row(
                                   children: [

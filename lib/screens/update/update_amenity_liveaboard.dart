@@ -82,7 +82,8 @@ class _AddMoreAmenityUpdateLiveaboardState
                   // blueValue[pinkcount].add(new Amenity());
                 });
               },
-              color: Color(0xfff8fcaca),
+              color:Color(0xfff7494ec),
+              //Color(0xfff7494ec),
               textColor: Colors.white,
               child: Icon(
                 Icons.add,
@@ -97,7 +98,7 @@ class _AddMoreAmenityUpdateLiveaboardState
             //       // blueValue[pinkcount].remove(new Amenity());
             //     });
             //   },
-            //   color: Color(0xfff8fcaca),
+            //   color:Color(0xfff7494ec),
             //   textColor: Colors.white,
             //   child: Icon(
             //     Icons.remove,
@@ -295,13 +296,13 @@ class _InfoCardState extends State<InfoCard> {
           // Text(index.toString()),
           SizedBox(height: 20),
           Container(
-            color: Color(0xfffd4f0f0),
+            color:Color(0xfffa2b8f2),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
                 value: amenitySelected,
                 items: listAmenity,
-                dropdownColor: Color(0xfffd4f0f0),
+                dropdownColor:Color(0xfffa2b8f2),
                 hint: Text(liveaboardDetial
                     .liveaboard.roomTypes[pinkcount].amenities[index].name),
                 iconSize: 40,
@@ -426,14 +427,14 @@ class _amenityFormState extends State<amenityForm> {
           // Text(indexForm.toString()),
           SizedBox(height: 20),
           Container(
-            color: Color(0xfffd4f0f0),
+            color:Color(0xfffa2b8f2),
             //color: Color(0xFFFd0efff),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
                 value: amenitySelected,
                 items: listAmenity,
-                dropdownColor: Color(0xfffd4f0f0),
+                dropdownColor:Color(0xfffa2b8f2),
                 hint: Text('  Select amenity'),
                 iconSize: 40,
                 onChanged: (value) {

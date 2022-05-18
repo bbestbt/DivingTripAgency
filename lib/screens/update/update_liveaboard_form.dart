@@ -1225,7 +1225,8 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xffffee1e8),
+                // color: Color(0xffffee1e8),
+                   color:Color(0xfffabddfc),
                 borderRadius: BorderRadius.circular(10)),
             child:
                 AddMoreRoomUpdateLiveaboard(this.eachLiveaboard, getRoomValue),

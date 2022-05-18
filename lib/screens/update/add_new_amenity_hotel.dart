@@ -66,7 +66,7 @@ class _AddMoreAmenityState extends State<AddMoreAmenityNew> {
                   // blueValue[pinkcount - 1].add(new Amenity());
                 });
               },
-              color: Color(0xfff8fcaca),
+              color:Color(0xfff7494ec),
               textColor: Colors.white,
               child: Icon(
                 Icons.add,
@@ -81,7 +81,7 @@ class _AddMoreAmenityState extends State<AddMoreAmenityNew> {
             //       // blueValue[pinkcount - 1].remove(new Amenity());
             //     });
             //   },
-            //   color: Color(0xfff8fcaca),
+            //   color:Color(0xfff7494ec),
             //   textColor: Colors.white,
             //   child: Icon(
             //     Icons.remove,
@@ -201,14 +201,14 @@ class _amenityFormState extends State<amenityFormNew> {
           // Text((bluecount - 1).toString()),
           SizedBox(height: 20),
           Container(
-            color: Color(0xfffd4f0f0),
+            color:Color(0xfffa2b8f2),
             //color: Color(0xFFFd0efff),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
                 value: amenitySelected,
                 items: listAmenity,
-                dropdownColor: Color(0xfffd4f0f0),
+                dropdownColor:Color(0xfffa2b8f2),
                 hint: Text('  Select amenity'),
                 iconSize: 40,
                 onChanged: (value) {

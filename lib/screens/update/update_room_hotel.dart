@@ -142,7 +142,7 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
                   // blueValue.add([new Amenity()]);
                 });
               },
-              color: Color(0xfffff968a),
+              color: Color(0xfff45b6fe),
               textColor: Colors.white,
               child: Icon(
                 Icons.add,
@@ -241,24 +241,23 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
         future: getRoomType(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return 
-            // Container(
-            //   // color: Colors.lightGreen,
-            //   height: 3000,
-            //   child: AnimatedList(
-            //       key: _key,
-            //       initialItemCount: eachHotel.roomTypes.length,
-            //       itemBuilder: (context, index, animation) => InfoCard(
-            //           index, allRoom, eachHotel, widget.customFunction)),
-            // );
-             Wrap(
-                spacing: 20,
-                runSpacing: 40,
-                children:
-                List.generate(
-                    allRoom.length,
-                    (index) => InfoCard(
-                        index, allRoom, eachHotel, widget.customFunction)));
+            return
+                // Container(
+                //   // color: Colors.lightGreen,
+                //   height: 3000,
+                //   child: AnimatedList(
+                //       key: _key,
+                //       initialItemCount: eachHotel.roomTypes.length,
+                //       itemBuilder: (context, index, animation) => InfoCard(
+                //           index, allRoom, eachHotel, widget.customFunction)),
+                // );
+                Wrap(
+                    spacing: 20,
+                    runSpacing: 40,
+                    children: List.generate(
+                        allRoom.length,
+                        (index) => InfoCard(
+                            index, allRoom, eachHotel, widget.customFunction)));
           } else {
             return Center(child: Text('No room'));
           }
@@ -437,7 +436,8 @@ class _InfoCardState extends State<InfoCard> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xfffd4f0f0),
+                // color: Color(0xfffd4f0f0),
+                color: Color(0xfffa2b8f2),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreAmenityUpdateHotel(
                 this.eachHotel, this.index, getAMValue),
@@ -596,7 +596,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Room description",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -619,7 +619,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Max capacity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -638,7 +638,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Room type",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -661,7 +661,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Room quantity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -854,7 +854,10 @@ class _RoomFormState extends State<RoomForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xfffd4f0f0),
+                color: Color(0xfffa2b8f2),
+
+                //  Color(0xfffd4f0f0),
+
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreAmenityNew(
                 this.indexForm, this.blueValue, this.eachHotel, getAMValue),
@@ -1029,7 +1032,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Room description",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -1054,7 +1057,7 @@ class _RoomFormState extends State<RoomForm> {
   //     decoration: InputDecoration(
   //       labelText: "Price",
   //       filled: true,
-  //       fillColor: Color(0xffffee1e8),
+  //       fillColor: Color(0xfffabddfc),
   //       floatingLabelBehavior: FloatingLabelBehavior.always,
   //     ),
   //   );
@@ -1079,7 +1082,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Max capacity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -1101,7 +1104,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Room type",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -1128,7 +1131,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Room quantity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );

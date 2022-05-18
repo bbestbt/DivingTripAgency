@@ -1015,6 +1015,7 @@ class _detailState extends State<detail> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
                           child: Container(
                             child: Row(
                               children: [

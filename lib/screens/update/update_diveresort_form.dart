@@ -516,7 +516,7 @@ class _editHotelFormState extends State<editHotelForm> {
       _controllerCountry.text = eachHotel.address.country;
       _controllerRegion.text = eachHotel.address.region;
       _controllerCity.text = eachHotel.address.city;
-      pinkValue=eachHotel.roomTypes;
+      pinkValue = eachHotel.roomTypes;
     });
   }
 
@@ -1203,7 +1203,8 @@ class _editHotelFormState extends State<editHotelForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xffffee1e8),
+                // color: Color(0xffffee1e8),
+                color: Color(0xfffabddfc),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreRoomUpdateHotel(this.eachHotel, getRoomValue),
           ),
