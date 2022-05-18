@@ -94,256 +94,321 @@ class _CompanyProfileState extends State<CompanyProfile> {
             color: Color(0xFFFF78a2cc),
           ),
           SizedBox(
-            height: 50,
+            height: 20,
           ),
 
-          SizedBox(
-            width: 1110,
-            child: FutureBuilder(
-              future: getProfile(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    children: [
-                      SizedBox(
-                        child: FutureBuilder(
-                          future: getProfile(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Center(
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'Company name : ' +
-                                            user_profile.agency.name.toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        'E-mail : ' +
-                                            user_profile.agency.account.email
-                                                .toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        'Phone number : ' +
-                                            user_profile.agency.phone
-                                                .toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        'Address1 : ' +
-                                            user_profile
-                                                .agency.address.addressLine1
-                                                .toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        'Address2 : ' +
-                                            user_profile
-                                                .agency.address.addressLine2
-                                                .toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'City : ' +
-                                                user_profile.agency.address.city
-                                                    .toString(),
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Text(
-                                            'Country : ' +
-                                                user_profile
-                                                    .agency.address.country
-                                                    .toString(),
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Region : ' +
-                                                user_profile
-                                                    .agency.address.region
-                                                    .toString(),
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Text(
-                                            'Postal code : ' +
-                                                user_profile
-                                                    .agency.address.postcode
-                                                    .toString(),
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  10,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  10,
-                                              child: user_profile.agency
-                                                          .documents.length ==
-                                                      0
-                                                  ? new Container(
-                                                      color: Colors.pink,
-                                                    )
-                                                  : Image.network(
-                                                      // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
+            constraints: BoxConstraints(maxWidth: 1110),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  // width: 1110,
+                  child: Expanded(
+                    flex: 2,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) => Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 5,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                child: FutureBuilder(
+                                  future: getProfile(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Center(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.blue[100],
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(20),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Align(
+                                                  alignment: Alignment.topRight,
+                                                  child: PopupMenuButton(
+                                                      icon: Icon(
+                                                          Icons.more_horiz),
+                                                      itemBuilder: (context) =>
+                                                          [
+                                                            PopupMenuItem(
+                                                              child: Row(
+                                                                children: [
+                                                                  Icon(Icons
+                                                                      .edit),
+                                                                  Text("Edit"),
+                                                                ],
+                                                              ),
+                                                              value: 1,
+                                                            ),
+                                                          ],
+                                                      onSelected: (int menu) {
+                                                        if (menu == 1) {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          EditCompanyScreen()));
+                                                        }
+                                                      }),
+                                                ),
+                                                SizedBox(height: 20),
+                                                Text(
+                                                  'Company name : ' +
+                                                      user_profile.agency.name
+                                                          .toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  'E-mail : ' +
+                                                      user_profile
+                                                          .agency.account.email
+                                                          .toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  'Phone number : ' +
+                                                      user_profile.agency.phone
+                                                          .toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  'Address1 : ' +
                                                       user_profile.agency
-                                                          .documents[0].link
-                                                          .toString())),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  10,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  10,
-                                              child: user_profile.agency
-                                                          .documents.length ==
-                                                      0
-                                                  ? new Container(
-                                                      color: Colors.pink,
-                                                    )
-                                                  : Image.network(
-                                                      // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                                          .address.addressLine1
+                                                          .toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  'Address2 : ' +
                                                       user_profile.agency
-                                                          .documents[1].link
-                                                          .toString())),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.center,
-                                        child: RaisedButton(
-                                            color: Colors.blue[300],
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Text(
-                                              'Edit',
+                                                          .address.addressLine2
+                                                          .toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  'City : ' +
+                                                      user_profile.agency
+                                                          .address.city
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  'Country : ' +
+                                                      user_profile.agency
+                                                          .address.country
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  'Region : ' +
+                                                      user_profile.agency
+                                                          .address.region
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  'Postal code : ' +
+                                                      user_profile.agency
+                                                          .address.postcode
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            10,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            10,
+                                                    child: user_profile
+                                                                .agency
+                                                                .documents
+                                                                .length ==
+                                                            0
+                                                        ? new Container(
+                                                            color: Colors.pink,
+                                                          )
+                                                        : Image.network(
+                                                            // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                                            user_profile
+                                                                .agency
+                                                                .documents[0]
+                                                                .link
+                                                                .toString())),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            10,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            10,
+                                                    child: user_profile
+                                                                .agency
+                                                                .documents
+                                                                .length ==
+                                                            0
+                                                        ? new Container(
+                                                            color: Colors.pink,
+                                                          )
+                                                        : Image.network(
+                                                            // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                                            user_profile
+                                                                .agency
+                                                                .documents[1]
+                                                                .link
+                                                                .toString())),
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                // Align(
+                                                //   alignment: Alignment.center,
+                                                //   child: RaisedButton(
+                                                //       color: Colors.blue[300],
+                                                //       shape: RoundedRectangleBorder(
+                                                //           borderRadius:
+                                                //               BorderRadius.circular(10)),
+                                                //       child: Text(
+                                                //         'Edit',
+                                                //       ),
+                                                //       onPressed: () {
+                                                //         Navigator.push(
+                                                //             context,
+                                                //             MaterialPageRoute(
+                                                //                 builder: (context) =>
+                                                //                     EditCompanyScreen()));
+                                                //       }),
+                                                // ),
+                                              ],
                                             ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EditCompanyScreen()));
-                                            }),
-                                      ),
-                                    ],
-                                  ),
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return Text('User is not logged in.');
+                                    }
+                                  },
                                 ),
-                              );
-                            } else {
-                              return Text('User is not logged in.');
-                            }
-                          },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        width: 1110,
-                        child: FutureBuilder(
-                          future: getData(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return trips.length != 0
-                                  ? Column(
-                                      children: [
-                                        Center(
-                                            child: Column(
-                                          children: [
-                                            Text(
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: FutureBuilder(
+                        future: getData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return trips.length != 0
+                                ? Column(
+                                    children: [
+                                      Center(
+                                          child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
                                               'Trip history',
                                               style: TextStyle(fontSize: 18),
                                             ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Container(
-                                                child: Wrap(
-                                                    spacing: 20,
-                                                    runSpacing: 40,
-                                                    children: List.generate(
-                                                      trips.length,
-                                                      (index) => Center(
-                                                        child: InfoCard(
-                                                          index: index,
-                                                        ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                              child: Wrap(
+                                                  spacing: 20,
+                                                  runSpacing: 40,
+                                                  children: List.generate(
+                                                    trips.length,
+                                                    (index) => Center(
+                                                      child: InfoCard(
+                                                        index: index,
                                                       ),
-                                                    ))),
-                                          ],
-                                        )),
-                                      ],
-                                    )
-                                  : Text('');
-                            } else {
-                              return Align(
-                                  alignment: Alignment.center,
-                                  child: Text('No data'));
-                            }
-                          },
-                        ),
+                                                    ),
+                                                  ))),
+                                        ],
+                                      )),
+                                    ],
+                                  )
+                                : Text('');
+                          } else {
+                            return Align(
+                                alignment: Alignment.center,
+                                child: Text('No data'));
+                          }
+                        },
                       ),
-                    ],
-                  );
-                } else {
-                  return Center(child: Text('User is not logged in'));
-                }
-              },
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
 

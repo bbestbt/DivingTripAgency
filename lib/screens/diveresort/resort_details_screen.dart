@@ -53,6 +53,7 @@ final TextEditingController _textEditingDiver = TextEditingController();
 enum AppState { NOT_DOWNLOADED, DOWNLOADING, FINISHED_DOWNLOADING }
 int reservation_id;
 double total_price;
+var combine = List();
 
 class _ChartData {
   _ChartData(this.day, this.temp);
@@ -144,6 +145,21 @@ class _detailState extends State<detail> {
   void initState() {
     super.initState();
     ws = new WeatherFactory(key);
+
+    // Future.delayed(Duration.zero, () async {
+    //   await getImage();
+    // });
+  }
+
+  getImage() async {
+    combine.add(details[index].tripTemplate.images);
+    print('trip');
+    print(combine);
+    await getBoat();
+    combine.add(boatDetial.boat.images);
+    print('boat');
+    print(combine);
+    return combine;
   }
 
   getData() async {
@@ -796,7 +812,8 @@ class _detailState extends State<detail> {
                                               ),
                                               // elevation: 8,
                                               child: SingleChildScrollView(
-                                                scrollDirection:Axis.horizontal,
+                                                scrollDirection:
+                                                    Axis.horizontal,
                                                 child: Container(
                                                   child: Column(
                                                     children: [
