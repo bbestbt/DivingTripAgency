@@ -555,7 +555,10 @@ class _detailState extends State<detail> {
                   builder: (context, constraints) => Container(
                     child: Center(
                       child: Container(
-                        color: Colors.blue[100],
+                        decoration: BoxDecoration(
+                            color: Colors.blue[100],
+                            borderRadius: BorderRadius.circular(20)),
+                        // color: Colors.blue[100],
                         height: MediaQuery.of(context).size.height / 2,
                         width: MediaQuery.of(context).size.width / 2,
                         child: FutureBuilder(
@@ -567,7 +570,13 @@ class _detailState extends State<detail> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(height: 20),
-
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Text(
+                                        "Trip detail",
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 10),
                                       child: Text("Trip name : " +
@@ -983,108 +992,135 @@ class _detailState extends State<detail> {
         Container(
           margin: EdgeInsets.symmetric(vertical: 20),
           constraints: BoxConstraints(maxWidth: 1110),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              "Boat images",
-              style: TextStyle(fontSize: 20),
+          decoration: BoxDecoration(
+              color: Colors.teal[100], borderRadius: BorderRadius.circular(20)),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Boat detail",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  // margin: EdgeInsets.symmetric(vertical: 20),
+                  constraints: BoxConstraints(maxWidth: 1110),
+                  child: FutureBuilder(
+                    future: getBoat(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SingleChildScrollView(
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 400,
+                                  height: 400,
+                                  child: CarouselSlider(
+                                    options: CarouselOptions(
+                                      enlargeCenterPage: true,
+                                      enableInfiniteScroll: false,
+                                      autoPlay: true,
+                                    ),
+                                    items: boatDetial.boat.images
+                                        .map((e) => Image.network(
+                                              e.link.toString(),
+                                            ))
+                                        .toList(),
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text("Boat name : " + boatDetial.boat.name),
+                                    SizedBox(height: 10),
+                                    Container(
+                                      width: 500,
+                                      child: Text(
+                                        "Boat description : " +
+                                            boatDetial.boat.description,
+                                        maxLines: 20,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text("Total capacity : " +
+                                        boatDetial.boat.totalCapacity
+                                            .toString()),
+                                    SizedBox(height: 10),
+                                    Text("Diver capacity : " +
+                                        boatDetial.boat.diverCapacity
+                                            .toString()),
+                                    SizedBox(height: 10),
+                                    Text("Staff capacity : " +
+                                        boatDetial.boat.staffCapacity
+                                            .toString()),
+                                    SizedBox(height: 10),
+                                    Text("Address line 1 : " +
+                                        boatDetial.boat.address.addressLine1),
+                                    SizedBox(height: 10),
+                                    Text("Address line 2 : " +
+                                        boatDetial.boat.address.addressLine2),
+                                    SizedBox(height: 10),
+                                    Text("Country : " +
+                                        boatDetial.boat.address.country),
+                                    SizedBox(height: 10),
+                                    Text("City: " +
+                                        boatDetial.boat.address.city),
+                                    SizedBox(height: 10),
+                                    Text("Region : " +
+                                        boatDetial.boat.address.region),
+                                    SizedBox(height: 10),
+                                    Text("Postcode: " +
+                                        boatDetial.boat.address.postcode),
+                                    SizedBox(height: 10),
+
+                                    // Row(
+                                    //     mainAxisAlignment: MainAxisAlignment.center,
+                                    //     children: <Widget>[
+                                    //       RaisedButton(
+                                    //         textColor: Colors.white,
+                                    //         color: Colors.pink,
+                                    //         child: Text("Previous"),
+                                    //         onPressed: () {
+                                    //           carouselController.previousPage();
+                                    //         },
+                                    //       ),
+                                    //       SizedBox(
+                                    //         width: 15,
+                                    //       ),
+                                    //       RaisedButton(
+                                    //         textColor: Colors.white,
+                                    //         color: Colors.pink,
+                                    //         child: Text("Next"),
+                                    //         onPressed: () {
+                                    //           carouselController.nextPage();
+                                    //         },
+                                    //       ),
+                                    // ])
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Center(child: Text('no boat details'));
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ),
         // SizedBox(height: 10),
-        Container(
-          // margin: EdgeInsets.symmetric(vertical: 20),
-          constraints: BoxConstraints(maxWidth: 1110),
-          child: FutureBuilder(
-            future: getBoat(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return SingleChildScrollView(
-                  child: Container(
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          child: Container(
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 24.0),
-                              child: CarouselSlider(
-                                options: CarouselOptions(
-                                  enlargeCenterPage: false,
-                                ),
-                                carouselController: carouselController,
-                                items: boatDetial.boat.images
-                                    .map((e) => Container(
-                                          child: Image.network(
-                                            e.link.toString(),
 
-                                            // fit: BoxFit.cover,
-                                          ),
-                                        ))
-                                    .toList(),
-                              ),
-                            ),
-
-                            //  ListView.builder(
-                            //   scrollDirection:
-                            //       Axis.horizontal,
-                            //   itemCount: boatDetial
-                            //       .boat.images.length,
-                            //   itemBuilder: (context, each) {
-                            //     return Container(
-                            //       width:
-                            //           MediaQuery.of(context)
-                            //                   .size
-                            //                   .width *
-                            //               0.5,
-                            //       child: Card(
-                            //         child: Container(
-                            //           child: Image.network(
-                            //               boatDetial
-                            //                   .boat
-                            //                   .images[each]
-                            //                   .link
-                            //                   .toString()),
-                            //         ),
-                            //       ),
-                            //     );
-                            //   },
-                            // ),
-                          ),
-                        ),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              RaisedButton(
-                                textColor: Colors.white,
-                                color: Colors.pink,
-                                child: Text("Previous"),
-                                onPressed: () {
-                                  carouselController.previousPage();
-                                },
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              RaisedButton(
-                                textColor: Colors.white,
-                                color: Colors.pink,
-                                child: Text("Next"),
-                                onPressed: () {
-                                  carouselController.nextPage();
-                                },
-                              ),
-                            ])
-                      ],
-                    ),
-                  ),
-                );
-              } else {
-                return Center(child: Text('no boat images'));
-              }
-            },
-          ),
-        ),
         // Container(
         //     width: MediaQuery.of(context).size.width / 4,
         //     height: MediaQuery.of(context).size.width / 4,

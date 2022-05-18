@@ -442,7 +442,7 @@ class _detailState extends State<detail> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height:20),
+        SizedBox(height: 20),
         // SectionTitle(
         //   title: "Liveaboard",
         //   color: Color(0xFFFF78a2cc),
@@ -503,7 +503,10 @@ class _detailState extends State<detail> {
                   builder: (context, constraints) => Container(
                     child: Center(
                       child: Container(
-                        color: Colors.blue[100],
+                        decoration: BoxDecoration(
+                            color: Colors.blue[100],
+                            borderRadius: BorderRadius.circular(10)),
+                        // color: Colors.blue[100],
                         height: MediaQuery.of(context).size.height / 2,
                         width: MediaQuery.of(context).size.width / 2,
                         // color: Colors.pink,
@@ -519,6 +522,13 @@ class _detailState extends State<detail> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(height: 20),
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "Trip detail",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ),
                                         Text("Trip name : " +
                                             details[widget.index]
                                                 .tripTemplate
@@ -742,14 +752,15 @@ class _detailState extends State<detail> {
                                               ),
                                               // elevation: 8,
                                               child: SingleChildScrollView(
-                                                scrollDirection: Axis.horizontal,
+                                                scrollDirection:
+                                                    Axis.horizontal,
                                                 child: Container(
                                                   child: Column(
                                                     children: [
                                                       SizedBox(height: 20),
                                                       Row(
                                                         children: [
-                                                            Padding(
+                                                          Padding(
                                                             padding:
                                                                 const EdgeInsets
                                                                         .only(
@@ -771,7 +782,8 @@ class _detailState extends State<detail> {
                                                               Text("Name : " +
                                                                   details[widget
                                                                           .index]
-                                                                      .diveSites[each]
+                                                                      .diveSites[
+                                                                          each]
                                                                       .name),
                                                               // Text("Description : " +
                                                               //     details[widget.index]
@@ -779,7 +791,8 @@ class _detailState extends State<detail> {
                                                               //         .description),
                                                               Container(
                                                                 alignment:
-                                                                    Alignment.topLeft,
+                                                                    Alignment
+                                                                        .topLeft,
                                                                 width: 500,
                                                                 child: Text(
                                                                   "Description : " +
@@ -797,13 +810,15 @@ class _detailState extends State<detail> {
                                                               Text("Max Dept : " +
                                                                   details[widget
                                                                           .index]
-                                                                      .diveSites[each]
+                                                                      .diveSites[
+                                                                          each]
                                                                       .maxDepth
                                                                       .toString()),
                                                               Text("Min Dept : " +
                                                                   details[widget
                                                                           .index]
-                                                                      .diveSites[each]
+                                                                      .diveSites[
+                                                                          each]
                                                                       .minDepth
                                                                       .toString()),
                                                             ],
