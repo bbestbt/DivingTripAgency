@@ -143,12 +143,7 @@ class _editHotelFormState extends State<editHotelForm> {
   XFile Xhotel8;
   XFile Xhotel9;
   XFile Xhotel10;
-
-
-  XFile hxroom1;
-  XFile hxroom2;
-  XFile hxroom3;
-
+  XFile rroom;
   var hotel = Hotel();
   Hotel eachHotel;
   _editHotelFormState(this.eachHotel);
@@ -227,7 +222,7 @@ class _editHotelFormState extends State<editHotelForm> {
           Xhotel2 = hhotel;
         }
         if (num == 3) {
-          hotelimg2 = io.File(hhotel.path);
+          hotelimg3 = io.File(hhotel.path);
           Xhotel3 = hhotel;
         }
         if (num == 4) {
@@ -334,13 +329,13 @@ class _editHotelFormState extends State<editHotelForm> {
       // room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
 
-       for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
-         room.roomImages.add(pinkValue[i].roomImages[j]);
-         print("room.roomImages");
-         print("-------------");
-         print(room.roomImages);
-       print(pinkValue[i].roomImages.length);
-       }
+      // for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
+      //   room.roomImages.add(pinkValue[i].roomImages[j]);
+      //   print("room.roomImages");
+      //   print("-------------");
+      //   print(room.roomImages);
+      // print(pinkValue[i].roomImages.length);
+      // }
       hotel.roomTypes.add(room);
     }
 
@@ -497,8 +492,8 @@ class _editHotelFormState extends State<editHotelForm> {
     for (int i = 0; i < eachHotel.images.length; i++) {
       hotel.images.add(eachHotel.images[i]);
     }
-    print("hotel.images");
-    print(hotel.images);
+    //print("hotel.images");
+    //print(hotel.images);
     final updateRequest = UpdateHotelRequest()..hotel = hotel;
     print(updateRequest);
     try {
@@ -666,7 +661,7 @@ class _editHotelFormState extends State<editHotelForm> {
                               hotelimg.path,
                               //eachHotel.images[0].link.toString(),
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg.path),
@@ -722,7 +717,7 @@ class _editHotelFormState extends State<editHotelForm> {
                               //eachHotel.images[1].link.toString(),
 
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg2.path),
@@ -775,9 +770,9 @@ class _editHotelFormState extends State<editHotelForm> {
                       : kIsWeb
                           ? Image.network(
                               hotelimg3.path,
-                              //hotel.images[hotel.images.length-2],
+
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg3.path),
@@ -830,7 +825,7 @@ class _editHotelFormState extends State<editHotelForm> {
                           ? Image.network(
                               hotelimg4.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg4.path),
@@ -884,7 +879,7 @@ class _editHotelFormState extends State<editHotelForm> {
                           ? Image.network(
                               hotelimg5.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg5.path),
@@ -938,7 +933,7 @@ class _editHotelFormState extends State<editHotelForm> {
                           ? Image.network(
                               hotelimg6.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg6.path),
@@ -992,7 +987,7 @@ class _editHotelFormState extends State<editHotelForm> {
                           ? Image.network(
                               hotelimg7.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg7.path),
@@ -1046,7 +1041,7 @@ class _editHotelFormState extends State<editHotelForm> {
                           ? Image.network(
                               hotelimg8.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg8.path),
@@ -1100,7 +1095,7 @@ class _editHotelFormState extends State<editHotelForm> {
                           ? Image.network(
                               hotelimg9.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg9.path),
@@ -1153,7 +1148,7 @@ class _editHotelFormState extends State<editHotelForm> {
                           ? Image.network(
                               hotelimg10.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg10.path),

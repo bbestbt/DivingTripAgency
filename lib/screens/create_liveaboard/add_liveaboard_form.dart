@@ -157,8 +157,6 @@ class _addLiveaboardState extends State<addLiveaboard> {
     address.country = countrySelected;
     liveaboard.address = address;
 
-
-
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
       for (int j = 0; j < blueValue[i].length; j++) {
@@ -178,11 +176,13 @@ class _addLiveaboardState extends State<addLiveaboard> {
       for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
         room.roomImages.add(pinkValue[i].roomImages[j]);
       }
-      // liveaboard.roomTypes.add(room);
+
+      liveaboard.roomTypes.add(room);
     }
 
     var liveaboardRequest = AddLiveaboardRequest();
     liveaboardRequest.liveaboard = liveaboard;
+    print(liveaboardRequest);
     try {
       var response = await stub.addLiveaboard(liveaboardRequest);
       print(token);
@@ -261,28 +261,27 @@ class _addLiveaboardState extends State<addLiveaboard> {
                 width: MediaQuery.of(context).size.width / 3.6,
                 color: Colors.white,
                 child: Center(
-                  child: InkWell(
-                    onTap: () {
-                      showCountryPicker(
-                        context: context,
-                        onSelect: (Country country) {
-                          setState(() {
-                            countrySelected = country.name;
-
-                          });
-                          //print("_country");
-                          //print(_country.name);
-                        },
-                      );
-                    },
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        labelText: "Select country",
-                      ),
-                      child: countrySelected != null ? Text(countrySelected) : null,
+                    child: InkWell(
+                  onTap: () {
+                    showCountryPicker(
+                      context: context,
+                      onSelect: (Country country) {
+                        setState(() {
+                          countrySelected = country.name;
+                        });
+                        //print("_country");
+                        //print(_country.name);
+                      },
+                    );
+                  },
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: "Select country",
                     ),
-                  )
-                ),
+                    child:
+                        countrySelected != null ? Text(countrySelected) : null,
+                  ),
+                )),
               ),
               // Container(
               //     width: MediaQuery.of(context).size.width / 3.6,
@@ -359,7 +358,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           ? Image.network(
                               liveaboardimg.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg.path),
@@ -402,7 +401,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           ? Image.network(
                               liveaboardimg2.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg2.path),
@@ -445,7 +444,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           ? Image.network(
                               liveaboardimg3.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg3.path),
@@ -488,7 +487,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           ? Image.network(
                               liveaboardimg4.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg4.path),
@@ -531,7 +530,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           ? Image.network(
                               liveaboardimg5.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg5.path),
@@ -574,7 +573,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           ? Image.network(
                               liveaboardimg6.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg6.path),
@@ -617,7 +616,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           ? Image.network(
                               liveaboardimg7.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg7.path),
@@ -660,7 +659,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           ? Image.network(
                               liveaboardimg8.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg8.path),
@@ -703,7 +702,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           ? Image.network(
                               liveaboardimg9.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg9.path),
@@ -746,7 +745,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                           ? Image.network(
                               liveaboardimg10.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg10.path),
@@ -777,7 +776,8 @@ class _addLiveaboardState extends State<addLiveaboard> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xffffee1e8),
+                color: Color(0xfffabddfc),
+                // Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreRoom(this.pinkValue, this.blueValue, this.errors),
           ),

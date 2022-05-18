@@ -1,3 +1,4 @@
+
 import 'package:country_picker/country_picker.dart';
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
@@ -336,7 +337,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                         ? Image.network(
                             boatimg.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(boatimg.path),
@@ -374,7 +375,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                         ? Image.network(
                             boatimg2.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(boatimg2.path),
@@ -412,7 +413,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                         ? Image.network(
                             boatimg3.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(boatimg3.path),
@@ -450,7 +451,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                         ? Image.network(
                             boatimg4.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(boatimg4.path),
@@ -488,7 +489,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                         ? Image.network(
                             boatimg5.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(boatimg5.path),

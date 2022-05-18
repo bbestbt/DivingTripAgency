@@ -66,7 +66,6 @@ class _RoomFormState extends State<RoomForm> {
   final TextEditingController _controllerRoomname = TextEditingController();
   final TextEditingController _controllerQuantity = TextEditingController();
 
-
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -96,7 +95,7 @@ class _RoomFormState extends State<RoomForm> {
     this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
     print("RoomImages");
     // print(this.pinkValue[this.pinkcount - 1].roomImages);
-     print(this.pinkValue[this.pinkcount - 1].roomImages.length);
+    print(this.pinkValue[this.pinkcount - 1].roomImages.length);
 
     if (rroom != null) {
       setState(() {
@@ -147,7 +146,9 @@ class _RoomFormState extends State<RoomForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xfffd4f0f0),
+                color: Color(0xfffa2b8f2),
+                //  Color(0xfffc1cff7),
+                // Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreAmenity(this.pinkcount, this.blueValue, this.errors),
           ),
@@ -173,7 +174,7 @@ class _RoomFormState extends State<RoomForm> {
                           ? Image.network(
                               roomimg.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(roomimg.path),
@@ -207,23 +208,23 @@ class _RoomFormState extends State<RoomForm> {
               Center(
                   child: roomimg2 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    roomimg2.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(roomimg2.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
-             Spacer(),
+                          ? Image.network(
+                              roomimg2.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.1,
+                            )
+                          : Image.file(
+                              io.File(roomimg2.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
+              Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
@@ -250,22 +251,22 @@ class _RoomFormState extends State<RoomForm> {
               Center(
                   child: roomimg3 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    roomimg3.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.2,
-                  )
-                      : Image.file(
-                    io.File(roomimg3.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              roomimg3.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.1,
+                            )
+                          : Image.file(
+                              io.File(roomimg3.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -320,7 +321,8 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Room description",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
+        // Color(0xffffee1e8),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -357,7 +359,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Price",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -395,7 +397,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Max capacity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -486,7 +488,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Room type",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -523,7 +525,7 @@ class _RoomFormState extends State<RoomForm> {
       decoration: InputDecoration(
         labelText: "Room quantity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );

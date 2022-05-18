@@ -87,65 +87,65 @@ class _TripDetailState extends State<TripDetail> {
     } catch (e) {
       print('ERROR: $e');
     }
-
+    print(trips);
     return trips;
   }
 
-  searchData() async {
-    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
-        host: '139.59.101.136',
-        grpcPort: 50051,
-        grpcTransportSecure: false,
-        grpcWebPort: 8080,
-        grpcWebTransportSecure: false);
-    final box = Hive.box('userInfo');
-    String token = box.get('token');
+  // searchData() async {
+  //   final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+  //       host: '139.59.101.136',
+  //       grpcPort: 50051,
+  //       grpcTransportSecure: false,
+  //       grpcWebPort: 8080,
+  //       grpcWebTransportSecure: false);
+  //   final box = Hive.box('userInfo');
+  //   String token = box.get('token');
 
-    final stub = AgencyServiceClient(channel,
-        options: CallOptions(metadata: {'Authorization': '$token'}));
-    var searchtrips = SearchTripsOptions();
+  //   final stub = AgencyServiceClient(channel,
+  //       options: CallOptions(metadata: {'Authorization': '$token'}));
+  //   var searchtrips = SearchTripsOptions();
 
-    searchtrips.country = '5';
+  //   searchtrips.country = '5';
 
-    searchtrips.divers = 1;
+  //   searchtrips.divers = 1;
 
-    var ts = Timestamp();
-    ts.seconds = Int64(1643670395);
-    searchtrips.startDate = ts;
-    var ts2 = Timestamp();
-    // ts2.seconds = Int64(1645996634);
-    ts2.seconds = Int64(1648767995);
-    searchtrips.endDate = ts2;
+  //   var ts = Timestamp();
+  //   ts.seconds = Int64(1643670395);
+  //   searchtrips.startDate = ts;
+  //   var ts2 = Timestamp();
+  //   // ts2.seconds = Int64(1645996634);
+  //   ts2.seconds = Int64(1648767995);
+  //   searchtrips.endDate = ts2;
 
-    // searchtrips.tripType = TripType.OFFSHORE;
-    var searchtriprequest = SearchTripsRequest();
-    searchtriprequest.limit = Int64(100);
-    searchtriprequest.offset = Int64(100);
-    searchtriprequest.searchTripsOptions = searchtrips;
+  //   // searchtrips.tripType = TripType.OFFSHORE;
+  //   var searchtriprequest = SearchTripsRequest();
+  //   searchtriprequest.limit = Int64(100);
+  //   searchtriprequest.offset = Int64(100);
+  //   searchtriprequest.searchTripsOptions = searchtrips;
 
-    trips.clear();
+  //   trips.clear();
 
-    try {
-      await for (var feature in stub.searchTrips(searchtriprequest)) {
-        // print(feature.trip.price);
-        // print(feature.trip.fromDate);
-        // print(feature.trip.toDate);
-        // print(feature.trip.maxGuest);
-        // print(feature.trip.tripTemplate.address.city);
-        // print(feature.trip.tripTemplate.images);
-        //  print(feature.trip);
-        trips.add(feature.trip);
-        //  print(trips.length);
-        // tripMap[feature.trip.toString()] = feature.trip.id;
-      }
-    } catch (e) {
-      print('ERROR: $e');
-    }
-    // print('---');
-    return trips;
-    // print(trips.length);
-    // print('****');
-  }
+  //   try {
+  //     await for (var feature in stub.searchTrips(searchtriprequest)) {
+  //       // print(feature.trip.price);
+  //       // print(feature.trip.fromDate);
+  //       // print(feature.trip.toDate);
+  //       // print(feature.trip.maxGuest);
+  //       // print(feature.trip.tripTemplate.address.city);
+  //       // print(feature.trip.tripTemplate.images);
+  //       //  print(feature.trip);
+  //       trips.add(feature.trip);
+  //       //  print(trips.length);
+  //       // tripMap[feature.trip.toString()] = feature.trip.id;
+  //     }
+  //   } catch (e) {
+  //     print('ERROR: $e');
+  //   }
+  //   // print('---');
+  //   return trips;
+  //   // print(trips.length);
+  //   // print('****');
+  // }
 
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -163,41 +163,20 @@ class _TripDetailState extends State<TripDetail> {
                     padding: EdgeInsets.all(10.0),
                     //height: 1080,
 
-                    decoration: BoxDecoration(color: Colors.red[50]),
-                    child: Column(children: [
-                      Wrap(spacing: 10, children: [
-                        AutoSizeText(
-                          "SEARCH",
-                          maxFontSize: fontsize,
-                          minFontSize: 10,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                    decoration: BoxDecoration(color: Color(0xfffd7e5f0)
+                        //  Colors.red[50]
                         ),
-                        ElevatedButton(
-                            style: TextButton.styleFrom(
-                              textStyle: const TextStyle(fontSize: 20),
-                            ),
-                            onPressed: () {
-                              _runFilter();
-                            },
-                            child: AutoSizeText(
-                              "Search",
-                              maxFontSize: fontsize,
-                              minFontSize: 5,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ))
-                      ]),
-                      SizedBox(height: 20),
+                    child: Column(children: [
+                      SizedBox(
+                        height: 20,
+                      ),
                       Wrap(
                         spacing: 10,
                         children: [
-                          Text('Start Date'),
+                          Text('Start date'),
                           //Spacer(),
                           // Text(_dateFrom == null ? '' : _dateFrom.toString()),
-                          AutoSizeText(_dateFrom == null
-                              ? ''
-                              : DateFormat("dd/MM/yyyy").format(_dateFrom)),
+
                           //Spacer(),
                           RaisedButton(
                               color: Color(0xfff8dd9cc),
@@ -216,18 +195,19 @@ class _TripDetailState extends State<TripDetail> {
                                           })
                                         });
                               }),
+                          Text(_dateFrom == null
+                              ? ''
+                              : DateFormat("dd/MM/yyyy").format(_dateFrom)),
                         ],
                       ),
                       SizedBox(height: 20),
                       Wrap(
                         spacing: 10,
                         children: [
-                          Text('To'),
-                         // Spacer(),
+                          Text('End date'),
+                          // Spacer(),
                           // Text(_dateTo == null ? '' : _dateTo.toString()),
-                          Text(_dateTo == null
-                              ? ''
-                              : DateFormat("dd/MM/yyyy").format(_dateTo)),
+
                           //Spacer(),
                           RaisedButton(
                               color: Color(0xfff8dd9cc),
@@ -246,69 +226,71 @@ class _TripDetailState extends State<TripDetail> {
                                           })
                                         });
                               }),
+                          Text(_dateTo == null
+                              ? ''
+                              : DateFormat("dd/MM/yyyy").format(_dateTo)),
                         ],
                       ),
                       SizedBox(height: 20),
-                      Wrap(
-                        spacing: 10,
-                        children: [
-                          Text('Location'),
-                         // Spacer(),
-                          DropdownButton<String>(
-                            value: dropdownValue,
-                            icon: const Icon(Icons.arrow_downward),
-                            elevation: 16,
-                            iconSize: 30,
-                            isExpanded: true,
-                            style: const TextStyle(color: Colors.black),
-                            underline: Container(
-                              height: 2,
-                              color: Colors.black,
-                            ),
-                            onChanged: (String newValue) {
-                              setState(() {
-                                dropdownValue = newValue;
-                              });
-                            },
-                            items: <String>[
-                              'All',
-                              'Pattaya',
-                              'Chumphon',
-                              'Chanthaburi',
-                              'Surat Thani',
-                              'Koh Tao',
-                              'Krabi',
-                              'Trat'
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      ),
+                      // Wrap(
+                      //   spacing: 10,
+                      //   children: [
+                      //     Text('Location'),
+                      //     // Spacer(),
+                      //     DropdownButton<String>(
+                      //       value: dropdownValue,
+                      //       icon: const Icon(Icons.arrow_downward),
+                      //       elevation: 16,
+                      //       iconSize: 30,
+                      //       isExpanded: true,
+                      //       style: const TextStyle(color: Colors.black),
+                      //       underline: Container(
+                      //         height: 2,
+                      //         color: Colors.black,
+                      //       ),
+                      //       onChanged: (String newValue) {
+                      //         setState(() {
+                      //           dropdownValue = newValue;
+                      //         });
+                      //       },
+                      //       items: <String>[
+                      //         'All',
+                      //         'Pattaya',
+                      //         'Chumphon',
+                      //         'Chanthaburi',
+                      //         'Surat Thani',
+                      //         'Koh Tao',
+                      //         'Krabi',
+                      //         'Trat'
+                      //       ].map<DropdownMenuItem<String>>((String value) {
+                      //         return DropdownMenuItem<String>(
+                      //           value: value,
+                      //           child: Text(value),
+                      //         );
+                      //       }).toList(),
+                      //     ),
+                      //   ],
+                      // ),
                       SizedBox(height: 20),
-                      Container(child:
-                      InkWell(
+                      Container(
+                          child: InkWell(
                         onTap: () {
                           showCountryPicker(
                             context: context,
                             onSelect: (Country country) {
-                               setState(() => _country = country);
-                               print("_country");
-                               print(_country.name);
+                              setState(() => _country = country);
+                              print("_country");
+                              print(_country.name);
                             },
                           );
                         },
                         child: InputDecorator(
-                            decoration: InputDecoration(
-                              labelText: "Select country",
-                            ),
-                            child: _country != null ? Text(_country.name) : null,
+                          decoration: InputDecoration(
+                            labelText: "Select country",
                           ),
-                        )
-                      ),
+                          child: _country != null ? Text(_country.name) : null,
+                        ),
+                      )),
                       SizedBox(height: 20),
                       Wrap(
                         spacing: 10,
@@ -334,7 +316,7 @@ class _TripDetailState extends State<TripDetail> {
                         spacing: 10,
                         children: [
                           AutoSizeText('Trip Duration (days)'),
-                         // Spacer(),
+                          // Spacer(),
                           TextField(
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
@@ -480,10 +462,36 @@ class _TripDetailState extends State<TripDetail> {
                                   ]))),
                         ],
                       )),
+                      Wrap(spacing: 10, children: [
+                        // AutoSizeText(
+                        //   "SEARCH",
+                        //   maxFontSize: fontsize,
+                        //   minFontSize: 10,
+                        //   maxLines: 1,
+                        //   overflow: TextOverflow.ellipsis,
+                        // ),
+                        ElevatedButton(
+                            style: TextButton.styleFrom(
+                              textStyle: const TextStyle(
+                                fontSize: 20,
+                              ),
+                              backgroundColor: Color(0xfff8dd9cc),
+                            ),
+                            onPressed: () {
+                              _runFilter();
+                            },
+                            child: AutoSizeText(
+                              "SEARCH",
+                              maxFontSize: fontsize,
+                              minFontSize: 5,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: Colors.black),
+                            ))
+                      ]),
+                      SizedBox(height: 20),
                     ] //Container of left side
-                        )
-                )
-            ),
+                        ))),
             Expanded(
                 flex: 6,
                 child: Container(
@@ -544,24 +552,20 @@ class _TripDetailState extends State<TripDetail> {
                           ),
                         )))),
           ]),
-
     );
   }
 
   void _runFilter() {
-    // print("Date diff: " + _diff);
-    // print("Dropdownvalue2:"+dropdownValue2);
-    // print("Dropdownvalue:"+dropdownValue);
+
     List<TripWithTemplate> results = [];
-    // print("_diff: " + _diff.toString());
     if (dropdownValue == "All" &&
         dropdownValue2 == "All" &&
         _dateFrom == null &&
         _dateTo == null &&
         guestvalue == null &&
         _diff == "" &&
-        tripcost == Cost.all
-        && _country == null) {
+        tripcost == Cost.all &&
+        _country == null) {
       // print("Filtering 1");
 
       // if the search field is empty or only contains white-space, we'll display all users
@@ -569,6 +573,7 @@ class _TripDetailState extends State<TripDetail> {
       //print("Date diff of trip 0: "+results[1].startDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays.abs().toString());
       //print(results[0].tripTemplate.tripType.toString());
       //results[0].tripTemplate.tripType.toString();
+      print(results);
       setState(() {
         _foundtrip = results;
       });
@@ -585,13 +590,12 @@ class _TripDetailState extends State<TripDetail> {
             .where((trip) =>
                 trip.tripTemplate.address.city.contains(dropdownValue))
             .toList();
-
       }
-      if (_country !=null){
+      if (_country != null) {
         print(_country.displayNameNoCountryCode);
         results = results
             .where((trip) =>
-            trip.tripTemplate.address.country.contains(_country.name))
+                trip.tripTemplate.address.country.contains(_country.name))
             .toList();
       }
       if (_dateFrom != null) {
@@ -616,22 +620,20 @@ class _TripDetailState extends State<TripDetail> {
         //print(results[0].maxGuest);
       }
       if (dropdownValue2 != "All") {
-      //  print("DropdownValue2");
-      //  print(dropdownValue2);
+        //  print("DropdownValue2");
+        //  print(dropdownValue2);
         if (dropdownValue2 == "Onshore") {
           // print("dropdownValue 2 (Should be onshore):"+dropdownValue2);
           results = results
               .where(
                   (trip) => trip.tripTemplate.tripType.toString() == "ONSHORE")
               .toList();
-
         } else if (dropdownValue2 == "Offshore") {
           print("dropdownValue 2 (Should be Offshore):" + dropdownValue2);
           results = results
               .where(
                   (trip) => trip.tripTemplate.tripType.toString() == "OFFSHORE")
               .toList();
-
         }
       }
       if (_diff != "") {
@@ -648,24 +650,24 @@ class _TripDetailState extends State<TripDetail> {
         //print((results[1].fromDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays).abs());
         //print(_diff);
       }
-// Edit cost filter
-      if (tripcost != Cost.all) {
-        if (tripcost == Cost.one) {
-          results = results
-              .where((trip) => (trip.price > 0 && trip.price <= 1000))
-              .toList();
-        } else if (tripcost == Cost.two) {
-          results = results
-              .where((trip) => (trip.price > 1000 && trip.price <= 2000))
-              .toList();
-        } else if (tripcost == Cost.three) {
-          results = results
-              .where((trip) => (trip.price > 2000 && trip.price <= 3000))
-              .toList();
-        } else if (tripcost == Cost.more) {
-          results = results.where((trip) => (trip.price > 3000)).toList();
-        }
-      }
+ //Edit cost filter erroe
+       if (tripcost != Cost.all) {
+         if (tripcost == Cost.one) {
+           results = results
+               .where((trip) => (trip.tripRoomTypePrices[0].price > 0 && trip.tripRoomTypePrices[0].price <= 1000))
+               .toList();
+         } else if (tripcost == Cost.two) {
+           results = results
+               .where((trip) => (trip.tripRoomTypePrices[0].price > 1000 && trip.tripRoomTypePrices[0].price <= 2000))
+               .toList();
+         } else if (tripcost == Cost.three) {
+           results = results
+               .where((trip) => (trip.tripRoomTypePrices[0].price > 2000 && trip.tripRoomTypePrices[0].price <= 3000))
+               .toList();
+         } else if (tripcost == Cost.more) {
+           results = results.where((trip) => (trip.tripRoomTypePrices[0].price > 3000)).toList();
+         }
+       }
 
       setState(() {
         _foundtrip = results;
@@ -735,6 +737,9 @@ class _InfoCardState extends State<InfoCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      SizedBox(
+                        height: 20,
+                      ),
                       // Text('Trip name : ' + _foundtrip[widget.index].name),
                       //LiveAboardDatas[widget.index].name),
                       Text('Trip name : ' +
@@ -791,8 +796,16 @@ class _InfoCardState extends State<InfoCard> {
                       ),
                       Align(
                           alignment: Alignment.centerRight,
-                          child: Text('Price : ' +
-                              _foundtrip[widget.index].price.toString())),
+                          child: _foundtrip[widget.index]
+                                      .tripRoomTypePrices
+                                      .length ==
+                                  0
+                              ? Text('no price')
+                              : Text('Price : ' +
+                                  // _foundtrip[widget.index].price.toString()
+                                  _foundtrip[widget.index]
+                                      .tripRoomTypePrices[0].price
+                                      .toString())),
                       SizedBox(
                         height: 20,
                       ),
@@ -800,16 +813,15 @@ class _InfoCardState extends State<InfoCard> {
                         alignment: Alignment.centerRight,
                         child: RaisedButton(
                           onPressed: () {
-                             print(_foundtrip[widget.index]
-
-                               .tripTemplate
-                               .tripType
-                               .toString());
-                           if (_foundtrip[widget.index]
+                            print(_foundtrip[widget.index]
+                                .tripTemplate
+                                .tripType
+                                .toString());
+                            if (_foundtrip[widget.index]
                                     .tripTemplate
                                     .tripType
                                     .toString() ==
-                               "ONSHORE") {
+                                "ONSHORE") {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -834,7 +846,10 @@ class _InfoCardState extends State<InfoCard> {
                               borderRadius: BorderRadius.circular(10)),
                           child: Text("View package"),
                         ),
-                      )
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 )),

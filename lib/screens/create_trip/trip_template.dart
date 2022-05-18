@@ -425,25 +425,28 @@ class _TriptemplateState extends State<Triptemplate> {
         //   ],
         // ),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Create new triptemplate'),
-            Switch(
-              value: switchValue,
-              onChanged: (value) {
-                switchValue = value;
-                isVisibleNew = !isVisibleNew;
-                isVisibleOld = !isVisibleOld;
-                setState(() {
-                     switchValue = value;
-                     print(switchValue);
-                     widget.customFunction(switchValue);
-                });
-              },
-            ),
-            Text('Create from old triptemplae'),
-          ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Create new triptemplate'),
+              Switch(
+                value: switchValue,
+                onChanged: (value) {
+                  switchValue = value;
+                  isVisibleNew = !isVisibleNew;
+                  isVisibleOld = !isVisibleOld;
+                  setState(() {
+                       switchValue = value;
+                       print(switchValue);
+                       widget.customFunction(switchValue);
+                  });
+                },
+              ),
+              Text('Create from old triptemplae'),
+            ],
+          ),
         ),
         // FlatButton(onPressed: () {
         //   print(switchValue);
@@ -452,7 +455,8 @@ class _TriptemplateState extends State<Triptemplate> {
         Visibility(
           visible: isVisibleOld,
           child: Container(
-            color: Color(0xfffa2c8ff),
+            color: Color(0xfffabddfc),
+            // Color(0xfffa2c8ff),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
@@ -997,7 +1001,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 ? Image.network(
                                     Pictrip.path,
                                     fit: BoxFit.cover,
-                                    width: screenwidth * 0.2,
+                                    width: screenwidth * 0.1,
                                   )
                                 : Image.file(
                                     io.File(Pictrip.path),
@@ -1028,7 +1032,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 ? Image.network(
                                     Pictrip2.path,
                                     fit: BoxFit.cover,
-                                    width: screenwidth * 0.2,
+                                    width: screenwidth * 0.1,
                                   )
                                 : Image.file(
                                     io.File(Pictrip2.path),
@@ -1059,7 +1063,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 ? Image.network(
                                     Pictrip3.path,
                                     fit: BoxFit.cover,
-                                    width: screenwidth * 0.2,
+                                    width: screenwidth * 0.1,
                                   )
                                 : Image.file(
                                     io.File(Pictrip3.path),
@@ -1090,7 +1094,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 ? Image.network(
                                     Pictrip4.path,
                                     fit: BoxFit.cover,
-                                    width: screenwidth * 0.2,
+                                    width: screenwidth * 0.1,
                                   )
                                 : Image.file(
                                     io.File(Pictrip4.path),
@@ -1121,7 +1125,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 ? Image.network(
                                     Pictrip5.path,
                                     fit: BoxFit.cover,
-                                    width: screenwidth * 0.2,
+                                    width: screenwidth * 0.1,
                                   )
                                 : Image.file(
                                     io.File(Pictrip5.path),
@@ -1152,7 +1156,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 ? Image.network(
                                     Boatpic.path,
                                     fit: BoxFit.cover,
-                                    width: screenwidth * 0.2,
+                                    width: screenwidth * 0.1,
                                   )
                                 : Image.file(
                                     io.File(Boatpic.path),
@@ -1183,7 +1187,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                 ? Image.network(
                                     Schedule.path,
                                     fit: BoxFit.cover,
-                                    width: screenwidth * 0.2,
+                                    width: screenwidth * 0.1,
                                   )
                                 : Image.file(
                                     io.File(Schedule.path),

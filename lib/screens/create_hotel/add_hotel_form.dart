@@ -354,7 +354,7 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg.path),
@@ -398,7 +398,7 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg2.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg2.path),
@@ -442,7 +442,7 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg3.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg3.path),
@@ -485,7 +485,7 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg4.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg4.path),
@@ -529,7 +529,7 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg5.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg5.path),
@@ -573,7 +573,7 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg6.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg6.path),
@@ -617,7 +617,7 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg7.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg7.path),
@@ -661,7 +661,7 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg8.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg8.path),
@@ -705,7 +705,7 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg9.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg9.path),
@@ -748,7 +748,7 @@ class _addHotelState extends State<addHotel> {
                           ? Image.network(
                               hotelimg10.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(hotelimg10.path),
@@ -818,7 +818,8 @@ class _addHotelState extends State<addHotel> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xffffee1e8),
+                color: Color(0xfffabddfc),
+                // Color(0xffffee1e8),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreRoom(this.pinkValue, this.blueValue, this.errors),
           ),

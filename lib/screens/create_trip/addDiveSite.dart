@@ -56,7 +56,8 @@ class _AddMoreDiveSiteState extends State<AddMoreDiveSite> {
                   pinkValue.add(new DiveSite());
                 });
               },
-              color: Color(0xfffff968a),
+              color: Color(0xfff45b6fe),
+              // Color(0xfffff968a),
               textColor: Colors.white,
               child: Icon(
                 Icons.add,
@@ -71,7 +72,7 @@ class _AddMoreDiveSiteState extends State<AddMoreDiveSite> {
                   pinkValue.remove(new DiveSite());
                 });
               },
-              color: Color(0xfffff968a),
+              color: Color(0xfff45b6fe),
               textColor: Colors.white,
               child: Icon(
                 Icons.remove,

@@ -17,7 +17,6 @@ import 'package:intl/intl.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp.pb.dart';
 import 'package:flutter/services.dart';
 
-
 class CreateTripForm extends StatefulWidget {
   @override
   _CreateTripFormState createState() => _CreateTripFormState();
@@ -120,7 +119,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.endDate = Timestamp.fromDateTime(to);
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
-    trip.price = double.parse(_controllerPrice.text);
+    // trip.price = double.parse(_controllerPrice.text);
 
     for (int i = 0; i < pinkValue.length; i++) {
       var divesite = DiveSite();
@@ -235,7 +234,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
       trip.tripTemplate.images.add(triptemplate.images[j]);
     }
 
-    trip.price = double.parse(_controllerPrice.text);
+    // trip.price = double.parse(_controllerPrice.text);
     // trip.diveMasterIds.add(divemasterMap[divemasterSelected]);
 
     for (int i = 0; i < pinkValue.length; i++) {
@@ -531,14 +530,15 @@ class _CreateTripFormState extends State<CreateTripForm> {
           // ),
           SizedBox(height: 20),
 
-          buildPriceFormField(),
-          SizedBox(height: 20),
+          // buildPriceFormField(),
+          // SizedBox(height: 20),
           buildTotalPeopleFormField(),
           SizedBox(height: 20),
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xffffee1e8),
+                // color: Color(0xffffee1e8),
+                color: Color(0xfffb7e9f7),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreDiveSite(this.pinkValue, this.errors),
           ),
