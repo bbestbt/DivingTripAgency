@@ -363,7 +363,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                           ? Image.network(
                               CardFile.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(CardFile.path),
@@ -415,7 +415,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                           ? Image.network(
                               CardFileBack.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(CardFileBack.path),

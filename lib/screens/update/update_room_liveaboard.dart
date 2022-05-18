@@ -292,6 +292,9 @@ class _InfoCardState extends State<InfoCard> {
   String room_name;
   int quantity;
   XFile rroom;
+  // XFile xlimg1;
+  // XFile xlimg2;
+  // XFile xlimg3;
   Liveaboard eachLiveaboard;
   int pinkcount;
   int bluecount;
@@ -399,7 +402,7 @@ class _InfoCardState extends State<InfoCard> {
                           ? Image.network(
                               roomimg.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(roomimg.path),
@@ -441,7 +444,7 @@ class _InfoCardState extends State<InfoCard> {
                           ? Image.network(
                               roomimg2.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(roomimg2.path),
@@ -483,7 +486,7 @@ class _InfoCardState extends State<InfoCard> {
                           ? Image.network(
                               roomimg3.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(roomimg3.path),
@@ -636,8 +639,11 @@ class _RoomFormState extends State<RoomForm> {
   List<List<Amenity>> blueValue;
   int indexForm;
   Liveaboard eachLiveaboard;
-
   XFile rroom;
+  // XFile Xrimg1;
+  // XFile Xrimg2;
+  // XFile Xrimg3;
+
   _RoomFormState(int pinkcount, List<RoomType> pinkValue,
       List<List<Amenity>> blueValue, int indexForm, Liveaboard eachLiveaboard) {
     this.pinkcount = pinkcount;
@@ -737,7 +743,7 @@ class _RoomFormState extends State<RoomForm> {
                           ? Image.network(
                               roomimg.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(roomimg.path),
@@ -780,7 +786,7 @@ class _RoomFormState extends State<RoomForm> {
                           ? Image.network(
                               roomimg2.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(roomimg2.path),
@@ -823,7 +829,7 @@ class _RoomFormState extends State<RoomForm> {
                           ? Image.network(
                               roomimg3.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(roomimg3.path),

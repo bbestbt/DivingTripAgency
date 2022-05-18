@@ -655,7 +655,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                               //liveaboardimg.path,
                               eachLiveaboard.images[0].link.toString(),
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg.path),
@@ -670,7 +670,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         ? Image.network(
                             liveaboardimg.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(liveaboardimg.path),
@@ -715,7 +715,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                               //liveaboardimg2.path,
                               eachLiveaboard.images[1].link.toString(),
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg2.path),
@@ -730,7 +730,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         ? Image.network(
                             liveaboardimg2.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(liveaboardimg2.path),
@@ -773,7 +773,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                           ? Image.network(
                               eachLiveaboard.images[2].link.toString(),
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg3.path),
@@ -788,7 +788,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         ? Image.network(
                             liveaboardimg3.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(liveaboardimg3.path),
@@ -831,7 +831,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                           ? Image.network(
                               eachLiveaboard.images[3].link.toString(),
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg4.path),
@@ -846,7 +846,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         ? Image.network(
                             liveaboardimg4.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(liveaboardimg4.path),
@@ -889,7 +889,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                           ? Image.network(
                               eachLiveaboard.images[4].link.toString(),
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg5.path),
@@ -904,7 +904,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         ? Image.network(
                             liveaboardimg5.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(liveaboardimg5.path),
@@ -947,7 +947,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                           ? Image.network(
                               eachLiveaboard.images[5].link.toString(),
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg6.path),
@@ -962,7 +962,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         ? Image.network(
                             liveaboardimg6.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(liveaboardimg6.path),
@@ -1005,7 +1005,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                           ? Image.network(
                               eachLiveaboard.images[6].link.toString(),
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg7.path),
@@ -1020,7 +1020,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         ? Image.network(
                             liveaboardimg7.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(liveaboardimg7.path),
@@ -1063,7 +1063,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                           ? Image.network(
                               eachLiveaboard.images[7].link.toString(),
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg8.path),
@@ -1078,7 +1078,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         ? Image.network(
                             liveaboardimg8.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(liveaboardimg8.path),
@@ -1121,7 +1121,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                           ? Image.network(
                               eachLiveaboard.images[8].link.toString(),
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg9.path),
@@ -1136,7 +1136,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         ? Image.network(
                             liveaboardimg9.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(liveaboardimg9.path),
@@ -1179,7 +1179,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                           ? Image.network(
                               eachLiveaboard.images[9].link.toString(),
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.2,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(liveaboardimg10.path),
@@ -1194,7 +1194,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         ? Image.network(
                             liveaboardimg10.path,
                             fit: BoxFit.cover,
-                            width: screenwidth * 0.2,
+                            width: screenwidth * 0.1,
                           )
                         : Image.file(
                             io.File(liveaboardimg10.path),

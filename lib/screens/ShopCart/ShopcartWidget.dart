@@ -112,35 +112,35 @@ class _CartState extends State<CartWidget> {
     int i;
     bool checked=false;
     final box = Hive.box('userInfo');
-    for(i=0;i<CartBox.get('clength');i++) {
-      //if(checked==false && CartBox.get("usertoken"+i.toString())==token) {
-      if(checked==false && CartBox.get("username"+i.toString())==box.get("username")) {
-
-
-        Cartlist.add([
-          CartBox.get('image'+i.toString()),//0
-          CartBox.get('tripname'+i.toString()), //1
-          //"Tripname",
-          CartBox.get('hotelname'+i.toString()), //2
-          CartBox.get('roomtype'+i.toString()), //3
-          CartBox.get('price'+i.toString()) * CartBox.get("quantity"+i.toString()), //4
-          //tripname[0]['tripdetail'],
-          "TripName", //5
-          "roomname", //6
-          0, //7
-          CartBox.get("indexDetail"), //8
-          CartBox.get("quantity"+i.toString()), //9
-          CartBox.get("diver"+i.toString()), //10
-          CartBox.get("roomid"+i.toString()), //11
-          CartBox.get("tripid"+i.toString()), //12
-          CartBox.get("username"+i.toString())//13
-          //CartBox.get('roomtype'),
+    if (CartBox.get('clength') !=null) {
+      for (i = 0; i < CartBox.get('clength'); i++) {
+        //if(checked==false && CartBox.get("usertoken"+i.toString())==token) {
+        if (checked == false &&
+            CartBox.get("username" + i.toString()) == box.get("username")) {
+          Cartlist.add([
+            CartBox.get('image' + i.toString()), //0
+            CartBox.get('tripname' + i.toString()), //1
+            //"Tripname",
+            CartBox.get('hotelname' + i.toString()), //2
+            CartBox.get('roomtype' + i.toString()), //3
+            CartBox.get('price' + i.toString()) *
+                CartBox.get("quantity" + i.toString()), //4
+            //tripname[0]['tripdetail'],
+            "TripName", //5
+            "roomname", //6
+            0, //7
+            CartBox.get("indexDetail"), //8
+            CartBox.get("quantity" + i.toString()), //9
+            CartBox.get("diver" + i.toString()), //10
+            CartBox.get("roomid" + i.toString()), //11
+            CartBox.get("tripid" + i.toString()), //12
+            CartBox.get("username" + i.toString()) //13
+            //CartBox.get('roomtype'),
           ]);
-        totalprice+=CartBox.get('price'+i.toString()) * CartBox.get("quantity"+i.toString());
-
+          totalprice += CartBox.get('price' + i.toString()) *
+              CartBox.get("quantity" + i.toString());
+        }
       }
-
-
     }
     checked=true;
 
@@ -295,7 +295,7 @@ class _CartState extends State<CartWidget> {
 
     return Container(
         //width: 800,
-        width: MediaQuery.of(context).size.width*0.6,
+        width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.all(20),
         child: Column(children: [
           SectionTitle(
@@ -353,7 +353,7 @@ class _CartState extends State<CartWidget> {
                   child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width*0.6,
+                        width: MediaQuery.of(context).size.width,
                         child: Wrap(
                           direction: Axis.horizontal,
                             //mainAxisAlignment: MainAxisAlignment.center,
@@ -410,26 +410,23 @@ class _CartState extends State<CartWidget> {
 
 
                               SizedBox(width: 30),
-                              Align(
-                                alignment:Alignment.centerRight,
-                                child: TextButton(
-                                  child: Text(
-                                    "Remove",
-                                    // style: TextStyle(fontSize: 25),
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      print("deleted");
-                                      deleteItem(position);
-                                      Cartlist.removeAt(position);
-                                      print(Cartlist);
-                                    });
-                                  },
-                                  style: TextButton.styleFrom(
-                                      primary: Colors.red,
-                                      elevation: 2,
-                                      backgroundColor: Colors.amber),
+                              TextButton(
+                                child: Text(
+                                  "Remove",
+                                  // style: TextStyle(fontSize: 25),
                                 ),
+                                onPressed: () {
+                                  setState(() {
+                                    print("deleted");
+                                    deleteItem(position);
+                                    Cartlist.removeAt(position);
+                                    print(Cartlist);
+                                  });
+                                },
+                                style: TextButton.styleFrom(
+                                    primary: Colors.red,
+                                    elevation: 2,
+                                    backgroundColor: Colors.amber),
                               ),
                             ]),
                       )));
@@ -464,7 +461,7 @@ class _CartState extends State<CartWidget> {
                       elevation: 2,
                       backgroundColor: Colors.indigo),
                 )
-              : Text('No trip'),
+              : Text('No Trip in cart'),
           SizedBox(height: 30),
         ]));
 
