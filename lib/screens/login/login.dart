@@ -499,7 +499,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 30.0,
                       ),
                       _buildPasswordTF(),
-                      _buildForgotPasswordBtn(),
+                     // _buildForgotPasswordBtn(),
                       // _buildRememberMeCheckbox(),
                       _buildLoginBtn(),
                       _buildSignInWithText(),

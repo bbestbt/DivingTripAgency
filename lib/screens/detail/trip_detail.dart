@@ -657,7 +657,7 @@ class _TripDetailState extends State<TripDetail> {
        if (tripcost != Cost.all) {
          if (tripcost == Cost.one) {
            results = results
-               .where((trip) => (trip.tripRoomTypePrices[0].price > 0 && trip.tripRoomTypePrices[0].price <= 1000))
+               .where((trip) => (trip.tripRoomTypePrices[0].price > 1 && trip.tripRoomTypePrices[0].price <= 1000))
                .toList();
          } else if (tripcost == Cost.two) {
            results = results

@@ -79,7 +79,10 @@ class _LiveaboardDetailScreenState extends State<LiveaboardDetailScreen> {
     // print('build'+index.toString());
     return Scaffold(
         // key: _controller.scaffoldkey,
-        drawer: SideMenu(),
+        endDrawer: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 300),
+          child: SideMenu(),
+        ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -489,671 +492,1001 @@ class _detailState extends State<detail> {
             }
           },
         ),
-
+        SizedBox(height: 20),
         Container(
-          margin: EdgeInsets.symmetric(vertical: 20),
-          constraints: BoxConstraints(maxWidth: 1110),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(width: 20),
-              Expanded(
-                flex: 2,
-                child: LayoutBuilder(
-                  builder: (context, constraints) => Container(
-                    child: Center(
+            margin: EdgeInsets.symmetric(vertical: 20),
+            constraints: BoxConstraints(maxWidth: 1110),
+            child: DefaultTabController(
+                length: 3,
+                child: Column(
+                  children: [
+                    TabBar(
+                        indicatorColor: Color(0xfffe8c68),
+                        unselectedLabelColor: Color(0xff555555),
+                        labelColor: Color(0xfffe8c68),
+                        tabs: [
+                          Tab(text: "Trip"),
+                          Tab(text: "Divesite"),
+                          Tab(text: "Room")
+                        ]),
+                    SizedBox(height: 20),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 20),
+                      constraints: BoxConstraints(maxWidth: 1110),
                       child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.blue[100],
-                            borderRadius: BorderRadius.circular(10)),
-                        // color: Colors.blue[100],
-                        height: MediaQuery.of(context).size.height / 2,
-                        width: MediaQuery.of(context).size.width / 2,
-                        // color: Colors.pink,
-                        child: FutureBuilder(
-                          future: getLiveaboardDetail(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return SingleChildScrollView(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(height: 20),
-                                        Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            "Trip detail",
-                                            style: TextStyle(fontSize: 20),
-                                          ),
-                                        ),
-                                        Text("Trip name : " +
-                                            details[widget.index]
-                                                .tripTemplate
-                                                .name),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text("Liveaboard : " +
-                                            liveaboardDetial.liveaboard.name),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text("From : " +
-                                            DateFormat("dd/MM/yyyy").format(
-                                                details[widget.index]
-                                                    .startDate
-                                                    .toDateTime())),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text("To : " +
-                                            DateFormat("dd/MM/yyyy").format(
-                                                details[widget.index]
-                                                    .endDate
-                                                    .toDateTime())),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text("Address : " +
-                                            details[widget.index]
-                                                .tripTemplate
-                                                .address
-                                                .addressLine1),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text("Address2 : " +
-                                            details[widget.index]
-                                                .tripTemplate
-                                                .address
-                                                .addressLine2),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text('City : ' +
-                                            details[widget.index]
-                                                .tripTemplate
-                                                .address
-                                                .city),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text("Country : " +
-                                            details[widget.index]
-                                                .tripTemplate
-                                                .address
-                                                .country),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text('Region : ' +
-                                            details[widget.index]
-                                                .tripTemplate
-                                                .address
-                                                .region),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text('Postcode : ' +
-                                            details[widget.index]
-                                                .tripTemplate
-                                                .address
-                                                .postcode),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2,
-                                            child: Text(
-                                              "Description : " +
-                                                  details[widget.index]
-                                                      .tripTemplate
-                                                      .description,
-                                              maxLines: 20,
-                                              overflow: TextOverflow.ellipsis,
-                                            )),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        // Text("Price : " + details[widget.index].price.toString()),
-                                        // SizedBox(
-                                        //   height: 10,
-                                        // ),
-                                        Text('Total capacity : ' +
-                                            details[widget.index]
-                                                .maxGuest
-                                                .toString()),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        // SingleChildScrollView(
-                                        //   scrollDirection: Axis.horizontal,
-                                        //   child: Row(
-                                        //     mainAxisAlignment: MainAxisAlignment.center,
-                                        //     children: [
-                                        //       SizedBox(
-                                        //         width: 10,
-                                        //       ),
-                                        //       Container(
-                                        //         width: MediaQuery.of(context).size.width,
-                                        //         height: MediaQuery.of(context).size.height / 5,
-                                        //         child: ListView.builder(
-                                        //           scrollDirection: Axis.horizontal,
-                                        //           itemBuilder: (BuildContext ctx, int each) {
-                                        //             return SingleChildScrollView(
-                                        //               scrollDirection: Axis.horizontal,
-                                        //               child: Row(
-                                        //                 // mainAxisAlignment: MainAxisAlignment.center,
-                                        //                 children: [
-                                        //                   Container(
-                                        //                     width:
-                                        //                         MediaQuery.of(context).size.width / 5,
-                                        //                     height:
-                                        //                         MediaQuery.of(context).size.height /
-                                        //                             5,
-                                        //                     child: Image.network(details[widget.index]
-                                        //                         .tripTemplate
-                                        //                         .images[each]
-                                        //                         .link
-                                        //                         .toString()),
-                                        //                   ),
-                                        //                 ],
-                                        //               ),
-                                        //             );
-                                        //           },
-                                        //           itemCount: details[widget.index]
-                                        //               .tripTemplate
-                                        //               .images
-                                        //               .length,
-                                        //         ),
-                                        //       ),
-                                        //       // SizedBox(
-                                        //       //   width: 10,
-                                        //       // ),
-                                        //     ],
-                                        //   ),
-                                        // ),
+                          height: MediaQuery.of(context).size.height / 2,
+                          child: TabBarView(
+                            children: [
+                              Center(
+                                child: Container(
+                                  // decoration: BoxDecoration(
+                                  // color: Colors.blue[100],
+                                  // borderRadius: BorderRadius.circular(10)),
+                                  // color: Colors.blue[100],
+                                  // height:
+                                  //     MediaQuery.of(context).size.height / 2,
+                                  // width: MediaQuery.of(context).size.width / 2,
+                                  // color: Colors.pink,
+                                  child: FutureBuilder(
+                                    future: getLiveaboardDetail(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return SingleChildScrollView(
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  // SizedBox(height: 20),
 
-                                        SizedBox(height: 20),
-                                      ]),
-                                ),
-                              );
-                            } else {
-                              return Align(
-                                  alignment: Alignment.center, child: Text(''));
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: 20),
-              Expanded(
-                flex: 3,
-                child: LayoutBuilder(
-                  builder: (context, constraints) => Container(
-                    // color: Colors.green,
-                    // height: 1000,
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: FutureBuilder(
-                      future: getLiveaboardDetail(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Center(
-                            child: Column(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Text(
-                                //   "Divesites",
-                                //   style: TextStyle(fontSize: 20),
-                                // ),
-                                // SizedBox(height: 10),
-                                SingleChildScrollView(
-                                    child: Container(
-                                        // color: Colors.pink,
-                                        child: Column(children: <Widget>[
-                                  Container(
-                                      child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 16.0,
-                                    ),
-                                    //vertical: 24.0
-                                    // height:
-                                    //     MediaQuery.of(context).size.height *
-                                    //         0.25,
-                                    height:
-                                        MediaQuery.of(context).size.height / 2,
-
-                                    child: ListView.builder(
-                                      // scrollDirection: Axis.horizontal,
-                                      itemCount: details[widget.index]
-                                          .diveSites
-                                          .length,
-                                      itemBuilder: (context, each) {
-                                        return Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.25,
-                                          child: SingleChildScrollView(
-                                            child: Card(
-                                              color: Colors.deepPurple[100],
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(12.0),
-                                              ),
-                                              // elevation: 8,
-                                              child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: Container(
-                                                  child: Column(
-                                                    children: [
-                                                      SizedBox(height: 20),
-                                                      Row(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 8.0,
-                                                                    right: 10),
-                                                            child: Text(
-                                                              "Divesite " +
-                                                                  ((each + 1)
-                                                                      .toString()),
-                                                              style: TextStyle(
-                                                                  fontSize: 20),
-                                                            ),
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text("Name : " +
-                                                                  details[widget
-                                                                          .index]
-                                                                      .diveSites[
-                                                                          each]
-                                                                      .name),
-                                                              // Text("Description : " +
-                                                              //     details[widget.index]
-                                                              //         .diveSites[each]
-                                                              //         .description),
-                                                              Container(
-                                                                alignment:
-                                                                    Alignment
-                                                                        .topLeft,
-                                                                width: 500,
-                                                                child: Text(
-                                                                  "Description : " +
-                                                                      details[widget
-                                                                              .index]
-                                                                          .diveSites[
-                                                                              each]
-                                                                          .description,
-                                                                  maxLines: 20,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                ),
-                                                              ),
-                                                              Text("Max Dept : " +
-                                                                  details[widget
-                                                                          .index]
-                                                                      .diveSites[
-                                                                          each]
-                                                                      .maxDepth
-                                                                      .toString()),
-                                                              Text("Min Dept : " +
-                                                                  details[widget
-                                                                          .index]
-                                                                      .diveSites[
-                                                                          each]
-                                                                      .minDepth
-                                                                      .toString()),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(height: 20),
-                                                    ],
+                                                  Text("Trip name : " +
+                                                      details[widget.index]
+                                                          .tripTemplate
+                                                          .name),
+                                                  SizedBox(
+                                                    height: 10,
                                                   ),
-                                                ),
-                                              ),
-                                            ),
+                                                  Text("Liveaboard : " +
+                                                      liveaboardDetial
+                                                          .liveaboard.name),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text("From : " +
+                                                      DateFormat("dd/MM/yyyy")
+                                                          .format(details[
+                                                                  widget.index]
+                                                              .startDate
+                                                              .toDateTime())),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text("To : " +
+                                                      DateFormat("dd/MM/yyyy")
+                                                          .format(details[
+                                                                  widget.index]
+                                                              .endDate
+                                                              .toDateTime())),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text("Address : " +
+                                                      details[widget.index]
+                                                          .tripTemplate
+                                                          .address
+                                                          .addressLine1),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text("Address2 : " +
+                                                      details[widget.index]
+                                                          .tripTemplate
+                                                          .address
+                                                          .addressLine2),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text('City : ' +
+                                                      details[widget.index]
+                                                          .tripTemplate
+                                                          .address
+                                                          .city),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text("Country : " +
+                                                      details[widget.index]
+                                                          .tripTemplate
+                                                          .address
+                                                          .country),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text('Region : ' +
+                                                      details[widget.index]
+                                                          .tripTemplate
+                                                          .address
+                                                          .region),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text('Postcode : ' +
+                                                      details[widget.index]
+                                                          .tripTemplate
+                                                          .address
+                                                          .postcode),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              2,
+                                                      child: Text(
+                                                        "Description : " +
+                                                            details[widget
+                                                                    .index]
+                                                                .tripTemplate
+                                                                .description,
+                                                        maxLines: 20,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      )),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  // Text("Price : " + details[widget.index].price.toString()),
+                                                  // SizedBox(
+                                                  //   height: 10,
+                                                  // ),
+                                                  Text('Total capacity : ' +
+                                                      details[widget.index]
+                                                          .maxGuest
+                                                          .toString()),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                ]),
                                           ),
                                         );
-                                      },
-                                    ),
-                                  ))
-                                ])))
-                                // Text(
-                                //   "Trip images",
-                                //   style: TextStyle(fontSize: 20),
-                                // ),
-                                // SingleChildScrollView(
-                                //   child: Container(
-                                //     child: Column(
-                                //       children: <Widget>[
-                                //         Container(
-                                //           child: Container(
-                                //             padding: EdgeInsets.symmetric(
-                                //                 horizontal: 16.0, vertical: 24.0),
-                                //             height:
-                                //                 MediaQuery.of(context).size.height *
-                                //                     0.50,
-                                //             child: ListView.builder(
-                                //               scrollDirection: Axis.horizontal,
-                                //               itemCount: details[widget.index]
-                                //                   .tripTemplate
-                                //                   .images
-                                //                   .length,
-                                //               itemBuilder: (context, each) {
-                                //                 return Container(
-                                //                   width: MediaQuery.of(context)
-                                //                           .size
-                                //                           .width *
-                                //                       0.5,
-                                //                   child: Card(
-                                //                     child: Container(
-                                //                       child: Image.network(
-                                //                           details[widget.index]
-                                //                               .tripTemplate
-                                //                               .images[each]
-                                //                               .link
-                                //                               .toString()),
-                                //                     ),
-                                //                   ),
-                                //                 );
-                                //               },
-                                //             ),
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
-
-                                // Container(
-                                //   child: CarouselSlider(
-                                //     options: CarouselOptions(
-                                //       enlargeCenterPage: true,
-                                //       enableInfiniteScroll: false,
-                                //       autoPlay: true,
-                                //     ),
-                                //     items: details[widget.index]
-                                //         .tripTemplate
-                                //         .images
-                                //         .map((e) =>
-                                //             //  Text(e.filename)
-                                //             Container(
-                                //               width: 500,
-                                //               height: 500,
-                                //               child: Image.network(
-                                //                 e.link.toString(),
-                                //                 // fit: BoxFit.cover,
-                                //               ),
-                                //             ))
-                                //         .toList(),
-                                //   ),
-                                // ),
-                              ],
-                            ),
-                          );
-                        } else {
-                          return Center(child: Text('no  divesites'));
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        SizedBox(height: 20),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     Container(
-        //         width: MediaQuery.of(context).size.width / 3.5,
-        //         height: MediaQuery.of(context).size.width / 3.5,
-        //         child: details[widget.index].tripTemplate.images.length == 0
-        //             ? new Container(
-        //                 color: Colors.pink,
-        //               )
-        //             : Image.network(
-        //                 // 'http://139.59.101.136/static/'+
-        //                 details[widget.index]
-        //                     .tripTemplate
-        //                     .images[0]
-        //                     .link
-        //                     .toString())),
-        //     SizedBox(
-        //       width: 10,
-        //     ),
-        //     Container(
-        //         width: MediaQuery.of(context).size.width / 3.5,
-        //         height: MediaQuery.of(context).size.width / 3.5,
-        //         child: details[widget.index].tripTemplate.images.length == 0
-        //             ? new Container(
-        //                 color: Colors.pink,
-        //               )
-        //             : Image.network(
-        //                 // 'http://139.59.101.136/static/'+
-        //                 details[widget.index]
-        //                     .tripTemplate
-        //                     .images[1]
-        //                     .link
-        //                     .toString())),
-        //     SizedBox(
-        //       width: 10,
-        //     ),
-        //     Container(
-        //         width: MediaQuery.of(context).size.width / 3.5,
-        //         height: MediaQuery.of(context).size.width / 3.5,
-        //         child: details[widget.index].tripTemplate.images.length == 0
-        //             ? new Container(
-        //                 color: Colors.pink,
-        //               )
-        //             : Image.network(
-        //                 // 'http://139.59.101.136/static/'+
-        //                 details[widget.index]
-        //                     .tripTemplate
-        //                     .images[2]
-        //                     .link
-        //                     .toString())),
-        //   ],
-        // ),
-
-        // Container(
-        //     width: MediaQuery.of(context).size.width / 4,
-        //     height: MediaQuery.of(context).size.width / 4,
-        //     child: details[widget.index].tripTemplate.images.length == 0
-        //         ? new Container(
-        //             color: Colors.pink,
-        //           )
-        //         : Image.network(
-        //             // 'http://139.59.101.136/static/'+
-        //             details[widget.index]
-        //                 .tripTemplate
-        //                 .images[0]
-        //                 .link
-        //                 .toString())),
-        // SizedBox(
-        //   width: 10,
-        // ),
-        // Container(
-        //     width: MediaQuery.of(context).size.width / 4,
-        //     height: MediaQuery.of(context).size.width / 4,
-        //     child: details[widget.index].tripTemplate.images.length == 0
-        //         ? new Container(
-        //             color: Colors.pink,
-        //           )
-        //         : Image.network(
-        //             // 'http://139.59.101.136/static/'+
-        //             details[widget.index]
-        //                 .tripTemplate
-        //                 .images[1]
-        //                 .link
-        //                 .toString())),
-        // SizedBox(
-        //   width: 10,
-        // ),
-        // Container(
-        //     width: MediaQuery.of(context).size.width / 4,
-        //     height: MediaQuery.of(context).size.width / 4,
-        //     child: details[widget.index].tripTemplate.images.length == 0
-        //         ? new Container(
-        //             color: Colors.pink,
-        //           )
-        //         : Image.network(
-        //             // 'http://139.59.101.136/static/'+
-        //             details[widget.index]
-        //                 .tripTemplate
-        //                 .images[2]
-        //                 .link
-        //                 .toString())),
-        // SizedBox(
-        //   width: 10,
-        // ),
-        // Container(
-        //     width: MediaQuery.of(context).size.width / 4,
-        //     height: MediaQuery.of(context).size.width / 4,
-        //     child: details[widget.index].tripTemplate.images.length == 0
-        //         ? new Container(
-        //             color: Colors.pink,
-        //           )
-        //         : Image.network(
-        //             // 'http://139.59.101.136/static/'+
-        //             details[widget.index]
-        //                 .tripTemplate
-        //                 .images[3]
-        //                 .link
-        //                 .toString())),
-        // SizedBox(
-        //   width: 10,
-        // ),
-        // Container(
-        //     width: MediaQuery.of(context).size.width / 4,
-        //     height: MediaQuery.of(context).size.width / 4,
-        //     child: details[widget.index].tripTemplate.images.length == 0
-        //         ? new Container(
-        //             color: Colors.pink,
-        //           )
-        //         : Image.network(
-        //             // 'http://139.59.101.136/static/'+
-        //             details[widget.index]
-        //                 .tripTemplate
-        //                 .images[4]
-        //                 .link
-        //                 .toString())),
-        // SizedBox(
-        //   width: 10,
-        // ),
-        // Container(
-        //     width: MediaQuery.of(context).size.width / 4,
-        //     height: MediaQuery.of(context).size.width / 4,
-        //     child: details[widget.index].tripTemplate.images.length == 0
-        //         ? new Container(
-        //             color: Colors.pink,
-        //           )
-        //         : Image.network(
-        //             // 'http://139.59.101.136/static/'+
-        //             details[widget.index]
-        //                 .tripTemplate
-        //                 .images[5]
-        //                 .link
-        //                 .toString())),
-        // SizedBox(
-        //   width: 10,
-        // ),
-        // Container(
-        //     width: MediaQuery.of(context).size.width / 4,
-        //     height: MediaQuery.of(context).size.width / 4,
-        //     child: details[widget.index].tripTemplate.images.length == 0
-        //         ? new Container(
-        //             color: Colors.pink,
-        //           )
-        //         : Image.network(
-        //             // 'http://139.59.101.136/static/'+
-        //             details[widget.index]
-        //                 .tripTemplate
-        //                 .images[6]
-        //                 .link
-        //                 .toString())),
-
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 20),
-          constraints: BoxConstraints(maxWidth: 1110),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              "Room types",
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-        ),
-        // SizedBox(height: 20),
-        Container(
-          // margin: EdgeInsets.symmetric(vertical: 20),
-          constraints: BoxConstraints(maxWidth: 1110),
-          // decoration: BoxDecoration(
-          //     color: Color(0xFFFF89cfef),
-          //     borderRadius: BorderRadius.circular(10)),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                FutureBuilder(
-                  future: getData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Center(
-                          child: Container(
-                              child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Wrap(
-                            spacing: 20,
-                            runSpacing: 40,
-                            children: List.generate(
-                              roomtypes.length,
-                              (candy) => Center(
-                                child: InfoCard(candy, details, index),
+                                      } else {
+                                        return Align(
+                                            alignment: Alignment.center,
+                                            child: Text('no detail'));
+                                      }
+                                    },
+                                  ),
+                                ),
                               ),
-                            )),
-                      )));
-                    } else {
-                      // getLiveaboardDetail();
-                      return Center(
-                          child: CircularProgressIndicator(strokeWidth: 10));
-                      // Align(
-                      //     alignment: Alignment.center,
-                      //     child: Text('No data'));
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
+                              Container(
+                                child: FutureBuilder(
+                                  future: getLiveaboardDetail(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Center(
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              Column(children: <Widget>[
+                                                Container(
+                                                    child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal: 16.0,
+                                                  ),
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      2,
+                                                  child: ListView.builder(
+                                                    itemCount:
+                                                        details[widget.index]
+                                                            .diveSites
+                                                            .length,
+                                                    itemBuilder:
+                                                        (context, each) {
+                                                      return Container(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.25,
+                                                        child:
+                                                            SingleChildScrollView(
+                                                          child: Card(
+                                                            // color: Colors.deepPurple[100],
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12.0),
+                                                            ),
+                                                            // elevation: 8,
+                                                            child:
+                                                                SingleChildScrollView(
+                                                              scrollDirection:
+                                                                  Axis.horizontal,
+                                                              child: Container(
+                                                                child: Column(
+                                                                  children: [
+                                                                    SizedBox(
+                                                                        height:
+                                                                            20),
+                                                                    Row(
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.only(
+                                                                              left: 8.0,
+                                                                              right: 10),
+                                                                          child:
+                                                                              Text(
+                                                                            "Divesite " +
+                                                                                ((each + 1).toString()),
+                                                                            style:
+                                                                                TextStyle(fontSize: 20),
+                                                                          ),
+                                                                        ),
+                                                                        Column(
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text("Name : " +
+                                                                                details[widget.index].diveSites[each].name),
+                                                                            Container(
+                                                                              alignment: Alignment.topLeft,
+                                                                              width: 500,
+                                                                              child: Text(
+                                                                                "Description : " + details[widget.index].diveSites[each].description,
+                                                                                maxLines: 20,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                              ),
+                                                                            ),
+                                                                            Text("Max Dept : " +
+                                                                                details[widget.index].diveSites[each].maxDepth.toString()),
+                                                                            Text("Min Dept : " +
+                                                                                details[widget.index].diveSites[each].minDepth.toString()),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(
+                                                                        height:
+                                                                            10),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                ))
+                                              ])
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return Center(child: Text('no divesite'));
+                                    }
+                                  },
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 20),
+                                constraints: BoxConstraints(maxWidth: 1110),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        FutureBuilder(
+                                          future: getData(),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Center(
+                                                  child: Container(
+                                                      child:
+                                                          SingleChildScrollView(
+                                                // scrollDirection: Axis.horizontal,
+                                                child: Wrap(
+                                                    spacing: 20,
+                                                    runSpacing: 40,
+                                                    children: List.generate(
+                                                      roomtypes.length,
+                                                      (candy) => Center(
+                                                        child: InfoCard(candy,
+                                                            details, index),
+                                                      ),
+                                                    )),
+                                              )));
+                                            } else {
+                                              return Center(
+                                                  child: Text(' no room '));
+                                            }
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                    )
+                  ],
+                ))),
+
+// //old
+//         Container(
+//           margin: EdgeInsets.symmetric(vertical: 20),
+//           constraints: BoxConstraints(maxWidth: 1110),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               SizedBox(width: 20),
+//               Expanded(
+//                 flex: 2,
+//                 child: LayoutBuilder(
+//                   builder: (context, constraints) => Container(
+//                     child: Center(
+//                       child: Container(
+//                         decoration: BoxDecoration(
+//                             color: Colors.blue[100],
+//                             borderRadius: BorderRadius.circular(10)),
+//                         // color: Colors.blue[100],
+//                         height: MediaQuery.of(context).size.height / 2,
+//                         width: MediaQuery.of(context).size.width / 2,
+//                         // color: Colors.pink,
+//                         child: FutureBuilder(
+//                           future: getLiveaboardDetail(),
+//                           builder: (context, snapshot) {
+//                             if (snapshot.hasData) {
+//                               return SingleChildScrollView(
+//                                 child: Padding(
+//                                   padding: const EdgeInsets.only(left: 10),
+//                                   child: Column(
+//                                       crossAxisAlignment:
+//                                           CrossAxisAlignment.start,
+//                                       children: [
+//                                         SizedBox(height: 20),
+//                                         Align(
+//                                           alignment: Alignment.topLeft,
+//                                           child: Text(
+//                                             "Trip detail",
+//                                             style: TextStyle(fontSize: 20),
+//                                           ),
+//                                         ),
+//                                         Text("Trip name : " +
+//                                             details[widget.index]
+//                                                 .tripTemplate
+//                                                 .name),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         Text("Liveaboard : " +
+//                                             liveaboardDetial.liveaboard.name),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         Text("From : " +
+//                                             DateFormat("dd/MM/yyyy").format(
+//                                                 details[widget.index]
+//                                                     .startDate
+//                                                     .toDateTime())),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         Text("To : " +
+//                                             DateFormat("dd/MM/yyyy").format(
+//                                                 details[widget.index]
+//                                                     .endDate
+//                                                     .toDateTime())),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         Text("Address : " +
+//                                             details[widget.index]
+//                                                 .tripTemplate
+//                                                 .address
+//                                                 .addressLine1),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         Text("Address2 : " +
+//                                             details[widget.index]
+//                                                 .tripTemplate
+//                                                 .address
+//                                                 .addressLine2),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         Text('City : ' +
+//                                             details[widget.index]
+//                                                 .tripTemplate
+//                                                 .address
+//                                                 .city),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         Text("Country : " +
+//                                             details[widget.index]
+//                                                 .tripTemplate
+//                                                 .address
+//                                                 .country),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         Text('Region : ' +
+//                                             details[widget.index]
+//                                                 .tripTemplate
+//                                                 .address
+//                                                 .region),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         Text('Postcode : ' +
+//                                             details[widget.index]
+//                                                 .tripTemplate
+//                                                 .address
+//                                                 .postcode),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         Container(
+//                                             width: MediaQuery.of(context)
+//                                                     .size
+//                                                     .width /
+//                                                 2,
+//                                             child: Text(
+//                                               "Description : " +
+//                                                   details[widget.index]
+//                                                       .tripTemplate
+//                                                       .description,
+//                                               maxLines: 20,
+//                                               overflow: TextOverflow.ellipsis,
+//                                             )),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         // Text("Price : " + details[widget.index].price.toString()),
+//                                         // SizedBox(
+//                                         //   height: 10,
+//                                         // ),
+//                                         Text('Total capacity : ' +
+//                                             details[widget.index]
+//                                                 .maxGuest
+//                                                 .toString()),
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         // SingleChildScrollView(
+//                                         //   scrollDirection: Axis.horizontal,
+//                                         //   child: Row(
+//                                         //     mainAxisAlignment: MainAxisAlignment.center,
+//                                         //     children: [
+//                                         //       SizedBox(
+//                                         //         width: 10,
+//                                         //       ),
+//                                         //       Container(
+//                                         //         width: MediaQuery.of(context).size.width,
+//                                         //         height: MediaQuery.of(context).size.height / 5,
+//                                         //         child: ListView.builder(
+//                                         //           scrollDirection: Axis.horizontal,
+//                                         //           itemBuilder: (BuildContext ctx, int each) {
+//                                         //             return SingleChildScrollView(
+//                                         //               scrollDirection: Axis.horizontal,
+//                                         //               child: Row(
+//                                         //                 // mainAxisAlignment: MainAxisAlignment.center,
+//                                         //                 children: [
+//                                         //                   Container(
+//                                         //                     width:
+//                                         //                         MediaQuery.of(context).size.width / 5,
+//                                         //                     height:
+//                                         //                         MediaQuery.of(context).size.height /
+//                                         //                             5,
+//                                         //                     child: Image.network(details[widget.index]
+//                                         //                         .tripTemplate
+//                                         //                         .images[each]
+//                                         //                         .link
+//                                         //                         .toString()),
+//                                         //                   ),
+//                                         //                 ],
+//                                         //               ),
+//                                         //             );
+//                                         //           },
+//                                         //           itemCount: details[widget.index]
+//                                         //               .tripTemplate
+//                                         //               .images
+//                                         //               .length,
+//                                         //         ),
+//                                         //       ),
+//                                         //       // SizedBox(
+//                                         //       //   width: 10,
+//                                         //       // ),
+//                                         //     ],
+//                                         //   ),
+//                                         // ),
+
+//                                         SizedBox(height: 20),
+//                                       ]),
+//                                 ),
+//                               );
+//                             } else {
+//                               return Align(
+//                                   alignment: Alignment.center, child: Text(''));
+//                             }
+//                           },
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               SizedBox(width: 20),
+//               Expanded(
+//                 flex: 3,
+//                 child: LayoutBuilder(
+//                   builder: (context, constraints) => Container(
+//                     // color: Colors.green,
+//                     // height: 1000,
+//                     width: MediaQuery.of(context).size.width / 2,
+//                     child: FutureBuilder(
+//                       future: getLiveaboardDetail(),
+//                       builder: (context, snapshot) {
+//                         if (snapshot.hasData) {
+//                           return Center(
+//                             child: Column(
+//                               // crossAxisAlignment: CrossAxisAlignment.start,
+//                               children: [
+//                                 // Text(
+//                                 //   "Divesites",
+//                                 //   style: TextStyle(fontSize: 20),
+//                                 // ),
+//                                 // SizedBox(height: 10),
+//                                 SingleChildScrollView(
+//                                     child: Container(
+//                                         // color: Colors.pink,
+//                                         child: Column(children: <Widget>[
+//                                   Container(
+//                                       child: Container(
+//                                     padding: EdgeInsets.symmetric(
+//                                       horizontal: 16.0,
+//                                     ),
+//                                     //vertical: 24.0
+//                                     // height:
+//                                     //     MediaQuery.of(context).size.height *
+//                                     //         0.25,
+//                                     height:
+//                                         MediaQuery.of(context).size.height / 2,
+
+//                                     child: ListView.builder(
+//                                       // scrollDirection: Axis.horizontal,
+//                                       itemCount: details[widget.index]
+//                                           .diveSites
+//                                           .length,
+//                                       itemBuilder: (context, each) {
+//                                         return Container(
+//                                           width: MediaQuery.of(context)
+//                                                   .size
+//                                                   .width *
+//                                               0.25,
+//                                           child: SingleChildScrollView(
+//                                             child: Card(
+//                                               color: Colors.deepPurple[100],
+//                                               shape: RoundedRectangleBorder(
+//                                                 borderRadius:
+//                                                     BorderRadius.circular(12.0),
+//                                               ),
+//                                               // elevation: 8,
+//                                               child: SingleChildScrollView(
+//                                                 scrollDirection:
+//                                                     Axis.horizontal,
+//                                                 child: Container(
+//                                                   child: Column(
+//                                                     children: [
+//                                                       SizedBox(height: 20),
+//                                                       Row(
+//                                                         children: [
+//                                                           Padding(
+//                                                             padding:
+//                                                                 const EdgeInsets
+//                                                                         .only(
+//                                                                     left: 8.0,
+//                                                                     right: 10),
+//                                                             child: Text(
+//                                                               "Divesite " +
+//                                                                   ((each + 1)
+//                                                                       .toString()),
+//                                                               style: TextStyle(
+//                                                                   fontSize: 20),
+//                                                             ),
+//                                                           ),
+//                                                           Column(
+//                                                             crossAxisAlignment:
+//                                                                 CrossAxisAlignment
+//                                                                     .start,
+//                                                             children: [
+//                                                               Text("Name : " +
+//                                                                   details[widget
+//                                                                           .index]
+//                                                                       .diveSites[
+//                                                                           each]
+//                                                                       .name),
+//                                                               // Text("Description : " +
+//                                                               //     details[widget.index]
+//                                                               //         .diveSites[each]
+//                                                               //         .description),
+//                                                               Container(
+//                                                                 alignment:
+//                                                                     Alignment
+//                                                                         .topLeft,
+//                                                                 width: 500,
+//                                                                 child: Text(
+//                                                                   "Description : " +
+//                                                                       details[widget
+//                                                                               .index]
+//                                                                           .diveSites[
+//                                                                               each]
+//                                                                           .description,
+//                                                                   maxLines: 20,
+//                                                                   overflow:
+//                                                                       TextOverflow
+//                                                                           .ellipsis,
+//                                                                 ),
+//                                                               ),
+//                                                               Text("Max Dept : " +
+//                                                                   details[widget
+//                                                                           .index]
+//                                                                       .diveSites[
+//                                                                           each]
+//                                                                       .maxDepth
+//                                                                       .toString()),
+//                                                               Text("Min Dept : " +
+//                                                                   details[widget
+//                                                                           .index]
+//                                                                       .diveSites[
+//                                                                           each]
+//                                                                       .minDepth
+//                                                                       .toString()),
+//                                                             ],
+//                                                           ),
+//                                                         ],
+//                                                       ),
+//                                                       SizedBox(height: 20),
+//                                                     ],
+//                                                   ),
+//                                                 ),
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         );
+//                                       },
+//                                     ),
+//                                   ))
+//                                 ])))
+//                                 // Text(
+//                                 //   "Trip images",
+//                                 //   style: TextStyle(fontSize: 20),
+//                                 // ),
+//                                 // SingleChildScrollView(
+//                                 //   child: Container(
+//                                 //     child: Column(
+//                                 //       children: <Widget>[
+//                                 //         Container(
+//                                 //           child: Container(
+//                                 //             padding: EdgeInsets.symmetric(
+//                                 //                 horizontal: 16.0, vertical: 24.0),
+//                                 //             height:
+//                                 //                 MediaQuery.of(context).size.height *
+//                                 //                     0.50,
+//                                 //             child: ListView.builder(
+//                                 //               scrollDirection: Axis.horizontal,
+//                                 //               itemCount: details[widget.index]
+//                                 //                   .tripTemplate
+//                                 //                   .images
+//                                 //                   .length,
+//                                 //               itemBuilder: (context, each) {
+//                                 //                 return Container(
+//                                 //                   width: MediaQuery.of(context)
+//                                 //                           .size
+//                                 //                           .width *
+//                                 //                       0.5,
+//                                 //                   child: Card(
+//                                 //                     child: Container(
+//                                 //                       child: Image.network(
+//                                 //                           details[widget.index]
+//                                 //                               .tripTemplate
+//                                 //                               .images[each]
+//                                 //                               .link
+//                                 //                               .toString()),
+//                                 //                     ),
+//                                 //                   ),
+//                                 //                 );
+//                                 //               },
+//                                 //             ),
+//                                 //           ),
+//                                 //         ),
+//                                 //       ],
+//                                 //     ),
+//                                 //   ),
+//                                 // ),
+
+//                                 // Container(
+//                                 //   child: CarouselSlider(
+//                                 //     options: CarouselOptions(
+//                                 //       enlargeCenterPage: true,
+//                                 //       enableInfiniteScroll: false,
+//                                 //       autoPlay: true,
+//                                 //     ),
+//                                 //     items: details[widget.index]
+//                                 //         .tripTemplate
+//                                 //         .images
+//                                 //         .map((e) =>
+//                                 //             //  Text(e.filename)
+//                                 //             Container(
+//                                 //               width: 500,
+//                                 //               height: 500,
+//                                 //               child: Image.network(
+//                                 //                 e.link.toString(),
+//                                 //                 // fit: BoxFit.cover,
+//                                 //               ),
+//                                 //             ))
+//                                 //         .toList(),
+//                                 //   ),
+//                                 // ),
+//                               ],
+//                             ),
+//                           );
+//                         } else {
+//                           return Center(child: Text('no  divesites'));
+//                         }
+//                       },
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+
+//         SizedBox(height: 20),
+//         // Row(
+//         //   mainAxisAlignment: MainAxisAlignment.center,
+//         //   children: [
+//         //     Container(
+//         //         width: MediaQuery.of(context).size.width / 3.5,
+//         //         height: MediaQuery.of(context).size.width / 3.5,
+//         //         child: details[widget.index].tripTemplate.images.length == 0
+//         //             ? new Container(
+//         //                 color: Colors.pink,
+//         //               )
+//         //             : Image.network(
+//         //                 // 'http://139.59.101.136/static/'+
+//         //                 details[widget.index]
+//         //                     .tripTemplate
+//         //                     .images[0]
+//         //                     .link
+//         //                     .toString())),
+//         //     SizedBox(
+//         //       width: 10,
+//         //     ),
+//         //     Container(
+//         //         width: MediaQuery.of(context).size.width / 3.5,
+//         //         height: MediaQuery.of(context).size.width / 3.5,
+//         //         child: details[widget.index].tripTemplate.images.length == 0
+//         //             ? new Container(
+//         //                 color: Colors.pink,
+//         //               )
+//         //             : Image.network(
+//         //                 // 'http://139.59.101.136/static/'+
+//         //                 details[widget.index]
+//         //                     .tripTemplate
+//         //                     .images[1]
+//         //                     .link
+//         //                     .toString())),
+//         //     SizedBox(
+//         //       width: 10,
+//         //     ),
+//         //     Container(
+//         //         width: MediaQuery.of(context).size.width / 3.5,
+//         //         height: MediaQuery.of(context).size.width / 3.5,
+//         //         child: details[widget.index].tripTemplate.images.length == 0
+//         //             ? new Container(
+//         //                 color: Colors.pink,
+//         //               )
+//         //             : Image.network(
+//         //                 // 'http://139.59.101.136/static/'+
+//         //                 details[widget.index]
+//         //                     .tripTemplate
+//         //                     .images[2]
+//         //                     .link
+//         //                     .toString())),
+//         //   ],
+//         // ),
+
+//         // Container(
+//         //     width: MediaQuery.of(context).size.width / 4,
+//         //     height: MediaQuery.of(context).size.width / 4,
+//         //     child: details[widget.index].tripTemplate.images.length == 0
+//         //         ? new Container(
+//         //             color: Colors.pink,
+//         //           )
+//         //         : Image.network(
+//         //             // 'http://139.59.101.136/static/'+
+//         //             details[widget.index]
+//         //                 .tripTemplate
+//         //                 .images[0]
+//         //                 .link
+//         //                 .toString())),
+//         // SizedBox(
+//         //   width: 10,
+//         // ),
+//         // Container(
+//         //     width: MediaQuery.of(context).size.width / 4,
+//         //     height: MediaQuery.of(context).size.width / 4,
+//         //     child: details[widget.index].tripTemplate.images.length == 0
+//         //         ? new Container(
+//         //             color: Colors.pink,
+//         //           )
+//         //         : Image.network(
+//         //             // 'http://139.59.101.136/static/'+
+//         //             details[widget.index]
+//         //                 .tripTemplate
+//         //                 .images[1]
+//         //                 .link
+//         //                 .toString())),
+//         // SizedBox(
+//         //   width: 10,
+//         // ),
+//         // Container(
+//         //     width: MediaQuery.of(context).size.width / 4,
+//         //     height: MediaQuery.of(context).size.width / 4,
+//         //     child: details[widget.index].tripTemplate.images.length == 0
+//         //         ? new Container(
+//         //             color: Colors.pink,
+//         //           )
+//         //         : Image.network(
+//         //             // 'http://139.59.101.136/static/'+
+//         //             details[widget.index]
+//         //                 .tripTemplate
+//         //                 .images[2]
+//         //                 .link
+//         //                 .toString())),
+//         // SizedBox(
+//         //   width: 10,
+//         // ),
+//         // Container(
+//         //     width: MediaQuery.of(context).size.width / 4,
+//         //     height: MediaQuery.of(context).size.width / 4,
+//         //     child: details[widget.index].tripTemplate.images.length == 0
+//         //         ? new Container(
+//         //             color: Colors.pink,
+//         //           )
+//         //         : Image.network(
+//         //             // 'http://139.59.101.136/static/'+
+//         //             details[widget.index]
+//         //                 .tripTemplate
+//         //                 .images[3]
+//         //                 .link
+//         //                 .toString())),
+//         // SizedBox(
+//         //   width: 10,
+//         // ),
+//         // Container(
+//         //     width: MediaQuery.of(context).size.width / 4,
+//         //     height: MediaQuery.of(context).size.width / 4,
+//         //     child: details[widget.index].tripTemplate.images.length == 0
+//         //         ? new Container(
+//         //             color: Colors.pink,
+//         //           )
+//         //         : Image.network(
+//         //             // 'http://139.59.101.136/static/'+
+//         //             details[widget.index]
+//         //                 .tripTemplate
+//         //                 .images[4]
+//         //                 .link
+//         //                 .toString())),
+//         // SizedBox(
+//         //   width: 10,
+//         // ),
+//         // Container(
+//         //     width: MediaQuery.of(context).size.width / 4,
+//         //     height: MediaQuery.of(context).size.width / 4,
+//         //     child: details[widget.index].tripTemplate.images.length == 0
+//         //         ? new Container(
+//         //             color: Colors.pink,
+//         //           )
+//         //         : Image.network(
+//         //             // 'http://139.59.101.136/static/'+
+//         //             details[widget.index]
+//         //                 .tripTemplate
+//         //                 .images[5]
+//         //                 .link
+//         //                 .toString())),
+//         // SizedBox(
+//         //   width: 10,
+//         // ),
+//         // Container(
+//         //     width: MediaQuery.of(context).size.width / 4,
+//         //     height: MediaQuery.of(context).size.width / 4,
+//         //     child: details[widget.index].tripTemplate.images.length == 0
+//         //         ? new Container(
+//         //             color: Colors.pink,
+//         //           )
+//         //         : Image.network(
+//         //             // 'http://139.59.101.136/static/'+
+//         //             details[widget.index]
+//         //                 .tripTemplate
+//         //                 .images[6]
+//         //                 .link
+//         //                 .toString())),
+
+//         SizedBox(
+//           height: 20,
+//         ),
+        // Container(
+        //   margin: EdgeInsets.symmetric(vertical: 20),
+        //   constraints: BoxConstraints(maxWidth: 1110),
+        //   child: Align(
+        //     alignment: Alignment.topLeft,
+        //     child: Text(
+        //       "Room types",
+        //       style: TextStyle(fontSize: 20),
+        //     ),
+        //   ),
+        // ),
+        // // SizedBox(height: 20),
+        // Container(
+        //   // margin: EdgeInsets.symmetric(vertical: 20),
+        //   constraints: BoxConstraints(maxWidth: 1110),
+        //   // decoration: BoxDecoration(
+        //   //     color: Color(0xFFFF89cfef),
+        //   //     borderRadius: BorderRadius.circular(10)),
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(10),
+        //     child: Column(
+        //       children: [
+        //         FutureBuilder(
+        //           future: getData(),
+        //           builder: (context, snapshot) {
+        //             if (snapshot.hasData) {
+        //               return Center(
+        //                   child: Container(
+        //                       child: SingleChildScrollView(
+        //                 scrollDirection: Axis.horizontal,
+        //                 child: Wrap(
+        //                     spacing: 20,
+        //                     runSpacing: 40,
+        //                     children: List.generate(
+        //                       roomtypes.length,
+        //                       (candy) => Center(
+        //                         child: InfoCard(candy, details, index),
+        //                       ),
+        //                     )),
+        //               )));
+        //             } else {
+        //               // getLiveaboardDetail();
+        //               return Center(
+        //                   child: CircularProgressIndicator(strokeWidth: 10));
+        //               // Align(
+        //               //     alignment: Alignment.center,
+        //               //     child: Text('No data'));
+        //             }
+        //           },
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        // SizedBox(
+        //   height: 20,
+        // ),
         Container(
             margin: EdgeInsets.symmetric(vertical: 20),
             constraints: BoxConstraints(maxWidth: 1110),
@@ -1470,7 +1803,8 @@ class _InfoCardState extends State<InfoCard> {
         width: 800,
         decoration: BoxDecoration(
             // color: Colors.white,
-            color: Color(0xfffd7e5f0),
+            // color: Color(0xfffd7e5f0),
+            border: Border.all(color: Colors.black),
             borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [

@@ -218,18 +218,23 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var listroomrequest = ListRoomTypesRequest();
     listroomrequest.hotelId = eachHotel.id;
-
+    //print("eachhotel");
+    //print(eachHotel.id);
+    print("allroom");
+    print(allRoom);
     allRoom.clear();
     try {
       await for (var feature in stub.listRoomTypes(listroomrequest)) {
         allRoom.add(feature.roomType);
+
       }
     } catch (e) {
       print('ERROR: $e');
     }
     // print('--');
     // print(allRoom);
-
+    print("allroom");
+    print(allRoom);
     return allRoom;
   }
 
@@ -267,7 +272,7 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
   }
 }
 
-class InfoCard extends StatefulWidget {
+class InfoCard extends StatefulWidget { //Infocard for room
   int index;
   List<RoomType> allRoom = [];
   int pinkcount;
@@ -326,7 +331,7 @@ class _InfoCardState extends State<InfoCard> {
       maxHeight: 1800,
     );
     print("pinkvalue");
-    print(this.pinkValue[this.pinkcount - 1]);
+    print(eachHotel.roomTypes[index]);
 
     // this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
 
@@ -354,12 +359,19 @@ class _InfoCardState extends State<InfoCard> {
       f.filename = hroomX1.name;
       List<int> a = await hroomX1.readAsBytes();
       f.file = a;
-      if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 1) {
+      /*if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 1) {
         this.pinkValue[this.pinkcount - 1].roomImages.removeAt(0);
         this.pinkValue[this.pinkcount - 1].roomImages.insert(0, f);
       } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 1) {
         var f = File();
         f.filename = this.pinkValue[this.pinkcount - 1].roomImages[0].filename;
+        //this.this.pinkValue[this.pinkcount - 1].roomImages.add(f);*/
+      if (eachHotel.roomTypes[index].roomImages.length >= 1) {
+        eachHotel.roomTypes[index].roomImages.removeAt(0);
+        eachHotel.roomTypes[index].roomImages.insert(0, f);
+      } else if (eachHotel.roomTypes[index].roomImages.length >= 1) {
+        var f = File();
+        f.filename = eachHotel.roomTypes[index].roomImages[0].filename;
         //this.this.pinkValue[this.pinkcount - 1].roomImages.add(f);
       }
 
@@ -523,118 +535,7 @@ class _InfoCardState extends State<InfoCard> {
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
-          // buildPriceFormField(),
-          // SizedBox(height: 20),
-          //   Row(
-          //   children: [
-          //     Column(
-          //       children: [Text("image")],
-          //     ),
-          //     SizedBox(width: 30),
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 10,
-          //         height: MediaQuery.of(context).size.width / 10,
-          //         child: eachHotel.images.length < 1
-          //             ? new Container(
-          //           color: Colors.blue,
-          //         )
-          //             : Image.network(eachHotel.images[0].link.toString())),
-          //     SizedBox(width: 30),
-          //     Center(
-          //         child: hroomX1 == null
-          //             ? Column(
-          //           children: [
-          //             Text(''),
-          //             Text(''),
-          //           ],
-          //         )
-          //             : kIsWeb
-          //             ? Image.network(
-          //           roomimg.path,
-          //           //eachHotel.images[0].link.toString(),
-          //           fit: BoxFit.cover,
-          //           width: screenwidth * 0.1,
-          //         )
-          //             : Image.file(
-          //           io.File(roomimg.path),
-          //           fit: BoxFit.cover,
-          //           width: screenwidth * 0.05,
-          //         )),
-          //     Spacer(),
-          //     FlatButton(
-          //       //color: Color(0xfffa2c8ff),
-          //       child: Ink(
-          //           child: Container(
-          //               color: Color(0xfffa2c8ff),
-          //               constraints: const BoxConstraints(
-          //                   minWidth: 88.0, minHeight: 36.0),
-          //               alignment: Alignment.center,
-          //               child: Text(
-          //                 'Upload',
-          //                 style: TextStyle(fontSize: 15),
-          //               ))),
-          //       onPressed: () {
-          //         _getroomimg(1);
-          //       },
-          //     ),
-          //   ],
-          // ),
 
-          // Row(
-          //   children: [
-          //     Column(
-          //       children: [Text("image")],
-          //     ),
-          //     SizedBox(width: 30),
-          //     Container(
-          //         width: MediaQuery.of(context).size.width / 10,
-          //         height: MediaQuery.of(context).size.width / 10,
-          //         child: eachHotel.images.length < 2
-          //             ? new Container(
-          //           color: Colors.blue,
-          //         )
-          //             : Image.network(eachHotel.images[1].link.toString())),
-          //     SizedBox(width: 30),
-          //     Center(
-          //         child: hroomX2 == null
-          //             ? Column(
-          //           children: [
-          //             Text(''),
-          //             Text(''),
-          //           ],
-          //         )
-          //             : kIsWeb
-          //             ? Image.network(
-          //           roomimg2.path,
-          //           //eachHotel.images[1].link.toString(),
-
-          //   fit: BoxFit.cover,
-          //   width: screenwidth * 0.1,
-          // )
-          //     : Image.file(
-          //   io.File(roomimg2.path),
-          //   fit: BoxFit.cover,
-          //   width: screenwidth * 0.05,
-          // )),
-          //     Spacer(),
-          //     FlatButton(
-          //       //color: Color(0xfffa2c8ff),
-          //       child: Ink(
-          //           child: Container(
-          //               color: Color(0xfffa2c8ff),
-          //               constraints: const BoxConstraints(
-          //                   minWidth: 88.0, minHeight: 36.0),
-          //               alignment: Alignment.center,
-          //               child: Text(
-          //                 'Upload',
-          //                 style: TextStyle(fontSize: 15),
-          //               ))),
-          //       onPressed: () {
-          //         _getroomimg(2);
-          //       },
-          //     ),
-          //   ],
-          // ),
           Row(
             children: [
               Column(
@@ -940,17 +841,16 @@ class _RoomFormState extends State<RoomForm> {
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    var f2 = File();
+    /*var f2 = File();
     f2.filename = rroom.name;
     //f2.filename = 'image.jpg';
     List<int> a = await rroom.readAsBytes();
     f2.file = a;
-
     this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
     print("RoomImages");
     // print(this.pinkValue[this.pinkcount - 1].roomImages);
     print(this.pinkValue[this.pinkcount - 1].roomImages.length);
-
+*/
     if (rroom != null) {
       setState(() {
         if (num == 1) {

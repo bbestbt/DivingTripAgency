@@ -61,14 +61,14 @@ class SideMenu extends StatelessWidget {
                 },
               ),
               SizedBox(height: 20),
-              NavItem(
-                title: 'Reviews',
-                tapEvent: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ReviewScreen()));
-                },
-              ),
-              SizedBox(height: 20),
+              // NavItem(
+              //   title: 'Reviews',
+              //   tapEvent: () {
+              //     Navigator.push(context,
+              //         MaterialPageRoute(builder: (context) => ReviewScreen()));
+              //   },
+              // ),
+              // SizedBox(height: 20),
               NavItem(
                 title: 'Weather Forecast',
                 tapEvent: () {
