@@ -314,10 +314,11 @@ class _editHotelFormState extends State<editHotelForm> {
     hotel.stars = eachHotel.stars;
     print("PinkvalueUpdate");
     print(pinkValue);
+    print("PinkvalueUpdatelength");
     print(pinkValue.length);
-    print("pinkvalue.roomImages");
-    print("-------------");
-    print(pinkValue[0].roomImages);
+    // print("pinkvalue.roomImages");
+    // print("-------------");
+    // print(pinkValue[0].roomImages);
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
       for (int j = 0; j < pinkValue[i].amenities.length; j++) {
@@ -327,19 +328,32 @@ class _editHotelFormState extends State<editHotelForm> {
 
         room.amenities.add(amenity);
       }
+      print("pinkvalue.roomImages");
+      print("-------------");
+      print(pinkValue[i].roomImages);
+      print("eachhotel.roomImages");
+      print("-------------");
+      print(eachHotel.roomTypes[i].roomImages);
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
       // room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
 
-       for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
+      /*  for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
          room.roomImages.add(pinkValue[i].roomImages[j]);
-         print("room.roomImages");
+        print("room.roomImages in loop");
          print("-------------");
          print(room.roomImages);
         print(pinkValue[i].roomImages.length);
-       }
+       }*/
+      for (int j = 0; j < eachHotel.roomTypes[i].roomImages.length; j++) {
+        room.roomImages.add(eachHotel.roomTypes[i].roomImages[j]);
+        print("eachHotel Roomtypes in loop");
+        print("-------------");
+        print(eachHotel.roomTypes[i].roomImages);
+        print(eachHotel.roomTypes[i].roomImages.length);
+      }
       hotel.roomTypes.add(room);
     }
 

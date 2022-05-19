@@ -87,7 +87,7 @@ class _TripDetailState extends State<TripDetail> {
     } catch (e) {
       print('ERROR: $e');
     }
-    print(trips);
+    // print(trips);
     return trips;
   }
 
@@ -279,8 +279,8 @@ class _TripDetailState extends State<TripDetail> {
                             context: context,
                             onSelect: (Country country) {
                               setState(() => _country = country);
-                              print("_country");
-                              print(_country.name);
+                              // print("_country");
+                              // print(_country.name);
                             },
                           );
                         },
@@ -579,6 +579,18 @@ class _TripDetailState extends State<TripDetail> {
       //results[0].tripTemplate.tripType.toString();
       setState(() {
         _foundtrip = results;
+          print("foundtrip");
+        //print(_foundtrip[0].containsKey("tripRoomTypePrices"));
+        //Map tmap = _foundtrip[0];
+        //print(tmap);
+        if (_foundtrip[0].tripRoomTypePrices == null){
+        //if(_foundtrip[0].asMap().containsKey("tripRoomTypePrices")){
+          print("null");
+        }
+        else{
+          "not null";
+          //print(_foundtrip[0].tripRoomTypePrices[0].price);
+        }
       });
     } else {
       //print("Guestvalue" + guestvalue.toString());
@@ -595,7 +607,7 @@ class _TripDetailState extends State<TripDetail> {
             .toList();
       }
       if (_country != null) {
-        print(_country.displayNameNoCountryCode);
+        // print(_country.displayNameNoCountryCode);
         results = results
             .where((trip) =>
                 trip.tripTemplate.address.country.contains(_country.name))
@@ -632,7 +644,7 @@ class _TripDetailState extends State<TripDetail> {
                   (trip) => trip.tripTemplate.tripType.toString() == "ONSHORE")
               .toList();
         } else if (dropdownValue2 == "Offshore") {
-          print("dropdownValue 2 (Should be Offshore):" + dropdownValue2);
+          // print("dropdownValue 2 (Should be Offshore):" + dropdownValue2);
           results = results
               .where(
                   (trip) => trip.tripTemplate.tripType.toString() == "OFFSHORE")
@@ -640,7 +652,7 @@ class _TripDetailState extends State<TripDetail> {
         }
       }
       if (_diff != "") {
-        print(_diff);
+        // print(_diff);
         results = results
             .where((trip) =>
                 (trip.startDate
@@ -657,18 +669,19 @@ class _TripDetailState extends State<TripDetail> {
        if (tripcost != Cost.all) {
          if (tripcost == Cost.one) {
            results = results
-               .where((trip) => (trip.tripRoomTypePrices[0].price > 1 && trip.tripRoomTypePrices[0].price <= 1000))
+             .where((trip) => (trip.tripRoomTypePrices[0].price != null && trip.tripRoomTypePrices[0].price > 1 && trip.tripRoomTypePrices[0].price <= 1000))
                .toList();
          } else if (tripcost == Cost.two) {
            results = results
-               .where((trip) => (trip.tripRoomTypePrices[0].price > 1000 && trip.tripRoomTypePrices[0].price <= 2000))
+         .where((trip) => (trip.tripRoomTypePrices[0].price != null && trip.tripRoomTypePrices[0].price > 1000 && trip.tripRoomTypePrices[0].price <= 2000))
                .toList();
          } else if (tripcost == Cost.three) {
            results = results
-               .where((trip) => (trip.tripRoomTypePrices[0].price > 2000 && trip.tripRoomTypePrices[0].price <= 3000))
+             .where((trip) => (trip.tripRoomTypePrices[0].price != null && trip.tripRoomTypePrices[0].price > 2000 && trip.tripRoomTypePrices[0].price <= 3000))
                .toList();
          } else if (tripcost == Cost.more) {
-           results = results.where((trip) => (trip.tripRoomTypePrices[0].price > 3000)).toList();
+          results = results.where((trip) => (trip.tripRoomTypePrices[0].price != null && trip.tripRoomTypePrices[0].price > 3000)).toList();
+         
          }
        }
 
@@ -816,10 +829,10 @@ class _InfoCardState extends State<InfoCard> {
                         alignment: Alignment.centerRight,
                         child: RaisedButton(
                           onPressed: () {
-                            print(_foundtrip[widget.index]
-                                .tripTemplate
-                                .tripType
-                                .toString());
+                            // print(_foundtrip[widget.index]
+                            //     .tripTemplate
+                            //     .tripType
+                            //     .toString());
                             if (_foundtrip[widget.index]
                                     .tripTemplate
                                     .tripType
