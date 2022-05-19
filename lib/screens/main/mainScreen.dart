@@ -42,7 +42,7 @@ class MainScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Text('Recommended Trip'),
+            // Text('Recommended Trip'),
             CarouselWithDotsPage(imgList: imgList),
             SizedBox(
               height: 20,

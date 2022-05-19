@@ -108,16 +108,6 @@ class _RoomFormState extends State<RoomForm> {
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    /*var f2 = File();
-    f2.filename = rroom.name;
-    //f2.filename = 'image.jpg';
-    List<int> a = await rroom.readAsBytes();
-    f2.file = a;
-    this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
-    print("RoomImages");
-    // print(this.pinkValue[this.pinkcount - 1].roomImages);
-    print(this.pinkValue[this.pinkcount - 1].roomImages.length);
-*/
     if (rroom != null) {
       setState(() {
         if (num == 1) {
@@ -146,6 +136,10 @@ class _RoomFormState extends State<RoomForm> {
         this.pinkValue[this.pinkcount - 1].roomImages.removeAt(0);
       }
       this.pinkValue[this.pinkcount - 1].roomImages.insert(0, f);
+
+     // print("FirstpicPinkvalue");
+    //  print(this.pinkValue[this.pinkcount - 1].roomImages);
+
     } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 1) {
       var f = File();
       f.filename = this.pinkValue[this.pinkcount - 1].roomImages[0].filename;
@@ -443,30 +437,6 @@ class _RoomFormState extends State<RoomForm> {
     );
   }
 
-  // TextFormField buildPriceFormField() {
-  //   return TextFormField(
-  //     controller: _controllerPrice,
-  //     keyboardType: TextInputType.number,
-  //     inputFormatters: [
-  //       FilteringTextInputFormatter.digitsOnly,
-  //     ],
-  //     cursorColor: Color(0xFFf5579c6),
-  //     // onSaved: (newValue) => price = newValue,
-  //     onChanged: (value) {
-  //       // print('room price start');
-  //       // print(pinkcount);
-  //       // print('room price end');
-  //       price = double.parse(value);
-  //       // pinkValue[pinkcount - 1].price = double.parse(value);
-  //     },
-  //     decoration: InputDecoration(
-  //       labelText: "Price",
-  //       filled: true,
-  //       fillColor: Color(0xfffabddfc),
-  //       floatingLabelBehavior: FloatingLabelBehavior.always,
-  //     ),
-  //   );
-  // }
 
   TextFormField buildMaxCapacityFormField() {
     return TextFormField(

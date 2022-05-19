@@ -65,7 +65,7 @@ class Header extends StatelessWidget {
                             builder: (context) => TripDetailScreen()));
                   },
                 ),
-                NavItem(
+               /* NavItem(
 
                   title: 'Reviews',
                   tapEvent: () {
@@ -74,7 +74,7 @@ class Header extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => ReviewScreen()));
                   },
-                ),
+                ),*/
                 NavItem(
 
                   title: 'Weather Forecast',

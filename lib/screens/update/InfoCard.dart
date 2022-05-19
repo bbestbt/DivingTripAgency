@@ -61,10 +61,10 @@ class _InfoCardState extends State<InfoCard> {
   String room_type;
   String room_name;
   String quantity;
-  XFile rroom;
-  XFile hroomX1;
-  XFile hroomX2;
-  XFile hroomX3;
+  XFile inforroom;
+  XFile infohroomX1;
+  XFile infohroomX2;
+  XFile infohroomX3;
   Hotel eachHotel;
   int pinkcount;
   int bluecount;
@@ -82,88 +82,79 @@ class _InfoCardState extends State<InfoCard> {
   final TextEditingController _controllerQuantity = TextEditingController();
 
   _getroomimg(int num) async {
-    rroom = await ImagePicker().pickImage(
+    inforroom = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    print("pinkvalue");
-    print(eachHotel.roomTypes[index]);
 
-    // this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
-
-    if (rroom != null) {
+    if (inforroom != null) {
       setState(() {
         if (num == 1) {
-          roomimg = io.File(rroom.path);
-          hroomX1 = rroom;
+          roomimg = io.File(inforroom.path);
+          infohroomX1 = inforroom;
         }
         if (num == 2) {
-          roomimg2 = io.File(rroom.path);
-          hroomX2 = rroom;
+          roomimg2 = io.File(inforroom.path);
+          infohroomX2 = inforroom;
         }
         if (num == 3) {
-          roomimg3 = io.File(rroom.path);
-          hroomX3 = rroom;
+          roomimg3 = io.File(inforroom.path);
+          infohroomX3 = inforroom;
         }
-        //roomimg = io.File(rroom.path);
-        // rroom = pickedFile;
       });
     }
 
-    if (hroomX1 != null) {
+    if (infohroomX1 != null) {
+      print("infohroomX1 not null");
       var f = File();
-      f.filename = hroomX1.name;
-      List<int> a = await hroomX1.readAsBytes();
+      f.filename = infohroomX1.name;
+      List<int> a = await infohroomX1.readAsBytes();
       f.file = a;
-      if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 1) {
-        this.pinkValue[this.pinkcount - 1].roomImages.removeAt(0);
-        this.pinkValue[this.pinkcount - 1].roomImages.insert(0, f);
-      } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 1) {
-        var f = File();
-        f.filename = this.pinkValue[this.pinkcount - 1].roomImages[0].filename;
-        //this.this.pinkValue[this.pinkcount - 1].roomImages.add(f);
-        if (eachHotel.roomTypes[index].roomImages.length >= 1) {
-          eachHotel.roomTypes[index].roomImages.removeAt(0);
-        }
+      if (eachHotel.roomTypes[index].roomImages.length >= 1) {
+        eachHotel.roomTypes[index].roomImages.removeAt(0);
+      }
         eachHotel.roomTypes[index].roomImages.insert(0, f);
-      }else if (eachHotel.roomTypes[index].roomImages.length >= 1) {
+        print("uploaded pic1");
+        print(eachHotel.roomTypes[index].roomImages);
+    } else if (eachHotel.roomTypes[index].roomImages.length >= 1) {
         var f = File();
         f.filename = eachHotel.roomTypes[index].roomImages[0].filename;
-        //this.this.pinkValue[this.pinkcount - 1].roomImages.add(f);
-      }
-
-      if (hroomX2 != null) {
-        var f2 = File();
-        f2.filename = hroomX2.name;
-        List<int> b = await hroomX2.readAsBytes();
-        f2.file = b;
-        if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 2) {
-          this.pinkValue[this.pinkcount - 1].roomImages.removeAt(1);
-        }
-        this.pinkValue[this.pinkcount - 1].roomImages.insert(1, f2);
-      } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 2) {
-        var f2 = File();
-        f2.filename = this.pinkValue[this.pinkcount - 1].roomImages[1].filename;
-        //  this.this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
-      }
-
-      if (hroomX3 != null) {
-        var f3 = File();
-        f3.filename = hroomX3.name;
-        List<int> c = await hroomX3.readAsBytes();
-        f3.file = c;
-        if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 3) {
-          this.pinkValue[this.pinkcount - 1].roomImages.removeAt(2);
-        }
-        this.pinkValue[this.pinkcount - 1].roomImages.insert(2, f3);
-      } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 3) {
-        var f3 = File();
-        f3.filename = this.pinkValue[this.pinkcount - 1].roomImages[2].filename;
-        // this.this.pinkValue[this.pinkcount - 1].roomImages.add(f3);
-      }
-
+        //this.eachHotel.roomTypes[index].roomImages.add(f);
     }
+
+
+      if (infohroomX2 != null) {
+        var f2 = File();
+        f2.filename = infohroomX2.name;
+        List<int> b = await infohroomX2.readAsBytes();
+        f2.file = b;
+        if (eachHotel.roomTypes[index].roomImages.length >= 2) {
+          eachHotel.roomTypes[index].roomImages.removeAt(1);
+        }
+        eachHotel.roomTypes[index].roomImages.insert(1, f2);
+      } else if (eachHotel.roomTypes[index].roomImages.length >= 2) {
+        var f2 = File();
+        f2.filename = eachHotel.roomTypes[index].roomImages[1].filename;
+        //  this.eachHotel.roomTypes[index].roomImages.add(f2);
+      }
+
+      if (infohroomX3 != null) {
+        var f3 = File();
+        f3.filename = infohroomX3.name;
+        List<int> c = await infohroomX3.readAsBytes();
+        f3.file = c;
+        if (eachHotel.roomTypes[index].roomImages.length >= 3) {
+          eachHotel.roomTypes[index].roomImages.removeAt(2);
+        }
+        eachHotel.roomTypes[index].roomImages.insert(2, f3);
+      } else if (eachHotel.roomTypes[index].roomImages.length >= 3) {
+        var f3 = File();
+        f3.filename = eachHotel.roomTypes[index].roomImages[2].filename;
+        // this.eachHotel.roomTypes[index].roomImages.add(f3);
+      }
+
+
   }
 
   @override
@@ -233,23 +224,7 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          // Text(index.toString()),
-          // Align(
-          //   alignment: Alignment.topRight,
-          //   child: IconButton(
-          //       icon: Icon(Icons.clear),
-          //       onPressed: () => {
-          //             showAlertDialog(context),
-          //             // print(eachHotel.roomTypes[index]),
-          //             // setState(() {
-          //             // print('r');
-          //             // print(eachHotel.roomTypes.length);
 
-          //             // print('m');
-          //             // print(eachHotel.roomTypes.length);
-          //             // })
-          //           }),
-          // ),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
@@ -278,7 +253,7 @@ class _InfoCardState extends State<InfoCard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: roomimg == null
+                  child: infohroomX1 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -322,7 +297,7 @@ class _InfoCardState extends State<InfoCard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: roomimg2 == null
+                  child: infohroomX2 == null
                       ? Column(
                     children: [
                       Text(''),
@@ -364,7 +339,7 @@ class _InfoCardState extends State<InfoCard> {
                 children: [Text("Image")],
               ),
               Center(
-                  child: roomimg3 == null
+                  child: infohroomX3 == null
                       ? Column(
                     children: [
                       Text(''),
