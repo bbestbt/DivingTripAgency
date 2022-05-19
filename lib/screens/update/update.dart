@@ -92,267 +92,413 @@ class Update extends StatelessWidget {
               //           ),
               //         ))),
 
-              SizedBox(
-                width: 1110,
+              Container(
+                height:  MediaQuery.of(context).size.height,
                 child: FutureBuilder(
                   future: getProfile(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Container(
-                        child: Column(
+                        width: MediaQuery.of(context).size.width / 2,
+                        height: MediaQuery.of(context).size.height / 2,
+                        child: GridView.count(
+                          crossAxisCount: 2,
                           children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => updateHotel()));
-                              },
-                              child: Container(
-                                height: 200,
-                                width: 500,
-                                decoration: BoxDecoration(
-                                    // color: Color(0xfffc1bbdd).withOpacity(0.3),
-                                    color: Colors.blue[100],
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    "Update hotel",
-                                                    style:
-                                                        TextStyle(fontSize: 20),
-                                                  )),
-                                            ],
-                                          )),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            updateLiveaboard()));
-                              },
-                              child: Container(
-                                height: 200,
-                                width: 500,
-                                decoration: BoxDecoration(
-                                    color: Colors.blue[100],
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    "Update liveaboard",
-                                                    style:
-                                                        TextStyle(fontSize: 20),
-                                                  )),
-                                            ],
-                                          )),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => updateTrip()));
-                              },
-                              child: Container(
-                                height: 200,
-                                width: 500,
-                                decoration: BoxDecoration(
-                                    color: Colors.blue[100],
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    "Update trip",
-                                                    style:
-                                                        TextStyle(fontSize: 20),
-                                                  )),
-                                            ],
-                                          )),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => updateBoat()));
-                              },
-                              child: Container(
-                                height: 200,
-                                width: 500,
-                                decoration: BoxDecoration(
-                                    color: Colors.blue[100],
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    "Update boat",
-                                                    style:
-                                                        TextStyle(fontSize: 20),
-                                                  )),
-                                            ],
-                                          )),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => updateStaff()));
-                              },
-                              child: Container(
-                                height: 200,
-                                width: 500,
-                                decoration: BoxDecoration(
-                                    color: Colors.blue[100],
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    "Update staff",
-                                                    style:
-                                                        TextStyle(fontSize: 20),
-                                                  )),
-                                            ],
-                                          )),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            updateDivemaster()));
-                              },
-                              child: Container(
-                                height: 200,
-                                width: 500,
-                                decoration: BoxDecoration(
-                                    color: Colors.blue[100],
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text(
-                                                    "Update dive master",
-                                                    style:
-                                                        TextStyle(fontSize: 20),
-                                                  )),
-                                            ],
-                                          )),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                            Card(
+                                color: Colors.blue[100],
+                                margin: EdgeInsets.all(10),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => updateHotel()));
+                                  },
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.hotel,
+                                          size:
+                                              MediaQuery.of(context).size.width /
+                                                  8),
+                                      Text(
+                                        "Hotel",
+                                      )
+                                    ],
+                                  )),
+                                )),
+                            Card(
+                                color: Colors.teal[100],
+                                margin: EdgeInsets.all(10),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                updateLiveaboard()));
+                                  },
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                          IconData(0xe1d3,
+                                              fontFamily: 'MaterialIcons'),
+                                          size:
+                                              MediaQuery.of(context).size.width /
+                                                  8),
+                                      Text(
+                                        "Liveaboard",
+                                      )
+                                    ],
+                                  )),
+                                )),
+                            Card(
+                                color: Color(0xfffe2f0cb),
+                                margin: EdgeInsets.all(10),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => updateTrip()));
+                                  },
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.travel_explore,
+                                          size:
+                                              MediaQuery.of(context).size.width /
+                                                  8),
+                                      Text(
+                                        "Trip",
+                                      )
+                                    ],
+                                  )),
+                                )),
+                            Card(
+                                color: Color(0xfffffdac1),
+                                margin: EdgeInsets.all(10),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => updateBoat()));
+                                  },
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.sailing_sharp,
+                                          size:
+                                              MediaQuery.of(context).size.width /
+                                                  8),
+                                      Text(
+                                        "Boat",
+                                      )
+                                    ],
+                                  )),
+                                )),
+                            Card(
+                                color: Color(0xfffffb7b2),
+                                margin: EdgeInsets.all(10),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => updateStaff()));
+                                  },
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.people,
+                                          size:
+                                              MediaQuery.of(context).size.width /
+                                                  8),
+                                      Text(
+                                        "Staff",
+                                      )
+                                    ],
+                                  )),
+                                )),
+                            Card(
+                                color: Color(0xfffc7ceea),
+                                margin: EdgeInsets.all(10),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                updateDivemaster()));
+                                  },
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.emoji_people_outlined,
+                                          size:
+                                              MediaQuery.of(context).size.width /
+                                                  8),
+                                      Text(
+                                        "Divemaster",
+                                      )
+                                    ],
+                                  )),
+                                )),
+                            // Container(
+                            //   height: 200,
+                            //   width: 500,
+                            //   decoration: BoxDecoration(
+                            //       // color: Color(0xfffc1bbdd).withOpacity(0.3),
+                            //       color: Colors.blue[100],
+                            //       borderRadius:
+                            //           BorderRadius.circular(10)),
+                            //   child: Row(
+                            //     children: [
+                            //       Expanded(
+                            //         child: Padding(
+                            //             padding: EdgeInsets.symmetric(
+                            //                 horizontal: 20),
+                            //             child: Column(
+                            //               crossAxisAlignment:
+                            //                   CrossAxisAlignment.start,
+                            //               mainAxisAlignment:
+                            //                   MainAxisAlignment.center,
+                            //               children: [
+                            //                 Align(
+                            //                     alignment:
+                            //                         Alignment.center,
+                            //                     child: Text(
+                            //                       "Update hotel",
+                            //                       style: TextStyle(
+                            //                           fontSize: 20),
+                            //                     )),
+                            //               ],
+                            //             )),
+                            //       )
+                            //     ],
+                            //   ),
+                            // ),
+
+                            // SizedBox(
+                            //   height: 20,
+                            // ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (context) =>
+                            //                 updateLiveaboard()));
+                            //   },
+                            //   child: Container(
+                            //     height: 200,
+                            //     width: 500,
+                            //     decoration: BoxDecoration(
+                            //         color: Colors.blue[100],
+                            //         borderRadius: BorderRadius.circular(10)),
+                            //     child: Row(
+                            //       children: [
+                            //         Expanded(
+                            //           child: Padding(
+                            //               padding: EdgeInsets.symmetric(
+                            //                   horizontal: 20),
+                            //               child: Column(
+                            //                 crossAxisAlignment:
+                            //                     CrossAxisAlignment.start,
+                            //                 mainAxisAlignment:
+                            //                     MainAxisAlignment.center,
+                            //                 children: [
+                            //                   Align(
+                            //                       alignment: Alignment.center,
+                            //                       child: Text(
+                            //                         "Update liveaboard",
+                            //                         style:
+                            //                             TextStyle(fontSize: 20),
+                            //                       )),
+                            //                 ],
+                            //               )),
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: 20,
+                            // ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (context) => updateTrip()));
+                            //   },
+                            //   child: Container(
+                            //     height: 200,
+                            //     width: 500,
+                            //     decoration: BoxDecoration(
+                            //         color: Colors.blue[100],
+                            //         borderRadius: BorderRadius.circular(10)),
+                            //     child: Row(
+                            //       children: [
+                            //         Expanded(
+                            //           child: Padding(
+                            //               padding: EdgeInsets.symmetric(
+                            //                   horizontal: 20),
+                            //               child: Column(
+                            //                 crossAxisAlignment:
+                            //                     CrossAxisAlignment.start,
+                            //                 mainAxisAlignment:
+                            //                     MainAxisAlignment.center,
+                            //                 children: [
+                            //                   Align(
+                            //                       alignment: Alignment.center,
+                            //                       child: Text(
+                            //                         "Update trip",
+                            //                         style:
+                            //                             TextStyle(fontSize: 20),
+                            //                       )),
+                            //                 ],
+                            //               )),
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: 20,
+                            // ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (context) => updateBoat()));
+                            //   },
+                            //   child: Container(
+                            //     height: 200,
+                            //     width: 500,
+                            //     decoration: BoxDecoration(
+                            //         color: Colors.blue[100],
+                            //         borderRadius: BorderRadius.circular(10)),
+                            //     child: Row(
+                            //       children: [
+                            //         Expanded(
+                            //           child: Padding(
+                            //               padding: EdgeInsets.symmetric(
+                            //                   horizontal: 20),
+                            //               child: Column(
+                            //                 crossAxisAlignment:
+                            //                     CrossAxisAlignment.start,
+                            //                 mainAxisAlignment:
+                            //                     MainAxisAlignment.center,
+                            //                 children: [
+                            //                   Align(
+                            //                       alignment: Alignment.center,
+                            //                       child: Text(
+                            //                         "Update boat",
+                            //                         style:
+                            //                             TextStyle(fontSize: 20),
+                            //                       )),
+                            //                 ],
+                            //               )),
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: 20,
+                            // ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (context) => updateStaff()));
+                            //   },
+                            //   child: Container(
+                            //     height: 200,
+                            //     width: 500,
+                            //     decoration: BoxDecoration(
+                            //         color: Colors.blue[100],
+                            //         borderRadius: BorderRadius.circular(10)),
+                            //     child: Row(
+                            //       children: [
+                            //         Expanded(
+                            //           child: Padding(
+                            //               padding: EdgeInsets.symmetric(
+                            //                   horizontal: 20),
+                            //               child: Column(
+                            //                 crossAxisAlignment:
+                            //                     CrossAxisAlignment.start,
+                            //                 mainAxisAlignment:
+                            //                     MainAxisAlignment.center,
+                            //                 children: [
+                            //                   Align(
+                            //                       alignment: Alignment.center,
+                            //                       child: Text(
+                            //                         "Update staff",
+                            //                         style:
+                            //                             TextStyle(fontSize: 20),
+                            //                       )),
+                            //                 ],
+                            //               )),
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: 20,
+                            // ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     Navigator.push(
+                            //         context,
+                            //         MaterialPageRoute(
+                            //             builder: (context) =>
+                            //                 updateDivemaster()));
+                            //   },
+                            //   child: Container(
+                            //     height: 200,
+                            //     width: 500,
+                            //     decoration: BoxDecoration(
+                            //         color: Colors.blue[100],
+                            //         borderRadius: BorderRadius.circular(10)),
+                            //     child: Row(
+                            //       children: [
+                            //         Expanded(
+                            //           child: Padding(
+                            //               padding: EdgeInsets.symmetric(
+                            //                   horizontal: 20),
+                            //               child: Column(
+                            //                 crossAxisAlignment:
+                            //                     CrossAxisAlignment.start,
+                            //                 mainAxisAlignment:
+                            //                     MainAxisAlignment.center,
+                            //                 children: [
+                            //                   Align(
+                            //                       alignment: Alignment.center,
+                            //                       child: Text(
+                            //                         "Update dive master",
+                            //                         style:
+                            //                             TextStyle(fontSize: 20),
+                            //                       )),
+                            //                 ],
+                            //               )),
+                            //         )
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       );

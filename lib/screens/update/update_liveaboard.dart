@@ -81,7 +81,7 @@ class updateLiveaboard extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          decoration: BoxDecoration(color: Color(0xFFFFfd8be).withOpacity(0.3)),
+          // decoration: BoxDecoration(color: Color(0xFFFFfd8be).withOpacity(0.3)),
           child: Column(
             children: [
               HeaderCompany(),
@@ -242,7 +242,7 @@ class _listLiveaboardCardState extends State<listLiveaboardCard> {
         height: 200,
         width: 200,
         decoration: BoxDecoration(
-          color: Colors.white,
+           color: Colors.teal[100],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

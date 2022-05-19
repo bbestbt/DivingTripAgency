@@ -79,7 +79,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
     return Container(
       width: double.infinity,
       // decoration: BoxDecoration(color: Color(0xfffd4f0f7).withOpacity(0.3)),
-      decoration: BoxDecoration(color: Color(0xfffbbdfbc).withOpacity(0.3)),
+      // decoration: BoxDecoration(color: Color(0xfffbbdfbc).withOpacity(0.3)),
       child: Column(
         children: [
           SizedBox(
