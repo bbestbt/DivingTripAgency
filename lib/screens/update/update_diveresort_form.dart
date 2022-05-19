@@ -492,8 +492,8 @@ class _editHotelFormState extends State<editHotelForm> {
     for (int i = 0; i < eachHotel.images.length; i++) {
       hotel.images.add(eachHotel.images[i]);
     }
-    //print("hotel.images");
-    //print(hotel.images);
+    // print("hotel.images");
+    // print(hotel.images);
     final updateRequest = UpdateHotelRequest()..hotel = hotel;
     print(updateRequest);
     try {
@@ -516,6 +516,7 @@ class _editHotelFormState extends State<editHotelForm> {
       _controllerCountry.text = eachHotel.address.country;
       _controllerRegion.text = eachHotel.address.region;
       _controllerCity.text = eachHotel.address.city;
+      pinkValue = eachHotel.roomTypes;
     });
   }
 
@@ -770,7 +771,7 @@ class _editHotelFormState extends State<editHotelForm> {
                       : kIsWeb
                           ? Image.network(
                               hotelimg3.path,
-
+                              //hotel.images[hotel.images.length-2],
                               fit: BoxFit.cover,
                               width: screenwidth * 0.1,
                             )
@@ -1202,7 +1203,8 @@ class _editHotelFormState extends State<editHotelForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xffffee1e8),
+                // color: Color(0xffffee1e8),
+                color: Color(0xfffabddfc),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreRoomUpdateHotel(this.eachHotel, getRoomValue),
           ),
@@ -1210,7 +1212,7 @@ class _editHotelFormState extends State<editHotelForm> {
 
           FlatButton(
             onPressed: () => {
-              print(pinkValue),
+              // print(pinkValue),
               sendUpdateHotel(),
               Navigator.pushAndRemoveUntil(
                 context,

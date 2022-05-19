@@ -154,6 +154,8 @@ class _updateTripFormState extends State<updateTripForm> {
     super.initState();
     loadData();
     _controllerTotalpeople.text = eachTrip.maxGuest.toString();
+    dmValue = eachTrip.diveMasters;
+    pinkValue = eachTrip.diveSites;
   }
 
   void loadData() async {
@@ -224,9 +226,9 @@ class _updateTripFormState extends State<updateTripForm> {
             title: Text("Error"),
             content: Text("Hotel is already used"),
             actions: <Widget>[
-              FlatButton(
-                  //child: Text("OK"),
-                  ),
+              // FlatButton(
+                   //child: Text("OK"),
+              //     ),
             ],
           );
         });
@@ -241,9 +243,9 @@ class _updateTripFormState extends State<updateTripForm> {
             title: Text("Error"),
             content: Text("Boat is already used"),
             actions: <Widget>[
-              FlatButton(
+              // FlatButton(
                   //child: Text("OK"),
-                  ),
+              //     ),
             ],
           );
         });
@@ -524,12 +526,10 @@ class _updateTripFormState extends State<updateTripForm> {
           SizedBox(height: 20),
 
           FlatButton(
-            //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
             onPressed: () async => {
-              //พัง
               // print(dmValue),
-              // print(pinkValue)
-              await sendTripEdit()
+              // print(pinkValue),
+              await sendTripEdit(),
             },
             color: Color(0xfff75BDFF),
             child: Text(

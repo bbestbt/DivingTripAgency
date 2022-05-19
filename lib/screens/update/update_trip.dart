@@ -154,15 +154,90 @@ class listTripCard extends StatefulWidget {
 }
 
 class _listTripCardState extends State<listTripCard> {
+  void removeTrip() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var trip = Trip();
+    trip.id = trips[widget.index].id;
+    var deleteTripRequest = DeleteTripRequest();
+    deleteTripRequest.trip = trip;
+    try {
+      var response = await stub.deleteTrip(deleteTripRequest);
+      print(token);
+      print(response);
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+    } catch (e) {
+      // Handle all other exceptions
+      print('Exception: $e');
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () async {
+        await removeTrip();
+        print('delete');
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => updateTrip()),
+          (Route<dynamic> route) => false,
+        );
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      // title: Text("AlertDialog"),
+      content: Text("Would you like to delete " +
+          trips[widget.index].tripTemplate.name +
+          "?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => updateEachTrip(trips[widget.index])));
-      },
+      // onTap: () {
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => updateEachTrip(trips[widget.index])));
+      // },
       child: Container(
         height: 200,
         width: 200,
@@ -180,6 +255,56 @@ class _listTripCardState extends State<listTripCard> {
                     overflow: TextOverflow.ellipsis,
                   )),
             ),
+            // SizedBox(
+            //   width: 10,
+            // ),
+            PopupMenuButton(
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: Row(
+                          children: [
+                            Icon(Icons.edit),
+                            Text("Edit"),
+                          ],
+                        ),
+                        value: 1,
+                      ),
+                      PopupMenuItem(
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete),
+                            Text("Delete"),
+                          ],
+                        ),
+                        value: 2,
+                      )
+                    ],
+                onSelected: (int menu) {
+                  if (menu == 1) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                updateEachTrip(trips[widget.index])));
+                  } else if (menu == 2) {
+                    showAlertDialog(context);
+                  }
+                })
+            // Container(
+            //   width: 30,
+            //   height: 30,
+            //   child: FloatingActionButton(
+            //     backgroundColor: Color(0xffFFA132),
+            //     onPressed: () async {
+            //       showAlertDialog(context);
+            //     },
+            //     child: Icon(
+            //       Icons.delete,
+            //       color: Colors.white,
+            //       size: 15,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

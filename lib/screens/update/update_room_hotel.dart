@@ -26,6 +26,8 @@ import 'dart:io' as io;
 
 GetHotelResponse hotelDetial = new GetHotelResponse();
 var hotel;
+var rt;
+final GlobalKey<AnimatedListState> _key = GlobalKey();
 
 class AddMoreRoomUpdateHotel extends StatefulWidget {
   List<RoomType> pinkValue = [];
@@ -128,46 +130,54 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
               onPressed: () {
                 setState(() {
                   pinkcount += 1;
+                  rt = RoomType();
+                  rt.name = '';
+                  rt.description = '';
+                  rt.quantity = 0;
+                  rt.maxGuest = 0;
+
+                  eachHotel.roomTypes.add(rt);
+
                   // pinkValue.add(new RoomType());
                   // blueValue.add([new Amenity()]);
                 });
               },
-              color: Color(0xfffff968a),
+              color: Color(0xfff45b6fe),
               textColor: Colors.white,
               child: Icon(
                 Icons.add,
                 size: 20,
               ),
             ),
-            SizedBox(width: 30),
-            MaterialButton(
-              onPressed: () {
-                setState(() {
-                  if (eachHotel.roomTypes.length > 1) {
-                    eachHotel.roomTypes.removeLast();
-                    print(eachHotel.roomTypes);
-                  } else {
-                    pinkcount = 0;
-                  }
-                  // pinkcount -= 1;
-                  // pinkValue.remove(new RoomType());
-                  // blueValue.remove([new Amenity()]);
-                });
-              },
-              color: Color(0xfffff968a),
-              textColor: Colors.white,
-              child: Icon(
-                Icons.remove,
-                size: 20,
-              ),
-            ),
+            // SizedBox(width: 30),
+            // MaterialButton(
+            //   onPressed: () {
+            //     setState(() {
+            //       if (eachHotel.roomTypes.length > 1) {
+            //         eachHotel.roomTypes.removeLast();
+            //         print(eachHotel.roomTypes);
+            //       } else {
+            //         pinkcount = 0;
+            //       }
+            //       // pinkcount -= 1;
+            //       // pinkValue.remove(new RoomType());
+            //       // blueValue.remove([new Amenity()]);
+            //     });
+            //   },
+            //   color: Color(0xfffff968a),
+            //   textColor: Colors.white,
+            //   child: Icon(
+            //     Icons.remove,
+            //     size: 20,
+            //   ),
+            // ),
           ],
         ),
         SizedBox(height: 30),
-        FlatButton(onPressed: () {
-          print(eachHotel.roomTypes);
-          // print(widget.customFunction(eachHotel.roomTypes));
-        }),
+        // FlatButton(onPressed: () {
+        //   print(eachHotel.roomTypes);
+        //   // print(widget.customFunction(eachHotel.roomTypes));
+        // }),
       ])),
     );
   }
@@ -208,18 +218,23 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var listroomrequest = ListRoomTypesRequest();
     listroomrequest.hotelId = eachHotel.id;
-
+    //print("eachhotel");
+    //print(eachHotel.id);
+    print("allroom");
+    print(allRoom);
     allRoom.clear();
     try {
       await for (var feature in stub.listRoomTypes(listroomrequest)) {
         allRoom.add(feature.roomType);
+
       }
     } catch (e) {
       print('ERROR: $e');
     }
     // print('--');
     // print(allRoom);
-
+    print("allroom");
+    print(allRoom);
     return allRoom;
   }
 
@@ -231,13 +246,23 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
         future: getRoomType(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Wrap(
-                spacing: 20,
-                runSpacing: 40,
-                children: List.generate(
-                    allRoom.length,
-                    (index) => InfoCard(
-                        index, allRoom, eachHotel, widget.customFunction)));
+            return
+                // Container(
+                //   // color: Colors.lightGreen,
+                //   height: 3000,
+                //   child: AnimatedList(
+                //       key: _key,
+                //       initialItemCount: eachHotel.roomTypes.length,
+                //       itemBuilder: (context, index, animation) => InfoCard(
+                //           index, allRoom, eachHotel, widget.customFunction)),
+                // );
+                Wrap(
+                    spacing: 20,
+                    runSpacing: 40,
+                    children: List.generate(
+                        allRoom.length,
+                        (index) => InfoCard(
+                            index, allRoom, eachHotel, widget.customFunction)));
           } else {
             return Center(child: Text('No room'));
           }
@@ -247,7 +272,7 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
   }
 }
 
-class InfoCard extends StatefulWidget {
+class InfoCard extends StatefulWidget { //Infocard for room
   int index;
   List<RoomType> allRoom = [];
   int pinkcount;
@@ -281,12 +306,9 @@ class _InfoCardState extends State<InfoCard> {
   String room_name;
   String quantity;
   XFile rroom;
-
   XFile hroomX1;
   XFile hroomX2;
   XFile hroomX3;
-
-
   Hotel eachHotel;
   int pinkcount;
   int bluecount;
@@ -309,20 +331,23 @@ class _InfoCardState extends State<InfoCard> {
       maxHeight: 1800,
     );
     print("pinkvalue");
-    print(this.pinkValue[this.pinkcount - 1]);
+    print(eachHotel.roomTypes[index]);
 
-   // this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
+    // this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
 
     if (rroom != null) {
       setState(() {
-        if (num == 1) {roomimg = io.File(rroom.path);
-        hroomX1 = rroom;
+        if (num == 1) {
+          roomimg = io.File(rroom.path);
+          hroomX1 = rroom;
         }
-        if (num == 2) {roomimg2 = io.File(rroom.path);
-        hroomX2 = rroom;
+        if (num == 2) {
+          roomimg2 = io.File(rroom.path);
+          hroomX2 = rroom;
         }
-        if (num == 3) {roomimg3 = io.File(rroom.path);
-        hroomX3 = rroom;
+        if (num == 3) {
+          roomimg3 = io.File(rroom.path);
+          hroomX3 = rroom;
         }
         //roomimg = io.File(rroom.path);
         // rroom = pickedFile;
@@ -330,51 +355,79 @@ class _InfoCardState extends State<InfoCard> {
     }
 
     if (hroomX1 != null) {
-
       var f = File();
       f.filename = hroomX1.name;
       List<int> a = await hroomX1.readAsBytes();
       f.file = a;
-      if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 1) {
+      /*if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 1) {
         this.pinkValue[this.pinkcount - 1].roomImages.removeAt(0);
+        this.pinkValue[this.pinkcount - 1].roomImages.insert(0, f);
+      } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 1) {
+        var f = File();
+        f.filename = this.pinkValue[this.pinkcount - 1].roomImages[0].filename;
+        //this.this.pinkValue[this.pinkcount - 1].roomImages.add(f);*/
+      if (eachHotel.roomTypes[index].roomImages.length >= 1) {
+        eachHotel.roomTypes[index].roomImages.removeAt(0);
+        eachHotel.roomTypes[index].roomImages.insert(0, f);
+      } else if (eachHotel.roomTypes[index].roomImages.length >= 1) {
+        var f = File();
+        f.filename = eachHotel.roomTypes[index].roomImages[0].filename;
+        //this.this.pinkValue[this.pinkcount - 1].roomImages.add(f);
       }
-      this.pinkValue[this.pinkcount - 1].roomImages.insert(0, f);
-    } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 1) {
-      var f = File();
-      f.filename = this.pinkValue[this.pinkcount - 1].roomImages[0].filename;
-      //this.this.pinkValue[this.pinkcount - 1].roomImages.add(f);
-    }
 
-    if (hroomX2  != null) {
-      var f2 = File();
-      f2.filename = hroomX2.name;
-      List<int> b = await hroomX2.readAsBytes();
-      f2.file = b;
-      if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 2) {
-        this.pinkValue[this.pinkcount - 1].roomImages.removeAt(1);
+      if (hroomX2 != null) {
+        var f2 = File();
+        f2.filename = hroomX2.name;
+        List<int> b = await hroomX2.readAsBytes();
+        f2.file = b;
+        if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 2) {
+          this.pinkValue[this.pinkcount - 1].roomImages.removeAt(1);
+        }
+        this.pinkValue[this.pinkcount - 1].roomImages.insert(1, f2);
+      } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 2) {
+        var f2 = File();
+        f2.filename = this.pinkValue[this.pinkcount - 1].roomImages[1].filename;
+        //  this.this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
       }
-      this.pinkValue[this.pinkcount - 1].roomImages.insert(1, f2);
-    } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 2) {
-      var f2 = File();
-      f2.filename = this.pinkValue[this.pinkcount - 1].roomImages[1].filename;
-      //  this.this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
-    }
 
-    if (hroomX3  != null) {
-      var f3 = File();
-      f3.filename = hroomX3.name;
-      List<int> c = await hroomX3.readAsBytes();
-      f3.file = c;
-      if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 3) {
-        this.pinkValue[this.pinkcount - 1].roomImages.removeAt(2);
+      if (hroomX3 != null) {
+        var f3 = File();
+        f3.filename = hroomX3.name;
+        List<int> c = await hroomX3.readAsBytes();
+        f3.file = c;
+        if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 3) {
+          this.pinkValue[this.pinkcount - 1].roomImages.removeAt(2);
+        }
+        this.pinkValue[this.pinkcount - 1].roomImages.insert(2, f3);
+      } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 3) {
+        var f3 = File();
+        f3.filename = this.pinkValue[this.pinkcount - 1].roomImages[2].filename;
+        // this.this.pinkValue[this.pinkcount - 1].roomImages.add(f3);
       }
-      this.pinkValue[this.pinkcount - 1].roomImages.insert(2, f3);
-    } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 3) {
-      var f3 = File();
-      f3.filename = this.pinkValue[this.pinkcount - 1].roomImages[2].filename;
-      // this.this.pinkValue[this.pinkcount - 1].roomImages.add(f3);
-    }
 
+      // var f2 = File();
+      // f2.filename = rroom.name;
+      // //f2.filename = 'image.jpg';
+      // List<int> a = await rroom.readAsBytes();
+      // f2.file = a;
+
+      // this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
+
+      // if (rroom != null) {
+      //   setState(() {
+      //    if (num == 1) {roomimg = io.File(rroom.path);
+      //     hroomX1 = rroom;
+      //     }
+      //     if (num == 2) {roomimg2 = io.File(rroom.path);
+      //     hroomX2 = rroom;
+      //     }
+      //     if (num == 3) {roomimg3 = io.File(rroom.path);
+      //     hroomX3 = rroom;
+      //     }
+      //     //roomimg = io.File(rroom.path);
+      //     // rroom = pickedFile;
+      //   });
+    }
   }
 
   @override
@@ -394,6 +447,49 @@ class _InfoCardState extends State<InfoCard> {
     });
   }
 
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () async {
+        print('delete');
+        print(index);
+        eachHotel.roomTypes.removeAt(index);
+        print(eachHotel.roomTypes);
+        _key.currentState.removeItem(
+            this.index,
+            (context, animation) => InfoCard(
+                index, eachHotel.roomTypes, eachHotel, widget.customFunction));
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      // title: Text("AlertDialog"),
+      content: Text(
+          "Would you like to delete " + eachHotel.roomTypes[index].name + "?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -402,6 +498,22 @@ class _InfoCardState extends State<InfoCard> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           // Text(index.toString()),
+          // Align(
+          //   alignment: Alignment.topRight,
+          //   child: IconButton(
+          //       icon: Icon(Icons.clear),
+          //       onPressed: () => {
+          //             showAlertDialog(context),
+          //             // print(eachHotel.roomTypes[index]),
+          //             // setState(() {
+          //             // print('r');
+          //             // print(eachHotel.roomTypes.length);
+
+          //             // print('m');
+          //             // print(eachHotel.roomTypes.length);
+          //             // })
+          //           }),
+          // ),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
@@ -413,7 +525,8 @@ class _InfoCardState extends State<InfoCard> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xfffd4f0f0),
+                // color: Color(0xfffd4f0f0),
+                color: Color(0xfffa2b8f2),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreAmenityUpdateHotel(
                 this.eachHotel, this.index, getAMValue),
@@ -422,8 +535,7 @@ class _InfoCardState extends State<InfoCard> {
           SizedBox(height: 20),
           buildRoomQuantityFormField(),
           SizedBox(height: 20),
-          // buildPriceFormField(),
-          // SizedBox(height: 20),
+
           Row(
             children: [
               Column(
@@ -444,7 +556,9 @@ class _InfoCardState extends State<InfoCard> {
                               width: screenwidth * 0.1,
                             )
                           : Image.file(
-                              io.File(roomimg.path),
+                              io.File(
+                                roomimg.path,
+                              ),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.05,
                             )),
@@ -572,7 +686,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Room description",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -595,7 +709,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Max capacity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -614,7 +728,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Room type",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -637,7 +751,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Room quantity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -692,12 +806,9 @@ class _RoomFormState extends State<RoomForm> {
   Hotel eachHotel;
   List<RoomType> allRoom = [];
   XFile rroom;
-
   XFile hroomX1;
   XFile hroomX2;
   XFile hroomX3;
-
-
 
   _RoomFormState(
       int pinkcount,
@@ -724,28 +835,39 @@ class _RoomFormState extends State<RoomForm> {
   final TextEditingController _controllerQuantity = TextEditingController();
   int count = 0;
 
-
   _getroomimg(int num) async {
     rroom = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-
+    /*var f2 = File();
+    f2.filename = rroom.name;
+    //f2.filename = 'image.jpg';
+    List<int> a = await rroom.readAsBytes();
+    f2.file = a;
+    this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
+    print("RoomImages");
+    // print(this.pinkValue[this.pinkcount - 1].roomImages);
+    print(this.pinkValue[this.pinkcount - 1].roomImages.length);
+*/
     if (rroom != null) {
-    setState(() {
-    if (num == 1) {roomimg = io.File(rroom.path);
-    hroomX1 = rroom;
-    }
-    if (num == 2) {roomimg2 = io.File(rroom.path);
-    hroomX2 = rroom;
-    }
-    if (num == 3) {roomimg3 = io.File(rroom.path);
-    hroomX3 = rroom;
-    }
-    //roomimg = io.File(rroom.path);
-    // rroom = pickedFile;
-    });
+      setState(() {
+        if (num == 1) {
+          roomimg = io.File(rroom.path);
+          hroomX1 = rroom;
+        }
+        if (num == 2) {
+          roomimg2 = io.File(rroom.path);
+          hroomX2 = rroom;
+        }
+        if (num == 3) {
+          roomimg3 = io.File(rroom.path);
+          hroomX3 = rroom;
+        }
+        //roomimg = io.File(rroom.path);
+        // rroom = pickedFile;
+      });
     }
 
     if (hroomX1 != null) {
@@ -763,7 +885,7 @@ class _RoomFormState extends State<RoomForm> {
       //this.this.pinkValue[this.pinkcount - 1].roomImages.add(f);
     }
 
-    if (hroomX2  != null) {
+    if (hroomX2 != null) {
       var f2 = File();
       f2.filename = hroomX2.name;
       List<int> b = await hroomX2.readAsBytes();
@@ -778,7 +900,7 @@ class _RoomFormState extends State<RoomForm> {
       //  this.this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
     }
 
-    if (hroomX3  != null) {
+    if (hroomX3 != null) {
       var f3 = File();
       f3.filename = hroomX3.name;
       List<int> c = await hroomX3.readAsBytes();
@@ -793,10 +915,7 @@ class _RoomFormState extends State<RoomForm> {
       // this.this.pinkValue[this.pinkcount - 1].roomImages.add(f3);
     }
 
-
     // this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
-
-
   }
 
   List<Amenity> amValue = [];
@@ -804,6 +923,48 @@ class _RoomFormState extends State<RoomForm> {
     setState(() {
       amValue = am;
     });
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () async {
+        print('delete');
+        // eachHotel.roomTypes.removeAt(indexForm);
+        //   Navigator.pushAndRemoveUntil(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => AddMoreRoomUpdateHotel(eachHotel,widget.customFunction)),
+        //   (Route<dynamic> route) => false,
+        // );
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      // title: Text("AlertDialog"),
+      content: Text("Would you like to delete " +
+          eachHotel.roomTypes[indexForm].name +
+          "?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   @override
@@ -814,6 +975,23 @@ class _RoomFormState extends State<RoomForm> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           // Text(indexForm.toString()),
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: () => {
+                      showAlertDialog(context),
+                      // print(eachHotel.roomTypes[index]),
+                      // setState(() {
+                      // print('r');
+                      // print(eachHotel.roomTypes.length);
+                      // eachHotel.roomTypes.removeAt(indexForm);
+
+                      // print('m');
+                      // print(eachHotel.roomTypes.length);
+                      // })
+                    }),
+          ),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
@@ -824,7 +1002,10 @@ class _RoomFormState extends State<RoomForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xfffd4f0f0),
+                color: Color(0xfffa2b8f2),
+
+                //  Color(0xfffd4f0f0),
+
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreAmenityNew(
                 this.indexForm, this.blueValue, this.eachHotel, getAMValue),
@@ -962,24 +1143,23 @@ class _RoomFormState extends State<RoomForm> {
             ],
           ),
           SizedBox(height: 20),
-          FlatButton(
-              color: Colors.pink,
-              child: Text(
-                'Please save before add new room',
-              ),
-              onPressed: () {
-                var rt = RoomType();
-                rt.name = room_name;
-                rt.description = room_description;
-                rt.quantity = quantity;
-                rt.maxGuest = max_capa;
-                eachHotel.roomTypes.add(rt);
+          // FlatButton(
+          //     color: Colors.pink,
+          //     child: Text(
+          //       'Please save before add new room',
+          //     ),
+          //     onPressed: () {
+          //       rt.name = room_name;
+          //       rt.description = room_description;
+          //       rt.quantity = quantity;
+          //       rt.maxGuest = max_capa;
+          //       eachHotel.roomTypes[indexForm] = rt;
 
-                print(eachHotel.roomTypes);
+          //       print(eachHotel.roomTypes);
 
-                widget.customFunction(eachHotel.roomTypes);
-              }),
-          SizedBox(height: 20),
+          //       widget.customFunction(eachHotel.roomTypes);
+          //     }),
+          // SizedBox(height: 20),
         ]),
       ),
     );
@@ -995,11 +1175,12 @@ class _RoomFormState extends State<RoomForm> {
         // print(pinkcount);
         // print('room des end');
         room_description = value;
+        eachHotel.roomTypes[indexForm].description = value;
       },
       decoration: InputDecoration(
         labelText: "Room description",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -1024,7 +1205,7 @@ class _RoomFormState extends State<RoomForm> {
   //     decoration: InputDecoration(
   //       labelText: "Price",
   //       filled: true,
-  //       fillColor: Color(0xffffee1e8),
+  //       fillColor: Color(0xfffabddfc),
   //       floatingLabelBehavior: FloatingLabelBehavior.always,
   //     ),
   //   );
@@ -1044,11 +1225,12 @@ class _RoomFormState extends State<RoomForm> {
         // print(pinkcount);
         // print('room max end');
         max_capa = int.parse(value);
+        eachHotel.roomTypes[indexForm].maxGuest = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -1065,11 +1247,12 @@ class _RoomFormState extends State<RoomForm> {
         // print('room name end');
 
         room_name = value;
+        eachHotel.roomTypes[indexForm].name = value;
       },
       decoration: InputDecoration(
         labelText: "Room type",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -1091,11 +1274,12 @@ class _RoomFormState extends State<RoomForm> {
 
         // print(value);
         quantity = int.parse(value);
+        eachHotel.roomTypes[indexForm].quantity = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );

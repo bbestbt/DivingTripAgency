@@ -211,7 +211,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     if (ca != null) {
 
       var f = File();
-      f.filename = 'image1.jpg';
+      f.filename = ca.name;
       //f2.filename = 'image.jpg';
       List<int> a = await ca.readAsBytes();
       f.file = a;
@@ -219,8 +219,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
         this.divemasterValue.documents.removeAt(0);
       }
       this.divemasterValue.documents.insert(0, f);
-
-
     }
     else if (ca == null) {
       var f = File();
@@ -231,17 +229,15 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     }
     if (cb != null) {
       var f2 = File();
-      f2.filename = 'image2.jpg';
+      f2.filename = cb.name;
       //f2.filename = 'image.jpg';
       List<int> b = await cb.readAsBytes();
       f2.file = b;
-
-      this.divemasterValue.documents.add(f2);
+      //this.divemasterValue.documents.add(f2);
       if (divemasterValue.documents.length >1) {
         this.divemasterValue.documents.removeAt(1);
       }
-
-
+      this.divemasterValue.documents.insert(1, f2);
     }
     else if (cb == null) {
       var f2 = File();
@@ -345,12 +341,16 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
-                  child: divemasterValue.documents[divemasterValue.documents.length-2] == null
+                  //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
+                    child: divemasterValue.documents.length < 1
                       ? new Container(
                           color: Colors.green,
                         )
                       : Image.network(
-                          divemasterValue.documents[divemasterValue.documents.length-2].link.toString())),
+                          //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
+                        divemasterValue.documents[0].link.toString()
+                    ),
+              ),
               Center(
                   child: CardFile == null
                       ? Column(
@@ -402,7 +402,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                           color: Colors.green,
                         )
                       : Image.network(
-                          divemasterValue.documents[divemasterValue.documents.length-1].link.toString())),
+                          divemasterValue.documents[1].link.toString())),
               Center(
                   child: CardFileBack == null
                       ? Column(

@@ -82,34 +82,35 @@ class _AddMoreAmenityUpdateLiveaboardState
                   // blueValue[pinkcount].add(new Amenity());
                 });
               },
-              color: Color(0xfff8fcaca),
+              color:Color(0xfff7494ec),
+              //Color(0xfff7494ec),
               textColor: Colors.white,
               child: Icon(
                 Icons.add,
                 size: 20,
               ),
             ),
-            SizedBox(width: 30),
-            MaterialButton(
-              onPressed: () {
-                setState(() {
-                  bluecount -= 1;
-                  // blueValue[pinkcount].remove(new Amenity());
-                });
-              },
-              color: Color(0xfff8fcaca),
-              textColor: Colors.white,
-              child: Icon(
-                Icons.remove,
-                size: 20,
-              ),
-            ),
+            // SizedBox(width: 30),
+            // MaterialButton(
+            //   onPressed: () {
+            //     setState(() {
+            //       bluecount -= 1;
+            //       // blueValue[pinkcount].remove(new Amenity());
+            //     });
+            //   },
+            //   color:Color(0xfff7494ec),
+            //   textColor: Colors.white,
+            //   child: Icon(
+            //     Icons.remove,
+            //     size: 20,
+            //   ),
+            // ),
           ],
         ),
         SizedBox(height: 30),
-        FlatButton(onPressed: () {
-          print(eachLiveaboard.roomTypes[pinkcount].amenities);
-        }),
+        // FlatButton(onPressed: () {
+        //   print(eachLiveaboard.roomTypes[pinkcount].amenities);
+        // }),
       ])),
     );
   }
@@ -292,16 +293,16 @@ class _InfoCardState extends State<InfoCard> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          Text(index.toString()),
+          // Text(index.toString()),
           SizedBox(height: 20),
           Container(
-            color: Color(0xfffd4f0f0),
+            color:Color(0xfffa2b8f2),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
                 value: amenitySelected,
                 items: listAmenity,
-                dropdownColor: Color(0xfffd4f0f0),
+                dropdownColor:Color(0xfffa2b8f2),
                 hint: Text(liveaboardDetial
                     .liveaboard.roomTypes[pinkcount].amenities[index].name),
                 iconSize: 40,
@@ -324,6 +325,7 @@ class _InfoCardState extends State<InfoCard> {
               ),
             ),
           ),
+          SizedBox(height: 20),
         ]),
       ),
     );
@@ -422,23 +424,23 @@ class _amenityFormState extends State<amenityForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
-          Text(indexForm.toString()),
+          // Text(indexForm.toString()),
           SizedBox(height: 20),
           Container(
-            color: Color(0xfffd4f0f0),
+            color:Color(0xfffa2b8f2),
             //color: Color(0xFFFd0efff),
             child: Center(
               child: DropdownButtonFormField(
                 isExpanded: true,
                 value: amenitySelected,
                 items: listAmenity,
-                dropdownColor: Color(0xfffd4f0f0),
+                dropdownColor:Color(0xfffa2b8f2),
                 hint: Text('  Select amenity'),
                 iconSize: 40,
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
-                      //พัง
+                   
                       amenitySelected = value;
                       // print(amenitySelected);
                       // print(amenity);

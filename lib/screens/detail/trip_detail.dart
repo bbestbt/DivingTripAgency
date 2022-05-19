@@ -474,6 +474,7 @@ class _TripDetailState extends State<TripDetail> {
                             style: TextButton.styleFrom(
                               textStyle: const TextStyle(
                                 fontSize: 20,
+                                fontFamily: 'Poppins'
                               ),
                               backgroundColor: Color(0xfff8dd9cc),
                             ),
@@ -556,8 +557,11 @@ class _TripDetailState extends State<TripDetail> {
   }
 
   void _runFilter() {
-
+    // print("Date diff: " + _diff);
+    // print("Dropdownvalue2:"+dropdownValue2);
+    // print("Dropdownvalue:"+dropdownValue);
     List<TripWithTemplate> results = [];
+    // print("_diff: " + _diff.toString());
     if (dropdownValue == "All" &&
         dropdownValue2 == "All" &&
         _dateFrom == null &&
@@ -573,7 +577,6 @@ class _TripDetailState extends State<TripDetail> {
       //print("Date diff of trip 0: "+results[1].startDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays.abs().toString());
       //print(results[0].tripTemplate.tripType.toString());
       //results[0].tripTemplate.tripType.toString();
-      print(results);
       setState(() {
         _foundtrip = results;
       });
@@ -650,11 +653,11 @@ class _TripDetailState extends State<TripDetail> {
         //print((results[1].fromDate.toDateTime().difference(results[1].toDate.toDateTime()).inDays).abs());
         //print(_diff);
       }
- //Edit cost filter erroe
+// Edit cost filter error
        if (tripcost != Cost.all) {
          if (tripcost == Cost.one) {
            results = results
-               .where((trip) => (trip.tripRoomTypePrices[0].price > 0 && trip.tripRoomTypePrices[0].price <= 1000))
+               .where((trip) => (trip.tripRoomTypePrices[0].price > 1 && trip.tripRoomTypePrices[0].price <= 1000))
                .toList();
          } else if (tripcost == Cost.two) {
            results = results

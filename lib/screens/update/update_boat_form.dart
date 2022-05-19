@@ -257,8 +257,6 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
         eachBoat.images.removeAt(0);
       }
       eachBoat.images.insert(0, f);
-
-
     }
     else if (eachBoat.images.length >=1 ) {
       var f = File();

@@ -522,6 +522,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       _controllerStaffroom.text = eachLiveaboard.staffRooms.toString();
       _controllerDiverroom.text = eachLiveaboard.diverRooms.toString();
       _controllerTotalcapacity.text = eachLiveaboard.totalCapacity.toString();
+      pinkValue = eachLiveaboard.roomTypes;
     });
     print("What eachLiveaboard has:");
     print(eachLiveaboard);
@@ -1224,7 +1225,8 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xffffee1e8),
+                // color: Color(0xffffee1e8),
+                   color:Color(0xfffabddfc),
                 borderRadius: BorderRadius.circular(10)),
             child:
                 AddMoreRoomUpdateLiveaboard(this.eachLiveaboard, getRoomValue),
@@ -1233,7 +1235,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
 
           FlatButton(
             onPressed: () => {
-              print(pinkValue),
+              // print(pinkValue),
               sendUpdateLiveaboard(),
               Navigator.pushAndRemoveUntil(
                 context,

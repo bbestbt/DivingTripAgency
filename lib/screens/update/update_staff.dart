@@ -8,6 +8,7 @@ import 'package:diving_trip_agency/screens/aboutus/about_us_page.dart';
 import 'package:diving_trip_agency/screens/create_boat/create_boat_form.dart';
 
 import 'package:diving_trip_agency/screens/create_trip/create_trip_form.dart';
+import 'package:diving_trip_agency/screens/diveresort/dialog.dart';
 import 'package:diving_trip_agency/screens/main/components/hamburger_company.dart';
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
@@ -154,15 +155,92 @@ class listStaffCard extends StatefulWidget {
 }
 
 class _listStaffCardState extends State<listStaffCard> {
+  void removeStaff() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var staff = Staff();
+    staff.id = staffs[widget.index].id;
+    var deleteStaffRequest = DeleteStaffRequest();
+    deleteStaffRequest.staff = staff;
+    try {
+      var response = await stub.deleteStaff(deleteStaffRequest);
+      print(token);
+      print(response);
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+    } catch (e) {
+      // Handle all other exceptions
+      print('Exception: $e');
+    }
+  }
+
+  showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Yes"),
+      onPressed: () async {
+        await removeStaff();
+        print('delete');
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => updateStaff()),
+          (Route<dynamic> route) => false,
+        );
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      // title: Text("AlertDialog"),
+      content: Text("Would you like to delete " +
+          staffs[widget.index].firstName +
+          " " +
+          staffs[widget.index].lastName +
+          "?"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => updateEachStaff(staffs[widget.index])));
-      },
+      // onTap: () {
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => updateEachStaff(staffs[widget.index])));
+      // },
       child: Container(
         height: 200,
         width: 200,
@@ -172,11 +250,63 @@ class _listStaffCardState extends State<listStaffCard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Align(
-                alignment: Alignment.center,
-                child: Text(staffs[widget.index].firstName +
-                    " " +
-                    staffs[widget.index].lastName)),
+            Flexible(
+              child: Align(
+                  alignment: Alignment.center,
+                  child: Text(staffs[widget.index].firstName +
+                      " " +
+                      staffs[widget.index].lastName)),
+            ),
+            // SizedBox(
+            //   width: 10,
+            // ),
+            PopupMenuButton(
+                itemBuilder: (context) => [
+                      PopupMenuItem(
+                        child: Row(
+                          children: [
+                            Icon(Icons.edit),
+                            Text("Edit"),
+                          ],
+                        ),
+                        value: 1,
+                      ),
+                      PopupMenuItem(
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete),
+                            Text("Delete"),
+                          ],
+                        ),
+                        value: 2,
+                      )
+                    ],
+                onSelected: (int menu) {
+                  if (menu == 1) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                updateEachStaff(staffs[widget.index])));
+                  } else if (menu == 2) {
+                    showAlertDialog(context);
+                  }
+                })
+            // Container(
+            //   width: 30,
+            //   height: 30,
+            //   child: FloatingActionButton(
+            //     backgroundColor: Color(0xffFFA132),
+            //     onPressed: () async {
+            //       showAlertDialog(context);
+            //     },
+            //     child: Icon(
+            //       Icons.delete,
+            //       color: Colors.white,
+            //       size: 15,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -30,6 +30,7 @@ import 'update_amenity_liveaboard.dart';
 
 GetLiveaboardResponse liveaboardDetial = new GetLiveaboardResponse();
 var liveaboard;
+var rt;
 
 class AddMoreRoomUpdateLiveaboard extends StatefulWidget {
   List<RoomType> pinkValue = [];
@@ -132,45 +133,51 @@ class _AddMoreRoomUpdateLiveaboardState
               onPressed: () {
                 setState(() {
                   pinkcount = 1;
+                  rt = RoomType();
+                  rt.name = '';
+                  rt.description = '';
+                  rt.quantity = 0;
+                  rt.maxGuest = 0;
+                  eachLiveaboard.roomTypes.add(rt);
                   // pinkValue.add(new RoomType());
                   // blueValue.add([new Amenity()]);
                 });
               },
-              color: Color(0xfffff968a),
+              color: Color(0xfff45b6fe),
               textColor: Colors.white,
               child: Icon(
                 Icons.add,
                 size: 20,
               ),
             ),
-            SizedBox(width: 30),
-            MaterialButton(
-              onPressed: () {
-                setState(() {
-                  if (eachLiveaboard.roomTypes.length > 1) {
-                    eachLiveaboard.roomTypes.removeLast();
-                    print(eachLiveaboard.roomTypes);
-                  } else {
-                    pinkcount = 0;
-                  }
-                  // pinkcount = 1;
-                  // pinkValue.remove(new RoomType());
-                  // blueValue.remove([new Amenity()]);
-                });
-              },
-              color: Color(0xfffff968a),
-              textColor: Colors.white,
-              child: Icon(
-                Icons.remove,
-                size: 20,
-              ),
-            ),
+            // SizedBox(width: 30),
+            // MaterialButton(
+            //   onPressed: () {
+            //     setState(() {
+            //       if (eachLiveaboard.roomTypes.length > 1) {
+            //         eachLiveaboard.roomTypes.removeLast();
+            //         print(eachLiveaboard.roomTypes);
+            //       } else {
+            //         pinkcount = 0;
+            //       }
+            //       // pinkcount = 1;
+            //       // pinkValue.remove(new RoomType());
+            //       // blueValue.remove([new Amenity()]);
+            //     });
+            //   },
+            //   color: Color(0xfffff968a),
+            //   textColor: Colors.white,
+            //   child: Icon(
+            //     Icons.remove,
+            //     size: 20,
+            //   ),
+            // ),
           ],
         ),
         SizedBox(height: 30),
-        FlatButton(onPressed: () {
-          print(eachLiveaboard.roomTypes);
-        }),
+        // FlatButton(onPressed: () {
+        //   print(eachLiveaboard.roomTypes);
+        // }),
       ])),
     );
   }
@@ -285,6 +292,9 @@ class _InfoCardState extends State<InfoCard> {
   String room_name;
   int quantity;
   XFile rroom;
+  // XFile xlimg1;
+  // XFile xlimg2;
+  // XFile xlimg3;
   Liveaboard eachLiveaboard;
   int pinkcount;
   int bluecount;
@@ -364,7 +374,8 @@ class _InfoCardState extends State<InfoCard> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xfffd4f0f0),
+                color: Color(0xfffa2b8f2),
+                // Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreAmenityUpdateLiveaboard(
                 this.eachLiveaboard, this.index, getAMValue),
@@ -391,7 +402,7 @@ class _InfoCardState extends State<InfoCard> {
                           ? Image.network(
                               roomimg.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.07,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(roomimg.path),
@@ -433,7 +444,7 @@ class _InfoCardState extends State<InfoCard> {
                           ? Image.network(
                               roomimg2.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.07,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(roomimg2.path),
@@ -475,7 +486,7 @@ class _InfoCardState extends State<InfoCard> {
                           ? Image.network(
                               roomimg3.path,
                               fit: BoxFit.cover,
-                              width: screenwidth * 0.07,
+                              width: screenwidth * 0.1,
                             )
                           : Image.file(
                               io.File(roomimg3.path),
@@ -520,7 +531,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Room description",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -540,7 +551,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Max capacity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -557,7 +568,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Room type",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -578,7 +589,7 @@ class _InfoCardState extends State<InfoCard> {
       decoration: InputDecoration(
         labelText: "Room quantity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -628,8 +639,11 @@ class _RoomFormState extends State<RoomForm> {
   List<List<Amenity>> blueValue;
   int indexForm;
   Liveaboard eachLiveaboard;
-
   XFile rroom;
+  // XFile Xrimg1;
+  // XFile Xrimg2;
+  // XFile Xrimg3;
+
   _RoomFormState(int pinkcount, List<RoomType> pinkValue,
       List<List<Amenity>> blueValue, int indexForm, Liveaboard eachLiveaboard) {
     this.pinkcount = pinkcount;
@@ -702,7 +716,8 @@ class _RoomFormState extends State<RoomForm> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-                color: Color(0xfffd4f0f0),
+                color: Color(0xfffa2b8f2),
+                //  Color(0xfffd4f0f0),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreAmenityNewLiveAboard(this.indexForm, this.blueValue,
                 this.eachLiveaboard, getAMValue),
@@ -842,26 +857,26 @@ class _RoomFormState extends State<RoomForm> {
           ),
           SizedBox(height: 20),
           //   FormError(errors: errors),
-          FlatButton(
-              color: Colors.pink,
-              child: Text(
-                'Please save before add new room',
-              ),
-              onPressed: () {
-                print('aa');
-                print(eachLiveaboard.roomTypes);
-                var rt = RoomType();
-                rt.name = room_name;
-                rt.description = room_description;
-                rt.quantity = quantity;
-                rt.maxGuest = max_capa;
-                eachLiveaboard.roomTypes.add(rt);
+          // FlatButton(
+          //     color: Colors.pink,
+          //     child: Text(
+          //       'Please save before add new room',
+          //     ),
+          //     onPressed: () {
+          //       print('aa');
+          //       print(eachLiveaboard.roomTypes);
+          //       // var rt = RoomType();
+          //       rt.name = room_name;
+          //       rt.description = room_description;
+          //       rt.quantity = quantity;
+          //       rt.maxGuest = max_capa;
+          //       eachLiveaboard.roomTypes[indexForm] = rt;
 
-                print(eachLiveaboard.roomTypes);
+          //       print(eachLiveaboard.roomTypes);
 
-                widget.customFunction(eachLiveaboard.roomTypes);
-              }),
-          SizedBox(height: 20),
+          //       widget.customFunction(eachLiveaboard.roomTypes);
+          //     }),
+          // SizedBox(height: 20),
         ]),
       ),
     );
@@ -873,11 +888,12 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onChanged: (value) {
         room_description = value;
+        eachLiveaboard.roomTypes[indexForm].description = value;
       },
       decoration: InputDecoration(
         labelText: "Room description",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -896,11 +912,12 @@ class _RoomFormState extends State<RoomForm> {
         // print(pinkcount);
         // print('room max end');
         max_capa = int.parse(value);
+        eachLiveaboard.roomTypes[indexForm].maxGuest = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Max capacity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -912,11 +929,12 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onChanged: (value) {
         room_name = value;
+        eachLiveaboard.roomTypes[indexForm].name = value;
       },
       decoration: InputDecoration(
         labelText: "Room type",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );
@@ -932,11 +950,12 @@ class _RoomFormState extends State<RoomForm> {
       cursorColor: Color(0xFFf5579c6),
       onChanged: (value) {
         quantity = int.parse(value);
+        eachLiveaboard.roomTypes[indexForm].quantity = int.parse(value);
       },
       decoration: InputDecoration(
         labelText: "Room quantity",
         filled: true,
-        fillColor: Color(0xffffee1e8),
+        fillColor: Color(0xfffabddfc),
         floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
     );

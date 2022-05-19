@@ -7,6 +7,9 @@ import 'package:diving_trip_agency/screens/update/update_divemaster.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
+import 'package:fixnum/fixnum.dart';
+
+var dmt;
 
 class AddMoreDiveMasterUpdate extends StatefulWidget {
   List<DiveMaster> dmValue = [];
@@ -33,11 +36,47 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
   // final customFunction;
   // List<String> divemaster = [];
   List<DiveMaster> dmValue = [];
+  List<DiveMaster> allDivemaster = [];
   _AddMoreDiveMasterUpdateState(TripWithTemplate eachTrip) {
     // this.dmValue = dmValue;
     this.eachTrip = eachTrip;
     // this.divemaster = divemaster;
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDiveMasterInTrip();
+  }
+
+  getDiveMasterInTrip() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listdivemasterrequest = ListDiveMastersByTripRequest();
+    listdivemasterrequest.tripId = eachTrip.id;
+
+    allDivemaster.clear();
+    try {
+      await for (var feature
+          in stub.listDiveMastersByTrip(listdivemasterrequest)) {
+        allDivemaster.add(feature.diveMaster);
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+
+    return allDivemaster;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -64,7 +103,7 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
             itemCount: dmcount,
             itemBuilder: (BuildContext context, int index) {
               return DiveMasterForm(this.dmValue, this.eachTrip,
-                  index + eachTrip.diveMasters.length, widget.customFunction);
+                  index + allDivemaster.length, widget.customFunction);
             }),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,8 +111,12 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
             MaterialButton(
               onPressed: () {
                 setState(() {
-                  dmcount = 1;
-                  // eachTrip.diveMasters.add(new DiveMaster());
+                  dmcount += 1;
+                  dmt = DiveMaster();
+                  dmt.firstName = '';
+                  dmt.id = Int64(0);
+
+                  eachTrip.diveMasters.add(dmt);
                 });
               },
               color: Color(0xfff55bcc9),
@@ -83,32 +126,32 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
                 size: 20,
               ),
             ),
-            SizedBox(width: 30),
-            MaterialButton(
-              onPressed: () {
-                setState(() {
-                  if (eachTrip.diveMasters.length > 1) {
-                    // dmcount -= 1;
-                    eachTrip.diveMasters.removeLast();
-                    print(eachTrip.diveMasters);
-                  } else {
-                    dmcount = 0;
-                  }
-                });
-              },
-              color: Color(0xfff55bcc9),
-              textColor: Colors.white,
-              child: Icon(
-                Icons.remove,
-                size: 20,
-              ),
-            ),
+            // SizedBox(width: 30),
+            // MaterialButton(
+            //   onPressed: () {
+            //     setState(() {
+            //       if (eachTrip.diveMasters.length > 1) {
+            //         // dmcount -= 1;
+            //         eachTrip.diveMasters.removeLast();
+            //         print(eachTrip.diveMasters);
+            //       } else {
+            //         dmcount = 0;
+            //       }
+            //     });
+            //   },
+            //   color: Color(0xfff55bcc9),
+            //   textColor: Colors.white,
+            //   child: Icon(
+            //     Icons.remove,
+            //     size: 20,
+            //   ),
+            // ),
           ],
         ),
         SizedBox(height: 30),
-        FlatButton(onPressed: () {
-          print(eachTrip.diveMasters);
-        }),
+        // FlatButton(onPressed: () {
+        //   print(eachTrip.diveMasters);
+        // }),
       ])),
     );
   }
@@ -141,6 +184,7 @@ class _DiveMasterFormUpdateState extends State<DiveMasterFormUpdate> {
   TripWithTemplate eachTrip;
   List<DiveMaster> dmValue;
   List<String> divemaster = [];
+  List<DiveMaster> allDivemaster = [];
 
   _DiveMasterFormUpdateState(
       int dmcount, List<DiveMaster> dmValue, TripWithTemplate eachTrip) {
@@ -149,19 +193,54 @@ class _DiveMasterFormUpdateState extends State<DiveMasterFormUpdate> {
     this.eachTrip = eachTrip;
     // this.divemaster = divemaster;
   }
+  getDiveMasterInTrip() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listdivemasterrequest = ListDiveMastersByTripRequest();
+    listdivemasterrequest.tripId = eachTrip.id;
+
+    allDivemaster.clear();
+    try {
+      await for (var feature
+          in stub.listDiveMastersByTrip(listdivemasterrequest)) {
+        allDivemaster.add(feature.diveMaster);
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+    return allDivemaster;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Wrap(
-            spacing: 20,
-            runSpacing: 40,
-            children: List.generate(
-              eachTrip.diveMasters.length,
-              (index) => InfoCard(
-                  index, dmcount, dmValue, eachTrip, widget.customFunction),
-            )),
+        FutureBuilder(
+          future: getDiveMasterInTrip(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Wrap(
+                  spacing: 20,
+                  runSpacing: 40,
+                  children: List.generate(
+                    allDivemaster.length,
+                    (index) => InfoCard(index, dmcount, dmValue, eachTrip,
+                        widget.customFunction),
+                  ));
+            } else {
+              return Center(child: Text('No divemaster'));
+            }
+          },
+        ),
       ],
     );
   }
@@ -397,7 +476,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
-                      //พัง
                       divemasterSelected = value;
                       // dmValue = eachTrip.diveMasters;
                       // print(dmValue);
@@ -405,11 +483,11 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                         if (element == divemasterSelected) {
                           print(eachTrip.diveMasters.length);
 
-                          var dm2 = DiveMaster();
-                          dm2.firstName = divemasterSelected;
-                          dm2.id = divemasterMap[element];
+                          // var dm2 = DiveMaster();
+                          dmt.firstName = divemasterSelected;
+                          dmt.id = divemasterMap[element];
                           // eachTrip.diveMasters[indexForm] = dm2;
-                          eachTrip.diveMasters.add(dm2);
+                          eachTrip.diveMasters[indexForm]=dmt;
                           widget.customFunction(eachTrip.diveMasters);
 
                           //------
