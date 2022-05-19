@@ -312,8 +312,12 @@ class _editHotelFormState extends State<editHotelForm> {
     hotel.description = eachHotel.description;
     hotel.phone = eachHotel.phone;
     hotel.stars = eachHotel.stars;
+    print("PinkvalueUpdate");
     print(pinkValue);
     print(pinkValue.length);
+    print("pinkvalue.roomImages");
+    print("-------------");
+    print(pinkValue[0].roomImages);
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
       for (int j = 0; j < pinkValue[i].amenities.length; j++) {
@@ -329,13 +333,13 @@ class _editHotelFormState extends State<editHotelForm> {
       // room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
 
-      // for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
-      //   room.roomImages.add(pinkValue[i].roomImages[j]);
-      //   print("room.roomImages");
-      //   print("-------------");
-      //   print(room.roomImages);
-      // print(pinkValue[i].roomImages.length);
-      // }
+       for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
+         room.roomImages.add(pinkValue[i].roomImages[j]);
+         print("room.roomImages");
+         print("-------------");
+         print(room.roomImages);
+        print(pinkValue[i].roomImages.length);
+       }
       hotel.roomTypes.add(room);
     }
 
