@@ -226,7 +226,6 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
     try {
       await for (var feature in stub.listRoomTypes(listroomrequest)) {
         allRoom.add(feature.roomType);
-
       }
     } catch (e) {
       print('ERROR: $e');
@@ -246,23 +245,24 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
         future: getRoomType(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return
-                // Container(
-                //   // color: Colors.lightGreen,
-                //   height: 3000,
-                //   child: AnimatedList(
-                //       key: _key,
-                //       initialItemCount: eachHotel.roomTypes.length,
-                //       itemBuilder: (context, index, animation) => InfoCard(
-                //           index, allRoom, eachHotel, widget.customFunction)),
-                // );
-                Wrap(
-                    spacing: 20,
-                    runSpacing: 40,
-                    children: List.generate(
-                        allRoom.length,
-                        (index) => InfoCard(
-                            index, allRoom, eachHotel, widget.customFunction)));
+            return Container(
+              // color: Colors.lightGreen,
+              // height: 3000,
+              child: AnimatedList(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  key: _key,
+                  initialItemCount: eachHotel.roomTypes.length,
+                  itemBuilder: (context, index, animation) => InfoCard(
+                      index, allRoom, eachHotel, widget.customFunction)),
+            );
+            // Wrap(
+            //     spacing: 20,
+            //     runSpacing: 40,
+            //     children: List.generate(
+            //         allRoom.length,
+            //         (index) => InfoCard(
+            //             index, allRoom, eachHotel, widget.customFunction)));
           } else {
             return Center(child: Text('No room'));
           }
@@ -272,7 +272,8 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
   }
 }
 
-class InfoCard extends StatefulWidget { //Infocard for room
+class InfoCard extends StatefulWidget {
+  //Infocard for room
   int index;
   List<RoomType> allRoom = [];
   int pinkcount;
@@ -458,14 +459,24 @@ class _InfoCardState extends State<InfoCard> {
     Widget continueButton = TextButton(
       child: Text("Yes"),
       onPressed: () async {
-        print('delete');
-        print(index);
+        print('delete at :' + index.toString());
+        print('before delete');
+        print(eachHotel.roomTypes);
         eachHotel.roomTypes.removeAt(index);
+        // AnimatedListRemovedItemBuilder builder = (context, animation) {
+        //   return InfoCard(
+        //       index, eachHotel.roomTypes, eachHotel, widget.customFunction);
+        // };
+
+        // _key.currentState.removeItem(index, builder);
+        print('after delete');
         print(eachHotel.roomTypes);
         _key.currentState.removeItem(
             this.index,
             (context, animation) => InfoCard(
                 index, eachHotel.roomTypes, eachHotel, widget.customFunction));
+        print('after send value');
+        print(eachHotel.roomTypes);
         Navigator.pop(context);
       },
     );
@@ -498,22 +509,23 @@ class _InfoCardState extends State<InfoCard> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           // Text(index.toString()),
-          // Align(
-          //   alignment: Alignment.topRight,
-          //   child: IconButton(
-          //       icon: Icon(Icons.clear),
-          //       onPressed: () => {
-          //             showAlertDialog(context),
-          //             // print(eachHotel.roomTypes[index]),
-          //             // setState(() {
-          //             // print('r');
-          //             // print(eachHotel.roomTypes.length);
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: () => {
+                      showAlertDialog(context),
+                      // print(eachHotel.roomTypes[index]),
+                      // setState(() {
+                      // print('r');
+                      // print(eachHotel.roomTypes.length),
+                      //   print(eachHotel.roomTypes),
 
-          //             // print('m');
-          //             // print(eachHotel.roomTypes.length);
-          //             // })
-          //           }),
-          // ),
+                      // print('m');
+                      // print(eachHotel.roomTypes.length);
+                      // })
+                    }),
+          ),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
@@ -925,48 +937,6 @@ class _RoomFormState extends State<RoomForm> {
     });
   }
 
-  showAlertDialog(BuildContext context) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text("No"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    Widget continueButton = TextButton(
-      child: Text("Yes"),
-      onPressed: () async {
-        print('delete');
-        // eachHotel.roomTypes.removeAt(indexForm);
-        //   Navigator.pushAndRemoveUntil(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => AddMoreRoomUpdateHotel(eachHotel,widget.customFunction)),
-        //   (Route<dynamic> route) => false,
-        // );
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      // title: Text("AlertDialog"),
-      content: Text("Would you like to delete " +
-          eachHotel.roomTypes[indexForm].name +
-          "?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -975,23 +945,7 @@ class _RoomFormState extends State<RoomForm> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           // Text(indexForm.toString()),
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-                icon: Icon(Icons.clear),
-                onPressed: () => {
-                      showAlertDialog(context),
-                      // print(eachHotel.roomTypes[index]),
-                      // setState(() {
-                      // print('r');
-                      // print(eachHotel.roomTypes.length);
-                      // eachHotel.roomTypes.removeAt(indexForm);
 
-                      // print('m');
-                      // print(eachHotel.roomTypes.length);
-                      // })
-                    }),
-          ),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),

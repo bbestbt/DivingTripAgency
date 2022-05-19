@@ -503,7 +503,7 @@ class Update extends StatelessWidget {
                         ),
                       );
                     } else {
-                      return Center(child: Text('User is not logged in'));
+                      return Text('User is not logged in');
                     }
                   },
                 ),

@@ -1789,6 +1789,29 @@ class _InfoCardState extends State<InfoCard> {
         });
   }
 
+  getLiveaboardDetail() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = LiveaboardServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var liveaboardrequest = GetLiveaboardRequest();
+    liveaboardrequest.id =
+        details[widget.indexDetail].tripTemplate.liveaboardId;
+
+    liveaboard = await stub.getLiveaboard(liveaboardrequest);
+    liveaboardDetial = liveaboard;
+    // print('dd');
+    // print(liveaboardDetial.liveaboard.name);
+    return liveaboardDetial.liveaboard.name;
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -1878,6 +1901,34 @@ class _InfoCardState extends State<InfoCard> {
                   ),
                   Text('Room quantity : ' +
                       roomtypes[widget.indexRoom].quantity.toString()),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: FutureBuilder(
+                      future: getLiveaboardDetail(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: liveaboardDetial.liveaboard
+                                .roomTypes[widget.indexRoom].amenities.length,
+                            itemBuilder: (context, each) {
+                              return Text(liveaboardDetial
+                                  .liveaboard
+                                  .roomTypes[widget.indexRoom]
+                                  .amenities[each]
+                                  .name);
+                            },
+                          );
+                        } else {
+                          return Center(child: Text('no amenity'));
+                        }
+                      },
+                    ),
+                  ),
                   SizedBox(
                     height: 20,
                   ),

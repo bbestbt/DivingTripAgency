@@ -2064,6 +2064,29 @@ class _InfoCardState extends State<InfoCard> {
         });
   }
 
+  getHotelDetail() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = HotelServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var hotelrequest = GetHotelRequest();
+    hotelrequest.id = details[widget.indexDetail].tripTemplate.hotelId;
+    // Int64(2);
+    print(hotelrequest.id);
+    hotel = await stub.getHotel(hotelrequest);
+    hotelDetial = hotel;
+
+    // print(hotelDetial.hotel.name);
+    return hotelDetial.hotel.name;
+  }
+
   @override
   Widget build(BuildContext context) {
     // for (int i = 0; i < roomtypes.length; i++) {
@@ -2156,6 +2179,34 @@ class _InfoCardState extends State<InfoCard> {
                   ),
                   Text('Room quantity : ' +
                       roomtypes[widget.indexRoom].quantity.toString()),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: FutureBuilder(
+                      future: getHotelDetail(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: hotelDetial.hotel
+                                .roomTypes[widget.indexRoom].amenities.length,
+                            itemBuilder: (context, each) {
+                              return Text(hotelDetial
+                                  .hotel
+                                  .roomTypes[widget.indexRoom]
+                                  .amenities[each]
+                                  .name);
+                            },
+                          );
+                        } else {
+                          return Center(child: Text('no amenity'));
+                        }
+                      },
+                    ),
+                  ),
                   SizedBox(
                     height: 20,
                   ),
