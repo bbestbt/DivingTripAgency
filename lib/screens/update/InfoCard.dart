@@ -45,7 +45,7 @@ class InfoCard extends StatefulWidget { //Infocard for room
   }
   @override
   State<InfoCard> createState() =>
-      _InfoCardState(this.index, this.allRoom, this.eachHotel, this._key);
+      _InfoCardState(this.index, this.allRoom, this.eachHotel);
 }
 
 class _InfoCardState extends State<InfoCard> {
@@ -70,8 +70,8 @@ class _InfoCardState extends State<InfoCard> {
   int bluecount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
-  GlobalKey<AnimatedListState> _key;
-  _InfoCardState(this.index, this.allRoom, this.eachHotel, _key);
+ 
+  _InfoCardState(this.index, this.allRoom, this.eachHotel);
 
   final TextEditingController _controllerRoomdescription =
   TextEditingController();
@@ -194,14 +194,26 @@ class _InfoCardState extends State<InfoCard> {
     Widget continueButton = TextButton(
       child: Text("Yes"),
       onPressed: () async {
-        print('delete');
-        print(index);
-        eachHotel.roomTypes.removeAt(index);
+        print("key info "+widget._key.toString());
+          print('delete at :' + index.toString());
+        print('before delete');
         print(eachHotel.roomTypes);
-        _key.currentState.removeItem(
+        eachHotel.roomTypes.removeAt(index);
+        // AnimatedListRemovedItemBuilder builder = (context, animation) {
+        //   return InfoCard(
+        //       index, eachHotel.roomTypes, eachHotel, widget.customFunction);
+        // };
+
+        // _key.currentState.removeItem(index, builder);
+       
+        print('after delete');
+        print(eachHotel.roomTypes);
+        widget._key.currentState.removeItem(
             this.index,
-                (context, animation) => InfoCard(
-                index, eachHotel.roomTypes, eachHotel, widget.customFunction, _key));
+            (context, animation) => InfoCard(
+                index, eachHotel.roomTypes, eachHotel, widget.customFunction,widget._key));
+        print('after send value');
+        print(eachHotel.roomTypes);
         Navigator.pop(context);
       },
     );
@@ -234,22 +246,22 @@ class _InfoCardState extends State<InfoCard> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           // Text(index.toString()),
-          // Align(
-          //   alignment: Alignment.topRight,
-          //   child: IconButton(
-          //       icon: Icon(Icons.clear),
-          //       onPressed: () => {
-          //             showAlertDialog(context),
-          //             // print(eachHotel.roomTypes[index]),
-          //             // setState(() {
-          //             // print('r');
-          //             // print(eachHotel.roomTypes.length);
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: () => {
+                      showAlertDialog(context),
+                      // print(eachHotel.roomTypes[index]),
+                      // setState(() {
+                      // print('r');
+                      // print(eachHotel.roomTypes.length);
 
-          //             // print('m');
-          //             // print(eachHotel.roomTypes.length);
-          //             // })
-          //           }),
-          // ),
+                      // print('m');
+                      // print(eachHotel.roomTypes.length);
+                      // })
+                    }),
+          ),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),

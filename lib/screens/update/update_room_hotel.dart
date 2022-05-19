@@ -83,6 +83,7 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
     hotel = await stub.getHotel(listamenityhotelrequest);
 
     hotelDetial = hotel;
+     print("key updateroom "+_key.toString());
     return hotelDetial.hotel.roomTypes.length;
   }
 
