@@ -7,12 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 final List<String> imgList = [
-  'assets/images/S__83271685.jpg',
-  'assets/images/S__77250562.jpg',
-  'assets/images/S__83271682.jpg',
-  'assets/images/S__83271684.jpg',
-  'assets/images/S__83271687.jpg',
+  // 'assets/images/S__83271685.jpg',
+  // 'assets/images/S__77250562.jpg',
+  // 'assets/images/S__83271682.jpg',
+  // 'assets/images/S__83271684.jpg',
+  // 'assets/images/S__83271687.jpg',
+  // 'assets/images/S__83271688.jpg',
+  'assets/images/d1.jpg',
+  'assets/images/d2.jpg',
+  'assets/images/d3.jpg',
+  'assets/images/d4.jpg',
+  'assets/images/d5.jpg',
+  'assets/images/d6.jpg',
+  'assets/images/d7.jpg',
   'assets/images/S__83271688.jpg',
+  'assets/images/S__83271689.jpg',
 ];
 
 class MainCompanyScreen extends StatelessWidget {
