@@ -81,7 +81,7 @@ class updateBoat extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          decoration: BoxDecoration(color: Color(0xFFFFfd8be).withOpacity(0.3)),
+          // decoration: BoxDecoration(color: Color(0xFFFFfd8be).withOpacity(0.3)),
           child: Column(
             children: [
               HeaderCompany(),
@@ -241,7 +241,7 @@ class _listBoatCardState extends State<listBoatCard> {
         height: 200,
         width: 200,
         decoration: BoxDecoration(
-          color: Colors.white,
+         color: Color(0xfffffdac1),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -316,7 +316,9 @@ class _editHotelFormState extends State<editHotelForm> {
     print(pinkValue);
     print("PinkvalueUpdatelength");
     print(pinkValue.length);
-
+    // print("pinkvalue.roomImages");
+    // print("-------------");
+    // print(pinkValue[0].roomImages);
     for (int i = 0; i < pinkValue.length; i++) {
       var room = RoomType();
       for (int j = 0; j < pinkValue[i].amenities.length; j++) {
@@ -332,17 +334,15 @@ class _editHotelFormState extends State<editHotelForm> {
       print("eachhotel.roomImages");
       print("-------------");
       print(eachHotel.roomTypes[i].roomImages);
-
-
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
       // room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
 
-      /* for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
+      /*  for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
          room.roomImages.add(pinkValue[i].roomImages[j]);
-         print("room.roomImages in loop");
+        print("room.roomImages in loop");
          print("-------------");
          print(room.roomImages);
         print(pinkValue[i].roomImages.length);
@@ -356,8 +356,6 @@ class _editHotelFormState extends State<editHotelForm> {
       }
       hotel.roomTypes.add(room);
     }
-
-
 
     if (Xhotel1 != null) {
       var f = File();
@@ -1232,7 +1230,7 @@ class _editHotelFormState extends State<editHotelForm> {
 
           FlatButton(
             onPressed: () => {
-              // print(pinkValue),
+              print(pinkValue),
               sendUpdateHotel(),
               Navigator.pushAndRemoveUntil(
                 context,

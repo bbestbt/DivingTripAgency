@@ -262,7 +262,7 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
                     children: List.generate(
                         allRoom.length,
                         (index) => InfoCard(
-                            index, allRoom, eachHotel, widget.customFunction,_key)));
+                            index, allRoom, eachHotel, widget.customFunction)));
           } else {
             return Center(child: Text('No room'));
           }

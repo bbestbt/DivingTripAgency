@@ -108,6 +108,7 @@ class _RoomFormState extends State<RoomForm> {
       maxWidth: 1800,
       maxHeight: 1800,
     );
+
     if (rroom != null) {
       setState(() {
         if (num == 1) {
@@ -136,10 +137,8 @@ class _RoomFormState extends State<RoomForm> {
         this.pinkValue[this.pinkcount - 1].roomImages.removeAt(0);
       }
       this.pinkValue[this.pinkcount - 1].roomImages.insert(0, f);
-
-     // print("FirstpicPinkvalue");
+       // print("FirstpicPinkvalue");
     //  print(this.pinkValue[this.pinkcount - 1].roomImages);
-
     } else if (this.pinkValue[this.pinkcount - 1].roomImages.length >= 1) {
       var f = File();
       f.filename = this.pinkValue[this.pinkcount - 1].roomImages[0].filename;
@@ -186,47 +185,6 @@ class _RoomFormState extends State<RoomForm> {
     });
   }
 
-  showAlertDialog(BuildContext context) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text("No"),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    Widget continueButton = TextButton(
-      child: Text("Yes"),
-      onPressed: () async {
-        print('delete');
-        // eachHotel.roomTypes.removeAt(indexForm);
-        //   Navigator.pushAndRemoveUntil(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => AddMoreRoomUpdateHotel(eachHotel,widget.customFunction)),
-        //   (Route<dynamic> route) => false,
-        // );
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      // title: Text("AlertDialog"),
-      content: Text("Would you like to delete " +
-          eachHotel.roomTypes[indexForm].name +
-          "?"),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -236,14 +194,7 @@ class _RoomFormState extends State<RoomForm> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           // Text(indexForm.toString()),
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-                icon: Icon(Icons.clear),
-                onPressed: () => {
-                  showAlertDialog(context),
-                }),
-          ),
+         
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
@@ -436,7 +387,6 @@ class _RoomFormState extends State<RoomForm> {
       ),
     );
   }
-
 
   TextFormField buildMaxCapacityFormField() {
     return TextFormField(

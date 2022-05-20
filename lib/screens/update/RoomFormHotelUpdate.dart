@@ -81,6 +81,7 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
     // print(allRoom);
     print("allroom");
     print(allRoom);
+     print("key hotelupdate "+_key.toString());
     return allRoom;
   }
 
@@ -92,14 +93,32 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
         future: getRoomType(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return
-              Wrap(
-                  spacing: 20,
-                  runSpacing: 40,
-                  children: List.generate(
-                      allRoom.length,
-                          (index) => InfoCard(
-                          index, allRoom, eachHotel, widget.customFunction,_key)));
+            
+             return Container(
+              // color: Colors.lightGreen,
+              // height: 3000,
+              child: AnimatedList(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  key: _key,
+                  initialItemCount: eachHotel.roomTypes.length,
+                  itemBuilder: (context, index, animation) => InfoCard(
+                      index, allRoom, eachHotel, widget.customFunction,_key)),
+            );
+            // Wrap(
+            //     spacing: 20,
+            //     runSpacing: 40,
+            //     children: List.generate(
+            //         allRoom.length,
+            //         (index) => InfoCard(
+            //             index, allRoom, eachHotel, widget.customFunction)));
+              // Wrap(
+              //     spacing: 20,
+              //     runSpacing: 40,
+              //     children: List.generate(
+              //         allRoom.length,
+              //             (index) => InfoCard(
+              //             index, allRoom, eachHotel, widget.customFunction,_key)));
           } else {
             return Center(child: Text('No room'));
           }
