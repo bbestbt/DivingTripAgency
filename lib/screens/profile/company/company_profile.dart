@@ -101,7 +101,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
             margin: EdgeInsets.symmetric(vertical: 20),
             constraints: BoxConstraints(maxWidth: 1110),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
