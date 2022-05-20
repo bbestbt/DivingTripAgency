@@ -347,13 +347,13 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       // room.price = pinkValue[i].price;
       room.quantity = pinkValue[i].quantity;
 
-      // for (int j = 0; j < pinkValue[i].roomImages.length; j++) {
-      //   room.roomImages.add(pinkValue[i].roomImages[j]);
-      //   print("room.roomImages");
-      //   print("-------------");
-      //   print(room.roomImages);
-      // print(pinkValue[i].roomImages.length);
-      // }
+      for (int j = 0; j < eachLiveaboard.roomTypes[i].roomImages.length; j++) {
+        room.roomImages.add(eachLiveaboard.roomTypes[i].roomImages[j]);
+        print("eachliveaboard Roomtypes in loop");
+        print("-------------");
+        print(eachLiveaboard.roomTypes[i].roomImages);
+        print(eachLiveaboard.roomTypes[i].roomImages.length);
+      }
       liveaboard.roomTypes.add(room);
     }
 

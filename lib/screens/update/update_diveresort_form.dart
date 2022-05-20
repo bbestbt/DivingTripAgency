@@ -312,10 +312,10 @@ class _editHotelFormState extends State<editHotelForm> {
     hotel.description = eachHotel.description;
     hotel.phone = eachHotel.phone;
     hotel.stars = eachHotel.stars;
-    print("PinkvalueUpdate");
-    print(pinkValue);
-    print("PinkvalueUpdatelength");
-    print(pinkValue.length);
+   // print("PinkvalueUpdate");
+  //  print(pinkValue);
+  //  print("PinkvalueUpdatelength");
+  //  print(pinkValue.length);
     // print("pinkvalue.roomImages");
     // print("-------------");
     // print(pinkValue[0].roomImages);
@@ -328,12 +328,12 @@ class _editHotelFormState extends State<editHotelForm> {
 
         room.amenities.add(amenity);
       }
-      print("pinkvalue.roomImages");
-      print("-------------");
-      print(pinkValue[i].roomImages);
-      print("eachhotel.roomImages");
-      print("-------------");
-      print(eachHotel.roomTypes[i].roomImages);
+    //  print("pinkvalue.roomImages");
+    //  print("-------------");
+    //  print(pinkValue[i].roomImages);
+   //   print("eachhotel.roomImages");
+   //   print("-------------");
+   //   print(eachHotel.roomTypes[i].roomImages);
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
@@ -349,10 +349,10 @@ class _editHotelFormState extends State<editHotelForm> {
        }*/
       for (int j = 0; j < eachHotel.roomTypes[i].roomImages.length; j++) {
         room.roomImages.add(eachHotel.roomTypes[i].roomImages[j]);
-        print("eachHotel Roomtypes in loop");
-        print("-------------");
-        print(eachHotel.roomTypes[i].roomImages);
-        print(eachHotel.roomTypes[i].roomImages.length);
+      //  print("eachHotel Roomtypes in loop");
+     //   print("-------------");
+      //  print(eachHotel.roomTypes[i].roomImages);
+      //  print(eachHotel.roomTypes[i].roomImages.length);
       }
       hotel.roomTypes.add(room);
     }
@@ -637,7 +637,7 @@ class _editHotelFormState extends State<editHotelForm> {
                       if (value != null) {
                         setState(() {
                           regionSelected = value;
-                          print(value);
+                         // print(value);
                         });
                       }
                     },
@@ -1208,7 +1208,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   if (value != null) {
                     setState(() {
                       starSelected = value;
-                      print(value);
+                     // print(value);
                     });
                   }
                 },
@@ -1230,7 +1230,7 @@ class _editHotelFormState extends State<editHotelForm> {
 
           FlatButton(
             onPressed: () => {
-              print(pinkValue),
+            //  print(pinkValue),
               sendUpdateHotel(),
               Navigator.pushAndRemoveUntil(
                 context,

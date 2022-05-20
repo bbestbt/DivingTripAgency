@@ -103,8 +103,9 @@ class _InfoCardState extends State<InfoCard> {
           infohroomX2 = inforroom;
         }
         if (num == 3) {
-               roomimg3 = io.File(inforroom.path);
+          roomimg3 = io.File(inforroom.path);
           infohroomX3 = inforroom;
+          print("---infohroomX3 triggered---");
         }
         //roomimg = io.File(rroom.path);
         // rroom = pickedFile;
@@ -136,7 +137,8 @@ class _InfoCardState extends State<InfoCard> {
         f2.file = b;
         if (eachHotel.roomTypes[index].roomImages.length >= 2) {
           eachHotel.roomTypes[index].roomImages.removeAt(1);
-      eachHotel.roomTypes[index].roomImages.insert(1, f2);
+        }
+        eachHotel.roomTypes[index].roomImages.insert(1, f2);
       } else if (eachHotel.roomTypes[index].roomImages.length >= 2) {
         var f2 = File();
       f2.filename = eachHotel.roomTypes[index].roomImages[1].filename;
@@ -148,10 +150,14 @@ class _InfoCardState extends State<InfoCard> {
         f3.filename = infohroomX3 .name;
         List<int> c = await infohroomX3 .readAsBytes();
         f3.file = c;
+        print("Third room before adding");
+        print(eachHotel.roomTypes[index].roomImages);
          if (eachHotel.roomTypes[index].roomImages.length >= 3) {
           eachHotel.roomTypes[index].roomImages.removeAt(2);
-        }
-        eachHotel.roomTypes[index].roomImages.insert(2, f3);
+          }
+        eachHotel.roomTypes[index].roomImages.add(f3);
+         print("Third room pic");
+         print(eachHotel.roomTypes[index].roomImages);
       } else if (eachHotel.roomTypes[index].roomImages.length >= 3) {
         var f3 = File();
          f3.filename = eachHotel.roomTypes[index].roomImages[2].filename;
@@ -159,7 +165,7 @@ class _InfoCardState extends State<InfoCard> {
       }
 
     }
-  }
+
 
   @override
   void initState() {
@@ -189,7 +195,7 @@ class _InfoCardState extends State<InfoCard> {
     Widget continueButton = TextButton(
       child: Text("Yes"),
       onPressed: () async {
-        print("key info "+widget._key.toString());
+        // print("key info "+widget._key.toString());
           print('delete at :' + index.toString());
         print('before delete');
         print(eachHotel.roomTypes);
@@ -241,22 +247,22 @@ class _InfoCardState extends State<InfoCard> {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
           // Text(index.toString()),
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-                icon: Icon(Icons.clear),
-                onPressed: () => {
-                      showAlertDialog(context),
-                      // print(eachHotel.roomTypes[index]),
-                      // setState(() {
-                      // print('r');
-                      // print(eachHotel.roomTypes.length);
+          // Align(
+          //   alignment: Alignment.topRight,
+          //   child: IconButton(
+          //       icon: Icon(Icons.clear),
+          //       onPressed: () => {
+          //             showAlertDialog(context),
+          //             // print(eachHotel.roomTypes[index]),
+          //             // setState(() {
+          //             // print('r');
+          //             // print(eachHotel.roomTypes.length);
 
-                      // print('m');
-                      // print(eachHotel.roomTypes.length);
-                      // })
-                    }),
-          ),
+          //             // print('m');
+          //             // print(eachHotel.roomTypes.length);
+          //             // })
+          //           }),
+          // ),
           SizedBox(height: 20),
           buildRoomNameFormField(),
           SizedBox(height: 20),
