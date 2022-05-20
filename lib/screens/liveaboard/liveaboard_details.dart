@@ -1495,29 +1495,28 @@ class _detailState extends State<detail> {
                 color: Color(0xFFFdaf0ff),
                 borderRadius: BorderRadius.circular(10)),
             width: MediaQuery.of(context).size.width,
-            child: Expanded(
-                child: Container(
+            child: Container(
               child: Column(children: [
-                Text("5-day weather forecast"),
-                Text("Weather example"),
-                Container(
-                  margin: EdgeInsets.all(5),
-                  child: TextButton(
-                    child: Text(
-                      'Fetch forecast',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: queryWeather,
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.blue)),
-                  ),
+            Text("5-day weather forecast"),
+            Text("Weather example"),
+            Container(
+              margin: EdgeInsets.all(5),
+              child: TextButton(
+                child: Text(
+                  'Fetch forecast',
+                  style: TextStyle(color: Colors.white),
                 ),
-                Container(
-                  child: _resultView(),
-                )
+                onPressed: queryWeather,
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.blue)),
+              ),
+            ),
+            Container(
+              child: _resultView(),
+            )
               ]),
-            )))
+            ))
       ],
     );
   }
