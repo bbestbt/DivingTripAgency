@@ -38,11 +38,7 @@ class AddMoreRoomUpdateHotel extends StatefulWidget {
   final customFunction;
   List<List<Amenity>> blueValue;
   AddMoreRoomUpdateHotel(Hotel eachHotel, this.customFunction
-      // List<RoomType> pinkValue,
-      // List<List<Amenity>> blueValue,
       ) {
-    // this.pinkValue = pinkValue;
-    // this.blueValue = blueValue;
     this.eachHotel = eachHotel;
   }
   @override
@@ -59,9 +55,7 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
 
   _AddMoreRoomUpdateHotelState(
       Hotel eachHotel,
-
       ) {
-
     this.eachHotel = eachHotel;
   }
   getRoomLength() async {
@@ -138,6 +132,12 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
                       rt.description = '';
                       rt.quantity = 0;
                       rt.maxGuest = 0;
+                      rt.roomImages.add(new File());
+                      rt.roomImages.add(new File());
+                      rt.roomImages.add(new File());
+                     // rt.roomImages[0];
+                    //  rt.roomImages[1];
+                     // rt.roomImages[2];
                       eachHotel.roomTypes.add(rt);
                     });
                   },
@@ -151,7 +151,6 @@ class _AddMoreRoomUpdateHotelState extends State<AddMoreRoomUpdateHotel> {
               ],
             ),
             SizedBox(height: 30),
-
 
           ])),
     );

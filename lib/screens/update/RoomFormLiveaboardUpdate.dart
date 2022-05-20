@@ -24,34 +24,33 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'dart:io' as io;
 
-import 'InfoCard.dart';
+import 'InfoCartLiveaboard.dart';
 
-
-
-class RoomFormHotelUpdate extends StatefulWidget {
+class RoomFormLiveaboardUpdate extends StatefulWidget {
   List<RoomType> allRoom = [];
-  Hotel eachHotel;
+  Liveaboard eachLiveaboard;
   final customFunction;
   GlobalKey<AnimatedListState> _key;
 
   var f2 = File();
-  RoomFormHotelUpdate(
-      Hotel eachHotel, List<RoomType> allRoom, this.customFunction, GlobalKey<AnimatedListState> _key) {
-    this.eachHotel = eachHotel;
+  RoomFormLiveaboardUpdate(
+      Liveaboard eachLiveaboard, List<RoomType> allRoom, this.customFunction, GlobalKey<AnimatedListState> _key) {
+    this.eachLiveaboard = eachLiveaboard;
     this.allRoom = allRoom;
     this._key = _key;
+    // print('room'+eachLiveaboard.id.toString());
   }
   @override
-  _RoomFormHotelUpdateState createState() =>
-      _RoomFormHotelUpdateState(this.eachHotel, this.allRoom, _key);
+  _RoomFormLiveaboardUpdateState createState() =>
+      _RoomFormLiveaboardUpdateState(this.eachLiveaboard, this.allRoom, _key);
 }
 
-class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
+class _RoomFormLiveaboardUpdateState extends State<RoomFormLiveaboardUpdate> {
   List<RoomType> allRoom = [];
-  Hotel eachHotel;
+  Liveaboard eachLiveaboard;
   GlobalKey<AnimatedListState> _key;
 
-  _RoomFormHotelUpdateState(this.eachHotel, this.allRoom, this._key);
+  _RoomFormLiveaboardUpdateState(this.eachLiveaboard, this.allRoom, this._key);
   getRoomType() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -65,23 +64,19 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
     var listroomrequest = ListRoomTypesRequest();
-    listroomrequest.hotelId = eachHotel.id;
-    print("allroom");
-    print(allRoom);
+    listroomrequest.liveaboardId = eachLiveaboard.id;
+
     allRoom.clear();
     try {
       await for (var feature in stub.listRoomTypes(listroomrequest)) {
         allRoom.add(feature.roomType);
-
       }
     } catch (e) {
       print('ERROR: $e');
     }
     // print('--');
     // print(allRoom);
-    print("allroom");
-    print(allRoom);
-     print("key hotelupdate "+_key.toString());
+
     return allRoom;
   }
 
@@ -93,19 +88,15 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
         future: getRoomType(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            
-             return Container(
-              // color: Colors.lightGreen,
-              // height: 3000,
-              child:
-               Wrap(
-               spacing: 20,
-                   runSpacing: 40,
-                   children: List.generate(
-                       allRoom.length,
-                           (index) => InfoCard(
-                           index, allRoom, eachHotel, widget.customFunction,_key))
-             ));
+            return Wrap(
+                spacing: 20,
+                runSpacing: 40,
+                key: _key,
+                children: List.generate(
+                  allRoom.length,
+                      (index) => InfoCard(
+                      index, allRoom, eachLiveaboard, widget.customFunction),
+                ));
           } else {
             return Center(child: Text('No room'));
           }
