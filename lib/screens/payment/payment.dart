@@ -44,21 +44,23 @@ class PaymentUpload extends StatefulWidget {
   double total_price;
   TripWithTemplate trips;
 
-  PaymentUpload(int reservation_id,double total_price,TripWithTemplate trips) {
+  PaymentUpload(
+      int reservation_id, double total_price, TripWithTemplate trips) {
     this.reservation_id = reservation_id;
-    this.total_price=total_price;
-  this.trips=trips;
+    this.total_price = total_price;
+    this.trips = trips;
   }
   @override
-  _PaymentUploadState createState() => _PaymentUploadState(this.reservation_id,this.total_price,this.trips);
+  _PaymentUploadState createState() =>
+      _PaymentUploadState(this.reservation_id, this.total_price, this.trips);
 }
 
 class _PaymentUploadState extends State<PaymentUpload> {
   int reservation_id;
-   double total_price;
-   TripWithTemplate trips;
+  double total_price;
+  TripWithTemplate trips;
 
-  _PaymentUploadState(this.reservation_id,this.total_price,this.trips);
+  _PaymentUploadState(this.reservation_id, this.total_price, this.trips);
   makePayment() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -106,7 +108,8 @@ class _PaymentUploadState extends State<PaymentUpload> {
       print(pickedFile.path.split('/').last);
     }
   }
-getRoom() async {
+
+  getRoom() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -207,238 +210,265 @@ getRoom() async {
               color: Color(0xFFFF78a2cc),
             ),
             SizedBox(
-              height: 50,
+              height: 20,
             ),
-             Text(
-              "Trip name : " + trips.tripTemplate.name,
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("From : " +
-                    DateFormat("dd/MM/yyyy")
-                        .format(trips.startDate.toDateTime())),
-                SizedBox(
-                  width: 10,
-                ),
-                Text("To : " +
-                    DateFormat("dd/MM/yyyy").format(trips.endDate.toDateTime())),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text("Trip type : " + trips.tripTemplate.tripType.toString()),
-            SizedBox(
-              height: 10,
-            ),
-            Text("Address : " + trips.tripTemplate.address.addressLine1),
-            SizedBox(
-              height: 10,
-            ),
-            Text("Address2 : " + trips.tripTemplate.address.addressLine2),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('City : ' + trips.tripTemplate.address.city),
-                SizedBox(
-                  width: 20,
-                ),
-                Text("Country : " + trips.tripTemplate.address.country),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Region : ' + trips.tripTemplate.address.region),
-                SizedBox(
-                  width: 20,
-                ),
-                Text('Postcode : ' + trips.tripTemplate.address.postcode),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            trips.tripTemplate.tripType.toString() == "ONSHORE"
-                ? SizedBox(
-                    width: 1110,
-                    child: FutureBuilder(
-                      future: getHotelDetail(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Column(
-                            children: [
-                              Center(
-                                child: Text('Name : ' + hotelDetial.hotel.name),
-                              ),
-                            ],
-                          );
-                        } else {
-                          return Align(
-                              alignment: Alignment.center,
-                              child: Text('No data'));
-                        }
-                      },
-                    ),
-                  )
-                : SizedBox(
-                    width: 1110,
-                    child: FutureBuilder(
-                      future: getLiveaboardDetail(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Column(
-                            children: [
-                              Center(
-                                child: Text('Name : ' +
-                                    liveaboardDetial.liveaboard.name),
-                              ),
-                            ],
-                          );
-                        } else {
-                          return Align(
-                              alignment: Alignment.center,
-                              child: Text('No data'));
-                        }
-                      },
-                    ),
-                  ),
-            SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              width: 1110,
-              child: FutureBuilder(
-                future: getRoomName(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        Center(
-                            child: Text(
-                                'Room name : ' + roomDetial.roomType.name)),
-                      ],
-                    );
-                  } else {
-                    return Align(
-                        alignment: Alignment.center, child: Text('No data'));
-                  }
-                },
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              width: 1110,
-              child: FutureBuilder(
-                future: getRoom(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        Center(
-                            child: Container(
-                                child: Column(
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 20),
+              constraints: BoxConstraints(maxWidth: 1110),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      decoration: BoxDecoration(
+                          color: Colors.blue[100],
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Room quantity : ' + room.quantity.toString()),
                             SizedBox(
                               height: 10,
                             ),
-                            Text('Total people : ' + room.noDivers.toString()),
+                            Text(
+                              "Trip name : " + trips.tripTemplate.name,
+                              // style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("From : " +
+                                DateFormat("dd/MM/yyyy")
+                                    .format(trips.startDate.toDateTime())),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("To : " +
+                                DateFormat("dd/MM/yyyy")
+                                    .format(trips.endDate.toDateTime())),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("Trip type : " +
+                                trips.tripTemplate.tripType.toString()),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("Address : " +
+                                trips.tripTemplate.address.addressLine1),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("Address2 : " +
+                                trips.tripTemplate.address.addressLine2),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text('City : ' + trips.tripTemplate.address.city),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("Country : " +
+                                trips.tripTemplate.address.country),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text('Region : ' +
+                                trips.tripTemplate.address.region),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text('Postcode : ' +
+                                trips.tripTemplate.address.postcode),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            trips.tripTemplate.tripType.toString() == "ONSHORE"
+                                ? SizedBox(
+                                    width: 1110,
+                                    child: FutureBuilder(
+                                      future: getHotelDetail(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text('Name : ' +
+                                                  hotelDetial.hotel.name),
+                                            ],
+                                          );
+                                        } else {
+                                          return Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text('No data'));
+                                        }
+                                      },
+                                    ),
+                                  )
+                                : SizedBox(
+                                    width: 1110,
+                                    child: FutureBuilder(
+                                      future: getLiveaboardDetail(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Column(
+                                            children: [
+                                              Text('Name : ' +
+                                                  liveaboardDetial
+                                                      .liveaboard.name),
+                                            ],
+                                          );
+                                        } else {
+                                          return Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text('No data'));
+                                        }
+                                      },
+                                    ),
+                                  ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              width: 1110,
+                              child: FutureBuilder(
+                                future: getRoomName(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Column(
+                                      children: [
+                                        Text('Room name : ' +
+                                            roomDetial.roomType.name),
+                                      ],
+                                    );
+                                  } else {
+                                    return Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text('No data'));
+                                  }
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            SizedBox(
+                              width: 1110,
+                              child: FutureBuilder(
+                                future: getRoom(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Column(
+                                      children: [
+                                        Container(
+                                            child: Column(
+                                          children: [
+                                            Text('Room quantity : ' +
+                                                room.quantity.toString()),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text('Total people : ' +
+                                                room.noDivers.toString()),
+                                          ],
+                                        )),
+                                      ],
+                                    );
+                                  } else {
+                                    return Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Text('No data'));
+                                  }
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("Total price :" + total_price.toString()),
+                            SizedBox(
+                              height: 10,
+                            ),
                           ],
-                        ))),
-                      ],
-                    );
-                  } else {
-                    return Align(
-                        alignment: Alignment.center, child: Text('No data'));
-                  }
-                },
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text("Total price :"+total_price.toString()),
-            SizedBox(
-              height: 50,
-            ),
-            Center(
-              child: Container(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Payment slip'),
-                        SizedBox(
-                          width: 40,
                         ),
-                        FlatButton(
-                          color: Color(0xfffa2c8ff),
-                          child: Text(
-                            'Upload',
-                            style: TextStyle(fontSize: 15),
-                          ),
-                          onPressed: () {
-                            _getSlip();
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: slip == null
-                          ? Text('')
-                          : kIsWeb
-                              ? Image.network(
-                                  slip.path,
-                                  fit: BoxFit.cover,
-                                  width: screenwidth * 0.2,
-                                )
-                              : Image.file(
-                                  io.File(slip.path),
-                                  fit: BoxFit.cover,
-                                  width: screenwidth * 0.05,
-                                ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    FlatButton(
-                      onPressed: () async => {
-                        await makePayment(),
-                        print('payment done'),
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => MainScreen(),
-                          ),
-                          (route) => false,
-                        )
-                      },
-                      color: Color(0xfff75BDFF),
-                      child: Text(
-                        'Confirm',
-                        style: TextStyle(fontSize: 15),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Payment slip'),
+                              SizedBox(
+                                width: 40,
+                              ),
+                              FlatButton(
+                                color: Color(0xfffa2c8ff),
+                                child: Text(
+                                  'Upload',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                onPressed: () {
+                                  _getSlip();
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Center(
+                            child: slip == null
+                                ? Text('')
+                                : kIsWeb
+                                    ? Image.network(
+                                        slip.path,
+                                        fit: BoxFit.cover,
+                                        width: screenwidth * 0.2,
+                                      )
+                                    : Image.file(
+                                        io.File(slip.path),
+                                        fit: BoxFit.cover,
+                                        width: screenwidth * 0.05,
+                                      ),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          FlatButton(
+                            onPressed: () async => {
+                              await makePayment(),
+                              print('payment done'),
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      MainScreen(),
+                                ),
+                                (route) => false,
+                              )
+                            },
+                            color: Color(0xfff75BDFF),
+                            child: Text(
+                              'Confirm',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 20),

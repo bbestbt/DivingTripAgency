@@ -97,14 +97,15 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
              return Container(
               // color: Colors.lightGreen,
               // height: 3000,
-              child: AnimatedList(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  key: _key,
-                  initialItemCount: eachHotel.roomTypes.length,
-                  itemBuilder: (context, index, animation) => InfoCard(
-                      index, allRoom, eachHotel, widget.customFunction,_key)),
-            );
+              child:
+              //  AnimatedList(
+            //       scrollDirection: Axis.vertical,
+            //       shrinkWrap: true,
+            //       key: _key,
+            //       initialItemCount: eachHotel.roomTypes.length,
+            //       itemBuilder: (context, index, animation) => InfoCard(
+            //           index, allRoom, eachHotel, widget.customFunction,_key)),
+            // );
             // Wrap(
             //     spacing: 20,
             //     runSpacing: 40,
@@ -112,13 +113,13 @@ class _RoomFormHotelUpdateState extends State<RoomFormHotelUpdate> {
             //         allRoom.length,
             //         (index) => InfoCard(
             //             index, allRoom, eachHotel, widget.customFunction)));
-              // Wrap(
-              //     spacing: 20,
-              //     runSpacing: 40,
-              //     children: List.generate(
-              //         allRoom.length,
-              //             (index) => InfoCard(
-              //             index, allRoom, eachHotel, widget.customFunction,_key)));
+              Wrap(
+                  spacing: 20,
+                  runSpacing: 40,
+                  children: List.generate(
+                      allRoom.length,
+                          (index) => InfoCard(
+                          index, allRoom, eachHotel, widget.customFunction,_key))));
           } else {
             return Center(child: Text('No room'));
           }

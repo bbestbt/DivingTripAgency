@@ -284,6 +284,20 @@ class _InfoCardState extends State<InfoCard> {
               Column(
                 children: [Text("Image")],
               ),
+              SizedBox(width: 30),
+              Container(
+                width: MediaQuery.of(context).size.width / 10,
+                height: MediaQuery.of(context).size.width / 10,
+                //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
+                child: eachHotel.roomTypes[index].roomImages.length < 1
+                    ? new Container(
+                  color: Colors.green,
+                )
+                    : Image.network(
+                  //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
+                    eachHotel.roomTypes[index].roomImages[0].link.toString()
+                ),
+              ),
               Center(
                   child: infohroomX1 == null
                       ? Column(
@@ -328,6 +342,20 @@ class _InfoCardState extends State<InfoCard> {
               Column(
                 children: [Text("Image")],
               ),
+              SizedBox(width: 30),
+              Container(
+                width: MediaQuery.of(context).size.width / 10,
+                height: MediaQuery.of(context).size.width / 10,
+                //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
+                child: eachHotel.roomTypes[index].roomImages.length < 2
+                    ? new Container(
+                  color: Colors.green,
+                )
+                    : Image.network(
+                  //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
+                    eachHotel.roomTypes[index].roomImages[1].link.toString()
+                ),
+              ),
               Center(
                   child: infohroomX2 == null
                       ? Column(
@@ -369,6 +397,20 @@ class _InfoCardState extends State<InfoCard> {
             children: [
               Column(
                 children: [Text("Image")],
+              ),
+              SizedBox(width: 30),
+              Container(
+                width: MediaQuery.of(context).size.width / 10,
+                height: MediaQuery.of(context).size.width / 10,
+                //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
+                child: eachHotel.roomTypes[index].roomImages.length < 3
+                    ? new Container(
+                  color: Colors.green,
+                )
+                    : Image.network(
+                  //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
+                    eachHotel.roomTypes[index].roomImages[2].link.toString()
+                ),
               ),
               Center(
                   child: infohroomX3 == null
