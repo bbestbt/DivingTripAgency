@@ -50,7 +50,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
     } catch (e) {
       print('ERROR: $e');
     }
-
+    print(trips);
     return trips;
   }
 
@@ -436,14 +436,17 @@ class _InfoCardState extends State<InfoCard> {
             Container(
                 width: MediaQuery.of(context).size.width / 10,
                 height: MediaQuery.of(context).size.width / 10,
-                child: trips[widget.index].tripTemplate.images.length == 0
-                    ? new Container(
-                        child: Center(child: Text('No image')),
-                      )
-                    : Image.network(
-                        trips[widget.index].tripTemplate.images[0].toString()
-                        // trips[widget.index].tripTemplate.images[0].toString()
-                        )),
+                child:
+                    //  Text(trips[widget.index].tripTemplate.images.length.toString(),)
+                    trips[widget.index].tripTemplate.images.length == 0
+                        ? new Container(
+                            child: Center(child: Text('No image')),
+                          )
+                        : Image.network(trips[widget.index]
+                            .tripTemplate
+                            .images[0]
+                            .link
+                            .toString())),
             Expanded(
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
@@ -491,6 +494,10 @@ class _InfoCardState extends State<InfoCard> {
                         Align(
                             alignment: Alignment.centerRight,
                             child:
+                                // Text(trips[widget.index]
+                                //     .tripRoomTypePrices
+                                //     .length
+                                //     .toString()),
                                 trips[widget.index].tripRoomTypePrices.length ==
                                         0
                                     ? Text('no price')
