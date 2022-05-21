@@ -277,7 +277,7 @@ class _InfoCardState extends State<InfoCard> {
                 width: MediaQuery.of(context).size.width / 10,
                 height: MediaQuery.of(context).size.width / 10,
                 //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
-                child: eachLiveaboard.roomTypes[index].roomImages.length < 1
+                child: eachLiveaboard.roomTypes[index].roomImages.length < 2
                     ? new Container(
                   color: Colors.green,
                 )
@@ -332,7 +332,7 @@ class _InfoCardState extends State<InfoCard> {
                 width: MediaQuery.of(context).size.width / 10,
                 height: MediaQuery.of(context).size.width / 10,
                 //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
-                child: eachLiveaboard.roomTypes[index].roomImages.length < 1
+                child: eachLiveaboard.roomTypes[index].roomImages.length < 3
                     ? new Container(
                   color: Colors.green,
                 )
