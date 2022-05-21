@@ -215,15 +215,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
-    var f = File();
-    f.filename = lvb.name;
-    //var t = await imageFile.readAsBytes();
-    //f.file = new List<int>.from(t);
-    List<int> b = await lvb.readAsBytes();
-    f.file = b;
-    //eachLiveaboard.images.removeAt(num-1);
-    eachLiveaboard.images.add(f);
-
+    
     if (lvb != null) {
       setState(() {
         if (num == 1) {
@@ -377,7 +369,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f2.filename = liveX2.name;
       List<int> b = await liveX2.readAsBytes();
       f2.file = b;
-      if (eachLiveaboard.images.length >= 2) eachLiveaboard.images.removeAt(1);
+      if (eachLiveaboard.images.length >= 2) {
+        eachLiveaboard.images.removeAt(1);
+      }
       eachLiveaboard.images.insert(1, f2);
     } else if (eachLiveaboard.images.length >= 2) {
       var f2 = File();
@@ -390,7 +384,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f3.filename = liveX3.name;
       List<int> c = await liveX3.readAsBytes();
       f3.file = c;
-      if (eachLiveaboard.images.length >= 3) eachLiveaboard.images.removeAt(2);
+      if (eachLiveaboard.images.length >= 3) {
+        eachLiveaboard.images.removeAt(2);
+      }
       eachLiveaboard.images.insert(2, f3);
     } else if (eachLiveaboard.images.length >= 3) {
       var f3 = File();
@@ -403,7 +399,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f4.filename = liveX4.name;
       List<int> d = await liveX4.readAsBytes();
       f4.file = d;
-      if (eachLiveaboard.images.length >= 4) eachLiveaboard.images.removeAt(3);
+      if (eachLiveaboard.images.length >= 4) {
+        eachLiveaboard.images.removeAt(3);
+      }
       eachLiveaboard.images.insert(3, f4);
     } else if (eachLiveaboard.images.length >= 4) {
       var f4 = File();
@@ -416,9 +414,12 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f5.filename = liveX5.name;
       List<int> e = await liveX5.readAsBytes();
       f5.file = e;
-      if (eachLiveaboard.images.length >= 5) eachLiveaboard.images.removeAt(4);
-      eachLiveaboard.images.insert(4, f5);
-    } else if (eachLiveaboard.images.length >= 5) {
+      if (eachLiveaboard.images.length >= 5) {
+        eachLiveaboard.images.removeAt(4);
+      }
+        eachLiveaboard.images.insert(4, f5);
+      }
+     else if (eachLiveaboard.images.length >= 5) {
       var f5 = File();
       f5.filename = eachLiveaboard.images[4].filename;
       //  this.eachLiveaboard.images.add(f5);
@@ -429,11 +430,13 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f6.filename = liveX6.name;
       List<int> a = await liveX6.readAsBytes();
       f6.file = a;
-      if (eachLiveaboard.images.length >= 6) eachLiveaboard.images.removeAt(5);
+      if (eachLiveaboard.images.length >= 6) {
+          eachLiveaboard.images.removeAt(5);
+      }
       eachLiveaboard.images.insert(5, f6);
     } else if (eachLiveaboard.images.length >= 6) {
-      var f = File();
-      f.filename = eachLiveaboard.images[5].filename;
+      var f6 = File();
+      f6.filename = eachLiveaboard.images[5].filename;
       //this.eachLiveaboard.images.add(f);
     }
 
@@ -442,7 +445,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f7.filename = liveX7.name;
       List<int> b = await liveX7.readAsBytes();
       f7.file = b;
-      if (eachLiveaboard.images.length >= 7) eachLiveaboard.images.removeAt(6);
+      if (eachLiveaboard.images.length >= 7) {
+        eachLiveaboard.images.removeAt(6);
+       }
       eachLiveaboard.images.insert(6, f7);
     } else if (eachLiveaboard.images.length >= 7) {
       var f7 = File();
@@ -455,7 +460,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f8.filename = liveX8.name;
       List<int> c = await liveX8.readAsBytes();
       f8.file = c;
-      if (eachLiveaboard.images.length >= 8) eachLiveaboard.images.removeAt(7);
+      if (eachLiveaboard.images.length >= 8){
+        eachLiveaboard.images.removeAt(7);
+      }
       eachLiveaboard.images.insert(7, f8);
     } else if (eachLiveaboard.images.length >= 8) {
       var f8 = File();
@@ -468,7 +475,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f9.filename = liveX9.name;
       List<int> d = await liveX9.readAsBytes();
       f9.file = d;
-      if (eachLiveaboard.images.length >= 9) eachLiveaboard.images.removeAt(8);
+      if (eachLiveaboard.images.length >= 9){
+         eachLiveaboard.images.removeAt(8);
+       }
       eachLiveaboard.images.insert(8, f9);
     } else if (eachLiveaboard.images.length >= 9) {
       var f9 = File();
@@ -642,8 +651,18 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               Column(
                 children: [Text("Image")],
               ),
-              Center(
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 1
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachLiveaboard.images[0].link.toString())),
+              SizedBox(width: 30),
+              Center(
+                  child: liveX1 == null
                       ? Column(
                           children: [
                             Text(''),
@@ -652,8 +671,8 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                         )
                       : kIsWeb
                           ? Image.network(
-                              //liveaboardimg.path,
-                              eachLiveaboard.images[0].link.toString(),
+                              liveaboardimg.path,
+                              //eachLiveaboard.images[0].link.toString(),
                               fit: BoxFit.cover,
                               width: screenwidth * 0.1,
                             )
@@ -663,21 +682,21 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                               width: screenwidth * 0.05,
                             )),
               SizedBox(width: 30),
-              Center(
-                child: liveX1 == null
-                    ? Text('')
-                    : kIsWeb
-                        ? Image.network(
-                            liveaboardimg.path,
-                            fit: BoxFit.cover,
-                            width: screenwidth * 0.1,
-                          )
-                        : Image.file(
-                            io.File(liveaboardimg.path),
-                            fit: BoxFit.cover,
-                            width: screenwidth * 0.05,
-                          ),
-              ),
+              //Center(
+              //   child: liveX1 == null
+              //       ? Text('')
+              //       : kIsWeb
+              //           ? Image.network(
+              //               liveaboardimg.path,
+              //               fit: BoxFit.cover,
+              //               width: screenwidth * 0.1,
+              //             )
+              //           : Image.file(
+              //               io.File(liveaboardimg.path),
+              //               fit: BoxFit.cover,
+              //               width: screenwidth * 0.05,
+              //             ),
+              // ),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
@@ -702,26 +721,36 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               Column(
                 children: [Text("Image")],
               ),
-              Center(
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 2
-                      ? Column(
-                          children: [
-                            Text(''),
-                            Text(''),
-                          ],
-                        )
-                      : kIsWeb
-                          ? Image.network(
-                              //liveaboardimg2.path,
-                              eachLiveaboard.images[1].link.toString(),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.1,
-                            )
-                          : Image.file(
-                              io.File(liveaboardimg2.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachLiveaboard.images[1].link.toString())),
+              SizedBox(width: 30),
+              // Center(
+              //     child: eachLiveaboard.images.length < 2
+              //         ? Column(
+              //             children: [
+              //               Text(''),
+              //               Text(''),
+              //             ],
+              //           )
+              //         : kIsWeb
+              //             ? Image.network(
+              //                 //liveaboardimg2.path,
+              //                 eachLiveaboard.images[1].link.toString(),
+              //                 fit: BoxFit.cover,
+              //                 width: screenwidth * 0.1,
+              //               )
+              //             : Image.file(
+              //                 io.File(liveaboardimg2.path),
+              //                 fit: BoxFit.cover,
+              //                 width: screenwidth * 0.05,
+              //               )),
               Spacer(),
               Center(
                 child: liveX2 == null
@@ -761,25 +790,35 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               Column(
                 children: [Text("Image")],
               ),
-              Center(
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 3
-                      ? Column(
-                          children: [
-                            Text(''),
-                            Text(''),
-                          ],
-                        )
-                      : kIsWeb
-                          ? Image.network(
-                              eachLiveaboard.images[2].link.toString(),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.1,
-                            )
-                          : Image.file(
-                              io.File(liveaboardimg3.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachLiveaboard.images[2].link.toString())),
+              SizedBox(width: 30),
+              // Center(
+              //     child: eachLiveaboard.images.length < 3
+              //         ? Column(
+              //             children: [
+              //               Text(''),
+              //               Text(''),
+              //             ],
+              //           )
+              //         : kIsWeb
+              //             ? Image.network(
+              //                 eachLiveaboard.images[2].link.toString(),
+              //                 fit: BoxFit.cover,
+              //                 width: screenwidth * 0.1,
+              //               )
+              //             : Image.file(
+              //                 io.File(liveaboardimg3.path),
+              //                 fit: BoxFit.cover,
+              //                 width: screenwidth * 0.05,
+              //               )),
               Spacer(),
               Center(
                 child: liveX3 == null
@@ -819,25 +858,35 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               Column(
                 children: [Text("Image")],
               ),
-              Center(
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 4
-                      ? Column(
-                          children: [
-                            Text(''),
-                            Text(''),
-                          ],
-                        )
-                      : kIsWeb
-                          ? Image.network(
-                              eachLiveaboard.images[3].link.toString(),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.1,
-                            )
-                          : Image.file(
-                              io.File(liveaboardimg4.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachLiveaboard.images[3].link.toString())),
+              SizedBox(width: 30),
+              // Center(
+              //     child: eachLiveaboard.images.length < 4
+              //         ? Column(
+              //             children: [
+              //               Text(''),
+              //               Text(''),
+              //             ],
+              //           )
+              //         : kIsWeb
+              //             ? Image.network(
+              //                 eachLiveaboard.images[3].link.toString(),
+              //                 fit: BoxFit.cover,
+              //                 width: screenwidth * 0.1,
+              //               )
+              //             : Image.file(
+              //                 io.File(liveaboardimg4.path),
+              //                 fit: BoxFit.cover,
+              //                 width: screenwidth * 0.05,
+              //               )),
               Spacer(),
               Center(
                 child: liveX4 == null
@@ -876,26 +925,16 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
             children: [
               Column(
                 children: [Text("Image")],
-              ),
-              Center(
+              ),SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 5
-                      ? Column(
-                          children: [
-                            Text(''),
-                            Text(''),
-                          ],
-                        )
-                      : kIsWeb
-                          ? Image.network(
-                              eachLiveaboard.images[4].link.toString(),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.1,
-                            )
-                          : Image.file(
-                              io.File(liveaboardimg5.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachLiveaboard.images[4].link.toString())),
+              SizedBox(width: 30),
               Spacer(),
               Center(
                 child: liveX5 == null
@@ -935,25 +974,16 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               Column(
                 children: [Text("Image")],
               ),
-              Center(
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 6
-                      ? Column(
-                          children: [
-                            Text(''),
-                            Text(''),
-                          ],
-                        )
-                      : kIsWeb
-                          ? Image.network(
-                              eachLiveaboard.images[5].link.toString(),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.1,
-                            )
-                          : Image.file(
-                              io.File(liveaboardimg6.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachLiveaboard.images[5].link.toString())),
+              SizedBox(width: 30),
               Spacer(),
               Center(
                 child: liveX6 == null
@@ -993,25 +1023,16 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               Column(
                 children: [Text("Image")],
               ),
-              Center(
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 7
-                      ? Column(
-                          children: [
-                            Text(''),
-                            Text(''),
-                          ],
-                        )
-                      : kIsWeb
-                          ? Image.network(
-                              eachLiveaboard.images[6].link.toString(),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.1,
-                            )
-                          : Image.file(
-                              io.File(liveaboardimg7.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachLiveaboard.images[6].link.toString())),
+              SizedBox(width: 30),
               Spacer(),
               Center(
                 child: liveX7 == null
@@ -1051,25 +1072,16 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               Column(
                 children: [Text("Image")],
               ),
-              Center(
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 8
-                      ? Column(
-                          children: [
-                            Text(''),
-                            Text(''),
-                          ],
-                        )
-                      : kIsWeb
-                          ? Image.network(
-                              eachLiveaboard.images[7].link.toString(),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.1,
-                            )
-                          : Image.file(
-                              io.File(liveaboardimg8.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachLiveaboard.images[7].link.toString())),
+              SizedBox(width: 30),
               Spacer(),
               Center(
                 child: liveX8 == null
@@ -1109,25 +1121,16 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               Column(
                 children: [Text("Image")],
               ),
-              Center(
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 9
-                      ? Column(
-                          children: [
-                            Text(''),
-                            Text(''),
-                          ],
-                        )
-                      : kIsWeb
-                          ? Image.network(
-                              eachLiveaboard.images[8].link.toString(),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.1,
-                            )
-                          : Image.file(
-                              io.File(liveaboardimg9.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachLiveaboard.images[8].link.toString())),
+              SizedBox(width: 30),
               Spacer(),
               Center(
                 child: liveX9 == null
@@ -1167,25 +1170,16 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               Column(
                 children: [Text("Image")],
               ),
-              Center(
+              SizedBox(width: 30),
+              Container(
+                  width: MediaQuery.of(context).size.width / 10,
+                  height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 10
-                      ? Column(
-                          children: [
-                            Text(''),
-                            Text(''),
-                          ],
-                        )
-                      : kIsWeb
-                          ? Image.network(
-                              eachLiveaboard.images[9].link.toString(),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.1,
-                            )
-                          : Image.file(
-                              io.File(liveaboardimg10.path),
-                              fit: BoxFit.cover,
-                              width: screenwidth * 0.05,
-                            )),
+                      ? new Container(
+                    color: Colors.blue,
+                  )
+                      : Image.network(eachLiveaboard.images[9].link.toString())),
+              SizedBox(width: 30),
               Spacer(),
               Center(
                 child: liveX10 == null
