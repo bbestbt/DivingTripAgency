@@ -312,10 +312,10 @@ class _editHotelFormState extends State<editHotelForm> {
     hotel.description = eachHotel.description;
     hotel.phone = eachHotel.phone;
     hotel.stars = eachHotel.stars;
-   // print("PinkvalueUpdate");
-  //  print(pinkValue);
-  //  print("PinkvalueUpdatelength");
-  //  print(pinkValue.length);
+    // print("PinkvalueUpdate");
+    //  print(pinkValue);
+    //  print("PinkvalueUpdatelength");
+    //  print(pinkValue.length);
     // print("pinkvalue.roomImages");
     // print("-------------");
     // print(pinkValue[0].roomImages);
@@ -328,12 +328,12 @@ class _editHotelFormState extends State<editHotelForm> {
 
         room.amenities.add(amenity);
       }
-    //  print("pinkvalue.roomImages");
-    //  print("-------------");
-    //  print(pinkValue[i].roomImages);
-   //   print("eachhotel.roomImages");
-   //   print("-------------");
-   //   print(eachHotel.roomTypes[i].roomImages);
+      //  print("pinkvalue.roomImages");
+      //  print("-------------");
+      //  print(pinkValue[i].roomImages);
+      //   print("eachhotel.roomImages");
+      //   print("-------------");
+      //   print(eachHotel.roomTypes[i].roomImages);
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
@@ -349,10 +349,10 @@ class _editHotelFormState extends State<editHotelForm> {
        }*/
       for (int j = 0; j < eachHotel.roomTypes[i].roomImages.length; j++) {
         room.roomImages.add(eachHotel.roomTypes[i].roomImages[j]);
-      //  print("eachHotel Roomtypes in loop");
-     //   print("-------------");
-      //  print(eachHotel.roomTypes[i].roomImages);
-      //  print(eachHotel.roomTypes[i].roomImages.length);
+        //  print("eachHotel Roomtypes in loop");
+        //   print("-------------");
+        //  print(eachHotel.roomTypes[i].roomImages);
+        //  print(eachHotel.roomTypes[i].roomImages.length);
       }
       hotel.roomTypes.add(room);
     }
@@ -637,7 +637,7 @@ class _editHotelFormState extends State<editHotelForm> {
                       if (value != null) {
                         setState(() {
                           regionSelected = value;
-                         // print(value);
+                          // print(value);
                         });
                       }
                     },
@@ -663,7 +663,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachHotel.images.length < 1
                       ? new Container(
-                          color: Colors.blue,
+                          child: Center(child: Text('No image')),
                         )
                       : Image.network(eachHotel.images[0].link.toString())),
               SizedBox(width: 30),
@@ -718,7 +718,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachHotel.images.length < 2
                       ? new Container(
-                          color: Colors.blue,
+                          child: Center(child: Text('No image')),
                         )
                       : Image.network(eachHotel.images[1].link.toString())),
               SizedBox(width: 30),
@@ -774,7 +774,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachHotel.images.length < 3
                       ? new Container(
-                          color: Colors.blue,
+                          child: Center(child: Text('No image')),
                         )
                       : Image.network(eachHotel.images[2].link.toString())),
               SizedBox(width: 30),
@@ -828,7 +828,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachHotel.images.length < 4
                       ? new Container(
-                          color: Colors.blue,
+                          child: Center(child: Text('No image')),
                         )
                       : Image.network(eachHotel.images[3].link.toString())),
               SizedBox(width: 30),
@@ -882,7 +882,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachHotel.images.length < 5
                       ? new Container(
-                          color: Colors.blue,
+                          child: Center(child: Text('No image')),
                         )
                       : Image.network(eachHotel.images[4].link.toString())),
               SizedBox(width: 30),
@@ -936,7 +936,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachHotel.images.length < 6
                       ? new Container(
-                          color: Colors.blue,
+                          child: Center(child: Text('No image')),
                         )
                       : Image.network(eachHotel.images[5].link.toString())),
               SizedBox(width: 30),
@@ -990,7 +990,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachHotel.images.length < 7
                       ? new Container(
-                          color: Colors.blue,
+                          child: Center(child: Text('No image')),
                         )
                       : Image.network(eachHotel.images[6].link.toString())),
               SizedBox(width: 30),
@@ -1044,7 +1044,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachHotel.images.length < 8
                       ? new Container(
-                          color: Colors.blue,
+                          child: Center(child: Text('No image')),
                         )
                       : Image.network(eachHotel.images[7].link.toString())),
               SizedBox(width: 30),
@@ -1098,7 +1098,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachHotel.images.length < 9
                       ? new Container(
-                          color: Colors.blue,
+                          child: Center(child: Text('No image')),
                         )
                       : Image.network(eachHotel.images[8].link.toString())),
               SizedBox(width: 30),
@@ -1151,7 +1151,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachHotel.images.length < 10
                       ? new Container(
-                          color: Colors.blue,
+                          child: Center(child: Text('No image')),
                         )
                       : Image.network(eachHotel.images[9].link.toString())),
               SizedBox(width: 30),
@@ -1208,7 +1208,7 @@ class _editHotelFormState extends State<editHotelForm> {
                   if (value != null) {
                     setState(() {
                       starSelected = value;
-                     // print(value);
+                      // print(value);
                     });
                   }
                 },
@@ -1230,7 +1230,7 @@ class _editHotelFormState extends State<editHotelForm> {
 
           FlatButton(
             onPressed: () => {
-            //  print(pinkValue),
+              //  print(pinkValue),
               sendUpdateHotel(),
               Navigator.pushAndRemoveUntil(
                 context,

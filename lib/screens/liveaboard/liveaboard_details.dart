@@ -1852,8 +1852,8 @@ class _InfoCardState extends State<InfoCard> {
         width: 800,
         decoration: BoxDecoration(
             // color: Colors.white,
-            // color: Color(0xfffd7e5f0),
-            border: Border.all(color: Colors.black),
+            color: Color(0xfffd7e5f0),
+            // border: Border.all(color: Colors.black),
             borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [

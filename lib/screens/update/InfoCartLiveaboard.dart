@@ -71,7 +71,7 @@ class _InfoCardState extends State<InfoCard> {
   _InfoCardState(this.index, this.allRoom, this.eachLiveaboard);
 
   final TextEditingController _controllerRoomdescription =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _controllerMax = TextEditingController();
   final TextEditingController _controllerPrice = TextEditingController();
   final TextEditingController _controllerRoomtype = TextEditingController();
@@ -80,9 +80,8 @@ class _InfoCardState extends State<InfoCard> {
 
   get infohroomX3 => null;
 
-
   _getroomimg(int num) async {
-    rroom  = await ImagePicker().pickImage(
+    rroom = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
@@ -92,7 +91,7 @@ class _InfoCardState extends State<InfoCard> {
 
     // this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
 
-    if (rroom  != null) {
+    if (rroom != null) {
       setState(() {
         if (num == 1) {
           roomimg = io.File(rroom.path);
@@ -145,10 +144,10 @@ class _InfoCardState extends State<InfoCard> {
       //  this.eachLiveaboard.roomTypes[index].roomImages.add(f2);
     }
 
-    if (xlimg3  != null) {
+    if (xlimg3 != null) {
       var f3 = File();
-      f3.filename = xlimg3 .name;
-      List<int> c = await xlimg3 .readAsBytes();
+      f3.filename = xlimg3.name;
+      List<int> c = await xlimg3.readAsBytes();
       f3.file = c;
       print("Third room before adding");
       print(eachLiveaboard.roomTypes[index].roomImages);
@@ -163,8 +162,8 @@ class _InfoCardState extends State<InfoCard> {
       f3.filename = eachLiveaboard.roomTypes[index].roomImages[2].filename;
       // this.eachLiveaboard.roomTypes[index].roomImages.add(f3);
     }
-
   }
+
   @override
   void initState() {
     setState(() {
@@ -223,33 +222,32 @@ class _InfoCardState extends State<InfoCard> {
                 //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
                 child: eachLiveaboard.roomTypes[index].roomImages.length < 1
                     ? new Container(
-                  color: Colors.green,
-                )
+                        child: Center(child: Text('No image')),
+                      )
                     : Image.network(
-                  //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
-                    eachLiveaboard.roomTypes[index].roomImages[0].link.toString()
-                ),
+                        //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
+                        eachLiveaboard.roomTypes[index].roomImages[0].link
+                            .toString()),
               ),
-
               Center(
                   child: xlimg1 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    roomimg.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.1,
-                  )
-                      : Image.file(
-                    io.File(roomimg.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              roomimg.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.1,
+                            )
+                          : Image.file(
+                              io.File(roomimg.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 child: Ink(
@@ -279,32 +277,33 @@ class _InfoCardState extends State<InfoCard> {
                 //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
                 child: eachLiveaboard.roomTypes[index].roomImages.length < 2
                     ? new Container(
-                  color: Colors.green,
-                )
+                        child: Center(child: Text('No image')),
+                        // color: Colors.green,
+                      )
                     : Image.network(
-                  //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
-                    eachLiveaboard.roomTypes[index].roomImages[1].link.toString()
-                ),
+                        //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
+                        eachLiveaboard.roomTypes[index].roomImages[1].link
+                            .toString()),
               ),
               Center(
                   child: xlimg2 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    roomimg2.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.1,
-                  )
-                      : Image.file(
-                    io.File(roomimg2.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              roomimg2.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.1,
+                            )
+                          : Image.file(
+                              io.File(roomimg2.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 child: Ink(
@@ -334,32 +333,32 @@ class _InfoCardState extends State<InfoCard> {
                 //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
                 child: eachLiveaboard.roomTypes[index].roomImages.length < 3
                     ? new Container(
-                  color: Colors.green,
-                )
+                        child: Center(child: Text('No image')),
+                      )
                     : Image.network(
-                  //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
-                    eachLiveaboard.roomTypes[index].roomImages[2].link.toString()
-                ),
+                        //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
+                        eachLiveaboard.roomTypes[index].roomImages[2].link
+                            .toString()),
               ),
               Center(
                   child: xlimg3 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    roomimg3.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.1,
-                  )
-                      : Image.file(
-                    io.File(roomimg3.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              roomimg3.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.1,
+                            )
+                          : Image.file(
+                              io.File(roomimg3.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),

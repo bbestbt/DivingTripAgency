@@ -24,9 +24,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'dart:io' as io;
 
-
-
-class InfoCard extends StatefulWidget { //Infocard for room
+class InfoCard extends StatefulWidget {
+  //Infocard for room
   int index;
   List<RoomType> allRoom = [];
   int pinkcount;
@@ -36,8 +35,8 @@ class InfoCard extends StatefulWidget { //Infocard for room
   final customFunction;
   GlobalKey<AnimatedListState> _key;
 
-  InfoCard(
-      int index, List<RoomType> allRoom, Hotel eachHotel, this.customFunction, GlobalKey<AnimatedListState> _key) {
+  InfoCard(int index, List<RoomType> allRoom, Hotel eachHotel,
+      this.customFunction, GlobalKey<AnimatedListState> _key) {
     this.index = index;
     this.allRoom = allRoom;
     this.eachHotel = eachHotel;
@@ -70,11 +69,11 @@ class _InfoCardState extends State<InfoCard> {
   int bluecount;
   List<RoomType> pinkValue;
   List<List<Amenity>> blueValue;
- 
+
   _InfoCardState(this.index, this.allRoom, this.eachHotel);
 
   final TextEditingController _controllerRoomdescription =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _controllerMax = TextEditingController();
   final TextEditingController _controllerPrice = TextEditingController();
   final TextEditingController _controllerRoomtype = TextEditingController();
@@ -82,7 +81,7 @@ class _InfoCardState extends State<InfoCard> {
   final TextEditingController _controllerQuantity = TextEditingController();
 
   _getroomimg(int num) async {
-    inforroom  = await ImagePicker().pickImage(
+    inforroom = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
@@ -92,7 +91,7 @@ class _InfoCardState extends State<InfoCard> {
 
     // this.pinkValue[this.pinkcount - 1].roomImages.add(f2);
 
-    if (inforroom  != null) {
+    if (inforroom != null) {
       setState(() {
         if (num == 1) {
           roomimg = io.File(inforroom.path);
@@ -112,60 +111,58 @@ class _InfoCardState extends State<InfoCard> {
       });
     }
 
-   if (infohroomX1 != null) {
+    if (infohroomX1 != null) {
       print("infohroomX1 not null");
       var f = File();
-     f.filename = infohroomX1.name;
+      f.filename = infohroomX1.name;
       List<int> a = await infohroomX1.readAsBytes();
       f.file = a;
       if (eachHotel.roomTypes[index].roomImages.length >= 1) {
         eachHotel.roomTypes[index].roomImages.removeAt(0);
       }
-        eachHotel.roomTypes[index].roomImages.insert(0, f);
-       print("uploaded pic1");
-        print(eachHotel.roomTypes[index].roomImages);
+      eachHotel.roomTypes[index].roomImages.insert(0, f);
+      print("uploaded pic1");
+      print(eachHotel.roomTypes[index].roomImages);
     } else if (eachHotel.roomTypes[index].roomImages.length >= 1) {
-        var f = File();
-        f.filename = eachHotel.roomTypes[index].roomImages[0].filename;
-        //this.this.pinkValue[this.pinkcount - 1].roomImages.add(f);
-      }
-
-    if (infohroomX2 != null) {
-        var f2 = File();
-       f2.filename = infohroomX2.name;
-        List<int> b = await infohroomX2.readAsBytes();
-        f2.file = b;
-        if (eachHotel.roomTypes[index].roomImages.length >= 2) {
-          eachHotel.roomTypes[index].roomImages.removeAt(1);
-        }
-        eachHotel.roomTypes[index].roomImages.insert(1, f2);
-      } else if (eachHotel.roomTypes[index].roomImages.length >= 2) {
-        var f2 = File();
-      f2.filename = eachHotel.roomTypes[index].roomImages[1].filename;
-        //  this.eachHotel.roomTypes[index].roomImages.add(f2);
-      }
-
-      if (infohroomX3  != null) {
-        var f3 = File();
-        f3.filename = infohroomX3 .name;
-        List<int> c = await infohroomX3 .readAsBytes();
-        f3.file = c;
-        print("Third room before adding");
-        print(eachHotel.roomTypes[index].roomImages);
-         if (eachHotel.roomTypes[index].roomImages.length >= 3) {
-          eachHotel.roomTypes[index].roomImages.removeAt(2);
-          }
-        eachHotel.roomTypes[index].roomImages.add(f3);
-         print("Third room pic");
-         print(eachHotel.roomTypes[index].roomImages);
-      } else if (eachHotel.roomTypes[index].roomImages.length >= 3) {
-        var f3 = File();
-         f3.filename = eachHotel.roomTypes[index].roomImages[2].filename;
-        // this.eachHotel.roomTypes[index].roomImages.add(f3);
-      }
-
+      var f = File();
+      f.filename = eachHotel.roomTypes[index].roomImages[0].filename;
+      //this.this.pinkValue[this.pinkcount - 1].roomImages.add(f);
     }
 
+    if (infohroomX2 != null) {
+      var f2 = File();
+      f2.filename = infohroomX2.name;
+      List<int> b = await infohroomX2.readAsBytes();
+      f2.file = b;
+      if (eachHotel.roomTypes[index].roomImages.length >= 2) {
+        eachHotel.roomTypes[index].roomImages.removeAt(1);
+      }
+      eachHotel.roomTypes[index].roomImages.insert(1, f2);
+    } else if (eachHotel.roomTypes[index].roomImages.length >= 2) {
+      var f2 = File();
+      f2.filename = eachHotel.roomTypes[index].roomImages[1].filename;
+      //  this.eachHotel.roomTypes[index].roomImages.add(f2);
+    }
+
+    if (infohroomX3 != null) {
+      var f3 = File();
+      f3.filename = infohroomX3.name;
+      List<int> c = await infohroomX3.readAsBytes();
+      f3.file = c;
+      print("Third room before adding");
+      print(eachHotel.roomTypes[index].roomImages);
+      if (eachHotel.roomTypes[index].roomImages.length >= 3) {
+        eachHotel.roomTypes[index].roomImages.removeAt(2);
+      }
+      eachHotel.roomTypes[index].roomImages.add(f3);
+      print("Third room pic");
+      print(eachHotel.roomTypes[index].roomImages);
+    } else if (eachHotel.roomTypes[index].roomImages.length >= 3) {
+      var f3 = File();
+      f3.filename = eachHotel.roomTypes[index].roomImages[2].filename;
+      // this.eachHotel.roomTypes[index].roomImages.add(f3);
+    }
+  }
 
   @override
   void initState() {
@@ -196,7 +193,7 @@ class _InfoCardState extends State<InfoCard> {
       child: Text("Yes"),
       onPressed: () async {
         // print("key info "+widget._key.toString());
-          print('delete at :' + index.toString());
+        print('delete at :' + index.toString());
         print('before delete');
         print(eachHotel.roomTypes);
         eachHotel.roomTypes.removeAt(index);
@@ -206,13 +203,13 @@ class _InfoCardState extends State<InfoCard> {
         // };
 
         // _key.currentState.removeItem(index, builder);
-       
+
         print('after delete');
         print(eachHotel.roomTypes);
         widget._key.currentState.removeItem(
             this.index,
-            (context, animation) => InfoCard(
-                index, eachHotel.roomTypes, eachHotel, widget.customFunction,widget._key));
+            (context, animation) => InfoCard(index, eachHotel.roomTypes,
+                eachHotel, widget.customFunction, widget._key));
         print('after send value');
         print(eachHotel.roomTypes);
         Navigator.pop(context);
@@ -274,7 +271,7 @@ class _InfoCardState extends State<InfoCard> {
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
-              // color: Color(0xfffd4f0f0),
+                // color: Color(0xfffd4f0f0),
                 color: Color(0xfffa2b8f2),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreAmenityUpdateHotel(
@@ -297,34 +294,34 @@ class _InfoCardState extends State<InfoCard> {
                 //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
                 child: eachHotel.roomTypes[index].roomImages.length < 1
                     ? new Container(
-                  color: Colors.green,
-                )
+                        child: Center(child: Text('No image')),
+                      )
                     : Image.network(
-                  //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
-                    eachHotel.roomTypes[index].roomImages[0].link.toString()
-                ),
+                        //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
+                        eachHotel.roomTypes[index].roomImages[0].link
+                            .toString()),
               ),
               Center(
                   child: infohroomX1 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    roomimg.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.1,
-                  )
-                      : Image.file(
-                    io.File(
-                      roomimg.path,
-                    ),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              roomimg.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.1,
+                            )
+                          : Image.file(
+                              io.File(
+                                roomimg.path,
+                              ),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 child: Ink(
@@ -355,32 +352,32 @@ class _InfoCardState extends State<InfoCard> {
                 //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
                 child: eachHotel.roomTypes[index].roomImages.length < 2
                     ? new Container(
-                  color: Colors.green,
-                )
+                        child: Center(child: Text('No image')),
+                      )
                     : Image.network(
-                  //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
-                    eachHotel.roomTypes[index].roomImages[1].link.toString()
-                ),
+                        //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
+                        eachHotel.roomTypes[index].roomImages[1].link
+                            .toString()),
               ),
               Center(
                   child: infohroomX2 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    roomimg2.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.1,
-                  )
-                      : Image.file(
-                    io.File(roomimg2.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              roomimg2.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.1,
+                            )
+                          : Image.file(
+                              io.File(roomimg2.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 child: Ink(
@@ -411,32 +408,32 @@ class _InfoCardState extends State<InfoCard> {
                 //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
                 child: eachHotel.roomTypes[index].roomImages.length < 3
                     ? new Container(
-                  color: Colors.green,
-                )
+                        child: Center(child: Text('No image')),
+                      )
                     : Image.network(
-                  //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
-                    eachHotel.roomTypes[index].roomImages[2].link.toString()
-                ),
+                        //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
+                        eachHotel.roomTypes[index].roomImages[2].link
+                            .toString()),
               ),
               Center(
                   child: infohroomX3 == null
                       ? Column(
-                    children: [
-                      Text(''),
-                      Text(''),
-                    ],
-                  )
+                          children: [
+                            Text(''),
+                            Text(''),
+                          ],
+                        )
                       : kIsWeb
-                      ? Image.network(
-                    roomimg3.path,
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.1,
-                  )
-                      : Image.file(
-                    io.File(roomimg3.path),
-                    fit: BoxFit.cover,
-                    width: screenwidth * 0.05,
-                  )),
+                          ? Image.network(
+                              roomimg3.path,
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.1,
+                            )
+                          : Image.file(
+                              io.File(roomimg3.path),
+                              fit: BoxFit.cover,
+                              width: screenwidth * 0.05,
+                            )),
               Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),

@@ -473,9 +473,7 @@ class _TripDetailState extends State<TripDetail> {
                         ElevatedButton(
                             style: TextButton.styleFrom(
                               textStyle: const TextStyle(
-                                fontSize: 20,
-                                fontFamily: 'Poppins'
-                              ),
+                                  fontSize: 20, fontFamily: 'Poppins'),
                               backgroundColor: Color(0xfff8dd9cc),
                             ),
                             onPressed: () {
@@ -579,15 +577,14 @@ class _TripDetailState extends State<TripDetail> {
       //results[0].tripTemplate.tripType.toString();
       setState(() {
         _foundtrip = results;
-          print("foundtrip");
+        print("foundtrip");
         //print(_foundtrip[0].containsKey("tripRoomTypePrices"));
         //Map tmap = _foundtrip[0];
         //print(tmap);
-        if (_foundtrip[0].tripRoomTypePrices == null){
-        //if(_foundtrip[0].asMap().containsKey("tripRoomTypePrices")){
+        if (_foundtrip[0].tripRoomTypePrices == null) {
+          //if(_foundtrip[0].asMap().containsKey("tripRoomTypePrices")){
           print("null");
-        }
-        else{
+        } else {
           "not null";
           //print(_foundtrip[0].tripRoomTypePrices[0].price);
         }
@@ -666,24 +663,32 @@ class _TripDetailState extends State<TripDetail> {
         //print(_diff);
       }
 // Edit cost filter error
-       if (tripcost != Cost.all) {
-         if (tripcost == Cost.one) {
-           results = results
-             .where((trip) => (trip.tripRoomTypePrices[0].price != null && trip.tripRoomTypePrices[0].price > 1 && trip.tripRoomTypePrices[0].price <= 1000))
-               .toList();
-         } else if (tripcost == Cost.two) {
-           results = results
-         .where((trip) => (trip.tripRoomTypePrices[0].price != null && trip.tripRoomTypePrices[0].price > 1000 && trip.tripRoomTypePrices[0].price <= 2000))
-               .toList();
-         } else if (tripcost == Cost.three) {
-           results = results
-             .where((trip) => (trip.tripRoomTypePrices[0].price != null && trip.tripRoomTypePrices[0].price > 2000 && trip.tripRoomTypePrices[0].price <= 3000))
-               .toList();
-         } else if (tripcost == Cost.more) {
-          results = results.where((trip) => (trip.tripRoomTypePrices[0].price != null && trip.tripRoomTypePrices[0].price > 3000)).toList();
-         
-         }
-       }
+      if (tripcost != Cost.all) {
+        if (tripcost == Cost.one) {
+          results = results
+              .where((trip) => (trip.tripRoomTypePrices[0].price != null &&
+                  trip.tripRoomTypePrices[0].price > 1 &&
+                  trip.tripRoomTypePrices[0].price <= 1000))
+              .toList();
+        } else if (tripcost == Cost.two) {
+          results = results
+              .where((trip) => (trip.tripRoomTypePrices[0].price != null &&
+                  trip.tripRoomTypePrices[0].price > 1000 &&
+                  trip.tripRoomTypePrices[0].price <= 2000))
+              .toList();
+        } else if (tripcost == Cost.three) {
+          results = results
+              .where((trip) => (trip.tripRoomTypePrices[0].price != null &&
+                  trip.tripRoomTypePrices[0].price > 2000 &&
+                  trip.tripRoomTypePrices[0].price <= 3000))
+              .toList();
+        } else if (tripcost == Cost.more) {
+          results = results
+              .where((trip) => (trip.tripRoomTypePrices[0].price != null &&
+                  trip.tripRoomTypePrices[0].price > 3000))
+              .toList();
+        }
+      }
 
       setState(() {
         _foundtrip = results;
@@ -729,7 +734,7 @@ class _InfoCardState extends State<InfoCard> {
                                 .length ==
                             0
                         ? new Container(
-                            color: Colors.pink,
+                            child: Center(child: Text('No image')),
                           )
                         : Image.network(
                             // 'http://139.59.101.136/static/'+
@@ -820,7 +825,8 @@ class _InfoCardState extends State<InfoCard> {
                               : Text('Price : ' +
                                   // _foundtrip[widget.index].price.toString()
                                   _foundtrip[widget.index]
-                                      .tripRoomTypePrices[0].price
+                                      .tripRoomTypePrices[0]
+                                      .price
                                       .toString())),
                       SizedBox(
                         height: 20,

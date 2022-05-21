@@ -246,8 +246,9 @@ class _UserProfileState extends State<UserProfile> {
                                                               .length ==
                                                           0
                                                       ? new Container(
-                                                          color: Colors.pink,
-                                                        )
+                      child: Center(child: Text('No image')),
+               
+                )
                                                       : Image.network(
                                                           // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
                                                           user_profile
@@ -275,8 +276,9 @@ class _UserProfileState extends State<UserProfile> {
                                                               .length ==
                                                           0
                                                       ? new Container(
-                                                          color: Colors.green,
-                                                        )
+                      child: Center(child: Text('No image')),
+               
+                )
                                                       : Image.network(
                                                           // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
                                                           user_profile
@@ -436,8 +438,9 @@ class _InfoCardState extends State<InfoCard> {
                 height: MediaQuery.of(context).size.width / 10,
                 child: trips[widget.index].tripTemplate.images.length == 0
                     ? new Container(
-                        color: Colors.pink,
-                      )
+                      child: Center(child: Text('No image')),
+               
+                )
                     : Image.network(' http://139.59.101.136/static/' +
                             trips[widget.index]
                                 .tripTemplate

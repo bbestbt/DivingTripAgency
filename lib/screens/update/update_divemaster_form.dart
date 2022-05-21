@@ -122,7 +122,8 @@ class DiveMasterForm extends StatefulWidget {
     this.divemasterValue = divemasterValue;
   }
   @override
-  _DiveMasterFormState createState() => _DiveMasterFormState(this.divemasterValue);
+  _DiveMasterFormState createState() =>
+      _DiveMasterFormState(this.divemasterValue);
 }
 
 class _DiveMasterFormState extends State<DiveMasterForm> {
@@ -199,7 +200,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     divemasterValue.firstName = _controllerName.text;
     divemasterValue.lastName = _controllerLastname.text;
 
-
     if (levelSelected != null) {
       LevelType.values.forEach((levelType) {
         if (levelTypeMap[levelType.toString()] == int.parse(levelSelected)) {
@@ -209,18 +209,16 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     }
 
     if (ca != null) {
-
       var f = File();
       f.filename = ca.name;
       //f2.filename = 'image.jpg';
       List<int> a = await ca.readAsBytes();
       f.file = a;
-      if (divemasterValue.documents.length >1) {
+      if (divemasterValue.documents.length > 1) {
         this.divemasterValue.documents.removeAt(0);
       }
       this.divemasterValue.documents.insert(0, f);
-    }
-    else if (ca == null) {
+    } else if (ca == null) {
       var f = File();
       f.filename = divemasterValue.documents[0].filename;
       //this.divemasterValue.documents.add(f);
@@ -234,19 +232,19 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
       List<int> b = await cb.readAsBytes();
       f2.file = b;
       //this.divemasterValue.documents.add(f2);
-      if (divemasterValue.documents.length >1) {
+      if (divemasterValue.documents.length > 1) {
         this.divemasterValue.documents.removeAt(1);
       }
       this.divemasterValue.documents.insert(1, f2);
-    }
-    else if (cb == null) {
+    } else if (cb == null) {
       var f2 = File();
       f2.filename = divemasterValue.documents[1].filename;
       //this.divemasterValue.documents.add(f2);
       // this.divemasterValue.documents.removeAt(0);
     }
 
-    final updateRequest = UpdateDiveMasterRequest()..diveMaster = divemasterValue;
+    final updateRequest = UpdateDiveMasterRequest()
+      ..diveMaster = divemasterValue;
     print(updateRequest);
     print("Divemastervalue:");
     print(divemasterValue.documents);
@@ -339,17 +337,16 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
               ),
               SizedBox(width: 30),
               Container(
-                  width: MediaQuery.of(context).size.width / 10,
-                  height: MediaQuery.of(context).size.width / 10,
-                  //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
-                    child: divemasterValue.documents.length < 1
-                      ? new Container(
-                          color: Colors.green,
-                        )
-                      : Image.network(
-                          //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
-                        divemasterValue.documents[0].link.toString()
-                    ),
+                width: MediaQuery.of(context).size.width / 10,
+                height: MediaQuery.of(context).size.width / 10,
+                //child: divemasterValue.documents[divemasterValue.documents.length-1] == null
+                child: divemasterValue.documents.length < 1
+                    ? new Container(
+                        child: Center(child: Text('No image')),
+                      )
+                    : Image.network(
+                        //divemasterValue.documents[divemasterValue.documents.length-1].link.toString())
+                        divemasterValue.documents[0].link.toString()),
               ),
               Center(
                   child: CardFile == null
@@ -399,7 +396,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                   height: MediaQuery.of(context).size.width / 10,
                   child: divemasterValue.documents.length < 2
                       ? new Container(
-                          color: Colors.green,
+                          child: Center(child: Text('No image')),
                         )
                       : Image.network(
                           divemasterValue.documents[1].link.toString())),

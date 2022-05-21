@@ -341,8 +341,9 @@ class _EditDiverFormState extends State<EditDiverForm> {
                           height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
-                                  color: Colors.blue,
-                                )
+                      child: Center(child: Text('No image')),
+               
+                )
                               : Image.network(
                                   // 'http://139.59.101.136/static/'+
                                   user_profile.diver.documents[0].link
@@ -392,8 +393,9 @@ class _EditDiverFormState extends State<EditDiverForm> {
                           height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
-                                  color: Colors.green,
-                                )
+                      child: Center(child: Text('No image')),
+               
+                )
                               : Image.network(
                                   // 'http://139.59.101.136/static/'+
                                   // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'

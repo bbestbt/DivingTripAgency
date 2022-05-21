@@ -262,8 +262,9 @@ class _detailState extends State<detail> {
                 child:
                     details[widget.index].trip.tripTemplate.images.length == 0
                         ? new Container(
-                            color: Colors.pink,
-                          )
+                      child: Center(child: Text('No image')),
+               
+                )
                         : Image.network(details[widget.index]
                             .trip
                             .tripTemplate
@@ -279,8 +280,9 @@ class _detailState extends State<detail> {
                 child:
                     details[widget.index].trip.tripTemplate.images.length == 0
                         ? new Container(
-                            color: Colors.pink,
-                          )
+                      child: Center(child: Text('No image')),
+               
+                )
                         : Image.network(details[widget.index]
                             .trip
                             .tripTemplate
@@ -295,9 +297,10 @@ class _detailState extends State<detail> {
                 height: MediaQuery.of(context).size.width / 3.5,
                 child:
                     details[widget.index].trip.tripTemplate.images.length == 0
-                        ? new Container(
-                            color: Colors.pink,
-                          )
+                        ?new Container(
+                      child: Center(child: Text('No image')),
+               
+                )
                         : Image.network(details[widget.index]
                             .trip
                             .tripTemplate
@@ -395,8 +398,9 @@ class _InfoCardState extends State<InfoCard> {
                 height: 200,
                 child: roomtypes[widget.indexRoom].roomImages.length == 0
                     ? new Container(
-                        color: Colors.green,
-                      )
+                      child: Center(child: Text('No image')),
+               
+                )
                     : Image.network(
                         roomtypes[widget.indexRoom].roomImages[0].link)),
             SizedBox(

@@ -426,8 +426,9 @@ class _InfoCardState extends State<InfoCard> {
                 child:
                     trips[widget.indexTrip].trip.tripTemplate.images.length == 0
                         ? new Container(
-                            color: Colors.pink,
-                          )
+                      child: Center(child: Text('No image')),
+               
+                )
                         : Image.network(trips[widget.indexTrip]
                             .trip
                             .tripTemplate
@@ -606,8 +607,9 @@ class _InfoCardEndedState extends State<InfoCardEnded> {
                             .length ==
                         0
                     ? new Container(
-                        color: Colors.pink,
-                      )
+                      child: Center(child: Text('No image')),
+               
+                )
                     : Image.network(endedTrips[widget.indexEndedTrip]
                         .trip
                         .tripTemplate
@@ -790,8 +792,9 @@ class _IncomingCardState extends State<IncomingCard> {
                             .length ==
                         0
                     ? new Container(
-                        color: Colors.pink,
-                      )
+                      child: Center(child: Text('No image')),
+               
+                )
                     : Image.network(incomingTrips[widget.indexIncoming]
                         .trip
                         .tripTemplate
