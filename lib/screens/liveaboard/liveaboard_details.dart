@@ -163,12 +163,13 @@ class _detailState extends State<detail> {
     try {
       await for (var feature in stub.listRoomTypesByTrip(listroomrequest)) {
         roomtypes.add(feature.roomType);
-        // print(roomtypes);
+        print(roomtypes);
       }
     } catch (e) {
       print('ERROR: $e');
     }
-
+    print("----");
+    print(roomtypes);
     return roomtypes;
   }
 
@@ -650,6 +651,12 @@ class _detailState extends State<detail> {
                                                   SizedBox(
                                                     height: 10,
                                                   ),
+                                                  Text('Schedule : ' +
+                                                      details[widget.index]
+                                                          .schedule),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
                                                 ]),
                                           ),
                                         );
@@ -739,16 +746,20 @@ class _detailState extends State<detail> {
                                                                             Container(
                                                                               alignment: Alignment.topLeft,
                                                                               width: 500,
-                                                                              child: Text(
-                                                                                "Description : " + details[widget.index].diveSites[each].description,
-                                                                                maxLines: 20,
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                              ),
+                                                                              child: details[widget.index].diveSites[each].description == ''
+                                                                                  ? Text('Description : - ')
+                                                                                  : Text(
+                                                                                      "Description : " + details[widget.index].diveSites[each].description,
+                                                                                      maxLines: 20,
+                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                    ),
                                                                             ),
-                                                                            Text("Max Dept : " +
-                                                                                details[widget.index].diveSites[each].maxDepth.toString()),
-                                                                            Text("Min Dept : " +
-                                                                                details[widget.index].diveSites[each].minDepth.toString()),
+                                                                            details[widget.index].diveSites[each].maxDepth == 0
+                                                                                ? Text("Max Dept : - ")
+                                                                                : Text("Max Dept : " + details[widget.index].diveSites[each].maxDepth.toString()),
+                                                                            details[widget.index].diveSites[each].minDepth == 0
+                                                                                ? Text("Min Dept : - ")
+                                                                                : Text("Min Dept : " + details[widget.index].diveSites[each].minDepth.toString()),
                                                                           ],
                                                                         ),
                                                                       ],
@@ -791,19 +802,71 @@ class _detailState extends State<detail> {
                                             if (snapshot.hasData) {
                                               return Center(
                                                   child: Container(
+                                                      // color: Colors.pink,
                                                       child:
                                                           SingleChildScrollView(
                                                 // scrollDirection: Axis.horizontal,
-                                                child: Wrap(
-                                                    spacing: 20,
-                                                    runSpacing: 40,
-                                                    children: List.generate(
-                                                      roomtypes.length,
-                                                      (candy) => Center(
-                                                        child: InfoCard(candy,
-                                                            details, index),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      width: 500,
+                                                      child: FutureBuilder(
+                                                        future:
+                                                            getLiveaboardDetail(),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (snapshot
+                                                              .hasData) {
+                                                            return CarouselSlider(
+                                                                items: liveaboardDetial
+                                                                    .liveaboard
+                                                                    .images
+                                                                    .map((e) =>
+                                                                        Container(
+                                                                          child:
+                                                                              ClipRRect(
+                                                                            child:
+                                                                                Image.network(
+                                                                              e.link.toString(),
+                                                                              fit: BoxFit.cover,
+                                                                            ),
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(15),
+                                                                          ),
+                                                                        ))
+                                                                    .toList(),
+                                                                options:
+                                                                    CarouselOptions(
+                                                                  viewportFraction:
+                                                                      1,
+                                                                  autoPlay:
+                                                                      true,
+                                                                ));
+                                                          } else {
+                                                            return Center(
+                                                                child: Text(
+                                                                    'no liveaboard image'));
+                                                          }
+                                                        },
                                                       ),
-                                                    )),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Wrap(
+                                                        spacing: 20,
+                                                        runSpacing: 40,
+                                                        children: List.generate(
+                                                          roomtypes.length,
+                                                          (candy) => Center(
+                                                            child: InfoCard(
+                                                                candy,
+                                                                details,
+                                                                index),
+                                                          ),
+                                                        )),
+                                                  ],
+                                                ),
                                               )));
                                             } else {
                                               return Center(
@@ -1497,24 +1560,24 @@ class _detailState extends State<detail> {
             width: MediaQuery.of(context).size.width,
             child: Container(
               child: Column(children: [
-            Text("5-day weather forecast"),
-            Text("Weather example"),
-            Container(
-              margin: EdgeInsets.all(5),
-              child: TextButton(
-                child: Text(
-                  'Fetch forecast',
-                  style: TextStyle(color: Colors.white),
+                Text("5-day weather forecast"),
+                Text("Weather example"),
+                Container(
+                  margin: EdgeInsets.all(5),
+                  child: TextButton(
+                    child: Text(
+                      'Fetch forecast',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: queryWeather,
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.blue)),
+                  ),
                 ),
-                onPressed: queryWeather,
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.blue)),
-              ),
-            ),
-            Container(
-              child: _resultView(),
-            )
+                Container(
+                  child: _resultView(),
+                )
               ]),
             ))
       ],

@@ -214,7 +214,7 @@ class _DiveSiteFormUpdateState extends State<DiveSiteFormUpdate> {
     } catch (e) {
       print('ERROR: $e');
     }
-
+    print(allDivesite.length);
     return allDivesite;
   }
 

@@ -133,15 +133,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                               Align(
                                                 alignment: Alignment.topRight,
                                                 child: PopupMenuButton(
-                                                    icon: Icon(
-                                                        Icons.more_horiz),
-                                                    itemBuilder: (context) =>
-                                                        [
+                                                    icon:
+                                                        Icon(Icons.more_horiz),
+                                                    itemBuilder: (context) => [
                                                           PopupMenuItem(
                                                             child: Row(
                                                               children: [
-                                                                Icon(Icons
-                                                                    .edit),
+                                                                Icon(
+                                                                    Icons.edit),
                                                                 Text("Edit"),
                                                               ],
                                                             ),
@@ -164,8 +163,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                                 'Company name : ' +
                                                     user_profile.agency.name
                                                         .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
@@ -175,8 +173,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                                     user_profile
                                                         .agency.account.email
                                                         .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
@@ -185,134 +182,121 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                                 'Phone number : ' +
                                                     user_profile.agency.phone
                                                         .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
                                               ),
                                               Text(
                                                 'Address1 : ' +
-                                                    user_profile.agency
-                                                        .address.addressLine1
+                                                    user_profile.agency.address
+                                                        .addressLine1
                                                         .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
                                               ),
                                               Text(
                                                 'Address2 : ' +
-                                                    user_profile.agency
-                                                        .address.addressLine2
+                                                    user_profile.agency.address
+                                                        .addressLine2
                                                         .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
                                               ),
                                               Text(
                                                 'City : ' +
-                                                    user_profile.agency
-                                                        .address.city
+                                                    user_profile
+                                                        .agency.address.city
                                                         .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
                                               ),
                                               Text(
                                                 'Country : ' +
-                                                    user_profile.agency
-                                                        .address.country
+                                                    user_profile
+                                                        .agency.address.country
                                                         .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
                                               ),
                                               Text(
                                                 'Region : ' +
-                                                    user_profile.agency
-                                                        .address.region
+                                                    user_profile
+                                                        .agency.address.region
                                                         .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
                                               ),
                                               Text(
                                                 'Postal code : ' +
-                                                    user_profile.agency
-                                                        .address.postcode
+                                                    user_profile
+                                                        .agency.address.postcode
                                                         .toString(),
-                                                style: TextStyle(
-                                                    fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
                                               ),
                                               Container(
-                                                  width:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          10,
-                                                  height:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          10,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      10,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      10,
                                                   child: user_profile
                                                               .agency
                                                               .documents
                                                               .length ==
                                                           0
                                                       ? new Container(
-                      child: Center(child: Text('No image')),
-               
-                )
+                                                          child: Center(
+                                                              child: Text(
+                                                                  'No image')),
+                                                        )
                                                       : Image.network(
                                                           // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
-                                                          user_profile
-                                                              .agency
-                                                              .documents[0]
-                                                              .link
+                                                          user_profile.agency
+                                                              .documents[0].link
                                                               .toString())),
                                               SizedBox(
                                                 height: 20,
                                               ),
                                               Container(
-                                                  width:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          10,
-                                                  height:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          10,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      10,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      10,
                                                   child: user_profile
                                                               .agency
                                                               .documents
                                                               .length ==
                                                           0
                                                       ? new Container(
-                      child: Center(child: Text('No image')),
-               
-                )
+                                                          child: Center(
+                                                              child: Text(
+                                                                  'No image')),
+                                                        )
                                                       : Image.network(
                                                           // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
-                                                          user_profile
-                                                              .agency
-                                                              .documents[1]
-                                                              .link
+                                                          user_profile.agency
+                                                              .documents[1].link
                                                               .toString())),
                                               SizedBox(
                                                 height: 20,
@@ -454,14 +438,10 @@ class _InfoCardState extends State<InfoCard> {
                 height: MediaQuery.of(context).size.width / 10,
                 child: trips[widget.index].tripTemplate.images.length == 0
                     ? new Container(
-                      child: Center(child: Text('No image')),
-               
-                )
-                    : Image.network(' http://139.59.101.136/static/' +
-                            trips[widget.index]
-                                .tripTemplate
-                                .images[0]
-                                .toString()
+                        child: Center(child: Text('No image')),
+                      )
+                    : Image.network(
+                        trips[widget.index].tripTemplate.images[0].toString()
                         // trips[widget.index].tripTemplate.images[0].toString()
                         )),
             Expanded(

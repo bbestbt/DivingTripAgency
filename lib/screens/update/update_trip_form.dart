@@ -155,6 +155,7 @@ class _updateTripFormState extends State<updateTripForm> {
     super.initState();
     loadData();
     _controllerTotalpeople.text = eachTrip.maxGuest.toString();
+    textarea.text=eachTrip.schedule;
     dmValue = eachTrip.diveMasters;
     pinkValue = eachTrip.diveSites;
   }
