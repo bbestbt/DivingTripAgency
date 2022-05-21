@@ -217,9 +217,9 @@ class _DiveMasterFormUpdateState extends State<DiveMasterFormUpdate> {
     } catch (e) {
       print('ERROR: $e');
     }
-  
+
     // print(allDivemaster);
- 
+
     return allDivemaster;
   }
 
@@ -443,12 +443,15 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
 
   void loadData() async {
     await getData();
-    setState(() {
-      listDivemaster = [];
-      listDivemaster = divemaster
-          .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
-          .toList();
-    });
+    if (mounted) {
+      setState(() {
+        listDivemaster = [];
+        listDivemaster = divemaster
+            .map(
+                (val) => DropdownMenuItem<String>(child: Text(val), value: val))
+            .toList();
+      });
+    }
   }
 
   @override
@@ -490,7 +493,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                           dmt.firstName = divemasterSelected;
                           dmt.id = divemasterMap[element];
                           // eachTrip.diveMasters[indexForm] = dm2;
-                          eachTrip.diveMasters[indexForm]=dmt;
+                          eachTrip.diveMasters[indexForm] = dmt;
                           widget.customFunction(eachTrip.diveMasters);
 
                           //------

@@ -237,7 +237,7 @@ class _PaymentReviewState extends State<PaymentReview> {
               height: 50,
             ),
             SectionTitle(
-              title: " Review Trip",
+              title: "My Trip",
               color: Color(0xFFFF78a2cc),
             ),
             SizedBox(

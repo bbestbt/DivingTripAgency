@@ -315,6 +315,8 @@ class _PaymentUploadState extends State<PaymentUpload> {
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
                                           return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text('Name : ' +
                                                   liveaboardDetial
@@ -339,6 +341,8 @@ class _PaymentUploadState extends State<PaymentUpload> {
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text('Room name : ' +
                                             roomDetial.roomType.name),
@@ -362,6 +366,8 @@ class _PaymentUploadState extends State<PaymentUpload> {
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {
                                     return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Container(
                                             child: Column(
