@@ -53,6 +53,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
   List<DiveMaster> dmValue = [new DiveMaster()];
   final _formKey = GlobalKey<FormState>();
   bool switchWhite = false;
+  TextEditingController textarea = TextEditingController();
 
   void switchChange(sw) {
     setState(() {
@@ -213,6 +214,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.endDate = Timestamp.fromDateTime(to);
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
+    trip.schedule=textarea.text;
     trip.tripTemplate.description = triptemplate.description;
     trip.tripTemplate.name = triptemplate.name;
     trip.tripTemplate.tripType = triptemplate.tripType;
@@ -340,9 +342,9 @@ class _CreateTripFormState extends State<CreateTripForm> {
             title: Text("Error"),
             content: Text("Boat is already used"),
             actions: <Widget>[
-              FlatButton(
-                  //child: Text("OK"),
-                  ),
+              // FlatButton(
+              //     //child: Text("OK"),
+              //     ),
             ],
           );
         });
@@ -541,6 +543,23 @@ class _CreateTripFormState extends State<CreateTripForm> {
                 color: Color(0xfffb7e9f7),
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreDiveSite(this.pinkValue, this.errors),
+          ),
+          SizedBox(height: 20),
+          TextField(
+            controller: textarea,
+            keyboardType: TextInputType.multiline,
+            maxLines: 20,
+            // style: TextStyle(color: Colors. red),
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.teal[50],
+                hintText: "Enter schedule",
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 1, color: Colors.blue),
+                  // borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: Colors.redAccent))),
           ),
           SizedBox(height: 20),
           Container(

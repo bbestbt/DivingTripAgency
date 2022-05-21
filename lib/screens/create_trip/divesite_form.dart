@@ -98,17 +98,17 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       onChanged: (value) {
         pinkValue[pinkcount - 1].description = value;
 
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter description");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter description");
-          return "";
-        }
-        return null;
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter description");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter description");
+      //     return "";
+      //   }
+      //   return null;
       },
       decoration: InputDecoration(
         labelText: "Description",
@@ -131,17 +131,17 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
       onChanged: (value) {
         pinkValue[pinkcount - 1].minDepth = int.parse(value);
 
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter min depth");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter min depth");
-          return "";
-        }
-        return null;
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter min depth");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter min depth");
+      //     return "";
+      //   }
+      //   return null;
       },
       decoration: InputDecoration(
         labelText: "Min depth",
@@ -169,17 +169,17 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
         // print(value);
         // print("===");
 
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter max depth");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter max depth");
-          return "";
-        }
-        return null;
+      //   if (value.isNotEmpty) {
+      //     removeError(error: "Please enter max depth");
+      //   }
+      //   return null;
+      // },
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     addError(error: "Please enter max depth");
+      //     return "";
+      //   }
+      //   return null;
       },
       decoration: InputDecoration(
         labelText: "Max depth",
@@ -199,13 +199,13 @@ class _DiveSiteFormState extends State<DiveSiteForm> {
         pinkValue[pinkcount - 1].name = value;
 
         if (value.isNotEmpty) {
-          removeError(error: "Please enter name");
+          removeError(error: "Please enter divesite name");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: "Please enter name");
+          addError(error: "Please enter divesite name");
           return "";
         }
         return null;

@@ -1182,7 +1182,7 @@ class _TriptemplateState extends State<Triptemplate> {
                   children: [
                     Center(
                         child: Schedule == null
-                            ? Text('Schedule')
+                            ? Text('Trip image')
                             : kIsWeb
                                 ? Image.network(
                                     Schedule.path,
