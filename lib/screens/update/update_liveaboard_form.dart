@@ -215,7 +215,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       maxWidth: 5000,
       maxHeight: 5000,
     );
-    
+
     if (lvb != null) {
       setState(() {
         if (num == 1) {
@@ -417,9 +417,8 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       if (eachLiveaboard.images.length >= 5) {
         eachLiveaboard.images.removeAt(4);
       }
-        eachLiveaboard.images.insert(4, f5);
-      }
-     else if (eachLiveaboard.images.length >= 5) {
+      eachLiveaboard.images.insert(4, f5);
+    } else if (eachLiveaboard.images.length >= 5) {
       var f5 = File();
       f5.filename = eachLiveaboard.images[4].filename;
       //  this.eachLiveaboard.images.add(f5);
@@ -431,7 +430,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       List<int> a = await liveX6.readAsBytes();
       f6.file = a;
       if (eachLiveaboard.images.length >= 6) {
-          eachLiveaboard.images.removeAt(5);
+        eachLiveaboard.images.removeAt(5);
       }
       eachLiveaboard.images.insert(5, f6);
     } else if (eachLiveaboard.images.length >= 6) {
@@ -447,7 +446,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f7.file = b;
       if (eachLiveaboard.images.length >= 7) {
         eachLiveaboard.images.removeAt(6);
-       }
+      }
       eachLiveaboard.images.insert(6, f7);
     } else if (eachLiveaboard.images.length >= 7) {
       var f7 = File();
@@ -460,7 +459,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f8.filename = liveX8.name;
       List<int> c = await liveX8.readAsBytes();
       f8.file = c;
-      if (eachLiveaboard.images.length >= 8){
+      if (eachLiveaboard.images.length >= 8) {
         eachLiveaboard.images.removeAt(7);
       }
       eachLiveaboard.images.insert(7, f8);
@@ -475,9 +474,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
       f9.filename = liveX9.name;
       List<int> d = await liveX9.readAsBytes();
       f9.file = d;
-      if (eachLiveaboard.images.length >= 9){
-         eachLiveaboard.images.removeAt(8);
-       }
+      if (eachLiveaboard.images.length >= 9) {
+        eachLiveaboard.images.removeAt(8);
+      }
       eachLiveaboard.images.insert(8, f9);
     } else if (eachLiveaboard.images.length >= 9) {
       var f9 = File();
@@ -656,10 +655,11 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 1
-                      ?new Container(
+                      ? new Container(
                           child: Center(child: Text('No image')),
                         )
-                      : Image.network(eachLiveaboard.images[0].link.toString())),
+                      : Image.network(
+                          eachLiveaboard.images[0].link.toString())),
               SizedBox(width: 30),
               Center(
                   child: liveX1 == null
@@ -726,10 +726,11 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 2
-                      ?new Container(
+                      ? new Container(
                           child: Center(child: Text('No image')),
                         )
-                      : Image.network(eachLiveaboard.images[1].link.toString())),
+                      : Image.network(
+                          eachLiveaboard.images[1].link.toString())),
               SizedBox(width: 30),
               // Center(
               //     child: eachLiveaboard.images.length < 2
@@ -751,7 +752,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               //                 fit: BoxFit.cover,
               //                 width: screenwidth * 0.05,
               //               )),
-              Spacer(),
+
               Center(
                 child: liveX2 == null
                     ? Text('')
@@ -767,6 +768,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                             width: screenwidth * 0.05,
                           ),
               ),
+              Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
@@ -798,7 +800,8 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                       ? new Container(
                           child: Center(child: Text('No image')),
                         )
-                      : Image.network(eachLiveaboard.images[2].link.toString())),
+                      : Image.network(
+                          eachLiveaboard.images[2].link.toString())),
               SizedBox(width: 30),
               // Center(
               //     child: eachLiveaboard.images.length < 3
@@ -819,7 +822,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               //                 fit: BoxFit.cover,
               //                 width: screenwidth * 0.05,
               //               )),
-              Spacer(),
+
               Center(
                 child: liveX3 == null
                     ? Text('')
@@ -835,6 +838,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                             width: screenwidth * 0.05,
                           ),
               ),
+              Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
@@ -863,10 +867,11 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
                   child: eachLiveaboard.images.length < 4
-                      ?new Container(
+                      ? new Container(
                           child: Center(child: Text('No image')),
                         )
-                      : Image.network(eachLiveaboard.images[3].link.toString())),
+                      : Image.network(
+                          eachLiveaboard.images[3].link.toString())),
               SizedBox(width: 30),
               // Center(
               //     child: eachLiveaboard.images.length < 4
@@ -887,7 +892,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
               //                 fit: BoxFit.cover,
               //                 width: screenwidth * 0.05,
               //               )),
-              Spacer(),
+
               Center(
                 child: liveX4 == null
                     ? Text('')
@@ -903,6 +908,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                             width: screenwidth * 0.05,
                           ),
               ),
+              Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
@@ -925,7 +931,8 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
             children: [
               Column(
                 children: [Text("Image")],
-              ),SizedBox(width: 30),
+              ),
+              SizedBox(width: 30),
               Container(
                   width: MediaQuery.of(context).size.width / 10,
                   height: MediaQuery.of(context).size.width / 10,
@@ -933,9 +940,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                       ? new Container(
                           child: Center(child: Text('No image')),
                         )
-                      : Image.network(eachLiveaboard.images[4].link.toString())),
+                      : Image.network(
+                          eachLiveaboard.images[4].link.toString())),
               SizedBox(width: 30),
-              Spacer(),
               Center(
                 child: liveX5 == null
                     ? Text('')
@@ -951,6 +958,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                             width: screenwidth * 0.05,
                           ),
               ),
+              Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
@@ -982,9 +990,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                       ? new Container(
                           child: Center(child: Text('No image')),
                         )
-                      : Image.network(eachLiveaboard.images[5].link.toString())),
+                      : Image.network(
+                          eachLiveaboard.images[5].link.toString())),
               SizedBox(width: 30),
-              Spacer(),
               Center(
                 child: liveX6 == null
                     ? Text('')
@@ -1000,6 +1008,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                             width: screenwidth * 0.05,
                           ),
               ),
+              Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
@@ -1031,9 +1040,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                       ? new Container(
                           child: Center(child: Text('No image')),
                         )
-                      : Image.network(eachLiveaboard.images[6].link.toString())),
+                      : Image.network(
+                          eachLiveaboard.images[6].link.toString())),
               SizedBox(width: 30),
-              Spacer(),
               Center(
                 child: liveX7 == null
                     ? Text('')
@@ -1049,6 +1058,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                             width: screenwidth * 0.05,
                           ),
               ),
+              Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
@@ -1080,9 +1090,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                       ? new Container(
                           child: Center(child: Text('No image')),
                         )
-                      : Image.network(eachLiveaboard.images[7].link.toString())),
+                      : Image.network(
+                          eachLiveaboard.images[7].link.toString())),
               SizedBox(width: 30),
-              Spacer(),
               Center(
                 child: liveX8 == null
                     ? Text('')
@@ -1098,6 +1108,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                             width: screenwidth * 0.05,
                           ),
               ),
+              Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
@@ -1129,9 +1140,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                       ? new Container(
                           child: Center(child: Text('No image')),
                         )
-                      : Image.network(eachLiveaboard.images[8].link.toString())),
+                      : Image.network(
+                          eachLiveaboard.images[8].link.toString())),
               SizedBox(width: 30),
-              Spacer(),
               Center(
                 child: liveX9 == null
                     ? Text('')
@@ -1147,6 +1158,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                             width: screenwidth * 0.05,
                           ),
               ),
+              Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
@@ -1178,9 +1190,9 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                       ? new Container(
                           child: Center(child: Text('No image')),
                         )
-                      : Image.network(eachLiveaboard.images[9].link.toString())),
+                      : Image.network(
+                          eachLiveaboard.images[9].link.toString())),
               SizedBox(width: 30),
-              Spacer(),
               Center(
                 child: liveX10 == null
                     ? Text('')
@@ -1196,6 +1208,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
                             width: screenwidth * 0.05,
                           ),
               ),
+              Spacer(),
               FlatButton(
                 //color: Color(0xfffa2c8ff),
                 child: Ink(
@@ -1220,7 +1233,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
                 // color: Color(0xffffee1e8),
-                   color:Color(0xfffabddfc),
+                color: Color(0xfffabddfc),
                 borderRadius: BorderRadius.circular(10)),
             child:
                 AddMoreRoomUpdateLiveaboard(this.eachLiveaboard, getRoomValue),
