@@ -188,7 +188,7 @@ class _addHotelState extends State<addHotel> {
     }
     var hotelRequest = AddHotelRequest();
     hotelRequest.hotel = hotel;
-    print(hotelRequest);
+    // print(hotelRequest);
 
     try {
       var response = await stub.addHotel(hotelRequest);

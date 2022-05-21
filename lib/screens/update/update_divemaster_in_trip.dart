@@ -217,6 +217,9 @@ class _DiveMasterFormUpdateState extends State<DiveMasterFormUpdate> {
     } catch (e) {
       print('ERROR: $e');
     }
+  
+    // print(allDivemaster);
+ 
     return allDivemaster;
   }
 
@@ -481,7 +484,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                       // print(dmValue);
                       divemaster.forEach((element) {
                         if (element == divemasterSelected) {
-                          print(eachTrip.diveMasters.length);
+                          // print(eachTrip.diveMasters.length);
 
                           // var dm2 = DiveMaster();
                           dmt.firstName = divemasterSelected;
@@ -502,7 +505,7 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
                           // eachTrip.diveMasters[indexForm].id =
                           //     divemasterMap[element];
 
-                          print(eachTrip.diveMasters);
+                          // print(eachTrip.diveMasters);
                         }
                       });
                     });

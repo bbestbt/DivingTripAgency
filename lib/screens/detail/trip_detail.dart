@@ -406,7 +406,7 @@ class _TripDetailState extends State<TripDetail> {
                                         });
                                       },
                                     ),
-                                    Text('0 - 1,000'),
+                                    Text('0 - 10,000'),
                                   ],
                                 ),
                               )),
@@ -424,7 +424,7 @@ class _TripDetailState extends State<TripDetail> {
                                       });
                                     },
                                   ),
-                                  Text('1,000 - 2,000'),
+                                  Text('10,000 - 20,000'),
                                 ])),
                           ),
                           ListTile(
@@ -441,7 +441,7 @@ class _TripDetailState extends State<TripDetail> {
                                       });
                                     },
                                   ),
-                                  Text('2,000 - 3,000'),
+                                  Text('20,000 - 30,000'),
                                 ])),
                           ),
                           ListTile(
@@ -458,7 +458,7 @@ class _TripDetailState extends State<TripDetail> {
                                         });
                                       },
                                     ),
-                                    Text('3,000 +'),
+                                    Text('30,000 +'),
                                   ]))),
                         ],
                       )),
@@ -663,33 +663,33 @@ class _TripDetailState extends State<TripDetail> {
         //print(_diff);
       }
 // Edit cost filter error
+
       if (tripcost != Cost.all) {
         if (tripcost == Cost.one) {
           results = results
               .where((trip) => (trip.tripRoomTypePrices[0].price != null &&
                   trip.tripRoomTypePrices[0].price > 1 &&
-                  trip.tripRoomTypePrices[0].price <= 1000))
+                  trip.tripRoomTypePrices[0].price <= 10000))
               .toList();
         } else if (tripcost == Cost.two) {
           results = results
               .where((trip) => (trip.tripRoomTypePrices[0].price != null &&
-                  trip.tripRoomTypePrices[0].price > 1000 &&
-                  trip.tripRoomTypePrices[0].price <= 2000))
+                  trip.tripRoomTypePrices[0].price > 10000 &&
+                  trip.tripRoomTypePrices[0].price <= 20000))
               .toList();
         } else if (tripcost == Cost.three) {
           results = results
               .where((trip) => (trip.tripRoomTypePrices[0].price != null &&
-                  trip.tripRoomTypePrices[0].price > 2000 &&
-                  trip.tripRoomTypePrices[0].price <= 3000))
+                  trip.tripRoomTypePrices[0].price > 20000 &&
+                  trip.tripRoomTypePrices[0].price <= 30000))
               .toList();
         } else if (tripcost == Cost.more) {
           results = results
               .where((trip) => (trip.tripRoomTypePrices[0].price != null &&
-                  trip.tripRoomTypePrices[0].price > 3000))
+                  trip.tripRoomTypePrices[0].price > 30000))
               .toList();
         }
       }
-
       setState(() {
         _foundtrip = results;
       });
