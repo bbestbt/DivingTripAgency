@@ -152,7 +152,6 @@ class _EditDiverFormState extends State<EditDiverForm> {
       user_profile.diver.birthDate = Timestamp.fromDateTime(_dateTime);
     }
 
-
     //var t = await imageFile.readAsBytes();
     //f.file = new List<int>.from(t);
     if (divfront != null) {
@@ -164,12 +163,10 @@ class _EditDiverFormState extends State<EditDiverForm> {
       user_profile.diver.documents.insert(0, f);
       print("user_profile after insert");
       print(user_profile.diver.documents);
-    }
-    else if (divfront == null) {
+    } else if (divfront == null) {
       var f = File();
       f.filename = user_profile.diver.documents[0].filename;
     }
-
 
     if (card != null) {
       var f2 = File();
@@ -178,8 +175,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
       f2.file = a;
       user_profile.diver.documents.removeAt(1);
       user_profile.diver.documents.add(f2);
-    }
-    else if (card == null) {
+    } else if (card == null) {
       var f = File();
       f.filename = user_profile.diver.documents[1].filename;
     }
@@ -332,18 +328,18 @@ class _EditDiverFormState extends State<EditDiverForm> {
                   SizedBox(height: 20),
                   buildPasswordFormField(),
                   SizedBox(height: 20),
-                  Text('Front Image'),
+
                   Row(
                     children: [
+                      Text('Front Image'),
                       SizedBox(width: 30),
                       Container(
                           width: MediaQuery.of(context).size.width / 10,
                           height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
-                      child: Center(child: Text('No image')),
-               
-                )
+                                  child: Center(child: Text('No image')),
+                                )
                               : Image.network(
                                   // 'http://139.59.101.136/static/'+
                                   user_profile.diver.documents[0].link
@@ -384,18 +380,18 @@ class _EditDiverFormState extends State<EditDiverForm> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  Text('Back image'),
+                
                   Row(
                     children: [
+                        Text('Back image'),
                       SizedBox(width: 30),
                       Container(
                           width: MediaQuery.of(context).size.width / 10,
                           height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.diver.documents.length == 0
                               ? new Container(
-                      child: Center(child: Text('No image')),
-               
-                )
+                                  child: Center(child: Text('No image')),
+                                )
                               : Image.network(
                                   // 'http://139.59.101.136/static/'+
                                   // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'

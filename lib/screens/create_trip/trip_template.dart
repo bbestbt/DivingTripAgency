@@ -1151,7 +1151,7 @@ class _TriptemplateState extends State<Triptemplate> {
                   children: [
                     Center(
                         child: Boatpic == null
-                            ? Text('Boat image')
+                            ? Text('Trip image')
                             : kIsWeb
                                 ? Image.network(
                                     Boatpic.path,

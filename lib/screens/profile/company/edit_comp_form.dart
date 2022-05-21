@@ -214,9 +214,10 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       List<int> b = await doc.readAsBytes();
       f.file = b;
       user_profile.agency.documents.add(f);
-    }else{
+    } else {
       var f = File();
-      f.filename = user_profile.agency.documents[user_profile.agency.documents.length-2].filename;
+      f.filename = user_profile
+          .agency.documents[user_profile.agency.documents.length - 2].filename;
       user_profile.agency.documents.add(f);
     }
 
@@ -226,9 +227,10 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       List<int> a = await Img.readAsBytes();
       f2.file = a;
       user_profile.agency.documents.add(f2);
-    }else{
+    } else {
       var f2 = File();
-      f2.filename = user_profile.agency.documents[user_profile.agency.documents.length-1].filename;
+      f2.filename = user_profile
+          .agency.documents[user_profile.agency.documents.length - 1].filename;
       user_profile.agency.documents.add(f2);
     }
 
@@ -352,27 +354,28 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                         color: Colors.white,
                         child: Center(
                             child: InkWell(
-                              onTap: () {
-                                showCountryPicker(
-                                  context: context,
-                                  onSelect: (Country country) {
-                                    setState(() {
-                                      countrySelected = country.name;
-
-                                    });
-                                    //print("_country");
-                                    //print(_country.name);
-                                  },
-                                );
+                          onTap: () {
+                            showCountryPicker(
+                              context: context,
+                              onSelect: (Country country) {
+                                setState(() {
+                                  countrySelected = country.name;
+                                });
+                                //print("_country");
+                                //print(_country.name);
                               },
-                              child: InputDecorator(
-                                decoration: InputDecoration(
-                                  labelText: "Select country",
-                                ),
-                                child: countrySelected != null ? Text(countrySelected) : Text(user_profile.agency.address.country),
-                              ),
-                            )
-                         /* child: DropdownButtonFormField(
+                            );
+                          },
+                          child: InputDecorator(
+                            decoration: InputDecoration(
+                              labelText: "Select country",
+                            ),
+                            child: countrySelected != null
+                                ? Text(countrySelected)
+                                : Text(user_profile.agency.address.country),
+                          ),
+                        )
+                            /* child: DropdownButtonFormField(
                             isExpanded: true,
                             value: countrySelected,
                             items: listCountry,
@@ -395,7 +398,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                               }
                             },
                           ),*/
-                        ),
+                            ),
                       ),
                       // Container(
                       //     width: MediaQuery.of(context).size.width / 3.6,
@@ -451,26 +454,26 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                   SizedBox(height: 20),
                   buildPasswordFormField(),
                   SizedBox(height: 20),
-                  Column(
-                    children: [
-                      Text('Verified'),
-                      Text('Document'),
-                    ],
-                  ),
+                  // Column(
+                  //   children: [
+                  //     Text('Verified'),
+                  //     Text('Document'),
+                  //   ],
+                  // ),
                   Row(
                     children: [
+                      Text('Verified document'),
                       SizedBox(width: 30),
                       Container(
                           width: MediaQuery.of(context).size.width / 10,
                           height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.agency.documents.length == 0
                               ? new Container(
-                      child: Center(child: Text('No image')),
-               
-                )
+                                  child: Center(child: Text('No image')),
+                                )
                               : Image.network(
                                   // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
-                                  user_profile.agency.documents[1].link
+                                  user_profile.agency.documents[0].link
                                       .toString())),
                       Center(
                           child: docFile == null
@@ -506,23 +509,23 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
 
                   //Center(child:imageFile == null ? Text('No image selected'):Text("You have an image")),
                   //Center(child:imageFile == null ? Text('No image selected'):Image.file(imageFile,fit:BoxFit.cover,)),
-                  Column(
-                    children: [
-                      Text('Company'),
-                      Text('Image'),
-                    ],
-                  ),
+                  // Column(
+                  //   children: [
+                  //     Text('Company'),
+                  //     Text('Image'),
+                  //   ],
+                  // ),
                   Row(
                     children: [
+                      Text('Company image'),
                       SizedBox(width: 30),
                       Container(
                           width: MediaQuery.of(context).size.width / 10,
                           height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.agency.documents.length == 0
                               ? new Container(
-                      child: Center(child: Text('No image')),
-               
-                )
+                                  child: Center(child: Text('No image')),
+                                )
                               : Image.network(
                                   // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
                                   user_profile.agency.documents[1].link

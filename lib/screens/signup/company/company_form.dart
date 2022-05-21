@@ -197,6 +197,21 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       box.put('login', true);
       String token = box.get('token');
       print("login ja");
+    } on GrpcError catch (e) {
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
       box.put('login', false);
@@ -245,28 +260,27 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                 width: MediaQuery.of(context).size.width / 3.6,
                 color: Colors.white,
                 child: Center(
-                  child: InkWell(
-                    onTap: () {
-                      showCountryPicker(
-                        context: context,
-                        onSelect: (Country country) {
-                          setState(() {
-                            countrySelected = country.name;
-
-                          });
-                          //print("_country");
-                          //print(_country.name);
-                        },
-                      );
-                    },
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        labelText: "Select country",
-                      ),
-                      child: countrySelected != null ? Text(countrySelected) : null,
+                    child: InkWell(
+                  onTap: () {
+                    showCountryPicker(
+                      context: context,
+                      onSelect: (Country country) {
+                        setState(() {
+                          countrySelected = country.name;
+                        });
+                        //print("_country");
+                        //print(_country.name);
+                      },
+                    );
+                  },
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: "Select country",
                     ),
-                  )
-                ),
+                    child:
+                        countrySelected != null ? Text(countrySelected) : null,
+                  ),
+                )),
               ),
               // Container(
               //     width: MediaQuery.of(context).size.width / 3.6,
