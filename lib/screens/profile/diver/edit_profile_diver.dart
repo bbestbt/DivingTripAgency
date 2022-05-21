@@ -17,10 +17,8 @@ class EditDiverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // key: _controller.scaffoldkey,
-        endDrawer: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: 300
-        ),
+      endDrawer: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: 300),
         child: SideMenu(),
       ),
       body: SingleChildScrollView(
@@ -39,12 +37,15 @@ class EditDiverScreen extends StatelessWidget {
               SizedBox(
                 height: 30,
               ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 1.5,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: EditDiverForm()),
+              SizedBox(
+                width: 1110,
+                child: Container(
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: EditDiverForm()),
+              ),
               SizedBox(
                 height: 30,
               )

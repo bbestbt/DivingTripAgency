@@ -98,214 +98,293 @@ class _UserProfileState extends State<UserProfile> {
             color: Color(0xFFFF78a2cc),
           ),
           SizedBox(
-            height: 50,
+            height: 20,
           ),
 
-          SizedBox(
-            width: 1110,
-            child: FutureBuilder(
-              future: getProfile(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    children: [
-                      SizedBox(
-                        child: FutureBuilder(
-                          future: getProfile(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return Center(
-                                child: Container(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'Firstname : ' +
-                                            user_profile.diver.firstName
-                                                .toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        'Lastname : ' +
-                                            user_profile.diver.lastName
-                                                .toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        'Level : ' +
-                                            user_profile.diver.level.toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        'E-mail : ' +
-                                            user_profile.diver.account.email
-                                                .toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        'Phone number : ' +
-                                            user_profile.diver.phone.toString(),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Text(
-                                        'Birthday : ' +
-                                            DateFormat("dd/MM/yyyy").format(
-                                                user_profile.diver.birthDate
-                                                    .toDateTime()),
-                                        style: TextStyle(fontSize: 18),
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  10,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  10,
-                                              child: user_profile.agency
-                                                          .documents.length ==
-                                                      0
-                                                  ? new Container(
-                                                      color: Colors.pink,
-                                                    )
-                                                  : Image.network(
-                                                      // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
-                                                      user_profile.diver
-                                                          .documents[0].link
-                                                          .toString())),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Container(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  10,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  10,
-                                              child: user_profile.agency
-                                                          .documents.length ==
-                                                      0
-                                                  ? new Container(
-                                                      color: Colors.pink,
-                                                    )
-                                                  : Image.network(
-                                                      // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
-                                                      user_profile.diver
-                                                          .documents[1].link
-                                                          .toString())),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.center,
-                                        child: RaisedButton(
-                                            // color: Colors.yellow,
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
+            constraints: BoxConstraints(maxWidth: 1110),
+            child: Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 5,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              child: FutureBuilder(
+                                future: getProfile(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Center(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.blue[100],
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.topRight,
+                                                child: PopupMenuButton(
+                                                    icon: Icon(
+                                                        Icons.more_horiz),
+                                                    itemBuilder: (context) =>
+                                                        [
+                                                          PopupMenuItem(
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(Icons
+                                                                    .edit),
+                                                                Text("Edit"),
+                                                              ],
+                                                            ),
+                                                            value: 1,
+                                                          ),
+                                                        ],
+                                                    onSelected: (int menu) {
+                                                      if (menu == 1) {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        EditDiverScreen()));
+                                                      }
+                                                    }),
+                                              ),
+                                              SizedBox(height: 20),
+                                              Text(
+                                                'Firstname : ' +
+                                                    user_profile
+                                                        .diver.firstName
+                                                        .toString(),
+                                                style:
+                                                    TextStyle(fontSize: 18),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                'Lastname : ' +
+                                                    user_profile
+                                                        .diver.lastName
+                                                        .toString(),
+                                                style:
+                                                    TextStyle(fontSize: 18),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                'Level : ' +
+                                                    user_profile.diver.level
+                                                        .toString(),
+                                                style:
+                                                    TextStyle(fontSize: 18),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                'E-mail : ' +
+                                                    user_profile
+                                                        .diver.account.email
+                                                        .toString(),
+                                                style:
+                                                    TextStyle(fontSize: 18),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                'Phone number : ' +
+                                                    user_profile.diver.phone
+                                                        .toString(),
+                                                style:
+                                                    TextStyle(fontSize: 18),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                'Birthday : ' +
+                                                    DateFormat("dd/MM/yyyy")
+                                                        .format(user_profile
+                                                            .diver.birthDate
+                                                            .toDateTime()),
+                                                style:
+                                                    TextStyle(fontSize: 18),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Container(
+                                                  width:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          10,
+                                                  height:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          10,
+                                                  child: user_profile
+                                                              .diver
+                                                              .documents
+                                                              .length ==
+                                                          0
+                                                      ? new Container(
+                      child: Center(child: Text('No image')),
+               
+                )
+                                                      : Image.network(
+                                                          // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                                          user_profile
+                                                              .diver
+                                                              .documents[0]
+                                                              .link
+                                                              .toString())),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Container(
+                                                  width:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          10,
+                                                  height:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width /
+                                                          10,
+                                                  child: user_profile
+                                                              .diver
+                                                              .documents
+                                                              .length ==
+                                                          0
+                                                      ? new Container(
+                      child: Center(child: Text('No image')),
+               
+                )
+                                                      : Image.network(
+                                                          // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
+                                                          user_profile
+                                                              .diver
+                                                              .documents[1]
+                                                              .link
+                                                              .toString())),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              // Align(
+                                              //   alignment: Alignment.center,
+                                              //   child: RaisedButton(
+                                              //       // color: Colors.yellow,
 
-                                            color: Colors.blue[300],
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Text(
-                                              'Edit',
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EditDiverScreen()));
-                                            }),
+                                              //       color: Colors.blue[300],
+                                              //       shape: RoundedRectangleBorder(
+                                              //           borderRadius:
+                                              //               BorderRadius
+                                              //                   .circular(
+                                              //                       10)),
+                                              //       child: Text(
+                                              //         'Edit',
+                                              //       ),
+                                              //       onPressed: () {
+                                              //         Navigator.push(
+                                              //             context,
+                                              //             MaterialPageRoute(
+                                              //                 builder:
+                                              //                     (context) =>
+                                              //                         EditDiverScreen()));
+                                              //       }),
+                                              // ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return Text('User is not logged in.');
-                            }
-                          },
+                                    );
+                                  } else {
+                                    return Text('User is not logged in.');
+                                  }
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        width: 1110,
-                        child: FutureBuilder(
-                          future: getData(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return trips.length != 0
-                                  ? Column(
-                                      children: [
-                                        Center(
-                                            child: Column(
-                                          children: [
-                                            Text(
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      child: FutureBuilder(
+                        future: getData(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return trips.length != 0
+                                ? Column(
+                                    children: [
+                                      Center(
+                                          child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Text(
                                               'Trip history',
                                               style: TextStyle(fontSize: 18),
                                             ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Container(
-                                                child: Wrap(
-                                                    spacing: 20,
-                                                    runSpacing: 40,
-                                                    children: List.generate(
-                                                      trips.length,
-                                                      (index) => Center(
-                                                        child: InfoCard(
-                                                          index: index,
-                                                        ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                              child: Wrap(
+                                                  spacing: 20,
+                                                  runSpacing: 40,
+                                                  children: List.generate(
+                                                    trips.length,
+                                                    (index) => Center(
+                                                      child: InfoCard(
+                                                        index: index,
                                                       ),
-                                                    ))),
-                                          ],
-                                        )),
-                                      ],
-                                    )
-                                  : Text('');
-                            } else {
-                              return Align(
-                                  alignment: Alignment.center,
-                                  child: Text('No data'));
-                            }
-                          },
-                        ),
+                                                    ),
+                                                  ))),
+                                        ],
+                                      )),
+                                    ],
+                                  )
+                                : Text('');
+                          } else {
+                            return Align(
+                                alignment: Alignment.center,
+                                child: Text('No data'));
+                          }
+                        },
                       ),
-                    ],
-                  );
-                } else {
-                  return Center(child: Text('User is not logged in'));
-                }
-              },
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
 
@@ -359,8 +438,9 @@ class _InfoCardState extends State<InfoCard> {
                 height: MediaQuery.of(context).size.width / 10,
                 child: trips[widget.index].tripTemplate.images.length == 0
                     ? new Container(
-                        color: Colors.pink,
-                      )
+                      child: Center(child: Text('No image')),
+               
+                )
                     : Image.network(' http://139.59.101.136/static/' +
                             trips[widget.index]
                                 .tripTemplate

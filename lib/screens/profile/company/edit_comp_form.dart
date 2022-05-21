@@ -104,8 +104,8 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
   List<Asset> imagelist = <Asset>[];
   List<io.File> docList = <io.File>[];
 
-  PickedFile Img;
-  PickedFile doc;
+  XFile Img;
+  XFile doc;
 
   List<String> countryName = [
     'Thailand',
@@ -130,16 +130,16 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
 
   /// Get from gallery
   _getFromGallery() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+    Img = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 5000,
       maxHeight: 5000,
     );
-    if (pickedFile != null) {
+    if (Img != null) {
       setState(() {
-        imageFile = io.File(pickedFile.path);
+        imageFile = io.File(Img.path);
 
-        Img = pickedFile;
+        //Img = pickedFile;
 
         //bytes = imageFile.readAsBytes();
       });
@@ -147,15 +147,15 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
   }
 
   _getdoc() async {
-    PickedFile pickedFile = await ImagePicker().getImage(
+    doc = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       maxWidth: 1800,
       maxHeight: 1800,
     );
-    if (pickedFile != null) {
+    if (doc != null) {
       setState(() {
-        docFile = io.File(pickedFile.path);
-        doc = pickedFile;
+        docFile = io.File(doc.path);
+        //doc = pickedFile;
       });
     }
   }
@@ -206,30 +206,38 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
 
     //final pngByteData = await imageFile.toByteData(format: ImageByteFormat.png);
 
-    var f = File();
-    f.filename = 'image.jpg';
     //var t = await imageFile.readAsBytes();
     //f.file = new List<int>.from(t);
     if (doc != null) {
+      var f = File();
+      f.filename = doc.name;
       List<int> b = await doc.readAsBytes();
       f.file = b;
-      user_profile.agency.documents.add(f);
-    }else{
+      if(user_profile.agency.documents.length >= 1) {
+        user_profile.agency.documents.removeAt(0);
+      }
+      user_profile.agency.documents.insert(0,f);
+    } else if(user_profile.agency.documents.length >= 1){
       var f = File();
-      f.filename = user_profile.agency.documents[user_profile.agency.documents.length-2].filename;
-      user_profile.agency.documents.add(f);
+      f.filename = user_profile.agency.documents[0].filename;
+          //.agency.documents[user_profile.agency.documents.length - 2].filename;
+      //user_profile.agency.documents.add(f);
     }
 
-    var f2 = File();
-    f2.filename = 'Image.jpg';
     if (Img != null) {
+      var f2 = File();
+      f2.filename = Img.name;
       List<int> a = await Img.readAsBytes();
       f2.file = a;
-      user_profile.agency.documents.add(f2);
-    }else{
+      if(user_profile.agency.documents.length >= 2) {
+        user_profile.agency.documents.removeAt(1);
+      }
+      user_profile.agency.documents.insert(1,f2);
+    } else if(user_profile.agency.documents.length >= 2) {
       var f2 = File();
-      f2.filename = user_profile.agency.documents[user_profile.agency.documents.length-1].filename;
-      user_profile.agency.documents.add(f2);
+      f2.filename = user_profile.agency.documents[1].filename;
+          //.agency.documents[user_profile.agency.documents.length - 1].filename;
+      //user_profile.agency.documents.add(f2);
     }
 
     var account = Account();
@@ -276,7 +284,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     //     user_profile.agency.address.postcode;
     // agency.address.region = user_profile.agency.address.region;
 
-    final updateRequest = UpdateRequest()..agency = agency;
+    final updateRequest = UpdateRequest()..agency = user_profile.agency;
     // updateRequest.agency.name = user_profile.agency.name;
     // updateRequest.agency.phone = user_profile.agency.phone;
     // for (int i = 0; i < user_profile.agency.documents.length; i++) {
@@ -352,27 +360,28 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                         color: Colors.white,
                         child: Center(
                             child: InkWell(
-                              onTap: () {
-                                showCountryPicker(
-                                  context: context,
-                                  onSelect: (Country country) {
-                                    setState(() {
-                                      countrySelected = country.name;
-
-                                    });
-                                    //print("_country");
-                                    //print(_country.name);
-                                  },
-                                );
+                          onTap: () {
+                            showCountryPicker(
+                              context: context,
+                              onSelect: (Country country) {
+                                setState(() {
+                                  countrySelected = country.name;
+                                });
+                                //print("_country");
+                                //print(_country.name);
                               },
-                              child: InputDecorator(
-                                decoration: InputDecoration(
-                                  labelText: "Select country",
-                                ),
-                                child: countrySelected != null ? Text(countrySelected) : Text(user_profile.agency.address.country),
-                              ),
-                            )
-                         /* child: DropdownButtonFormField(
+                            );
+                          },
+                          child: InputDecorator(
+                            decoration: InputDecoration(
+                              labelText: "Select country",
+                            ),
+                            child: countrySelected != null
+                                ? Text(countrySelected)
+                                : Text(user_profile.agency.address.country),
+                          ),
+                        )
+                            /* child: DropdownButtonFormField(
                             isExpanded: true,
                             value: countrySelected,
                             items: listCountry,
@@ -395,7 +404,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                               }
                             },
                           ),*/
-                        ),
+                            ),
                       ),
                       // Container(
                       //     width: MediaQuery.of(context).size.width / 3.6,
@@ -451,25 +460,26 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                   SizedBox(height: 20),
                   buildPasswordFormField(),
                   SizedBox(height: 20),
-                  Column(
-                    children: [
-                      Text('Verified'),
-                      Text('Document'),
-                    ],
-                  ),
+                  // Column(
+                  //   children: [
+                  //     Text('Verified'),
+                  //     Text('Document'),
+                  //   ],
+                  // ),
                   Row(
                     children: [
+                      Text('Verified document'),
                       SizedBox(width: 30),
                       Container(
                           width: MediaQuery.of(context).size.width / 10,
                           height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.agency.documents.length == 0
                               ? new Container(
-                                  color: Colors.pink,
+                                  child: Center(child: Text('No image')),
                                 )
                               : Image.network(
                                   // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
-                                  user_profile.agency.documents[1].link
+                                  user_profile.agency.documents[0].link
                                       .toString())),
                       Center(
                           child: docFile == null
@@ -505,21 +515,22 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
 
                   //Center(child:imageFile == null ? Text('No image selected'):Text("You have an image")),
                   //Center(child:imageFile == null ? Text('No image selected'):Image.file(imageFile,fit:BoxFit.cover,)),
-                  Column(
-                    children: [
-                      Text('Company'),
-                      Text('Image'),
-                    ],
-                  ),
+                  // Column(
+                  //   children: [
+                  //     Text('Company'),
+                  //     Text('Image'),
+                  //   ],
+                  // ),
                   Row(
                     children: [
+                      Text('Company image'),
                       SizedBox(width: 30),
                       Container(
                           width: MediaQuery.of(context).size.width / 10,
                           height: MediaQuery.of(context).size.width / 10,
                           child: user_profile.agency.documents.length == 0
                               ? new Container(
-                                  color: Colors.green,
+                                  child: Center(child: Text('No image')),
                                 )
                               : Image.network(
                                   // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'

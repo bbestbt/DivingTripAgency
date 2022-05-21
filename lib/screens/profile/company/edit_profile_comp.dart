@@ -33,14 +33,17 @@ class EditCompanyScreen extends StatelessWidget {
                  SizedBox(
                 height: 30,
               ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 1.5,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: 
-                  EditCompanyForm()
-                  ),
+              SizedBox(
+                 width: 1110,
+                child: Container(
+                    width: MediaQuery.of(context).size.width / 1.5,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: 
+                    EditCompanyForm()
+                    ),
+              ),
               SizedBox(
                 height: 30,
               )
