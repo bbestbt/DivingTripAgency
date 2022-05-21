@@ -193,7 +193,7 @@ class TopSection extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    "Lorem ipsum dolor sit amet, consectetur \nadipiscing elit, sed do eiusmod tempor \nincididunt ut labor",
+                    "Thinking of Scuba Diving? Dive with Us DTA.",
                     style: TextStyle(
                       fontSize: 21,
                     ),
