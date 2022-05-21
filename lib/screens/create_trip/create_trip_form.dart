@@ -200,12 +200,11 @@ class _CreateTripFormState extends State<CreateTripForm> {
 
     var address = Address();
     address.addressLine1 = triptemplate.address.addressLine1;
-
     address.addressLine2 = triptemplate.address.addressLine2;
     address.city = triptemplate.address.city;
     address.country = triptemplate.address.country;
-    address.city = triptemplate.address.region;
-    address.country = triptemplate.address.postcode;
+    address.region = triptemplate.address.region;
+    address.postcode = triptemplate.address.postcode;
 
     var triptemp = TripTemplate()..address = address;
 
@@ -263,7 +262,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     // tripRequest.tripTemplate = triptemplate;
     //tripRequest.tripTemplate.images.add(value);
 
-    // print(tripRequest);
+    print(tripRequest);
     try {
       var response = await stub.addTrip(tripRequest);
       print('ok');

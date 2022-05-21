@@ -133,6 +133,7 @@ class _updateTripFormState extends State<updateTripForm> {
   //     TextEditingController();
   // final TextEditingController _controllerPrice = TextEditingController();
   final TextEditingController _controllerTotalpeople = TextEditingController();
+  TextEditingController textarea = TextEditingController();
 
   DateTimeRange dateRange;
   DateTime from;
@@ -227,7 +228,7 @@ class _updateTripFormState extends State<updateTripForm> {
             content: Text("Hotel is already used"),
             actions: <Widget>[
               // FlatButton(
-                   //child: Text("OK"),
+              //child: Text("OK"),
               //     ),
             ],
           );
@@ -244,7 +245,7 @@ class _updateTripFormState extends State<updateTripForm> {
             content: Text("Boat is already used"),
             actions: <Widget>[
               // FlatButton(
-                  //child: Text("OK"),
+              //child: Text("OK"),
               //     ),
             ],
           );
@@ -285,6 +286,7 @@ class _updateTripFormState extends State<updateTripForm> {
       eachTrip.diveSites[j] = pinkValue[j];
     }
     eachTrip.maxGuest = int.parse(_controllerTotalpeople.text);
+    eachTrip.schedule =textarea.text;
     final updateRequest = UpdateTripRequest()..trip = eachTrip;
     print(updateRequest);
     try {
@@ -494,6 +496,23 @@ class _updateTripFormState extends State<updateTripForm> {
                 borderRadius: BorderRadius.circular(10)),
             child: AddMoreDiveSiteUpdate(
                 this.pinkValue, this.eachTrip, getDSValue),
+          ),
+          SizedBox(height: 20),
+          TextField(
+            controller: textarea,
+            keyboardType: TextInputType.multiline,
+            maxLines: 20,
+            // style: TextStyle(color: Colors. red),
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.teal[50],
+                hintText: "Enter schedule",
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 1, color: Colors.blue),
+                  // borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: Colors.redAccent))),
           ),
           SizedBox(height: 20),
           Container(
