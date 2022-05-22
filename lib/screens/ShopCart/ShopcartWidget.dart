@@ -27,7 +27,6 @@ import '../../nautilus/proto/dart/model.pb.dart';
 var cartwid = null;
 List Cartlist = [];
 
-//TODO: How about turn everything in Cartlist into JSON
 List<RoomType> roomtypes;
 String roomtypestr;
 List<TripWithTemplate> details;
@@ -53,9 +52,9 @@ class _CartState extends State<CartWidget> {
   @override
   void initState() {
     totalprice=0;
-    print("Cartbox at init");
-    print("-------");
-    print(CartBox.toMap());
+   // print("Cartbox at init");
+    //print("-------");
+    //print(CartBox.toMap());
     clength = Cartlist.length;
     for (int i = 0; i < Cartlist.length; i++) {
       totalprice += Cartlist[i][4];
@@ -70,10 +69,10 @@ class _CartState extends State<CartWidget> {
       indexDetail = Cartlist[i][12];
       quantity = Cartlist[i][9];
       diver = Cartlist[i][10];
-     print("Cartlist Everything");
-      print("--------");
+    // print("Cartlist Everything");
+     // print("--------");
       //print(Cartlist);
-      print("Room Types");
+      /*print("Room Types");
       print("----------");
       print(Cartlist[i][3]);
       print("hotel name");
@@ -81,7 +80,7 @@ class _CartState extends State<CartWidget> {
       print(Cartlist[i][2]);
       print("RoomtypeStr");
       print("--------------");
-      print(roomtypestr);
+      print(roomtypestr);*/
       //print("Details Trip");
       //print("----------");
       //print(details);
@@ -103,7 +102,7 @@ class _CartState extends State<CartWidget> {
     if (Cartlist.length == 0) {
       populateCartlist();
     }
-    // TODO: implement initState
+
     super.initState();
   }
 
@@ -114,32 +113,35 @@ class _CartState extends State<CartWidget> {
     final box = Hive.box('userInfo');
     if (CartBox.get('clength') !=null) {
       for (i = 0; i < CartBox.get('clength'); i++) {
+
         //if(checked==false && CartBox.get("usertoken"+i.toString())==token) {
         if (checked == false &&
-            CartBox.get("username" + i.toString()) == box.get("username")) {
-          Cartlist.add([
-            CartBox.get('image' + i.toString()), //0
-            CartBox.get('tripname' + i.toString()), //1
-            //"Tripname",
-            CartBox.get('hotelname' + i.toString()), //2
-            CartBox.get('roomtype' + i.toString()), //3
-            CartBox.get('price' + i.toString()) *
-                CartBox.get("quantity" + i.toString()), //4
-            //tripname[0]['tripdetail'],
-            "TripName", //5
-            "roomname", //6
-            0, //7
-            CartBox.get("indexDetail"), //8
-            CartBox.get("quantity" + i.toString()), //9
-            CartBox.get("diver" + i.toString()), //10
-            CartBox.get("roomid" + i.toString()), //11
-            CartBox.get("tripid" + i.toString()), //12
-            CartBox.get("username" + i.toString()) //13
-            //CartBox.get('roomtype'),
-          ]);
-          totalprice += CartBox.get('price' + i.toString()) *
-              CartBox.get("quantity" + i.toString());
-        }
+        CartBox.get("username" + i.toString ()
+    ) == box.get("username")) {
+    Cartlist.add([
+    CartBox.get('image' + i.toString()), //0
+    CartBox.get('tripname' + i.toString()), //1
+    //"Tripname",
+    CartBox.get('hotelname' + i.toString()), //2
+    CartBox.get('roomtype' + i.toString()), //3
+    CartBox.get('price' + i.toString()) *
+    CartBox.get("quantity" + i.toString()), //4
+    //tripname[0]['tripdetail'],
+    "TripName", //5
+    "roomname", //6
+    0, //7
+    CartBox.get("indexDetail"), //8
+    CartBox.get("quantity" + i.toString()), //9
+    CartBox.get("diver" + i.toString()), //10
+    CartBox.get("roomid" + i.toString()), //11
+    CartBox.get("tripid" + i.toString()), //12
+    CartBox.get("username" + i.toString()) //13
+    //CartBox.get('roomtype'),
+    ]);
+    totalprice += CartBox.get('price' + i.toString()) *
+    CartBox.get("quantity" + i.toString());
+             }
+
       }
     }
     checked=true;
@@ -147,45 +149,90 @@ class _CartState extends State<CartWidget> {
 
   }
   deleteItem(int id) {
-    int clengthtemp =0;
+    int clengthtemp = 0;
     var templist = [];
-    var pricetemp =  CartBox.get('price'+id.toString()) * CartBox.get("quantity"+id.toString());
-    templist.add([CartBox.get('image'+id.toString()),
-    CartBox.get('tripname'+id.toString()),
-    CartBox.get('hotelname'+id.toString()), //2
-    CartBox.get('roomtype'+id.toString()), //3
-    pricetemp, //4
-    //tripname[0]['tripdetail'],
-    "TripName", //5
-    "roomname", //6
-    0, //7
-    CartBox.get("indexDetail"), //8
-    CartBox.get("quantity"+id.toString()), //9
-    CartBox.get("diver"+id.toString()), //10
-    CartBox.get("roomid"+id.toString()), //11
-    CartBox.get("tripid"+id.toString()), //12
-    CartBox.get("username"+id.toString()),//13
-    ]);
-    //clengthtemp = CartBox.get(clength)-1;
-    CartBox.delete('Roomlist'+id.toString());
-    CartBox.delete('diver'+id.toString());
-    CartBox.delete('image'+id.toString());
-    CartBox.delete('indexDetail'+id.toString());
-    CartBox.delete('indexroom'+id.toString());
-    CartBox.delete('price'+id.toString());
-    CartBox.delete('quantity'+id.toString());
-    CartBox.delete('roomid'+id.toString());
-    CartBox.delete('roomtype'+id.toString());
-    CartBox.delete('tripdetail'+id.toString());
-    CartBox.delete('tripid'+id.toString());
-    CartBox.delete('clength');
-    CartBox.put('clength', clengthtemp);
+    if (id < clengthtemp - 1) {
+
+    var pricetemp = CartBox.get('price' + (id + 1).toString()) *
+        CartBox.get("quantity" + (id + 1).toString());
+         templist.add([CartBox.get('image' + (id + 1).toString()),
+        CartBox.get('tripname' + (id + 1).toString()),
+        CartBox.get('hotelname' + (id + 1).toString()), //2
+        CartBox.get('roomtype' + (id + 1).toString()), //3
+        pricetemp, //4
+        //tripname[0]['tripdetail'],
+        "TripName", //5
+        "roomname", //6
+        0, //7
+        CartBox.get("indexDetail"), //8
+        CartBox.get("quantity" + (id + 1).toString()), //9
+        CartBox.get("diver" + (id + 1).toString()), //10
+        CartBox.get("roomid" + (id + 1).toString()), //11
+        CartBox.get("tripid" + (id + 1).toString()), //12
+        CartBox.get("username" + (id + 1).toString()), //13
+
+      ]);
+      CartBox.delete('Roomlist' + (id + 1).toString());
+      CartBox.delete('diver' + (id + 1).toString());
+      CartBox.delete('image' + (id + 1).toString());
+      CartBox.delete('indexDetail' + (id + 1).toString());
+      CartBox.delete('indexroom' + (id + 1).toString());
+      CartBox.delete('price' + (id + 1).toString());
+      CartBox.delete('quantity' + (id + 1).toString());
+      CartBox.delete('roomid' + (id + 1).toString());
+      CartBox.delete('roomtype' + (id + 1).toString());
+      CartBox.delete('tripdetail' + (id + 1).toString());
+      CartBox.delete('tripid' + (id + 1).toString());
+      sortCart(id, templist);
+    }
+    CartBox.delete('Roomlist' + id.toString());
+    CartBox.delete('diver' + id.toString());
+    CartBox.delete('image' + id.toString());
+    CartBox.delete('indexDetail' + id.toString());
+    CartBox.delete('indexroom' + id.toString());
+    CartBox.delete('price' + id.toString());
+    CartBox.delete('quantity' + id.toString());
+    CartBox.delete('roomid' + id.toString());
+    CartBox.delete('roomtype' + id.toString());
+    CartBox.delete('tripdetail' + id.toString());
+    CartBox.delete('tripid' + id.toString());
+    CartBox.delete('tripname' + id.toString());
+
+    clengthtemp = CartBox.get("clength");
+    print("---clengthtemp---");
+    print(clengthtemp);
 
 
+
+  clengthtemp = clengthtemp - 1;
+  CartBox.delete('clength');
+  CartBox.put('clength', clengthtemp);
+
+    
   }
 
+  void sortCart(int cartind,List templist) async {
+    //Test Hive
+    print("--templist--");
+    print(templist[cartind][1]);
+    CartBox.put('image' + cartind.toString(), templist[cartind][0]);
+    CartBox.put('tripname' + cartind.toString(), templist[cartind][1]);
+    CartBox.put('clength', clength);
+    CartBox.put('hotelname' + cartind.toString(), templist[cartind][2]);
+    CartBox.put('roomtype' + cartind.toString(), templist[cartind][3]);
+    CartBox.put('price' + cartind.toString(), templist[cartind][4]);
+    CartBox.put('tripdetail' + cartind.toString(), templist[cartind][5]);
+    CartBox.put('Roomlist' + cartind.toString(), templist[cartind][6]);
 
+    CartBox.put('indexroom' + cartind.toString(), templist[cartind][7]);
+    CartBox.put('indexDetail' + cartind.toString(), templist[cartind][12]);
+    CartBox.put('quantity' + cartind.toString(), templist[cartind][9]);
+    CartBox.put('diver' + cartind.toString(), templist[cartind][10]);
 
+    CartBox.put('roomid' + cartind.toString(), templist[cartind][11]);
+    CartBox.put('tripid' + cartind.toString(), templist[cartind][12]);
+    CartBox.put('username' + cartind.toString(), templist[cartind][13]);
+  }
 
 
   void persCarthive(int cartind) async{ //Test Hive
@@ -266,10 +313,10 @@ class _CartState extends State<CartWidget> {
       reservation = Reservation()
         ..rooms.add(room);
       //reservation.tripId = details[indexDetail].id;
-      print("CartBox get diverID");
-      print(CartBox.get('diver'+i.toString()));
-      print(CartBox.get('tripid'+i.toString()));
-      print(totalprice);
+    //  print("CartBox get diverID");
+     // print(CartBox.get('diver'+i.toString()));
+     // print(CartBox.get('tripid'+i.toString()));
+     // print(totalprice);
       reservation.tripId = Int64(CartBox.get('tripid'+i.toString()));
       reservation.diverId = user_profile.diver.id;
       /*reservation.price =
@@ -277,7 +324,7 @@ class _CartState extends State<CartWidget> {
       //reservation.price = 1000;//CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt();
       reservation.price = totalprice;
       reservation.totalDivers = Int64(quantity);
-      print(reservation);
+     // print(reservation);
 
       var bookRequest = CreateReservationRequest()
         ..reservation = reservation;
@@ -295,15 +342,15 @@ class _CartState extends State<CartWidget> {
 
     return Container(
         //width: 800,
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width*0.7,
         margin: EdgeInsets.all(20),
         child: Column(children: [
           SectionTitle(
             title: "Trips in cart",
             color: Color(0xFFFF78a2cc),
           ),
-          Text("Total Cost: "),
-          Text(totalprice.toString()),
+         // Text("Total Cost: "),
+          //Text(totalprice.toString()),
           /*TextButton(
             child: Text(
               "Check JSON",
@@ -330,7 +377,7 @@ class _CartState extends State<CartWidget> {
             ),
             onPressed: () {
               setState(() {
-                print("Profile here!");
+        //        print("Profile here!");
                 //var testprof = getProfile();
                 //print(testprof);
                 final box = Hive.box('userInfo');
@@ -344,6 +391,23 @@ class _CartState extends State<CartWidget> {
                 elevation: 2,
                 backgroundColor: Colors.amber),
           ),*/
+        TextButton(
+          child: Text(
+            "Clear cart",
+            // style: TextStyle(fontSize: 25),
+          ),
+          onPressed: () {
+            setState(() {
+              CartBox.clear();
+              Cartlist=[];
+              print("cleared");
+            });
+          },
+          style: TextButton.styleFrom(
+              primary: Colors.red,
+              elevation: 2,
+              backgroundColor: Colors.amber),
+        ),
           SizedBox(height: 40),
           ListView.builder(
             itemCount: Cartlist.length,
@@ -353,7 +417,7 @@ class _CartState extends State<CartWidget> {
                   child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width,
+                        width: MediaQuery.of(context).size.width*0.6,
                         child: Wrap(
                           direction: Axis.horizontal,
                             //mainAxisAlignment: MainAxisAlignment.center,
@@ -361,7 +425,7 @@ class _CartState extends State<CartWidget> {
                               Container(
                                   width: MediaQuery.of(context).size.width/15,
                                   height: MediaQuery.of(context).size.width/15,
-                                  child: Image.network(Cartlist[position][0])),//TODO: Check the type of this.
+                                  child: Image.network(Cartlist[position][0])),
 
                               // Flexible(
                               //     child: Container(
@@ -380,7 +444,7 @@ class _CartState extends State<CartWidget> {
                                       // style: TextStyle(fontSize: 22.0),
                                     ),
                                     Text(
-                                      "Hotel Name: " +
+                                      "Residence Name: " +
                                           Cartlist[position][2].toString(),
                                       // style: TextStyle(fontSize: 22.0),
                                     ),
@@ -420,7 +484,9 @@ class _CartState extends State<CartWidget> {
                                     print("deleted");
                                     deleteItem(position);
                                     Cartlist.removeAt(position);
+                                    print("----cartlist------");
                                     print(Cartlist);
+                                    totalprice;
                                   });
                                 },
                                 style: TextButton.styleFrom(

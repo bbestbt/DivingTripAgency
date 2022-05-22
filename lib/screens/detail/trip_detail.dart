@@ -16,12 +16,16 @@ import 'package:diving_trip_agency/nautilus/proto/dart/google/protobuf/timestamp
 import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:country_picker/country_picker.dart';
-
+import 'package:csc_picker/csc_picker.dart';
 // This list holds the data for the list view
 List<TripWithTemplate> _foundtrip = [];
 List costchecklist = [];
 List durationchecklist = [];
 Country _country;
+String countryValue;
+String stateValue;
+String cityValue;
+String address ="";
 
 String dropdownValue = "All";
 String dropdownValue2 = "All";
@@ -100,15 +104,16 @@ class _TripDetailState extends State<TripDetail> {
   //       grpcWebTransportSecure: false);
   //   final box = Hive.box('userInfo');
   //   String token = box.get('token');
-
+  //
   //   final stub = AgencyServiceClient(channel,
   //       options: CallOptions(metadata: {'Authorization': '$token'}));
   //   var searchtrips = SearchTripsOptions();
-
+  //
   //   searchtrips.country = '5';
-
+  //
   //   searchtrips.divers = 1;
-
+  //   searchtrips.city = 2;
+  //
   //   var ts = Timestamp();
   //   ts.seconds = Int64(1643670395);
   //   searchtrips.startDate = ts;
@@ -116,15 +121,15 @@ class _TripDetailState extends State<TripDetail> {
   //   // ts2.seconds = Int64(1645996634);
   //   ts2.seconds = Int64(1648767995);
   //   searchtrips.endDate = ts2;
-
+  //
   //   // searchtrips.tripType = TripType.OFFSHORE;
   //   var searchtriprequest = SearchTripsRequest();
   //   searchtriprequest.limit = Int64(100);
   //   searchtriprequest.offset = Int64(100);
   //   searchtriprequest.searchTripsOptions = searchtrips;
-
+  //
   //   trips.clear();
-
+  //
   //   try {
   //     await for (var feature in stub.searchTrips(searchtriprequest)) {
   //       // print(feature.trip.price);
@@ -232,47 +237,9 @@ class _TripDetailState extends State<TripDetail> {
                         ],
                       ),
                       SizedBox(height: 20),
-                      // Wrap(
-                      //   spacing: 10,
-                      //   children: [
-                      //     Text('Location'),
-                      //     // Spacer(),
-                      //     DropdownButton<String>(
-                      //       value: dropdownValue,
-                      //       icon: const Icon(Icons.arrow_downward),
-                      //       elevation: 16,
-                      //       iconSize: 30,
-                      //       isExpanded: true,
-                      //       style: const TextStyle(color: Colors.black),
-                      //       underline: Container(
-                      //         height: 2,
-                      //         color: Colors.black,
-                      //       ),
-                      //       onChanged: (String newValue) {
-                      //         setState(() {
-                      //           dropdownValue = newValue;
-                      //         });
-                      //       },
-                      //       items: <String>[
-                      //         'All',
-                      //         'Pattaya',
-                      //         'Chumphon',
-                      //         'Chanthaburi',
-                      //         'Surat Thani',
-                      //         'Koh Tao',
-                      //         'Krabi',
-                      //         'Trat'
-                      //       ].map<DropdownMenuItem<String>>((String value) {
-                      //         return DropdownMenuItem<String>(
-                      //           value: value,
-                      //           child: Text(value),
-                      //         );
-                      //       }).toList(),
-                      //     ),
-                      //   ],
-                      // ),
+
                       SizedBox(height: 20),
-                      Container(
+                      /*Container(
                           child: InkWell(
                         onTap: () {
                           showCountryPicker(
@@ -282,6 +249,7 @@ class _TripDetailState extends State<TripDetail> {
                               // print("_country");
                               // print(_country.name);
                             },
+
                           );
                         },
                         child: InputDecorator(
@@ -290,7 +258,114 @@ class _TripDetailState extends State<TripDetail> {
                           ),
                           child: _country != null ? Text(_country.name) : null,
                         ),
+                      )),*/
+                  Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+
+                      child: Column(
+                        children: [
+                          ///Adding CSC Picker Widget in app
+                          CSCPicker(
+                            ///Enable disable state dropdown [OPTIONAL PARAMETER]
+                            showStates: true,
+
+                            /// Enable disable city drop down [OPTIONAL PARAMETER]
+                            showCities: false,
+
+                            ///Enable (get flag with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only) [OPTIONAL PARAMETER]
+                            flagState: CountryFlag.DISABLE,
+
+                            ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
+                            dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                color: Colors.white,
+                                border:
+                                Border.all(color: Colors.grey.shade300, width: 1)),
+
+                            ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
+                            disabledDropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
+                                color: Colors.grey.shade300,
+                                border:
+                                Border.all(color: Colors.grey.shade300, width: 1)),
+
+                            ///placeholders for dropdown search field
+                            countrySearchPlaceholder: "Country",
+                            stateSearchPlaceholder: "State",
+                            citySearchPlaceholder: "City",
+
+                            ///labels for dropdown
+                            countryDropdownLabel: "*Country",
+                            stateDropdownLabel: "*State",
+                            cityDropdownLabel: "*City",
+
+                            ///Default Country
+                            //defaultCountry: DefaultCountry.India,
+
+                            ///Disable country dropdown (Note: use it with default country)
+                            //disableCountry: true,
+
+                            ///selected item style [OPTIONAL PARAMETER]
+                            selectedItemStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+
+                            ///DropdownDialog Heading style [OPTIONAL PARAMETER]
+                            dropdownHeadingStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold),
+
+                            ///DropdownDialog Item style [OPTIONAL PARAMETER]
+                            dropdownItemStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+
+                            ///Dialog box radius [OPTIONAL PARAMETER]
+                            dropdownDialogRadius: 10.0,
+
+                            ///Search bar radius [OPTIONAL PARAMETER]
+                            searchBarRadius: 10.0,
+
+                            ///triggers once country selected in dropdown
+                            onCountryChanged: (value) {
+                              setState(() {
+                                ///store value in country variable
+                                countryValue = value;
+                              });
+                            },
+
+                            ///triggers once state selected in dropdown
+                            onStateChanged: (value) {
+                              setState(() {
+                                ///store value in state variable
+                                stateValue = value;
+                              });
+                            },
+
+                            ///triggers once city selected in dropdown
+                            onCityChanged: (value) {
+                              setState(() {
+                                ///store value in city variable
+                                cityValue = value;
+                              });
+                            },
+                          ),
+
+                          ///print newly selected country state and city in Text Widget
+                          TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  address = "$cityValue, $stateValue, $countryValue";
+                                });
+                              },
+                              child: Text("Print Data")),
+                          Text(address)
+                        ],
                       )),
+
                       SizedBox(height: 20),
                       Wrap(
                         spacing: 10,
@@ -567,7 +642,8 @@ class _TripDetailState extends State<TripDetail> {
         guestvalue == null &&
         _diff == "" &&
         tripcost == Cost.all &&
-        _country == null) {
+        (countryValue == null || countryValue =="Country") &&
+        (stateValue == null || stateValue =="State")) {
       // print("Filtering 1");
 
       // if the search field is empty or only contains white-space, we'll display all users
@@ -603,13 +679,31 @@ class _TripDetailState extends State<TripDetail> {
                 trip.tripTemplate.address.city.contains(dropdownValue))
             .toList();
       }
-      if (_country != null) {
+      if (countryValue != null) {
+        // print(_country.displayNameNoCountryCode);
+        print("----couuntryValue is--");
+        print(countryValue);
+        results = results
+            .where((trip) =>
+                trip.tripTemplate.address.country.contains(countryValue))
+            .toList();
+      }
+      if (stateValue !=null) {
+        print("----StateValue is--");
+        print(stateValue);
         // print(_country.displayNameNoCountryCode);
         results = results
             .where((trip) =>
-                trip.tripTemplate.address.country.contains(_country.name))
+            trip.tripTemplate.address.city.contains(stateValue))
             .toList();
       }
+      // if (cityValue != null) {
+      //   // print(_country.displayNameNoCountryCode);
+      //   results = results
+      //       .where((trip) =>
+      //       trip.tripTemplate.address.address_line_1.contains(cityValue))
+      //       .toList();
+      // }
       if (_dateFrom != null) {
         results = results
             .where((trip) => trip.startDate.toDateTime().isAfter(_dateFrom))
@@ -663,6 +757,7 @@ class _TripDetailState extends State<TripDetail> {
         //print(_diff);
       }
 // Edit cost filter error
+
       if (tripcost != Cost.all) {
         if (tripcost == Cost.one) {
           results = results
@@ -689,7 +784,6 @@ class _TripDetailState extends State<TripDetail> {
               .toList();
         }
       }
-
       setState(() {
         _foundtrip = results;
       });

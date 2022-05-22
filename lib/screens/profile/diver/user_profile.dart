@@ -137,15 +137,14 @@ class _UserProfileState extends State<UserProfile> {
                                               Align(
                                                 alignment: Alignment.topRight,
                                                 child: PopupMenuButton(
-                                                    icon: Icon(
-                                                        Icons.more_horiz),
-                                                    itemBuilder: (context) =>
-                                                        [
+                                                    icon:
+                                                        Icon(Icons.more_horiz),
+                                                    itemBuilder: (context) => [
                                                           PopupMenuItem(
                                                             child: Row(
                                                               children: [
-                                                                Icon(Icons
-                                                                    .edit),
+                                                                Icon(
+                                                                    Icons.edit),
                                                                 Text("Edit"),
                                                               ],
                                                             ),
@@ -166,22 +165,18 @@ class _UserProfileState extends State<UserProfile> {
                                               SizedBox(height: 20),
                                               Text(
                                                 'Firstname : ' +
-                                                    user_profile
-                                                        .diver.firstName
+                                                    user_profile.diver.firstName
                                                         .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
                                               ),
                                               Text(
                                                 'Lastname : ' +
-                                                    user_profile
-                                                        .diver.lastName
+                                                    user_profile.diver.lastName
                                                         .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
@@ -190,8 +185,7 @@ class _UserProfileState extends State<UserProfile> {
                                                 'Level : ' +
                                                     user_profile.diver.level
                                                         .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
@@ -201,8 +195,7 @@ class _UserProfileState extends State<UserProfile> {
                                                     user_profile
                                                         .diver.account.email
                                                         .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
@@ -211,8 +204,7 @@ class _UserProfileState extends State<UserProfile> {
                                                 'Phone number : ' +
                                                     user_profile.diver.phone
                                                         .toString(),
-                                                style:
-                                                    TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
@@ -223,68 +215,60 @@ class _UserProfileState extends State<UserProfile> {
                                                         .format(user_profile
                                                             .diver.birthDate
                                                             .toDateTime()),
-                                                style:
-                                                    TextStyle(fontSize: 18),
+                                                style: TextStyle(fontSize: 18),
                                               ),
                                               SizedBox(
                                                 height: 20,
                                               ),
                                               Container(
-                                                  width:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          10,
-                                                  height:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          10,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      10,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      10,
                                                   child: user_profile
                                                               .diver
                                                               .documents
                                                               .length ==
                                                           0
                                                       ? new Container(
-                      child: Center(child: Text('No image')),
-               
-                )
+                                                          child: Center(
+                                                              child: Text(
+                                                                  'No image')),
+                                                        )
                                                       : Image.network(
                                                           // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
-                                                          user_profile
-                                                              .diver
-                                                              .documents[0]
-                                                              .link
+                                                          user_profile.diver
+                                                              .documents[0].link
                                                               .toString())),
                                               SizedBox(
                                                 height: 20,
                                               ),
                                               Container(
-                                                  width:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          10,
-                                                  height:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width /
-                                                          10,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      10,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      10,
                                                   child: user_profile
                                                               .diver
                                                               .documents
-                                                              .length ==
-                                                          0
+                                                              .length <2
                                                       ? new Container(
-                      child: Center(child: Text('No image')),
-               
-                )
+                                                          child: Center(
+                                                              child: Text(
+                                                                  'No image')),
+                                                        )
                                                       : Image.network(
                                                           // 'http:/139.59.101.136/static/1bb37ca5171345af86ff2e052bdf7dee.jpg'
-                                                          user_profile
-                                                              .diver
-                                                              .documents[1]
-                                                              .link
+                                                          user_profile.diver
+                                                              .documents[1].link
                                                               .toString())),
                                               SizedBox(
                                                 height: 20,
@@ -438,16 +422,13 @@ class _InfoCardState extends State<InfoCard> {
                 height: MediaQuery.of(context).size.width / 10,
                 child: trips[widget.index].tripTemplate.images.length == 0
                     ? new Container(
-                      child: Center(child: Text('No image')),
-               
-                )
-                    : Image.network(' http://139.59.101.136/static/' +
-                            trips[widget.index]
-                                .tripTemplate
-                                .images[0]
-                                .toString()
-                        // trips[widget.index].tripTemplate.images[0].toString()
-                        )),
+                        child: Center(child: Text('No image')),
+                      )
+                    : Image.network(trips[widget.index]
+                        .tripTemplate
+                        .images[0]
+                        .link
+                        .toString())),
             // child: Image.asset(LiveAboardDatas[widget.index].image)),
             Expanded(
               child: Padding(
