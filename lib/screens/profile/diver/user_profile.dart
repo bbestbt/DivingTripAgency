@@ -259,8 +259,7 @@ class _UserProfileState extends State<UserProfile> {
                                                   child: user_profile
                                                               .diver
                                                               .documents
-                                                              .length ==
-                                                          0
+                                                              .length <2
                                                       ? new Container(
                                                           child: Center(
                                                               child: Text(

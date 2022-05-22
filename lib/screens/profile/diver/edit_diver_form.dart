@@ -165,12 +165,6 @@ class _EditDiverFormState extends State<EditDiverForm> {
     final stub = AccountClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
 
-    // var accountRequest = AccountRequest();
-    // var diver =Diver();
-    // var account =Account();
-    // diver.account=account;
-    // var account = Account();
-
     user_profile.diver.account.username = _controllerUsername.text;
     user_profile.diver.account.email = _controllerEmail.text;
     user_profile.diver.account.password = _controllerPassword.text;
@@ -190,16 +184,15 @@ class _EditDiverFormState extends State<EditDiverForm> {
       f.filename = divfront.name;
       List<int> a = await divfront.readAsBytes();
       f.file = a;
-      if(user_profile.diver.documents.length >= 1){
+      if(user_profile.diver.documents.length > 1){
         user_profile.diver.documents.removeAt(0);
       }
-      //user_profile.diver.documents.removeAt(0);
       user_profile.diver.documents.insert(0,f);
-      //print("user_profile after insert");
-      //print(user_profile.diver.documents);
-    } else if (user_profile.diver.documents.length >= 1) {
+    } else if (divfront == null) {
       var f = File();
       f.filename = user_profile.diver.documents[0].filename;
+      print("--firstpic--");
+      print(user_profile.diver.documents[0].filename);
     }
 
     if (card != null) {
@@ -207,13 +200,15 @@ class _EditDiverFormState extends State<EditDiverForm> {
       f2.filename = card.name;
       List<int> b = await card.readAsBytes();
       f2.file = b;
-      if(user_profile.diver.documents.length >= 2) {
+      if(user_profile.diver.documents.length > 1) {
         user_profile.diver.documents.removeAt(1);
       }
       user_profile.diver.documents.insert(1,f2);
-    } else if (user_profile.diver.documents.length >= 2) {
+    } else if (card == null) {
       var f2 = File();
       f2.filename = user_profile.diver.documents[1].filename;
+      print("--secondpic--");
+      print(user_profile.diver.documents[1].filename);
     }
 
     if (selected != null) {
@@ -237,10 +232,19 @@ class _EditDiverFormState extends State<EditDiverForm> {
     diver.phone = user_profile.diver.phone;
     diver.firstName = user_profile.diver.firstName;
     diver.lastName = user_profile.diver.lastName;
+    print("--userprofile.diver.doc.length---");
+    print(user_profile.diver.documents.length);
+   // print("-userprofilt.diver.doc--");
+    //print(user_profile.diver.documents);
+
     for (int i = 0; i < user_profile.diver.documents.length; i++) {
       diver.documents.add(user_profile.diver.documents[i]);
     }
-    final updateRequest = UpdateRequest()..diver = user_profile.diver;
+    print("--diver.doc.length---");
+    print(user_profile.diver.documents.length);
+    print("-diver.doc--");
+    print(user_profile.diver.documents);
+    final updateRequest = UpdateRequest()..diver = diver;
 
     try {
       var response = stub.update(updateRequest);
@@ -340,7 +344,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
                       Container(
                           width: MediaQuery.of(context).size.width / 10,
                           height: MediaQuery.of(context).size.width / 10,
-                          child: user_profile.diver.documents.length == 0
+                          child: user_profile.diver.documents.length < 1
                               ? new Container(
                                   child: Center(child: Text('No image')),
                                 )
@@ -393,7 +397,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
                       Container(
                           width: MediaQuery.of(context).size.width / 10,
                           height: MediaQuery.of(context).size.width / 10,
-                          child: user_profile.diver.documents.length == 0
+                          child: user_profile.diver.documents.length < 2
                               ? new Container(
                                   child: Center(child: Text('No image')),
                                 )
