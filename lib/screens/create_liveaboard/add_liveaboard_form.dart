@@ -188,6 +188,13 @@ class _addLiveaboardState extends State<addLiveaboard> {
       print(token);
       print(response);
       print('response: ${response}');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MainCompanyScreen(),
+        ),
+        (route) => false,
+      );
     } on GrpcError catch (e) {
       // Handle exception of type GrpcError
       print('codeName: ${e.codeName}');
@@ -195,6 +202,16 @@ class _addLiveaboardState extends State<addLiveaboard> {
       print('message: ${e.message}');
       print('rawResponse: ${e.rawResponse}');
       print('trailers: ${e.trailers}');
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       // Handle all other exceptions
       print('Exception: $e');
@@ -784,7 +801,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
           SizedBox(height: 30),
           FormError(errors: errors),
           FlatButton(
-            onPressed: () => {
+            onPressed: () async => {
               if (_formKey.currentState.validate())
                 {
                   if (liveaboardimg == null)
@@ -793,15 +810,7 @@ class _addLiveaboardState extends State<addLiveaboard> {
                     }
                   else
                     {
-                      sendLiveaboard(),
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              MainCompanyScreen(),
-                        ),
-                        (route) => false,
-                      )
+                      await sendLiveaboard(),
                     }
                 }
             },

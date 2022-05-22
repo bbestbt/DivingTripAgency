@@ -219,40 +219,6 @@ class _updateTripFormState extends State<updateTripForm> {
     }
   }
 
-  showErrorHotel() async {
-    await Future.delayed(Duration(microseconds: 1));
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Hotel is already used"),
-            actions: <Widget>[
-              // FlatButton(
-              //child: Text("OK"),
-              //     ),
-            ],
-          );
-        });
-  }
-
-  showError() async {
-    await Future.delayed(Duration(microseconds: 1));
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Boat is already used"),
-            actions: <Widget>[
-              // FlatButton(
-              //child: Text("OK"),
-              //     ),
-            ],
-          );
-        });
-  }
-
   void sendTripEdit() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
@@ -291,7 +257,7 @@ class _updateTripFormState extends State<updateTripForm> {
     final updateRequest = UpdateTripRequest()..trip = eachTrip;
     print(updateRequest);
     try {
-      var response = stub.updateTrip(updateRequest);
+      var response = await stub.updateTrip(updateRequest);
       //print('response: ${response}');
       print('ok');
       Navigator.pushAndRemoveUntil(
@@ -314,14 +280,15 @@ class _updateTripFormState extends State<updateTripForm> {
       //   showError();
       //   print("this boat is already use");
       // }
-      if (e.message == 'boat is being used by another trip') {
-        showError();
-        print("this boat is already use");
-      }
-      if (e.message == 'hotel is being used by another trip') {
-        showErrorHotel();
-        print("this hotel is already use");
-      }
+     showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       // Handle all other exceptions
       print('Exception: $e');

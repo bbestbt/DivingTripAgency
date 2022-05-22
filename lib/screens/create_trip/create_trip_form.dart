@@ -170,14 +170,16 @@ class _CreateTripFormState extends State<CreateTripForm> {
       //   showError();
       //   print("this boat is already use");
       // }
-      if (e.message == 'boat is being used by another trip') {
-        showError();
-        print("this boat is already use");
-      }
-      if (e.message == 'hotel is being used by another trip') {
-        showErrorHotel();
-        print("this hotel is already use");
-      }
+      // Handle exception of type GrpcError
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       // Handle all other exceptions
       print('Exception: $e');
@@ -213,7 +215,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.endDate = Timestamp.fromDateTime(to);
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
-    trip.schedule=textarea.text;
+    trip.schedule = textarea.text;
     trip.tripTemplate.description = triptemplate.description;
     trip.tripTemplate.name = triptemplate.name;
     trip.tripTemplate.tripType = triptemplate.tripType;
@@ -282,18 +284,16 @@ class _CreateTripFormState extends State<CreateTripForm> {
       print('message: ${e.message}');
       print('rawResponse: ${e.rawResponse}');
       print('trailers: ${e.trailers}');
-      // if (e.codeName == 'UNAVAILABLE') {
-      //   showError();
-      //   print("this boat is already use");
-      // }
-      if (e.message == 'boat is being used by another trip') {
-        showError();
-        print("this boat is already use");
-      }
-      if (e.message == 'hotel is being used by another trip') {
-        showErrorHotel();
-        print("this hotel is already use");
-      }
+      // Handle exception of type GrpcError
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       // Handle all other exceptions
       print('Exception: $e');
@@ -330,40 +330,6 @@ class _CreateTripFormState extends State<CreateTripForm> {
     } catch (e) {
       print('ERROR: $e');
     }
-  }
-
-  showError() async {
-    await Future.delayed(Duration(microseconds: 1));
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Boat is already used"),
-            actions: <Widget>[
-              // FlatButton(
-              //     //child: Text("OK"),
-              //     ),
-            ],
-          );
-        });
-  }
-
-  showErrorHotel() async {
-    await Future.delayed(Duration(microseconds: 1));
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Hotel is already used"),
-            actions: <Widget>[
-              FlatButton(
-                  //child: Text("OK"),
-                  ),
-            ],
-          );
-        });
   }
 
   @override

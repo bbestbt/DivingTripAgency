@@ -1,4 +1,3 @@
-
 import 'package:country_picker/country_picker.dart';
 import 'package:diving_trip_agency/form_error.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/agency.pbgrpc.dart';
@@ -142,8 +141,6 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
     boatRequest.divingBoat = boat;
     //  boatRequest.agencyId= boatRequest.agencyId+4;
 
-
-
     // try {
     //  var response = stub.addDivingBoat(boatRequest);
     //  print('response: ${response}');
@@ -156,6 +153,13 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       var response = await stub.addDivingBoat(boatRequest);
       print(token);
       print(response);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MainCompanyScreen(),
+        ),
+        (route) => false,
+      );
     } on GrpcError catch (e) {
       // Handle exception of type GrpcError
       print('codeName: ${e.codeName}');
@@ -163,6 +167,16 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
       print('message: ${e.message}');
       print('rawResponse: ${e.rawResponse}');
       print('trailers: ${e.trailers}');
+      // Handle exception of type GrpcError
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       // Handle all other exceptions
       print('Exception: $e');
@@ -226,30 +240,29 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                 width: MediaQuery.of(context).size.width / 3.6,
                 color: Colors.white,
                 child: Center(
-                  child:
-                  InkWell(
-                    onTap: () {
-                      showCountryPicker(
-                        context: context,
-                        onSelect: (Country country) {
-                          setState(() {
-                            countrySelected = country.name;
-
-                          });
-                          //print("_country");
-                          //print(_country.name);
-                        },
-                      );
-                    },
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        labelText: "Select country",
-                      ),
-                      child: countrySelected != null ? Text(countrySelected) : null,
+                    child: InkWell(
+                  onTap: () {
+                    showCountryPicker(
+                      context: context,
+                      onSelect: (Country country) {
+                        setState(() {
+                          countrySelected = country.name;
+                        });
+                        //print("_country");
+                        //print(_country.name);
+                      },
+                    );
+                  },
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: "Select country",
                     ),
-                  )
+                    child:
+                        countrySelected != null ? Text(countrySelected) : null,
+                  ),
+                )
 
-                  /*
+                    /*
                   DropdownButtonFormField(
                     isExpanded: true,
                     value: countrySelected,
@@ -273,7 +286,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                       }
                     },
                   ),*/
-                ),
+                    ),
               ),
               // Container(
               //     width: MediaQuery.of(context).size.width / 3.6,
@@ -520,7 +533,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
           FormError(errors: errors),
           FlatButton(
             //onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()))},
-            onPressed: () => {
+            onPressed: () async => {
               if (_formKey.currentState.validate())
                 {
                   if (boatimg == null)
@@ -529,15 +542,7 @@ class _CreateBoatFormState extends State<CreateBoatForm> {
                     }
                   else
                     {
-                      AddBoat(),
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              MainCompanyScreen(),
-                        ),
-                        (route) => false,
-                      )
+                      await AddBoat(),
                     }
                 },
             },

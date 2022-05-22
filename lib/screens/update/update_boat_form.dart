@@ -62,7 +62,7 @@ class updateEachBoat extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
-         decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
+          decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
           child: Column(
             children: [
               HeaderCompany(),
@@ -357,8 +357,26 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
     final updateRequest = UpdateBoatRequest()..boat = eachBoat;
     print(updateRequest);
     try {
-      var response = stub.updateBoat(updateRequest);
+      var response = await stub.updateBoat(updateRequest);
       print('response: ${response}');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MainCompanyScreen(),
+        ),
+        (route) => false,
+      );
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
     }
@@ -777,15 +795,8 @@ class _UpdateBoatFormState extends State<UpdateBoatForm> {
           ),
           SizedBox(height: 20),
           FlatButton(
-            onPressed: () => {
-              sendBoatEdit(),
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
+            onPressed: () async=> {
+              await sendBoatEdit(),
             },
             color: Color(0xfff75BDFF),
             child: Text(

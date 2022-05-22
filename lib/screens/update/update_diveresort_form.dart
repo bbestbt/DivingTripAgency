@@ -515,8 +515,26 @@ class _editHotelFormState extends State<editHotelForm> {
     final updateRequest = UpdateHotelRequest()..hotel = hotel;
     print(updateRequest);
     try {
-      var response = stub.updateHotel(updateRequest);
+      var response = await stub.updateHotel(updateRequest);
       print('response: ${response}');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MainCompanyScreen(),
+        ),
+        (route) => false,
+      );
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
     }
@@ -1229,16 +1247,9 @@ class _editHotelFormState extends State<editHotelForm> {
           SizedBox(height: 30),
 
           FlatButton(
-            onPressed: () => {
+            onPressed: () async => {
               //  print(pinkValue),
-              sendUpdateHotel(),
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => MainCompanyScreen(),
-                ),
-                (route) => false,
-              )
+              await sendUpdateHotel(),
             },
             color: Color(0xfff75BDFF),
             child: Text(

@@ -197,6 +197,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       box.put('login', true);
       String token = box.get('token');
       print("login ja");
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MainCompanyScreen()));
     } on GrpcError catch (e) {
       print('codeName: ${e.codeName}');
       print('details: ${e.details}');
@@ -422,7 +424,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           FormError(errors: errors),
           SizedBox(height: 20),
           FlatButton(
-            onPressed: () => {
+            onPressed: () async => {
               if (_formKey.currentState.validate())
                 {
                   if (docFile == null || imageFile == null)
@@ -431,11 +433,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                     }
                   else
                     {
-                      sendCompany(),
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MainCompanyScreen())),
+                      await sendCompany(),
                     }
                 }
             },

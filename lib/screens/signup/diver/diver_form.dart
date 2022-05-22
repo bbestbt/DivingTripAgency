@@ -157,6 +157,8 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       box.put('login', true);
       String token = box.get('token');
       print("login ja");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MainScreen()));
     } on GrpcError catch (e) {
       print('codeName: ${e.codeName}');
       print('details: ${e.details}');
@@ -375,7 +377,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
           FormError(errors: errors),
           SizedBox(height: 20),
           FlatButton(
-            onPressed: () => {
+            onPressed: () async => {
               if (_formKey.currentState.validate())
                 {
                   if (_dateTime == null)
@@ -388,9 +390,7 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                     }
                   else
                     {
-                      sendDiver(),
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MainScreen()))
+                      await sendDiver(),
                     }
                 }
               //_formKey.currentState.save()

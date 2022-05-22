@@ -77,6 +77,19 @@ class _SignupStaffState extends State<SignupStaff> {
       try {
         var response = await stub.addStaff(staffRequest);
         print('response: ${response}');
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => MainCompanyScreen()));
+      } on GrpcError catch (e) {
+        // Handle exception of type GrpcError
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Error"),
+                content: Text(e.message),
+                actions: <Widget>[],
+              );
+            });
       } catch (e) {
         print(e);
       }
@@ -98,7 +111,8 @@ class _SignupStaffState extends State<SignupStaff> {
             width: double.infinity,
             // height: 600,
             // decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
-                    decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
+            decoration:
+                BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
             child: Column(
               children: [
                 HeaderCompany(),
@@ -129,15 +143,10 @@ class _SignupStaffState extends State<SignupStaff> {
                             SizedBox(height: 20),
                             FormError(errors: errors),
                             FlatButton(
-                              onPressed: () => {
+                              onPressed: () async => {
                                 if (_formKey.currentState.validate())
                                   {
-                                    addStaff(),
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                MainCompanyScreen()))
+                                    await addStaff(),
                                   }
                               },
                               color: Color(0xfff75BDFF),

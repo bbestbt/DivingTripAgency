@@ -70,7 +70,8 @@ class _updateEachDiveMasterState extends State<updateEachDiveMaster> {
         child: Form(
           child: Container(
             width: double.infinity,
-             decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
+            decoration:
+                BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
             child: Column(
               children: [
                 HeaderCompany(),
@@ -250,8 +251,21 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
     print("Divemastervalue.length");
     print(divemasterValue.documents.length);
     try {
-      var response = stub.updateDiveMaster(updateRequest);
+      var response = await stub.updateDiveMaster(updateRequest);
       print('response: ${response}');
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MainCompanyScreen()));
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
     }
@@ -439,8 +453,6 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
           FlatButton(
             onPressed: () async {
               await sendUpdateDivemaster();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MainCompanyScreen()));
             },
             color: Color(0xfff75BDFF),
             child: Text(

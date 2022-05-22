@@ -66,7 +66,8 @@ class _updateEachStaffState extends State<updateEachStaff> {
         child: Form(
           child: Container(
             width: double.infinity,
-           decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
+            decoration:
+                BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
             child: Column(
               children: [
                 HeaderCompany(),
@@ -196,20 +197,33 @@ class _StaffFormState extends State<StaffForm> {
     }
 
     var staff = Staff();
-    staff.id=staffValue.id;
+    staff.id = staffValue.id;
     staff.firstName = staffValue.firstName;
     staff.lastName = staffValue.lastName;
     staff.position = staffValue.position;
     if (genderSelected != null) {
-      print('select'+genderSelected);
+      print('select' + genderSelected);
       staff.gender = staffValue.gender;
     }
 
     final updateRequest = UpdateStaffRequest()..staff = staff;
     print(updateRequest);
     try {
-      var response = stub.updateStaff(updateRequest);
+      var response = await stub.updateStaff(updateRequest);
       print('response: ${response}');
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MainCompanyScreen()));
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
     }
@@ -264,8 +278,6 @@ class _StaffFormState extends State<StaffForm> {
           FlatButton(
             onPressed: () async {
               await sendUpdateStaff();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => MainCompanyScreen()));
             },
             color: Color(0xfff75BDFF),
             child: Text(

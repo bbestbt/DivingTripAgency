@@ -154,8 +154,6 @@ class _addHotelState extends State<addHotel> {
 
     hotel.address = address;
 
-
-
     //var room = RoomType();
     //var amenity = Amenity();
     for (int i = 0; i < pinkValue.length; i++) {
@@ -194,6 +192,13 @@ class _addHotelState extends State<addHotel> {
       var response = await stub.addHotel(hotelRequest);
       print(token);
       print(response);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MainCompanyScreen(),
+        ),
+        (route) => false,
+      );
     } on GrpcError catch (e) {
       // Handle exception of type GrpcError
       print('codeName: ${e.codeName}');
@@ -201,6 +206,16 @@ class _addHotelState extends State<addHotel> {
       print('message: ${e.message}');
       print('rawResponse: ${e.rawResponse}');
       print('trailers: ${e.trailers}');
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       // Handle all other exceptions
       print('Exception: $e');
@@ -264,28 +279,27 @@ class _addHotelState extends State<addHotel> {
                 width: MediaQuery.of(context).size.width / 3.6,
                 color: Colors.white,
                 child: Center(
-                  child: InkWell(
-                    onTap: () {
-                      showCountryPicker(
-                        context: context,
-                        onSelect: (Country country) {
-                          setState(() {
-                            countrySelected = country.name;
-
-                          });
-                          //print("_country");
-                          //print(_country.name);
-                        },
-                      );
-                    },
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        labelText: "Select country",
-                      ),
-                      child: countrySelected != null ? Text(countrySelected) : null,
+                    child: InkWell(
+                  onTap: () {
+                    showCountryPicker(
+                      context: context,
+                      onSelect: (Country country) {
+                        setState(() {
+                          countrySelected = country.name;
+                        });
+                        //print("_country");
+                        //print(_country.name);
+                      },
+                    );
+                  },
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: "Select country",
                     ),
-                  )
-                ),
+                    child:
+                        countrySelected != null ? Text(countrySelected) : null,
+                  ),
+                )),
               ),
               // Container(
               //     width: MediaQuery.of(context).size.width / 3.6,
@@ -827,7 +841,7 @@ class _addHotelState extends State<addHotel> {
           SizedBox(height: 30),
           FormError(errors: errors),
           FlatButton(
-            onPressed: () => {
+            onPressed: () async => {
               if (_formKey.currentState.validate())
                 {
                   if (hotelimg == null)
@@ -836,15 +850,7 @@ class _addHotelState extends State<addHotel> {
                     }
                   else
                     {
-                      sendHotel(),
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              MainCompanyScreen(),
-                        ),
-                        (route) => false,
-                      )
+                      await sendHotel(),
                     }
                 }
             },

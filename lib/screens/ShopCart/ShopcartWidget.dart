@@ -11,6 +11,7 @@ import 'package:diving_trip_agency/nautilus/proto/dart/model.pb.dart';
 import 'package:diving_trip_agency/nautilus/proto/dart/reservation.pbgrpc.dart';
 import 'package:diving_trip_agency/screens/detail/trip_detail(bak).dart';
 import 'package:diving_trip_agency/screens/main/components/header.dart';
+import 'package:diving_trip_agency/screens/main/mainScreen.dart';
 import 'package:diving_trip_agency/screens/profile/diver/edit_profile_diver.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,6 @@ import 'package:fixnum/fixnum.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 import '../../nautilus/proto/dart/model.pb.dart';
 
@@ -41,18 +41,18 @@ String usertoken;
 GetProfileResponse user_profile = new GetProfileResponse();
 var profile;
 final CartBox = Hive.box('CartBox');
-int Checked=0;
+int Checked = 0;
+
 class CartWidget extends StatefulWidget {
   @override
   _CartState createState() => _CartState();
 }
 
 class _CartState extends State<CartWidget> {
-
   @override
   void initState() {
-    totalprice=0;
-   // print("Cartbox at init");
+    totalprice = 0;
+    // print("Cartbox at init");
     //print("-------");
     //print(CartBox.toMap());
     clength = Cartlist.length;
@@ -69,8 +69,8 @@ class _CartState extends State<CartWidget> {
       indexDetail = Cartlist[i][12];
       quantity = Cartlist[i][9];
       diver = Cartlist[i][10];
-    // print("Cartlist Everything");
-     // print("--------");
+      // print("Cartlist Everything");
+      // print("--------");
       //print(Cartlist);
       /*print("Room Types");
       print("----------");
@@ -94,10 +94,7 @@ class _CartState extends State<CartWidget> {
       print("------");
       print(Cartlist[i][13]);
 
-
-
       persCarthive(i);
-
     }
     if (Cartlist.length == 0) {
       populateCartlist();
@@ -106,56 +103,51 @@ class _CartState extends State<CartWidget> {
     super.initState();
   }
 
-  void populateCartlist(){
-
+  void populateCartlist() {
     int i;
-    bool checked=false;
+    bool checked = false;
     final box = Hive.box('userInfo');
-    if (CartBox.get('clength') !=null) {
+    if (CartBox.get('clength') != null) {
       for (i = 0; i < CartBox.get('clength'); i++) {
-
         //if(checked==false && CartBox.get("usertoken"+i.toString())==token) {
         if (checked == false &&
-        CartBox.get("username" + i.toString ()
-    ) == box.get("username")) {
-    Cartlist.add([
-    CartBox.get('image' + i.toString()), //0
-    CartBox.get('tripname' + i.toString()), //1
-    //"Tripname",
-    CartBox.get('hotelname' + i.toString()), //2
-    CartBox.get('roomtype' + i.toString()), //3
-    CartBox.get('price' + i.toString()) *
-    CartBox.get("quantity" + i.toString()), //4
-    //tripname[0]['tripdetail'],
-    "TripName", //5
-    "roomname", //6
-    0, //7
-    CartBox.get("indexDetail"), //8
-    CartBox.get("quantity" + i.toString()), //9
-    CartBox.get("diver" + i.toString()), //10
-    CartBox.get("roomid" + i.toString()), //11
-    CartBox.get("tripid" + i.toString()), //12
-    CartBox.get("username" + i.toString()) //13
-    //CartBox.get('roomtype'),
-    ]);
-    totalprice += CartBox.get('price' + i.toString()) *
-    CartBox.get("quantity" + i.toString());
-             }
-
+            CartBox.get("username" + i.toString()) == box.get("username")) {
+          Cartlist.add([
+            CartBox.get('image' + i.toString()), //0
+            CartBox.get('tripname' + i.toString()), //1
+            //"Tripname",
+            CartBox.get('hotelname' + i.toString()), //2
+            CartBox.get('roomtype' + i.toString()), //3
+            CartBox.get('price' + i.toString()) *
+                CartBox.get("quantity" + i.toString()), //4
+            //tripname[0]['tripdetail'],
+            "TripName", //5
+            "roomname", //6
+            0, //7
+            CartBox.get("indexDetail"), //8
+            CartBox.get("quantity" + i.toString()), //9
+            CartBox.get("diver" + i.toString()), //10
+            CartBox.get("roomid" + i.toString()), //11
+            CartBox.get("tripid" + i.toString()), //12
+            CartBox.get("username" + i.toString()) //13
+            //CartBox.get('roomtype'),
+          ]);
+          totalprice += CartBox.get('price' + i.toString()) *
+              CartBox.get("quantity" + i.toString());
+        }
       }
     }
-    checked=true;
-
-
+    checked = true;
   }
+
   deleteItem(int id) {
     int clengthtemp = 0;
     var templist = [];
     if (id < clengthtemp - 1) {
-
-    var pricetemp = CartBox.get('price' + (id + 1).toString()) *
-        CartBox.get("quantity" + (id + 1).toString());
-         templist.add([CartBox.get('image' + (id + 1).toString()),
+      var pricetemp = CartBox.get('price' + (id + 1).toString()) *
+          CartBox.get("quantity" + (id + 1).toString());
+      templist.add([
+        CartBox.get('image' + (id + 1).toString()),
         CartBox.get('tripname' + (id + 1).toString()),
         CartBox.get('hotelname' + (id + 1).toString()), //2
         CartBox.get('roomtype' + (id + 1).toString()), //3
@@ -170,7 +162,6 @@ class _CartState extends State<CartWidget> {
         CartBox.get("roomid" + (id + 1).toString()), //11
         CartBox.get("tripid" + (id + 1).toString()), //12
         CartBox.get("username" + (id + 1).toString()), //13
-
       ]);
       CartBox.delete('Roomlist' + (id + 1).toString());
       CartBox.delete('diver' + (id + 1).toString());
@@ -202,16 +193,12 @@ class _CartState extends State<CartWidget> {
     print("---clengthtemp---");
     print(clengthtemp);
 
-
-
-  clengthtemp = clengthtemp - 1;
-  CartBox.delete('clength');
-  CartBox.put('clength', clengthtemp);
-
-    
+    clengthtemp = clengthtemp - 1;
+    CartBox.delete('clength');
+    CartBox.put('clength', clengthtemp);
   }
 
-  void sortCart(int cartind,List templist) async {
+  void sortCart(int cartind, List templist) async {
     //Test Hive
     print("--templist--");
     print(templist[cartind][1]);
@@ -234,27 +221,26 @@ class _CartState extends State<CartWidget> {
     CartBox.put('username' + cartind.toString(), templist[cartind][13]);
   }
 
+  void persCarthive(int cartind) async {
+    //Test Hive
 
-  void persCarthive(int cartind) async{ //Test Hive
-
-    CartBox.put('image'+cartind.toString(),Cartlist[cartind][0]);
-    CartBox.put('tripname'+cartind.toString(), Cartlist[cartind][1]);
+    CartBox.put('image' + cartind.toString(), Cartlist[cartind][0]);
+    CartBox.put('tripname' + cartind.toString(), Cartlist[cartind][1]);
     CartBox.put('clength', clength);
-    CartBox.put('hotelname'+cartind.toString(),Cartlist[cartind][2]);
-    CartBox.put('roomtype'+cartind.toString(), Cartlist[cartind][3]);
-    CartBox.put('price'+cartind.toString(), Cartlist[cartind][4]);
-    CartBox.put('tripdetail'+cartind.toString(), Cartlist[cartind][5]);
-    CartBox.put('Roomlist'+cartind.toString(), Cartlist[cartind][6]);
+    CartBox.put('hotelname' + cartind.toString(), Cartlist[cartind][2]);
+    CartBox.put('roomtype' + cartind.toString(), Cartlist[cartind][3]);
+    CartBox.put('price' + cartind.toString(), Cartlist[cartind][4]);
+    CartBox.put('tripdetail' + cartind.toString(), Cartlist[cartind][5]);
+    CartBox.put('Roomlist' + cartind.toString(), Cartlist[cartind][6]);
 
-    CartBox.put('indexroom'+cartind.toString(), Cartlist[cartind][7]);
-    CartBox.put('indexDetail'+cartind.toString(), Cartlist[cartind][12]);
-    CartBox.put('quantity'+cartind.toString(),Cartlist[cartind][9]);
-    CartBox.put('diver'+cartind.toString(), Cartlist[cartind][10]);
+    CartBox.put('indexroom' + cartind.toString(), Cartlist[cartind][7]);
+    CartBox.put('indexDetail' + cartind.toString(), Cartlist[cartind][12]);
+    CartBox.put('quantity' + cartind.toString(), Cartlist[cartind][9]);
+    CartBox.put('diver' + cartind.toString(), Cartlist[cartind][10]);
 
-    CartBox.put('roomid'+cartind.toString(),Cartlist[cartind][11]);
-    CartBox.put('tripid'+cartind.toString(), Cartlist[cartind][12]);
-    CartBox.put('username'+cartind.toString(), Cartlist[cartind][13]);
-
+    CartBox.put('roomid' + cartind.toString(), Cartlist[cartind][11]);
+    CartBox.put('tripid' + cartind.toString(), Cartlist[cartind][12]);
+    CartBox.put('username' + cartind.toString(), Cartlist[cartind][13]);
 
     //var jsondetails = jsonEncode((Cartlist[cartind][5]
     //as List<TripWithTemplate>).map((e) => e.toProto3Json()).toList());
@@ -262,12 +248,8 @@ class _CartState extends State<CartWidget> {
     //print(CartBox.get('tripdetail'));
     //print("Current Cartbox");
     //print("-------------------");
-   // print(CartBox.toMap());
-
+    // print(CartBox.toMap());
   }
-
-
-
 
   getProfile() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
@@ -309,28 +291,59 @@ class _CartState extends State<CartWidget> {
       room.roomTypeId = Int64(CartBox.get('roomid' + i.toString()));
       room.noDivers = CartBox.get('diver' + i.toString());
 
-
-      reservation = Reservation()
-        ..rooms.add(room);
+      reservation = Reservation()..rooms.add(room);
       //reservation.tripId = details[indexDetail].id;
-    //  print("CartBox get diverID");
-     // print(CartBox.get('diver'+i.toString()));
-     // print(CartBox.get('tripid'+i.toString()));
-     // print(totalprice);
-      reservation.tripId = Int64(CartBox.get('tripid'+i.toString()));
+      //  print("CartBox get diverID");
+      // print(CartBox.get('diver'+i.toString()));
+      // print(CartBox.get('tripid'+i.toString()));
+      // print(totalprice);
+      reservation.tripId = Int64(CartBox.get('tripid' + i.toString()));
+
       reservation.diverId = user_profile.diver.id;
+
       /*reservation.price =
         (roomtypes[indexRoom].price * quantity) + details[indexDetail].price;*/
       //reservation.price = 1000;//CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt();
       reservation.price = totalprice;
-      reservation.totalDivers = Int64(quantity);
-     // print(reservation);
+      reservation.totalDivers = Int64(0);
 
-      var bookRequest = CreateReservationRequest()
-        ..reservation = reservation;
-      try {
-        var response = stub.createReservation(bookRequest);
+      // print(reservation);
+      var bookRequest = CreateReservationRequest()..reservation = reservation;
+     try {
+        var response = await stub.createReservation(bookRequest);
+        print('ok');
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Booking"),
+                content: Text("done"),
+                actions: <Widget>[
+                  // FlatButton(
+                  //   child: Text("OK"),
+                  // ),
+                ],
+              );
+            });
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainScreen()));
         print('response: ${response}');
+      } on GrpcError catch (e) {
+        print('codeName: ${e.codeName}');
+        print('details: ${e.details}');
+        print('message: ${e.message}');
+        print('rawResponse: ${e.rawResponse}');
+        print('trailers: ${e.trailers}');
+        // Handle exception of type GrpcError
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Error"),
+                content: Text(e.message),
+                actions: <Widget>[],
+              );
+            });
       } catch (e) {
         print(e);
       }
@@ -339,17 +352,16 @@ class _CartState extends State<CartWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
         //width: 800,
-        width: MediaQuery.of(context).size.width*0.7,
+        width: MediaQuery.of(context).size.width * 0.7,
         margin: EdgeInsets.all(20),
         child: Column(children: [
           SectionTitle(
             title: "Trips in cart",
             color: Color(0xFFFF78a2cc),
           ),
-         // Text("Total Cost: "),
+          // Text("Total Cost: "),
           //Text(totalprice.toString()),
           /*TextButton(
             child: Text(
@@ -391,23 +403,6 @@ class _CartState extends State<CartWidget> {
                 elevation: 2,
                 backgroundColor: Colors.amber),
           ),*/
-        TextButton(
-          child: Text(
-            "Clear cart",
-            // style: TextStyle(fontSize: 25),
-          ),
-          onPressed: () {
-            setState(() {
-              CartBox.clear();
-              Cartlist=[];
-              print("cleared");
-            });
-          },
-          style: TextButton.styleFrom(
-              primary: Colors.red,
-              elevation: 2,
-              backgroundColor: Colors.amber),
-        ),
           SizedBox(height: 40),
           ListView.builder(
             itemCount: Cartlist.length,
@@ -417,14 +412,14 @@ class _CartState extends State<CartWidget> {
                   child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Container(
-                        width: MediaQuery.of(context).size.width*0.6,
-                        child: Wrap(
-                          direction: Axis.horizontal,
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: Wrap(direction: Axis.horizontal,
                             //mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                  width: MediaQuery.of(context).size.width/15,
-                                  height: MediaQuery.of(context).size.width/15,
+                                  width: MediaQuery.of(context).size.width / 15,
+                                  height:
+                                      MediaQuery.of(context).size.width / 15,
                                   child: Image.network(Cartlist[position][0])),
 
                               // Flexible(
@@ -434,8 +429,7 @@ class _CartState extends State<CartWidget> {
                               //          Cartlist[position][0])),
                               // )),
                               SizedBox(width: 30),
-                              Wrap(
-                                direction: Axis.vertical,
+                              Wrap(direction: Axis.vertical,
                                   //crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
@@ -472,7 +466,6 @@ class _CartState extends State<CartWidget> {
                                 backgroundColor: Colors.amber),
                           ),*/
 
-
                               SizedBox(width: 30),
                               TextButton(
                                 child: Text(
@@ -502,24 +495,44 @@ class _CartState extends State<CartWidget> {
           Cartlist.length != 0
               ? TextButton(
                   child: Text(
+                    "Clear cart",
+                    // style: TextStyle(fontSize: 25),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      CartBox.clear();
+                      Cartlist = [];
+                      print("cleared");
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      elevation: 2,
+                      backgroundColor: Colors.indigo),
+                )
+              : SizedBox(height: 30),
+          SizedBox(height: 30),
+          Cartlist.length != 0
+              ? TextButton(
+                  child: Text(
                     "Book",
                     // style: TextStyle(fontSize: 25),
                   ),
                   onPressed: () async {
                     await bookTrips();
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Booking"),
-                            content: Text("done"),
-                            actions: <Widget>[
-                              // FlatButton(
-                              //   child: Text("OK"),
-                              // ),
-                            ],
-                          );
-                        });
+                    // showDialog(
+                    //     context: context,
+                    //     builder: (BuildContext context) {
+                    //       return AlertDialog(
+                    //         title: Text("Booking"),
+                    //         content: Text("done"),
+                    //         actions: <Widget>[
+                    //           // FlatButton(
+                    //           //   child: Text("OK"),
+                    //           // ),
+                    //         ],
+                    //       );
+                    //     });
                     //print(Cartlist);
                   },
                   style: TextButton.styleFrom(

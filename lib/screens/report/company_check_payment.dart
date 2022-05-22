@@ -89,9 +89,27 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
 
     var statusrequest = UpdatePaymentStatusRequest()..payment = paymentStatus;
     try {
-      var response = stub.updatePaymentStatus(statusrequest);
+      var response = await stub.updatePaymentStatus(statusrequest);
 
       print('response: ${response}');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MainCompanyScreen(),
+        ),
+        (route) => false,
+      );
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
     }
@@ -102,9 +120,9 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
     return Scaffold(
         // key: _controller.scaffoldkey,
         endDrawer: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: 300),
-        child: CompanyHamburger(),
-      ),
+          constraints: BoxConstraints(maxWidth: 300),
+          child: CompanyHamburger(),
+        ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -132,7 +150,7 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                                   trips[index].divers.length,
                                   (indexDiver) => Center(
                                     child: SingleChildScrollView(
-                                       scrollDirection: Axis.horizontal,
+                                      scrollDirection: Axis.horizontal,
                                       child: InfoCard(
                                         index,
                                         diver,
@@ -151,14 +169,6 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                             onPressed: () async => {
                               await updatePayment(),
                               print('checking done'),
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      MainCompanyScreen(),
-                                ),
-                                (route) => false,
-                              )
                             },
                             color: Color(0xfff75BDFF),
                             child: Text(

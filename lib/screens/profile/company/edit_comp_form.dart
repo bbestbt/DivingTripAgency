@@ -213,14 +213,14 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       f.filename = doc.name;
       List<int> b = await doc.readAsBytes();
       f.file = b;
-      if(user_profile.agency.documents.length >= 1) {
+      if (user_profile.agency.documents.length >= 1) {
         user_profile.agency.documents.removeAt(0);
       }
-      user_profile.agency.documents.insert(0,f);
-    } else if(user_profile.agency.documents.length >= 1){
+      user_profile.agency.documents.insert(0, f);
+    } else if (user_profile.agency.documents.length >= 1) {
       var f = File();
       f.filename = user_profile.agency.documents[0].filename;
-          //.agency.documents[user_profile.agency.documents.length - 2].filename;
+      //.agency.documents[user_profile.agency.documents.length - 2].filename;
       //user_profile.agency.documents.add(f);
     }
 
@@ -229,14 +229,14 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       f2.filename = Img.name;
       List<int> a = await Img.readAsBytes();
       f2.file = a;
-      if(user_profile.agency.documents.length >= 2) {
+      if (user_profile.agency.documents.length >= 2) {
         user_profile.agency.documents.removeAt(1);
       }
-      user_profile.agency.documents.insert(1,f2);
-    } else if(user_profile.agency.documents.length >= 2) {
+      user_profile.agency.documents.insert(1, f2);
+    } else if (user_profile.agency.documents.length >= 2) {
       var f2 = File();
       f2.filename = user_profile.agency.documents[1].filename;
-          //.agency.documents[user_profile.agency.documents.length - 1].filename;
+      //.agency.documents[user_profile.agency.documents.length - 1].filename;
       //user_profile.agency.documents.add(f2);
     }
 
@@ -301,12 +301,25 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     // updateRequest.agency.address.region = user_profile.agency.address.region;
 
     try {
-      var response = pf.update(updateRequest);
+      var response = await pf.update(updateRequest);
       print('response: ${response}');
       print('----------');
-      var response2 = pf.updateAccount(accountUpdateRequest);
+      var response2 = await pf.updateAccount(accountUpdateRequest);
 
       print('response: ${response2}');
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => MainCompanyScreen()));
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
     }
@@ -573,10 +586,6 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                   FlatButton(
                     onPressed: () async => {
                       await sendCompanyEdit(),
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MainCompanyScreen())),
                     },
                     color: Color(0xfff75BDFF),
                     child: Text(

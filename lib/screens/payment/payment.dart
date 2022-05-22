@@ -89,6 +89,24 @@ class _PaymentUploadState extends State<PaymentUpload> {
     try {
       var response = await stub.makePayment(makePayament);
       print('response: ${response}');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MainScreen(),
+        ),
+        (route) => false,
+      );
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
     }
@@ -455,14 +473,6 @@ class _PaymentUploadState extends State<PaymentUpload> {
                             onPressed: () async => {
                               await makePayment(),
                               print('payment done'),
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      MainScreen(),
-                                ),
-                                (route) => false,
-                              )
                             },
                             color: Color(0xfff75BDFF),
                             child: Text(

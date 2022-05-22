@@ -184,10 +184,10 @@ class _EditDiverFormState extends State<EditDiverForm> {
       f.filename = divfront.name;
       List<int> a = await divfront.readAsBytes();
       f.file = a;
-      if(user_profile.diver.documents.length > 1){
+      if (user_profile.diver.documents.length > 1) {
         user_profile.diver.documents.removeAt(0);
       }
-      user_profile.diver.documents.insert(0,f);
+      user_profile.diver.documents.insert(0, f);
     } else if (divfront == null) {
       var f = File();
       f.filename = user_profile.diver.documents[0].filename;
@@ -200,10 +200,10 @@ class _EditDiverFormState extends State<EditDiverForm> {
       f2.filename = card.name;
       List<int> b = await card.readAsBytes();
       f2.file = b;
-      if(user_profile.diver.documents.length > 1) {
+      if (user_profile.diver.documents.length > 1) {
         user_profile.diver.documents.removeAt(1);
       }
-      user_profile.diver.documents.insert(1,f2);
+      user_profile.diver.documents.insert(1, f2);
     } else if (card == null) {
       var f2 = File();
       f2.filename = user_profile.diver.documents[1].filename;
@@ -234,7 +234,7 @@ class _EditDiverFormState extends State<EditDiverForm> {
     diver.lastName = user_profile.diver.lastName;
     print("--userprofile.diver.doc.length---");
     print(user_profile.diver.documents.length);
-   // print("-userprofilt.diver.doc--");
+    // print("-userprofilt.diver.doc--");
     //print(user_profile.diver.documents);
 
     for (int i = 0; i < user_profile.diver.documents.length; i++) {
@@ -247,11 +247,24 @@ class _EditDiverFormState extends State<EditDiverForm> {
     final updateRequest = UpdateRequest()..diver = diver;
 
     try {
-      var response = stub.update(updateRequest);
-      var response2 = stub.updateAccount(accountUpdateRequest);
+      var response = await stub.update(updateRequest);
+      var response2 = await stub.updateAccount(accountUpdateRequest);
       print('response: ${response}');
       // print('ddd');
       print('response: ${response2}');
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MainScreen()));
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
     }
@@ -355,20 +368,20 @@ class _EditDiverFormState extends State<EditDiverForm> {
                       Center(
                           child: DiverImage == null
                               ? Column(
-                            children: [Text('')],
-                          )
+                                  children: [Text('')],
+                                )
                               : kIsWeb
-                              ? Image.network(
-                            DiverImage.path,
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.width /
-                                10,
-                          )
-                              : Image.file(
-                            io.File(DiverImage.path),
-                            fit: BoxFit.cover,
-                            width: screenwidth * 0.05,
-                          )),
+                                  ? Image.network(
+                                      DiverImage.path,
+                                      fit: BoxFit.cover,
+                                      width: MediaQuery.of(context).size.width /
+                                          10,
+                                    )
+                                  : Image.file(
+                                      io.File(DiverImage.path),
+                                      fit: BoxFit.cover,
+                                      width: screenwidth * 0.05,
+                                    )),
                       /* Spacer(),
               DiverImage == null
                   ? Text('')
@@ -389,10 +402,10 @@ class _EditDiverFormState extends State<EditDiverForm> {
                     ],
                   ),
                   SizedBox(height: 20),
-                
+
                   Row(
                     children: [
-                        Text('Back image'),
+                      Text('Back image'),
                       SizedBox(width: 30),
                       Container(
                           width: MediaQuery.of(context).size.width / 10,
@@ -409,20 +422,20 @@ class _EditDiverFormState extends State<EditDiverForm> {
                       Center(
                           child: DiveBack == null
                               ? Column(
-                            children: [Text('')],
-                          )
+                                  children: [Text('')],
+                                )
                               : kIsWeb
-                              ? Image.network(
-                            DiveBack.path,
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.width /
-                                10,
-                          )
-                              : Image.file(
-                            io.File(DiveBack.path),
-                            fit: BoxFit.cover,
-                            width: screenwidth * 0.05,
-                          )),
+                                  ? Image.network(
+                                      DiveBack.path,
+                                      fit: BoxFit.cover,
+                                      width: MediaQuery.of(context).size.width /
+                                          10,
+                                    )
+                                  : Image.file(
+                                      io.File(DiveBack.path),
+                                      fit: BoxFit.cover,
+                                      width: screenwidth * 0.05,
+                                    )),
                       Spacer(),
                       FlatButton(
                         color: Color(0xfffa2c8ff),
@@ -457,8 +470,6 @@ class _EditDiverFormState extends State<EditDiverForm> {
                       //     })
                       //   },
                       await sendDiverEdit(),
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MainScreen()))
                     },
                     color: Color(0xfff75BDFF),
                     child: Text(
