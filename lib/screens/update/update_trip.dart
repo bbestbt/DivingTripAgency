@@ -17,6 +17,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 
 List<TripWithTemplate> trips = [];
 
@@ -244,67 +245,78 @@ class _listTripCardState extends State<listTripCard> {
         decoration: BoxDecoration(
           color: Color(0xfffe2f0cb),
         ),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Flexible(
-              child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    trips[widget.index].tripTemplate.name,
-                    overflow: TextOverflow.ellipsis,
-                  )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        trips[widget.index].tripTemplate.name,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                ),
+                // SizedBox(
+                //   width: 10,
+                // ),
+
+                PopupMenuButton(
+                    itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: Row(
+                              children: [
+                                Icon(Icons.edit),
+                                Text("Edit"),
+                              ],
+                            ),
+                            value: 1,
+                          ),
+                          PopupMenuItem(
+                            child: Row(
+                              children: [
+                                Icon(Icons.delete),
+                                Text("Delete"),
+                              ],
+                            ),
+                            value: 2,
+                          )
+                        ],
+                    onSelected: (int menu) {
+                      if (menu == 1) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    updateEachTrip(trips[widget.index])));
+                      } else if (menu == 2) {
+                        showAlertDialog(context);
+                      }
+                    }),
+                // Container(
+                //   width: 30,
+                //   height: 30,
+                //   child: FloatingActionButton(
+                //     backgroundColor: Color(0xffFFA132),
+                //     onPressed: () async {
+                //       showAlertDialog(context);
+                //     },
+                //     child: Icon(
+                //       Icons.delete,
+                //       color: Colors.white,
+                //       size: 15,
+                //     ),
+                //   ),
+                // ),
+              ],
             ),
-            // SizedBox(
-            //   width: 10,
-            // ),
-            PopupMenuButton(
-                itemBuilder: (context) => [
-                      PopupMenuItem(
-                        child: Row(
-                          children: [
-                            Icon(Icons.edit),
-                            Text("Edit"),
-                          ],
-                        ),
-                        value: 1,
-                      ),
-                      PopupMenuItem(
-                        child: Row(
-                          children: [
-                            Icon(Icons.delete),
-                            Text("Delete"),
-                          ],
-                        ),
-                        value: 2,
-                      )
-                    ],
-                onSelected: (int menu) {
-                  if (menu == 1) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                updateEachTrip(trips[widget.index])));
-                  } else if (menu == 2) {
-                    showAlertDialog(context);
-                  }
-                })
-            // Container(
-            //   width: 30,
-            //   height: 30,
-            //   child: FloatingActionButton(
-            //     backgroundColor: Color(0xffFFA132),
-            //     onPressed: () async {
-            //       showAlertDialog(context);
-            //     },
-            //     child: Icon(
-            //       Icons.delete,
-            //       color: Colors.white,
-            //       size: 15,
-            //     ),
-            //   ),
-            // ),
+            Text(DateFormat("dd/MM/yyyy")
+                .format(trips[widget.index].startDate.toDateTime())),
+            Text(DateFormat("dd/MM/yyyy")
+                .format(trips[widget.index].endDate.toDateTime())),
           ],
         ),
       ),

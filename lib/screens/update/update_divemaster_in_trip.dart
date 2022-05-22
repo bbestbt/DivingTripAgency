@@ -46,7 +46,9 @@ class _AddMoreDiveMasterUpdateState extends State<AddMoreDiveMasterUpdate> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getDiveMasterInTrip();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getDiveMasterInTrip();
+    });
   }
 
   getDiveMasterInTrip() async {
@@ -285,12 +287,15 @@ class _InfoCardState extends State<InfoCard> {
   _InfoCardState(this.index, this.dmcount, this.dmValue, this.eachTrip);
   void loadData() async {
     await getData();
-    setState(() {
-      listDivemaster = [];
-      listDivemaster = divemaster
-          .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
-          .toList();
-    });
+    if (mounted) {
+      setState(() {
+        listDivemaster = [];
+        listDivemaster = divemaster
+            .map(
+                (val) => DropdownMenuItem<String>(child: Text(val), value: val))
+            .toList();
+      });
+    }
   }
 
   String divemasterSelected;
@@ -443,15 +448,13 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
 
   void loadData() async {
     await getData();
-    if (mounted) {
-      setState(() {
-        listDivemaster = [];
-        listDivemaster = divemaster
-            .map(
-                (val) => DropdownMenuItem<String>(child: Text(val), value: val))
-            .toList();
-      });
-    }
+
+    setState(() {
+      listDivemaster = [];
+      listDivemaster = divemaster
+          .map((val) => DropdownMenuItem<String>(child: Text(val), value: val))
+          .toList();
+    });
   }
 
   @override

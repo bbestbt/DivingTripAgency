@@ -291,8 +291,8 @@ class _InfoCardState extends State<InfoCard> {
     // TODO: implement initState
     super.initState();
     _controllerDescription.text = eachTrip.diveSites[index].description;
-    _controllerMax.text = eachTrip.diveSites[index].maxDepth.toString();
-    _controllerMin.text = eachTrip.diveSites[index].minDepth.toString();
+    _controllerMax.text = eachTrip.diveSites[index].maxDepth==0?"":eachTrip.diveSites[index].maxDepth.toString();
+    _controllerMin.text = eachTrip.diveSites[index].minDepth==0?"":eachTrip.diveSites[index].minDepth.toString();
     _controllerName.text = eachTrip.diveSites[index].name;
   }
 
