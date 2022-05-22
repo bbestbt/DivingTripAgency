@@ -66,8 +66,7 @@ class _updateEachStaffState extends State<updateEachStaff> {
         child: Form(
           child: Container(
             width: double.infinity,
-            decoration:
-                BoxDecoration(color: Color(0xFFFFfd8be).withOpacity(0.3)),
+           decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
             child: Column(
               children: [
                 HeaderCompany(),

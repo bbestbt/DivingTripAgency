@@ -106,7 +106,7 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
                 HeaderCompany(),
                 SizedBox(height: 50),
                 SectionTitle(
-                  title: "Create Dive master",
+                  title: "Create Divemaster",
                   color: Color(0xFFFF78a2cc),
                 ),
                 SizedBox(

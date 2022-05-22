@@ -70,14 +70,13 @@ class _updateEachDiveMasterState extends State<updateEachDiveMaster> {
         child: Form(
           child: Container(
             width: double.infinity,
-            decoration:
-                BoxDecoration(color: Color(0xFFFFfd8be).withOpacity(0.3)),
+             decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
             child: Column(
               children: [
                 HeaderCompany(),
                 SizedBox(height: 50),
                 SectionTitle(
-                  title: "Update Dive Master",
+                  title: "Update Divemaster",
                   color: Color(0xFFFF78a2cc),
                 ),
                 SizedBox(

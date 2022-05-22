@@ -165,7 +165,7 @@ class _CompanyReportState extends State<CompanyReport> {
     var listincomingtriprequest = GenerateIncomingTripsReportRequest();
     listincomingtriprequest.limit = Int64(20);
     listincomingtriprequest.offset = Int64(0);
-    listincomingtriprequest.weeks = 4;
+    listincomingtriprequest.weeks = 8;
     incomingTrips.clear();
     incomingDiver.clear();
     reservationIncoming.clear();
