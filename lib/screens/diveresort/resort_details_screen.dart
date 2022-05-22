@@ -1987,30 +1987,18 @@ class _InfoCardState extends State<InfoCard> {
       print('message: ${e.message}');
       print('rawResponse: ${e.rawResponse}');
       print('trailers: ${e.trailers}');
-      // if (e.codeName == 'UNAVAILABLE') {
-      //   showError();
-      //   print("this boat is already use");
-      // }
-      if (e.message == 'already made reservation for this trip') {
-        showError();
-        print("already made reservation");
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  showError() async {
-    await Future.delayed(Duration(microseconds: 1));
-    showDialog(
+     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("Error"),
-            content: Text("User already made reservation for this trip"),
+            content: Text(e.message),
             actions: <Widget>[],
           );
         });
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> showInformationDialog(BuildContext context) async {

@@ -1687,35 +1687,25 @@ class _InfoCardState extends State<InfoCard> {
       return [reservation_id, total_price];
     } on GrpcError catch (e) {
       // Handle exception of type GrpcError
+      
       print('codeName: ${e.codeName}');
       print('details: ${e.details}');
       print('message: ${e.message}');
       print('rawResponse: ${e.rawResponse}');
       print('trailers: ${e.trailers}');
-      // if (e.codeName == 'UNAVAILABLE') {
-      //   showError();
-      //   print("this boat is already use");
-      // }
-      if (e.message == 'already made reservation for this trip') {
-        showError();
-        print("already made reservation");
-      }
+         showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
+   
     } catch (e) {
       print(e);
     }
-  }
-
-  showError() async {
-    await Future.delayed(Duration(microseconds: 1));
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("User already made reservation for this trip"),
-            actions: <Widget>[],
-          );
-        });
   }
 
   Future<void> showInformationDialog(BuildContext context) async {
