@@ -355,13 +355,13 @@ class _TripDetailState extends State<TripDetail> {
                           ),
 
                           ///print newly selected country state and city in Text Widget
-                          TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  address = "$cityValue, $stateValue, $countryValue";
-                                });
-                              },
-                              child: Text("Print Data")),
+                          // TextButton(
+                          //     onPressed: () {
+                          //       setState(() {
+                          //         address = "$cityValue, $stateValue, $countryValue";
+                          //       });
+                          //     },
+                          //     child: Text("Print Data")),
                           Text(address)
                         ],
                       )),

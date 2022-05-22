@@ -391,23 +391,6 @@ class _CartState extends State<CartWidget> {
                 elevation: 2,
                 backgroundColor: Colors.amber),
           ),*/
-        TextButton(
-          child: Text(
-            "Clear cart",
-            // style: TextStyle(fontSize: 25),
-          ),
-          onPressed: () {
-            setState(() {
-              CartBox.clear();
-              Cartlist=[];
-              print("cleared");
-            });
-          },
-          style: TextButton.styleFrom(
-              primary: Colors.red,
-              elevation: 2,
-              backgroundColor: Colors.amber),
-        ),
           SizedBox(height: 40),
           ListView.builder(
             itemCount: Cartlist.length,
@@ -499,6 +482,25 @@ class _CartState extends State<CartWidget> {
             },
           ),
           SizedBox(height: 30),
+          Cartlist.length != 0
+              ? TextButton(
+            child: Text(
+              "Clear cart",
+              // style: TextStyle(fontSize: 25),
+            ),
+            onPressed: () {
+              setState(() {
+                CartBox.clear();
+                Cartlist=[];
+                print("cleared");
+              });
+            },
+            style: TextButton.styleFrom(
+                primary: Colors.white,
+                elevation: 2,
+                backgroundColor: Colors.indigo),
+          ): SizedBox(height: 30)
+          ,
           Cartlist.length != 0
               ? TextButton(
                   child: Text(
