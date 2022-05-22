@@ -565,155 +565,149 @@ class _detailState extends State<detail> {
                     margin: EdgeInsets.symmetric(vertical: 20),
                     constraints: BoxConstraints(maxWidth: 1110),
                     child: Container(
-                      height: MediaQuery.of(context).size.height / 2,
+                      height: MediaQuery.of(context).size.height,
                       child: TabBarView(
                         children: [
-                          Center(
-                            child: Container(
-                              // decoration: BoxDecoration(
-                              // color: Colors.blue[100],
-                              // borderRadius: BorderRadius.circular(10)),
+                          Container(
+                            // decoration: BoxDecoration(
+                            // color: Colors.blue[100],
+                            // borderRadius: BorderRadius.circular(10)),
 
-                              // height:
-                              //     MediaQuery.of(context).size.height / 2,
-                              // width: MediaQuery.of(context).size.width / 2,
+                            // height:
+                            //     MediaQuery.of(context).size.height / 2,
+                            // width: MediaQuery.of(context).size.width / 2,
 
-                              child: FutureBuilder(
-                                future: getHotelDetail(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return SingleChildScrollView(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              // SizedBox(height: 20),
+                            child: FutureBuilder(
+                              future: getHotelDetail(),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return SingleChildScrollView(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            // SizedBox(height: 20),
 
-                                              Text("Trip name : " +
-                                                  details[widget.index]
-                                                      .tripTemplate
-                                                      .name),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("Hotel : " +
-                                                  hotelDetial.hotel.name),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("From : " +
-                                                  DateFormat("dd/MM/yyyy")
-                                                      .format(
-                                                          details[widget.index]
-                                                              .startDate
-                                                              .toDateTime())),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("To : " +
-                                                  DateFormat("dd/MM/yyyy")
-                                                      .format(
-                                                          details[widget.index]
-                                                              .endDate
-                                                              .toDateTime())),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("Address : " +
-                                                  details[widget.index]
-                                                      .tripTemplate
-                                                      .address
-                                                      .addressLine1),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("Address2 : " +
-                                                  details[widget.index]
-                                                      .tripTemplate
-                                                      .address
-                                                      .addressLine2),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text('City : ' +
-                                                  details[widget.index]
-                                                      .tripTemplate
-                                                      .address
-                                                      .city),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("Country : " +
-                                                  details[widget.index]
-                                                      .tripTemplate
-                                                      .address
-                                                      .country),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text('Region : ' +
-                                                  details[widget.index]
-                                                      .tripTemplate
-                                                      .address
-                                                      .region),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text('Postcode : ' +
-                                                  details[widget.index]
-                                                      .tripTemplate
-                                                      .address
-                                                      .postcode),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2,
-                                                  child: Text(
-                                                    "Description : " +
-                                                        details[widget.index]
-                                                            .tripTemplate
-                                                            .description,
-                                                    maxLines: 20,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  )),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              // Text("Price : " + details[widget.index].price.toString()),
-                                              // SizedBox(
-                                              //   height: 10,
-                                              // ),
-                                              Text('Total capacity : ' +
-                                                  details[widget.index]
-                                                      .maxGuest
-                                                      .toString()),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text('Schedule : ' +
-                                                  details[widget.index]
-                                                      .schedule),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                            ]),
-                                      ),
-                                    );
-                                  } else {
-                                    return Align(
-                                        alignment: Alignment.center,
-                                        child: Text('no detail'));
-                                  }
-                                },
-                              ),
+                                            Text("Trip name : " +
+                                                details[widget.index]
+                                                    .tripTemplate
+                                                    .name),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text("Hotel : " +
+                                                hotelDetial.hotel.name),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text("From : " +
+                                                DateFormat("dd/MM/yyyy").format(
+                                                    details[widget.index]
+                                                        .startDate
+                                                        .toDateTime())),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text("To : " +
+                                                DateFormat("dd/MM/yyyy").format(
+                                                    details[widget.index]
+                                                        .endDate
+                                                        .toDateTime())),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text("Address : " +
+                                                details[widget.index]
+                                                    .tripTemplate
+                                                    .address
+                                                    .addressLine1),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text("Address2 : " +
+                                                details[widget.index]
+                                                    .tripTemplate
+                                                    .address
+                                                    .addressLine2),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text('City : ' +
+                                                details[widget.index]
+                                                    .tripTemplate
+                                                    .address
+                                                    .city),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text("Country : " +
+                                                details[widget.index]
+                                                    .tripTemplate
+                                                    .address
+                                                    .country),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text('Region : ' +
+                                                details[widget.index]
+                                                    .tripTemplate
+                                                    .address
+                                                    .region),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text('Postcode : ' +
+                                                details[widget.index]
+                                                    .tripTemplate
+                                                    .address
+                                                    .postcode),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2,
+                                                child: Text(
+                                                  "Description : " +
+                                                      details[widget.index]
+                                                          .tripTemplate
+                                                          .description,
+                                                  maxLines: 20,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                )),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            // Text("Price : " + details[widget.index].price.toString()),
+                                            // SizedBox(
+                                            //   height: 10,
+                                            // ),
+                                            Text('Total capacity : ' +
+                                                details[widget.index]
+                                                    .maxGuest
+                                                    .toString()),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text('Schedule : ' +
+                                                details[widget.index].schedule),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                          ]),
+                                    ),
+                                  );
+                                } else {
+                                  return Align(
+                                      alignment: Alignment.center,
+                                      child: Text('no detail'));
+                                }
+                              },
                             ),
                           ),
                           Container(
@@ -857,8 +851,7 @@ class _detailState extends State<detail> {
                               future: getHotelDetail(),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
-                                  return Center(
-                                      child: SingleChildScrollView(
+                                  return SingleChildScrollView(
                                     child: Column(
                                       children: [
                                         Container(
@@ -869,9 +862,8 @@ class _detailState extends State<detail> {
                                               horizontal: 16.0,
                                             ),
                                             height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                2,
+                                                .size
+                                                .height,
                                             child: ListView.builder(
                                               itemCount: details[widget.index]
                                                   .diveSites
@@ -976,7 +968,7 @@ class _detailState extends State<detail> {
                                         ),
                                       ],
                                     ),
-                                  ));
+                                  );
                                 } else {
                                   return Center(child: Text(' no divesite '));
                                 }
@@ -1031,8 +1023,7 @@ class _detailState extends State<detail> {
                                                                 CarouselOptions(
                                                               viewportFraction:
                                                                   1,
-                                                              autoPlay:
-                                                                  true,
+                                                              autoPlay: true,
                                                             ));
                                                       } else {
                                                         return Center(
@@ -1987,15 +1978,15 @@ class _InfoCardState extends State<InfoCard> {
       print('message: ${e.message}');
       print('rawResponse: ${e.rawResponse}');
       print('trailers: ${e.trailers}');
-     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text(e.message),
-            actions: <Widget>[],
-          );
-        });
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
     }
@@ -2249,7 +2240,7 @@ class _InfoCardState extends State<InfoCard> {
                   ),
                   Text('Room type : ' + roomtypes[widget.indexRoom].name),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Container(
                     width: 500,
@@ -2261,17 +2252,17 @@ class _InfoCardState extends State<InfoCard> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Text('Max capacity : ' +
                       roomtypes[widget.indexRoom].maxGuest.toString()),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Text('Room quantity : ' +
                       roomtypes[widget.indexRoom].quantity.toString()),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   SizedBox(
                     width: 200,
@@ -2299,7 +2290,7 @@ class _InfoCardState extends State<InfoCard> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   details[indexDetail].tripRoomTypePrices.length == 0
                       ? Text('Price : no price')
@@ -2310,7 +2301,7 @@ class _InfoCardState extends State<InfoCard> {
                               .price
                               .toString()),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   RaisedButton(
                     onPressed: roomtypes[widget.indexRoom].quantity == 0
@@ -2327,11 +2318,11 @@ class _InfoCardState extends State<InfoCard> {
                         borderRadius: BorderRadius.circular(10)),
                     child: Text("Book room"),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 20,
             ),
           ],
         ),
