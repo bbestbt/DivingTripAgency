@@ -157,6 +157,21 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
       box.put('login', true);
       String token = box.get('token');
       print("login ja");
+    } on GrpcError catch (e) {
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
       box.put('login', false);
@@ -367,8 +382,9 @@ class _SignupDiverFormState extends State<SignupDiverForm> {
                     {
                       addError(error: "Please select date"),
                     }
-                    else if (DiverImage==null||DiveBack==null){
-                       addError(error: "Please upload image"),
+                  else if (DiverImage == null || DiveBack == null)
+                    {
+                      addError(error: "Please upload image"),
                     }
                   else
                     {

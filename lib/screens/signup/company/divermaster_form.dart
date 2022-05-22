@@ -55,10 +55,10 @@ class _DiveMasterFormState extends State<DiveMasterForm> {
   List<DropdownMenuItem<String>> listLevel = [];
   List<LevelType> level = [
     LevelType.MASTER,
-    LevelType.OPEN_WATER,
+    // LevelType.OPEN_WATER,
     LevelType.RESCUE,
     LevelType.INSTRUCTOR,
-    LevelType.ADVANCED_OPEN_WATER
+    // LevelType.ADVANCED_OPEN_WATER
   ];
 
   void loadData() async {

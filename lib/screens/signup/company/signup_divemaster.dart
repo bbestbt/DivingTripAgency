@@ -100,8 +100,7 @@ class _SignupDiveMasterState extends State<SignupDiveMaster> {
             width: double.infinity,
             // height: 600,
             // decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
-            decoration:
-                BoxDecoration(color: Color(0xFFFFfd8be).withOpacity(0.3)),
+                    decoration: BoxDecoration(color: Color(0xfffe6e6ca).withOpacity(0.3)),
             child: Column(
               children: [
                 HeaderCompany(),

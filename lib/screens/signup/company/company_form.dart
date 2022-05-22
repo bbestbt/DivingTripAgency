@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/services.dart';
 import '../../../nautilus/proto/dart/model.pb.dart';
 import 'package:multi_image_picker2/multi_image_picker2.dart';
+import 'package:csc_picker/csc_picker.dart';
 
 //check pass
 class SignupCompanyForm extends StatefulWidget {
@@ -33,9 +34,11 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String confirmPassword;
   String address2;
   String postalCode;
-  String country;
+  String country = '';
   String region;
-  String city;
+  String city = '';
+  String stateValue = '';
+  String _controllerCity = "";
   io.File _image;
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
@@ -49,7 +52,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerPostalcode = TextEditingController();
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
-  final TextEditingController _controllerCity = TextEditingController();
+  //final TextEditingController _controllerCity = TextEditingController();
 
   io.File imageFile;
   io.File docFile;
@@ -149,7 +152,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     var address = Address();
     address.addressLine1 = _controllerAddress.text;
     address.addressLine2 = _controllerAddress2.text;
-    address.city = _controllerCity.text;
+    address.city = _controllerCity;
     address.postcode = _controllerPostalcode.text;
     address.region = regionSelected;
     address.country = countrySelected;
@@ -197,6 +200,21 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       box.put('login', true);
       String token = box.get('token');
       print("login ja");
+    } on GrpcError catch (e) {
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
     } catch (e) {
       print(e);
       box.put('login', false);
@@ -239,45 +257,122 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
           SizedBox(height: 20),
           buildAddress2FormField(),
           SizedBox(height: 20),
-          Row(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width / 3.6,
-                color: Colors.white,
-                child: Center(
-                  child: InkWell(
-                    onTap: () {
-                      showCountryPicker(
-                        context: context,
-                        onSelect: (Country country) {
-                          setState(() {
-                            countrySelected = country.name;
 
+              Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+
+                  child: Column(
+                    children: [
+                      ///Adding CSC Picker Widget in app
+                      CSCPicker(
+                        ///Enable disable state dropdown [OPTIONAL PARAMETER]
+                        showStates: true,
+
+                        /// Enable disable city drop down [OPTIONAL PARAMETER]
+                        showCities: false,
+
+                        ///Enable (get flag with country name) / Disable (Disable flag) / ShowInDropdownOnly (display flag in dropdown only) [OPTIONAL PARAMETER]
+                        flagState: CountryFlag.DISABLE,
+
+                        ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
+                        dropdownDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.white,
+                            border:
+                            Border.all(color: Colors.grey.shade300, width: 1)),
+
+                        ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
+                        disabledDropdownDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.grey.shade300,
+                            border:
+                            Border.all(color: Colors.grey.shade300, width: 1)),
+
+                        ///placeholders for dropdown search field
+                        countrySearchPlaceholder: "Country",
+                        stateSearchPlaceholder: "State",
+                        citySearchPlaceholder: "City",
+
+                        ///labels for dropdown
+                        countryDropdownLabel: "*Country",
+                        stateDropdownLabel: "*State",
+                        cityDropdownLabel: "*City",
+
+                        ///Default Country
+                        //defaultCountry: DefaultCountry.India,
+
+                        ///Disable country dropdown (Note: use it with default country)
+                        //disableCountry: true,
+
+                        ///selected item style [OPTIONAL PARAMETER]
+                        selectedItemStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+
+                        ///DropdownDialog Heading style [OPTIONAL PARAMETER]
+                        dropdownHeadingStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+
+                        ///DropdownDialog Item style [OPTIONAL PARAMETER]
+                        dropdownItemStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+
+                        ///Dialog box radius [OPTIONAL PARAMETER]
+                        dropdownDialogRadius: 10.0,
+
+                        ///Search bar radius [OPTIONAL PARAMETER]
+                        searchBarRadius: 10.0,
+
+                        ///triggers once country selected in dropdown
+                        onCountryChanged: (value) {
+                          setState(() {
+                            ///store value in country variable
+                            countrySelected = value;
+                            //print(country);
                           });
-                          //print("_country");
-                          //print(_country.name);
                         },
-                      );
-                    },
-                    child: InputDecorator(
-                      decoration: InputDecoration(
-                        labelText: "Select country",
+
+                        ///triggers once state selected in dropdown
+                        onStateChanged: (value) {
+                          setState(() {
+                            ///store value in state variable
+                            _controllerCity = value;
+                          });
+                        },
+
+                        ///triggers once city selected in dropdown
+                        onCityChanged: (value) {
+                          setState(() {
+                            ///store value in city variable
+                            stateValue = value;
+                          });
+                        },
                       ),
-                      child: countrySelected != null ? Text(countrySelected) : null,
-                    ),
-                  )
-                ),
-              ),
+
+                      ///print newly selected country state and city in Text Widget
+                      // TextButton(
+                      //     onPressed: () {
+                      //       setState(() {
+                      //         address = "$cityValue, $stateValue, $countryValue";
+                      //       });
+                      //     },
+                      //     child: Text("Print Data")),
+                      //Text(address)
+                    ],
+                  )),
               // Container(
               //     width: MediaQuery.of(context).size.width / 3.6,
               //     child: buildCountryFormField()),
-              Spacer(),
+              //Spacer(),
               // Spacer(flex: 1,),
-              Container(
-                  width: MediaQuery.of(context).size.width / 3.6,
-                  child: buildCityFormField()),
-            ],
-          ),
+              // Container(
+              //     width: MediaQuery.of(context).size.width / 3.6,
+              //     child: buildCityFormField()),
 
           SizedBox(height: 20),
           Row(
@@ -769,33 +864,33 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     );
   }
 
-  TextFormField buildCityFormField() {
-    return TextFormField(
-      controller: _controllerCity,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => city = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please enter city");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please enter city");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        //   hintText: "City",
-        labelText: "City",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
+  // TextFormField buildCityFormField() {
+  //   return TextFormField(
+  //     controller: _controllerCity,
+  //     cursorColor: Color(0xFFf5579c6),
+  //     onSaved: (newValue) => city = newValue,
+  //     onChanged: (value) {
+  //       if (value.isNotEmpty) {
+  //         removeError(error: "Please enter city");
+  //       }
+  //       return null;
+  //     },
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         addError(error: "Please enter city");
+  //         return "";
+  //       }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //       //   hintText: "City",
+  //       labelText: "City",
+  //       filled: true,
+  //       fillColor: Colors.white,
+  //       floatingLabelBehavior: FloatingLabelBehavior.always,
+  //     ),
+  //   );
+  // }
 
   TextFormField buildRegionFormField() {
     return TextFormField(
