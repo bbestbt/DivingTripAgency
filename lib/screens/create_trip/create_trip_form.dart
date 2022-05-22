@@ -265,39 +265,39 @@ class _CreateTripFormState extends State<CreateTripForm> {
     //tripRequest.tripTemplate.images.add(value);
 
     print(tripRequest);
-    try {
-      var response = await stub.addTrip(tripRequest);
-      print('ok');
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => MainCompanyScreen(),
-        ),
-        (route) => false,
-      );
-      // print(token);
-      // print(response);
-    } on GrpcError catch (e) {
-      // Handle exception of type GrpcError
-      print('codeName: ${e.codeName}');
-      print('details: ${e.details}');
-      print('message: ${e.message}');
-      print('rawResponse: ${e.rawResponse}');
-      print('trailers: ${e.trailers}');
-      // Handle exception of type GrpcError
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Error"),
-              content: Text(e.message),
-              actions: <Widget>[],
-            );
-          });
-    } catch (e) {
-      // Handle all other exceptions
-      print('Exception: $e');
-    }
+    // try {
+    //   var response = await stub.addTrip(tripRequest);
+    //   print('ok');
+    //   Navigator.pushAndRemoveUntil(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (BuildContext context) => MainCompanyScreen(),
+    //     ),
+    //     (route) => false,
+    //   );
+    //   // print(token);
+    //   // print(response);
+    // } on GrpcError catch (e) {
+    //   // Handle exception of type GrpcError
+    //   print('codeName: ${e.codeName}');
+    //   print('details: ${e.details}');
+    //   print('message: ${e.message}');
+    //   print('rawResponse: ${e.rawResponse}');
+    //   print('trailers: ${e.trailers}');
+    //   // Handle exception of type GrpcError
+    //   showDialog(
+    //       context: context,
+    //       builder: (BuildContext context) {
+    //         return AlertDialog(
+    //           title: Text("Error"),
+    //           content: Text(e.message),
+    //           actions: <Widget>[],
+    //         );
+    //       });
+    // } catch (e) {
+    //   // Handle all other exceptions
+    //   print('Exception: $e');
+    // }
   }
 
   getData() async {

@@ -23,8 +23,8 @@ class Triptemplate extends StatefulWidget {
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   List<String> errors = [];
-  bool switchVal=false;
-final customFunction;
+  bool switchVal = false;
+  final customFunction;
   Triptemplate(TripTemplate triptemplate, List<String> errors,
       List<RoomTypeTripPrice> roomPrice, this.customFunction) {
     this.triptemplate = triptemplate;
@@ -162,7 +162,7 @@ class _TriptemplateState extends State<Triptemplate> {
   // HotelAndBoatId hotelandboatID = new HotelAndBoatId();
   Address addressform = new Address();
   _TriptemplateState(TripTemplate triptemplate, List<String> errors,
-      List<RoomTypeTripPrice> roomPrice,this.switchValue) {
+      List<RoomTypeTripPrice> roomPrice, this.switchValue) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.addressform = addressform;
@@ -438,9 +438,9 @@ class _TriptemplateState extends State<Triptemplate> {
                   isVisibleNew = !isVisibleNew;
                   isVisibleOld = !isVisibleOld;
                   setState(() {
-                       switchValue = value;
-                       print(switchValue);
-                       widget.customFunction(switchValue);
+                    switchValue = value;
+                    print(switchValue);
+                    widget.customFunction(switchValue);
                   });
                 },
               ),
@@ -512,30 +512,31 @@ class _TriptemplateState extends State<Triptemplate> {
                       width: MediaQuery.of(context).size.width / 3.6,
                       // color: Colors.white,
                       child: Center(
-                        child:
-                        InkWell(
-                          onTap: () {
-                            showCountryPicker(
-                              context: context,
-                              onSelect: (Country country) {
-                                setState(() {
-                                  countrySelected = country.name;
-                                  triptemplate.address.country = countrySelected;
-                                });
-                                //print("_country");
-                                //print(_country.name);
-                              },
-                            );
-                          },
-                          child: InputDecorator(
-                            decoration: InputDecoration(
-                              labelText: "Select country",
-                            ),
-                            child: countrySelected != null ? Text(countrySelected) : null,
+                          child: InkWell(
+                        onTap: () {
+                          showCountryPicker(
+                            context: context,
+                            onSelect: (Country country) {
+                              setState(() {
+                                countrySelected = country.name;
+                                triptemplate.address.country = countrySelected;
+                              });
+                              //print("_country");
+                              //print(_country.name);
+                            },
+                          );
+                        },
+                        child: InputDecorator(
+                          decoration: InputDecoration(
+                            labelText: "Select country",
                           ),
-                        )
+                          child: countrySelected != null
+                              ? Text(countrySelected)
+                              : null,
+                        ),
+                      )
 
-                        /*DropdownButtonFormField(
+                          /*DropdownButtonFormField(
                           isExpanded: true,
                           value: countrySelected,
                           items: listCountry,
@@ -559,7 +560,7 @@ class _TriptemplateState extends State<Triptemplate> {
                             }
                           },
                         ),*/
-                      ),
+                          ),
                     ),
                     // Container(
                     //     width: MediaQuery.of(context).size.width / 3.6,
@@ -590,6 +591,9 @@ class _TriptemplateState extends State<Triptemplate> {
                               addError(error: "Please select region");
                               return "";
                             }
+                            setState(() {
+                              triptemplate.address.region = regionSelected;
+                            });
                             return null;
                           },
                           onChanged: (value) {
@@ -597,7 +601,7 @@ class _TriptemplateState extends State<Triptemplate> {
                               removeError(error: "Please select region");
                               setState(() {
                                 regionSelected = value;
-                                triptemplate.address.region = regionSelected;
+                                // triptemplate.address.region = regionSelected;
 
                                 // print(value);
                               });
@@ -1236,7 +1240,6 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => description = newValue,
       onChanged: (value) {
-        triptemplate.description = value;
         // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter Description");
@@ -1248,6 +1251,9 @@ class _TriptemplateState extends State<Triptemplate> {
           addError(error: "Please Enter Description");
           return "";
         }
+        setState(() {
+          triptemplate.description = value;
+        });
         return null;
       },
       decoration: InputDecoration(
@@ -1268,7 +1274,6 @@ class _TriptemplateState extends State<Triptemplate> {
         // print(triptemplate);
         // print(triptemplate.name);
 
-        triptemplate.name = value;
         // print(value);
         if (value.isNotEmpty) {
           removeError(error: "Please Enter trip name");
@@ -1280,6 +1285,9 @@ class _TriptemplateState extends State<Triptemplate> {
           addError(error: "Please Enter trip name");
           return "";
         }
+        setState(() {
+          triptemplate.name = value;
+        });
         return null;
       },
       decoration: InputDecoration(
@@ -1326,7 +1334,7 @@ class _TriptemplateState extends State<Triptemplate> {
       onChanged: (value) {
         //  addressform.addressLine1 = value;
         //   print(addressform.addressLine1);
-        triptemplate.address.addressLine1 = value;
+
         if (value.isNotEmpty) {
           removeError(error: "Please enter address");
         }
@@ -1337,6 +1345,9 @@ class _TriptemplateState extends State<Triptemplate> {
           addError(error: "Please enter address");
           return "";
         }
+        setState(() {
+          triptemplate.address.addressLine1 = value;
+        });
         return null;
       },
       decoration: InputDecoration(
@@ -1356,7 +1367,6 @@ class _TriptemplateState extends State<Triptemplate> {
       onSaved: (newValue) => address2 = newValue,
       onChanged: (value) {
         // addressform.addressLine2 = value;
-        triptemplate.address.addressLine2 = value;
 
         if (value.isNotEmpty) {
           removeError(error: "Please enter address");
@@ -1368,6 +1378,9 @@ class _TriptemplateState extends State<Triptemplate> {
           addError(error: "Please enter address");
           return "";
         }
+        setState(() {
+          triptemplate.address.addressLine2 = value;
+        });
         return null;
       },
       decoration: InputDecoration(
@@ -1386,7 +1399,6 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => country = newValue,
       onChanged: (value) {
-        triptemplate.address.country = value;
         // addressform.country = value;
         if (value.isNotEmpty) {
           removeError(error: "Please enter country");
@@ -1398,6 +1410,9 @@ class _TriptemplateState extends State<Triptemplate> {
           addError(error: "Please enter country");
           return "";
         }
+        setState(() {
+          triptemplate.address.country = value;
+        });
         return null;
       },
       decoration: InputDecoration(
@@ -1417,7 +1432,7 @@ class _TriptemplateState extends State<Triptemplate> {
       onSaved: (newValue) => city = newValue,
       onChanged: (value) {
         // addressform.city = value;
-        triptemplate.address.city = value;
+
         if (value.isNotEmpty) {
           removeError(error: "Please enter city");
         }
@@ -1428,6 +1443,9 @@ class _TriptemplateState extends State<Triptemplate> {
           addError(error: "Please enter city");
           return "";
         }
+        setState(() {
+          triptemplate.address.city = value;
+        });
         return null;
       },
       decoration: InputDecoration(
@@ -1446,7 +1464,6 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => region = newValue,
       onChanged: (value) {
-        triptemplate.address.region = value;
         //  addressform.region = value;
         if (value.isNotEmpty) {
           removeError(error: "Please enter region");
@@ -1458,6 +1475,9 @@ class _TriptemplateState extends State<Triptemplate> {
           addError(error: "Please enter region");
           return "";
         }
+        setState(() {
+          triptemplate.address.region = value;
+        });
         return null;
       },
       decoration: InputDecoration(
@@ -1480,7 +1500,6 @@ class _TriptemplateState extends State<Triptemplate> {
       cursorColor: Color(0xFFf5579c6),
       onSaved: (newValue) => postalCode = newValue,
       onChanged: (value) {
-        triptemplate.address.postcode = value;
         //  addressform.postcode = value;
         if (value.isNotEmpty) {
           removeError(error: "Please enter postal code");
@@ -1492,6 +1511,9 @@ class _TriptemplateState extends State<Triptemplate> {
           addError(error: "Please enter postal code");
           return "";
         }
+        setState(() {
+          triptemplate.address.postcode = value;
+        });
         return null;
       },
       decoration: InputDecoration(
