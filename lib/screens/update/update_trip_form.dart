@@ -161,6 +161,13 @@ class _updateTripFormState extends State<updateTripForm> {
     dmValue = eachTrip.diveMasters;
     pinkValue = eachTrip.diveSites;
     _controllerName.text = eachTrip.name;
+    // print('iiii');
+    // print(allRoom.length);
+    // for (int i = 0; i < allRoom.length; i++) {
+    //   _controllerPrice.add(new TextEditingController(
+    //       text: eachTrip.tripRoomTypePrices[i].price.toString()));
+    // }
+    // print('ggg');
   }
 
   void loadData() async {
@@ -345,6 +352,7 @@ class _updateTripFormState extends State<updateTripForm> {
     }
 
     allRoom.clear();
+    _controllerPrice.clear();
     try {
       await for (var feature in stub.listRoomTypes(listroomrequest)) {
         allRoom.add(feature.roomType);
@@ -352,7 +360,11 @@ class _updateTripFormState extends State<updateTripForm> {
     } catch (e) {
       print('ERROR: $e');
     }
-    print(allRoom);
+    print('pp');
+    print(eachTrip.tripRoomTypePrices.length);
+    // print(allRoom.length);
+    // print('f');
+    // print(_controllerPrice.length);
     return allRoom;
   }
 
@@ -552,10 +564,9 @@ class _updateTripFormState extends State<updateTripForm> {
                     setState(() {
                       triptemplateSelected = value;
                       // _showRoom = true;
-                      print(triptemplateSelected);
+                      // print(triptemplateSelected);
                       eachTrip.tripTemplate =
                           triptemplateTypeMap[triptemplateSelected];
-                     
                       // triptemplate.name = triptemplateSelected;
                       // triptemplate.id =
                       //     triptemplateTypeMap[triptemplateSelected];
@@ -579,9 +590,15 @@ class _updateTripFormState extends State<updateTripForm> {
                           physics: ScrollPhysics(),
                           itemCount: allRoom.length,
                           itemBuilder: (BuildContext context, int index) {
+                            // print('bf');
+                            // print(_controllerPrice.length);
                             _controllerPrice.add(new TextEditingController(
-                                text: eachTrip.tripRoomTypePrices[index].price
-                                    .toString()));
+                                // text: eachTrip.tripRoomTypePrices[index].price
+                                //     .toString()
+                                ));
+                            // print('af');
+                            // print(_controllerPrice.length);
+
                             return Column(children: [
                               // Text('s')
                               SizedBox(height: 20),
@@ -616,26 +633,46 @@ class _updateTripFormState extends State<updateTripForm> {
                                       ],
                                       onSaved: (newValue) => price = newValue,
                                       onChanged: (value) {
-                                        if (eachTrip.tripTemplate.tripType ==
-                                            TripType.ONSHORE) {
+                                          if (eachTrip.tripTemplate.tripType ==
+                                              TripType.ONSHORE) {
+                                            eachTrip.tripRoomTypePrices[index]
+                                                    .hotelId =
+                                                eachTrip.tripTemplate.hotelId;
+                                          } else {
+                                            eachTrip.tripRoomTypePrices[index]
+                                                    .liveaboardId =
+                                                eachTrip
+                                                    .tripTemplate.liveaboardId;
+                                          }
                                           eachTrip.tripRoomTypePrices[index]
-                                                  .hotelId =
-                                              eachTrip.tripTemplate.hotelId;
-                                        } else {
+                                              .roomTypeId = allRoom[index].id;
                                           eachTrip.tripRoomTypePrices[index]
-                                                  .liveaboardId =
-                                              eachTrip
-                                                  .tripTemplate.liveaboardId;
-                                        }
-                                        eachTrip.tripRoomTypePrices[index]
-                                            .roomTypeId = allRoom[index].id;
-                                        eachTrip.tripRoomTypePrices[index]
-                                            .price = double.parse(value);
+                                              .price = double.parse(value);
 
-                                        // print(roomPrice);
+                                        //   // print(roomPrice);
+
+                                        // var roomprice2 = RoomTypeTripPrice();
+
+                                        // if (eachTrip.tripTemplate.tripType ==
+                                        //     TripType.ONSHORE) {
+                                        //   roomprice2.hotelId =
+                                        //       eachTrip.tripTemplate.hotelId;
+                                        // } else {
+                                        //   roomprice2.liveaboardId = eachTrip
+                                        //       .tripTemplate.liveaboardId;
+                                        // }
+                                        // roomprice2.roomTypeId =
+                                        //     allRoom[index].id;
+                                        // roomprice2.price = double.parse(value);
+                                        // if (count < eachTrip.tripRoomTypePrices.length) {
+                                        //    eachTrip.tripRoomTypePrices.add(roomprice2);
+                                        //   count++;
+                                        // } else {
+                                        //   eachTrip.tripRoomTypePrices[index] = roomprice2;
+                                        // }
                                       },
                                     ),
-                                  ),
+                                  )
                                 ],
                               )
                             ]);
