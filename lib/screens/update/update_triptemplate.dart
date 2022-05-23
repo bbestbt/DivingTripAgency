@@ -21,7 +21,7 @@ import 'package:intl/intl.dart';
 
 List<TripWithTemplate> trips = [];
 
-class updateTrip extends StatelessWidget {
+class updateTripTemplate extends StatelessWidget {
   GetProfileResponse user_profile = new GetProfileResponse();
   var profile;
   getProfile() async {
@@ -88,24 +88,12 @@ class updateTrip extends StatelessWidget {
               HeaderCompany(),
               SizedBox(height: 50),
               SectionTitle(
-                title: "Update Trips",
+                title: "Update Triptemplate",
                 color: Color(0xFFFF78a2cc),
               ),
               SizedBox(
                 height: 30,
               ),
-
-              // SizedBox(
-              //     width: 1110,
-              //     child: Wrap(
-              //         spacing: 20,
-              //         runSpacing: 40,
-              //         children: List.generate(
-              //           boats.length,
-              //           (index) => listTripCard(
-              //             index: index,
-              //           ),
-              //         ))),
               SizedBox(
                 width: 1110,
                 child: FutureBuilder(
@@ -155,7 +143,7 @@ class listTripCard extends StatefulWidget {
 }
 
 class _listTripCardState extends State<listTripCard> {
-  void removeTrip() async {
+  void removeTripTemplate() async {
     final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
         host: '139.59.101.136',
         grpcPort: 50051,
@@ -167,12 +155,12 @@ class _listTripCardState extends State<listTripCard> {
 
     final stub = AgencyServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-    var trip = Trip();
-    trip.id = trips[widget.index].id;
-    var deleteTripRequest = DeleteTripRequest();
-    deleteTripRequest.trip = trip;
+    var triptemplate = TripTemplate();
+    triptemplate.id = trips[widget.index].tripTemplate.id;
+    var deleteTriptemplateRequest = DeleteTripTemplateRequest();
+    deleteTriptemplateRequest.tripTemplate = triptemplate;
     try {
-      var response = await stub.deleteTrip(deleteTripRequest);
+      var response = await stub.deleteTripTemplate(deleteTriptemplateRequest);
       print(token);
       print(response);
     } on GrpcError catch (e) {
@@ -199,11 +187,11 @@ class _listTripCardState extends State<listTripCard> {
     Widget continueButton = TextButton(
       child: Text("Yes"),
       onPressed: () async {
-        await removeTrip();
+        await removeTripTemplate();
         print('delete');
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => updateTrip()),
+          MaterialPageRoute(builder: (context) => updateTripTemplate()),
           (Route<dynamic> route) => false,
         );
       },
@@ -212,8 +200,9 @@ class _listTripCardState extends State<listTripCard> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       // title: Text("AlertDialog"),
-      content:
-          Text("Would you like to delete " + trips[widget.index].name + "?"),
+      content: Text("Would you like to delete " +
+          trips[widget.index].tripTemplate.name +
+          "?"),
       actions: [
         cancelButton,
         continueButton,
@@ -232,12 +221,6 @@ class _listTripCardState extends State<listTripCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: () {
-      //   Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (context) => updateEachTrip(trips[widget.index])));
-      // },
       child: Container(
         height: 200,
         width: 200,
@@ -251,14 +234,10 @@ class _listTripCardState extends State<listTripCard> {
               child: Align(
                   alignment: Alignment.center,
                   child: Text(
-                    trips[widget.index].name,
+                    trips[widget.index].tripTemplate.name,
                     overflow: TextOverflow.ellipsis,
                   )),
             ),
-            // SizedBox(
-            //   width: 10,
-            // ),
-
             PopupMenuButton(
                 itemBuilder: (context) => [
                       PopupMenuItem(
@@ -282,30 +261,15 @@ class _listTripCardState extends State<listTripCard> {
                     ],
                 onSelected: (int menu) {
                   if (menu == 1) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                updateEachTrip(trips[widget.index])));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) =>
+                    //             updateEachTrip(trips[widget.index])));
                   } else if (menu == 2) {
                     showAlertDialog(context);
                   }
                 }),
-            // Container(
-            //   width: 30,
-            //   height: 30,
-            //   child: FloatingActionButton(
-            //     backgroundColor: Color(0xffFFA132),
-            //     onPressed: () async {
-            //       showAlertDialog(context);
-            //     },
-            //     child: Icon(
-            //       Icons.delete,
-            //       color: Colors.white,
-            //       size: 15,
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

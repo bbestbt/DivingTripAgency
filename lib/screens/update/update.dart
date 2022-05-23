@@ -16,6 +16,7 @@ import 'package:diving_trip_agency/screens/update/update_hotel.dart';
 import 'package:diving_trip_agency/screens/update/update_liveaboard.dart';
 import 'package:diving_trip_agency/screens/update/update_staff.dart';
 import 'package:diving_trip_agency/screens/update/update_trip.dart';
+import 'package:diving_trip_agency/screens/update/update_triptemplate.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -248,6 +249,31 @@ class Update extends StatelessWidget {
                                                   8),
                                       Text(
                                         "Divemaster",
+                                      )
+                                    ],
+                                  )),
+                                )),
+                                  Card(
+                                color: Color(0xfffc7ceea),
+                                margin: EdgeInsets.all(10),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                updateTripTemplate()));
+                                  },
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.emoji_people_outlined,
+                                          size:
+                                              MediaQuery.of(context).size.width /
+                                                  8),
+                                      Text(
+                                        "tt",
                                       )
                                     ],
                                   )),
