@@ -161,13 +161,6 @@ class _updateTripFormState extends State<updateTripForm> {
     dmValue = eachTrip.diveMasters;
     pinkValue = eachTrip.diveSites;
     _controllerName.text = eachTrip.name;
-    // print('iiii');
-    // print(allRoom.length);
-    // for (int i = 0; i < allRoom.length; i++) {
-    //   _controllerPrice.add(new TextEditingController(
-    //       text: eachTrip.tripRoomTypePrices[i].price.toString()));
-    // }
-    // print('ggg');
   }
 
   void loadData() async {
@@ -276,43 +269,43 @@ class _updateTripFormState extends State<updateTripForm> {
     eachTrip.schedule = textarea.text;
     final updateRequest = UpdateTripRequest()..trip = eachTrip;
     print(updateRequest);
-    // try {
-    //   var response = await stub.updateTrip(updateRequest);
-    //   //print('response: ${response}');
-    //   print('ok');
-    //   Navigator.pushAndRemoveUntil(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (BuildContext context) => MainCompanyScreen(),
-    //     ),
-    //     (route) => false,
-    //   );
-    //   // print(token);
-    //   // print(response);
-    // } on GrpcError catch (e) {
-    //   // Handle exception of type GrpcError
-    //   print('codeName: ${e.codeName}');
-    //   print('details: ${e.details}');
-    //   print('message: ${e.message}');
-    //   print('rawResponse: ${e.rawResponse}');
-    //   print('trailers: ${e.trailers}');
-    //   // if (e.codeName == 'UNAVAILABLE') {
-    //   //   showError();
-    //   //   print("this boat is already use");
-    //   // }
-    //   showDialog(
-    //       context: context,
-    //       builder: (BuildContext context) {
-    //         return AlertDialog(
-    //           title: Text("Error"),
-    //           content: Text(e.message),
-    //           actions: <Widget>[],
-    //         );
-    //       });
-    // } catch (e) {
-    //   // Handle all other exceptions
-    //   print('Exception: $e');
-    // }
+    try {
+      var response = await stub.updateTrip(updateRequest);
+      //print('response: ${response}');
+      print('ok');
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => MainCompanyScreen(),
+        ),
+        (route) => false,
+      );
+      // print(token);
+      // print(response);
+    } on GrpcError catch (e) {
+      // Handle exception of type GrpcError
+      print('codeName: ${e.codeName}');
+      print('details: ${e.details}');
+      print('message: ${e.message}');
+      print('rawResponse: ${e.rawResponse}');
+      print('trailers: ${e.trailers}');
+      // if (e.codeName == 'UNAVAILABLE') {
+      //   showError();
+      //   print("this boat is already use");
+      // }
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text(e.message),
+              actions: <Widget>[],
+            );
+          });
+    } catch (e) {
+      // Handle all other exceptions
+      print('Exception: $e');
+    }
   }
 
   void getDMValue(dm) {
@@ -360,8 +353,8 @@ class _updateTripFormState extends State<updateTripForm> {
     } catch (e) {
       print('ERROR: $e');
     }
-    print('pp');
-    print(eachTrip.tripRoomTypePrices.length);
+    // print('pp');
+    // print(eachTrip.tripRoomTypePrices.length);
     // print(allRoom.length);
     // print('f');
     // print(_controllerPrice.length);
@@ -567,6 +560,9 @@ class _updateTripFormState extends State<updateTripForm> {
                       // print(triptemplateSelected);
                       eachTrip.tripTemplate =
                           triptemplateTypeMap[triptemplateSelected];
+                      eachTrip.tripRoomTypePrices.clear();
+                      print(eachTrip.tripRoomTypePrices.length);
+                      // eachTrip.tripRoomTypePrices.length;
                       // triptemplate.name = triptemplateSelected;
                       // triptemplate.id =
                       //     triptemplateTypeMap[triptemplateSelected];
@@ -598,6 +594,8 @@ class _updateTripFormState extends State<updateTripForm> {
                                 ));
                             // print('af');
                             // print(_controllerPrice.length);
+                            // print('et');
+                            // print(eachTrip.tripRoomTypePrices.length);
 
                             return Column(children: [
                               // Text('s')
@@ -633,43 +631,49 @@ class _updateTripFormState extends State<updateTripForm> {
                                       ],
                                       onSaved: (newValue) => price = newValue,
                                       onChanged: (value) {
-                                          if (eachTrip.tripTemplate.tripType ==
-                                              TripType.ONSHORE) {
-                                            eachTrip.tripRoomTypePrices[index]
-                                                    .hotelId =
-                                                eachTrip.tripTemplate.hotelId;
-                                          } else {
-                                            eachTrip.tripRoomTypePrices[index]
-                                                    .liveaboardId =
-                                                eachTrip
-                                                    .tripTemplate.liveaboardId;
-                                          }
-                                          eachTrip.tripRoomTypePrices[index]
-                                              .roomTypeId = allRoom[index].id;
-                                          eachTrip.tripRoomTypePrices[index]
-                                              .price = double.parse(value);
+                                        // if (eachTrip.tripTemplate.tripType ==
+                                        //     TripType.ONSHORE) {
+                                        //   eachTrip.tripRoomTypePrices[index]
+                                        //           .hotelId =
+                                        //       eachTrip.tripTemplate.hotelId;
+                                        // } else {
+                                        //   eachTrip.tripRoomTypePrices[index]
+                                        //           .liveaboardId =
+                                        //       eachTrip
+                                        //           .tripTemplate.liveaboardId;
+                                        // }
+                                        // eachTrip.tripRoomTypePrices[index]
+                                        //     .roomTypeId = allRoom[index].id;
+                                        // eachTrip.tripRoomTypePrices[index]
+                                        //     .price = double.parse(value);
 
                                         //   // print(roomPrice);
 
-                                        // var roomprice2 = RoomTypeTripPrice();
+                                        var roomprice2 = RoomTypeTripPrice();
 
-                                        // if (eachTrip.tripTemplate.tripType ==
-                                        //     TripType.ONSHORE) {
-                                        //   roomprice2.hotelId =
-                                        //       eachTrip.tripTemplate.hotelId;
-                                        // } else {
-                                        //   roomprice2.liveaboardId = eachTrip
-                                        //       .tripTemplate.liveaboardId;
-                                        // }
-                                        // roomprice2.roomTypeId =
-                                        //     allRoom[index].id;
-                                        // roomprice2.price = double.parse(value);
-                                        // if (count < eachTrip.tripRoomTypePrices.length) {
-                                        //    eachTrip.tripRoomTypePrices.add(roomprice2);
-                                        //   count++;
-                                        // } else {
-                                        //   eachTrip.tripRoomTypePrices[index] = roomprice2;
-                                        // }
+                                        if (eachTrip.tripTemplate.tripType ==
+                                            TripType.ONSHORE) {
+                                          roomprice2.hotelId =
+                                              eachTrip.tripTemplate.hotelId;
+                                        } else {
+                                          roomprice2.liveaboardId = eachTrip
+                                              .tripTemplate.liveaboardId;
+                                        }
+                                        roomprice2.roomTypeId =
+                                            allRoom[index].id;
+                                        roomprice2.price = double.parse(value);
+
+                                        // print(
+                                        //     eachTrip.tripRoomTypePrices.length);
+                                        if (eachTrip.tripRoomTypePrices.length <
+                                            allRoom.length) {
+                                          eachTrip.tripRoomTypePrices
+                                              .add(roomprice2);
+                                          // count++;
+                                        } else {
+                                          eachTrip.tripRoomTypePrices[index] =
+                                              roomprice2;
+                                        }
                                       },
                                     ),
                                   )
