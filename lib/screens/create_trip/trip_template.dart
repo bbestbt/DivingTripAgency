@@ -25,8 +25,9 @@ class Triptemplate extends StatefulWidget {
   List<String> errors = [];
   bool switchVal = false;
   final customFunction;
+  final tripValue;
   Triptemplate(TripTemplate triptemplate, List<String> errors,
-      List<RoomTypeTripPrice> roomPrice, this.customFunction) {
+      List<RoomTypeTripPrice> roomPrice, this.customFunction, this.tripValue) {
     this.triptemplate = triptemplate;
     // this.triptemplate.hotelAndBoatId = hotelandboatID;
     this.triptemplate.address = addressform;
@@ -343,7 +344,9 @@ class _TriptemplateState extends State<Triptemplate> {
       await for (var feature in stub.listTripTemplates(triptemplaterequest)) {
         // print(feature.template.name);
         triptemplateData.add(feature.template.name);
-        triptemplateTypeMap[feature.template.name] = feature.template.id;
+        triptemplateTypeMap[feature.template.name] = feature.template;
+        // print('dd');
+        // print(triptemplateData);
       }
     } catch (e) {
       print('ERROR: $e');
@@ -386,15 +389,48 @@ class _TriptemplateState extends State<Triptemplate> {
     return allRoom;
   }
 
+  getRoomTypeOld() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listroomrequest = ListRoomTypesRequest();
+
+    if (triptemplate.tripType == TripType.OFFSHORE) {
+      listroomrequest.liveaboardId = triptemplate.liveaboardId;
+    } else {
+      listroomrequest.hotelId = triptemplate.hotelId;
+    }
+
+    allRoom.clear();
+    try {
+      await for (var feature in stub.listRoomTypes(listroomrequest)) {
+        allRoom.add(feature.roomType);
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+    print(allRoom);
+    return allRoom;
+  }
+
   bool _showTextField = false;
   bool _showBoatField = false;
   List<DropdownMenuItem<String>> listTriptemplate = [];
   List<String> triptemplateData = [];
   String triptemplateSelected;
-  Map<String, dynamic> triptemplateTypeMap = {};
+  Map<String, TripTemplate> triptemplateTypeMap = {};
   bool isVisibleOld = false;
   bool isVisibleNew = true;
   bool switchValue = false;
+  bool _showRoom = false;
 
   @override
   Widget build(BuildContext context) {
@@ -454,38 +490,153 @@ class _TriptemplateState extends State<Triptemplate> {
         // SizedBox(height: 20),
         Visibility(
           visible: isVisibleOld,
-          child: Container(
-            color: Color(0xfffabddfc),
-            // Color(0xfffa2c8ff),
-            child: Center(
-              child: DropdownButtonFormField(
-                isExpanded: true,
-                value: triptemplateSelected,
-                items: listTriptemplate,
-                hint: Text('  Select trip template'),
-                iconSize: 40,
-                icon: Icon(
-                  Icons.arrow_drop_down,
-                  color: Colors.black,
-                ),
-                onChanged: (value) {
-                  if (value != null) {
-                    setState(() {
-                      triptemplateSelected = value;
+          child: Column(
+            children: [
+              Container(
+                color: Color(0xfffabddfc),
+                // Color(0xfffa2c8ff),
+                child: Center(
+                  child: DropdownButtonFormField(
+                    isExpanded: true,
+                    value: triptemplateSelected,
+                    items: listTriptemplate,
+                    hint: Text('  Select trip template'),
+                    iconSize: 40,
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.black,
+                    ),
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          triptemplateSelected = value;
+                          // print(triptemplateSelected);
+                          // print(value);
+                          // print(triptemplate);
+
+                          triptemplate =
+                              triptemplateTypeMap[triptemplateSelected];
+                          // triptemplate.name = triptemplateSelected;
+                          // triptemplate.id =
+                          //     triptemplateTypeMap[triptemplateSelected];
+                          print("tt id: " + triptemplate.id.toString());
+                          widget.tripValue(triptemplate);
+
+                          _showRoom = true;
+                        });
+                      }
                       // print(triptemplateSelected);
-                      // print(value);
-                      // print(triptemplate);
-                      triptemplate.name = triptemplateSelected;
-                      triptemplate.id =
-                          triptemplateTypeMap[triptemplateSelected];
-                      // print(triptemplate.name);
-                      // print(triptemplate.id);
-                    });
-                  }
-                  // print(triptemplateSelected);
-                },
+                    },
+                  ),
+                ),
               ),
-            ),
+              Visibility(
+                visible: _showRoom,
+                child: FutureBuilder(
+                  future: getRoomTypeOld(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Container(
+                         color: Color(0xfffabddfc),
+                        child: SizedBox(
+                            width: 1110,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: ScrollPhysics(),
+                                itemCount: allRoom.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  _controllerPrice
+                                      .add(new TextEditingController());
+                                  return Column(children: [
+                                    SizedBox(height: 20),
+                                    Row(
+                                      children: [
+                                        allRoom[index].roomImages.length == 0
+                                            ? new Container(
+                                                width: 200,
+                                                height: 200,
+                                                color: Colors.blue,
+                                              )
+                                            : Container(
+                                                width: 200,
+                                                height: 200,
+                                                child: Image.network(
+                                                    allRoom[index]
+                                                        .roomImages[0]
+                                                        .link
+                                                        .toString()),
+                                              ),
+                                        SizedBox(width: 20),
+                                        Text(allRoom[index].name),
+                                        SizedBox(width: 20),
+                                        Text('Price : '),
+                                        SizedBox(width: 20),
+                                        Container(
+                                          width: 50,
+                                          child: TextFormField(
+                                            controller: _controllerPrice[index],
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter
+                                                  .digitsOnly,
+                                            ],
+                                            onSaved: (newValue) =>
+                                                price = newValue,
+                                            onChanged: (value) {
+                                              var roomprice2 =
+                                                  RoomTypeTripPrice();
+
+                                              if (triptemplate.tripType ==
+                                                  TripType.ONSHORE) {
+                                                roomprice2.hotelId =
+                                                    triptemplate.hotelId;
+                                              } else {
+                                                roomprice2.liveaboardId =
+                                                    triptemplate.liveaboardId;
+                                              }
+                                              roomprice2.roomTypeId =
+                                                  allRoom[index].id;
+
+                                              roomprice2.price =
+                                                  double.parse(value);
+
+                                              if (count < allRoom.length) {
+                                                print('if');
+                                                roomPrice.add(roomprice2);
+                                                count++;
+                                              } else {
+                                                roomPrice[index] = roomprice2;
+                                              }
+                                              // print(roomPrice);
+
+                                              if (value.isNotEmpty) {
+                                                removeError(
+                                                    error: "Please enter price");
+                                              }
+                                              return null;
+                                            },
+                                            validator: (value) {
+                                              if (value.isEmpty) {
+                                                addError(
+                                                    error: "Please enter price");
+                                                return "";
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ]);
+                                })),
+                      );
+                    } else {
+                      return Center(child: Text('No data'));
+                    }
+                  },
+                ),
+              ),
+            ],
           ),
         ),
 

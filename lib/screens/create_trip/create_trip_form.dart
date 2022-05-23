@@ -63,6 +63,13 @@ class _CreateTripFormState extends State<CreateTripForm> {
     });
   }
 
+    void oldTrip(tt) {
+    setState(() {
+      triptemplate = tt;
+    });
+  }
+
+
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -123,8 +130,17 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
     trip.schedule = textarea.text;
-    trip.name=_controllerName.text;
+    trip.name = _controllerName.text;
     // trip.price = double.parse(_controllerPrice.text);
+    for (int m = 0; m < roomPrice.length; m++) {
+      var rp = RoomTypeTripPrice();
+      rp.hotelId = roomPrice[m].hotelId;
+      rp.price = roomPrice[m].price;
+      rp.roomTypeId = roomPrice[m].roomTypeId;
+      rp.liveaboardId = roomPrice[m].liveaboardId;
+
+      trip.tripRoomTypePrices.add(rp);
+    }
 
     for (int i = 0; i < pinkValue.length; i++) {
       var divesite = DiveSite();
@@ -220,7 +236,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
     trip.schedule = textarea.text;
-    trip.name=_controllerName.text;
+    trip.name = _controllerName.text;
     trip.tripTemplate.description = triptemplate.description;
     trip.tripTemplate.name = triptemplate.name;
     trip.tripTemplate.tripType = triptemplate.tripType;
@@ -539,7 +555,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: Triptemplate(this.triptemplate, this.errors,
-                  this.roomPrice, switchChange)),
+                  this.roomPrice, switchChange,oldTrip)),
 
           SizedBox(height: 20),
           FormError(errors: errors),
@@ -567,12 +583,15 @@ class _CreateTripFormState extends State<CreateTripForm> {
                         }
                       else
                         {
+                          //    print("new"),
+                          // print(triptemplate),
                           await AddTrip(),
                         }
                     }
                 }
               else
                 {
+                  // print('old'),
                   // print(triptemplate),
                   await AddOldTriptemplate(),
                 }
