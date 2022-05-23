@@ -148,6 +148,8 @@ class _updateTripFormState extends State<updateTripForm> {
   List<String> triptemplateData = [];
   String triptemplateSelected;
   Map<String, dynamic> triptemplateTypeMap = {};
+  final TextEditingController _controllerName = TextEditingController();
+  String name;
 
   @override
   void initState() {
@@ -155,9 +157,10 @@ class _updateTripFormState extends State<updateTripForm> {
     super.initState();
     loadData();
     _controllerTotalpeople.text = eachTrip.maxGuest.toString();
-    textarea.text=eachTrip.schedule;
+    textarea.text = eachTrip.schedule;
     dmValue = eachTrip.diveMasters;
     pinkValue = eachTrip.diveSites;
+    _controllerName.text=eachTrip.name;
   }
 
   void loadData() async {
@@ -253,7 +256,7 @@ class _updateTripFormState extends State<updateTripForm> {
       eachTrip.diveSites[j] = pinkValue[j];
     }
     eachTrip.maxGuest = int.parse(_controllerTotalpeople.text);
-    eachTrip.schedule =textarea.text;
+    eachTrip.schedule = textarea.text;
     final updateRequest = UpdateTripRequest()..trip = eachTrip;
     print(updateRequest);
     try {
@@ -280,7 +283,7 @@ class _updateTripFormState extends State<updateTripForm> {
       //   showError();
       //   print("this boat is already use");
       // }
-     showDialog(
+      showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
@@ -541,6 +544,20 @@ class _updateTripFormState extends State<updateTripForm> {
       onSaved: (newValue) => totalpeople = newValue,
       decoration: InputDecoration(
         labelText: "Total people",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildNameFormField() {
+    return TextFormField(
+      controller: _controllerName,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => name = newValue,
+      decoration: InputDecoration(
+        labelText: "Trip name",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,

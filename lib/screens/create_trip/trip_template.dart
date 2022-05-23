@@ -1291,7 +1291,7 @@ class _TriptemplateState extends State<Triptemplate> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Trip name",
+        labelText: "Trip template name",
         filled: true,
         fillColor: Color(0xfffd4f0f0),
         floatingLabelBehavior: FloatingLabelBehavior.always,

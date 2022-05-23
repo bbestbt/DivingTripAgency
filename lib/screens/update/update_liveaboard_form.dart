@@ -333,6 +333,7 @@ class _editLiveaboardFormState extends State<editLiveaboardForm> {
 
         room.amenities.add(amenity);
       }
+      room.id = pinkValue[i].id;
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;

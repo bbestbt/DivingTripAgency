@@ -54,6 +54,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
   final _formKey = GlobalKey<FormState>();
   bool switchWhite = false;
   TextEditingController textarea = TextEditingController();
+  final TextEditingController _controllerName = TextEditingController();
+  String name;
 
   void switchChange(sw) {
     setState(() {
@@ -121,6 +123,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
     trip.schedule = textarea.text;
+    trip.name=_controllerName.text;
     // trip.price = double.parse(_controllerPrice.text);
 
     for (int i = 0; i < pinkValue.length; i++) {
@@ -217,6 +220,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
     trip.lastReservationDate = Timestamp.fromDateTime(last);
     trip.maxGuest = int.parse(_controllerTotalpeople.text);
     trip.schedule = textarea.text;
+    trip.name=_controllerName.text;
     trip.tripTemplate.description = triptemplate.description;
     trip.tripTemplate.name = triptemplate.name;
     trip.tripTemplate.tripType = triptemplate.tripType;
@@ -341,6 +345,8 @@ class _CreateTripFormState extends State<CreateTripForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          SizedBox(height: 20),
+          buildNameFormField(),
           SizedBox(height: 20),
           Row(
             children: [
@@ -598,32 +604,32 @@ class _CreateTripFormState extends State<CreateTripForm> {
     );
   }
 
-  // TextFormField buildPlaceFormField() {
-  //   return TextFormField(
-  //     controller: _controllerPlace,
-  //     cursorColor: Color(0xFFf5579c6),
-  //     onSaved: (newValue) => place = newValue,
-  //     onChanged: (value) {
-  //       if (value.isNotEmpty) {
-  //         removeError(error: "Please Enter place");
-  //       }
-  //       return null;
-  //     },
-  //     validator: (value) {
-  //       if (value.isEmpty) {
-  //         addError(error: "Please Enter place");
-  //         return "";
-  //       }
-  //       return null;
-  //     },
-  //     decoration: InputDecoration(
-  //       labelText: "Place",
-  //       filled: true,
-  //       fillColor: Colors.white,
-  //       floatingLabelBehavior: FloatingLabelBehavior.always,
-  //     ),
-  //   );
-  // }
+  TextFormField buildNameFormField() {
+    return TextFormField(
+      controller: _controllerName,
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => name = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter trip name");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter trip name");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        labelText: "Trip name",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
 
   // TextFormField buildFromFormField() {
   //   return TextFormField(
@@ -679,63 +685,63 @@ class _CreateTripFormState extends State<CreateTripForm> {
   //   );
   // }
 
-  TextFormField buildDiveMasterNameFormField() {
-    return TextFormField(
-      controller: _controllerDivemastername,
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => divemastername = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter dive master name");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter dive master name");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Dive master name",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
+  // TextFormField buildDiveMasterNameFormField() {
+  //   return TextFormField(
+  //     controller: _controllerDivemastername,
+  //     cursorColor: Color(0xFFf5579c6),
+  //     onSaved: (newValue) => divemastername = newValue,
+  //     onChanged: (value) {
+  //       if (value.isNotEmpty) {
+  //         removeError(error: "Please Enter dive master name");
+  //       }
+  //       return null;
+  //     },
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         addError(error: "Please Enter dive master name");
+  //         return "";
+  //       }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //       labelText: "Dive master name",
+  //       filled: true,
+  //       fillColor: Colors.white,
+  //       floatingLabelBehavior: FloatingLabelBehavior.always,
+  //     ),
+  //   );
+  // }
 
-  TextFormField buildPriceFormField() {
-    return TextFormField(
-      controller: _controllerPrice,
-      keyboardType: TextInputType.number,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
-      cursorColor: Color(0xFFf5579c6),
-      onSaved: (newValue) => price = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: "Please Enter price");
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value.isEmpty) {
-          addError(error: "Please Enter price");
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Price",
-        filled: true,
-        fillColor: Colors.white,
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-      ),
-    );
-  }
+  // TextFormField buildPriceFormField() {
+  //   return TextFormField(
+  //     controller: _controllerPrice,
+  //     keyboardType: TextInputType.number,
+  //     inputFormatters: [
+  //       FilteringTextInputFormatter.digitsOnly,
+  //     ],
+  //     cursorColor: Color(0xFFf5579c6),
+  //     onSaved: (newValue) => price = newValue,
+  //     onChanged: (value) {
+  //       if (value.isNotEmpty) {
+  //         removeError(error: "Please Enter price");
+  //       }
+  //       return null;
+  //     },
+  //     validator: (value) {
+  //       if (value.isEmpty) {
+  //         addError(error: "Please Enter price");
+  //         return "";
+  //       }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //       labelText: "Price",
+  //       filled: true,
+  //       fillColor: Colors.white,
+  //       floatingLabelBehavior: FloatingLabelBehavior.always,
+  //     ),
+  //   );
+  // }
 
   TextFormField buildTotalPeopleFormField() {
     return TextFormField(

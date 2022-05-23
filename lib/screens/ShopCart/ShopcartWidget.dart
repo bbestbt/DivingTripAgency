@@ -305,7 +305,7 @@ class _CartState extends State<CartWidget> {
         (roomtypes[indexRoom].price * quantity) + details[indexDetail].price;*/
       //reservation.price = 1000;//CartBox.get('price'+CartBox.get('indexroom').toString()).toInt()*CartBox.get('quantity'+CartBox.get('indexDetail').toString()).toInt();
       reservation.price = totalprice;
-      reservation.totalDivers = Int64(0);
+      reservation.totalDivers = Int64(quantity);
 
       // print(reservation);
       var bookRequest = CreateReservationRequest()..reservation = reservation;

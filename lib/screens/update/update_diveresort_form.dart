@@ -334,6 +334,7 @@ class _editHotelFormState extends State<editHotelForm> {
       //   print("eachhotel.roomImages");
       //   print("-------------");
       //   print(eachHotel.roomTypes[i].roomImages);
+      room.id=pinkValue[i].id;
       room.name = pinkValue[i].name;
       room.description = pinkValue[i].description;
       room.maxGuest = pinkValue[i].maxGuest;
