@@ -94,7 +94,7 @@ class Update extends StatelessWidget {
               //         ))),
 
               Container(
-                height:  MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height,
                 child: FutureBuilder(
                   future: getProfile(),
                   builder: (context, snapshot) {
@@ -113,16 +113,18 @@ class Update extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => updateHotel()));
+                                            builder: (context) =>
+                                                updateHotel()));
                                   },
                                   child: Center(
                                       child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(Icons.hotel,
-                                          size:
-                                              MediaQuery.of(context).size.width /
-                                                  8),
+                                          size: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              8),
                                       Text(
                                         "Hotel",
                                       )
@@ -147,9 +149,10 @@ class Update extends StatelessWidget {
                                       Icon(
                                           IconData(0xe1d3,
                                               fontFamily: 'MaterialIcons'),
-                                          size:
-                                              MediaQuery.of(context).size.width /
-                                                  8),
+                                          size: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              8),
                                       Text(
                                         "Liveaboard",
                                       )
@@ -164,16 +167,18 @@ class Update extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => updateTrip()));
+                                            builder: (context) =>
+                                                updateTrip()));
                                   },
                                   child: Center(
                                       child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(Icons.travel_explore,
-                                          size:
-                                              MediaQuery.of(context).size.width /
-                                                  8),
+                                          size: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              8),
                                       Text(
                                         "Trip",
                                       )
@@ -188,16 +193,18 @@ class Update extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => updateBoat()));
+                                            builder: (context) =>
+                                                updateBoat()));
                                   },
                                   child: Center(
                                       child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(Icons.sailing_sharp,
-                                          size:
-                                              MediaQuery.of(context).size.width /
-                                                  8),
+                                          size: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              8),
                                       Text(
                                         "Boat",
                                       )
@@ -212,16 +219,18 @@ class Update extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => updateStaff()));
+                                            builder: (context) =>
+                                                updateStaff()));
                                   },
                                   child: Center(
                                       child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(Icons.people,
-                                          size:
-                                              MediaQuery.of(context).size.width /
-                                                  8),
+                                          size: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              8),
                                       Text(
                                         "Staff",
                                       )
@@ -244,40 +253,17 @@ class Update extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(Icons.emoji_people_outlined,
-                                          size:
-                                              MediaQuery.of(context).size.width /
-                                                  8),
+                                          size: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              8),
                                       Text(
                                         "Divemaster",
                                       )
                                     ],
                                   )),
                                 )),
-                                  Card(
-                                color: Color(0xfffc7ceea),
-                                margin: EdgeInsets.all(10),
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                updateTripTemplate()));
-                                  },
-                                  child: Center(
-                                      child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(Icons.emoji_people_outlined,
-                                          size:
-                                              MediaQuery.of(context).size.width /
-                                                  8),
-                                      Text(
-                                        "tt",
-                                      )
-                                    ],
-                                  )),
-                                )),
+
                             // Container(
                             //   height: 200,
                             //   width: 500,

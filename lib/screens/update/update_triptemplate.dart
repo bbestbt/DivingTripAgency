@@ -12,6 +12,7 @@ import 'package:diving_trip_agency/screens/main/components/hamburger_company.dar
 import 'package:diving_trip_agency/screens/main/components/header_company.dart';
 import 'package:diving_trip_agency/screens/sectionTitile.dart';
 import 'package:diving_trip_agency/screens/update/update_trip_form.dart';
+import 'package:diving_trip_agency/screens/update/update_triptemplate_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
@@ -261,11 +262,11 @@ class _listTripCardState extends State<listTripCard> {
                     ],
                 onSelected: (int menu) {
                   if (menu == 1) {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) =>
-                    //             updateEachTrip(trips[widget.index])));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                updateEachTripTemplate(trips[widget.index])));
                   } else if (menu == 2) {
                     showAlertDialog(context);
                   }
