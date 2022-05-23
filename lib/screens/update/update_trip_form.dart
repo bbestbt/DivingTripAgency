@@ -160,7 +160,7 @@ class _updateTripFormState extends State<updateTripForm> {
     textarea.text = eachTrip.schedule;
     dmValue = eachTrip.diveMasters;
     pinkValue = eachTrip.diveSites;
-    _controllerName.text=eachTrip.name;
+    _controllerName.text = eachTrip.name;
   }
 
   void loadData() async {
@@ -318,6 +318,8 @@ class _updateTripFormState extends State<updateTripForm> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(children: [
+          SizedBox(height: 20),
+          buildNameFormField(),
           SizedBox(height: 20),
           Row(
             children: [
