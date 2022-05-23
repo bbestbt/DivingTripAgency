@@ -147,7 +147,7 @@ class _updateTripFormState extends State<updateTripForm> {
   List<DropdownMenuItem<String>> listTriptemplate = [];
   List<String> triptemplateData = [];
   String triptemplateSelected;
-  Map<String, dynamic> triptemplateTypeMap = {};
+  Map<String, TripTemplate> triptemplateTypeMap = {};
   final TextEditingController _controllerName = TextEditingController();
   String name;
 
@@ -215,7 +215,7 @@ class _updateTripFormState extends State<updateTripForm> {
       await for (var feature in stub.listTripTemplates(triptemplaterequest)) {
         // print(feature.template.name);
         triptemplateData.add(feature.template.name);
-        triptemplateTypeMap[feature.template.name] = feature.template.id;
+        triptemplateTypeMap[feature.template.name] = feature.template;
       }
     } catch (e) {
       print('ERROR: $e');
@@ -245,8 +245,9 @@ class _updateTripFormState extends State<updateTripForm> {
       eachTrip.lastReservationDate = Timestamp.fromDateTime(last);
     }
     if (triptemplateSelected != null) {
-      eachTrip.tripTemplate.name = triptemplateSelected;
-      eachTrip.tripTemplate.id = triptemplateTypeMap[triptemplateSelected];
+      // eachTrip.tripTemplate.name = triptemplateSelected;
+      // eachTrip.tripTemplate.id = triptemplateTypeMap[triptemplateSelected];
+      eachTrip.tripTemplate = triptemplateTypeMap[triptemplateSelected];
     }
 
     for (int i = 0; i < dmValue.length; i++) {
@@ -255,47 +256,56 @@ class _updateTripFormState extends State<updateTripForm> {
     for (int j = 0; j < pinkValue.length; j++) {
       eachTrip.diveSites[j] = pinkValue[j];
     }
+    for (int m = 0; m < roomPrice.length; m++) {
+      var rp = RoomTypeTripPrice();
+      rp.hotelId = roomPrice[m].hotelId;
+      rp.price = roomPrice[m].price;
+      rp.roomTypeId = roomPrice[m].roomTypeId;
+      rp.liveaboardId = roomPrice[m].liveaboardId;
+
+      eachTrip.tripRoomTypePrices.add(rp);
+    }
     eachTrip.maxGuest = int.parse(_controllerTotalpeople.text);
     eachTrip.schedule = textarea.text;
     final updateRequest = UpdateTripRequest()..trip = eachTrip;
     print(updateRequest);
-    try {
-      var response = await stub.updateTrip(updateRequest);
-      //print('response: ${response}');
-      print('ok');
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => MainCompanyScreen(),
-        ),
-        (route) => false,
-      );
-      // print(token);
-      // print(response);
-    } on GrpcError catch (e) {
-      // Handle exception of type GrpcError
-      print('codeName: ${e.codeName}');
-      print('details: ${e.details}');
-      print('message: ${e.message}');
-      print('rawResponse: ${e.rawResponse}');
-      print('trailers: ${e.trailers}');
-      // if (e.codeName == 'UNAVAILABLE') {
-      //   showError();
-      //   print("this boat is already use");
-      // }
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Error"),
-              content: Text(e.message),
-              actions: <Widget>[],
-            );
-          });
-    } catch (e) {
-      // Handle all other exceptions
-      print('Exception: $e');
-    }
+    // try {
+    //   var response = await stub.updateTrip(updateRequest);
+    //   //print('response: ${response}');
+    //   print('ok');
+    //   Navigator.pushAndRemoveUntil(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (BuildContext context) => MainCompanyScreen(),
+    //     ),
+    //     (route) => false,
+    //   );
+    //   // print(token);
+    //   // print(response);
+    // } on GrpcError catch (e) {
+    //   // Handle exception of type GrpcError
+    //   print('codeName: ${e.codeName}');
+    //   print('details: ${e.details}');
+    //   print('message: ${e.message}');
+    //   print('rawResponse: ${e.rawResponse}');
+    //   print('trailers: ${e.trailers}');
+    //   // if (e.codeName == 'UNAVAILABLE') {
+    //   //   showError();
+    //   //   print("this boat is already use");
+    //   // }
+    //   showDialog(
+    //       context: context,
+    //       builder: (BuildContext context) {
+    //         return AlertDialog(
+    //           title: Text("Error"),
+    //           content: Text(e.message),
+    //           actions: <Widget>[],
+    //         );
+    //       });
+    // } catch (e) {
+    //   // Handle all other exceptions
+    //   print('Exception: $e');
+    // }
   }
 
   void getDMValue(dm) {
@@ -308,6 +318,42 @@ class _updateTripFormState extends State<updateTripForm> {
     setState(() {
       pinkValue = ds;
     });
+  }
+
+  int count = 0;
+  bool _showRoom = false;
+  List<TextEditingController> _controllerPrice = new List();
+  List<RoomType> allRoom = [];
+  List<RoomTypeTripPrice> roomPrice = [];
+  getRoomTypeOld() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = AgencyServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var listroomrequest = ListRoomTypesRequest();
+    if (eachTrip.tripTemplate.tripType == TripType.OFFSHORE) {
+      listroomrequest.liveaboardId = eachTrip.tripTemplate.liveaboardId;
+    } else {
+      listroomrequest.hotelId = eachTrip.tripTemplate.hotelId;
+    }
+
+    allRoom.clear();
+    try {
+      await for (var feature in stub.listRoomTypes(listroomrequest)) {
+        allRoom.add(feature.roomType);
+      }
+    } catch (e) {
+      print('ERROR: $e');
+    }
+    print(allRoom);
+    return allRoom;
   }
 
   @override
@@ -505,7 +551,11 @@ class _updateTripFormState extends State<updateTripForm> {
                   if (value != null) {
                     setState(() {
                       triptemplateSelected = value;
-
+                      // _showRoom = true;
+                      print(triptemplateSelected);
+                      eachTrip.tripTemplate =
+                          triptemplateTypeMap[triptemplateSelected];
+                     
                       // triptemplate.name = triptemplateSelected;
                       // triptemplate.id =
                       //     triptemplateTypeMap[triptemplateSelected];
@@ -515,8 +565,88 @@ class _updateTripFormState extends State<updateTripForm> {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          // SizedBox(height: 20),
+          FutureBuilder(
+            future: getRoomTypeOld(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                  color: Color(0xfffabddfc),
+                  child: SizedBox(
+                      width: 1110,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: ScrollPhysics(),
+                          itemCount: allRoom.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            _controllerPrice.add(new TextEditingController(
+                                text: eachTrip.tripRoomTypePrices[index].price
+                                    .toString()));
+                            return Column(children: [
+                              // Text('s')
+                              SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  allRoom[index].roomImages.length == 0
+                                      ? new Container(
+                                          width: 200,
+                                          height: 200,
+                                          color: Colors.blue,
+                                        )
+                                      : Container(
+                                          width: 200,
+                                          height: 200,
+                                          child: Image.network(allRoom[index]
+                                              .roomImages[0]
+                                              .link
+                                              .toString()),
+                                        ),
+                                  SizedBox(width: 20),
+                                  Text(allRoom[index].name),
+                                  SizedBox(width: 20),
+                                  Text('Price : '),
+                                  SizedBox(width: 20),
+                                  Container(
+                                    width: 50,
+                                    child: TextFormField(
+                                      controller: _controllerPrice[index],
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                      ],
+                                      onSaved: (newValue) => price = newValue,
+                                      onChanged: (value) {
+                                        if (eachTrip.tripTemplate.tripType ==
+                                            TripType.ONSHORE) {
+                                          eachTrip.tripRoomTypePrices[index]
+                                                  .hotelId =
+                                              eachTrip.tripTemplate.hotelId;
+                                        } else {
+                                          eachTrip.tripRoomTypePrices[index]
+                                                  .liveaboardId =
+                                              eachTrip
+                                                  .tripTemplate.liveaboardId;
+                                        }
+                                        eachTrip.tripRoomTypePrices[index]
+                                            .roomTypeId = allRoom[index].id;
+                                        eachTrip.tripRoomTypePrices[index]
+                                            .price = double.parse(value);
 
+                                        // print(roomPrice);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ]);
+                          })),
+                );
+              } else {
+                return Center(child: Text('No data'));
+              }
+            },
+          ),
+          SizedBox(height: 20),
           FlatButton(
             onPressed: () async => {
               // print(dmValue),
