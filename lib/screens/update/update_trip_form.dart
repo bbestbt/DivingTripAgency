@@ -129,9 +129,7 @@ class _updateTripFormState extends State<updateTripForm> {
   TripTemplate triptemplate = new TripTemplate();
   Address addressform = new Address();
 
-  // final TextEditingController _controllerDivemastername =
-  //     TextEditingController();
-  // final TextEditingController _controllerPrice = TextEditingController();
+
   final TextEditingController _controllerTotalpeople = TextEditingController();
   TextEditingController textarea = TextEditingController();
 
@@ -320,8 +318,6 @@ class _updateTripFormState extends State<updateTripForm> {
     });
   }
 
-  int count = 0;
-  bool _showRoom = false;
   List<TextEditingController> _controllerPrice = new List();
   List<RoomType> allRoom = [];
   List<RoomTypeTripPrice> roomPrice = [];
@@ -349,15 +345,17 @@ class _updateTripFormState extends State<updateTripForm> {
     try {
       await for (var feature in stub.listRoomTypes(listroomrequest)) {
         allRoom.add(feature.roomType);
+        print('befotre if');
+        if (eachTrip.tripRoomTypePrices.length <allRoom.length) {
+          print('in if');
+          eachTrip.tripRoomTypePrices.add(RoomTypeTripPrice());
+          print('nn');
+        }
       }
     } catch (e) {
       print('ERROR: $e');
     }
-    // print('pp');
-    // print(eachTrip.tripRoomTypePrices.length);
-    // print(allRoom.length);
-    // print('f');
-    // print(_controllerPrice.length);
+  
     return allRoom;
   }
 
@@ -482,26 +480,7 @@ class _updateTripFormState extends State<updateTripForm> {
           ),
           SizedBox(height: 20),
 
-          // Container(
-          //   color: Colors.white,
-          //   child: Center(
-          //     child: DropdownButtonFormField(
-          //       isExpanded: true,
-          //       value: divemasterSelected,
-          //       items: listDivemaster,
-          //       hint: Text('eachTrip.diveMasters'),
-          //       iconSize: 40,
-          //       onChanged: (value) {
-          //         if (value != null) {
-          //           setState(() {
-          //             divemasterSelected = value;
-          //             print(value);
-          //           });
-          //         }
-          //       },
-          //     ),
-          //   ),
-          // ),
+  
           Container(
             width: MediaQuery.of(context).size.width / 1.5,
             decoration: BoxDecoration(
@@ -556,12 +535,13 @@ class _updateTripFormState extends State<updateTripForm> {
                   if (value != null) {
                     setState(() {
                       triptemplateSelected = value;
-                      // _showRoom = true;
+                   
                       // print(triptemplateSelected);
                       eachTrip.tripTemplate =
                           triptemplateTypeMap[triptemplateSelected];
                       eachTrip.tripRoomTypePrices.clear();
-                      print(eachTrip.tripRoomTypePrices.length);
+                      // print('l'+eachTrip.tripRoomTypePrices.length.toString());
+
                       // eachTrip.tripRoomTypePrices.length;
                       // triptemplate.name = triptemplateSelected;
                       // triptemplate.id =
@@ -589,8 +569,8 @@ class _updateTripFormState extends State<updateTripForm> {
                             // print('bf');
                             // print(_controllerPrice.length);
                             _controllerPrice.add(new TextEditingController(
-                                // text: eachTrip.tripRoomTypePrices[index].price
-                                //     .toString()
+                                text: eachTrip.tripRoomTypePrices[index].price
+                                    .toString()
                                 ));
                             // print('af');
                             // print(_controllerPrice.length);
@@ -631,24 +611,6 @@ class _updateTripFormState extends State<updateTripForm> {
                                       ],
                                       onSaved: (newValue) => price = newValue,
                                       onChanged: (value) {
-                                        // if (eachTrip.tripTemplate.tripType ==
-                                        //     TripType.ONSHORE) {
-                                        //   eachTrip.tripRoomTypePrices[index]
-                                        //           .hotelId =
-                                        //       eachTrip.tripTemplate.hotelId;
-                                        // } else {
-                                        //   eachTrip.tripRoomTypePrices[index]
-                                        //           .liveaboardId =
-                                        //       eachTrip
-                                        //           .tripTemplate.liveaboardId;
-                                        // }
-                                        // eachTrip.tripRoomTypePrices[index]
-                                        //     .roomTypeId = allRoom[index].id;
-                                        // eachTrip.tripRoomTypePrices[index]
-                                        //     .price = double.parse(value);
-
-                                        //   // print(roomPrice);
-
                                         var roomprice2 = RoomTypeTripPrice();
 
                                         if (eachTrip.tripTemplate.tripType ==
@@ -669,7 +631,7 @@ class _updateTripFormState extends State<updateTripForm> {
                                             allRoom.length) {
                                           eachTrip.tripRoomTypePrices
                                               .add(roomprice2);
-                                          // count++;
+                                       
                                         } else {
                                           eachTrip.tripRoomTypePrices[index] =
                                               roomprice2;
