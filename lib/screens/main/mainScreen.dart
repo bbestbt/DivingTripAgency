@@ -13,12 +13,6 @@ import 'CarouselTest.dart';
 import 'components/header.dart';
 
 final List<String> imgList = [
-  // 'assets/images/S__83271685.jpg',
-  // 'assets/images/S__77250562.jpg',
-  // 'assets/images/S__83271682.jpg',
-  // 'assets/images/S__83271684.jpg',
-  // 'assets/images/S__83271687.jpg',
-  // 'assets/images/S__83271688.jpg',
   'assets/images/d1.jpg',
   'assets/images/d2.jpg',
   'assets/images/d3.jpg',
