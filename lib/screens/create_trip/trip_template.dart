@@ -183,6 +183,7 @@ class _TriptemplateState extends State<Triptemplate> {
   // final TextEditingController _controllerPrice = TextEditingController();
   List<TextEditingController> _controllerPrice = new List();
   List<RoomType> allRoom = [];
+  List<RoomType> allRoom2 = [];
   int count = 0;
 
   /// Get from gallery
@@ -385,7 +386,9 @@ class _TriptemplateState extends State<Triptemplate> {
     }
     // print('--');
     // roomPrice = new List(allRoom.length);
-    // print(allRoom);
+    print('new1');
+    print(allRoom);
+    print('new2');
     return allRoom;
   }
 
@@ -409,16 +412,18 @@ class _TriptemplateState extends State<Triptemplate> {
       listroomrequest.hotelId = triptemplate.hotelId;
     }
 
-    allRoom.clear();
+    allRoom2.clear();
     try {
       await for (var feature in stub.listRoomTypes(listroomrequest)) {
-        allRoom.add(feature.roomType);
+        allRoom2.add(feature.roomType);
       }
     } catch (e) {
       print('ERROR: $e');
     }
-    print(allRoom);
-    return allRoom;
+    print('old1');
+    print(allRoom2);
+    print('old2');
+    return allRoom2;
   }
 
   bool _showTextField = false;
@@ -537,13 +542,13 @@ class _TriptemplateState extends State<Triptemplate> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Container(
-                         color: Color(0xfffabddfc),
+                        color: Color(0xfffabddfc),
                         child: SizedBox(
                             width: 1110,
                             child: ListView.builder(
                                 shrinkWrap: true,
                                 physics: ScrollPhysics(),
-                                itemCount: allRoom.length,
+                                itemCount: allRoom2.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   _controllerPrice
                                       .add(new TextEditingController());
@@ -551,7 +556,7 @@ class _TriptemplateState extends State<Triptemplate> {
                                     SizedBox(height: 20),
                                     Row(
                                       children: [
-                                        allRoom[index].roomImages.length == 0
+                                        allRoom2[index].roomImages.length == 0
                                             ? new Container(
                                                 width: 200,
                                                 height: 200,
@@ -561,13 +566,13 @@ class _TriptemplateState extends State<Triptemplate> {
                                                 width: 200,
                                                 height: 200,
                                                 child: Image.network(
-                                                    allRoom[index]
+                                                    allRoom2[index]
                                                         .roomImages[0]
                                                         .link
                                                         .toString()),
                                               ),
                                         SizedBox(width: 20),
-                                        Text(allRoom[index].name),
+                                        Text(allRoom2[index].name),
                                         SizedBox(width: 20),
                                         Text('Price : '),
                                         SizedBox(width: 20),
@@ -595,13 +600,12 @@ class _TriptemplateState extends State<Triptemplate> {
                                                     triptemplate.liveaboardId;
                                               }
                                               roomprice2.roomTypeId =
-                                                  allRoom[index].id;
+                                                  allRoom2[index].id;
 
                                               roomprice2.price =
                                                   double.parse(value);
 
-                                              if (count < allRoom.length) {
-                                                print('if');
+                                              if (count < allRoom2.length) {
                                                 roomPrice.add(roomprice2);
                                                 count++;
                                               } else {
@@ -611,14 +615,16 @@ class _TriptemplateState extends State<Triptemplate> {
 
                                               if (value.isNotEmpty) {
                                                 removeError(
-                                                    error: "Please enter price");
+                                                    error:
+                                                        "Please enter price");
                                               }
                                               return null;
                                             },
                                             validator: (value) {
                                               if (value.isEmpty) {
                                                 addError(
-                                                    error: "Please enter price");
+                                                    error:
+                                                        "Please enter price");
                                                 return "";
                                               }
                                               return null;

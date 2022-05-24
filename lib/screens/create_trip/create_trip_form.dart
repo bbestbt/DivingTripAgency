@@ -585,6 +585,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
                         {
                           //    print("new"),
                           // print(triptemplate),
+                          //  print(roomPrice),
                           await AddTrip(),
                         }
                     }
@@ -593,6 +594,7 @@ class _CreateTripFormState extends State<CreateTripForm> {
                 {
                   // print('old'),
                   // print(triptemplate),
+                  // print(roomPrice),
                   await AddOldTriptemplate(),
                 }
             },
