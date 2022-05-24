@@ -32,6 +32,8 @@ GetPaymentByReservationResponse paymentDetial =
     new GetPaymentByReservationResponse();
 var payment;
 bool isChecked = false;
+var diverID;
+var reservationId;
 
 class CompanyCheckpayment extends StatefulWidget {
   List<Diver> diver = [];
@@ -58,12 +60,16 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
   int index;
   List<Reservation> reservation = [];
   List<ReportTrip> trips = [];
+  int indexDiver;
   _CompanyCheckpaymentState(List<Diver> diver, int index,
       List<Reservation> reservation, List<ReportTrip> trips) {
     this.diver = diver;
     this.index = index;
     this.reservation = reservation;
     this.trips = trips;
+  }
+  getIndexDiver(id) {
+    indexDiver = id;
   }
 
   updatePayment() async {
@@ -78,14 +84,25 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
 
     final stub = PaymentServiceClient(channel,
         options: CallOptions(metadata: {'Authorization': '$token'}));
-
+    // print(diverID);
     var diverInfo = Diver();
-    diverInfo.id = diver[index].id;
+    diverInfo.id = diverID;
+    // print('1');
+    // print(diverInfo.id);
+    // diver[index].id;
     var paymentStatus = Payment()..diver = diverInfo;
     paymentStatus.id = paymentDetial.payment.id;
+    // print('2');
+    // print(paymentStatus.id);
     paymentStatus.verified = isChecked;
+    // print('3');
+    // print(paymentStatus.verified);
     paymentStatus.paymentSlip = paymentDetial.payment.paymentSlip;
-    paymentStatus.reservationId = reservation[index].id;
+    // print('4');
+    // print(paymentStatus.paymentSlip);
+    paymentStatus.reservationId = reservationId;
+    // print('5');
+    // print(paymentStatus.reservationId);
 
     var statusrequest = UpdatePaymentStatusRequest()..payment = paymentStatus;
     try {
@@ -151,13 +168,8 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                                   (indexDiver) => Center(
                                     child: SingleChildScrollView(
                                       scrollDirection: Axis.horizontal,
-                                      child: InfoCard(
-                                        index,
-                                        diver,
-                                        reservation,
-                                        indexDiver,
-                                        trips,
-                                      ),
+                                      child: InfoCard(index, diver, reservation,
+                                          indexDiver, trips, getIndexDiver),
                                     ),
                                   ),
                                 )),
@@ -167,6 +179,8 @@ class _CompanyCheckpaymentState extends State<CompanyCheckpayment> {
                           ),
                           FlatButton(
                             onPressed: () async => {
+                              // print(diverID),
+
                               await updatePayment(),
                               print('checking done'),
                             },
@@ -203,13 +217,15 @@ class InfoCard extends StatefulWidget {
   List<Reservation> reservation = [];
   int indexDiver;
   List<ReportTrip> trips = [];
+  final customFunction;
   InfoCard(int index, List<Diver> diver, List<Reservation> reservation,
-      int indexDiver, List<ReportTrip> trips) {
+      int indexDiver, List<ReportTrip> trips, this.customFunction) {
     this.index = index;
     this.diver = diver;
     this.reservation = reservation;
     this.indexDiver = indexDiver;
     this.trips = trips;
+    customFunction(indexDiver);
     // print(index);
     // print(indexDiver);
     // print(trips[index].reservations[indexDiver].id);
@@ -303,6 +319,11 @@ class _InfoCardState extends State<InfoCard> {
                         : new Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Text(trips[widget.index].reservations[indexDiver].id.toString()),
+                              // Text(trips[widget.index]
+                              //     .divers[indexDiver]
+                              //     .id
+                              //     .toString()),
                               Text("Firstname : " +
                                   trips[widget.index]
                                       .divers[indexDiver]
@@ -374,6 +395,11 @@ class _InfoCardState extends State<InfoCard> {
                                                       // print(isChecked);
                                                       // print('bf');
                                                       isChecked = value;
+                                                      // print(trips[index].divers[indexDiver].id);
+                                                      diverID = trips[index]
+                                                          .divers[indexDiver]
+                                                          .id;
+                                                          reservationId=trips[widget.index].reservations[indexDiver].id;
                                                       // print(isChecked);
                                                       // print('af');
                                                     });
