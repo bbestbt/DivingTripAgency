@@ -406,7 +406,7 @@ class _InfoCardState extends State<InfoCard> {
                 builder: (context) => ReviewTripScreen(
                       int.parse(reservation[widget.index].id.toString()),
                       double.parse(reservation[widget.index].price.toString()),
-                      trips[widget.index],
+                      trips[widget.index]
                     )));
       },
       child: Container(

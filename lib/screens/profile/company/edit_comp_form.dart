@@ -42,6 +42,8 @@ final TextEditingController _controllerRegion =
     TextEditingController(text: user_profile.agency.address.region);
 final TextEditingController _controllerCity =
     TextEditingController(text: user_profile.agency.address.city);
+final TextEditingController _controllerAccount =
+    TextEditingController(text: user_profile.agency.accountNumber);
 
 class EditCompanyForm extends StatefulWidget {
   @override
@@ -94,6 +96,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
   String country;
   String region;
   String city;
+  String account;
   io.File _image;
   final List<String> errors = [];
 
@@ -194,6 +197,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     user_profile.agency.address.addressLine2 = _controllerAddress2.text;
     user_profile.agency.address.city = _controllerCity.text;
     user_profile.agency.address.postcode = _controllerPostalcode.text;
+     user_profile.agency.accountNumber = _controllerAccount.text;
     // user_profile.agency.address.region = _controllerRegion.text;
     // user_profile.agency.address.country = _controllerCountry.text;
 
@@ -274,6 +278,7 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
     for (int i = 0; i < user_profile.agency.documents.length; i++) {
       agency.documents.add(user_profile.agency.documents[i]);
     }
+    agency.accountNumber=user_profile.agency.accountNumber;
     //  agency.address.addressLine1 =
     //     user_profile.agency.address.addressLine1;
     // agency.address.addressLine2 =
@@ -468,6 +473,8 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
                           child: buildPostalCodeFormField()),
                     ],
                   ),
+                  SizedBox(height: 20),
+                  buildAccountNumberFormField(),
                   SizedBox(height: 20),
                   buildoldpasswordFormField(),
                   SizedBox(height: 20),
@@ -982,6 +989,25 @@ class _EditCompanyFormState extends State<EditCompanyForm> {
       decoration: InputDecoration(
         hintText: user_profile.agency.address.postcode,
         labelText: "Postal code",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildAccountNumberFormField() {
+    return TextFormField(
+      controller: _controllerAccount,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => account = newValue,
+      decoration: InputDecoration(
+        hintText: user_profile.agency.address.postcode,
+        labelText: "Account number",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,

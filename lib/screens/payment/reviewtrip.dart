@@ -44,6 +44,9 @@ var liveaboard;
 GetPaymentByReservationResponse paymentDetial =
     new GetPaymentByReservationResponse();
 var payment;
+var accountNum;
+GetAgencyAccountNumberByTripResponse accountNumberDetial =
+    new GetAgencyAccountNumberByTripResponse();
 
 class PaymentReview extends StatefulWidget {
   int reservation_id;
@@ -241,6 +244,26 @@ class _PaymentReviewState extends State<PaymentReview> {
     // print(paymentDetial.payment.paymentSlip.link.toString());
   }
 
+  getAccountNumber() async {
+    final channel = GrpcOrGrpcWebClientChannel.toSeparatePorts(
+        host: '139.59.101.136',
+        grpcPort: 50051,
+        grpcTransportSecure: false,
+        grpcWebPort: 8080,
+        grpcWebTransportSecure: false);
+    final box = Hive.box('userInfo');
+    String token = box.get('token');
+
+    final stub = DiverServiceClient(channel,
+        options: CallOptions(metadata: {'Authorization': '$token'}));
+    var accountnumberrequest = GetAgencyAccountNumberByTripRequest();
+    accountnumberrequest.tripId = trips.id;
+    accountNum = await stub.getAgencyAccountNumberByTrip(accountnumberrequest);
+    // print(payment);
+    accountNumberDetial = accountNum;
+    return accountNumberDetial;
+    // print(paymentDetial.payment.paymentSlip.link.toString());
+  }
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -321,6 +344,27 @@ class _PaymentReviewState extends State<PaymentReview> {
                             ),
                             Text("Country : " +
                                 trips.tripTemplate.address.country),
+                            SizedBox(
+                              height: 10,
+                            ),
+
+                             FutureBuilder(
+                  future: getAccountNumber(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Container(
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          decoration: BoxDecoration(
+                               color: Colors.blue[100],
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text("Account number : " +
+                                accountNumberDetial.accountNumber));
+                    } else {
+                      return Center(child: Text('User is not logged in'));
+                    }
+                  },
+                ),
+                           
                             SizedBox(
                               height: 10,
                             ),

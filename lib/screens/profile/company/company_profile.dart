@@ -247,6 +247,16 @@ class _CompanyProfileState extends State<CompanyProfile> {
                                               SizedBox(
                                                 height: 20,
                                               ),
+                                                 Text(
+                                                'Account number : ' +
+                                                    user_profile
+                                                        .agency.accountNumber
+                                                        .toString(),
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
                                               Container(
                                                   width: MediaQuery.of(context)
                                                           .size

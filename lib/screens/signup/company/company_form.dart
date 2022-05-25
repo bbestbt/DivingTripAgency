@@ -36,6 +36,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   String country;
   String region;
   String city;
+  String account;
   io.File _image;
   final List<String> errors = [];
   final TextEditingController _controllerName = TextEditingController();
@@ -50,6 +51,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
   final TextEditingController _controllerCountry = TextEditingController();
   final TextEditingController _controllerRegion = TextEditingController();
   final TextEditingController _controllerCity = TextEditingController();
+  final TextEditingController _controllerAccount = TextEditingController();
 
   io.File imageFile;
   io.File docFile;
@@ -158,6 +160,7 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
     agency.phone = _controllerPhone.text;
     agency.address = address;
     agency.account = account;
+    agency.accountNumber=_controllerAccount.text;
     //agency.documents.add(imageFile);
 
     //final pngByteData = await imageFile.toByteData(format: ImageByteFormat.png);
@@ -333,7 +336,8 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
                   child: buildPostalCodeFormField()),
             ],
           ),
-
+          SizedBox(height: 20),
+          buildAccountNumberFormField(),
           SizedBox(height: 20),
           buildPasswordFormField(),
           SizedBox(height: 20),
@@ -862,6 +866,38 @@ class _SignupCompanyFormState extends State<SignupCompanyForm> {
       decoration: InputDecoration(
         //   hintText: "Postal code",
         labelText: "Postal code",
+        filled: true,
+        fillColor: Colors.white,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildAccountNumberFormField() {
+    return TextFormField(
+      controller: _controllerAccount,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      cursorColor: Color(0xFFf5579c6),
+      onSaved: (newValue) => account = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please enter account number");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please enter account number");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        //   hintText: "Postal code",
+        labelText: "Account number",
         filled: true,
         fillColor: Colors.white,
         floatingLabelBehavior: FloatingLabelBehavior.always,
